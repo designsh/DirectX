@@ -1,9 +1,9 @@
 #pragma once
 #include "GameEnginePath.h"
 
-// 분류 :
+// 분류 : 파일관리
 // 용도 :
-// 설명 :
+// 설명 : 파일의 경로 및 읽기/쓰기/열기 기능을 제공
 class GameEngineFile : public GameEnginePath
 {
 private:
@@ -84,16 +84,12 @@ public:
 		}
 	}
 
-
-
 	// 크기가 변하는 자료형은 정말정말 위험하다.
 	void Write(const size_t& _Data) = delete;
 
 	void Read(void* _Buffer, size_t _BufferSize, size_t _Size);
 	void Read(std::string& _Data);
 	void Read(int& _Data);
-
-
 
 	template<typename DataType>
 	void Read(std::vector<DataType>& _Data)
@@ -139,7 +135,5 @@ public:
 			_Data.insert(std::map<KeyType, DataType>::value_type(KeyBuffer, ValueBuffer));
 		}
 	}
-
-
 };
 

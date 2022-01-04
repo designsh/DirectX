@@ -1,10 +1,10 @@
 #pragma once
-// 분류 :
-// 용도 :
-// 설명 :
+
+// 분류 : 델타타임 관리
+// 용도 : 
+// 설명 : DeltaTime 관리 및 리셋 기능 제공
 class GameEngineTime
 {
-
 private:
 	static GameEngineTime* Inst;
 
@@ -23,15 +23,25 @@ public:
 		}
 	}
 
+public:
+	GameEngineTime(); // default constructer 디폴트 생성자
+	~GameEngineTime(); // default destructer 디폴트 소멸자
+
+public:		// delete constructer
+	GameEngineTime(const GameEngineTime& _Other) = delete; // default Copy constructer 디폴트 복사생성자
+	GameEngineTime(const GameEngineTime&& _Other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
+
+public:		//delete operator
+	GameEngineTime& operator=(const GameEngineTime& _Other) = delete; // default Copy operator 디폴트 대입 연산자
+	GameEngineTime& operator=(const GameEngineTime&& _Other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+
 private:
 	LARGE_INTEGER timeCount_;
 	LARGE_INTEGER startCheck_;
 	LARGE_INTEGER endCheck_;
 	double deltaTime_;
 
-public:
-	// 여기에 이렇게 헤더에 구현한 이유
-	// 리턴하는게 기본자료형이어서
+public:	//member Func
 	double GetDeltaTimeD()
 	{
 		return deltaTime_;
@@ -41,19 +51,8 @@ public:
 	{
 		return static_cast<float>(deltaTime_);
 	}
+
 public:
-	GameEngineTime(); // default constructer 디폴트 생성자
-	~GameEngineTime(); // default destructer 디폴트 소멸자
-
-public:		// delete constructer
-	GameEngineTime(const GameEngineTime& _Other) = delete; // default Copy constructer 디폴트 복사생성자
-	GameEngineTime(const GameEngineTime&& _Other); // default RValue Copy constructer 디폴트 RValue 복사생성자
-
-public:		//delete operator
-	GameEngineTime& operator=(const GameEngineTime& _Other) = delete; // default Copy operator 디폴트 대입 연산자
-	GameEngineTime& operator=(const GameEngineTime&& _Other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
-
-public:		//member Func
 	void TimeCheckReset();
 	void TimeCheck();
 };

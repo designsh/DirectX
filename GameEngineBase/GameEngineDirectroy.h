@@ -1,9 +1,9 @@
 #pragma once
 #include "GameEnginePath.h"
-// 분류 :
-// 용도 :
-// 설명 :
 
+// 분류 : 디렉터리(폴더) 관리
+// 용도 : 
+// 설명 : 해당 파일이 속한 최종디렉터리경로관리 및 디렉터리 이동기능 제공
 class GameEngineFile;
 class GameEngineDirectroy : public GameEnginePath
 {
@@ -19,10 +19,8 @@ public:		//delete operator
 	GameEngineDirectroy& operator=(const GameEngineDirectroy& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineDirectroy& operator=(const GameEngineDirectroy&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-public:
-	std::string DirectroyName();
-
 public:		//member Func
+	std::string DirectroyName();
 	bool IsRoot();
 	void MoveParent();
 	bool MoveParent(const std::string& _DirName);

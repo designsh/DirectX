@@ -27,7 +27,6 @@ GameEnginePath::GameEnginePath(GameEnginePath&& _other) noexcept
 }
 
 //member Func
-
 bool GameEnginePath::IsExist()
 {
 	if (0 == _access(path_.c_str(), 0))

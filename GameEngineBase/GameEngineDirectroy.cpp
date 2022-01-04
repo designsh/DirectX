@@ -58,22 +58,7 @@ std::string GameEngineDirectroy::DirectroyName()
 
 }
 
-void GameEngineDirectroy::MoveParent() 
-{
-	size_t Count = path_.rfind("\\");
-	if (std::string::npos == Count)
-	{
-		return;
-	}
-
-	// "aaaaa//bbbbb//ccccc//"
-	// aaaaa//bbbbb//
-	size_t StartCount = path_.rfind("\\", Count - 1);
-	path_ = path_.substr(0, StartCount + 1);
-
-}
-
-bool GameEngineDirectroy::IsRoot() 
+bool GameEngineDirectroy::IsRoot()
 {
 	int Count = 0;
 
@@ -91,6 +76,21 @@ bool GameEngineDirectroy::IsRoot()
 	}
 
 	return false;
+}
+
+void GameEngineDirectroy::MoveParent() 
+{
+	size_t Count = path_.rfind("\\");
+	if (std::string::npos == Count)
+	{
+		return;
+	}
+
+	// "aaaaa//bbbbb//ccccc//"
+	// aaaaa//bbbbb//
+	size_t StartCount = path_.rfind("\\", Count - 1);
+	path_ = path_.substr(0, StartCount + 1);
+
 }
 
 bool GameEngineDirectroy::MoveParent(const std::string& _DirName)
@@ -159,7 +159,7 @@ GameEngineFile GameEngineDirectroy::PathToCreateFile(const std::string& _FileNam
 {
 	GameEngineFile NewFile = GameEngineFile(PathToPlusFileName(_FileName), "wb");
 	NewFile.Close();
-	// NewFile.Open();
+
 	return NewFile;
 }
 
