@@ -2,9 +2,9 @@
 #include "GameEngineSound.h"
 #include "GameEngineObjectNameBase.h"
 
-// 분류 :
-// 용도 :
-// 설명 :
+// 분류 : FMOD Sound 객체관리
+// 용도 : 
+// 설명 : FMOD Sound 객체 생성 및 Sound File Load 기능제공(단, Sound 객체와 Sound File은 1:1로 대응된다.)
 class GameEngineSoundPlayer;
 class GameEngineSoundFile : public GameEngineObjectNameBase
 {
@@ -12,11 +12,7 @@ class GameEngineSoundFile : public GameEngineObjectNameBase
 	friend GameEngineSoundPlayer;
 
 private:	// member Var
-	FMOD::Sound* sound_;
-
-public:
-	bool Load(const std::string& _Path);
-
+	FMOD::Sound* sound_; // Sound 객체
 
 private:		
 	GameEngineSoundFile(); // default constructer 디폴트 생성자
@@ -31,5 +27,6 @@ public:		//delete operator
 	GameEngineSoundFile& operator=(const GameEngineSoundFile&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:		//member Func
+	bool Load(const std::string& _Path);
 };
 
