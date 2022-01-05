@@ -1,9 +1,10 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectBase.h>
 
-// 분류 : 
+// 분류 : 게임 코어
 // 용도 : 
-// 설명 : 
+// 설명 : 게임 구동에 필요한 기본구조를 제공하며, 해당 클래스를 상속받는 객체가 반드시 초기화/리소스로드/게임루프/릴리즈기능을
+//           구현하도록 제공
 class GameEngineCore : public GameEngineObjectBase
 {
 private:	// member Var
