@@ -55,18 +55,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\fmodL.dll">
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\FMOD\fmodL.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Release\fmod.dll">
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmod.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\fmodL_vc.lib">
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\FMOD\fmodL_vc.lib">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Release\fmod_vc.lib">
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmod_vc.lib">
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>

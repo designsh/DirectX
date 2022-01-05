@@ -106,16 +106,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\fmodL.dll">
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\FMOD\fmodL.dll">
       <Filter>Lib\FMOD\Debug</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\fmodL_vc.lib">
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\FMOD\fmodL_vc.lib">
       <Filter>Lib\FMOD\Debug</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Release\fmod.dll">
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmod.dll">
       <Filter>Lib\FMOD\Release</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Release\fmod_vc.lib">
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmod_vc.lib">
       <Filter>Lib\FMOD\Release</Filter>
     </CopyFileToFolders>
   </ItemGroup>
