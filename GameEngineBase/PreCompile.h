@@ -12,6 +12,11 @@
 #include <string>
 
 #include <io.h>
+#include <filesystem>
+#include <conio.h>
 
 #include <assert.h>
 #include <crtdbg.h>
+
+// FMOD Sound Lib
+#include "FMOD/fmod.hpp"

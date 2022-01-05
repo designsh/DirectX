@@ -18,6 +18,7 @@ GameEngineDirectroy::GameEngineDirectroy()
 		path_[i] = '\0';
 	}
 
+	// Standard Function 으로 변경예정
 	GetCurrentDirectoryA(static_cast<DWORD>(path_.size()), &path_[0]);
 	size_t ZeroCount = path_.find('\0');
 	path_ = path_.substr(0, ZeroCount);

@@ -4,15 +4,24 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{39a946a3-b080-49e2-9c89-2a0e79c801f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngineCore">
+      <UniqueIdentifier>{81e480b5-2f0d-4c4a-8101-b2abfd5e2993}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineCore.cpp">
+      <Filter>GameEngineCore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineCore.h">
+      <Filter>GameEngineCore</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
