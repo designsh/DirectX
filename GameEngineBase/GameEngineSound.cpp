@@ -1,6 +1,7 @@
 #include "PreCompile.h"
-#include "GameEngineSound.h"
 #include "GameEngineDebug.h"
+#include "GameEnginePath.h"
+#include "GameEngineSound.h"
 #include "GameEngineSoundFile.h"
 #include "GameEngineSoundPlayer.h"
 
@@ -85,6 +86,11 @@ void GameEngineSound::Initialize()
 		GameEngineDebug::MsgBoxError("sound system init Error");
 		return;
 	}
+}
+
+void GameEngineSound::LoadSound(const std::string& _path)
+{
+	LoadSound(GameEnginePath::GetFileName(_path), _path);
 }
 
 void GameEngineSound::LoadSound(const std::string& _name, const std::string& _path)

@@ -22,12 +22,15 @@
     <ClInclude Include="GameEngineDebug.h" />
     <ClInclude Include="GameEngineDirectroy.h" />
     <ClInclude Include="GameEngineFile.h" />
+    <ClInclude Include="GameEngineMath.h" />
     <ClInclude Include="GameEngineObjectBase.h" />
     <ClInclude Include="GameEngineObjectNameBase.h" />
     <ClInclude Include="GameEnginePath.h" />
+    <ClInclude Include="GameEngineRandom.h" />
     <ClInclude Include="GameEngineSound.h" />
     <ClInclude Include="GameEngineSoundFile.h" />
     <ClInclude Include="GameEngineSoundPlayer.h" />
+    <ClInclude Include="GameEngineString.h" />
     <ClInclude Include="GameEngineTime.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
@@ -38,12 +41,15 @@
     <ClCompile Include="GameEngineDebug.cpp" />
     <ClCompile Include="GameEngineDirectroy.cpp" />
     <ClCompile Include="GameEngineFile.cpp" />
+    <ClCompile Include="GameEngineMath.cpp" />
     <ClCompile Include="GameEngineObjectBase.cpp" />
     <ClCompile Include="GameEngineObjectNameBase.cpp" />
     <ClCompile Include="GameEnginePath.cpp" />
+    <ClCompile Include="GameEngineRandom.cpp" />
     <ClCompile Include="GameEngineSound.cpp" />
     <ClCompile Include="GameEngineSoundFile.cpp" />
     <ClCompile Include="GameEngineSoundPlayer.cpp" />
+    <ClCompile Include="GameEngineString.cpp" />
     <ClCompile Include="GameEngineTime.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <SubType>

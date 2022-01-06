@@ -5,11 +5,15 @@
 // 설명 : GameEngineFile의 객체가 해당 클래스를 상속받아 해당 파일의 경로를 관리
 class GameEnginePath
 {
+public:
+	static std::string GetFileName(std::string _Path);
+
 protected:	// member Var
-	std::string path_;
+	std::filesystem::path path_;
 
 public:		
 	GameEnginePath(); // default constructer 디폴트 생성자
+	GameEnginePath(std::filesystem::path _path);
 	~GameEnginePath(); // default destructer 디폴트 소멸자
 
 public:		// delete constructer
@@ -21,7 +25,7 @@ public:		//delete operator
 	GameEnginePath& operator=(const GameEnginePath&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:		//member Func
-	// 유효한 경로인가 아닌가를 판단하는 함수.
-	bool IsExist();
+	bool IsExist();	// 유효한 경로인가 아닌가를 판단하는 함수.
+	std::string GetFullPath();
 };
 

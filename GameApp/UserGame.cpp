@@ -33,22 +33,22 @@ void UserGame::ResourcesLoad()
 	SoundDir.MoveParent("DirectX");
 	SoundDir.MoveChild("Resources");
 	SoundDir.MoveChild("Sound");
-	GameEngineSound::GetInst().LoadSound("introedit.wav", SoundDir.PathToPlusFileName("introedit.wav"));
+
+	// true 옵션을 주는경우 해당 경로의 있는 하위디렉터리를 모두 검사하여 모든 파일을 로드
+	std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav", true);
+	//std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav");
+	for (size_t i = 0; i < AllFile.size(); ++i)
+	{
+		GameEngineSound::GetInst().LoadSound(AllFile[i].GetFullPath());
+	}
 
 	// Play Sound
-	GameEngineSound::GetInst().PlaySoundOneShot("introedit.wav");
+	int a = 0;
 }
 
 void UserGame::GameLoop()
 {
-	// GameLoop Function
-	switch (_getch())
-	{
-	case 'q':
-	case 'Q':
-		EngineDestory();
-		break;
-	}
+
 }
 
 void UserGame::Release()

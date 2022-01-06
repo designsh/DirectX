@@ -1,5 +1,23 @@
 #include "PreCompile.h"
 #include "GameEngineCore.h"
+#include "GameEngineWindow.h"
+
+GameEngineCore* GameEngineCore::MainCore = nullptr;
+
+void GameEngineCore::WindowCreate()
+{
+	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", {1280, 720}, {0, 0});
+}
+
+void GameEngineCore::Loop()
+{
+	GameEngineWindow::GetInst().Loop(&GameEngineCore::MainLoop);
+}
+
+void GameEngineCore::MainLoop()
+{
+	MainCore->GameLoop();
+}
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
 {

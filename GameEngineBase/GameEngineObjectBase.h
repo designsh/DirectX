@@ -24,6 +24,11 @@ private:		//delete operator
 	GameEngineObjectBase& operator=(const GameEngineObjectBase&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:	// Member Function
+	bool IsNull()
+	{
+		return nullptr == this;
+	}
+
 	void SetParent(GameEngineObjectBase* _parent)
 	{
 		parent_ = _parent;

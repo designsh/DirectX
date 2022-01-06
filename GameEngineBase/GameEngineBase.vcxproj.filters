@@ -34,6 +34,12 @@
     <Filter Include="Media">
       <UniqueIdentifier>{5bca60f3-9d5d-4c92-8f9d-c87557d6a9ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="String">
+      <UniqueIdentifier>{1323b7f3-4030-4857-a3e5-61dfcc086fdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Random">
+      <UniqueIdentifier>{ed833e43-c14a-4795-a3d1-cc65aa35bb8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -69,6 +75,15 @@
     <ClCompile Include="GameEngineSoundPlayer.cpp">
       <Filter>Media</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineString.cpp">
+      <Filter>String</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRandom.cpp">
+      <Filter>Math\Random</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -103,6 +118,15 @@
     </ClInclude>
     <ClInclude Include="GameEngineSoundPlayer.h">
       <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineString.h">
+      <Filter>String</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRandom.h">
+      <Filter>Math\Random</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

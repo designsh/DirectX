@@ -7,6 +7,9 @@
     <Filter Include="GameEngineCore">
       <UniqueIdentifier>{81e480b5-2f0d-4c4a-8101-b2abfd5e2993}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{7d4e168c-ec51-4313-93ad-5e8fd819e675}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -15,6 +18,9 @@
     <ClCompile Include="GameEngineCore.cpp">
       <Filter>GameEngineCore</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineWindow.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -22,6 +28,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineCore.h">
       <Filter>GameEngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineWindow.h">
+      <Filter>Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

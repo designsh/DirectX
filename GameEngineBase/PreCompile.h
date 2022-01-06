@@ -5,10 +5,12 @@
 #include <iostream>
 #include <Windows.h>
 
+// 자료구조
 #include <vector>
 #include <list>
 #include <map>
 
+// 문자열
 #include <string>
 
 #include <io.h>
@@ -17,6 +19,10 @@
 
 #include <assert.h>
 #include <crtdbg.h>
+
+// Math
+#include <math.h>
+#include <random>
 
 // FMOD Sound Lib
 #include "FMOD/fmod.hpp"

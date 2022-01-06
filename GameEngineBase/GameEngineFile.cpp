@@ -7,13 +7,20 @@
 // Static Func
 
 // constructer destructer
-GameEngineFile::GameEngineFile()
-	: fileHandle_(nullptr),
+GameEngineFile::GameEngineFile() :
+	fileHandle_(nullptr),
 	OpenMode("")
 {
 }
 
-GameEngineFile::GameEngineFile(const std::string& _Path)
+GameEngineFile::GameEngineFile(const std::filesystem::path& _Path) :
+	fileHandle_(nullptr),
+	GameEnginePath(_Path)
+{
+}
+
+GameEngineFile::GameEngineFile(const std::string& _Path) :
+	fileHandle_(nullptr)
 {
 	path_ = _Path;
 	if (false == IsExist())
@@ -40,17 +47,17 @@ GameEngineFile::~GameEngineFile()
 	Close();
 }
 
-GameEngineFile::GameEngineFile(GameEngineFile&& _other) noexcept
-	: GameEnginePath(_other)
+GameEngineFile::GameEngineFile(GameEngineFile&& _other) noexcept :
+	fileHandle_(nullptr),
+	GameEnginePath(_other)
 {
-	fileHandle_ = _other.fileHandle_;
 }
 
 //member Func
 void GameEngineFile::Open(const std::string& _Mode) 
 {
 	OpenMode = _Mode;
-	fopen_s(&fileHandle_, path_.c_str(), _Mode.c_str());
+	fopen_s(&fileHandle_, path_.string().c_str(), _Mode.c_str());
 	if (nullptr == fileHandle_)
 	{
 		GameEngineDebug::AssertFalse();
@@ -108,8 +115,6 @@ void GameEngineFile::Read(void* _Buffer, size_t _BufferSize, size_t _DataSize)
 
 void GameEngineFile::Write(const std::string& _Data)
 {
-	// 크기를 저장해줘야 합니다.
-	// string은? 크기가 일정한 데이터를 가지고 있나요?
 	int Size = static_cast<int>(_Data.size());
 	Write(&Size, sizeof(int));
 	Write(_Data.c_str(), _Data.size());
@@ -119,7 +124,6 @@ void GameEngineFile::Write(const int& _Data)
 {
 	Write(&_Data, sizeof(int));
 }
-
 
 void GameEngineFile::Read(std::string& _Data)
 {

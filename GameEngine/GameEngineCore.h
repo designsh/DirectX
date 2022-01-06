@@ -3,29 +3,41 @@
 
 // 분류 : 게임 코어
 // 용도 : 
-// 설명 : 게임 구동에 필요한 기본구조를 제공하며, 해당 클래스를 상속받는 객체가 반드시 초기화/리소스로드/게임루프/릴리즈기능을
-//           구현하도록 제공
+// 설명 : 게임 구동에 필요한 기본구조를 제공하며, 해당 클래스를 상속받는 객체가 반드시 초기화/리소스로드/게임루프/릴리즈기능을 구현하도록 제공
 class GameEngineCore : public GameEngineObjectBase
 {
-private:	// member Var
+private:
+	static GameEngineCore* MainCore;
+
+private:
+	static void WindowCreate();
+	static void Loop();
+	static void MainLoop();
 
 public:
 	template<typename UserGameType>
 	static void Start()
 	{
+		// 윈도우 생성
+		WindowCreate();
+
 		UserGameType NewUserGame;
 
+		// 엔진 초기화 및 리소스 로드
 		NewUserGame.Initialize();
 		NewUserGame.ResourcesLoad();
 
-		// Game Loop
-		while (NewUserGame.IsOn())
-		{
-			NewUserGame.GameLoop();
-		}
+		// 메인게임 코어 셋팅
+		MainCore = &NewUserGame;
 
+		// Game Loop
+		Loop();
+
+		// 엔진 메모리 소멸
 		NewUserGame.Release();
 	}
+
+private:	// member Var
 
 protected:
 	GameEngineCore(); // default constructer 디폴트 생성자
