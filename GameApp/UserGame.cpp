@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "UserGame.h"
 
+#include <GameEngineBase/GameEngineTime.h>
+#include <GameEngine/GameEngineWindow.h>
+
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
 
@@ -20,7 +23,7 @@ void UserGame::Initialize()
 {
 	// Game Initialize Function
 
-	// Sound Initialize
+	// Sound Initialize(FMOD)
 	GameEngineSound::GetInst().Initialize();
 }
 
@@ -43,12 +46,25 @@ void UserGame::ResourcesLoad()
 	}
 
 	// Play Sound
-	int a = 0;
+
 }
+
+static float4 RectPoint[4] = { {0, 0}, {100, 0}, {100, 100}, {0, 100} };
 
 void UserGame::GameLoop()
 {
+	POINT PolygonPoint[4] = {};
+	for (size_t i = 0; i < 4; ++i)
+	{
+		RectPoint[i].Rotatefloat2Degree(45 * GameEngineTime::GetInst().GetDeltaTime());
+	}
 
+	for (size_t i = 0; i < 4; ++i)
+	{
+		PolygonPoint[i] = RectPoint[i].GetWindowPoint();
+	}
+
+	Polygon(GameEngineWindow::GetInst().GetWindowDC(), PolygonPoint, 4);
 }
 
 void UserGame::Release()
@@ -57,5 +73,8 @@ void UserGame::Release()
 
 	// Sound Release
 	GameEngineSound::Destroy();
+
+	// Window Release
+	GameEngineWindow::Destroy();
 }
 

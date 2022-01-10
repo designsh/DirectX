@@ -2,7 +2,7 @@
 #include <GameEngine/GameEngineCore.h>
 #include "UserGame.h"
 
-int main()
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	GameEngineCore::Start<UserGame>();
 }

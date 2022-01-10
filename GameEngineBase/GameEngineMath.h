@@ -1,6 +1,10 @@
 #pragma once
+#include <math.h>
+#include <random>
+#include <string>
+#include <Windows.h>
 
-class GameEngineMath 
+class GameEngineMath
 {
 public:
 	static const float PI;
@@ -9,7 +13,7 @@ public:
 	static const float RadianToDegree;
 };
 
-class float4 
+class float4
 {
 public:
 	static const float4 ZERO;
@@ -19,12 +23,12 @@ public:
 	static const float4 DOWN;
 
 public:
-	static float4 DegreeToRotatefloat2(float4 _OriginVector, float _Degree)
+	static float4 Rotatefloat2Degree(float4 _OriginVector, float _Degree)
 	{
-		return RadianToRotatefloat2(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
+		return Rotatefloat2Radian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	static float4 RadianToRotatefloat2(float4 _OriginVector, float _Radian)
+	static float4 Rotatefloat2Radian(float4 _OriginVector, float _Radian)
 	{
 		float4 NextVector;
 
@@ -34,29 +38,23 @@ public:
 		return NextVector;
 	}
 
-	static float4 DegreeTofloat2(float _Degree)
+	static float4 Dirfloat2Degree(float _Degree)
 	{
-		return RadianTofloat2(_Degree * GameEngineMath::DegreeToRadian);
+		return Dirfloat2Radian(_Degree * GameEngineMath::DegreeToRadian);
 	}
 
 	// 0도일때의 벡터를 회전시키는 공식인겁니다.
-	static float4 RadianTofloat2(float _Radian)
+	static float4 Dirfloat2Radian(float _Radian)
 	{
-		return float4(cosf(_Radian), sinf(_Radian));
-	}
-
-	static float4 RadianTofloat2(float4 Vector, float _Radian)
-	{
-
 		return float4(cosf(_Radian), sinf(_Radian));
 	}
 
 public:
 	// unnamed union을 선언하면 
 	// 내부의 메모리를 구조를 union 방식으로 구성해준다.
-	union 
+	union
 	{
-		struct 
+		struct
 		{
 			float x;
 			float y;
@@ -142,7 +140,7 @@ public:
 		return *this;
 	}
 
-	float4& operator-=(const float4 _other) 
+	float4& operator-=(const float4 _other)
 	{
 		this->x -= _other.x;
 		this->y -= _other.y;
@@ -160,7 +158,7 @@ public:
 		return *this;
 	}
 
-	float4& operator/=(const float4 _other) 
+	float4& operator/=(const float4 _other)
 	{
 		this->x /= _other.x;
 		this->y /= _other.y;
@@ -170,7 +168,7 @@ public:
 	}
 
 	// 대입연산자
-	float4& operator=(const float4& _other) 
+	float4& operator=(const float4& _other)
 	{
 		x = _other.x;
 		y = _other.y;
@@ -214,7 +212,7 @@ public:
 
 	float4 halffloat4() const
 	{
-		return {hx(), hy(), hz()};
+		return { hx(), hy(), hz() };
 	}
 
 	int ihx() const
@@ -232,9 +230,20 @@ public:
 		return static_cast<int>(hz());
 	}
 
+	POINT GetWindowPoint()
+	{
+		return { ix(), iy() };
+	}
+
+	void Rotatefloat2Degree(float _Deg)
+	{
+		*this = Rotatefloat2Degree(*this, _Deg);
+		return;
+	}
+
 
 public:
-	float4() 
+	float4()
 		: x(0.0f), y(0.0f), z(0.0f), w(1.0f)
 	{
 	}
@@ -257,7 +266,7 @@ public:
 	}
 
 public:		// delete constructer
-	float4(const float4& _other) 
+	float4(const float4& _other)
 		: x(_other.x), y(_other.y), z(_other.z), w(_other.w)
 	{
 
@@ -265,7 +274,7 @@ public:		// delete constructer
 
 };
 
-class int4 
+class int4
 {
 	union
 	{
@@ -276,13 +285,14 @@ class int4
 			float z;
 			float w;
 		};
-		struct 
+		struct
 		{
 			__int64 HighValue;
 			__int64 LowValue;
 		};
 	};
 };
+
 
 class Figure
 {
@@ -311,7 +321,7 @@ public:
 		return pos_.y + size_.hx();
 	}
 
-	int iLeft() 
+	int iLeft()
 	{
 		return pos_.ix() - size_.ihx();
 	}
@@ -353,9 +363,9 @@ public:
 
 
 public:
-	Figure(float4 _Pos, float4 _Size) :
-		pos_(_Pos),
-		size_(_Size)
+	Figure(float4 _Pos, float4 _Size)
+		: pos_(_Pos), size_(_Size)
 	{
+
 	}
 };
