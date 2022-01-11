@@ -7,7 +7,7 @@
 class GameEngineCore : public GameEngineObjectBase
 {
 private:
-	static GameEngineCore* MainCore;
+	static GameEngineCore* MainCore_;
 
 private:
 	static void WindowCreate();
@@ -28,7 +28,7 @@ public:
 		NewUserGame.ResourcesLoad();
 
 		// 메인게임 코어 셋팅
-		MainCore = &NewUserGame;
+		MainCore_ = &NewUserGame;
 
 		// Game Loop
 		Loop();

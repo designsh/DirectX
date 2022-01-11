@@ -2,7 +2,9 @@
 #include "UserGame.h"
 
 #include <GameEngineBase/GameEngineTime.h>
+
 #include <GameEngine/GameEngineWindow.h>
+#include <GameEngine/GameEngineVertexBufferManager.h>
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -24,7 +26,7 @@ void UserGame::Initialize()
 	// Game Initialize Function
 
 	// Sound Initialize(FMOD)
-	GameEngineSound::GetInst().Initialize();
+	GameEngineSoundManager::GetInst().Initialize();
 }
 
 void UserGame::ResourcesLoad()
@@ -42,7 +44,7 @@ void UserGame::ResourcesLoad()
 	//std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav");
 	for (size_t i = 0; i < AllFile.size(); ++i)
 	{
-		GameEngineSound::GetInst().LoadSound(AllFile[i].GetFullPath());
+		GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
 	}
 
 	// Play Sound
@@ -71,8 +73,11 @@ void UserGame::Release()
 {
 	// Game Release Function
 
+	// Vertex Buffer Release
+	GameEngineVertexBufferManager::Destroy();
+
 	// Sound Release
-	GameEngineSound::Destroy();
+	GameEngineSoundManager::Destroy();
 
 	// Window Release
 	GameEngineWindow::Destroy();

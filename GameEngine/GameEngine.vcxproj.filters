@@ -13,11 +13,29 @@
     <Filter Include="RenderingPipeLine">
       <UniqueIdentifier>{cd1bb30f-f738-43f4-a834-b54d7c71f5a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RenderingPipeLine\Buffer">
-      <UniqueIdentifier>{d33cb086-35d6-426f-a3c5-08d7a2165f6d}</UniqueIdentifier>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{04f96111-2b9e-4d00-98a2-b3d6a770d6fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RenderingPipeLine\Shader">
-      <UniqueIdentifier>{89c034c7-91ac-4f84-be81-2dbbf704ead2}</UniqueIdentifier>
+    <Filter Include="Resources\00Buffer">
+      <UniqueIdentifier>{40133fcf-1c23-4a63-b3ff-f5b0e5dcc366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\01Shader">
+      <UniqueIdentifier>{0f0af1e3-bbec-41b1-88e6-9c20c7a449cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager">
+      <UniqueIdentifier>{30607381-fa53-4b96-b9e5-2ee120396404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\01Shader\Vertex">
+      <UniqueIdentifier>{1e89728b-9aa3-4ba4-b099-73392ba273a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\00Buffer\Vertex">
+      <UniqueIdentifier>{bda74853-84a8-4f99-a323-01c7aeaf1dd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\00Buffer\Index">
+      <UniqueIdentifier>{f06fa97f-b8c7-4b6a-9ce9-06a20f464f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\02Texture">
+      <UniqueIdentifier>{14e3eb6e-f24c-4458-89e0-75c2e63ab78b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,17 +48,26 @@
     <ClCompile Include="GameEngineWindow.cpp">
       <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineVertexBuffer.cpp">
-      <Filter>RenderingPipeLine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineIndexBuffer.cpp">
-      <Filter>RenderingPipeLine\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineVertexShader.cpp">
-      <Filter>RenderingPipeLine\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineRenderingPipeLine.cpp">
       <Filter>RenderingPipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShader.cpp">
+      <Filter>Resources\01Shader\Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>Resources\00Buffer\Index</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <Filter>Resources\00Buffer\Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBufferManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShaderManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTexture.cpp">
+      <Filter>Resources\02Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,17 +80,26 @@
     <ClInclude Include="GameEngineWindow.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineVertexBuffer.h">
-      <Filter>RenderingPipeLine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineIndexBuffer.h">
-      <Filter>RenderingPipeLine\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineVertexShader.h">
-      <Filter>RenderingPipeLine\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineRenderingPipeLine.h">
       <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShader.h">
+      <Filter>Resources\01Shader\Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>Resources\00Buffer\Index</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBuffer.h">
+      <Filter>Resources\00Buffer\Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBufferManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShaderManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTexture.h">
+      <Filter>Resources\02Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

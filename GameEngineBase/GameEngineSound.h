@@ -1,38 +1,18 @@
 #pragma once
+#include "GameEngineSoundManager.h"
+#include "GameEngineObjectNameBase.h"
 
-// 분류 : 사운드 관리자
+// 분류 : FMOD Sound 객체관리
 // 용도 : 
-// 설명 : FMOD 사용을 체크하며 사운드 로드 및 기본 인터페이스 제공
-class GameEngineSoundFile;
+// 설명 : FMOD Sound 객체 생성 및 Sound File Load 기능제공(단, Sound 객체와 Sound File은 1:1로 대응된다.)
 class GameEngineSoundPlayer;
-class GameEngineSound
+class GameEngineSound : public GameEngineObjectNameBase
 {
-public:
-	friend GameEngineSoundFile;
+	friend GameEngineSoundManager;
 	friend GameEngineSoundPlayer;
 
-private:
-	static GameEngineSound* Inst;
-
-public:
-	static GameEngineSound& GetInst()
-	{
-		return *Inst;
-	}
-
-	static void Destroy()
-	{
-		if (nullptr != Inst)
-		{
-			delete Inst;
-			Inst = nullptr;
-		}
-	}
-
 private:	// member Var
-	FMOD::System* soundSystem_; // Fmod가 제공해주는 인터페이스(시스템 객체)
-	std::map<std::string, GameEngineSoundFile*> allLoadSound_;	// Sound File 관리목록
-	std::list<GameEngineSoundPlayer*> allSoundPlayer_;	// Sound Player List
+	FMOD::Sound* sound_; // Sound 객체
 
 private:		
 	GameEngineSound(); // default constructer 디폴트 생성자
@@ -46,17 +26,7 @@ public:		//delete operator
 	GameEngineSound& operator=(const GameEngineSound& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineSound& operator=(const GameEngineSound&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-private:
-	GameEngineSoundFile* FindSound(const std::string& _name);
-
-public:
-	void Initialize();
-	void LoadSound(const std::string& _path);
-	void LoadSound(const std::string& _name, const std::string& _path);
-	void PlaySoundOneShot(const std::string& _name);
-	GameEngineSoundPlayer* CreateSoundPlayer();
-
-public:
-	void SoundUpdate();
+public:		//member Func
+	bool Load(const std::string& _Path);
 };
 

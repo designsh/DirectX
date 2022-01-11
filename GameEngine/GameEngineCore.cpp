@@ -2,7 +2,7 @@
 #include "GameEngineCore.h"
 #include "GameEngineWindow.h"
 
-GameEngineCore* GameEngineCore::MainCore = nullptr;
+GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 
 void GameEngineCore::WindowCreate()
 {
@@ -16,7 +16,7 @@ void GameEngineCore::Loop()
 
 void GameEngineCore::MainLoop()
 {
-	MainCore->GameLoop();
+	MainCore_->GameLoop();
 }
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자

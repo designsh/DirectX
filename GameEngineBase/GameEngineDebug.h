@@ -10,8 +10,9 @@ private:	// member Var
 public:
 	static void LeakCheckOn();
 	static void MsgBoxError(const char* _Ptr);
+	static void MsgBoxError(const std::string& _Ptr);
 	static void AssertFalse();
-	static void OutPutDebugString(const std::string _Text);
+	static void OutPutDebugString(const std::string& _Text);
 
 protected:	
 	GameEngineDebug(); // default constructer 디폴트 생성자

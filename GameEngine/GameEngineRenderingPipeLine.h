@@ -9,7 +9,9 @@ class GameEngineVertexShader;
 class GameEngineRenderingPipeLine
 {
 private:	// member Var
-	std::vector<float4> CopyVertex_; // 정점버퍼(Vertex Buffer)로부터 복제한 정점정보집합체
+	std::vector<float4>							CopyVertex_;		// 복제본 Vertex Buffer
+	GameEngineVertexBuffer*			VertexBuffer_;		// 원본 Vertex Buffer
+	GameEngineVertexShader*		VertexShader_;	// Vertex Shader
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
@@ -23,14 +25,11 @@ private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-public:
-	// 렌더링파이프라인에서의 입력조립기단계(원본 정점버퍼를 복제하는 기능수행)
+public:	// 렌더링파이프라인 가동준비
 	void SetInputAssembler1(GameEngineVertexBuffer* _Ptr);
+	void SetVertexShader(GameEngineVertexShader* _Ptr);
 
-	// 렌더링파이프라인에서의 정점셰이더단계(복제한 정점버퍼를 이용하여 이동/회전/크기변환 등 기능 수행)
-	//void SetVertexShader(GameEngineVertexShader* _Ptr);
-
-	// 렌더링파이프라인에서의 출력병합기단계(후면버퍼(Back Buffer)에 기록하며 혼합(블랜딩) 등 화면출력을 위한 마지막단계 기능 수행)
-	void OutPutMerge();
+public:	// 실질적 렌더링파이프라인 가동
+	void Rendering();
 };
 

@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "GameEngineSoundPlayer.h"
-#include "GameEngineSoundFile.h"
+#include "GameEngineSoundManager.h"
 #include "GameEngineDebug.h"
 
 // Static Var
@@ -40,7 +40,7 @@ void GameEngineSoundPlayer::PlayCountReset(int _Count)
 
 void GameEngineSoundPlayer::PlayOverLap(const std::string& _name, int _LoopCount)
 {
-	GameEngineSoundFile* SoundPtr = GameEngineSound::GetInst().FindSound(_name);
+	GameEngineSound* SoundPtr = GameEngineSoundManager::GetInst().FindSound(_name);
 	if (nullptr == SoundPtr)
 	{
 		GameEngineDebug::MsgBoxError("PlaySound Error");
@@ -52,7 +52,7 @@ void GameEngineSoundPlayer::PlayOverLap(const std::string& _name, int _LoopCount
 		return;
 	}
 
-	GameEngineSound::GetInst().soundSystem_->playSound(
+	GameEngineSoundManager::GetInst().soundSystem_->playSound(
 		SoundPtr->sound_
 		, nullptr
 		, false
@@ -66,7 +66,7 @@ void GameEngineSoundPlayer::PlayOverLap(const std::string& _name, int _LoopCount
 
 void GameEngineSoundPlayer::PlayAlone(const std::string& _name, int _LoopCount /*= 1*/) 
 {
-	GameEngineSoundFile* SoundPtr = GameEngineSound::GetInst().FindSound(_name);
+	GameEngineSound* SoundPtr = GameEngineSoundManager::GetInst().FindSound(_name);
 	if (nullptr == SoundPtr)
 	{
 		GameEngineDebug::MsgBoxError("PlaySound Error");
@@ -83,7 +83,7 @@ void GameEngineSoundPlayer::PlayAlone(const std::string& _name, int _LoopCount /
 		return;
 	}
 
-	GameEngineSound::GetInst().soundSystem_->playSound(
+	GameEngineSoundManager::GetInst().soundSystem_->playSound(
 		SoundPtr->sound_
 		, nullptr
 		, false

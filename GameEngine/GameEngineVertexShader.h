@@ -9,6 +9,7 @@
 class GameEngineVertexShader
 {
 private:	// member Var
+	std::function<float4(const float4& _Vertex)> VertexShaderFunction;	// Vertex Shader 함수포인터
 
 public:
 	GameEngineVertexShader(); // default constructer 디폴트 생성자

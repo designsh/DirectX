@@ -1,13 +1,13 @@
 #pragma once
-#include "GameEngineSoundFile.h"
 #include "GameEngineSound.h"
+#include "GameEngineSoundManager.h"
 
 // 분류 : FMOD Sound System 조작
 // 용도 :
 // 설명 : Sound Channel에 담긴 Sound를 Control하는 기능을 제공
 class GameEngineSoundPlayer
 {
-	friend GameEngineSound;
+	friend GameEngineSoundManager;
 
 private:	// member Var
 	FMOD::Channel* playChannel_; // 

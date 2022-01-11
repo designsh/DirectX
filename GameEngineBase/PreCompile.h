@@ -10,13 +10,16 @@
 #include <list>
 #include <map>
 
-// ¹®ÀÚ¿­
+// std::
 #include <string>
+#include <functional>
 
+// IO
 #include <io.h>
 #include <filesystem>
 #include <conio.h>
 
+// Debug
 #include <assert.h>
 #include <crtdbg.h>
 

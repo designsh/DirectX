@@ -1,10 +1,11 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineBase/GameEngineObjectNameBase.h>
 
 // 분류 : 정점(Vertex) 버퍼
 // 용도 : 
 // 설명 : 정점(Vertex)을 관리하고 제공하는 클래스
-class GameEngineVertexBuffer
+class GameEngineVertexBuffer : public GameEngineObjectNameBase
 {
 private:	// member Var
 	std::vector<float4> Vertexs_;
