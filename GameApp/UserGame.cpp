@@ -74,7 +74,7 @@ void UserGame::Release()
 	// Game Release Function
 
 	// Vertex Buffer Release
-	GameEngineVertexBufferManager::Destroy();
+	//GameEngineVertexBufferManager::Destroy();	// 임시주석
 
 	// Sound Release
 	GameEngineSoundManager::Destroy();
