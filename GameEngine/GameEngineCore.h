@@ -18,6 +18,8 @@ public:
 	template<typename UserGameType>
 	static void Start()
 	{
+		GameEngineDebug::LeakCheckOn();
+
 		// 윈도우 생성
 		WindowCreate();
 

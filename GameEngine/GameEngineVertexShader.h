@@ -1,14 +1,14 @@
 #pragma once
-#include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineBase/GameEngineObjectNameBase.h>
 
 // 분류 : 정점(Vertex) 셰이더
 // 용도 : 
 // 설명 : 정점(Vertex)를 전달받아 이동/회전/크기변환 등 기능을 제공
 //            단, 원본 정점버퍼가 아닌 입력조립기단계(Input Assembler1)에서 복사한 복제본 정점버퍼를
 //            이동/회전/크기변환 등 기능을 수행하도록 설정한다. 즉, 원본에는 아무런 영향을 끼치지않는다.
-class GameEngineVertexShader
+class GameEngineVertexShader : public GameEngineObjectNameBase
 {
-private:	// member Var
+public:	// member Var
 	std::function<float4(const float4& _Vertex)> VertexShaderFunction;	// Vertex Shader 함수포인터
 
 public:

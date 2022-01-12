@@ -63,11 +63,17 @@
     <ClCompile Include="GameEngineVertexBufferManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineTexture.cpp">
+      <Filter>Resources\02Texture</Filter>
+    </ClCompile>
     <ClCompile Include="GameEngineVertexShaderManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineTexture.cpp">
-      <Filter>Resources\02Texture</Filter>
+    <ClCompile Include="GameEngineIndexBufferManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTextureManager.cpp">
+      <Filter>Resources\99Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,11 +101,17 @@
     <ClInclude Include="GameEngineVertexBufferManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineTexture.h">
+      <Filter>Resources\02Texture</Filter>
+    </ClInclude>
     <ClInclude Include="GameEngineVertexShaderManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineTexture.h">
-      <Filter>Resources\02Texture</Filter>
+    <ClInclude Include="GameEngineIndexBufferManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTextureManager.h">
+      <Filter>Resources\99Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

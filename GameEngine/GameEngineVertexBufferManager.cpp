@@ -2,6 +2,8 @@
 #include "GameEngineVertexBufferManager.h"
 #include "GameEngineVertexBuffer.h"
 
+GameEngineVertexBufferManager* GameEngineVertexBufferManager::Inst = new GameEngineVertexBufferManager();
+
 GameEngineVertexBufferManager::GameEngineVertexBufferManager()
 {
 
@@ -27,7 +29,7 @@ GameEngineVertexBufferManager::GameEngineVertexBufferManager(GameEngineVertexBuf
 
 }
 
-GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string& _Name)
+GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string& _Name, const std::vector<float4>& _Vertex)
 {
 	// 동일한 이름의 정점버퍼 생성 불가
 	GameEngineVertexBuffer* FindRes = Find(_Name);
@@ -39,6 +41,7 @@ GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string&
 	// 신규 Vertex Buffer 생성
 	GameEngineVertexBuffer* NewRes = new GameEngineVertexBuffer();
 	NewRes->SetName(_Name);
+	NewRes->Create(_Vertex);
 
 	// 관리목록에 추가
 	ResourcesMap.insert(std::map<std::string, GameEngineVertexBuffer*>::value_type(_Name, NewRes));

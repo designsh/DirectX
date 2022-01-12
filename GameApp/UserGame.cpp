@@ -4,7 +4,7 @@
 #include <GameEngineBase/GameEngineTime.h>
 
 #include <GameEngine/GameEngineWindow.h>
-#include <GameEngine/GameEngineVertexBufferManager.h>
+#include <GameEngine/GameEngineRenderingPipeLine.h>
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -29,6 +29,8 @@ void UserGame::Initialize()
 	GameEngineSoundManager::GetInst().Initialize();
 }
 
+float RotAngle = 0.0f;
+
 void UserGame::ResourcesLoad()
 {
 	// Game Resources Load Function
@@ -47,39 +49,61 @@ void UserGame::ResourcesLoad()
 		GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
 	}
 
-	// Play Sound
+	// Vertex Buffer 생성
+	std::vector<float4> RectVertex = std::vector<float4>(4);
+	RectVertex[0] = float4({ -0.5f, 0.5f, 0.5f });
+	RectVertex[1] = float4({ 0.5f, 0.5f, 0.5f });
+	RectVertex[2] = float4({ 0.5f, -0.5f, 0.5f });
+	RectVertex[3] = float4({ -0.5f, -0.5f, 0.5f });
+
+	GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex);
+
+	// 인덱스 버퍼 생성
+	std::vector<int> RectIndex = { 0,1,2, 0,2,3 };
+	GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex);
+
+	// C++ 람다식
+	// 
+	GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
+	{
+			float4 MovePos = { 200.0f, 200.0f };
+			float4 Pos = _Value;
+			Pos *= 100.0f;
+			Pos.RotateZfloat2Degree(RotAngle);
+			Pos += MovePos;
+
+			return Pos;
+	});
 
 }
 
-static float4 RectPoint[4] = { {0, 0}, {100, 0}, {100, 100}, {0, 100} };
-
 void UserGame::GameLoop()
 {
-	POINT PolygonPoint[4] = {};
-	for (size_t i = 0; i < 4; ++i)
-	{
-		RectPoint[i].Rotatefloat2Degree(45 * GameEngineTime::GetInst().GetDeltaTime());
-	}
+	// 
+	GameEngineRenderingPipeLine Pipe;
 
-	for (size_t i = 0; i < 4; ++i)
-	{
-		PolygonPoint[i] = RectPoint[i].GetWindowPoint();
-	}
+	Pipe.SetInputAssembler1("Rect");
+	Pipe.SetVertexShader("TestShader");
+	Pipe.SetInputAssembler2("Rect");
 
-	Polygon(GameEngineWindow::GetInst().GetWindowDC(), PolygonPoint, 4);
+	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
+
+	Pipe.Rendering();
 }
 
 void UserGame::Release()
 {
 	// Game Release Function
 
-	// Vertex Buffer Release
-	//GameEngineVertexBufferManager::Destroy();	// 임시주석
-
-	// Sound Release
+	// Resource Release
+	GameEngineIndexBufferManager::Destroy();
+	GameEngineVertexShaderManager::Destroy();
+	GameEngineVertexBufferManager::Destroy();
+	GameEngineTextureManager::Destroy();
 	GameEngineSoundManager::Destroy();
 
-	// Window Release
+	// Base Release
+	GameEngineTime::Destroy();
 	GameEngineWindow::Destroy();
 }
 

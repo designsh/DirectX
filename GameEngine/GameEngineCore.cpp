@@ -16,6 +16,9 @@ void GameEngineCore::Loop()
 
 void GameEngineCore::MainLoop()
 {
+	GameEngineTime::GetInst().TimeCheck();
+	GameEngineSoundManager::GetInst().SoundUpdate();
+
 	MainCore_->GameLoop();
 }
 

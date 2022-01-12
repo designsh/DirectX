@@ -40,7 +40,7 @@ private:		//delete operator
 	GameEngineVertexBufferManager& operator=(const GameEngineVertexBufferManager&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	GameEngineVertexBuffer* Create(const std::string& _Name);
+	GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<float4>& _Vertex);
 	GameEngineVertexBuffer* Load(const std::string& _Path);
 	GameEngineVertexBuffer* Load(const std::string& _Name, const std::string& _Path);
 	GameEngineVertexBuffer* Find(const std::string& _Name);

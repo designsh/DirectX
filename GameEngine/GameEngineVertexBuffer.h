@@ -24,5 +24,8 @@ private:		//delete operator
 
 public:
 	const std::vector<float4>& GetVertexs();
+
+public:
+	void Create(const std::vector<float4>& _Vertexs);
 };
 

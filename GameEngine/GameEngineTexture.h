@@ -1,9 +1,10 @@
 #pragma once
+#include <GameEngineBase/GameEngineObjectNameBase.h>
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineTexture
+class GameEngineTexture : public GameEngineObjectNameBase
 {
 private:	// member Var
 

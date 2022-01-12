@@ -1,11 +1,12 @@
 #pragma once
+#include <GameEngineBase/GameEngineObjectNameBase.h>
 
 // 분류 : 인덱스(Index) 버퍼
 // 용도 : 
 // 설명 : 인덱스버퍼를 관리하고 제공하는 클래스
-class GameEngineIndexBuffer
+class GameEngineIndexBuffer : public GameEngineObjectNameBase
 {
-private:	// member Var
+public:	// member Var
 	std::vector<int> Indexs_;
 
 public:
