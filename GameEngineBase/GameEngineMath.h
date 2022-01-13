@@ -23,28 +23,62 @@ public:
 	static const float4 DOWN;
 
 public:
-	static float4 RotateZfloat2Degree(float4 _OriginVector, float _Degree)
+	static float4 RotateYDegree(float4 _OriginVector, float _Degree)
 	{
-		return RotateZfloat2Radian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
+		return RotateYRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	static float4 RotateZfloat2Radian(float4 _OriginVector, float _Radian)
+	static float4 RotateYRadian(float4 _OriginVector, float _Radian)
+	{
+		float4 NextVector;
+
+		NextVector.z = _OriginVector.z * cosf(_Radian) - _OriginVector.x * sinf(_Radian);
+		NextVector.x = _OriginVector.z * sinf(_Radian) + _OriginVector.x * cosf(_Radian);
+		NextVector.y = _OriginVector.y;
+
+		return NextVector;
+	}
+
+	static float4 RotateXDegree(float4 _OriginVector, float _Degree)
+	{
+		return RotateXRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
+	}
+
+	static float4 RotateXRadian(float4 _OriginVector, float _Radian)
+	{
+		float4 NextVector;
+
+		NextVector.y = _OriginVector.y * cosf(_Radian) - _OriginVector.z * sinf(_Radian);
+		NextVector.z = _OriginVector.y * sinf(_Radian) + _OriginVector.z * cosf(_Radian);
+		NextVector.x = _OriginVector.x;
+		
+		return NextVector;
+	}
+
+
+	static float4 RotateZDegree(float4 _OriginVector, float _Degree)
+	{
+		return RotateZRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
+	}
+
+	static float4 RotateZRadian(float4 _OriginVector, float _Radian)
 	{
 		float4 NextVector;
 
 		NextVector.x = _OriginVector.x * cosf(_Radian) - _OriginVector.y * sinf(_Radian);
 		NextVector.y = _OriginVector.x * sinf(_Radian) + _OriginVector.y * cosf(_Radian);
+		NextVector.z = _OriginVector.z;
 
 		return NextVector;
 	}
 
-	static float4 Dirfloat2Degree(float _Degree)
+	static float4 DirZDegree(float _Degree)
 	{
-		return Dirfloat2Radian(_Degree * GameEngineMath::DegreeToRadian);
+		return DirZRadian(_Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	// 0도일때의 벡터를 회전시키는 공식인겁니다.
-	static float4 Dirfloat2Radian(float _Radian)
+	// 0도 {1, 0} 일때의 벡터를 회전시키는 공식인겁니다.
+	static float4 DirZRadian(float _Radian)
 	{
 		return float4(cosf(_Radian), sinf(_Radian));
 	}
@@ -244,9 +278,21 @@ public:
 		return { ix(), iy() };
 	}
 
-	void RotateZfloat2Degree(float _Deg)
+	void RotateXDegree(float _Deg)
 	{
-		*this = RotateZfloat2Degree(*this, _Deg);
+		*this = RotateXDegree(*this, _Deg);
+		return;
+	}
+
+	void RotateYDegree(float _Deg)
+	{
+		*this = RotateYDegree(*this, _Deg);
+		return;
+	}
+
+	void RotateZDegree(float _Deg)
+	{
+		*this = RotateZDegree(*this, _Deg);
 		return;
 	}
 
