@@ -441,4 +441,14 @@ class float4x4
 		float Arr1D[4 * 4];
 		float Arr2D[4][4];
 	};
+
+	float4x4()
+	{
+
+	}
+
+	~float4x4()
+	{
+
+	}
 };
