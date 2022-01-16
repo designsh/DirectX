@@ -179,7 +179,7 @@ public:
 		this->x -= _other.x;
 		this->y -= _other.y;
 		this->z -= _other.z;
-		this->w -= _other.w;
+		//this->w -= _other.w;
 		return *this;
 	}
 
@@ -188,7 +188,7 @@ public:
 		this->x *= _other.x;
 		this->y *= _other.y;
 		this->z *= _other.z;
-		this->w *= _other.w;
+		//this->w *= _other.w;
 		return *this;
 	}
 
@@ -197,7 +197,7 @@ public:
 		this->x *= _Value;
 		this->y *= _Value;
 		this->z *= _Value;
-		this->w *= _Value;
+		//this->w *= _Value;
 		return *this;
 	}
 
@@ -206,7 +206,7 @@ public:
 		this->x /= _other.x;
 		this->y /= _other.y;
 		this->z /= _other.z;
-		this->w /= _other.w;
+		//this->w /= _other.w;
 		return *this;
 	}
 
@@ -423,4 +423,22 @@ public:
 	{
 
 	}
+};
+
+// За·Д
+class float4x4
+{
+	union
+	{
+		struct
+		{
+			float4 vx;
+			float4 vy;
+			float4 vz;
+			float4 vw;
+		};
+
+		float Arr1D[4 * 4];
+		float Arr2D[4][4];
+	};
 };

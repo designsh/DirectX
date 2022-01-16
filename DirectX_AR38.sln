@@ -6,7 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Document", "00. Document", "{D64C11D0-3536-4B77-8DAE-0AF475AD9CC9}"
 	ProjectSection(SolutionItems) = preProject
 		꼭 알아야하는 사항들.txt = 꼭 알아야하는 사항들.txt
+		변환과정.txt = 변환과정.txt
 		용어정리.txt = 용어정리.txt
+		행렬.txt = 행렬.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. BaseFile", "01. BaseFile", "{821728E1-14CC-4BEC-974F-C632CC72945E}"
