@@ -29,8 +29,8 @@ public:
 	{
 		float4 NextVector;
 
-		NextVector.z = _OriginVector.z * cosf(_Radian) - _OriginVector.x * sinf(_Radian);
-		NextVector.x = _OriginVector.z * sinf(_Radian) + _OriginVector.x * cosf(_Radian);
+		NextVector.z = _OriginVector.z * cosf(_Radian) + _OriginVector.x * sinf(_Radian);
+		NextVector.x = _OriginVector.z * sinf(_Radian) - _OriginVector.x * cosf(_Radian);
 		NextVector.y = _OriginVector.y;
 
 		return NextVector;
@@ -45,8 +45,8 @@ public:
 	{
 		float4 NextVector;
 
-		NextVector.y = _OriginVector.y * cosf(_Radian) - _OriginVector.z * sinf(_Radian);
-		NextVector.z = _OriginVector.y * sinf(_Radian) + _OriginVector.z * cosf(_Radian);
+		NextVector.y = _OriginVector.y * cosf(_Radian) + _OriginVector.z * sinf(_Radian);
+		NextVector.z = _OriginVector.y * sinf(_Radian) - _OriginVector.z * cosf(_Radian);
 		NextVector.x = _OriginVector.x;
 		
 		return NextVector;
@@ -62,8 +62,8 @@ public:
 	{
 		float4 NextVector;
 
-		NextVector.x = _OriginVector.x * cosf(_Radian) - _OriginVector.y * sinf(_Radian);
-		NextVector.y = _OriginVector.x * sinf(_Radian) + _OriginVector.y * cosf(_Radian);
+		NextVector.x = _OriginVector.x * cosf(_Radian) + _OriginVector.y * sinf(_Radian);
+		NextVector.y = _OriginVector.x * sinf(_Radian) - _OriginVector.y * cosf(_Radian);
 		NextVector.z = _OriginVector.z;
 
 		return NextVector;
@@ -101,7 +101,10 @@ public:
 			float a;
 		};
 
-		// 실수는 기본적으로 00000000 00000000 00000000 00000000
+		DirectX::XMFLOAT3 DxXmfloat3;
+		DirectX::XMFLOAT4 DxXmfloat4;
+
+		DirectX::XMVECTOR DirectVector;
 	};
 
 	float4 operator+(const float4 _other) const
@@ -427,6 +430,8 @@ class float4x4
 {
 	union
 	{
+		float Arr2D[4][4];
+
 		struct
 		{
 			float4 vx;
@@ -436,12 +441,26 @@ class float4x4
 		};
 
 		float Arr1D[4 * 4];
-		float Arr2D[4][4];
+
+		DirectX::XMFLOAT4X4 DxXmfloat4x4;
+		DirectX::XMMATRIX DirectMatrix;
 	};
 
-
 public:
-	float4x4() : vx(float4::ZERO), vy(float4::ZERO), vz(float4::ZERO), vw(float4::ONE)
+	float4x4() : 
+		DirectMatrix(DirectX::XMMatrixIdentity())
+	{
+
+	}
+
+	float4x4(const float4x4& _Other) :
+		DirectMatrix(_Other.DirectMatrix)
+	{
+
+	}
+
+	float4x4(const DirectX::XMMATRIX& _Other) :
+		DirectMatrix(_Other)
 	{
 
 	}
@@ -452,5 +471,69 @@ public:
 	}
 
 public:
+	float4x4 operator*(const float4x4& _Other)
+	{
+		return DirectX::XMMatrixMultiply(DirectMatrix, _Other.DirectMatrix);
+	}
 
+public:
+	// 크기변환 행렬
+	void Scaling(const float4& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixScalingFromVector(_Value.DirectVector);
+	}
+
+	// 위치변환 행렬
+	void Translation(const float4& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixTranslationFromVector(_Value.DirectVector);
+	}
+
+	// 회전변환 행렬
+	void RotationDeg(const float4& _Value)
+	{
+		RotationRad(_Value * GameEngineMath::DegreeToRadian);
+	}
+
+	void RotationXDeg(const float& _Value)
+	{
+		RotationXRad(_Value * GameEngineMath::DegreeToRadian);
+	}
+
+	void RotationYDeg(const float& _Value)
+	{
+		RotationYRad(_Value * GameEngineMath::DegreeToRadian);
+	}
+
+	void RotationZDeg(const float& _Value)
+	{
+		RotationZRad(_Value * GameEngineMath::DegreeToRadian);
+	}
+
+	void RotationRad(const float4& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(_Value.DirectVector);
+	}
+
+	void RotationXRad(const float& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixRotationX(_Value);
+	}
+
+	void RotationYRad(const float& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixRotationY(_Value);
+	}
+
+	void RotationZRad(const float& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixRotationZ(_Value);
+	}
+	
+public:
+	// 단위행렬 생성
+	void Identity()
+	{
+		DirectMatrix = DirectX::XMMatrixIdentity();
+	}
 };
