@@ -1,8 +1,4 @@
 #pragma once
-#include <math.h>
-#include <random>
-#include <string>
-#include <Windows.h>
 
 class GameEngineMath
 {
@@ -17,6 +13,7 @@ class float4
 {
 public:
 	static const float4 ZERO;
+	static const float4 ONE;
 	static const float4 LEFT;
 	static const float4 RIGHT;
 	static const float4 UP;
@@ -442,7 +439,9 @@ class float4x4
 		float Arr2D[4][4];
 	};
 
-	float4x4()
+
+public:
+	float4x4() : vx(float4::ZERO), vy(float4::ZERO), vz(float4::ZERO), vw(float4::ONE)
 	{
 
 	}
@@ -451,4 +450,7 @@ class float4x4
 	{
 
 	}
+
+public:
+
 };
