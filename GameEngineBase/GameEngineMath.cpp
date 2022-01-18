@@ -16,3 +16,41 @@ const float4 float4::DOWN = { 0.0f, -1.0f };
 
 // Static Func
 
+float4 float4::RotateYRadian(float4 _OriginVector, float _Radian)
+{
+	float4x4 Rot;
+	Rot.RotationYRad(_Radian);
+	return _OriginVector * Rot;
+}
+
+float4 float4::RotateXRadian(float4 _OriginVector, float _Radian)
+{
+	float4x4 Rot;
+	Rot.RotationXRad(_Radian);
+	return _OriginVector * Rot;
+}
+
+float4 float4::RotateZRadian(float4 _OriginVector, float _Radian)
+{
+	float4x4 Rot;
+	Rot.RotationZRad(_Radian);
+	return _OriginVector * Rot;
+}
+
+float4 float4::DirZRadian(float _Radian)
+{
+	float4x4 Rot;
+	Rot.RotationZRad(_Radian);
+	return float4::RIGHT * Rot;
+}
+
+float4 float4::operator*(const float4x4& _Value) const
+{
+	return DirectX::XMVector4Transform(DirectVector, _Value.DirectMatrix);
+}
+
+float4& float4::operator*=(const float4x4& _Value)
+{
+	DirectVector = DirectX::XMVector4Transform(DirectVector, _Value.DirectMatrix);
+	return *this;
+}
