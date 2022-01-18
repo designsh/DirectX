@@ -79,6 +79,7 @@
 7. 회전변환 행렬 : 벡터 B(x, y, z, w)의 회전를 변환하는 행렬 -> 회전행렬은 크기행렬에 영향을 끼친다. => B * A
 -> 실질적인 크기가 변화하지는 않으나, 물체가 회전하게되면 화면상에서의 물체는 면적이 달라지므로 크기에 영향을 줄 수 있다.
 -> 무조건 그 세계(공간)의 3개축의 단위벡터로 구성되는 것이 회전 행렬이다.
+-> 크기가 1인 세개의 벡터를 기준으로 회전행렬이 생성된다.
 	1) X축 회전
 	NextVector.y = _OriginVector.y * cosf(_Radian) - _OriginVector.z * sinf(_Radian);
 	NextVector.z = _OriginVector.y * sinf(_Radian) + _OriginVector.z * cosf(_Radian);
