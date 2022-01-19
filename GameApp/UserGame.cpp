@@ -109,7 +109,8 @@ void UserGame::ResourcesLoad()
 	// 
 	GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 	{
-			// 크자이공부(크기/자전(회전)/이동/공전/부모) 순으로 행렬을 곱하여 월드행렬을 생성한다.
+			// 크자이공부(크기/자전(회전)/이동/공전/부모) 순으로 행렬을 곱해야한다.
+			// 이유 : 일반적인 행렬은 교환법칙이 성립하지않으므로 순서가 달라지게되면 의도치않은 월드행렬이 생성된다.
 
 			// 크기행렬
 			float4x4 ScaleMat;
@@ -126,6 +127,10 @@ void UserGame::ResourcesLoad()
 			// 뷰행렬(공전)
 			float4x4 ViewMat;
 
+			// 부모
+
+
+			// 크자이공부 순으로 각각의 행렬을 모두 곱하여 월드 행렬 생성
 			float4x4 WorldMat = ScaleMat * RotMat * PosMat;
 
 			float4 Pos = _Value;
