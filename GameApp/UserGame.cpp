@@ -128,6 +128,13 @@ void UserGame::ResourcesLoad()
 		// 뷰행렬
 		float4x4 ViewMat;
 
+		// 뷰행렬 테스트
+		float4 ZeroPos = float4::ZERO;
+		//float4 FDir = { 1.0f, 0.0f, 1.0f };
+		//FDir.Normalize3D();
+		//ViewMat.ViewTo({ 0.0f, 0.0f, -2000.0f }, FDir, { 0.0f, 1.0f, 0.0f }); // 관측자가 FDir을 바라보고 있다.
+		ViewMat.ViewAt({ 0.0f, 0.0f, -2000.0f }, { 0, 0, 0 }, { 0.0f, 1.0f, 0.0f }); // 관측자가 (0,0,0)에 있는 물체를 바라보고있다.
+
 		// 부모
 
 

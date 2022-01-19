@@ -21,10 +21,37 @@ public:
 	static const float4 DOWN;
 
 public:
-	// Left, Right 외적
+	// 외적 : 두 벡터를 외적(두 벡터를 외적하면 두 벡터에 모두 수직인 벡터 도출)
 	static float4 Cross3D(float4 _Left, float4 _Right)
 	{
 		return DirectX::XMVector3Cross(_Left.DirectVector, _Right.DirectVector);
+	}
+
+	// 내적 : 두 벡터를 내적(COS(세타)를 도출)
+	static float Dot3D(float4 _Left, float4 _Right)
+	{
+		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
+	}
+
+	// 정사영 : 두벡터를 내적하여 정사영 길이를 도출(단, 둘중 하나의 벡터가 반드시 단위벡터이어야만 정사영길이 도출)
+	static float Dot3DToLen(float4 _Left, float4 _Right)
+	{
+		_Right.Normalize3D();
+		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
+	}
+
+	// 내적하는 두 벡터를 단위벡터화(크기가 1인  벡터)하여 두 벡터를 내적하여 COS(세타) 값을 도출
+	static float Dot3DToCos(float4 _Left, float4 _Right)
+	{
+		_Left.Normalize3D();
+		_Right.Normalize3D();
+		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
+	}
+
+	// 역함수 : cos세타에서 cos을 제외하고 라디안(각도)값을 도출
+	static float Dot3DToCosAngle(float4 _Left, float4 _Right)
+	{
+		return acos(Dot3DToCos(_Left, _Right));
 	}
 
 	static float4 RotateYDegree(float4 _OriginVector, float _Degree)
@@ -83,6 +110,11 @@ public:
 	float4 operator+(const float4 _value) const
 	{
 		return DirectX::XMVectorAdd(DirectVector, _value.DirectVector);
+	}
+
+	float4 operator-() const
+	{
+		return DirectX::XMVectorNegate(DirectVector);
 	}
 
 	float4 operator-(const float4 _value) const
@@ -488,53 +520,22 @@ public:
 	}
 
 public:
-	// 뷰행렬
-	void View(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	// 전치행렬 : 주대각선(LT->RB)를 기준으로 반사대칭한 행렬 생성
+	void Transpose()
 	{
-		// 물체위치(타겟위치)와 바라보는 위치(눈위치)의 차를 이용하여
-		// 각 벡터의 방향벡터를 구한다.
-		float4 EyeDir = _EyeFocus - _EyePos;
-		EyeDir.Normalize3D();
+		DirectMatrix = DirectX::XMMatrixTranspose(DirectMatrix);
+	}
 
-		// 바라보는위치(눈위치)에서의 방향(위)벡터를 단위벡터화한다.
-		float4 EyeUp = _EyeUp.NormalizeReturn3D();
-
-		// 윗방향벡터와 두벡터의 방향벡터를 외적하여
-		// 나머지 방향벡터를 도출한다.
-		float4 EyeRight = float4::Cross3D(EyeUp, EyeDir);
-		EyeRight.Normalize3D();
-
-		/*
-		XMVECTOR EyeDirection = XMVectorSubtract(FocusPosition, EyePosition);
-
-		assert(!XMVector3Equal(EyeDirection, XMVectorZero()));
-		assert(!XMVector3IsInfinite(EyeDirection));
-		assert(!XMVector3Equal(UpDirection, XMVectorZero()));
-		assert(!XMVector3IsInfinite(UpDirection));
-
-		XMVECTOR R2 = XMVector3Normalize(EyeDirection);
-		XMVECTOR R0 = XMVector3Cross(UpDirection, R2);
-		R0 = XMVector3Normalize(R0);
-
-		XMVECTOR R1 = XMVector3Cross(R2, R0);
-
-		// 역행렬 생성
-		XMVECTOR NegEyePosition = XMVectorNegate(EyePosition);
-
-		// 내적
-		XMVECTOR D0 = XMVector3Dot(R0, NegEyePosition);
-		XMVECTOR D1 = XMVector3Dot(R1, NegEyePosition);
-		XMVECTOR D2 = XMVector3Dot(R2, NegEyePosition);
-
-		XMMATRIX M;
-		M.r[0] = XMVectorSelect(D0, R0, g_XMSelect1110.v);
-		M.r[1] = XMVectorSelect(D1, R1, g_XMSelect1110.v);
-		M.r[2] = XMVectorSelect(D2, R2, g_XMSelect1110.v);
-		M.r[3] = g_XMIdentityR3.v;
-
-		// 생성한 행렬 전치
-		M = XMMatrixTranspose(M);*/
-
+public: // 뷰행렬
+	// 관측자가 어떠한 물체를 바라본다.
+	void ViewAt(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	{
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+	}
+
+	// 관측자가 어떠한 방향을 바라본다.
+	void ViewTo(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	{
+		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 };
