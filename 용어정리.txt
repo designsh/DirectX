@@ -7,3 +7,7 @@
 회전관련 무조건 앞에 rotate
 
 점 float4
+
+Dot 내적 
+Cross 외적
+acos cos(세타)에서 cos을 제거하고 라디안값만 도출

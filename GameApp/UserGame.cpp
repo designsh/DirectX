@@ -109,66 +109,67 @@ void UserGame::ResourcesLoad()
 	// 
 	GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 	{
-			// 크자이공부(크기/자전(회전)/이동/공전/부모) 순으로 행렬을 곱해야한다.
-			// 이유 : 일반적인 행렬은 교환법칙이 성립하지않으므로 순서가 달라지게되면 의도치않은 월드행렬이 생성된다.
+		// 크자이공부(크기/자전(회전)/이동/공전/부모) 순으로 행렬을 곱해야한다.
+		// 이유 : 일반적인 행렬은 교환법칙이 성립하지않으므로 순서가 달라지게되면 의도치않은 월드행렬이 생성된다.
+		// 크기 * 자전(회전) * 이동 * 공전(항등) * 부모(항등) * 뷰행렬
 
-			// 크기행렬
-			float4x4 ScaleMat;
-			ScaleMat.Scaling({ 100.0f, 100.0f, 100.0f });
+		// 크기행렬
+		float4x4 ScaleMat;
+		ScaleMat.Scaling({ 100.0f, 100.0f, 100.0f });
 
-			// 자전(회전) 행렬
-			float4x4 RotMat;
-			RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
+		// 자전(회전) 행렬
+		float4x4 RotMat;
+		RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
 
-			// 이동행렬
-			float4x4 PosMat;
-			PosMat.Translation({ 0.0f, 0.0f, 0.0f });
+		// 이동행렬
+		float4x4 PosMat;
+		PosMat.Translation({ 0.0f, 0.0f, 0.0f });
 
-			// 뷰행렬(공전)
-			float4x4 ViewMat;
+		// 뷰행렬
+		float4x4 ViewMat;
 
-			// 부모
-
-
-			// 크자이공부 순으로 각각의 행렬을 모두 곱하여 월드 행렬 생성
-			float4x4 WorldMat = ScaleMat * RotMat * PosMat;
-
-			float4 Pos = _Value;
-			Pos *= WorldMat;
+		// 부모
 
 
-			//// 로컬세상(Local Space)에서 어떠한 물체를 변형
-			//// 크기/위치/회전 변형
-			//// 로컬세상에서는 각각의 물체가 각각의 원점과 축을 가진다.
-			//float4 Pos = _Value;
-			//float4 LocalScale = { 100.0f, 100.0f, 100.0f };
-			//float4 LocalMove = { 100.0f, 0.0f };
-			//float4 LocalRot = { 0.0f, 0.0f, RotAngle };
-			//Pos *= LocalScale;
-			//Pos.RotateXDegree(LocalRot.x);
-			//Pos.RotateYDegree(LocalRot.y);
-			//Pos.RotateZDegree(LocalRot.z);
-			//Pos += BoxPos;
+		// 크자이공부 순으로 각각의 행렬을 모두 곱하여 월드 행렬 생성
+		float4x4 WorldMat = ScaleMat * RotMat * PosMat;
 
-			//// 로컬세상(Local Space)에서 변형된 물체를 차원이동하여 월드세상(World Space)에 배치
-			//// 단, 로컬세상에서의 각각의 물체를 월드세상의 원점(0,0,0)기준에서 배치하여
-			//// 모든 물체에 대한 크기/위치/회전 변형을 가한다.
-			//// 월드세상에는 모든 물체가 원점(0,0,0)을 기준으로 배치되며 하나의 원점과 그 원점에서의 축이 존재한다.
-			//float4 SpaceScale = { 1.0f, -1.0f, 1.0f };
-			//float4 SpaceRot = { 0.0f, 0.0f, 0.0f };
-			//float4 SpaceMove = { 1280.0f * 0.5f, 720*0.5f, 0.0f};
-			//Pos *= SpaceScale;
-			//Pos.RotateXDegree(SpaceRot.x);
-			//Pos.RotateYDegree(SpaceRot.y);
-			//Pos.RotateZDegree(SpaceRot.z);
-			//Pos += SpaceMove;
+		float4 Pos = _Value;
+		Pos *= WorldMat;
 
-			//// 차원이동을 할때마다 어떠한 공간의 원점이 존재하며, 각 공간마다의 기준은 다르다.
-			//// 그러므로 차원이동이 될때 공간에 대한 크기/위치/회전 변형이 일어나게 된다.
-			//// 즉, 로컬세상에서의 물체가 각각 변형을 하고, 차원이동이 필요한 경우라면
-			//// 해당 차원의 공간에서의 크기/위치/회전 정보를 통해서 차원의 기준을 맞춰줘야한다는 것이다.
 
-			return Pos;
+		//// 로컬세상(Local Space)에서 어떠한 물체를 변형
+		//// 크기/위치/회전 변형
+		//// 로컬세상에서는 각각의 물체가 각각의 원점과 축을 가진다.
+		//float4 Pos = _Value;
+		//float4 LocalScale = { 100.0f, 100.0f, 100.0f };
+		//float4 LocalMove = { 100.0f, 0.0f };
+		//float4 LocalRot = { 0.0f, 0.0f, RotAngle };
+		//Pos *= LocalScale;
+		//Pos.RotateXDegree(LocalRot.x);
+		//Pos.RotateYDegree(LocalRot.y);
+		//Pos.RotateZDegree(LocalRot.z);
+		//Pos += BoxPos;
+
+		//// 로컬세상(Local Space)에서 변형된 물체를 차원이동하여 월드세상(World Space)에 배치
+		//// 단, 로컬세상에서의 각각의 물체를 월드세상의 원점(0,0,0)기준에서 배치하여
+		//// 모든 물체에 대한 크기/위치/회전 변형을 가한다.
+		//// 월드세상에는 모든 물체가 원점(0,0,0)을 기준으로 배치되며 하나의 원점과 그 원점에서의 축이 존재한다.
+		//float4 SpaceScale = { 1.0f, -1.0f, 1.0f };
+		//float4 SpaceRot = { 0.0f, 0.0f, 0.0f };
+		//float4 SpaceMove = { 1280.0f * 0.5f, 720*0.5f, 0.0f};
+		//Pos *= SpaceScale;
+		//Pos.RotateXDegree(SpaceRot.x);
+		//Pos.RotateYDegree(SpaceRot.y);
+		//Pos.RotateZDegree(SpaceRot.z);
+		//Pos += SpaceMove;
+
+		//// 차원이동을 할때마다 어떠한 공간의 원점이 존재하며, 각 공간마다의 기준은 다르다.
+		//// 그러므로 차원이동이 될때 공간에 대한 크기/위치/회전 변형이 일어나게 된다.
+		//// 즉, 로컬세상에서의 물체가 각각 변형을 하고, 차원이동이 필요한 경우라면
+		//// 해당 차원의 공간에서의 크기/위치/회전 정보를 통해서 차원의 기준을 맞춰줘야한다는 것이다.
+
+		return Pos;
 	});
 }
 

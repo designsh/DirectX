@@ -518,8 +518,10 @@ public:
 
 		XMVECTOR R1 = XMVector3Cross(R2, R0);
 
+		// 开青纺 积己
 		XMVECTOR NegEyePosition = XMVectorNegate(EyePosition);
 
+		// 郴利
 		XMVECTOR D0 = XMVector3Dot(R0, NegEyePosition);
 		XMVECTOR D1 = XMVector3Dot(R1, NegEyePosition);
 		XMVECTOR D2 = XMVector3Dot(R2, NegEyePosition);
@@ -530,6 +532,7 @@ public:
 		M.r[2] = XMVectorSelect(D2, R2, g_XMSelect1110.v);
 		M.r[3] = g_XMIdentityR3.v;
 
+		// 积己茄 青纺 傈摹
 		M = XMMatrixTranspose(M);*/
 
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
