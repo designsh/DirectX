@@ -12,7 +12,8 @@
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() :
 	VertexBuffer_(nullptr),
 	VertexShader_(nullptr),
-	IndexBuffer_(nullptr)
+	IndexBuffer_(nullptr),
+	Rasterizer_(nullptr)
 {
 
 }
@@ -25,7 +26,8 @@ GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() // default destructe
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine(GameEngineRenderingPipeLine&& _other) noexcept :
 	VertexBuffer_(_other.VertexBuffer_),
 	VertexShader_(_other.VertexShader_),
-	IndexBuffer_(_other.IndexBuffer_)
+	IndexBuffer_(_other.IndexBuffer_),
+	Rasterizer_(_other.Rasterizer_)
 {
 
 }
@@ -63,6 +65,10 @@ void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
 	}
 }
 
+void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
+{
+}
+
 void GameEngineRenderingPipeLine::Rendering()
 {
 	// Input Assembler1 가동단계
@@ -78,6 +84,9 @@ void GameEngineRenderingPipeLine::Rendering()
 	{
 		CopyVertex[i] = VertexShader_->VertexShaderFunction(CopyVertex[i]);
 	}
+
+	// 래스터라이저
+
 
 	// Input Assembler2 가동단계
 	// : 인덱스 버퍼를 이용하여 화면에 렌더링

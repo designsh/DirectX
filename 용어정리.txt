@@ -11,3 +11,8 @@
 Dot 내적 
 Cross 외적
 acos cos(세타)에서 cos을 제거하고 라디안값만 도출
+
+-. 원근투영 인자값
+_FovAngleY : 수직시야각
+_AspectRatio : 화면해상도(화면비율)
+수직시야각 * 화면비율 = 수평시야각

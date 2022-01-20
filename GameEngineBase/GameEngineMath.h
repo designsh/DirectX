@@ -526,22 +526,25 @@ public: // 전치행렬 : 주대각선(LT->RB)를 기준으로 반사대칭한 행렬 생성
 
 public: // 뷰행렬
 	// 관측자가 어떠한 물체를 바라본다.
-	void ViewAt(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void ViewAtLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
 	{
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 
 	// 관측자가 어떠한 방향을 바라본다.
-	void ViewTo(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
 	{
 		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 
 public: // 투영행렬
-	// 원근투영 : 
-	// _FovAngleY : 수직시야각
-	// _AspectRatio : 화면해상도(화면비율)
-	// 수직시야각 * 화면비율 = 수평시야각
+	// 원근투영
+	void PerspectiveFovLH(float _FovAngleY, float _Width, float _Height, float _NearZ, float _FarZ)
+	{
+		// 거의 대부분의 수학공식은 라디안을 기준으로 하기때문에 360분법으로 인자를 받아와 라디안으로 변환해야한다.
+		PerspectiveFovLH(_FovAngleY * GameEngineMath::DegreeToRadian, _Width / _Height, _NearZ, _FarZ);
+	}
+
 	void PerspectiveFovLH(float _FovAngleY, float _AspectRatio, float _Near, float _Far)
 	{
 		DirectMatrix = DirectX::XMMatrixPerspectiveFovLH(_FovAngleY, _AspectRatio, _Near, _Far);

@@ -7,12 +7,14 @@
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
+class GameEngineRasterizer;
 class GameEngineRenderingPipeLine
 {
 private:	// member Var
 	GameEngineVertexBuffer*			VertexBuffer_;		// 원본 Vertex Buffer
 	GameEngineVertexShader*		VertexShader_;	// Vertex Shader
 	GameEngineIndexBuffer*			IndexBuffer_;		// Index Buffer
+	GameEngineRasterizer*				Rasterizer_;			// 래스터라이저
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
@@ -30,6 +32,7 @@ public:	// 렌더링파이프라인 가동준비
 	void SetInputAssembler1(const std::string& _Name);
 	void SetVertexShader(const std::string& _Name);
 	void SetInputAssembler2(const std::string& _Name);
+	void SetRasterizer(const std::string& _Name);
 
 public:	// 실질적 렌더링파이프라인 가동
 	void Rendering();

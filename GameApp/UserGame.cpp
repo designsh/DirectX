@@ -127,22 +127,34 @@ void UserGame::ResourcesLoad()
 
 		// 뷰행렬
 		float4x4 ViewMat;
-		ViewMat.ViewTo({ 0.0f, 0.0f, -2000.0f }, {0.f, 0.f, 1.f}, { 0.0f, 1.0f, 0.0f }); // 관측자가 FDir을 바라보고 있다.
+		ViewMat.ViewToLH({ 0.0f, 0.0f, -2000.0f }, {0.f, 0.f, 1.f}, { 0.0f, 1.0f, 0.0f }); // 관측자가 FDir을 바라보고 있다.
 		//ViewMat.ViewAt({ 0.0f, 0.0f, -2000.0f }, { 0, 0, 0 }, { 0.0f, 1.0f, 0.0f }); // 관측자가 (0,0,0)에 있는 물체를 바라보고있다.
 
-		// 투영행렬
-		float4x4 ProjectionMat;
+		// 원근투영
+		float4x4 PerspectiveMat;
+		PerspectiveMat.PerspectiveFovLH(60.0f, 1280.0f, 720.0f, 0.1f, 1000.0f);
 
-
+		// 직교투영
+		float4x4 OrthographicMat;
+		OrthographicMat.OrthographicLH(1280.0f, 720.0f, 0.1f, 1000.0f);
 
 		// 크자이공부 순으로 각각의 행렬을 모두 곱하여 월드 행렬 생성
 		float4x4 WorldMat = ScaleMat * RotMat * PosMat;
-		float4x4 WorldViewMat = WorldMat * ViewMat;
 
-		float4 Pos = _Value;
-		Pos *= WorldViewMat;
+		// 월드행렬 * 뷰행렬 * 원근투영
+		float4x4 WorldViewProjectionMat = WorldMat * ViewMat * PerspectiveMat;
 
-		return Pos;
+		// 월드행렬 * 뷰행렬 * 직교투영
+		float4x4 WorldViewOrthographicMat = WorldMat * ViewMat * OrthographicMat;
+
+		
+		float4 PersPos = _Value;
+		PersPos *= WorldViewProjectionMat;
+
+		float4 OrthPos = _Value;
+		OrthPos *= WorldViewOrthographicMat;
+
+		return PersPos;
 	});
 }
 
