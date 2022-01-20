@@ -512,15 +512,13 @@ public:
 		DirectMatrix = DirectX::XMMatrixRotationZ(_Value);
 	}
 	
-public:
-	// 단위행렬 생성
+public: // 단위행렬 생성
 	void Identity()
 	{
 		DirectMatrix = DirectX::XMMatrixIdentity();
 	}
 
-public:
-	// 전치행렬 : 주대각선(LT->RB)를 기준으로 반사대칭한 행렬 생성
+public: // 전치행렬 : 주대각선(LT->RB)를 기준으로 반사대칭한 행렬 생성
 	void Transpose()
 	{
 		DirectMatrix = DirectX::XMMatrixTranspose(DirectMatrix);
@@ -537,5 +535,21 @@ public: // 뷰행렬
 	void ViewTo(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
 	{
 		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+	}
+
+public: // 투영행렬
+	// 원근투영 : 
+	// _FovAngleY : 수직시야각
+	// _AspectRatio : 화면해상도(화면비율)
+	// 수직시야각 * 화면비율 = 수평시야각
+	void PerspectiveFovLH(float _FovAngleY, float _AspectRatio, float _Near, float _Far)
+	{
+		DirectMatrix = DirectX::XMMatrixPerspectiveFovLH(_FovAngleY, _AspectRatio, _Near, _Far);
+	}
+
+	// 직교투영
+	void OrthographicLH(float _Width, float _Height, float _Near, float _Far)
+	{
+		DirectMatrix = DirectX::XMMatrixOrthographicLH(_Width, _Height, _Near, _Far);
 	}
 };
