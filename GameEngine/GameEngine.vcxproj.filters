@@ -40,6 +40,9 @@
     <Filter Include="Resources\03Rasterizer">
       <UniqueIdentifier>{c03f1ec4-87d6-45c3-9fdb-d1e9d69f93a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SubClassInclude">
+      <UniqueIdentifier>{e08a5cde-f21d-4c47-95e8-e35d066583c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -81,6 +84,9 @@
     <ClCompile Include="GameEngineRasterizer.cpp">
       <Filter>Resources\03Rasterizer</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineRasterizerManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -121,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineRasterizer.h">
       <Filter>Resources\03Rasterizer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRasterizerManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineManager.h">
+      <Filter>SubClassInclude</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

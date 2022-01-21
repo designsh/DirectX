@@ -177,11 +177,7 @@ void UserGame::Release()
 	// Game Release Function
 
 	// Resource Release
-	GameEngineIndexBufferManager::Destroy();
-	GameEngineVertexShaderManager::Destroy();
-	GameEngineVertexBufferManager::Destroy();
-	GameEngineTextureManager::Destroy();
-	GameEngineSoundManager::Destroy();
+	GameEngineManagerHelper::ManagerRelease();
 
 	// Base Release
 	GameEngineTime::Destroy();

@@ -3,10 +3,13 @@
 #include "GameEngineVertexBufferManager.h"
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineIndexBufferManager.h"
+#include "GameEngineRasterizerManager.h"
 
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
+#include "GameEngineRasterizer.h"
+
 #include "GameEngineWindow.h"
 
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() :
@@ -58,15 +61,21 @@ void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
 {
 	// Index Buffer 받아와서 보관단계
 	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
-	if (nullptr == VertexShader_)
+	if (nullptr == IndexBuffer_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 인덱스 버퍼를 세팅하려고 했습니다.");
 		return;
 	}
 }
 
 void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 {
+	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+	if (nullptr == Rasterizer_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 래스터라이저를 세팅하려고 했습니다.");
+		return;
+	}
 }
 
 void GameEngineRenderingPipeLine::Rendering()
@@ -85,22 +94,39 @@ void GameEngineRenderingPipeLine::Rendering()
 		CopyVertex[i] = VertexShader_->VertexShaderFunction(CopyVertex[i]);
 	}
 
-	// 래스터라이저
-
-
 	// Input Assembler2 가동단계
-	// : 인덱스 버퍼를 이용하여 화면에 렌더링
+	// : 인덱스 버퍼를 이용하여 면을생성
+	std::vector<std::vector<float4>> TriVector;
 	const std::vector<int>& Index = IndexBuffer_->Indexs_;
+
+	// 삼각형 면의 개수만큼 resize
+	TriVector.resize(Index.size() / 3);
+
 	POINT ArrTri[3];
 	for (size_t TriCount = 0; TriCount < Index.size() / 3; TriCount++)
 	{
-		for (size_t i = 0; i < 3; i++)
-		{
-			int CurIndex = Index[(TriCount * 3) + i];
+		int CurIndex0 = Index[(TriCount * 3) + 0];
+		int CurIndex1 = Index[(TriCount * 3) + 1];
+		int CurIndex2 = Index[(TriCount * 3) + 2];
 
-			ArrTri[i] = CopyVertex[CurIndex].GetWindowPoint();
-		}
-
-		Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
+		TriVector[TriCount][0] = CopyVertex[CurIndex0];
+		TriVector[TriCount][1] = CopyVertex[CurIndex1];
+		TriVector[TriCount][2] = CopyVertex[CurIndex2];
 	}
+
+	// Rasterizer 가동단계
+	for (size_t Tri = 0; Tri < TriVector.size(); ++Tri)
+	{
+		for (size_t i = 0; i < TriVector[Tri].size(); ++i)
+		{
+			Rasterizer_->RasterizerUpdate(TriVector[Tri][i]);
+		}
+	}
+
+	// Pixel Shader 가동단계
+
+
+	// 화면 렌더링
+	//Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
+
 }

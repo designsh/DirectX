@@ -1,9 +1,10 @@
 #pragma once
+#include <GameEngineBase/GameEngineObjectNameBase.h>
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineRasterizer
+class GameEngineRasterizer : public GameEngineObjectNameBase
 {
 private:	// member Var
 	float4x4 ViewPort_;
@@ -22,5 +23,8 @@ private:		//delete operator
 
 public:
 	void RasterizerUpdate(float4& _Pos);
+
+public:
+
 };
 

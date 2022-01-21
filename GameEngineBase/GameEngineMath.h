@@ -547,6 +547,15 @@ public: // 투영행렬
 
 	void PerspectiveFovLH(float _FovAngleY, float _AspectRatio, float _Near, float _Far)
 	{
+		// 월드행렬*뷰행렬 까지의 어떠한 벡터(정점)의 Z값을 이용하여 화면상에서의 비율(모니터)을 계산하기 때문에
+		// 원근투영행렬이 곱해질때 z값을 보존하기위하여 (2,4) 원소(w)에 z값을 저장해놓는다.
+		// 그러므로 월드행렬*뷰행렬*원근투영행렬에 의해 변환이 일어난 정점(벡터)는 
+		// 0.1 0   0   0
+		// 0   0.1 0   0
+		// 0   0   0.1 1 <- 본래의 z값 보존
+		// 0   0   0   0 
+		// 위와 같은 행렬이 생성된다.
+		// 이후 실질적인 비율계산은 Rasterizer단계에서 처리한다.
 		DirectMatrix = DirectX::XMMatrixPerspectiveFovLH(_FovAngleY, _AspectRatio, _Near, _Far);
 	}
 

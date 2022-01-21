@@ -31,7 +31,12 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineManager.h" />
     <ClInclude Include="GameEngineRasterizer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineRasterizerManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -83,6 +88,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineRasterizer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineRasterizerManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>
