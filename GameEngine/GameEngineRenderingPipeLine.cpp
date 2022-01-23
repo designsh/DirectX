@@ -102,9 +102,10 @@ void GameEngineRenderingPipeLine::Rendering()
 	// 삼각형 면의 개수만큼 resize
 	TriVector.resize(Index.size() / 3);
 
-	POINT ArrTri[3];
 	for (size_t TriCount = 0; TriCount < Index.size() / 3; TriCount++)
 	{
+		TriVector[TriCount].resize(3);
+
 		int CurIndex0 = Index[(TriCount * 3) + 0];
 		int CurIndex1 = Index[(TriCount * 3) + 1];
 		int CurIndex2 = Index[(TriCount * 3) + 2];
@@ -123,10 +124,23 @@ void GameEngineRenderingPipeLine::Rendering()
 		}
 	}
 
-	// Pixel Shader 가동단계
+	// Pixel Shader 가동단계(블렌딩 단계)
+
+
+
 
 
 	// 화면 렌더링
-	//Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
+	for (size_t Tri = 0; Tri < TriVector.size(); Tri++)
+	{
+
+		POINT ArrTri[3] = {};
+
+		ArrTri[0] = TriVector[Tri][0].GetWindowPoint();
+		ArrTri[1] = TriVector[Tri][1].GetWindowPoint();
+		ArrTri[2] = TriVector[Tri][2].GetWindowPoint();
+
+		Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
+	}
 
 }

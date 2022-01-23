@@ -115,15 +115,16 @@ void UserGame::ResourcesLoad()
 
 		// 크기행렬
 		float4x4 ScaleMat;
-		ScaleMat.Scaling({ 100.0f, 100.0f, 100.0f });
+		ScaleMat.Scaling({ 20.f, 20.f, 20.f });
 
 		// 자전(회전) 행렬
 		float4x4 RotMat;
-		RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
+		RotMat.RotationDeg({ 0.0f, 0.0f, 0.0f });
 
 		// 이동행렬
 		float4x4 PosMat;
-		PosMat.Translation({ 0.0f, 0.0f, 0.0f });
+		//PosMat.Translation({ 0.0f, 0.0f, 0.0f });
+		PosMat.Translation(BoxPos);
 
 		// 뷰행렬
 		float4x4 ViewMat;
@@ -147,7 +148,6 @@ void UserGame::ResourcesLoad()
 		// 월드행렬 * 뷰행렬 * 직교투영
 		float4x4 WorldViewOrthographicMat = WorldMat * ViewMat * OrthographicMat;
 
-		
 		float4 PersPos = _Value;
 		PersPos *= WorldViewProjectionMat;
 
@@ -156,6 +156,9 @@ void UserGame::ResourcesLoad()
 
 		return PersPos;
 	});
+
+	GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("TestReasterizer");
+	Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void UserGame::GameLoop()
@@ -166,8 +169,10 @@ void UserGame::GameLoop()
 	Pipe.SetInputAssembler1("Rect");
 	Pipe.SetVertexShader("TestShader");
 	Pipe.SetInputAssembler2("Rect");
+	Pipe.SetRasterizer("TestReasterizer");
 
 	RotAngle += 20.f * GameEngineTime::GetInst().GetDeltaTime();
+	BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
 
 	Pipe.Rendering();
 }

@@ -25,6 +25,9 @@ public:
 	void RasterizerUpdate(float4& _Pos);
 
 public:
-
+	void SetViewPort(float _ScreenX, float _ScreenY, float _StartX, float _StartY, float _MinZ, float _MaxZ)
+	{
+		ViewPort_.ViewPortCenter(_ScreenX, _ScreenY, _StartX, _StartY, _MinZ, _MaxZ);
+	}
 };
 

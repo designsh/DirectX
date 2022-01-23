@@ -524,6 +524,19 @@ public: // 전치행렬 : 주대각선(LT->RB)를 기준으로 반사대칭한 행렬 생성
 		DirectMatrix = DirectX::XMMatrixTranspose(DirectMatrix);
 	}
 
+public: // 뷰포트
+	void ViewPortCenter(float _ScreenX, float _ScreenY, float _StartX, float _StartY, float _MinZ, float _MaxZ)
+	{
+		Identity();
+
+		Arr2D[0][0] = _ScreenX * 0.5f;
+		Arr2D[1][1] = -_ScreenY * 0.5f;
+		Arr2D[2][2] = _MaxZ - _MinZ;
+		Arr2D[3][0] = _StartX + Arr2D[0][0];
+		Arr2D[3][1] = _ScreenY * 0.5f + _StartY;
+		Arr2D[3][2] = _MinZ;
+	}
+
 public: // 뷰행렬
 	// 관측자가 어떠한 물체를 바라본다.
 	void ViewAtLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)

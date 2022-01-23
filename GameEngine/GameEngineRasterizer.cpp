@@ -26,11 +26,6 @@ void GameEngineRasterizer::RasterizerUpdate(float4& _Pos)
 	_Pos.w = 1.f;
 
 	// 2차원 평면의 크기로 전환(화면상의 크기로)
-
-
-
-
-
-
+	_Pos *= ViewPort_;
 }
 
