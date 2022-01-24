@@ -30,6 +30,7 @@ public:
 		UserGameType NewUserGame;
 
 		// 엔진 초기화 및 리소스 로드
+		NewUserGame.EngineInitialize();
 		NewUserGame.Initialize();
 		NewUserGame.ResourcesLoad();
 
@@ -59,6 +60,7 @@ private:		//delete operator
 	GameEngineCore& operator=(const GameEngineCore&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	void EngineInitialize();
 	void EngineDestory();
 
 protected:

@@ -197,6 +197,21 @@ public:
 		return static_cast<int>(z);
 	}
 
+	int uix() const
+	{
+		return static_cast<unsigned int>(x);
+	}
+
+	int uiy() const
+	{
+		return static_cast<unsigned int>(y);
+	}
+
+	int uiz() const
+	{
+		return static_cast<unsigned int>(z);
+	}
+
 
 	float hx() const
 	{

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineCore.h"
 #include "GameEngineWindow.h"
+#include "GameEngineDirectXDevice.h"
 
 // Release
 #include "GameEngineManager.h"
@@ -11,8 +12,9 @@ void GameEngineCore::WindowCreate()
 {
 	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", {1280, 720}, {0, 0});
 
-	// HWND
-
+	// 디바이스가 만들어져야 합니다.
+	// HWND 윈도우에서 제공하는 3D 라이브러리니까 WINDOW API를 기반으로 처리되어 있습니다.
+	GameEngineDirectXDevice::GetInst().Initialize();
 }
 
 void GameEngineCore::Loop()
@@ -43,6 +45,11 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 }
 
+void GameEngineCore::EngineInitialize()
+{
+	GameEngineSoundManager::GetInst().Initialize();
+}
+
 void GameEngineCore::EngineDestory()
 {
 	// Game Release Function
@@ -52,5 +59,6 @@ void GameEngineCore::EngineDestory()
 
 	// Base Release
 	GameEngineTime::Destroy();
+	GameEngineDirectXDevice::Destroy();
 	GameEngineWindow::Destroy();
 }
