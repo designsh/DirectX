@@ -179,13 +179,6 @@ void UserGame::GameLoop()
 
 void UserGame::Release()
 {
-	// Game Release Function
 
-	// Resource Release
-	GameEngineManagerHelper::ManagerRelease();
-
-	// Base Release
-	GameEngineTime::Destroy();
-	GameEngineWindow::Destroy();
 }
 

@@ -101,7 +101,6 @@ void GameEngineRenderingPipeLine::Rendering()
 
 	// 삼각형 면의 개수만큼 resize
 	TriVector.resize(Index.size() / 3);
-
 	for (size_t TriCount = 0; TriCount < Index.size() / 3; TriCount++)
 	{
 		TriVector[TriCount].resize(3);
@@ -133,7 +132,6 @@ void GameEngineRenderingPipeLine::Rendering()
 	// 화면 렌더링
 	for (size_t Tri = 0; Tri < TriVector.size(); Tri++)
 	{
-
 		POINT ArrTri[3] = {};
 
 		ArrTri[0] = TriVector[Tri][0].GetWindowPoint();
@@ -142,5 +140,4 @@ void GameEngineRenderingPipeLine::Rendering()
 
 		Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
 	}
-
 }

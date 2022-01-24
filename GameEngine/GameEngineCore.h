@@ -20,6 +20,10 @@ public:
 	{
 		GameEngineDebug::LeakCheckOn();
 
+#ifdef _DEBUG
+		new int();
+#endif
+
 		// 윈도우 생성
 		WindowCreate();
 
@@ -37,6 +41,7 @@ public:
 
 		// 엔진 메모리 소멸
 		NewUserGame.Release();
+		NewUserGame.EngineDestory();
 	}
 
 private:	// member Var

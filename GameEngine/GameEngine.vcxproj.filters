@@ -43,6 +43,9 @@
     <Filter Include="SubClassInclude">
       <UniqueIdentifier>{e08a5cde-f21d-4c47-95e8-e35d066583c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderingPipeLine\Device">
+      <UniqueIdentifier>{59d1c9b9-d29f-42af-b2eb-a12dde2f1702}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineRasterizerManager.cpp">
       <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDirectXDevice.cpp">
+      <Filter>RenderingPipeLine\Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineManager.h">
       <Filter>SubClassInclude</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDirectXDevice.h">
+      <Filter>RenderingPipeLine\Device</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
