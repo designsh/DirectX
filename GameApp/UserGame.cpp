@@ -163,18 +163,22 @@ void UserGame::ResourcesLoad()
 
 void UserGame::GameLoop()
 {
+	GameEngineDirectXDevice::RenderStart();
+
 	// 
-	GameEngineRenderingPipeLine Pipe;
+	//GameEngineRenderingPipeLine Pipe;
 
-	Pipe.SetInputAssembler1("Rect");
-	Pipe.SetVertexShader("TestShader");
-	Pipe.SetInputAssembler2("Rect");
-	Pipe.SetRasterizer("TestReasterizer");
+	//Pipe.SetInputAssembler1("Rect");
+	//Pipe.SetVertexShader("TestShader");
+	//Pipe.SetInputAssembler2("Rect");
+	//Pipe.SetRasterizer("TestReasterizer");
 
-	RotAngle += 20.f * GameEngineTime::GetInst().GetDeltaTime();
-	BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
+	//RotAngle += 20.f * GameEngineTime::GetInst().GetDeltaTime();
+	//BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
 
-	Pipe.Rendering();
+	//Pipe.Rendering();
+
+	GameEngineDirectXDevice::RenderEnd();
 }
 
 void UserGame::Release()

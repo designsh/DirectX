@@ -12,10 +12,17 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 그래픽카드에 접근할수 있는 권한(포인터)
+class GameEngineRenderTarget;
 class GameEngineDirectXDevice
 {
 private:
 	static GameEngineDirectXDevice* Inst;
+
+private:
+	static ID3D11Device* Device_;
+	static ID3D11DeviceContext* Context_;
+	static IDXGISwapChain* SwapChain_;
+	static GameEngineRenderTarget* BackBufferTarget_;
 
 public:
 	static GameEngineDirectXDevice& GetInst()
@@ -32,12 +39,13 @@ public:
 		}
 	}
 
+public:
+	static ID3D11Device* GetDevcie();
+	static ID3D11DeviceContext* GetContext();
+	static void RenderStart();
+	static void RenderEnd();
+
 private:	// member Var
-	ID3D11Device* Device_;
-	ID3D11DeviceContext* Context_;
-	IDXGISwapChain* SwapChain_;
-	//ID3D11Texture2D* BackBufferTexture_;
-	//ID3D11RenderTargetView* BackBufferViewTexture_;
 
 public:
 	GameEngineDirectXDevice(); // default constructer 디폴트 생성자

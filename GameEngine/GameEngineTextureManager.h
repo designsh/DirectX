@@ -1,4 +1,5 @@
 #pragma once
+#include "GameEngineDirectXDevice.h"
 
 // 설명 : 
 class GameEngineTexture;
@@ -38,7 +39,7 @@ private:		//delete operator
 	GameEngineTextureManager& operator=(const GameEngineTextureManager&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	GameEngineTexture* Create(const std::string& _Name);
+	GameEngineTexture* Create(const std::string& _Name, ID3D11Texture2D* _Texture2D);
 	GameEngineTexture* Load(const std::string& _Path);
 	GameEngineTexture* Load(const std::string& _Name, const std::string& _Path);
 	GameEngineTexture* Find(const std::string& _Name);

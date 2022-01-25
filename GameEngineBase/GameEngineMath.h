@@ -20,6 +20,13 @@ public:
 	static const float4 UP;
 	static const float4 DOWN;
 
+	static const float4 RED;
+	static const float4 BLUE;
+	static const float4 GREEN;
+	static const float4 WHITE;
+	static const float4 BLACK;
+	static const float4 NONE;
+
 public:
 	// 외적 : 두 벡터를 외적(두 벡터를 외적하면 두 벡터에 모두 수직인 벡터 도출)
 	static float4 Cross3D(float4 _Left, float4 _Right)

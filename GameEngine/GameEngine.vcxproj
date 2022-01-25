@@ -48,6 +48,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineRenderTarget.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTargetManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineTexture.h">
       <SubType>
       </SubType>
@@ -104,6 +112,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineRenderingPipeLine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTarget.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTargetManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

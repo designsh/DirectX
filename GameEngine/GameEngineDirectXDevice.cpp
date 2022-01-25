@@ -1,19 +1,55 @@
 #include "PreCompile.h"
 #include "GameEngineDirectXDevice.h"
 #include "GameEngineWindow.h"
+#include "GameEngineTextureManager.h"
+#include "GameEngineRenderTargetManager.h"
+#include "GameEngineRenderTarget.h"
 
 // 포인터형 싱글톤
 GameEngineDirectXDevice* GameEngineDirectXDevice::Inst = new GameEngineDirectXDevice();
 
-GameEngineDirectXDevice::GameEngineDirectXDevice() :
-	Device_(nullptr),
-	Context_(nullptr),
-	SwapChain_(nullptr)
+GameEngineRenderTarget* GameEngineDirectXDevice::BackBufferTarget_ = nullptr;
+ID3D11Device* GameEngineDirectXDevice::Device_ = nullptr;
+ID3D11DeviceContext* GameEngineDirectXDevice::Context_ = nullptr;
+IDXGISwapChain* GameEngineDirectXDevice::SwapChain_ = nullptr;
+
+ID3D11Device* GameEngineDirectXDevice::GetDevcie()
+{
+	return Device_;
+}
+
+ID3D11DeviceContext* GameEngineDirectXDevice::GetContext()
+{
+	return Context_;
+}
+
+void GameEngineDirectXDevice::RenderStart()
+{
+	// 백버퍼 ClearColor로 Clear
+	BackBufferTarget_->Clear();
+
+	// 셋팅
+	BackBufferTarget_->Setting();
+}
+
+void GameEngineDirectXDevice::RenderEnd()
+{
+	// 화면에 뿌려라
+	// BackBufferTarget_;
+}
+
+GameEngineDirectXDevice::GameEngineDirectXDevice()
 {
 }
 
 GameEngineDirectXDevice::~GameEngineDirectXDevice()
 {
+	if (nullptr != SwapChain_)
+	{
+		SwapChain_->Release();
+		SwapChain_ = nullptr;
+	}
+
 	if (nullptr != Device_)
 	{
 		Device_->Release();
@@ -115,22 +151,22 @@ void GameEngineDirectXDevice::CreateSwapChain()
 
 	// __uuidof : IDXGIDevice를 찾기위한 키로 변환하는 형변환
 	// MIDL_INTERFACE("54ec77fa-1377-44e6-8c32-88fd5f44c84c") 에 해당하는 클래스를 찾아와라라는 뜻
-	Device_->QueryInterface(__uuidof(IDXGIDevice), (void**)&pD);
-	if(nullptr == pD)
+	Device_->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&pD));
+	if (nullptr == pD)
 	{
-		GameEngineDebug::MsgBoxError("SwapChain Size Zero");
+		GameEngineDebug::MsgBoxError("IDXGIDevice null");
 	}
 
-	pD->GetParent(__uuidof(IDXGIAdapter), (void**)&pA);
+	pD->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&pA));
 	if (nullptr == pA)
 	{
-		GameEngineDebug::MsgBoxError("IDXGIAdapter Null");
+		GameEngineDebug::MsgBoxError("IDXGIAdapter null");
 	}
 
-	pA->GetParent(__uuidof(IDXGIFactory), (void**)&pF);
+	pA->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&pF));
 	if (nullptr == pF)
 	{
-		GameEngineDebug::MsgBoxError("IDXGIFactory Null");
+		GameEngineDebug::MsgBoxError("IDXGIFactory null");
 	}
 
 	// Create SwapChain
@@ -144,13 +180,14 @@ void GameEngineDirectXDevice::CreateSwapChain()
 	pA->Release();
 	pD->Release();
 	
-	// Texture Buffer 가져오기
-	//ID3D11Texture2D* BackBufferTexture = nullptr;
-	//if (S_OK != SwapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&BackBufferTexture)))
-	//{
-	//	GameEngineDebug::MsgBoxError("SwapChain Texture Error");
-	//}
+	// Texture(메모리적 텍스쳐)를 얻어온다.
+	ID3D11Texture2D* BackBufferTexture = nullptr;
+	if (S_OK != SwapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&BackBufferTexture)))
+	{
+		GameEngineDebug::MsgBoxError("SwapChain Texture Error");
+	}
 
-	// 렌더타겟 생성
-
+	// BackBuffer Texture 생성 및 RenderTarget 지정
+	GameEngineTextureManager::GetInst().Create("BackBuffer", BackBufferTexture);
+	BackBufferTarget_ = GameEngineRenderTargetManager::GetInst().Create("BackBuffer", "BackBuffer", float4::BLUE);
 }

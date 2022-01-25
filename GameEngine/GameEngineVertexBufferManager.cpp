@@ -35,7 +35,7 @@ GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string&
 	GameEngineVertexBuffer* FindRes = Find(_Name);
 	if (nullptr != FindRes)
 	{
-		GameEngineDebug::MsgBoxError(_Name + "Is Overlap Load");
+		GameEngineDebug::MsgBoxError(_Name + "Is Overlap Create");
 	}
 
 	// 신규 Vertex Buffer 생성

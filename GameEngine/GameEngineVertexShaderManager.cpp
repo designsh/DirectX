@@ -33,7 +33,7 @@ GameEngineVertexShader* GameEngineVertexShaderManager::Create(const std::string&
 
 	if (nullptr != FindRes)
 	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
+		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
 	}
 
 	GameEngineVertexShader* NewRes = new GameEngineVertexShader();

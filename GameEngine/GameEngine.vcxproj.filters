@@ -93,6 +93,12 @@
     <ClCompile Include="GameEngineDirectXDevice.cpp">
       <Filter>RenderingPipeLine\Device</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineRenderTarget.cpp">
+      <Filter>Resources\02Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTargetManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -142,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineDirectXDevice.h">
       <Filter>RenderingPipeLine\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTarget.h">
+      <Filter>Resources\02Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTargetManager.h">
+      <Filter>Resources\99Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
