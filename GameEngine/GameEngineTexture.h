@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectNameBase.h>
+#include "GameEngineDirectXDevice.h"
 
 // 분류 : 
 // 용도 : 
@@ -7,6 +8,7 @@
 class GameEngineTexture : public GameEngineObjectNameBase
 {
 private:	// member Var
+	ID3D11Texture2D* Texture2D_;
 
 public:
 	GameEngineTexture(); // default constructer 디폴트 생성자

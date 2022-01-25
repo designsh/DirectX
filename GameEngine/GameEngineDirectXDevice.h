@@ -36,6 +36,8 @@ private:	// member Var
 	ID3D11Device* Device_;
 	ID3D11DeviceContext* Context_;
 	IDXGISwapChain* SwapChain_;
+	//ID3D11Texture2D* BackBufferTexture_;
+	//ID3D11RenderTargetView* BackBufferViewTexture_;
 
 public:
 	GameEngineDirectXDevice(); // default constructer 디폴트 생성자

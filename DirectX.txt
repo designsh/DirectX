@@ -15,4 +15,15 @@ Ex) DeviceContext->IASetVertexBuffers();
 -. DXGI_SWAP_CHAIN_DESC 구조의 정보를 생성하여 GPU에 알려주어야한다.
 -. 
 
-4. 
+4. Sampling : 출력할 화면의 한 픽셀 내에 여러개의 점을 배치하여 색을 정하는 방법
+-. 
+
+5. ID3D11Texture2D : 메모리로서의 텍스쳐 역할
+-. 
+
+6. ID3D11RenderTargetView : 랜더링 파이프라인에 세팅하기 위한 역할
+-. 렌더링을 할 실제적인 타겟, 단 스왑체인과 연결된 렌더타겟만이 화면에 출력
+-. 
+
+7. 렌더링단계 : 
+-. 

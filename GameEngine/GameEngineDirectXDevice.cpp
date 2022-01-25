@@ -68,15 +68,89 @@ void GameEngineDirectXDevice::CreateSwapChain()
 
 	float4 ScreenSize = GameEngineWindow::GetInst().GetSize();
 
+	// 스왑체인 옵션 설정을 위한 구조
 	DXGI_SWAP_CHAIN_DESC ScInfo = { 0, };
 
+	// 그래픽카드가 버퍼를 가지고있어야한다.
 	ScInfo.BufferDesc.Width = ScreenSize.uix();
 	ScInfo.BufferDesc.Height = ScreenSize.uiy();
 
 	// 모니터에 간섭해서 1초에 60프레임 백버퍼를 스왑해라.
-	ScInfo.BufferDesc.RefreshRate.Numerator = 60.0f;
+	ScInfo.BufferDesc.RefreshRate.Denominator = 1;
+	ScInfo.BufferDesc.RefreshRate.Numerator = 60;
 
 	ScInfo.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	ScInfo.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	ScInfo.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
+	// 화면에 띄우기 위해서는 용도를 알려주어야한다.
+	ScInfo.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT;
+
+	// 샘플링
+	ScInfo.SampleDesc.Quality = 0;	// 앤티앨리어싱이 없는 기본 샘플러 모드의 개수는 1이고 품질 수준은 0입니다
+	ScInfo.SampleDesc.Count = 1;	// 픽셀내 배치할 점 갯수
+
+	//
+	ScInfo.OutputWindow = GameEngineWindow::GetInst().GetWindowHWND();
+
+	// 버퍼개수
+	ScInfo.BufferCount = 2;
+
+	// 스왑 방법
+	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
+
+	// 윈도우 창모드 -> 전체화면 전환시 알아서 처리
+	ScInfo.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+
+	// true: 전체화면안함, false: 전체화면사용
+	ScInfo.Windowed = true;
+
+	// 그래픽카드의 화면출력에 관련된 리소스에 관여할 수 있는 기능들의 포인터를 얻어오고,
+	// 그 기능들을 통해서 백버퍼의 텍스쳐를 직접 얻어오는 것
+	// ID3D11Device* != IDXGIDevice;
+	// 그래픽 카드의 메모리에 관리자로 접근한다.
+	IDXGIDevice* pD = nullptr;
+	IDXGIAdapter* pA = nullptr;
+	IDXGIFactory* pF = nullptr;
+
+	// __uuidof : IDXGIDevice를 찾기위한 키로 변환하는 형변환
+	// MIDL_INTERFACE("54ec77fa-1377-44e6-8c32-88fd5f44c84c") 에 해당하는 클래스를 찾아와라라는 뜻
+	Device_->QueryInterface(__uuidof(IDXGIDevice), (void**)&pD);
+	if(nullptr == pD)
+	{
+		GameEngineDebug::MsgBoxError("SwapChain Size Zero");
+	}
+
+	pD->GetParent(__uuidof(IDXGIAdapter), (void**)&pA);
+	if (nullptr == pA)
+	{
+		GameEngineDebug::MsgBoxError("IDXGIAdapter Null");
+	}
+
+	pA->GetParent(__uuidof(IDXGIFactory), (void**)&pF);
+	if (nullptr == pF)
+	{
+		GameEngineDebug::MsgBoxError("IDXGIFactory Null");
+	}
+
+	// Create SwapChain
+	if (S_OK != pF->CreateSwapChain(Device_, &ScInfo, &SwapChain_))
+	{
+		GameEngineDebug::MsgBoxError("SwapChain Create Error");
+	}
+
+	// 받아온 권한 모두 반납
+	pF->Release();
+	pA->Release();
+	pD->Release();
+	
+	// Texture Buffer 가져오기
+	//ID3D11Texture2D* BackBufferTexture = nullptr;
+	//if (S_OK != SwapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&BackBufferTexture)))
+	//{
+	//	GameEngineDebug::MsgBoxError("SwapChain Texture Error");
+	//}
+
+	// 렌더타겟 생성
 
 }
