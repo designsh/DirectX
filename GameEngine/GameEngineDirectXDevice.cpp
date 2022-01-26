@@ -28,14 +28,19 @@ void GameEngineDirectXDevice::RenderStart()
 	// 백버퍼 ClearColor로 Clear
 	BackBufferTarget_->Clear();
 
-	// 셋팅
+	// 셋팅 : SwapChain이 가지는 렌더타겟뷰(텍스쳐)에 렌더링파이프라인을 거친 정점들을
+	// 그리며 이는 바로 화면에 표시된다.
 	BackBufferTarget_->Setting();
 }
 
 void GameEngineDirectXDevice::RenderEnd()
 {
 	// 화면에 뿌려라
-	// BackBufferTarget_;
+	HRESULT Result = SwapChain_->Present(0, 0);
+	if (Result == DXGI_ERROR_DEVICE_REMOVED || Result == DXGI_ERROR_DEVICE_RESET)
+	{
+		int a = 0;
+	}
 }
 
 GameEngineDirectXDevice::GameEngineDirectXDevice()
@@ -180,7 +185,7 @@ void GameEngineDirectXDevice::CreateSwapChain()
 	pA->Release();
 	pD->Release();
 	
-	// Texture(메모리적 텍스쳐)를 얻어온다.
+	// 현재 SwapChain이 가지고있는 텍스쳐(렌더타겟뷰)를 얻어온다.
 	ID3D11Texture2D* BackBufferTexture = nullptr;
 	if (S_OK != SwapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&BackBufferTexture)))
 	{
