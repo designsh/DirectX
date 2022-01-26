@@ -21,9 +21,9 @@ GameEngineRenderTarget::GameEngineRenderTarget(GameEngineRenderTarget&& _other) 
 void GameEngineRenderTarget::Clear()
 {
 	// Context의 기능을 이용해야하므로 권한이 필요
-	for (size_t i = 0; i < RenderTargetViews_.size(); ++i)
+	for (size_t i = 0; i < RenderTargetViews_.size(); i++)
 	{
-		//GameEngineDirectXDevice::GetContext()->ClearRenderTargetView(RenderTargetViews_[i], ClearColor_);
+		GameEngineDirectXDevice::GetContext()->ClearRenderTargetView(RenderTargetViews_[i], ClearColor_[i].Arr1D);
 	}
 }
 
