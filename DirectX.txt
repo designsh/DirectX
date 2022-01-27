@@ -27,3 +27,6 @@ Ex) DeviceContext->IASetVertexBuffers();
 
 7. 렌더링단계 : 
 -. 
+
+8. 정점버퍼(Vertex Buffer) + 인덱스버퍼(Index Buffer) = 메쉬(Mesh) => 화면에 그릴 물체의 부피(골격)을 정하는 일을 수행
+9. 색상(Color) = 재질(Material) => 화면에 그릴 물체의 색상, 재질 등을 정하는 일을 수행

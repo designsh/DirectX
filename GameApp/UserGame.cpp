@@ -34,7 +34,7 @@ void UserGame::ResourcesLoad()
 	// Game Resources Load Function
 
 	// Sound Load
-	GameEngineDirectroy SoundDir;
+	GameEngineDirectory SoundDir;
 	SoundDir.MoveParent("DirectX");
 	SoundDir.MoveChild("Resources");
 	SoundDir.MoveChild("Sound");
