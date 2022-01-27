@@ -81,7 +81,9 @@
     <ClCompile Include="GameEngineRandom.cpp">
       <Filter>Math\Random</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDirectory.cpp" />
+    <ClCompile Include="GameEngineDirectory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -123,7 +125,9 @@
     <ClInclude Include="GameEngineRandom.h">
       <Filter>Math\Random</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDirectory.h" />
+    <ClInclude Include="GameEngineDirectory.h">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\ThirdParty\x64\Debug\FMOD\fmodL.dll">
