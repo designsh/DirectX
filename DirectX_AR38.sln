@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Document", "00. Documen
 		DirectX.txt = DirectX.txt
 		꼭 알아야하는 사항들.txt = 꼭 알아야하는 사항들.txt
 		변환과정.txt = 변환과정.txt
+		엔진구성.txt = 엔진구성.txt
 		용어정리.txt = 용어정리.txt
 		월드변환예제.txt = 월드변환예제.txt
 		행렬.txt = 행렬.txt

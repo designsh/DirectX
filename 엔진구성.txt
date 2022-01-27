@@ -1,0 +1,10 @@
+1. Custom Vertex을 GameEngineVertexBuffer 클래스에 넘겨준다.
+=> 사용자가 만드는것에따라 정점이 가지는 기본정보들을 달리 포함하므로 GameEngineVertexBuffer에서는 어떠한 타입이 인자로 들어올지 판단할수 없다.
+   그러므로 Template 함수를이용하여 해당 Custom Vertex의 해당하는 정점버퍼(Vertex Buffer)를 생성한다.
+-. 위치
+-. 색상
+-. UV 
+-. ...
+
+2. 
+

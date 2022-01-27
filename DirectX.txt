@@ -30,3 +30,12 @@ Ex) DeviceContext->IASetVertexBuffers();
 
 8. 정점버퍼(Vertex Buffer) + 인덱스버퍼(Index Buffer) = 메쉬(Mesh) => 화면에 그릴 물체의 부피(골격)을 정하는 일을 수행
 9. 색상(Color) = 재질(Material) => 화면에 그릴 물체의 색상, 재질 등을 정하는 일을 수행
+
+10. D3D11_USAGE : 그래픽카드에 메모리를 할당할지 안할지 결정하는 옵션
+-. DEFAULT : 읽기/쓰기 모두 가능
+-. DYNAMIC : GPU(읽기전용) / CPU(쓰기전용)
+
+11. ID3D11Buffer : 모든 정점, 인덱스 정보를 생성할때 사용 -> GPU에 메모리를 할당하면 해당 버퍼를 사용해서 할당되며, 사용자는 이 버퍼의 주소값만을 
+				   이용하여 해당 버퍼에 접근한다.
+
+12. 
