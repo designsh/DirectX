@@ -5,6 +5,7 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Document", "00. Document", "{D64C11D0-3536-4B77-8DAE-0AF475AD9CC9}"
 	ProjectSection(SolutionItems) = preProject
+		CPU에서의렌더링단계.txt = CPU에서의렌더링단계.txt
 		DirectX.txt = DirectX.txt
 		꼭 알아야하는 사항들.txt = 꼭 알아야하는 사항들.txt
 		변환과정.txt = 변환과정.txt

@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineObjectNameBase.h>
+#include <GameEngine/GameEngineDirectXDevice.h>
 
 // 분류 : 정점(Vertex) 버퍼
 // 용도 : 
@@ -8,7 +9,11 @@
 class GameEngineVertexBuffer : public GameEngineObjectNameBase
 {
 private:	// member Var
-	std::vector<float4> Vertexs_;
+	ID3D11Buffer* Buffer_;
+	UINT Size_;
+	UINT Offset_;
+	D3D11_BUFFER_DESC BufferData_;				// 버퍼의 데이터
+	D3D11_SUBRESOURCE_DATA ResData_;	// 초기값등의 데이터(원본버퍼)
 
 public:
 	GameEngineVertexBuffer(); // default constructer 디폴트 생성자
@@ -23,9 +28,15 @@ private:		//delete operator
 	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	const std::vector<float4>& GetVertexs();
+	template<typename VertexType>
+	void Create(const std::vector<VertexType>& _Datas, D3D11_USAGE _Usage)
+	{
+		Create(reinterpret_cast<const void*>(&_Datas[0]), sizeof(VertexType), _Datas.size(), _Usage);
+	}
+
+	void Create(const void* _Data, size_t _Size, size_t _Count, D3D11_USAGE _Usage);
 
 public:
-	void Create(const std::vector<float4>& _Vertexs);
+	void Setting();
 };
 

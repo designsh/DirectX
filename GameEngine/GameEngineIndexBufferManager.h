@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngine/GameEngineDirectXDevice.h>
 
 // 설명 : 
 class GameEngineIndexBuffer;
@@ -38,7 +39,7 @@ private:		//delete operator
 	GameEngineIndexBufferManager& operator=(const GameEngineIndexBufferManager&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	GameEngineIndexBuffer* Create(const std::string& _Name, const std::vector<int>& _Index);
+	GameEngineIndexBuffer* Create(const std::string& _Name, const std::vector<UINT>& _Index, D3D11_USAGE _Usage);
 	GameEngineIndexBuffer* Load(const std::string& _Path);
 	GameEngineIndexBuffer* Load(const std::string& _Name, const std::string& _Path);
 	GameEngineIndexBuffer* Find(const std::string& _Name);

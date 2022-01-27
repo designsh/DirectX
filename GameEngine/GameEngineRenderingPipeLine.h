@@ -8,7 +8,7 @@ class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
 class GameEngineRasterizer;
-class GameEngineRenderingPipeLine
+class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
 private:	// member Var
 	GameEngineVertexBuffer*			VertexBuffer_;		// 원본 Vertex Buffer
@@ -27,6 +27,10 @@ protected:		// delete constructer
 private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+
+public:
+	void SetMesh();
+	void SetMaterial();
 
 public:	// 렌더링파이프라인 가동준비
 	void SetInputAssembler1(const std::string& _Name);

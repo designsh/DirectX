@@ -34,8 +34,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UserGame_Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="UserGame.h">
       <SubType>

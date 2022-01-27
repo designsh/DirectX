@@ -46,6 +46,9 @@
     <Filter Include="RenderingPipeLine\Device">
       <UniqueIdentifier>{59d1c9b9-d29f-42af-b2eb-a12dde2f1702}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\00Buffer\Mesh">
+      <UniqueIdentifier>{f9e62826-260f-433b-bcd2-c7dc72842246}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -97,6 +100,12 @@
       <Filter>Resources\02Texture</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderTargetManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineMesh.cpp">
+      <Filter>Resources\00Buffer\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingPipeLineManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
   </ItemGroup>
@@ -153,6 +162,12 @@
       <Filter>Resources\02Texture</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRenderTargetManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineMesh.h">
+      <Filter>Resources\00Buffer\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLineManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
   </ItemGroup>

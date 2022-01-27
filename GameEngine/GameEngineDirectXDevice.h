@@ -40,7 +40,7 @@ public:
 	}
 
 public:
-	static ID3D11Device* GetDevcie();
+	static ID3D11Device* GetDevice();
 	static ID3D11DeviceContext* GetContext();
 	static void RenderStart();
 	static void RenderEnd();

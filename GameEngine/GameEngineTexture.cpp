@@ -40,7 +40,7 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 		GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
 	}
 
-	if (S_OK != GameEngineDirectXDevice::GetDevcie()->CreateRenderTargetView(Texture2D_, nullptr, &RenderTargetView_))
+	if (S_OK != GameEngineDirectXDevice::GetDevice()->CreateRenderTargetView(Texture2D_, nullptr, &RenderTargetView_))
 	{
 		GameEngineDebug::MsgBoxError("RenderTargetView Create Error");
 	}

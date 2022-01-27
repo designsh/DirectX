@@ -1,4 +1,5 @@
 #pragma once
+#include "GameEngineVertexBuffer.h"
 
 // 분류 : 정점버퍼 관리자
 // 용도 : 
@@ -40,9 +41,29 @@ private:		//delete operator
 	GameEngineVertexBufferManager& operator=(const GameEngineVertexBufferManager&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<float4>& _Vertex);
 	GameEngineVertexBuffer* Load(const std::string& _Path);
 	GameEngineVertexBuffer* Load(const std::string& _Name, const std::string& _Path);
 	GameEngineVertexBuffer* Find(const std::string& _Name);
+
+public:
+	template<typename VertexType>
+	GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<VertexType>& _Vertex, D3D11_USAGE _Usage)
+	{
+		GameEngineVertexBuffer* FindRes = Find(_Name);
+
+		if (nullptr != FindRes)
+		{
+			GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
+		}
+
+
+		GameEngineVertexBuffer* NewRes = new GameEngineVertexBuffer();
+		NewRes->SetName(_Name);
+		NewRes->Create<VertexType>(_Vertex, _Usage);
+
+		ResourcesMap.insert(std::map<std::string, GameEngineVertexBuffer*>::value_type(_Name, NewRes));
+
+		return NewRes;
+	}
 };
 
