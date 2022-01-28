@@ -10,6 +10,7 @@ private:	// member Var
 public:
 	static void LeakCheckOn();
 	static void MsgBoxError(const std::string& _Ptr);
+	static void MsgBox(const std::string& _Ptr);
 	static void AssertFalse();
 	static void OutPutDebugString(const std::string& _Text);
 

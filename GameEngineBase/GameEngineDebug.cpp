@@ -16,6 +16,11 @@ void GameEngineDebug::MsgBoxError(const std::string& _Ptr)
 	assert(false);
 }
 
+void GameEngineDebug::MsgBox(const std::string& _Ptr)
+{
+	MessageBoxA(nullptr, _Ptr.c_str(), "Error", MB_OK);
+}
+
 void GameEngineDebug::AssertFalse()
 {
 	assert(false);

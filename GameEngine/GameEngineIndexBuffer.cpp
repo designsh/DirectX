@@ -12,9 +12,13 @@ GameEngineIndexBuffer::GameEngineIndexBuffer() :
 	memset(&ResData_, 0, sizeof(ResData_));
 }
 
-GameEngineIndexBuffer::~GameEngineIndexBuffer() // default destructer 디폴트 소멸자
+GameEngineIndexBuffer::~GameEngineIndexBuffer()
 {
-
+	if (nullptr != Buffer_)
+	{
+		Buffer_->Release();
+		Buffer_ = nullptr;
+	}
 }
 
 GameEngineIndexBuffer::GameEngineIndexBuffer(GameEngineIndexBuffer&& _other) noexcept : 

@@ -14,7 +14,11 @@ GameEngineVertexBuffer::GameEngineVertexBuffer() :
 
 GameEngineVertexBuffer::~GameEngineVertexBuffer() // default destructer 디폴트 소멸자
 {
-
+	if (nullptr != Buffer_)
+	{
+		Buffer_->Release();
+		Buffer_ = nullptr;
+	}
 }
 
 GameEngineVertexBuffer::GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) noexcept : 
