@@ -21,7 +21,7 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() :
 
 }
 
-GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() // default destructer 디폴트 소멸자
+GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
 {
 
 }
@@ -48,49 +48,91 @@ void GameEngineRenderingPipeLine::SetMaterial()
 
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler1(const std::string& _Name)
+// ====================================== Rendering PipeLine 가동 준비단계 ====================================== //
+void GameEngineRenderingPipeLine::SetInputAssembler1VertexBufferSetting(const std::string& _Name)
 {
-	// Vertex Buffer 받아와서 보관단계
 	VertexBuffer_ = GameEngineVertexBufferManager::GetInst().Find(_Name);
+
 	if (nullptr == VertexBuffer_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 VertexBuffer를 세팅하려고 했습니다.");
+		return;
+	}
+}
+
+void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std::string& _Name)
+{
+	InputLayOutVertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
+
+	if (nullptr == InputLayOutVertexShader_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 InputLayout을 세팅하려고 했습니다.");
 		return;
 	}
 }
 
 void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 {
-	// VertexShader 받아와서 보관단계
 	VertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
+
 	if (nullptr == VertexShader_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 Vertex Shader를 세팅하려고 했습니다.");
 		return;
 	}
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
+void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std::string& _Name)
 {
-	// Index Buffer 받아와서 보관단계
 	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
+
 	if (nullptr == IndexBuffer_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 인덱스 버퍼를 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 Index Buffer를 세팅하려고 했습니다.");
 		return;
 	}
+}
+
+void GameEngineRenderingPipeLine::SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology)
+{
+	Topology_ = _Topology;
 }
 
 void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 {
 	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+
 	if (nullptr == Rasterizer_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 래스터라이저를 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 Rasterizer를 세팅하려고 했습니다.");
 		return;
 	}
 }
 
+// ======================================== Rendering PipeLine 가동 단계 ======================================== //
+void GameEngineRenderingPipeLine::InputAssembler1()
+{
+	VertexBuffer_->Setting();
+	InputLayOutVertexShader_->InputLayOutSetting();
+}
+
+void GameEngineRenderingPipeLine::VertexShader()
+{
+	VertexShader_->Setting();
+}
+
+void GameEngineRenderingPipeLine::InputAssembler2()
+{
+}
+
+void GameEngineRenderingPipeLine::Rasteriazer()
+{
+}
+
 void GameEngineRenderingPipeLine::Rendering()
 {
+	InputAssembler1();
+	VertexShader();
+	InputAssembler2();
+	Rasteriazer();
 }

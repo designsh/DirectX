@@ -51,7 +51,7 @@ void GameEngineVertexBuffer::Create(const void* _Data, size_t _Size, size_t _Cou
 	BufferData_.StructureByteStride = 0;
 	BufferData_.MiscFlags = 0;
 
-	if (S_OK != GameEngineDirectXDevice::GetDevice()->CreateBuffer(&BufferData_, &ResData_, &Buffer_))
+	if (S_OK != GameEngineDevice::GetDevice()->CreateBuffer(&BufferData_, &ResData_, &Buffer_))
 	{
 		GameEngineDebug::MsgBoxError("버텍스 버퍼 생성 에러");
 		return;
@@ -60,5 +60,5 @@ void GameEngineVertexBuffer::Create(const void* _Data, size_t _Size, size_t _Cou
 
 void GameEngineVertexBuffer::Setting()
 {
-	GameEngineDirectXDevice::GetContext()->IASetVertexBuffers(0, 1, &Buffer_, &Size_, &Offset_);
+	GameEngineDevice::GetContext()->IASetVertexBuffers(0, 1, &Buffer_, &Size_, &Offset_);
 }

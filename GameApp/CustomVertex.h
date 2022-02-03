@@ -4,8 +4,8 @@
 struct GameEngineVertex
 {
 public:
-	float4 Texcoord;
 	float4 Postion;
+	float4 Texcoord;
 	float4 Color;
 
 };

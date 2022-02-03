@@ -61,7 +61,7 @@ void GameEngineIndexBuffer::Create(const void* _Data, size_t _Size, size_t _Coun
 	Offset_ = 0;
 	Format_ = DXGI_FORMAT::DXGI_FORMAT_R32_UINT;
 
-	if (S_OK != GameEngineDirectXDevice::GetDevice()->CreateBuffer(&BufferData_, &ResData_, &Buffer_))
+	if (S_OK != GameEngineDevice::GetDevice()->CreateBuffer(&BufferData_, &ResData_, &Buffer_))
 	{
 		GameEngineDebug::MsgBoxError("인덱스 버퍼 생성 에러");
 		return;
@@ -70,6 +70,6 @@ void GameEngineIndexBuffer::Create(const void* _Data, size_t _Size, size_t _Coun
 
 void GameEngineIndexBuffer::Setting()
 {
-	GameEngineDirectXDevice::GetContext()->IASetIndexBuffer(Buffer_, Format_, Offset_);
+	GameEngineDevice::GetContext()->IASetIndexBuffer(Buffer_, Format_, Offset_);
 }
 

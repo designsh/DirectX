@@ -108,7 +108,7 @@
     <ClCompile Include="GameEngineRasterizer.cpp">
       <Filter>Resources\03Rasterizer</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDirectXDevice.cpp">
+    <ClCompile Include="GameEngineDevice.cpp">
       <Filter>RenderingPipeLine\Device</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderTarget.cpp">
@@ -170,7 +170,7 @@
     <ClInclude Include="GameEngineManager.h">
       <Filter>SubClassInclude</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDirectXDevice.h">
+    <ClInclude Include="GameEngineDevice.h">
       <Filter>RenderingPipeLine\Device</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRenderTarget.h">

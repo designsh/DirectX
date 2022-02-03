@@ -13,10 +13,10 @@
 // 용도 : 
 // 설명 : 그래픽카드에 접근할수 있는 권한(포인터)
 class GameEngineRenderTarget;
-class GameEngineDirectXDevice
+class GameEngineDevice
 {
 private:
-	static GameEngineDirectXDevice* Inst;
+	static GameEngineDevice* Inst;
 
 private:
 	static ID3D11Device* Device_;
@@ -25,7 +25,7 @@ private:
 	static GameEngineRenderTarget* BackBufferTarget_;
 
 public:
-	static GameEngineDirectXDevice& GetInst()
+	static GameEngineDevice& GetInst()
 	{
 		return *Inst;
 	}
@@ -48,16 +48,16 @@ public:
 private:	// member Var
 
 public:
-	GameEngineDirectXDevice(); // default constructer 디폴트 생성자
-	~GameEngineDirectXDevice(); // default destructer 디폴트 소멸자
+	GameEngineDevice(); // default constructer 디폴트 생성자
+	~GameEngineDevice(); // default destructer 디폴트 소멸자
 
 protected:		// delete constructer
-	GameEngineDirectXDevice(const GameEngineDirectXDevice& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	GameEngineDirectXDevice(GameEngineDirectXDevice&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	GameEngineDevice(const GameEngineDevice& _other) = delete; // default Copy constructer 디폴트 복사생성자
+	GameEngineDevice(GameEngineDevice&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
 
 private:		//delete operator
-	GameEngineDirectXDevice& operator=(const GameEngineDirectXDevice& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	GameEngineDirectXDevice& operator=(const GameEngineDirectXDevice&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+	GameEngineDevice& operator=(const GameEngineDevice& _other) = delete; // default Copy operator 디폴트 대입 연산자
+	GameEngineDevice& operator=(const GameEngineDevice&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public: // 디바이스 초기화
 	void Initialize();

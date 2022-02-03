@@ -79,7 +79,7 @@ void UserGame::ResourcesLoad()
 	// Input Layout 생성 및 셋팅
 	std::string ShaderCode =
 		"\
-			float4 StartVertexShader( float4 pos : POSITION ) : SV_POSITION\n \
+			float4 StartVertexShader( float4 pos : POSITION, float4 pos1 : POSITION1 ) : SV_POSITION\n \
 			{\n \
 				return pos;\n\
 			}\n\
@@ -87,10 +87,11 @@ void UserGame::ResourcesLoad()
 
 	GameEngineVertexShader* VertexShader = GameEngineVertexShaderManager::GetInst().Create("StartVertexShader", ShaderCode);
 
-	VertexShader->AddInputLayOut("TEXCOORD", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-	VertexShader->AddInputLayOut("POSTION", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-	VertexShader->AddInputLayOut("COLOR", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-
+	// Vertex Shader 내부에서 처리
+	// VertexShader셋팅시 자동생성하는 구조로 되어있음
+	//VertexShader->AddInputLayOut("TEXCOORD", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+	//VertexShader->AddInputLayOut("POSTION", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+	//VertexShader->AddInputLayOut("COLOR", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
 
 	// Viewport 생성 및 셋팅
 	GameEngineRasterizer* Rasterizer = GameEngineRasterizerManager::GetInst().Create("TestReasterizer");
@@ -98,5 +99,18 @@ void UserGame::ResourcesLoad()
 
 	// Rendering PipeList 생성
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
-	//Pipe->SetInputAssembler1();
+
+	// Rendering PipeLine : InputAssembler1
+	// VertexBuffer, InputLayout Setting
+	Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+	Pipe->SetInputAssembler1InputLayOutSetting("StartVertexShader");
+
+	// Rendering PipeLine : Vertex Shader
+	// Vertex Shader Setting
+	Pipe->SetVertexShader("StartVertexShader");
+
+	// Rendering PipeLine : InputAssembler2
+	// Index Buffer & 면생성방법(점, 선, 삼각형, 다각형) Setting
+	Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+	Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }

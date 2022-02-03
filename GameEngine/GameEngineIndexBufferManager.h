@@ -1,5 +1,5 @@
 #pragma once
-#include <GameEngine/GameEngineDirectXDevice.h>
+#include <GameEngine/GameEngineDevice.h>
 
 // Ό³Έν : 
 class GameEngineIndexBuffer;

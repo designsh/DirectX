@@ -1,29 +1,29 @@
 #include "PreCompile.h"
-#include "GameEngineDirectXDevice.h"
+#include "GameEngineDevice.h"
 #include "GameEngineWindow.h"
 #include "GameEngineTextureManager.h"
 #include "GameEngineRenderTargetManager.h"
 #include "GameEngineRenderTarget.h"
 
 // 포인터형 싱글톤
-GameEngineDirectXDevice* GameEngineDirectXDevice::Inst = new GameEngineDirectXDevice();
+GameEngineDevice* GameEngineDevice::Inst = new GameEngineDevice();
 
-GameEngineRenderTarget* GameEngineDirectXDevice::BackBufferTarget_ = nullptr;
-ID3D11Device* GameEngineDirectXDevice::Device_ = nullptr;
-ID3D11DeviceContext* GameEngineDirectXDevice::Context_ = nullptr;
-IDXGISwapChain* GameEngineDirectXDevice::SwapChain_ = nullptr;
+GameEngineRenderTarget* GameEngineDevice::BackBufferTarget_ = nullptr;
+ID3D11Device* GameEngineDevice::Device_ = nullptr;
+ID3D11DeviceContext* GameEngineDevice::Context_ = nullptr;
+IDXGISwapChain* GameEngineDevice::SwapChain_ = nullptr;
 
-ID3D11Device* GameEngineDirectXDevice::GetDevice()
+ID3D11Device* GameEngineDevice::GetDevice()
 {
 	return Device_;
 }
 
-ID3D11DeviceContext* GameEngineDirectXDevice::GetContext()
+ID3D11DeviceContext* GameEngineDevice::GetContext()
 {
 	return Context_;
 }
 
-void GameEngineDirectXDevice::RenderStart()
+void GameEngineDevice::RenderStart()
 {
 	// 백버퍼 ClearColor로 Clear
 	BackBufferTarget_->Clear();
@@ -33,7 +33,7 @@ void GameEngineDirectXDevice::RenderStart()
 	BackBufferTarget_->Setting();
 }
 
-void GameEngineDirectXDevice::RenderEnd()
+void GameEngineDevice::RenderEnd()
 {
 	// 화면에 뿌려라
 	HRESULT Result = SwapChain_->Present(0, 0);
@@ -43,11 +43,11 @@ void GameEngineDirectXDevice::RenderEnd()
 	}
 }
 
-GameEngineDirectXDevice::GameEngineDirectXDevice()
+GameEngineDevice::GameEngineDevice()
 {
 }
 
-GameEngineDirectXDevice::~GameEngineDirectXDevice()
+GameEngineDevice::~GameEngineDevice()
 {
 	if (nullptr != SwapChain_)
 	{
@@ -68,7 +68,7 @@ GameEngineDirectXDevice::~GameEngineDirectXDevice()
 	}
 }
 
-void GameEngineDirectXDevice::Initialize()
+void GameEngineDevice::Initialize()
 {
 	if (nullptr == GameEngineWindow::GetInst().GetWindowHWND())
 	{
@@ -100,7 +100,7 @@ void GameEngineDirectXDevice::Initialize()
 	CreateSwapChain();
 }
 
-void GameEngineDirectXDevice::CreateSwapChain()
+void GameEngineDevice::CreateSwapChain()
 {
 	if (0 >= GameEngineWindow::GetInst().GetSize().x && 0 >= GameEngineWindow::GetInst().GetSize().y)
 	{

@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEngine/GameEngineDevice.h>
 
 // 분류 : 렌더링 파이프라인 
 // 용도 : 
@@ -10,11 +11,23 @@ class GameEngineVertexShader;
 class GameEngineRasterizer;
 class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
-private:	// member Var
-	GameEngineVertexBuffer*			VertexBuffer_;		// 원본 Vertex Buffer
-	GameEngineVertexShader*		VertexShader_;	// Vertex Shader
-	GameEngineIndexBuffer*			IndexBuffer_;		// Index Buffer
-	GameEngineRasterizer*				Rasterizer_;			// 래스터라이저
+// ======================================= InputAssembler 1 ======================================= //
+private:
+	GameEngineVertexBuffer*			VertexBuffer_;												// Vertex Buffer
+	GameEngineVertexShader*		InputLayOutVertexShader_;					// Vertex Shader InputLayout
+
+// ======================================== Vertex Shader ========================================= //
+private:
+	GameEngineVertexShader*		VertexShader_;											// Vertex Shader
+
+// ======================================= InputAssembler 2 ======================================= //
+private:
+	GameEngineIndexBuffer*			IndexBuffer_;												// Index Buffer
+	D3D11_PRIMITIVE_TOPOLOGY	Topology_;													// Topology(면생성 방법 : 점, 선, 삼각형, 다각형)
+
+// ========================================== Rasterizer ========================================== //
+private:
+	GameEngineRasterizer*				Rasterizer_;													// Rasterizer
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
@@ -32,13 +45,29 @@ public:
 	void SetMesh();
 	void SetMaterial();
 
-public:	// 렌더링파이프라인 가동준비
-	void SetInputAssembler1(const std::string& _Name);
+// ====================================== Rendering PipeLine 가동 준비단계 ====================================== //
+public: // Assembler1 Setting
+	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
+	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
+
+public: // Vertex Shader Setting
 	void SetVertexShader(const std::string& _Name);
-	void SetInputAssembler2(const std::string& _Name);
+
+public: // Assembler2 Setting
+	void SetInputAssembler2IndexBufferSetting(const std::string& _Name);
+	void SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology);
+
+public: // Rasterizer Setting
 	void SetRasterizer(const std::string& _Name);
 
-public:	// 실질적 렌더링파이프라인 가동
+// ======================================== Rendering PipeLine 가동 단계 ======================================== //
+public:
+	void InputAssembler1();
+	void VertexShader();
+	void InputAssembler2();
+	void Rasteriazer();
+
+public:
 	void Rendering();
 };
 

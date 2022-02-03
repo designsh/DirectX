@@ -28,12 +28,12 @@ void UserGame::Initialize()
 
 void UserGame::GameLoop()
 {
-	GameEngineDirectXDevice::RenderStart();
+	GameEngineDevice::RenderStart();
 
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
 	Pipe->Rendering();
 
-	GameEngineDirectXDevice::RenderEnd();
+	GameEngineDevice::RenderEnd();
 }
 
 void UserGame::Release()
