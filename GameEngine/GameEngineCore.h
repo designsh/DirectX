@@ -10,7 +10,7 @@ private:
 	static GameEngineCore* MainCore_;
 
 private:
-	static void WindowCreate();
+	static void WindowCreate(GameEngineCore& _RuntimeCore);
 	static void Loop();
 	static void MainLoop();
 
@@ -24,10 +24,10 @@ public:
 		new int();
 #endif
 
-		// 윈도우 생성
-		WindowCreate();
-
 		UserGameType NewUserGame;
+
+		// 윈도우 생성
+		WindowCreate(NewUserGame);
 
 		// 엔진 초기화 및 리소스 로드
 		NewUserGame.EngineInitialize();
@@ -68,5 +68,7 @@ protected:
 	virtual void ResourcesLoad() = 0;
 	virtual void GameLoop() = 0;
 	virtual void Release() = 0;
+	virtual float4 StartWindowSize() = 0;
+	virtual float4 StartWindowPos() = 0;
 };
 

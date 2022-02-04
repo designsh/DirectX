@@ -23,18 +23,18 @@ GameEngineVertexShader::~GameEngineVertexShader()
 		LayOut_ = nullptr;
 	}
 
-	// Vertex Shader BinaryCode Buffer Release
-	if (nullptr != CodeBlob_)
-	{
-		CodeBlob_->Release();
-		CodeBlob_ = nullptr;
-	}
-
 	// Vertex Shader Release
 	if (nullptr != VertexShader_)
 	{
 		VertexShader_->Release();
 		VertexShader_ = nullptr;
+	}
+
+	// Vertex Shader BinaryCode Buffer Release
+	if (nullptr != CodeBlob_)
+	{
+		CodeBlob_->Release();
+		CodeBlob_ = nullptr;
 	}
 }
 

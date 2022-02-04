@@ -2,30 +2,58 @@
 #include "GameEngineRasterizer.h"
 
 GameEngineRasterizer::GameEngineRasterizer() :
-	ViewPort_{}
+	State(nullptr),
+	ViewPort{}
 {
 }
 
 GameEngineRasterizer::~GameEngineRasterizer()
 {
+	// ViewPort State Release
+	if (nullptr != State)
+	{
+		State->Release();
+		State = nullptr;
+	}
 }
 
 GameEngineRasterizer::GameEngineRasterizer(GameEngineRasterizer&& _other) noexcept :
-	ViewPort_(_other.ViewPort_)
+	State(_other.State),
+	ViewPort(_other.ViewPort)
 {
 }
 
-void GameEngineRasterizer::RasterizerUpdate(float4& _Pos)
+void GameEngineRasterizer::SetViewPort(float _Width, float _Height, float _TopLeftX, float _TopLeftY, float _MinDepth, float _MaxDepth)
 {
-	// 각 정점(벡터)의 x,y,z값을 월드행렬*뷰행렬 곱에 의해 생성된 본래의 z값을 이용하여 모든 원소를 나누어
-	// 비율을 계산한다.
-	// 원근투영행렬에서 본래의 z값을 w에 저장하고있으므로 x,y,z를 w값으로 나누어 -1 ~ 1사이의 비율을 계산한다.
-	_Pos.x /= _Pos.w;
-	_Pos.y /= _Pos.w;
-	_Pos.z /= _Pos.w;
-	_Pos.w = 1.f;
-
-	// 2차원 평면의 크기로 전환(화면상의 크기로)
-	_Pos *= ViewPort_;
+	// 뷰포트의 치수를 정의 한다.
+	ViewPort.Height = _Height;					// 세로길이
+	ViewPort.Width = _Width;						// 가로길이
+	ViewPort.TopLeftX = _TopLeftX;			// LeftTop X값(가로시작위치)
+	ViewPort.TopLeftY = _TopLeftY;			// LeftTop Y값(세로시작위치)
+	ViewPort.MinDepth = _MinDepth;		// Min Z(최소깊이)
+	ViewPort.MaxDepth = _MaxDepth;		// Max Z(최대깊이)
 }
 
+void GameEngineRasterizer::Create(const D3D11_RASTERIZER_DESC& _Value)
+{
+	// D3D11_RASTERIZER_DESC : Rasterizer의 상태를 정의하는 구조체
+	if (S_OK != GameEngineDevice::GetDevice()->CreateRasterizerState(&_Value, &State))
+	{
+		GameEngineDebug::MsgBoxError("Create Rasterizer Error.");
+		return;
+	}
+}
+
+void GameEngineRasterizer::SettingViewPort()
+{
+	// 랜더링파이프라인에 뷰포트를 집어넣는다.
+	GameEngineDevice::GetContext()->RSSetViewports(0, &ViewPort);
+}
+
+void GameEngineRasterizer::Setting()
+{
+
+
+
+
+}

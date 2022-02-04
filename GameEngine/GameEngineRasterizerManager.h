@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectNameBase.h>
+#include <GameEngine/GameEngineDevice.h>
 
 class GameEngineRasterizer;
 class GameEngineRasterizerManager : public GameEngineObjectNameBase
@@ -38,7 +39,7 @@ private:		//delete operator
 	GameEngineRasterizerManager& operator=(const GameEngineRasterizerManager&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	GameEngineRasterizer* Create(const std::string& _Name);
+	GameEngineRasterizer* Create(const std::string& _Name, const D3D11_RASTERIZER_DESC& _RasterizerDesc);
 	GameEngineRasterizer* Load(const std::string& _Path);
 	GameEngineRasterizer* Load(const std::string& _Name, const std::string& _Path);
 	GameEngineRasterizer* Find(const std::string& _Name);

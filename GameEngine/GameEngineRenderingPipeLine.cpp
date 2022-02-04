@@ -14,11 +14,12 @@
 
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() :
 	VertexBuffer_(nullptr),
+	InputLayOutVertexShader_(nullptr),
 	VertexShader_(nullptr),
 	IndexBuffer_(nullptr),
+	Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST),
 	Rasterizer_(nullptr)
 {
-
 }
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
@@ -28,11 +29,12 @@ GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
 
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine(GameEngineRenderingPipeLine&& _other) noexcept :
 	VertexBuffer_(_other.VertexBuffer_),
+	InputLayOutVertexShader_(_other.InputLayOutVertexShader_),
 	VertexShader_(_other.VertexShader_),
 	IndexBuffer_(_other.IndexBuffer_),
+	Topology_(_other.Topology_),
 	Rasterizer_(_other.Rasterizer_)
 {
-
 }
 
 void GameEngineRenderingPipeLine::SetMesh()
@@ -123,10 +125,13 @@ void GameEngineRenderingPipeLine::VertexShader()
 
 void GameEngineRenderingPipeLine::InputAssembler2()
 {
+	IndexBuffer_->Setting();
+	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology_);
 }
 
 void GameEngineRenderingPipeLine::Rasteriazer()
 {
+	Rasterizer_->Setting();
 }
 
 void GameEngineRenderingPipeLine::Rendering()

@@ -32,8 +32,8 @@ GameEngineVertexBuffer::GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) 
 
 void GameEngineVertexBuffer::Create(const void* _Data, size_t _Size, size_t _Count, D3D11_USAGE _Usage)
 {
-	// Vertex Buffer 설정시 Size를 넘겨주므로 Size를 저장하고있는다.
-	//Size_ = _Size;
+	// Vertex Buffer 셋팅시 버퍼의 크기(Size_)를 넘겨주므로 Size_를 저장
+	Size_ = static_cast<UINT>(_Size);
 
 	// 그래픽카드는 그냥 N바이트 자기 메모리에 할당하려고 하기때문에 버퍼에 대한 정보를 전달해야한다.
 	ResData_.pSysMem = _Data;

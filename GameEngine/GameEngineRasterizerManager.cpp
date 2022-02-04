@@ -27,7 +27,7 @@ GameEngineRasterizerManager::GameEngineRasterizerManager(GameEngineRasterizerMan
 
 }
 
-GameEngineRasterizer* GameEngineRasterizerManager::Create(const std::string& _Name)
+GameEngineRasterizer* GameEngineRasterizerManager::Create(const std::string& _Name, const D3D11_RASTERIZER_DESC& _RasterizerDesc)
 {
 	GameEngineRasterizer* FindRes = Find(_Name);
 
@@ -38,6 +38,7 @@ GameEngineRasterizer* GameEngineRasterizerManager::Create(const std::string& _Na
 
 	GameEngineRasterizer* NewRes = new GameEngineRasterizer();
 	NewRes->SetName(_Name);
+	NewRes->Create(_RasterizerDesc);
 
 	ResourcesMap.insert(std::map<std::string, GameEngineRasterizer*>::value_type(_Name, NewRes));
 

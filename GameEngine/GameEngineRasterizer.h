@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectNameBase.h>
+#include <GameEngine/GameEngineDevice.h>
 
 // 분류 : 
 // 용도 : 
@@ -7,7 +8,8 @@
 class GameEngineRasterizer : public GameEngineObjectNameBase
 {
 private:	// member Var
-	float4x4 ViewPort_;
+	ID3D11RasterizerState*	State;					// Rasterizer 상태
+	D3D11_VIEWPORT			ViewPort;			// Viewport의 치수를 정의
 
 public:
 	GameEngineRasterizer(); // default constructer 디폴트 생성자
@@ -22,12 +24,15 @@ private:		//delete operator
 	GameEngineRasterizer& operator=(const GameEngineRasterizer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	void RasterizerUpdate(float4& _Pos);
+	void SetViewPort(float _Width, float _Height, float _TopLeftX, float _TopLeftY, float _MinDepth, float _MaxDepth);
 
 public:
-	void SetViewPort(float _ScreenX, float _ScreenY, float _StartX, float _StartY, float _MinZ, float _MaxZ)
-	{
-		ViewPort_.ViewPortCenter(_ScreenX, _ScreenY, _StartX, _StartY, _MinZ, _MaxZ);
-	}
+	void Create(const D3D11_RASTERIZER_DESC& _Value);
+
+public:
+	void SettingViewPort();
+
+public:
+	void Setting();
 };
 
