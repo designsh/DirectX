@@ -1,5 +1,5 @@
 #pragma once
-#include <GameEngineBase/GameEngineObjectNameBase.h>
+#include "GameEngineShader.h"
 #include "GameEngineDevice.h"
 
 // 분류 : 정점(Vertex) 셰이더 & 입력레이아웃(InputLayout)
@@ -10,17 +10,11 @@
 //            GPU가 알수있도록 하며, GPU는 정점을 제어하여 공간변환을 일으킨다.
 //            또한 CPU에서 관리중인 데이터의 타입과 포맷, 바이트위치 등을 알려주기위하여 내부적으로
 //            InputLayout 생성 및 관리 기능을 포함한다.
-class GameEngineVertexShader : public GameEngineObjectNameBase
+class GameEngineVertexShader : public GameEngineShader
 {
 //======================================== Vertex Shader 관련 ========================================//
 private:
-	ID3D11VertexShader*												VertexShader_;					// VertexShader Pointer
-	UINT																				VersionHigh_;						// HLSL Version Hight
-	UINT																				VersionLow_;						// HLSL Version Low
-	ID3DBlob*																	CodeBlob_;							// 바이트코드(바이너리)버퍼로 셰이더 생성 시 결과값
-	std::string																		Version_;								// vs_VersionHigh_VersionLow_ -> vs_5_0 으로 편집한 버전
-	std::string																		EntryPoint_;							// 셰이더 진입함수명
-	std::string																		Code_;									// 셰이더 코드
+	ID3D11VertexShader*												Shader_;								// VertexShader Pointer
 
 //========================================= InputLayout 관련 =========================================//
 private:
@@ -43,17 +37,8 @@ private:		//delete operator
 	GameEngineVertexShader& operator=(const GameEngineVertexShader&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 //======================================== Vertex Shader 관련 기능함수 ========================================//
-private: // Create HLSL Version String
-	// 수신받은 VersionHigh_와 VersionLow_를 이용하여 VertexShader 생성시 전달할 최종적인 Version 문자열을 생성(내부함수)
-	void CreateVersion();
-
 public: // Create Vertex Shader
 	bool Create(const std::string& _ShaderCode, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
-
-public: // Setting Vertex Shader
-	void SetVersion(UINT _VersionHigh, UINT _VersionLow);
-	void SetEntryPoint(const std::string& _EntryPoint);
-	void SetCode(const std::string& _Code);
 
 public: // Compile Vertex Shader
 	bool Compile();

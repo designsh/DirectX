@@ -138,7 +138,7 @@ void GameEngineDevice::CreateSwapChain()
 	ScInfo.BufferCount = 2;
 
 	// 스왑 방법
-	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
+	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
 	// 윈도우 창모드 -> 전체화면 전환시 알아서 처리
 	ScInfo.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;

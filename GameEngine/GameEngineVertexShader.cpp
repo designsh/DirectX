@@ -2,13 +2,7 @@
 #include "GameEngineVertexShader.h"
 
 GameEngineVertexShader::GameEngineVertexShader() :
-	VertexShader_(nullptr),
-	VersionHigh_(5),
-	VersionLow_(0),
-	CodeBlob_(nullptr),
-	Version_{},
-	EntryPoint_{},
-	Code_{},
+	Shader_(nullptr),
 	LayOut_(nullptr),
 	LayOutOffset_(0)
 {
@@ -24,10 +18,10 @@ GameEngineVertexShader::~GameEngineVertexShader()
 	}
 
 	// Vertex Shader Release
-	if (nullptr != VertexShader_)
+	if (nullptr != Shader_)
 	{
-		VertexShader_->Release();
-		VertexShader_ = nullptr;
+		Shader_->Release();
+		Shader_ = nullptr;
 	}
 
 	// Vertex Shader BinaryCode Buffer Release
@@ -39,15 +33,6 @@ GameEngineVertexShader::~GameEngineVertexShader()
 }
 
 //======================================== Vertex Shader 관련 기능함수 ========================================//
-void GameEngineVertexShader::CreateVersion()
-{
-	Version_ = "";
-	Version_ += "vs_";
-	Version_ += std::to_string(VersionHigh_);
-	Version_ += "_";
-	Version_ += std::to_string(VersionLow_);
-}
-
 bool GameEngineVertexShader::Create(const std::string& _ShaderCode, const std::string& _EntryPoint, UINT _VersionHigh, UINT _VersionLow)
 {
 	// HLSL Version Setting
@@ -60,26 +45,10 @@ bool GameEngineVertexShader::Create(const std::string& _ShaderCode, const std::s
 	SetCode(_ShaderCode);
 
 	// Create Shader Compile HLSL Version String
-	CreateVersion();
+	CreateVersion("vs");
 
 	// 생성과 동시에 설정된 정보를 이용하여 컴파일
 	return Compile();
-}
-
-void GameEngineVertexShader::SetVersion(UINT _VersionHigh, UINT _VersionLow)
-{
-	VersionHigh_ = _VersionHigh;
-	VersionLow_ = _VersionLow;
-}
-
-void GameEngineVertexShader::SetEntryPoint(const std::string& _EntryPoint)
-{
-	EntryPoint_ = _EntryPoint;
-}
-
-void GameEngineVertexShader::SetCode(const std::string& _Code)
-{
-	Code_ = _Code;
 }
 
 bool GameEngineVertexShader::Compile()
@@ -106,7 +75,7 @@ bool GameEngineVertexShader::Compile()
 	CodeBlob_ = ResultBlob;
 
 	// 컴파일 성공시 해당 Vertex Shader 생성
-	if (S_OK != GameEngineDevice::GetDevice()->CreateVertexShader(CodeBlob_->GetBufferPointer(), CodeBlob_->GetBufferSize(), nullptr, &VertexShader_))
+	if (S_OK != GameEngineDevice::GetDevice()->CreateVertexShader(CodeBlob_->GetBufferPointer(), CodeBlob_->GetBufferSize(), nullptr, &Shader_))
 	{
 		GameEngineDebug::MsgBox("Create Vertex Shader Error.");
 		return false;
@@ -119,7 +88,7 @@ bool GameEngineVertexShader::Compile()
 
 void GameEngineVertexShader::Setting()
 {
-	GameEngineDevice::GetInst().GetContext()->VSSetShader(VertexShader_, nullptr, 0);
+	GameEngineDevice::GetInst().GetContext()->VSSetShader(Shader_, nullptr, 0);
 }
 
 //========================================= InputLayout 관련 기능함수 =========================================//
@@ -168,40 +137,11 @@ void GameEngineVertexShader::LayOutCheck()
 
 		// D3D_REGISTER_COMPONENT_TYPE : Input Parameter의 타입(실수,정수), 부호(부호가있는, 부호가없는)를 얻어온다.
 		// DXGI_FORMAT::DXGI_FORMAT_UNKNOWN : 알수없음
-		// DXGI_FORMAT::DXGI_FORMAT_R32_UINT : unsigned int
-		// DXGI_FORMAT::DXGI_FORMAT_R32_SINT : (signed) int
-		// DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT : float
+		// DXGI_FORMAT::DXGI_FORMAT_R32 : 4바이트 1
+		// DXGI_FORMAT::DXGI_FORMAT_R32G32 : 4바이트 2
+		// DXGI_FORMAT::DXGI_FORMAT_R32G32B32 : 4바이트 3
+		// DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32 : 4바이트 4
 		D3D_REGISTER_COMPONENT_TYPE Reg = Input.ComponentType;
-		switch (Reg)
-		{
-			case D3D_REGISTER_COMPONENT_UNKNOWN:
-			{
-				Format = DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
-				break;
-			}
-			case D3D_REGISTER_COMPONENT_UINT32:
-			{
-				Format = DXGI_FORMAT::DXGI_FORMAT_R32_UINT;
-				break;
-			}
-			case D3D_REGISTER_COMPONENT_SINT32:
-			{
-				Format = DXGI_FORMAT::DXGI_FORMAT_R32_SINT;
-				break;
-			}
-			case D3D_REGISTER_COMPONENT_FLOAT32:
-			{
-				Format = DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT;
-				break;
-			}
-		}
-
-		// 만약 셰이더 입력인자 정보의 데이터 포맷이 '알수없음'이면 에러
-		if (DXGI_FORMAT::DXGI_FORMAT_UNKNOWN == Format)
-		{
-			GameEngineDebug::MsgBox("쉐이더 인풋 파라미터 타입이 정상적이지 않습니다.");
-			return;
-		}
 
 		// Input.Mask : D3D_REGISTER_COMPONENT_TYPE에서 알아낸 타입이 몇바이트 인지 알아내기 위해 사용
 		// GPU는 데이터관리를 기본적으로 4바이트를 기준으로 한다.
@@ -214,23 +154,122 @@ void GameEngineVertexShader::LayOutCheck()
 			case 1: // 4바이트 1개
 			{
 				ParameterSize = 4;
+				switch (Reg)
+				{
+					case D3D_REGISTER_COMPONENT_UNKNOWN:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_UINT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32_UINT;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_SINT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32_SINT;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_FLOAT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT;
+						break;
+					}
+				}
 				break;
 			}
 			case 3: // 4바이트 2개
 			{
 				ParameterSize = 8;
+				switch (Reg)
+				{
+					case D3D_REGISTER_COMPONENT_UNKNOWN:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_UINT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32_UINT;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_SINT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32_SINT;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_FLOAT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT;
+						break;
+					}
+				}
 				break;
 			}
 			case 7: // 4바이트 3개
 			{
 				ParameterSize = 12;
+				switch (Reg)
+				{
+					case D3D_REGISTER_COMPONENT_UNKNOWN:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_UINT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32_UINT;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_SINT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32_SINT;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_FLOAT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT;
+						break;
+					}
+				}
 				break;
 			}
 			case 15: // 4바이트 4개
 			{
 				ParameterSize = 16;
+				switch (Reg)
+				{
+					case D3D_REGISTER_COMPONENT_UNKNOWN:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_UINT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_UINT;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_SINT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_SINT;
+						break;
+					}
+					case D3D_REGISTER_COMPONENT_FLOAT32:
+					{
+						Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
+						break;
+					}
+				}
 				break;
 			}
+		}
+
+		// 만약 셰이더 입력인자 정보의 데이터 포맷이 '알수없음'이면 에러
+		if (DXGI_FORMAT::DXGI_FORMAT_UNKNOWN == Format)
+		{
+			GameEngineDebug::MsgBox("쉐이더 인풋 파라미터 타입이 정상적이지 않습니다.");
+			return;
 		}
 
 		// SemanticIndex의 사용자오류를 제거하기 위한 조건

@@ -8,8 +8,12 @@
 class GameEngineRasterizer : public GameEngineObjectNameBase
 {
 private:	// member Var
-	ID3D11RasterizerState*	State;					// Rasterizer 상태
-	D3D11_VIEWPORT			ViewPort;			// Viewport의 치수를 정의
+	ID3D11RasterizerState*	State_;					// Rasterizer 상태
+	D3D11_VIEWPORT			ViewPort_;			// Viewport의 치수를 정의
+	D3D11_RECT						Scissor_;				// 가위-사각형 치수를 정의
+
+private:
+	bool										SicssorFlag_;		// 가위-사각형 지정 사용 Flag
 
 public:
 	GameEngineRasterizer(); // default constructer 디폴트 생성자
@@ -25,12 +29,16 @@ private:		//delete operator
 
 public:
 	void SetViewPort(float _Width, float _Height, float _TopLeftX, float _TopLeftY, float _MinDepth, float _MaxDepth);
+	void SetScissor(LONG _Left, LONG _Top, LONG _Right, LONG _Bottom);
 
 public:
 	void Create(const D3D11_RASTERIZER_DESC& _Value);
 
 public:
 	void SettingViewPort();
+
+public:
+	void SettingScissor();
 
 public:
 	void Setting();

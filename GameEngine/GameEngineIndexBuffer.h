@@ -8,23 +8,27 @@
 class GameEngineIndexBuffer : public GameEngineObjectNameBase
 {
 public:	// member Var
-	ID3D11Buffer* Buffer_;
-	D3D11_BUFFER_DESC BufferData_;
-	D3D11_SUBRESOURCE_DATA ResData_;
-	DXGI_FORMAT Format_;
-	UINT Offset_;
+	ID3D11Buffer*									Buffer_;					// 
+	D3D11_BUFFER_DESC						BufferData_;		// 
+	D3D11_SUBRESOURCE_DATA		ResData_;				// 
+	DXGI_FORMAT									Format_;				// 
+	UINT														Offset_;					// 
+	int															IndexCount_;		// 
 
 public:
-	GameEngineIndexBuffer(); // default constructer 디폴트 생성자
-	~GameEngineIndexBuffer(); // default destructer 디폴트 소멸자
+	GameEngineIndexBuffer();
+	~GameEngineIndexBuffer();
 
 protected:		// delete constructer
-	GameEngineIndexBuffer(const GameEngineIndexBuffer& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	GameEngineIndexBuffer(GameEngineIndexBuffer&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	GameEngineIndexBuffer(const GameEngineIndexBuffer& _other) = delete;
+	GameEngineIndexBuffer(GameEngineIndexBuffer&& _other) noexcept = delete;
 
 private:		//delete operator
-	GameEngineIndexBuffer& operator=(const GameEngineIndexBuffer& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	GameEngineIndexBuffer& operator=(const GameEngineIndexBuffer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+	GameEngineIndexBuffer& operator=(const GameEngineIndexBuffer& _other) = delete;
+	GameEngineIndexBuffer& operator=(const GameEngineIndexBuffer&& _other) = delete;
+
+public:
+	int GetIndexCount() const;
 
 public:
 	void Create(const std::vector<UINT>& _Datas, D3D11_USAGE _Usage);

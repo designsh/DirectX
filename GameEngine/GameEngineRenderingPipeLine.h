@@ -9,26 +9,36 @@ class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
 class GameEngineRasterizer;
+class GameEnginePixelShader;
+class GameEngineRenderTarget;
 class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
 // ======================================= InputAssembler 1 ======================================= //
 private:
-	GameEngineVertexBuffer*			VertexBuffer_;												// Vertex Buffer
+	GameEngineVertexBuffer*			VertexBuffer_;												// Vertex Buffer(IA1)
 	GameEngineVertexShader*		InputLayOutVertexShader_;					// Vertex Shader InputLayout
 
 // ======================================== Vertex Shader ========================================= //
 private:
-	GameEngineVertexShader*		VertexShader_;											// Vertex Shader
+	GameEngineVertexShader*		VertexShader_;											// Vertex Shader(VS)
 
 // ======================================= InputAssembler 2 ======================================= //
 private:
-	GameEngineIndexBuffer*			IndexBuffer_;												// Index Buffer
+	GameEngineIndexBuffer*			IndexBuffer_;												// Index Buffer(IA2)
 	D3D11_PRIMITIVE_TOPOLOGY	Topology_;													// Topology(면생성 방법 : 점, 선, 삼각형, 다각형)
 
 // ========================================== Rasterizer ========================================== //
 private:
-	GameEngineRasterizer*				Rasterizer_;													// Rasterizer
+	GameEngineRasterizer*				Rasterizer_;													// Rasterizer(RS)
 
+// ========================================= Pixel Shader ========================================= //
+private:
+	GameEnginePixelShader*			PixelShader_;												// Pixel Shader(PS)
+
+// ======================================== Ouput Merger ======================================== //
+private:
+	GameEngineRenderTarget*		RenderTarget_;											// Render Target(OM)
+	
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
 	~GameEngineRenderingPipeLine(); // default destructer 디폴트 소멸자
@@ -41,11 +51,7 @@ private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-public:
-	void SetMesh();
-	void SetMaterial();
-
-// ====================================== Rendering PipeLine 가동 준비단계 ====================================== //
+// ======================================== Rendering PipeLine 준비단계 ======================================== //
 public: // Assembler1 Setting
 	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
 	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
@@ -60,13 +66,24 @@ public: // Assembler2 Setting
 public: // Rasterizer Setting
 	void SetRasterizer(const std::string& _Name);
 
-// ======================================== Rendering PipeLine 가동 단계 ======================================== //
-public:
+public: // Pixel Shader Setting
+	void SetPixelShader(const std::string& _Name);
+
+public: // Output Merger Setting
+	void SetOutputMerger(const std::string& _Name);
+
+// ======================================= Rendering PipeLine 가동 준비단계 ======================================= //
+public: // RenderingPipeLine Setting
 	void InputAssembler1();
 	void VertexShader();
 	void InputAssembler2();
 	void Rasteriazer();
+	void PixelShader();
 
+public: // RenderingPipeLine Setting
+	void RenderingPipeLineSetting();
+
+// ========================================= Rendering PipeLine 가동단계 ========================================= //
 public:
 	void Rendering();
 };

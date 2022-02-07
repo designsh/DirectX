@@ -9,23 +9,24 @@
 class GameEngineVertexBuffer : public GameEngineObjectNameBase
 {
 private:	// member Var
-	ID3D11Buffer* Buffer_;
-	UINT Size_;
-	UINT Offset_;
-	D3D11_BUFFER_DESC BufferData_;				// 버퍼의 데이터
-	D3D11_SUBRESOURCE_DATA ResData_;	// 초기값등의 데이터(원본버퍼)
+	ID3D11Buffer*								Buffer_;				// 
+	UINT													Size_;					// 바이트 크기
+	UINT													Count_;				// 정점버퍼 수
+	UINT													Offset_;				// 바이트 시작점
+	D3D11_BUFFER_DESC					BufferData_;	// 버퍼의 데이터
+	D3D11_SUBRESOURCE_DATA	ResData_;			// 초기값등의 데이터(원본버퍼)
 
 public:
-	GameEngineVertexBuffer(); // default constructer 디폴트 생성자
-	~GameEngineVertexBuffer(); // default destructer 디폴트 소멸자
+	GameEngineVertexBuffer();
+	~GameEngineVertexBuffer();
 
 protected:		// delete constructer
-	GameEngineVertexBuffer(const GameEngineVertexBuffer& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	GameEngineVertexBuffer(const GameEngineVertexBuffer& _other) = delete;
+	GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) noexcept = delete;
 
 private:		//delete operator
-	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer& _other) = delete;
+	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer&& _other) = delete;
 
 public:
 	template<typename VertexType>

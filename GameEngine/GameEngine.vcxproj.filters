@@ -79,6 +79,9 @@
     <Filter Include="Resources\01Shader\HLSL%28ShaderCode%29">
       <UniqueIdentifier>{7a8a9242-45ce-44fd-9fdf-8a7331da2624}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\01Shader\Pixel">
+      <UniqueIdentifier>{4930eed0-0c31-4fc6-9638-9cdb83d3017d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -137,6 +140,15 @@
     </ClCompile>
     <ClCompile Include="GameEngineIndexBufferManager.cpp">
       <Filter>Resources\99Manager\Buffer\Index</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineShader.cpp">
+      <Filter>Resources\01Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePixelShader.cpp">
+      <Filter>Resources\01Shader\Pixel</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePixelShaderManager.cpp">
+      <Filter>Resources\99Manager\Shader\Pixel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +211,15 @@
     </ClInclude>
     <ClInclude Include="GameEngineIndexBufferManager.h">
       <Filter>Resources\99Manager\Buffer\Index</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineShader.h">
+      <Filter>Resources\01Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePixelShader.h">
+      <Filter>Resources\01Shader\Pixel</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePixelShaderManager.h">
+      <Filter>Resources\99Manager\Shader\Pixel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

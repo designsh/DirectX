@@ -6,7 +6,8 @@ GameEngineIndexBuffer::GameEngineIndexBuffer() :
 	BufferData_(),
 	ResData_(),
 	Format_(DXGI_FORMAT::DXGI_FORMAT_R32_UINT),
-	Offset_(0)
+	Offset_(0),
+	IndexCount_(0)
 {
 	memset(&BufferData_, 0, sizeof(BufferData_));
 	memset(&ResData_, 0, sizeof(ResData_));
@@ -21,14 +22,9 @@ GameEngineIndexBuffer::~GameEngineIndexBuffer()
 	}
 }
 
-GameEngineIndexBuffer::GameEngineIndexBuffer(GameEngineIndexBuffer&& _other) noexcept : 
-	Buffer_(nullptr),
-	BufferData_(),
-	ResData_(),
-	Format_(DXGI_FORMAT::DXGI_FORMAT_R32_UINT),
-	Offset_(0)
+int GameEngineIndexBuffer::GetIndexCount() const
 {
-
+	return IndexCount_;
 }
 
 void GameEngineIndexBuffer::Create(const std::vector<UINT>& _Datas, D3D11_USAGE _Usage)
@@ -38,6 +34,9 @@ void GameEngineIndexBuffer::Create(const std::vector<UINT>& _Datas, D3D11_USAGE 
 
 void GameEngineIndexBuffer::Create(const void* _Data, size_t _Size, size_t _Count, D3D11_USAGE _Usage)
 {
+	// Member Value Save
+	IndexCount_ = static_cast<UINT>(_Count);
+
 	// 원래의 인덱스 버퍼 저장
 	ResData_.pSysMem = _Data;
 

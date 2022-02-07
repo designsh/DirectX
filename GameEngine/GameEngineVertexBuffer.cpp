@@ -4,6 +4,7 @@
 GameEngineVertexBuffer::GameEngineVertexBuffer() : 
 	Buffer_(nullptr), 
 	Size_(0), 
+	Count_(0),
 	Offset_(0), 
 	BufferData_(), 
 	ResData_()
@@ -21,19 +22,11 @@ GameEngineVertexBuffer::~GameEngineVertexBuffer() // default destructer 디폴트 �
 	}
 }
 
-GameEngineVertexBuffer::GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) noexcept : 
-	Buffer_(_other.Buffer_), 
-	Size_(_other.Size_),
-	Offset_(_other.Offset_), 
-	BufferData_(_other.BufferData_), 
-	ResData_(_other.ResData_)
-{
-}
-
 void GameEngineVertexBuffer::Create(const void* _Data, size_t _Size, size_t _Count, D3D11_USAGE _Usage)
 {
-	// Vertex Buffer 셋팅시 버퍼의 크기(Size_)를 넘겨주므로 Size_를 저장
+	// MemberValue Save
 	Size_ = static_cast<UINT>(_Size);
+	Count_ = static_cast<UINT>(_Count);
 
 	// 그래픽카드는 그냥 N바이트 자기 메모리에 할당하려고 하기때문에 버퍼에 대한 정보를 전달해야한다.
 	ResData_.pSysMem = _Data;
