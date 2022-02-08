@@ -53,6 +53,19 @@ GameEngineFile::GameEngineFile(GameEngineFile&& _other) noexcept :
 {
 }
 
+uintmax_t GameEngineFile::GetFileSize()
+{
+	return std::filesystem::file_size(path_);
+}
+
+std::string GameEngineFile::GetString()
+{
+	std::string AllString = std::string();
+	AllString.resize(GetFileSize());
+	Read(&AllString[0], AllString.size(), AllString.size());
+	return AllString;
+}
+
 //member Func
 void GameEngineFile::Open(const std::string& _Mode) 
 {

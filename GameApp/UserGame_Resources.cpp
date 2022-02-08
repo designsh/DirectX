@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "UserGame.h"
 #include "CustomVertex.h"
+#include "UserGame_Resources_Shader.h"
 
 void UserGame::ResourcesLoad()
 {
@@ -20,81 +21,28 @@ void UserGame::ResourcesLoad()
 		GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
 	}
 
+	// 셰이더 리소스 파일을 모두 읽어들여 셰이더를 생성
+	AppShaderLoad();
+
+	// ======================================================= Rectagle Rendering ======================================================= // 
 	// Vertex Buffer 생성
-	std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4 * 6);
-	RectVertex[0] = { float4({ -0.5f, 0.5f, 0.5f }) };
-	RectVertex[1] = { float4({ 0.5f, 0.5f, 0.5f }) };
-	RectVertex[2] = { float4({ 0.5f, -0.5f, 0.5f }) };
-	RectVertex[3] = { float4({ -0.5f, -0.5f, 0.5f }) };
-
-	// 앞면을 x축기준 180도 회전시켜 뒷면을 생성
-	RectVertex[4] = { float4::RotateXDegree(RectVertex[0].Postion, 180.0f) };
-	RectVertex[5] = { float4::RotateXDegree(RectVertex[1].Postion, 180.0f) };
-	RectVertex[6] = { float4::RotateXDegree(RectVertex[2].Postion, 180.0f) };
-	RectVertex[7] = { float4::RotateXDegree(RectVertex[3].Postion, 180.0f) };
-
-	// 앞면을 y축기준 90도 회전시켜 왼쪽면 생성
-	RectVertex[8] = { float4::RotateYDegree(RectVertex[0].Postion, 90.0f) };
-	RectVertex[9] = { float4::RotateYDegree(RectVertex[1].Postion, 90.0f) };
-	RectVertex[10] = { float4::RotateYDegree(RectVertex[2].Postion, 90.0f) };
-	RectVertex[11] = { float4::RotateYDegree(RectVertex[3].Postion, 90.0f) };
-
-	// 앞면을 y축기준 -90도 회전시켜 오른쪽면 생성
-	RectVertex[12] = { float4::RotateYDegree(RectVertex[0].Postion, -90.0f) };
-	RectVertex[13] = { float4::RotateYDegree(RectVertex[1].Postion, -90.0f) };
-	RectVertex[14] = { float4::RotateYDegree(RectVertex[2].Postion, -90.0f) };
-	RectVertex[15] = { float4::RotateYDegree(RectVertex[3].Postion, -90.0f) };
-
-	// 앞면을 x축기준 90도 회전시켜 윗면 생성
-	RectVertex[16] = { float4::RotateXDegree(RectVertex[0].Postion, 90.0f) };
-	RectVertex[17] = { float4::RotateXDegree(RectVertex[1].Postion, 90.0f) };
-	RectVertex[18] = { float4::RotateXDegree(RectVertex[2].Postion, 90.0f) };
-	RectVertex[19] = { float4::RotateXDegree(RectVertex[3].Postion, 90.0f) };
-
-	// 앞면을 x축기준 -90도 회전시켜 아랫면 생성
-	RectVertex[20] = { float4::RotateXDegree(RectVertex[0].Postion, -90.0f) };
-	RectVertex[21] = { float4::RotateXDegree(RectVertex[1].Postion, -90.0f) };
-	RectVertex[22] = { float4::RotateXDegree(RectVertex[2].Postion, -90.0f) };
-	RectVertex[23] = { float4::RotateXDegree(RectVertex[3].Postion, -90.0f) };
-
+	std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
+	RectVertex[0] = { float4({ -0.5f, 0.5f, 0.f }) };
+	RectVertex[1] = { float4({ 0.5f, 0.5f, 0.f }) };
+	RectVertex[2] = { float4({ 0.5f, -0.5f, 0.f }) };
+	RectVertex[3] = { float4({ -0.5f, -0.5f, 0.f }) };
 	GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	// 인덱스 버퍼 생성
 	// 각 정점을 연결시켜 정육면체를 생성하기 위하여 인덱스 버퍼 생성
 	std::vector<UINT> RectIndex;
-	for (int i = 0; i < 6; i++)
-	{
-		RectIndex.push_back(i * 4 + 0);
-		RectIndex.push_back(i * 4 + 1);
-		RectIndex.push_back(i * 4 + 2);
-
-		RectIndex.push_back(i * 4 + 0);
-		RectIndex.push_back(i * 4 + 2);
-		RectIndex.push_back(i * 4 + 3);
-	}
-
+	RectIndex.push_back(0);
+	RectIndex.push_back(1);
+	RectIndex.push_back(2);
+	RectIndex.push_back(0);
+	RectIndex.push_back(2);
+	RectIndex.push_back(3);
 	GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-
-	// Vertex Shader 생성 및 셋팅 
-	// Input Layout 생성 및 셋팅
-	std::string VertexShaderCode =
-		"\
-			float4 StartVertexShader( float4 pos : POSITION ) : SV_POSITION\n \
-			{\n \
-				return pos;\n\
-			}\n\
-			";
-	GameEngineVertexShader* VertexShader = GameEngineVertexShaderManager::GetInst().Create("StartVertexShader", VertexShaderCode);
-
-	// Pixel Shader 생성 및 셋팅
-	std::string PixelShaderCode =
-		"\
-			float4 StartPixelShader( float4 pos : SV_POSITION ) : SV_Target\n \
-			{\n \
-				return float4(1.0f, 0.0f, 0.0f, 1.0f);\n\
-			}\n\
-			";
-	GameEnginePixelShader* PixelShader = GameEnginePixelShaderManager::GetInst().Create("StartPixelShader", PixelShaderCode);
 
 	// Rasterizer의 상태 정보 생성 및 ViewPort 생성
 	D3D11_RASTERIZER_DESC Info = {};
@@ -122,7 +70,7 @@ void UserGame::ResourcesLoad()
 																																//  (                     단, 픽셀을 4개의 픽셀을 한개의 픽셀로 가정하고 평균색상을 구한다.                                                                        )
 																																// TRUE : 안티앨리어싱(Antialiasing) 알고리즘 사용
 																																// FALSE : 안티앨리어싱(Antialiasing) 알고리즘 사용안함
-																																
+
 	// 깊이 관련 Rasterizer 상태 정보
 	// Depth Bias(깊이바이어스) : 3D 공간에서 동일 평면(깊이)에 있는 다각형은 각각의 z-편향을 추가하여 동일 평면이아닌것을 판단할수 있다.
 	//	일반적으로 장면의 그림자를 표현하기 위한 기술로 사용된다.
@@ -137,16 +85,16 @@ void UserGame::ResourcesLoad()
 	Rasterizer->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Rendering PipeList 생성
-	GameEngineRenderingPipeLine* RederingPipeLine = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
+	GameEngineRenderingPipeLine* RederingPipeLine = GameEngineRenderingPipeLineManager::GetInst().Create("RectRendering");
 
 	// Rendering PipeLine : InputAssembler1
 	// VertexBuffer, InputLayout Setting
 	RederingPipeLine->SetInputAssembler1VertexBufferSetting("Rect");
-	RederingPipeLine->SetInputAssembler1InputLayOutSetting("StartVertexShader");
+	RederingPipeLine->SetInputAssembler1InputLayOutSetting("Color_VS");
 
 	// Rendering PipeLine : Vertex Shader
 	// Vertex Shader Setting
-	RederingPipeLine->SetVertexShader("StartVertexShader");
+	RederingPipeLine->SetVertexShader("Color_VS");
 
 	// Rendering PipeLine : InputAssembler2
 	// Index Buffer & 면생성방법(점, 선, 삼각형, 다각형) Setting
@@ -160,5 +108,5 @@ void UserGame::ResourcesLoad()
 	RederingPipeLine->SetRasterizer("EngineBaseRasterizer");
 
 	// Rendering PipeLine : Pixel Shader
-	RederingPipeLine->SetPixelShader("StartPixelShader");
+	RederingPipeLine->SetPixelShader("Color_PS");
 }

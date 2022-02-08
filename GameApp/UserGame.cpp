@@ -30,8 +30,11 @@ void UserGame::GameLoop()
 {
 	GameEngineDevice::RenderStart();
 
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
-	Pipe->Rendering();
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("RectRendering");
+	if (nullptr != Pipe)
+	{
+		Pipe->Rendering();
+	}
 
 	GameEngineDevice::RenderEnd();
 }

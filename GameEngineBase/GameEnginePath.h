@@ -27,5 +27,9 @@ public:		//delete operator
 public:		//member Func
 	bool IsExist();	// 유효한 경로인가 아닌가를 판단하는 함수.
 	std::string GetFullPath();
+
+public:
+	std::string GetFileName();
+	std::string GetFileNameWithOutExtension();
 };
 

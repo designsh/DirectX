@@ -48,3 +48,14 @@ std::string GameEnginePath::GetFullPath()
 {
 	return path_.string();
 }
+
+std::string GameEnginePath::GetFileName()
+{
+	return path_.filename().string();
+}
+
+std::string GameEnginePath::GetFileNameWithOutExtension()
+{
+	// path_.stem() : 확장자를 제외한 파일명을 추출
+	return std::string(path_.stem().string());
+}

@@ -26,6 +26,10 @@ public:		//delete operator
 	GameEngineFile& operator=(const GameEngineFile&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:		//member Func
+	uintmax_t GetFileSize();		// 현재 오픈한 파일의 크기를 가져온다.
+	std::string GetString();			// 현재 오픈한 파일의 데이터(문자열)을 모두 읽어서 가져온다
+
+public:
 	void Open(const std::string& _Mode);
 	void Close();
 

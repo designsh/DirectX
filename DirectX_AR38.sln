@@ -40,6 +40,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameApp", "GameApp\GameApp.
 		{D5154AC6-6FE8-4DE3-8FCD-83245195CD95} = {D5154AC6-6FE8-4DE3-8FCD-83245195CD95}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. ShaderCode", "04. ShaderCode", "{39D5669E-F6EF-4D35-AC9B-CB128861845C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShaderProject", "Resources\Shader\ShaderProject.vcxproj", "{5B3E9C81-200F-4555-920F-999C7ED0EE4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "렌더링파이프라인(참고)", "렌더링파이프라인(참고)", "{FAAB9EE1-708A-4F90-983D-F66966971FB2}"
+	ProjectSection(SolutionItems) = preProject
+		랜파.jpg = 랜파.jpg
+		렌더링파이프라인_세팅참고(박스).txt = 렌더링파이프라인_세팅참고(박스).txt
+		렌더링파이프라인_세팅참고(사각형).txt = 렌더링파이프라인_세팅참고(사각형).txt
+		렌더링파이프라인_세팅참고(화면전체효과).txt = 렌더링파이프라인_세팅참고(화면전체효과).txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -72,6 +84,10 @@ Global
 		{2A2F66EB-B7FB-4F11-8027-9DE9660CE272}.Release|x64.Build.0 = Release|x64
 		{2A2F66EB-B7FB-4F11-8027-9DE9660CE272}.Release|x86.ActiveCfg = Release|Win32
 		{2A2F66EB-B7FB-4F11-8027-9DE9660CE272}.Release|x86.Build.0 = Release|Win32
+		{5B3E9C81-200F-4555-920F-999C7ED0EE4D}.Debug|x64.ActiveCfg = Debug|x64
+		{5B3E9C81-200F-4555-920F-999C7ED0EE4D}.Debug|x86.ActiveCfg = Debug|Win32
+		{5B3E9C81-200F-4555-920F-999C7ED0EE4D}.Release|x64.ActiveCfg = Release|x64
+		{5B3E9C81-200F-4555-920F-999C7ED0EE4D}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +98,8 @@ Global
 		{D5154AC6-6FE8-4DE3-8FCD-83245195CD95} = {14FAB567-7CB8-4C48-9E64-FEE368DF2D63}
 		{7B40205B-C3AA-40BA-BCEB-8E001A794775} = {B40D1446-11E0-4F1B-98B1-55192CB6199A}
 		{2A2F66EB-B7FB-4F11-8027-9DE9660CE272} = {074E09FF-30A0-4742-96F0-5A94B3B512D7}
+		{5B3E9C81-200F-4555-920F-999C7ED0EE4D} = {39D5669E-F6EF-4D35-AC9B-CB128861845C}
+		{FAAB9EE1-708A-4F90-983D-F66966971FB2} = {D64C11D0-3536-4B77-8DAE-0AF475AD9CC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1846C1B2-ED10-47AF-B442-66A222301435}
