@@ -2,6 +2,12 @@
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 #include "GameEngineDevice.h"
 
+// 상수버퍼 
+class ConstanceBuffer
+{
+
+};
+
 // 분류 : 셰이더
 // 용도 : 
 // 설명 : 각 셰이더가 해당 클래스를 상속받으며, 셰이더의 공통정보 및 기능을 관리
@@ -9,6 +15,9 @@
 //            객체화를 막는다.
 class GameEngineShader : public GameEngineObjectNameBase
 {
+private:
+	std::map<std::string, ConstanceBuffer>				ConstanceBuffer_;				// 상수버퍼 관리 목록
+
 protected:
 	UINT																				VersionHigh_;						// HLSL Version Hight
 	UINT																				VersionLow_;						// HLSL Version Low
@@ -37,5 +46,8 @@ protected: // Setting Vertex Shader
 protected: // Create HLSL Version String
 	// 수신받은 VersionHigh_와 VersionLow_를 이용하여 VertexShader 생성시 전달할 최종적인 Version 문자열을 생성
 	void CreateVersion(const std::string& _ShaderType);
+
+public:
+	void ResCheck();
 };
 

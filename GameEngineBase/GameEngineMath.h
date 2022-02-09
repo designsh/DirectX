@@ -482,6 +482,12 @@ public:
 		return DirectX::XMMatrixMultiply(DirectMatrix, _value.DirectMatrix);
 	}
 
+	float4x4& operator=(const float4x4& _value)
+	{
+		DirectMatrix = _value.DirectMatrix;
+		return *this;
+	}
+
 public:
 	// 크기변환 행렬
 	void Scaling(const float4& _Value)

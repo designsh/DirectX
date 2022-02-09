@@ -26,16 +26,32 @@ void UserGame::Initialize()
 
 }
 
+float4 vPos = { 0.0f, 0.0f , 0.0f };
+float4 vRot = { 0.0f, 0.0f , 0.0f };
+float4 vScale = { 1.0f, 1.0f , 1.0f };
+
 void UserGame::GameLoop()
 {
-	GameEngineDevice::RenderStart();
-
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("RectRendering");
-	if (nullptr != Pipe)
-	{
-		Pipe->Rendering();
-	}
 
+
+
+	// Update
+
+	// World Matrix »ý¼º
+	float4x4 mScale;
+	float4x4 mRot;
+	float4x4 mPos;
+	float4x4 mWorld;
+
+	mScale.Scaling(vScale);
+	mRot.RotationDeg(vRot);
+	mPos.Translation(vPos);
+	mWorld = mScale * mRot * mPos;
+
+	// Rendering
+	GameEngineDevice::RenderStart();
+	Pipe->Rendering();
 	GameEngineDevice::RenderEnd();
 }
 

@@ -50,24 +50,30 @@ GameEnginePixelShader* GameEnginePixelShaderManager::Create(const std::string& _
 	return NewRes;
 }
 
-GameEnginePixelShader* GameEnginePixelShaderManager::Load(const std::string& _Path)
+GameEnginePixelShader* GameEnginePixelShaderManager::Load(const std::string& _Path, const std::string& _EntryPoint, UINT _VersionHigh, UINT _VersionLow)
 {
-	return Load(GameEnginePath::GetFileName(_Path), _Path);
+	std::string FileName = GameEnginePath::GetFileName(_Path);
+	return Load(FileName, _Path, _EntryPoint);
 }
 
-GameEnginePixelShader* GameEnginePixelShaderManager::Load(const std::string& _Name, const std::string& _Path)
+GameEnginePixelShader* GameEnginePixelShaderManager::Load(const std::string& _FileName, const std::string& _Path, const std::string& _EntryPoint, UINT _VersionHigh, UINT _VersionLow)
 {
-	GameEnginePixelShader* FindRes = Find(_Name);
+	GameEnginePixelShader* FindRes = Find(_FileName);
 
 	if (nullptr != FindRes)
 	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
+		GameEngineDebug::MsgBoxError(_FileName + " Is Overlap Create");
 	}
 
 	GameEnginePixelShader* NewRes = new GameEnginePixelShader();
-	NewRes->SetName(_Name);
+	NewRes->SetName(_FileName);
+	if (false == NewRes->Load(_Path, _EntryPoint, _VersionHigh, _VersionLow))
+	{
+		delete NewRes;
+		return nullptr;
+	}
 
-	ResourcesMap.insert(std::map<std::string, GameEnginePixelShader*>::value_type(_Name, NewRes));
+	ResourcesMap.insert(std::map<std::string, GameEnginePixelShader*>::value_type(_FileName, NewRes));
 
 	return NewRes;
 }
