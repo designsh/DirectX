@@ -28,12 +28,20 @@ void AppShaderLoad()
 		std::string AllCode = ShaderFile.GetString();
 		if (std::string::npos != AllCode.find(FileName + "_VS"))
 		{
-			GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Create(FileName + "_VS", AllCode);
+			// 문자열로 셰이더코드를 수신하여 셰이더를 생성
+			//GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Create(FileName + "_VS", AllCode);
+
+			// 파일명+경로를 수신하여 셰이더를 생성
+			GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Load(FileName + "_VS", ShaderFile.GetFullPath(), FileName + "_VS");
 		}
 
 		if (std::string::npos != AllCode.find(FileName + "_PS"))
 		{
-			GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Create(FileName + "_PS", AllCode);
+			// 문자열로 셰이더코드를 수신하여 셰이더를 생성
+			//GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Create(FileName + "_PS", AllCode);
+
+			// 파일명+경로를 수신하여 셰이더를 생성
+			GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Load(FileName + "_PS", ShaderFile.GetFullPath(), FileName + "_PS");
 		}
 	}
 }

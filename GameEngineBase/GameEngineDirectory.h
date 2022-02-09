@@ -27,7 +27,7 @@ public:		//member Func
 	bool MoveChild(const std::string& _DirName);
 
 public:
-	std::string PathToPlusFileName(const std::string& _DirName);
+	std::string PathToPlusFileName(const std::string& _FileName);
 	std::vector<GameEngineFile> GetAllFile(const std::string& _filter = "*", bool _AllDirectory = false);
 };
 

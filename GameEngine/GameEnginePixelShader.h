@@ -24,11 +24,17 @@ private:		//delete operator
 	GameEnginePixelShader& operator=(const GameEnginePixelShader& _other) = delete;
 	GameEnginePixelShader& operator=(const GameEnginePixelShader&& _other) = delete;
 
-public: // Create Pixel Shader
+public: // Create Pixel Shader(D3DCompile() 사용) - 문자열로 수신한 셰이더 코드를 이용하여 셰이더를 생성
 	bool Create(const std::string& _ShaderCode, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
 
-public: // Create Pixel Compile
-	bool Compile();
+public: // Create Pixel Compile(D3DCompile() 사용)
+	bool StringCompile();
+
+public: // Load Pixel Shader(D3DCompileFromFile() 사용) - 파일명을 이용하여 해당 경로의 있는 셰이더 파일을 이용하여 셰이더 생성
+	bool Load(const std::string& _Path, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
+
+public: // Compile Vertex Shader(D3DCompileFromFile() 사용) - 경로 필요
+	bool FileCompile(const std::string& _Path);
 
 public: // Create Pixel Setting
 	void Setting();

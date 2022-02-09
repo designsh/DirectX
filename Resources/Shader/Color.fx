@@ -1,15 +1,11 @@
-
-//float4x4 World;
-//float4x4 View;
-//float4x4 Proj;
+#include "CbufferHeader.fx"
 
 float4 Color_VS(float4 pos : POSITION) : SV_POSITION
 {
-    // pos *= World * View * Proj;
+    //pos = mul(pos, World);
 
     return pos;
 }
-
 
 float4 Color_PS(float4 pos : SV_POSITION) : SV_Target0
 {
