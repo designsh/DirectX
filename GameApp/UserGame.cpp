@@ -32,7 +32,7 @@ float4 vScale = { 1.0f, 1.0f , 1.0f };
 
 void UserGame::GameLoop()
 {
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("RectRendering");
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
 
 
 

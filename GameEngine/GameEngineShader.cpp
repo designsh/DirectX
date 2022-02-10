@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "GameEngineShader.h"
+#include "GameEngineConstantBufferManager.h"
 
 GameEngineShader::GameEngineShader() :
 	VersionHigh_(5),
@@ -81,9 +82,40 @@ void GameEngineShader::ResCheck()
 		{
 			case D3D_SIT_CBUFFER:	// 해당 버퍼가 상수버퍼인 경우
 			{
+				// 해당 상수버퍼를 얻어온다.
+				ID3D11ShaderReflectionConstantBuffer* Buffer = CompilInfo->GetConstantBufferByName(BufferName.c_str());
 
+				// 상수버퍼 내의 데이터 정보를 얻어온다.
+				D3D11_SHADER_BUFFER_DESC BufferDesc;
+				Buffer->GetDesc(&BufferDesc);
+
+				// 상수버퍼를 생성하며, 이미 생성되어 관리중인 버퍼와 같은 이름이 존재한다면 이미 생성되어있는 상수버퍼를 반환하고, 아니라면 새로 생성한 버퍼를 반환한다.
+				GameEngineConstantBuffer* NewBuffer = GameEngineConstantBufferManager::GetInst().CreateAndFind(BufferName, BufferDesc, Buffer);
+
+				// 현재 생성하려는 버퍼와 생성한 버퍼(or 이미 생성되어 동일한 명칭을 같는 버퍼)의 버퍼크기를 비교하여 다르다면 프로그램을 터뜨린다.
+				// 동일한 명칭을 가지는 상수버퍼를 이미 GPU에 할당하여 생성했다고 가정했을때 반드시 동일한 명칭을 생성하려고 하면 이미 존재하는 상수버퍼와의
+				// 구조가 동일해야한다. 즉, 버퍼의 크기가 동일해야한다.
+				if (BufferDesc.Size != NewBuffer->GetBufferSize())
+				{
+					GameEngineDebug::MsgBoxError("구조가 다른 상수버퍼가 존재합니다.");
+					return;
+				}
+
+				// 성공적으로 상수버퍼를 생성하였다면 관리목록에 추가
+				ConstanceBuffer_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
+
+				break;
 			}
-			break;
+			default:
+			{
+				GameEngineDebug::MsgBoxError("처리하지 못하는 Buffer Type의 Shader Resource가 발견되었습니다.");
+				break;
+			}
 		}
 	}
+}
+
+std::map<unsigned int, GameEngineConstantBuffer*>& GameEngineShader::GetConstanceBuffer()
+{
+	return ConstanceBuffer_;
 }

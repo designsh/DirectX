@@ -1,10 +1,13 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngine/GameEngineDevice.h>
+#include "GameEngineRenderingSettingData.h"
 
 // 분류 : 렌더링 파이프라인 
 // 용도 : 
 // 설명 : 렌더링 파이프라인 순서별 기능을 제공하고 화면에 물체를 출력하기 위한 전단계를 관리하는 기능을 제공
+class GameEngineShader;
+class GameEngineConstantBuffer;
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
@@ -38,7 +41,11 @@ private:
 // ======================================== Ouput Merger ======================================== //
 private:
 	GameEngineRenderTarget*		RenderTarget_;											// Render Target(OM)
-	
+
+// ======================================== 셰이더 세팅 관련 ======================================== //
+private:
+	std::map<std::string, GameEngineConstantBufferSetting*> ConstantBufferSetting_;
+
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
 	~GameEngineRenderingPipeLine(); // default destructer 디폴트 소멸자
@@ -86,5 +93,10 @@ public: // RenderingPipeLine Setting
 // ========================================= Rendering PipeLine 가동단계 ========================================= //
 public:
 	void Rendering();
+
+// ============================================== 셰이더 세팅 관련 ============================================= //
+public:
+	void ResourcesCheck();
+	void ShaderResourcesCheck(GameEngineShader* _Shader);
 };
 

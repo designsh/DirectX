@@ -1,13 +1,16 @@
 #include "CbufferHeader.fx"
 
-float4 Color_VS(float4 pos : POSITION) : SV_POSITION
+float4 Texture_VS(float4 pos : POSITION) : SV_POSITION
 {
     pos = mul(pos, World);
 
     return pos;
 }
 
-float4 Color_PS(float4 pos : SV_POSITION) : SV_Target0
+
+float4 Texture_PS(float4 pos : SV_POSITION) : SV_Target0
 {
 	return float4(1.0f, 0.0f, 0.0f, 1.0f);
 }
+
+

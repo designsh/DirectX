@@ -12,6 +12,8 @@
 #include "GameEngineRasterizer.h"
 #include "GameEnginePixelShader.h"
 
+#include "GameEngineConstantBuffer.h"
+
 #include "GameEngineWindow.h"
 
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() :
@@ -175,4 +177,19 @@ void GameEngineRenderingPipeLine::Rendering()
 	// 두번째 인자 : 인덱스 버퍼에서 GPU가 읽은 첫 번째 인덱스의 위치
 	// 세번째 인자 : 정점 버퍼에서 정점을 읽기 전에 각 인덱스에 추가된 값
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
+}
+
+// ============================================== 셰이더 세팅 관련 ============================================= //
+void GameEngineRenderingPipeLine::ResourcesCheck()
+{
+	ShaderResourcesCheck(VertexShader_);
+	ShaderResourcesCheck(PixelShader_);
+}
+
+void GameEngineRenderingPipeLine::ShaderResourcesCheck(GameEngineShader* _Shader)
+{
+	for (auto& Constbuffer : _Shader->GetConstanceBuffer())
+	{
+		GameEngineConstantBufferSetting* NewSettingData = new GameEngineConstantBufferSetting();
+	}
 }

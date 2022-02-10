@@ -1,12 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 #include "GameEngineDevice.h"
-
-// 상수버퍼 
-class ConstanceBuffer
-{
-
-};
+#include "GameEngine/GameEngineConstantBuffer.h"
 
 // 분류 : 셰이더
 // 용도 : 
@@ -16,15 +11,15 @@ class ConstanceBuffer
 class GameEngineShader : public GameEngineObjectNameBase
 {
 private:
-	std::map<std::string, ConstanceBuffer>				ConstanceBuffer_;				// 상수버퍼 관리 목록
+	std::map<unsigned int, GameEngineConstantBuffer*>		ConstanceBuffer_;				// 상수버퍼 관리 목록
 
 protected:
-	UINT																				VersionHigh_;						// HLSL Version Hight
-	UINT																				VersionLow_;						// HLSL Version Low
-	ID3DBlob*																	CodeBlob_;							// 바이트코드(바이너리)버퍼로 셰이더 생성 시 결과값
-	std::string																		Version_;								// Ex) vs_VersionHigh_VersionLow_ -> vs_5_0 으로 편집한 버전
-	std::string																		EntryPoint_;							// 셰이더 진입함수명
-	std::string																		Code_;									// 셰이더 코드
+	UINT																									VersionHigh_;						// HLSL Version Hight
+	UINT																									VersionLow_;						// HLSL Version Low
+	ID3DBlob*																						CodeBlob_;							// 바이트코드(바이너리)버퍼로 셰이더 생성 시 결과값
+	std::string																							Version_;								// Ex) vs_VersionHigh_VersionLow_ -> vs_5_0 으로 편집한 버전
+	std::string																							EntryPoint_;							// 셰이더 진입함수명
+	std::string																							Code_;									// 셰이더 코드
 
 public:
 	GameEngineShader(); // default constructer 디폴트 생성자
@@ -49,5 +44,8 @@ protected: // Create HLSL Version String
 
 public:
 	void ResCheck();
+
+public:
+	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstanceBuffer();
 };
 

@@ -82,6 +82,18 @@
     <Filter Include="Resources\01Shader\Pixel">
       <UniqueIdentifier>{4930eed0-0c31-4fc6-9638-9cdb83d3017d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\01Shader\ShaderResources">
+      <UniqueIdentifier>{32528331-e2b1-471e-a368-42f7888670d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Shader\ShaderResources">
+      <UniqueIdentifier>{f8974065-caf1-463f-bde1-00bd8507e570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine\RenderingPipeLine">
+      <UniqueIdentifier>{c369898a-7eaf-4562-9b81-e9e579ad09a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck">
+      <UniqueIdentifier>{d13eed9d-1f74-4193-9c90-2b2b67f40298}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -92,9 +104,6 @@
     </ClCompile>
     <ClCompile Include="GameEngineWindow.cpp">
       <Filter>Window</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineRenderingPipeLine.cpp">
-      <Filter>RenderingPipeLine</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineVertexShader.cpp">
       <Filter>Resources\01Shader\Vertex</Filter>
@@ -150,6 +159,18 @@
     <ClCompile Include="GameEnginePixelShaderManager.cpp">
       <Filter>Resources\99Manager\Shader\Pixel</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineConstantBuffer.cpp">
+      <Filter>Resources\01Shader\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineConstantBufferManager.cpp">
+      <Filter>Resources\99Manager\Shader\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingPipeLine.cpp">
+      <Filter>RenderingPipeLine\RenderingPipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingSettingData.cpp">
+      <Filter>RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -160,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="GameEngineWindow.h">
       <Filter>Window</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineRenderingPipeLine.h">
-      <Filter>RenderingPipeLine</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineVertexShader.h">
       <Filter>Resources\01Shader\Vertex</Filter>
@@ -220,6 +238,18 @@
     </ClInclude>
     <ClInclude Include="GameEnginePixelShaderManager.h">
       <Filter>Resources\99Manager\Shader\Pixel</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstantBuffer.h">
+      <Filter>Resources\01Shader\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstantBufferManager.h">
+      <Filter>Resources\99Manager\Shader\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLine.h">
+      <Filter>RenderingPipeLine\RenderingPipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingSettingData.h">
+      <Filter>RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
