@@ -28,5 +28,8 @@
 #include <random>
 #include <DirectXPackedVector.h>	// simd 연산(16Byte를 한번에 연산)용 기능 제공(x64 빌드를 사용해야한다)
 
+// Memory
+#include <memory>
+
 // FMOD Sound Lib
 #include "FMOD/fmod.hpp"

@@ -1,10 +1,12 @@
 #include "PreCompile.h"
 #include "GameEngineVertexShader.h"
+#include "GameEngineShaderResHelper.h"
 
 GameEngineVertexShader::GameEngineVertexShader() :
 	Shader_(nullptr),
 	LayOut_(nullptr),
-	LayOutOffset_(0)
+	LayOutOffset_(0),
+	GameEngineShader(ShaderType::VS)
 {
 }
 
@@ -418,4 +420,9 @@ void GameEngineVertexShader::InputLayOutSetting()
 	}
 
 	GameEngineDevice::GetInst().GetContext()->IASetInputLayout(LayOut_);
+}
+
+void GameEngineVertexShader::SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	GameEngineDevice::GetContext()->VSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
 }

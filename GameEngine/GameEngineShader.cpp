@@ -2,13 +2,14 @@
 #include "GameEngineShader.h"
 #include "GameEngineConstantBufferManager.h"
 
-GameEngineShader::GameEngineShader() :
+GameEngineShader::GameEngineShader(ShaderType _Type) :
 	VersionHigh_(5),
 	VersionLow_(0),
 	CodeBlob_(nullptr),
 	Version_{},
 	EntryPoint_{},
-	Code_{}
+	Code_{},
+	Type_(_Type)
 {
 }
 
@@ -39,6 +40,16 @@ void GameEngineShader::CreateVersion(const std::string& _ShaderType)
 	Version_ += std::to_string(VersionHigh_);
 	Version_ += "_";
 	Version_ += std::to_string(VersionLow_);
+}
+
+unsigned int GameEngineShader::GetTypeIndex()
+{
+	return static_cast<unsigned int>(Type_);
+}
+
+std::map<unsigned int, GameEngineConstantBuffer*>& GameEngineShader::GetConstantBuffers()
+{
+	return ConstanceBuffer_;
 }
 
 void GameEngineShader::ResCheck()
@@ -113,9 +124,4 @@ void GameEngineShader::ResCheck()
 			}
 		}
 	}
-}
-
-std::map<unsigned int, GameEngineConstantBuffer*>& GameEngineShader::GetConstanceBuffer()
-{
-	return ConstanceBuffer_;
 }

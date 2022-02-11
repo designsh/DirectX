@@ -31,8 +31,8 @@ public:
 
 		// 엔진 초기화 및 리소스 로드
 		NewUserGame.EngineInitialize();
-		NewUserGame.Initialize();
 		NewUserGame.ResourcesLoad();
+		NewUserGame.Initialize();
 
 		// 메인게임 코어 셋팅
 		MainCore_ = &NewUserGame;

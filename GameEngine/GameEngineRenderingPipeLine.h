@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngine/GameEngineDevice.h>
-#include "GameEngineRenderingSettingData.h"
+#include "GameEngineShaderResHelper.h"
 
 // 분류 : 렌더링 파이프라인 
 // 용도 : 
@@ -43,8 +43,8 @@ private:
 	GameEngineRenderTarget*		RenderTarget_;											// Render Target(OM)
 
 // ======================================== 셰이더 세팅 관련 ======================================== //
-private:
-	std::map<std::string, GameEngineConstantBufferSetting*> ConstantBufferSetting_;
+public:
+	GameEngineShaderResHelper ShaderHelper;
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
@@ -94,9 +94,5 @@ public: // RenderingPipeLine Setting
 public:
 	void Rendering();
 
-// ============================================== 셰이더 세팅 관련 ============================================= //
-public:
-	void ResourcesCheck();
-	void ShaderResourcesCheck(GameEngineShader* _Shader);
 };
 

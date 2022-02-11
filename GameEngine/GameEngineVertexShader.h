@@ -67,5 +67,9 @@ private: // Create Layout
 
 public: // InputLayout Setting
 	void InputLayOutSetting();
+
+//========================================= 상수버퍼 세팅관련 기능함수 =========================================//
+public:
+	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
 };
 

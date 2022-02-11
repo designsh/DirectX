@@ -171,6 +171,9 @@
     <ClCompile Include="GameEngineRenderingSettingData.cpp">
       <Filter>RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineShaderResHelper.cpp">
+      <Filter>RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -249,6 +252,9 @@
       <Filter>RenderingPipeLine\RenderingPipeLine</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRenderingSettingData.h">
+      <Filter>RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineShaderResHelper.h">
       <Filter>RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck</Filter>
     </ClInclude>
   </ItemGroup>

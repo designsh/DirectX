@@ -3,11 +3,20 @@
 #include "GameEngineDevice.h"
 #include "GameEngine/GameEngineConstantBuffer.h"
 
+// 각각의 셰이더는 자신의 타입을 반드시 알아야한다.
+enum class ShaderType
+{
+	VS,			// Vertex Shader
+	PS,			// Pixel Shader
+	MAX
+};
+
 // 분류 : 셰이더
 // 용도 : 
 // 설명 : 각 셰이더가 해당 클래스를 상속받으며, 셰이더의 공통정보 및 기능을 관리
 //            단, 해당 클래스 자체로 객체화 하면 문제가 발생하므로 순수가상소멸자를 이용하여
 //            객체화를 막는다.
+class GameEngineConstantBufferSetting;
 class GameEngineShader : public GameEngineObjectNameBase
 {
 private:
@@ -20,9 +29,10 @@ protected:
 	std::string																							Version_;								// Ex) vs_VersionHigh_VersionLow_ -> vs_5_0 으로 편집한 버전
 	std::string																							EntryPoint_;							// 셰이더 진입함수명
 	std::string																							Code_;									// 셰이더 코드
+	ShaderType																						Type_;									// 셰이더 타입(Ex. Vertex, Pixel)
 
 public:
-	GameEngineShader(); // default constructer 디폴트 생성자
+	GameEngineShader(ShaderType _Type);
 	virtual ~GameEngineShader() = 0;
 
 protected:		// delete constructer
@@ -43,9 +53,13 @@ protected: // Create HLSL Version String
 	void CreateVersion(const std::string& _ShaderType);
 
 public:
+	unsigned int GetTypeIndex();
+	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstantBuffers();
+
+public:
 	void ResCheck();
 
 public:
-	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstanceBuffer();
+	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
 };
 

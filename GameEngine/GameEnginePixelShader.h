@@ -38,5 +38,9 @@ public: // Compile Vertex Shader(D3DCompileFromFile() 사용) - 경로 필요
 
 public: // Create Pixel Setting
 	void Setting();
+
+//========================================= 상수버퍼 세팅관련 기능함수 =========================================//
+public:
+	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
 };
 

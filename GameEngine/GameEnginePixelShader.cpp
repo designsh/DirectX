@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineShaderResHelper.h"
 
 GameEnginePixelShader::GameEnginePixelShader() :
-	Shader_(nullptr)
+	Shader_(nullptr),
+	GameEngineShader(ShaderType::PS)
 {
 }
 
@@ -129,5 +131,10 @@ bool GameEnginePixelShader::FileCompile(const std::string& _Path)
 void GameEnginePixelShader::Setting()
 {
 	GameEngineDevice::GetInst().GetContext()->PSSetShader(Shader_, nullptr, 0);
+}
+
+void GameEnginePixelShader::SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
 }
 

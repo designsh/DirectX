@@ -77,6 +77,8 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 		GameEngineDebug::MsgBoxError("존재하지 않는 Vertex Shader를 세팅하려고 했습니다.");
 		return;
 	}
+
+	ShaderHelper.ShaderResourcesCheck(VertexShader_);
 }
 
 void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std::string& _Name)
@@ -115,6 +117,8 @@ void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
 		GameEngineDebug::MsgBoxError("존재하지 않는 Pixel Shader를 세팅을 세팅하려고 했습니다.");
 		return;
 	}
+
+	ShaderHelper.ShaderResourcesCheck(PixelShader_);
 }
 
 void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name)
@@ -172,6 +176,9 @@ void GameEngineRenderingPipeLine::Rendering()
 	// 렌더링파이프라인 가동전 셋팅
 	RenderingPipeLineSetting();
 
+	// 데이터 갱신 or 데이터 세팅 및 셰이더에 상수버퍼를 세팅
+	ShaderHelper.Setting();
+
 	// 렌더링파이프라인 가동
 	// 첫번째 인자 : 렌더링할 인덱스의 수
 	// 두번째 인자 : 인덱스 버퍼에서 GPU가 읽은 첫 번째 인덱스의 위치
@@ -180,16 +187,3 @@ void GameEngineRenderingPipeLine::Rendering()
 }
 
 // ============================================== 셰이더 세팅 관련 ============================================= //
-void GameEngineRenderingPipeLine::ResourcesCheck()
-{
-	ShaderResourcesCheck(VertexShader_);
-	ShaderResourcesCheck(PixelShader_);
-}
-
-void GameEngineRenderingPipeLine::ShaderResourcesCheck(GameEngineShader* _Shader)
-{
-	for (auto& Constbuffer : _Shader->GetConstanceBuffer())
-	{
-		GameEngineConstantBufferSetting* NewSettingData = new GameEngineConstantBufferSetting();
-	}
-}

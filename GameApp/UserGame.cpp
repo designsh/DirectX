@@ -21,14 +21,21 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 
 }
 
+struct TransformData
+{
+	float4x4 World;
+	float4x4 View;
+	float4x4 Proj;
+};
+
+float4 Pos;
+TransformData TransData;
+
 void UserGame::Initialize()
 {
-
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
+	Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 }
-
-float4 vPos = { 0.0f, 0.0f , 0.0f };
-float4 vRot = { 0.0f, 0.0f , 0.0f };
-float4 vScale = { 1.0f, 1.0f , 1.0f };
 
 void UserGame::GameLoop()
 {
@@ -37,17 +44,8 @@ void UserGame::GameLoop()
 
 
 	// Update
-
-	// World Matrix »ý¼º
-	float4x4 mScale;
-	float4x4 mRot;
-	float4x4 mPos;
-	float4x4 mWorld;
-
-	mScale.Scaling(vScale);
-	mRot.RotationDeg(vRot);
-	mPos.Translation(vPos);
-	mWorld = mScale * mRot * mPos;
+	//Pos.x += 0.001f;
+	//TransData.World.RotationXDeg(Pos.x);
 
 	// Rendering
 	GameEngineDevice::RenderStart();
