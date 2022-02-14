@@ -1,5 +1,4 @@
 #pragma once
-#include <GameEngineBase/GameEngineObjectNameBase.h>
 #include "GameEngineDevice.h"
 
 // ºÐ·ù : 

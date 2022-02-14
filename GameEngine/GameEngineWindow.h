@@ -1,6 +1,4 @@
 #pragma once
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEngineBase/GameEngineObjectNameBase.h>
 
 // 분류 : 엔진
 // 용도 : winapi의 윈도우 창을 제어하는 기능들에 대한 

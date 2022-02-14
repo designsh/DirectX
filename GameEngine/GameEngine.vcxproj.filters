@@ -94,6 +94,15 @@
     <Filter Include="RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck">
       <UniqueIdentifier>{d13eed9d-1f74-4193-9c90-2b2b67f40298}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{b90d93fc-5eef-4d44-92bf-c9bd14a5fda2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level">
+      <UniqueIdentifier>{9c826639-b3b1-414d-bf5e-905edf647f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor">
+      <UniqueIdentifier>{f03c68fb-33d6-4428-9819-c41c673f75f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -173,6 +182,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineShaderResHelper.cpp">
       <Filter>RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevel.cpp">
+      <Filter>Object\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineActor.cpp">
+      <Filter>Object\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +271,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineShaderResHelper.h">
       <Filter>RenderingPipeLine\RenderingPipeLine\RenderingPipeLineSettingCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevel.h">
+      <Filter>Object\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineActor.h">
+      <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

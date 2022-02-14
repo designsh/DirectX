@@ -1,6 +1,5 @@
 #pragma once
-#include <GameEngineBase/GameEngineObjectNameBase.h>
-#include <GameEngine/GameEngineDevice.h>
+#include "GameEngineDevice.h"
 
 // 분류 : 인덱스(Index) 버퍼
 // 용도 : 

@@ -1,6 +1,5 @@
 #pragma once
-#include <GameEngineBase/GameEngineObjectNameBase.h>
-#include <GameEngine/GameEngineDevice.h>
+#include "GameEngineDevice.h"
 
 // 분류 : 
 // 용도 : 

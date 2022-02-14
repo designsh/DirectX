@@ -23,7 +23,6 @@ private:		//delete operator
 public:
 	virtual void Initialize() override;
 	virtual void ResourcesLoad() override;
-	virtual void GameLoop() override;
 	virtual void Release() override;
 	virtual float4 StartWindowPos() override;
 	virtual float4 StartWindowSize() override;

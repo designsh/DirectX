@@ -1,7 +1,5 @@
 #pragma once
-#include <GameEngineBase/GameEngineMath.h>
-#include <GameEngineBase/GameEngineObjectNameBase.h>
-#include <GameEngine/GameEngineDevice.h>
+#include "GameEngineDevice.h"
 
 // 분류 : 정점(Vertex) 버퍼
 // 용도 : 

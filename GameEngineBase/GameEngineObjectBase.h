@@ -45,7 +45,7 @@ public:
 		return true == isDeath_ || parent_->isDeath_;
 	}
 
-	bool IsOn()
+	bool IsUpdate()
 	{
 		if (nullptr == parent_)
 		{

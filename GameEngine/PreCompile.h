@@ -8,3 +8,5 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineString.h>
 #include <GameEngineBase/GameEngineFile.h>
+
+#include <GameEngineBase/GameEngineObjectNameBase.h>

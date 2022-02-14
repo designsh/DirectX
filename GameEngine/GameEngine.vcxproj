@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEngineActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineConstantBuffer.h">
       <SubType>
       </SubType>
@@ -40,6 +44,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineIndexBufferManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -123,6 +131,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngineActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineConstantBuffer.cpp">
       <SubType>
       </SubType>
@@ -144,6 +156,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineIndexBufferManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

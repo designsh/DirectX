@@ -488,20 +488,29 @@ public:
 		return *this;
 	}
 
-public:
-	// 크기변환 행렬
+public: // 크기변환 행렬
 	void Scaling(const float4& _Value)
 	{
 		DirectMatrix = DirectX::XMMatrixScalingFromVector(_Value.DirectVector);
 	}
 
-	// 위치변환 행렬
+	void Scaling(const float _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixScalingFromVector(float4(_Value, _Value, _Value).DirectVector);
+	}
+
+	void Scaling2D(const float _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixScalingFromVector(float4(_Value, _Value, 1.0f).DirectVector);
+	}
+
+public: // 위치변환 행렬
 	void Translation(const float4& _Value)
 	{
 		DirectMatrix = DirectX::XMMatrixTranslationFromVector(_Value.DirectVector);
 	}
 
-	// 회전변환 행렬
+public: // 회전변환 행렬
 	void RotationDeg(const float4& _Value)
 	{
 		RotationRad(_Value * GameEngineMath::DegreeToRadian);
