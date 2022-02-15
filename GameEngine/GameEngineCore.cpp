@@ -12,10 +12,6 @@ GameEngineLevel* GameEngineCore::NextLevel_ = nullptr;
 GameEngineLevel* GameEngineCore::CurrentLevel_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngineCore::AllLevel_;
 
-void GameEngineCore::LevelCreate(const std::string& _Level)
-{
-}
-
 void GameEngineCore::LevelChange(const std::string& _Level)
 {
 	GameEngineLevel* FindLevel = LevelFind(_Level);
@@ -51,6 +47,7 @@ void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
 
 void GameEngineCore::Loop()
 {
+	GameEngineTime::GetInst().TimeCheckReset();
 	GameEngineWindow::GetInst().Loop(&GameEngineCore::MainLoop);
 }
 
@@ -72,18 +69,15 @@ void GameEngineCore::MainLoop()
 			NextLevel_->LevelChangeStartEvent();
 			CurrentLevel_ = NextLevel_;
 		}
+		GameEngineTime::GetInst().TimeCheckReset();
 	}
 
 	if (nullptr == CurrentLevel_)
 	{
 		GameEngineDebug::MsgBoxError("현재 레벨이 존재하지 않습니다.");
 	}
-	CurrentLevel_->Update(GameEngineTime::GetInst().GetDeltaTime());
-
-
-
-
-
+	CurrentLevel_->LevelUpdate(GameEngineTime::GetInst().GetDeltaTime());
+	CurrentLevel_->ActorUpdate(GameEngineTime::GetInst().GetDeltaTime());
 }
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
@@ -109,6 +103,16 @@ void GameEngineCore::EngineInitialize()
 void GameEngineCore::EngineDestory()
 {
 	// Game Release Function
+
+	// GameLevel Release
+	for (auto& Level : AllLevel_)
+	{
+		if (nullptr != Level.second)
+		{
+			delete  Level.second;
+			Level.second = nullptr;
+		}
+	}
 
 	// Resource Release
 	GameEngineManagerHelper::ManagerRelease();

@@ -6,6 +6,9 @@
 
 #include <GameEngine/GameEngineRenderingPipeLine.h>
 
+#include "TitleLevel.h"
+#include "PlayLevel.h"
+
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
 
@@ -21,39 +24,22 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 
 }
 
-struct TransformData
-{
-	float4x4 Scale;
-	float4x4 Rotation;
-	float4x4 Position;
-	float4x4 World;
-	float4x4 View;
-	float4x4 Proj;
-
-public:
-	void CalcWorld()
-	{
-		World = Scale * Rotation * Position;
-	}
-};
-
-float4 Pos;
-TransformData TransData;
-
 void UserGame::Initialize()
 {
-	TransData.View.ViewToLH({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f , 1.0f }, { 0.0f, 1.0f , 0.0f });
+	//TransData.View.ViewToLH({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f , 1.0f }, { 0.0f, 1.0f , 0.0f });
+	//TransData.Proj.OrthographicLH(1280.f, 720.f, 0.1f, 1000.0f);
+	//TransData.Scale.Scaling2D(200.0f);
+	//TransData.Rotation.RotationDeg({ 0.0f, 0.0f, 45.0f });
+	//TransData.Position.Translation({ 0.0f, 0.0f, 0.0f });
+	//TransData.CalcWorld();
+	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
+	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 
-	TransData.Proj.OrthographicLH(1280.f, 720.f, 0.1f, 1000.0f);
+	LevelCreate<TitleLevel>("Title");
+	LevelCreate<PlayLevel>("Play");
+	LevelChange("Play");
 
-
-	TransData.Scale.Scaling2D(200.0f);
-	TransData.Rotation.RotationDeg({ 0.0f, 0.0f, 45.0f });
-	TransData.Position.Translation({ 0.0f, 0.0f, 0.0f });
-	TransData.CalcWorld();
-
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
-	Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
+	
 }
 
 void UserGame::Release()

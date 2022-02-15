@@ -8,11 +8,24 @@
 // 4. 
 cbuffer TransformData : register(b0)
 {
-    float4x4 Scale;
+    // 월드 : 월드공간에서의 원점(0,0,0)을 기준
+    float4 vWorldTranslation;
+    float4 vWorldRotation;
+    float4 vWorldScaling;
+
+    // 로컬 : 각각의 물체의 원점(0,0,0)을 기준
+    float4 vLocalTranslation;
+    float4 vLocalRotation;
+    float4 vLocalScaling;
+
+    // 변환행렬
+    float4x4 Scaling;
     float4x4 Rotation;
-    float4x4 Position;
+    float4x4 Translation;
+    float4x4 Revolve;
+    float4x4 Parent;
     float4x4 World;
     float4x4 View;
-    float4x4 Proj;
+    float4x4 Projection;
 };
 

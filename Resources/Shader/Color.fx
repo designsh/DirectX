@@ -4,7 +4,7 @@ float4 Color_VS(float4 pos : POSITION) : SV_POSITION
 {
     pos = mul(pos, World);
     pos = mul(pos, View);
-    pos = mul(pos, Proj);
+    pos = mul(pos, Projection);
 
     return pos;
 }
