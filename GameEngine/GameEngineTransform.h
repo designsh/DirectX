@@ -1,15 +1,23 @@
 #pragma once
 #include "GameEngineComponent.h"
 
+// 각 물체의 지역 공간상의 위치, 크기, 회전 정보와 월드 공간상의 위치, 크기, 회전 정보를 통하여
+// 생성하는 각각의 행렬을 관리하는 클래스
 class TransformData
 {
 public:
-	// 월드
+	// 월드 : 월드 공간에서의 원점(0,0,0)을 기준
 	float4 vWorldPosition_;
 	float4 vWorldRotation_;
 	float4 vWorldScaling_;
 
-	// 로컬
+	// 로컬 : 1. 부모 O : 부모의 위치(원점)을 기준
+	//            2. 부모 X : 월드 공간에서의 원점(0,0,0)을 기준
+	// Ex) A컴포넌트의 자식 컴포넌트가 B컴포넌트라고 가정한다면
+	//        B컴포넌트의 로컬위치는 A컴포넌트의 위치(100, 0, 0)이라면
+	//        A컴포넌트의 위치(100,0,0)로부터의 B컴포넌트의 위치가 설정된다
+	//        A컴포넌트와 B컴포넌트가 겹쳐서 생성되었다면 A컴포넌트의 로컬위치는 최상위 컴포넌트이므로
+	//        100,0,0이 로컬위치가 되고, B컴포넌트는 100,0,0이 원점이므로 위치는 0,0,0이 된다.
 	float4 vLocalPosition_;
 	float4 vLocalRotation_;
 	float4 vLocalScaling_;
@@ -27,7 +35,7 @@ public:
 	float4x4 Projection_;
 
 public:
-	// 로컬 행렬 생성
+	// 로컬행렬(크기/회전/위치/월드) 생성
 	void LocalCalculation()
 	{
 		LocalScaling_.Scaling(vLocalScaling_);
@@ -37,7 +45,7 @@ public:
 		LocalWorld_ = LocalScaling_ * LocalRotation_ * LocalPosition_;
 	}
 
-	// 자신의 부모가 존재한다
+	// 부모셋팅 : 부모가 존재한다면 모든 행렬이 계산될때 부모의 행렬의 영향을 받는다.
 	void ParentSetting(const float4x4& _Parent)
 	{
 		Parent_ = _Parent;
@@ -46,6 +54,7 @@ public:
 	}
 
 	// 자신의 부모가 존재하지 않는다.
+	// 자신이 최상위 트랜스폼이므로 부모의 영향을 받지않는다.
 	void RootCalculation()
 	{
 		WorldWorld_ = LocalWorld_;
