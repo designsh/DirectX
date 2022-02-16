@@ -2,7 +2,7 @@
 
 float4 Texture_VS(float4 pos : POSITION) : SV_POSITION
 {
-    pos = mul(pos, World);
+    pos = mul(pos, WorldWorld_);
 
     return pos;
 }

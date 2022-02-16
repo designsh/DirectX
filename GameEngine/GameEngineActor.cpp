@@ -11,6 +11,11 @@ GameEngineActor::GameEngineActor() :
 
 GameEngineActor::~GameEngineActor()
 {
+	if (nullptr != Transform_)
+	{
+		delete Transform_;
+		Transform_ = nullptr;
+	}
 }
 
 GameEngineLevel* GameEngineActor::GetLevel() const
