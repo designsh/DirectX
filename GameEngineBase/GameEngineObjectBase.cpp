@@ -5,6 +5,7 @@ GameEngineObjectBase::GameEngineObjectBase() // default constructer 디폴트 생성�
 	: isDeath_(false),
 	isUpdate_(true),
 	isDebug_(false), // 디버깅 기능 이거 true로 해놓고 f9 걸어 놓으면 
+	Order_(0),
 	parent_(nullptr)
 {
 
@@ -19,6 +20,7 @@ GameEngineObjectBase::GameEngineObjectBase(GameEngineObjectBase&& _other) noexce
 	: isDeath_(_other.isDeath_),
 	isUpdate_(_other.isUpdate_),
 	isDebug_(_other.isDebug_), // 디버깅 기능 이거 true로 해놓고 f9 걸어 놓으면 
+	Order_(_other.Order_),
 	parent_(_other.parent_)
 {
 

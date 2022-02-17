@@ -3,15 +3,19 @@
 // 분류 : 컴포넌트
 // 용도 : 
 // 설명 : 
+class GameEngineLevel;
 class GameEngineActor;
 class GameEngineComponent : public GameEngineObjectNameBase
 {
+	friend GameEngineActor;
+
 private:	// member Var
 	GameEngineActor* Actor_;
+	GameEngineLevel* Level_;
 
 public:
 	GameEngineComponent();
-	~GameEngineComponent();
+	virtual ~GameEngineComponent() = 0;
 
 protected:		// delete constructer
 	GameEngineComponent(const GameEngineComponent& _other) = delete;
@@ -27,7 +31,13 @@ public:
 		return Actor_;
 	}
 
-public:
-	virtual void InitComponent(GameEngineActor* _Actor);
+	GameEngineLevel* GetLevel()
+	{
+		return Level_;
+	}
+
+protected:
+	virtual void InitComponent(GameEngineActor* Actor_);
+	virtual void Start() = 0;
 };
 

@@ -12,7 +12,7 @@ class GameEngineConstantBuffer;
 class GameEngineShaderResHelper
 {
 private:	// member Var
-	std::map<std::string, GameEngineConstantBufferSetting*> AllSettingData_;
+	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBufferData_;
 
 public:
 	GameEngineShaderResHelper();
@@ -27,6 +27,7 @@ private:		//delete operator
 	GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper&& _other) = delete;
 
 public:
+	bool IsConstantBuffer(const std::string& _SettingName);
 	void ShaderResourcesCheck(GameEngineShader* _Shader);
 	void Setting();
 
@@ -36,8 +37,8 @@ public:
 	template<typename T>
 	void SettingConstantBufferLink(const std::string& _SettingName, T& _Data)
 	{
-		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllSettingData_.find(_SettingName);
-		if (FindIter == AllSettingData_.end())
+		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
+		if (FindIter == AllConstantBufferData_.end())
 		{
 			GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
 			return;
@@ -56,8 +57,8 @@ public:
 	template<typename T>
 	void SettingConstantBufferSet(const std::string& _SettingName, const T& _Data)
 	{
-		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllSettingData_.find(_SettingName);
-		if (FindIter == AllSettingData_.end())
+		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
+		if (FindIter == AllConstantBufferData_.end())
 		{
 			GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
 			return;

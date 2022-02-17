@@ -9,6 +9,7 @@ private:	// member Var
 	bool isDeath_;
 	bool isUpdate_;
 	bool isDebug_;
+	int Order_;
 	GameEngineObjectBase* parent_;
 
 public:
@@ -87,6 +88,16 @@ public:
 			// 해당 오브젝트의 디버깅 기능을 제공
 			int a = 0;
 		}
+	}
+
+	void SetOrder(int _Order)
+	{
+		Order_ = _Order;
+	}
+
+	int GetOrder()
+	{
+		return Order_;
 	}
 };
 

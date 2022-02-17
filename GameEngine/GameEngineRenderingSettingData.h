@@ -23,12 +23,16 @@ public:
 	char*													SettingData_;			// 세팅한 데이터 복사본
 	size_t													SettingDataSize_;	// 세팅한 데이터의 크기(바이트크기)
 	int														SettingIndex_;			// Register No
-	bool													IsSet_;						// 
 
 public:
-	GameEngineConstantBufferSetting() : SettingData_(nullptr), Mode_(SettingMode::MAX)
+	GameEngineConstantBufferSetting() : 
+		Shader(nullptr),
+		Res_(nullptr),
+		Mode_(SettingMode::MAX),
+		SettingData_(nullptr),
+		SettingDataSize_(0),
+		SettingIndex_(-1)
 	{
-
 	}
 
 	~GameEngineConstantBufferSetting()

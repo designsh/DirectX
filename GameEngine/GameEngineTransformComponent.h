@@ -7,12 +7,14 @@
 class GameEngineTransform;
 class GameEngineTransformComponent : public GameEngineComponent
 {
+	friend GameEngineActor;
+
 private:	// member Var
-	GameEngineTransform* Transform;
+	GameEngineTransform* Transform_;
 
 public:
 	GameEngineTransformComponent();
-	~GameEngineTransformComponent();
+	virtual ~GameEngineTransformComponent() = 0;
 
 protected:		// delete constructer
 	GameEngineTransformComponent(const GameEngineTransformComponent& _other) = delete;
@@ -23,6 +25,9 @@ private:		//delete operator
 	GameEngineTransformComponent& operator=(const GameEngineTransformComponent&& _other) = delete;
 
 public:
-	virtual void InitComponent(GameEngineActor* Actor_) override;
+	GameEngineTransform* GetTransform();
+
+public:
+	void AttachTransform(GameEngineTransform* _Transform);
 };
 

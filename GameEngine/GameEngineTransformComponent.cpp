@@ -2,20 +2,26 @@
 #include "GameEngineTransformComponent.h"
 #include "GameEngineTransform.h"
 
-GameEngineTransformComponent::GameEngineTransformComponent() :
-	Transform(nullptr)
+GameEngineTransformComponent::GameEngineTransformComponent()
 {
+	Transform_ = new GameEngineTransform();
 }
 
 GameEngineTransformComponent::~GameEngineTransformComponent()
 {
+	if (nullptr != Transform_)
+	{
+		delete Transform_;
+		Transform_ = nullptr;
+	}
 }
 
-void GameEngineTransformComponent::InitComponent(GameEngineActor* Actor_)
+GameEngineTransform* GameEngineTransformComponent::GetTransform()
 {
-	GameEngineComponent::InitComponent(Actor_);
+	return Transform_;
+}
 
-	Transform = new GameEngineTransform();
-
-	//Transform->
+void GameEngineTransformComponent::AttachTransform(GameEngineTransform* _Transform)
+{
+	Transform_->AttachTransform(_Transform);
 }

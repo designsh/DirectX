@@ -85,7 +85,7 @@ void UserGame::ResourcesLoad()
 	Rasterizer->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Rendering PipeList »ý¼º
-	GameEngineRenderingPipeLine* RederingPipeLine = GameEngineRenderingPipeLineManager::GetInst().Create("ColorRendering");
+	GameEngineRenderingPipeLine* RederingPipeLine = GameEngineRenderingPipeLineManager::GetInst().Create("Color");
 
 	// Rendering PipeLine : InputAssembler1
 	// VertexBuffer, InputLayout Setting

@@ -85,8 +85,11 @@ private:		//delete operator
 	GameEngineTransform& operator=(const GameEngineTransform&& _other) = delete;
 
 public:
-	void SetParent(GameEngineTransform* _Parent);
-	void DetachChild(GameEngineTransform* _Child);
+	void AttachTransform(GameEngineTransform* _Transform);
+	void DetachChildTransform(GameEngineTransform* _Transform);
+
+public:
+	TransformData& GetTransformData();
 
 private: // 내부처리
 	void AllChildCalculationScaling();									// 모든 자식의 크기변화를 계산(부모가 존재한다면 부모행렬의 영향을 받음)

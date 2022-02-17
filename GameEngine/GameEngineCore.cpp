@@ -78,6 +78,7 @@ void GameEngineCore::MainLoop()
 	}
 	CurrentLevel_->LevelUpdate(GameEngineTime::GetInst().GetDeltaTime());
 	CurrentLevel_->ActorUpdate(GameEngineTime::GetInst().GetDeltaTime());
+	CurrentLevel_->Render();
 }
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자

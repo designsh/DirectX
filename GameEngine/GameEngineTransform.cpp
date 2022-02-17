@@ -12,26 +12,31 @@ GameEngineTransform::~GameEngineTransform()
 
 }
 
-void GameEngineTransform::SetParent(GameEngineTransform* _Parent)
+void GameEngineTransform::AttachTransform(GameEngineTransform* _Transform)
 {
 	// 현재 내가 어떠한 부모에 속해있다면
 	if (nullptr != Parent_)
 	{
 		// 현재 속해있는 부모에게 나를 자신의 자식에서
 		// 제거해주기를 요청한다.
-		Parent_->DetachChild(this);
+		Parent_->DetachChildTransform(this);
 	}
 
 	// 부모가 존재하지않다면
-	Parent_ = _Parent;
-	_Parent->Childs_.push_back(this);
+	Parent_ = _Transform;
+	_Transform->Childs_.push_back(this);
 }
 
-void GameEngineTransform::DetachChild(GameEngineTransform* _Child)
+void GameEngineTransform::DetachChildTransform(GameEngineTransform* _Transform)
 {
 	// 자식이 자신을 해제해주기를 요청했으므로
 	// 자식목록에서 해당 자식을 제거
-	Childs_.remove(_Child);
+	Childs_.remove(_Transform);
+}
+
+TransformData& GameEngineTransform::GetTransformData()
+{
+	return TransData_;
 }
 
 void GameEngineTransform::AllChildCalculationScaling()
@@ -99,8 +104,14 @@ void GameEngineTransform::CalculationWorldRotation()
 
 void GameEngineTransform::CalculationLocalPosition()
 {
-	// 
-	
+	// ????
+	float4 WorldPostion = TransData_.vWorldPosition_ - Parent_->TransData_.vWorldPosition_;
+
+	WorldPostion.Rotate3DDegree(-Parent_->TransData_.vWorldRotation_);
+
+	WorldPostion /= Parent_->TransData_.vWorldScaling_;
+
+	TransData_.vWorldPosition_ = WorldPostion;
 }
 
 void GameEngineTransform::CalculationWorldPosition()

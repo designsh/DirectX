@@ -8,7 +8,7 @@ GameEngineShaderResHelper::GameEngineShaderResHelper()
 
 GameEngineShaderResHelper::~GameEngineShaderResHelper()
 {
-	for (auto& Setting : AllSettingData_)
+	for (auto& Setting : AllConstantBufferData_)
 	{
 		if (nullptr != Setting.second)
 		{
@@ -16,6 +16,17 @@ GameEngineShaderResHelper::~GameEngineShaderResHelper()
 			Setting.second = nullptr;
 		}
 	}
+}
+
+bool GameEngineShaderResHelper::IsConstantBuffer(const std::string& _SettingName)
+{
+	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
+	if (FindIter == AllConstantBufferData_.end())
+	{
+		return false;
+	}
+
+	return true;
 }
 
 void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
@@ -27,7 +38,7 @@ void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 		SettingData->Shader = _Shader;
 		SettingData->Res_ = ConstantBuffer.second;
 		SettingData->SettingIndex_ = ConstantBuffer.first;
-		auto Result = AllSettingData_.insert(std::make_pair(ConstantBuffer.second->GetName(), SettingData));
+		auto Result = AllConstantBufferData_.insert(std::make_pair(ConstantBuffer.second->GetName(), SettingData));
 		if (false == Result.second)
 		{
 			GameEngineDebug::MsgBoxError("같은 이름의 상수버퍼가 이미 존재합니다." + ConstantBuffer.second->GetName());
@@ -38,8 +49,13 @@ void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 void GameEngineShaderResHelper::Setting()
 {
 	// 데이터 갱신 or 데이터 세팅 및 셰이더에 상수버퍼를 세팅
-	for (auto& Setting : AllSettingData_)
+	for (auto& Setting : AllConstantBufferData_)
 	{
+		if (Setting.second->Mode_ == SettingMode::MAX)
+		{
+			GameEngineDebug::MsgBoxError("상수버퍼가 세팅되지 않았습니다. " + Setting.first);
+		}
+
 		Setting.second->ChangeData();
 		Setting.second->ShaderSetting();
 	}
