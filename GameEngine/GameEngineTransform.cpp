@@ -258,7 +258,7 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 	}
 
 	// 부모가 존재한다면
-	TransData_.vWorldPosition_ = _Value;
+	TransData_.vLocalPosition_ = _Value;
 
 	// 부모의 영향을 받는 월드위치을 계산
 	CalculationWorldPosition();
@@ -285,7 +285,7 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 	}
 
 	// 부모가 존재한다면
-	TransData_.vLocalPosition_ = _Value;
+	TransData_.vWorldPosition_ = _Value;
 
 	// 부모의 영향을 받는 로컬위치을 계산
 	CalculationLocalPosition();
