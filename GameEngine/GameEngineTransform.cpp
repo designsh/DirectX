@@ -104,32 +104,39 @@ void GameEngineTransform::CalculationWorldRotation()
 
 void GameEngineTransform::CalculationLocalPosition()
 {
-	// ????
-	float4 WorldPostion = TransData_.vWorldPosition_ - Parent_->TransData_.vWorldPosition_;
+	// 자전 : 회전 * 이동
+	// 공전 : 이동 * 회전(공전은 자전의 역순계산)
 
-	WorldPostion.Rotate3DDegree(-Parent_->TransData_.vWorldRotation_);
+	// 자신의 로컬위치를 계산하여 아무런 영향을 받지않고 위치만을 영향받은 로컬위치를 계산하고,
+	float4 LocalPosition = TransData_.vWorldPosition_ - Parent_->TransData_.vWorldPosition_;
 
-	WorldPostion /= Parent_->TransData_.vWorldScaling_;
+	// 로컬위치를 통해서 부모의 월드회전의 역벡터를 통하여 회전을 적용하고
+	LocalPosition.Rotate3DDegree(-Parent_->TransData_.vWorldRotation_);
 
-	TransData_.vWorldPosition_ = WorldPostion;
+	// 부모의 크기를 영향받은 최종적인 위치를 계산한다.
+	// 단, 부모의 크기가 0이면 0을나누는거므로 터진다.
+	LocalPosition /= Parent_->TransData_.vWorldScaling_;
+
+	// 최종적인 부모의 크기/회전/위치를 영향받은 나의 로컬위치를 계산한다.
+	TransData_.vLocalPosition_ = LocalPosition;
 }
 
 void GameEngineTransform::CalculationWorldPosition()
 {
 	// 자신의 로컬위치를 가져와서
-	float4 CalLocalPos = TransData_.vLocalPosition_;
+	float4 CalWorldPos = TransData_.vLocalPosition_;
 
 	// 크기를 증가시키고
-	CalLocalPos *= Parent_->TransData_.vWorldScaling_;
+	CalWorldPos *= Parent_->TransData_.vWorldScaling_;
 
 	// 회전을 시키고
-	CalLocalPos.Rotate3DDegree(Parent_->TransData_.vWorldRotation_);
+	CalWorldPos.Rotate3DDegree(Parent_->TransData_.vWorldRotation_);
 
 	// 부모의 위치로 이동한다.
-	CalLocalPos += Parent_->TransData_.vWorldPosition_;
+	CalWorldPos += Parent_->TransData_.vWorldPosition_;
 
 	// 이를 자신의 월드위치로 계산
-	TransData_.vWorldPosition_ = CalLocalPos;
+	TransData_.vWorldPosition_ = CalWorldPos;
 }
 
 void GameEngineTransform::SetLocalScaling(const float4& _Value)
