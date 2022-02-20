@@ -51,3 +51,21 @@ void GameEngineActor::SetLevel(GameEngineLevel* _Level)
 {
 	Level_ = _Level;
 }
+
+void GameEngineActor::TransformUpdate()
+{
+	Transform_->TransformUpdate();
+}
+
+void GameEngineActor::UpdateComponent()
+{
+	for (GameEngineComponent* Component : ComponentList_)
+	{
+		Component->Update();
+	}
+
+	for (GameEngineTransformComponent* Component : TransformComponentList_)
+	{
+		Component->Update();
+	}
+}

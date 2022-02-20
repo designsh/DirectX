@@ -115,6 +115,12 @@
     <Filter Include="Object\Component\Transform\TransformComponent">
       <UniqueIdentifier>{58f08281-9f31-49ef-912d-081d36bd680e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Camera">
+      <UniqueIdentifier>{1397e767-9d93-44a7-8698-7ef3367417f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\CameraActor">
+      <UniqueIdentifier>{df492c8a-db8e-4f20-888e-7fe834c0ddc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -212,6 +218,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineRenderer.cpp">
       <Filter>Object\Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraActor.cpp">
+      <Filter>Object\Actor\CameraActor</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Object\Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +325,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineRenderer.h">
       <Filter>Object\Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraActor.h">
+      <Filter>Object\Actor\CameraActor</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Object\Component\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

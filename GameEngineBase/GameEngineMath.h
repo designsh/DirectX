@@ -604,9 +604,9 @@ public: // 뷰행렬
 	}
 
 	// 관측자가 어떠한 방향을 바라본다.
-	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void ViewToLH(const float4& _EyePos, const float4& _EyeDir, const float4& _EyeUp)
 	{
-		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeDir.DirectVector, _EyeUp.DirectVector);
 	}
 
 public: // 투영행렬

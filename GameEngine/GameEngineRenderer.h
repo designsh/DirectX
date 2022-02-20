@@ -28,7 +28,8 @@ private:		//delete operator
 	GameEngineRenderer& operator=(const GameEngineRenderer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 private:
-	void Start();
+	void Start() override;
+	void Update() override;
 	virtual void Render();
 
 public:

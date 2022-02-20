@@ -19,6 +19,10 @@ void GameEngineRenderer::Start()
 	GetLevel()->PushRenderer(GetOrder(), this);
 }
 
+void GameEngineRenderer::Update()
+{
+}
+
 void GameEngineRenderer::Render()
 {
 	PipeLine_->Rendering();

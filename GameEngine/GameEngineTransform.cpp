@@ -2,7 +2,7 @@
 #include "GameEngineTransform.h"
 
 GameEngineTransform::GameEngineTransform() :
-	TransData_{},
+	TransformData_{},
 	Parent_(nullptr)	
 {
 }
@@ -36,7 +36,7 @@ void GameEngineTransform::DetachChildTransform(GameEngineTransform* _Transform)
 
 TransformData& GameEngineTransform::GetTransformData()
 {
-	return TransData_;
+	return TransformData_;
 }
 
 void GameEngineTransform::AllChildCalculationScaling()
@@ -81,25 +81,25 @@ void GameEngineTransform::AllChildCalculationPosition()
 void GameEngineTransform::CalculationLocalScaling()
 {
 	// 자신의 로컬크기 = 자신의 월드크기 / 부모의 월드크기
-	TransData_.vLocalScaling_ = TransData_.vWorldScaling_ / Parent_->TransData_.vWorldScaling_;
+	TransformData_.vLocalScaling_ = TransformData_.vWorldScaling_ / Parent_->TransformData_.vWorldScaling_;
 }
 
 void GameEngineTransform::CalculationWorldScaling()
 {
 	// 자신의 월드크기 = 부모의 월드크기 * 자신의 로컬크기
-	TransData_.vWorldScaling_ = Parent_->TransData_.vWorldScaling_ * TransData_.vLocalScaling_;
+	TransformData_.vWorldScaling_ = Parent_->TransformData_.vWorldScaling_ * TransformData_.vLocalScaling_;
 }
 
 void GameEngineTransform::CalculationLocalRotation()
 {
 	// 자신의 로컬회전 = 자신의 월드회전 - 부모의 월드회전
-	TransData_.vLocalRotation_ = TransData_.vWorldRotation_ - Parent_->TransData_.vWorldRotation_;
+	TransformData_.vLocalRotation_ = TransformData_.vWorldRotation_ - Parent_->TransformData_.vWorldRotation_;
 }
 
 void GameEngineTransform::CalculationWorldRotation()
 {
 	// 자신의 월드회전 = 부모의 월드회전 + 자신의 로컬회전
-	TransData_.vWorldRotation_ = Parent_->TransData_.vWorldRotation_ + TransData_.vLocalRotation_;
+	TransformData_.vWorldRotation_ = Parent_->TransformData_.vWorldRotation_ + TransformData_.vLocalRotation_;
 }
 
 void GameEngineTransform::CalculationLocalPosition()
@@ -108,35 +108,35 @@ void GameEngineTransform::CalculationLocalPosition()
 	// 공전 : 이동 * 회전(공전은 자전의 역순계산)
 
 	// 자신의 로컬위치를 계산하여 아무런 영향을 받지않고 위치만을 영향받은 로컬위치를 계산하고,
-	float4 LocalPosition = TransData_.vWorldPosition_ - Parent_->TransData_.vWorldPosition_;
+	float4 LocalPosition = TransformData_.vWorldPosition_ - Parent_->TransformData_.vWorldPosition_;
 
 	// 로컬위치를 통해서 부모의 월드회전의 역벡터를 통하여 회전을 적용하고
-	LocalPosition.Rotate3DDegree(-Parent_->TransData_.vWorldRotation_);
+	LocalPosition.Rotate3DDegree(-Parent_->TransformData_.vWorldRotation_);
 
 	// 부모의 크기를 영향받은 최종적인 위치를 계산한다.
 	// 단, 부모의 크기가 0이면 0을나누는거므로 터진다.
-	LocalPosition /= Parent_->TransData_.vWorldScaling_;
+	LocalPosition /= Parent_->TransformData_.vWorldScaling_;
 
 	// 최종적인 부모의 크기/회전/위치를 영향받은 나의 로컬위치를 계산한다.
-	TransData_.vLocalPosition_ = LocalPosition;
+	TransformData_.vLocalPosition_ = LocalPosition;
 }
 
 void GameEngineTransform::CalculationWorldPosition()
 {
 	// 자신의 로컬위치를 가져와서
-	float4 CalWorldPos = TransData_.vLocalPosition_;
+	float4 CalWorldPos = TransformData_.vLocalPosition_;
 
 	// 크기를 증가시키고
-	CalWorldPos *= Parent_->TransData_.vWorldScaling_;
+	CalWorldPos *= Parent_->TransformData_.vWorldScaling_;
 
 	// 회전을 시키고
-	CalWorldPos.Rotate3DDegree(Parent_->TransData_.vWorldRotation_);
+	CalWorldPos.Rotate3DDegree(Parent_->TransformData_.vWorldRotation_);
 
 	// 부모의 위치로 이동한다.
-	CalWorldPos += Parent_->TransData_.vWorldPosition_;
+	CalWorldPos += Parent_->TransformData_.vWorldPosition_;
 
 	// 이를 자신의 월드위치로 계산
-	TransData_.vWorldPosition_ = CalWorldPos;
+	TransformData_.vWorldPosition_ = CalWorldPos;
 }
 
 void GameEngineTransform::SetLocalScaling(const float4& _Value)
@@ -147,8 +147,8 @@ void GameEngineTransform::SetLocalScaling(const float4& _Value)
 	if (nullptr == Parent_)
 	{
 		// 자신의 월드크기 = 자신의 로컬크기
-		TransData_.vLocalScaling_ = _Value;
-		TransData_.vWorldScaling_ = _Value;
+		TransformData_.vLocalScaling_ = _Value;
+		TransformData_.vWorldScaling_ = _Value;
 
 		// 자식이 존재한다면 자식을 모두 계산
 		AllChildCalculationScaling();
@@ -157,7 +157,7 @@ void GameEngineTransform::SetLocalScaling(const float4& _Value)
 	}
 
 	// 부모가 존재한다면
-	TransData_.vLocalScaling_ = _Value;
+	TransformData_.vLocalScaling_ = _Value;
 
 	// 부모의 영향을 받는 자신의 월드크기를 계산
 	CalculationWorldScaling();
@@ -174,8 +174,8 @@ void GameEngineTransform::SetWorldScaling(const float4& _Value)
 	if (nullptr == Parent_)
 	{
 		// 자신의 월드크기 = 자신의 로컬크기
-		TransData_.vLocalScaling_ = _Value;
-		TransData_.vWorldScaling_ = _Value;
+		TransformData_.vLocalScaling_ = _Value;
+		TransformData_.vWorldScaling_ = _Value;
 
 		// 자식이 존재한다면 자식을 모두 계산
 		AllChildCalculationScaling();
@@ -184,7 +184,7 @@ void GameEngineTransform::SetWorldScaling(const float4& _Value)
 	}
 
 	// 부모가 존재한다면
-	TransData_.vWorldScaling_ = _Value;
+	TransformData_.vWorldScaling_ = _Value;
 
 	// 부모의 영향을 받는 자신의 로컬크기를 계산
 	CalculationLocalScaling();
@@ -201,8 +201,8 @@ void GameEngineTransform::SetLocalRotation(const float4& _Value)
 	if (nullptr == Parent_)
 	{
 		// 자신의 월드회전 = 자신의 로컬회전
-		TransData_.vLocalRotation_ = _Value;
-		TransData_.vWorldRotation_ = _Value;
+		TransformData_.vLocalRotation_ = _Value;
+		TransformData_.vWorldRotation_ = _Value;
 
 		// 자식이 존재한다면 자식을 모두 계산
 		AllChildCalculationRotation();
@@ -211,7 +211,7 @@ void GameEngineTransform::SetLocalRotation(const float4& _Value)
 	}
 
 	// 부모가 존재한다면
-	TransData_.vLocalRotation_ = _Value;
+	TransformData_.vLocalRotation_ = _Value;
 
 	// 부모의 영향을 받는 월드회전을 계산
 	CalculationWorldRotation();
@@ -228,8 +228,8 @@ void GameEngineTransform::SetWorldRotation(const float4& _Value)
 	if (nullptr == Parent_)
 	{
 		// 자신의 월드회전 = 자신의 로컬회전
-		TransData_.vLocalRotation_ = _Value;
-		TransData_.vWorldRotation_ = _Value;
+		TransformData_.vLocalRotation_ = _Value;
+		TransformData_.vWorldRotation_ = _Value;
 
 		// 자식이 존재한다면 자식을 모두 계산
 		AllChildCalculationRotation();
@@ -238,7 +238,7 @@ void GameEngineTransform::SetWorldRotation(const float4& _Value)
 	}
 
 	// 부모가 존재한다면
-	TransData_.vWorldRotation_ = _Value;
+	TransformData_.vWorldRotation_ = _Value;
 
 	// 부모의 영향을 받는 로컬회전을 계산
 	CalculationLocalRotation();
@@ -255,8 +255,8 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 	if (nullptr == Parent_)
 	{
 		// 자신의 월드위치 = 자신의 로컬위치
-		TransData_.vLocalPosition_ = _Value;
-		TransData_.vWorldPosition_ = _Value;
+		TransformData_.vLocalPosition_ = _Value;
+		TransformData_.vWorldPosition_ = _Value;
 
 		// 자식이 존재한다면 모두 계산
 		AllChildCalculationPosition();
@@ -265,7 +265,7 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 	}
 
 	// 부모가 존재한다면
-	TransData_.vLocalPosition_ = _Value;
+	TransformData_.vLocalPosition_ = _Value;
 
 	// 부모의 영향을 받는 월드위치을 계산
 	CalculationWorldPosition();
@@ -282,8 +282,8 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 	if (nullptr == Parent_)
 	{
 		// 자신의 월드위치 = 자신의 로컬위치
-		TransData_.vLocalPosition_ = _Value;
-		TransData_.vWorldPosition_ = _Value;
+		TransformData_.vLocalPosition_ = _Value;
+		TransformData_.vWorldPosition_ = _Value;
 
 		// 자식이 존재한다면 모두 계산
 		AllChildCalculationPosition();
@@ -292,7 +292,7 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 	}
 
 	// 부모가 존재한다면
-	TransData_.vWorldPosition_ = _Value;
+	TransformData_.vWorldPosition_ = _Value;
 
 	// 부모의 영향을 받는 로컬위치을 계산
 	CalculationLocalPosition();
@@ -301,22 +301,88 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 	AllChildCalculationPosition();
 }
 
+float4 GameEngineTransform::GetLocalScaling() const
+{
+	return TransformData_.vLocalScaling_;
+}
+
+float4 GameEngineTransform::GetWorldScaling() const
+{
+	return TransformData_.vWorldScaling_;
+}
+
+float4 GameEngineTransform::GetLocalRotation() const
+{
+	return TransformData_.vLocalRotation_;
+}
+
+float4 GameEngineTransform::GetWorldRotation() const
+{
+	return TransformData_.vWorldRotation_;
+}
+
+float4 GameEngineTransform::GetLocalPosition() const
+{
+	return TransformData_.vLocalPosition_;
+}
+
+float4 GameEngineTransform::GetWorldPosition() const
+{
+	return TransformData_.vWorldPosition_;
+}
+
+float4 GameEngineTransform::GetWorldForwardVector() const
+{
+	return TransformData_.WorldWorld_.vz.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetLocalForwardVector() const
+{
+	return TransformData_.LocalWorld_.vz.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetWorldRightVector() const
+{
+	return TransformData_.WorldWorld_.vx.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetLocalRightVector() const
+{
+	return TransformData_.LocalWorld_.vx.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetWorldUpVector() const
+{
+	return TransformData_.WorldWorld_.vy.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetLocalUpVector() const
+{
+	return TransformData_.LocalWorld_.vy.NormalizeReturn3D();
+}
+
 void GameEngineTransform::TransformUpdate()
 {
 	// 나의 로컬 크기/회전(자전)/위치 행렬을 생성하고,
 	// 이 정보를 통해 로컬월드행렬을 생성
-	TransData_.LocalCalculation();
+	TransformData_.LocalCalculation();
 
 	// 만약 부모가 존재한다면
 	if (nullptr != Parent_)
 	{
 		// 자신의 월드행렬 = 자신의 로컬월드행렬
 		// 자신의 월드행렬 *= 부모의 월드행렬
-		TransData_.ParentSetting(Parent_->TransData_.WorldWorld_);
+		TransformData_.ParentSetting(Parent_->TransformData_.WorldWorld_);
 	}
 	else // 현재 부모가 존재하지않다면
 	{
 		// 자신의 월드행렬 = 자신의 로컬행렬
-		TransData_.RootCalculation();
+		TransformData_.RootCalculation();
+	}
+
+	// 
+	for (GameEngineTransform* ChildTransform_ : Childs_)
+	{
+		ChildTransform_->TransformUpdate();
 	}
 }

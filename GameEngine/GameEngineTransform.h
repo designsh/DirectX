@@ -35,6 +35,13 @@ public:
 	float4x4 Projection_;
 
 public:
+	TransformData() : 
+		vWorldScaling_(float4::ONE), 
+		vLocalScaling_(float4::ONE)
+	{
+	}
+
+public:
 	// 로컬행렬(크기/회전/위치/월드) 생성
 	void LocalCalculation()
 	{
@@ -68,9 +75,9 @@ public:
 class GameEngineTransform
 {
 private:	// member Var
-	TransformData										TransData_;		// 로컬/월드 크기/회전/위치 및 공전, 부모 행렬을 제공하는 트랜스폼 정보
-	GameEngineTransform*						Parent_;				// 현재 트랜스폼의 부모 트랜스폼
-	std::list<GameEngineTransform*>	Childs_;				// 현재 트랜스폼의 자식 트랜스폼 목록
+	TransformData										TransformData_;		// 로컬/월드 크기/회전/위치 및 공전, 부모 행렬을 제공하는 트랜스폼 정보
+	GameEngineTransform*						Parent_;							// 현재 트랜스폼의 부모 트랜스폼
+	std::list<GameEngineTransform*>	Childs_;							// 현재 트랜스폼의 자식 트랜스폼 목록
 
 public:
 	GameEngineTransform();
@@ -111,12 +118,26 @@ private: // 내부처리
 public:
 	void SetLocalScaling(const float4& _Value);				// 자신의 로컬크기를 Set
 	void SetWorldScaling(const float4& _Value);				// 자신의 월드크기를 Set
-
 	void SetLocalRotation(const float4& _Value);			// 자신의 로컬회전을 Set
 	void SetWorldRotation(const float4& _Value);			// 자신의 월드회전을 Set
-
 	void SetLocalPosition(const float4& _Value);				// 자신의 로컬위치를 Set
 	void SetWorldPosition(const float4& _Value);			// 자신의 월드위치를 Set
+
+public: // 기본 상수버퍼 관련
+	float4 GetLocalScaling() const;
+	float4 GetWorldScaling() const;
+	float4 GetLocalRotation() const;
+	float4 GetWorldRotation() const;
+	float4 GetLocalPosition() const;
+	float4 GetWorldPosition() const;
+
+public: // 카메라 관련
+	float4 GetWorldForwardVector() const;
+	float4 GetLocalForwardVector() const;
+	float4 GetWorldRightVector() const;
+	float4 GetLocalRightVector() const;
+	float4 GetWorldUpVector() const;
+	float4 GetLocalUpVector() const;
 
 public:
 	void TransformUpdate();													// 정보 갱신 및 셰이더에 전달하는 물체의 정보 갱신

@@ -73,7 +73,11 @@ public: // 컴포넌트 생성
 	}
 
 protected:
-	virtual void Start() = 0;
-	virtual void Update(float _DeltaTime) = 0;
+	virtual void Start() {}
+	virtual void TransformUpdate();
+	virtual void Update(float _DeltaTime) {}
+
+public:
+	void UpdateComponent();
 };
 
