@@ -23,6 +23,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Object\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -70,6 +73,9 @@
       <Filter>Object\Level</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>

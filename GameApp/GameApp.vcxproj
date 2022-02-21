@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -50,6 +51,7 @@
     <ClCompile Include="UserGame_Resources_Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="Player.h">
       <SubType>

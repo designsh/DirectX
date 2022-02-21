@@ -72,10 +72,11 @@ public: // 레벨체인지 관련
 	virtual void LevelChangeStartEvent() = 0;
 
 public: // 레벨시작 및 갱신관련
+	void Init();
 	virtual void LevelStart() = 0;
 	virtual void LevelUpdate(float _DeltaTime) = 0;
 
 public:
-	void Init();
+	void Release(float _DeltaTime);
 };
 

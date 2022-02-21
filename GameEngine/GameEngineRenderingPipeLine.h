@@ -42,10 +42,6 @@ private:
 private:
 	GameEngineRenderTarget*		RenderTarget_;											// Render Target(OM)
 
-// ======================================== 셰이더 세팅 관련 ======================================== //
-public:
-	GameEngineShaderResHelper ShaderHelper;
-
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
 	~GameEngineRenderingPipeLine(); // default destructer 디폴트 소멸자
@@ -57,6 +53,17 @@ protected:		// delete constructer
 private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+
+public:
+	inline GameEnginePixelShader* GetPixelShader() const
+	{
+		return PixelShader_;
+	}
+
+	inline GameEngineVertexShader* GetVertexShader() const
+	{
+		return VertexShader_;
+	}
 
 // ======================================== Rendering PipeLine 준비단계 ======================================== //
 public: // Assembler1 Setting

@@ -301,6 +301,36 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 	AllChildCalculationPosition();
 }
 
+void GameEngineTransform::SetLocalDeltaTimeRotation(const float4& _Value)
+{
+	SetLocalRotation(TransformData_.vLocalRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+}
+
+void GameEngineTransform::SetWorldDeltaTimeRotation(const float4& _Value)
+{
+	SetWorldRotation(TransformData_.vWorldRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+}
+
+void GameEngineTransform::SetLocalDeltaTimeMove(const float4& _Value)
+{
+	SetLocalPosition(TransformData_.vLocalPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+}
+
+void GameEngineTransform::SetWorldDeltaTimeMove(const float4& _Value)
+{
+	SetWorldPosition(TransformData_.vWorldPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+}
+
+void GameEngineTransform::SetLocalMove(const float4& _Value)
+{
+	SetLocalPosition(TransformData_.vLocalPosition_ + _Value);
+}
+
+void GameEngineTransform::SetWorldMove(const float4& _Value)
+{
+	SetWorldPosition(TransformData_.vWorldPosition_ + _Value);
+}
+
 float4 GameEngineTransform::GetLocalScaling() const
 {
 	return TransformData_.vLocalScaling_;

@@ -4,9 +4,12 @@
 #include "GameEngineRenderingPipeLineManager.h"
 #include "GameEngineRenderingPipeLine.h"
 #include "GameEngineTransform.h"
+#include "GameEngineVertexShader.h"
+#include "GameEnginePixelShader.h"
 
 GameEngineRenderer::GameEngineRenderer() :
-	PipeLine_(nullptr)
+	PipeLine_(nullptr),
+	ShaderHelper()
 {
 }
 
@@ -25,6 +28,7 @@ void GameEngineRenderer::Update()
 
 void GameEngineRenderer::Render()
 {
+	ShaderHelper.Setting();
 	PipeLine_->Rendering();
 }
 
@@ -37,9 +41,11 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 	}
 	else
 	{
-		if (true == PipeLine_->ShaderHelper.IsConstantBuffer("TransformData"))
+		ShaderHelper.ShaderResourcesCheck(PipeLine_->GetVertexShader());
+		ShaderHelper.ShaderResourcesCheck(PipeLine_->GetPixelShader());
+		if (true == ShaderHelper.IsConstantBuffer("TransformData"))
 		{
-			PipeLine_->ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
+			ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
 		}
 	}
 }

@@ -18,6 +18,21 @@ GameEngineShaderResHelper::~GameEngineShaderResHelper()
 	}
 }
 
+void GameEngineShaderResHelper::Setting()
+{
+	// 데이터 갱신 or 데이터 세팅 및 셰이더에 상수버퍼를 세팅
+	for (auto& Setting : AllConstantBufferData_)
+	{
+		if (Setting.second->Mode_ == SettingMode::MAX)
+		{
+			GameEngineDebug::MsgBoxError("상수버퍼가 세팅되지 않았습니다. " + Setting.first);
+		}
+
+		Setting.second->ChangeData();
+		Setting.second->ShaderSetting();
+	}
+}
+
 bool GameEngineShaderResHelper::IsConstantBuffer(const std::string& _SettingName)
 {
 	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
@@ -43,20 +58,5 @@ void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 		{
 			GameEngineDebug::MsgBoxError("같은 이름의 상수버퍼가 이미 존재합니다." + ConstantBuffer.second->GetName());
 		}
-	}
-}
-
-void GameEngineShaderResHelper::Setting()
-{
-	// 데이터 갱신 or 데이터 세팅 및 셰이더에 상수버퍼를 세팅
-	for (auto& Setting : AllConstantBufferData_)
-	{
-		if (Setting.second->Mode_ == SettingMode::MAX)
-		{
-			GameEngineDebug::MsgBoxError("상수버퍼가 세팅되지 않았습니다. " + Setting.first);
-		}
-
-		Setting.second->ChangeData();
-		Setting.second->ShaderSetting();
 	}
 }

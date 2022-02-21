@@ -19,6 +19,10 @@ private:
 	std::list<GameEngineComponent*>								ComponentList_;								// 액터는 Transform을 가지지않는 여러개의 컴포넌트를 가질수 있다.
 	std::list<GameEngineTransformComponent*>			TransformComponentList_;			// 액터는 Transform을 가지는 여러개의 컴포넌트를 가질수 있다.
 
+private:
+	bool																						IsDestroyed_;										// 루프도중 삭제되는 액터가 존재하는지 판단하는 Flag
+	float																						DeathTime_;										// n초뒤 해당 액터를 사망시킬때 사용
+
 public:
 	GameEngineActor(); // default constructer 디폴트 생성자
 	~GameEngineActor(); // default destructer 디폴트 소멸자
@@ -34,6 +38,8 @@ private:		//delete operator
 public:
 	GameEngineLevel* GetLevel() const;
 	GameEngineTransform* GetTransform();
+
+public:
 	void SetLevel(GameEngineLevel* Level);
 
 public: // 컴포넌트 생성
@@ -76,8 +82,12 @@ protected:
 	virtual void Start() {}
 	virtual void TransformUpdate();
 	virtual void Update(float _DeltaTime) {}
+	virtual void ReleaseEvent() {}
 
 public:
 	void UpdateComponent();
+	void ComponentRelease();
+	void Release(float _Time = 0.0f);
+	void ReleaseUpdate(float _DeltaTime);
 };
 

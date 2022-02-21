@@ -121,6 +121,9 @@
     <Filter Include="Object\Actor\CameraActor">
       <UniqueIdentifier>{df492c8a-db8e-4f20-888e-7fe834c0ddc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Control">
+      <UniqueIdentifier>{1c9d0afb-51cb-429a-ae77-938edd74e925}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>Object\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineInput.cpp">
+      <Filter>Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>Object\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineInput.h">
+      <Filter>Control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

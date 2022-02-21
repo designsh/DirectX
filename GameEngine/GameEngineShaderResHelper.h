@@ -7,10 +7,11 @@
 // 설명 : 셰이더에 세팅하는 모든 상수버퍼를 관리하며 해당 상수버퍼가 계속되어 갱신되는지 한번의 세팅으로
 //            고정값을 사용하는지를 판단하여 셰이더 세팅하는 기능을 제공한다.
 //            결론적으로 각각의 셰이더에서 세팅한 데이터덩어리(상수버퍼)를 복제하여 관리하는 클래스
-class GameEngineShader;
 class GameEngineConstantBuffer;
 class GameEngineShaderResHelper
 {
+	friend class  GameEngineRenderer;
+
 private:	// member Var
 	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBufferData_;
 
@@ -26,10 +27,12 @@ private:		//delete operator
 	GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper& _other) = delete;
 	GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper&& _other) = delete;
 
+private:
+	void Setting();
+
 public:
 	bool IsConstantBuffer(const std::string& _SettingName);
 	void ShaderResourcesCheck(GameEngineShader* _Shader);
-	void Setting();
 
 public:
 	// SettingMode::LINK로 해당 상수버퍼의 내부 데이터만을 갱신하는 기능

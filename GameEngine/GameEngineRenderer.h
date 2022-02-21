@@ -1,7 +1,8 @@
 #pragma once
 #include "GameEngineTransformComponent.h"
+#include "GameEngineShaderResHelper.h"
 
-// 분류 : 
+// 분류 : 렌더러(Renderer)
 // 용도 : 
 // 설명 : 
 class GameEngineLevel;
@@ -11,6 +12,9 @@ class GameEngineRenderer : public GameEngineTransformComponent
 	friend GameEngineLevel;
 
 private:	// member Var
+
+public:
+	GameEngineShaderResHelper ShaderHelper;
 
 protected:
 	GameEngineRenderingPipeLine* PipeLine_;

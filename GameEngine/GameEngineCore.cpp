@@ -3,6 +3,7 @@
 #include "GameEngineWindow.h"
 #include "GameEngineDevice.h"
 #include "GameEngineLevel.h"
+#include "GameEngineInput.h"
 
 // Release
 #include "GameEngineManager.h"
@@ -55,6 +56,7 @@ void GameEngineCore::MainLoop()
 {
 	GameEngineTime::GetInst().TimeCheck();
 	GameEngineSoundManager::GetInst().SoundUpdate();
+	GameEngineInput::GetInst().Update();
 
 	// 레벨 체인지 체크
 	if (nullptr != NextLevel_)
@@ -69,6 +71,8 @@ void GameEngineCore::MainLoop()
 			NextLevel_->LevelChangeStartEvent();
 			CurrentLevel_ = NextLevel_;
 		}
+
+		NextLevel_ = nullptr;
 		GameEngineTime::GetInst().TimeCheckReset();
 	}
 
@@ -79,6 +83,9 @@ void GameEngineCore::MainLoop()
 	CurrentLevel_->LevelUpdate(GameEngineTime::GetInst().GetDeltaTime());
 	CurrentLevel_->ActorUpdate(GameEngineTime::GetInst().GetDeltaTime());
 	CurrentLevel_->Render();
+
+	// 루프 중간에 사망처리로 제거되는 액터 or 컴포넌트를 관리목록에서 제거
+	CurrentLevel_->Release(GameEngineTime::GetInst().GetDeltaTime());
 }
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
@@ -119,6 +126,7 @@ void GameEngineCore::EngineDestory()
 	GameEngineManagerHelper::ManagerRelease();
 
 	// Base Release
+	GameEngineInput::Destroy();
 	GameEngineTime::Destroy();
 	GameEngineDevice::Destroy();
 	GameEngineWindow::Destroy();

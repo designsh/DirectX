@@ -59,6 +59,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineInput.h" />
     <ClInclude Include="GameEngineLevel.h">
       <SubType>
       </SubType>
@@ -195,6 +196,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineInput.cpp" />
     <ClCompile Include="GameEngineLevel.cpp">
       <SubType>
       </SubType>
