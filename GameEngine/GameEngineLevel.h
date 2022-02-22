@@ -18,13 +18,10 @@ private:	// member Var
 	// Value값 : 액터목록
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
 
-// ================================== Renderer 관련 ================================== //
-private:
-	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
-
 // =================================== Camera 관련 ================================== //
 private:
-	CameraActor* MainCameraActor_;
+	CameraActor* MainCameraActor_;		// 
+	CameraActor* UICameraActor_;			// 
 
 public:
 	GameEngineLevel();
@@ -37,10 +34,6 @@ protected:		// delete constructer
 private:		//delete operator
 	GameEngineLevel& operator=(const GameEngineLevel& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineLevel& operator=(const GameEngineLevel&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
-
-// ================================== Renderer 관련 ================================== //
-private:
-	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
 
 // ==================================== Actor 관련 =================================== //
 public:
@@ -66,6 +59,8 @@ public:
 public:
 	CameraActor* GetMainCameraActor();
 	CameraComponent* GetMainCamera();
+	CameraActor* GetUICameraActor();
+	CameraComponent* GetUICamera();
 
 public: // 레벨체인지 관련
 	virtual void LevelChangeEndEvent() = 0;

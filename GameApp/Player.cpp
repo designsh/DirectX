@@ -2,9 +2,10 @@
 #include "Player.h"
 #include "Bullet.h"
 
-#include "GameEngine/GameEngineRenderer.h"
+#include <GameEngine/GameEngineImageRenderer.h>
 
-Player::Player()
+Player::Player() :
+	PlayerImageRenderer(nullptr)
 {
 }
 
@@ -15,17 +16,16 @@ Player::~Player()
 void Player::Start()
 {
 	{
-		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
-		Renderer->SetRenderingPipeLine("Color");
-		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
-		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 0.0f, 1.0f));
+		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		PlayerImageRenderer->SetImage();
+		PlayerImageRenderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
 	}
 
 	{
 		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
 		Renderer->SetRenderingPipeLine("Color");
-		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
-		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 150.0f, 0.0f });
+		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 20.0f, 1.0f });
+		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 80.0f, 0.0f });
 		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 0.0f, 1.0f));
 	}
 
@@ -62,12 +62,12 @@ void Player::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst().Press("RotZ+"))
 	{
-		GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, 1.0f } *100.0f);
+		PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, 1.0f } *100.0f);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("RotZ-"))
 	{
-		GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, -1.0f } *100.0f);
+		PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, -1.0f } *100.0f);
 	}
 
 	if (true == GameEngineInput::GetInst().Down("Fire"))
@@ -76,4 +76,6 @@ void Player::Update(float _DeltaTime)
 		NewBullet->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 		NewBullet->Release(10.0f);
 	}
+
+	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 }

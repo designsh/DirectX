@@ -6,10 +6,12 @@
 // 용도 : 
 // 설명 : 
 class GameEngineLevel;
+class CameraComponent;
 class GameEngineRenderingPipeLine;
 class GameEngineRenderer : public GameEngineTransformComponent
 {
 	friend GameEngineLevel;
+	friend CameraComponent;
 
 private:	// member Var
 
@@ -31,8 +33,10 @@ private:		//delete operator
 	GameEngineRenderer& operator=(const GameEngineRenderer& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineRenderer& operator=(const GameEngineRenderer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-private:
+protected:
 	void Start() override;
+
+private:
 	void Update() override;
 	virtual void Render();
 

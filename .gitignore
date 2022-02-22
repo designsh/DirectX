@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+!/ThirdParty/x64/Release/DirectXTex
+!/ThirdParty/x64/Release/FMOD

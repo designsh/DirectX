@@ -6,6 +6,7 @@
 #include "GameEngineTransform.h"
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
+#include "CameraComponent.h"
 
 GameEngineRenderer::GameEngineRenderer() :
 	PipeLine_(nullptr),
@@ -19,7 +20,7 @@ GameEngineRenderer::~GameEngineRenderer()
 
 void GameEngineRenderer::Start()
 {
-	GetLevel()->PushRenderer(GetOrder(), this);
+	GetLevel()->GetMainCamera()->PushRenderer(GetOrder(), this);
 }
 
 void GameEngineRenderer::Update()

@@ -4,9 +4,11 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineImageRenderer;
 class Player : public GameEngineActor
 {
 private:	// member Var
+	GameEngineImageRenderer* PlayerImageRenderer;
 
 public:
 	Player();

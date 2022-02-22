@@ -8,7 +8,8 @@
 #include "CameraComponent.h"
 
 GameEngineLevel::GameEngineLevel() :
-	MainCameraActor_(nullptr)
+	MainCameraActor_(nullptr),
+	UICameraActor_(nullptr)
 {
 }
 
@@ -26,11 +27,6 @@ GameEngineLevel::~GameEngineLevel()
 			}
 		}
 	}
-}
-
-void GameEngineLevel::PushRenderer(int _Order, GameEngineRenderer* _Renderer)
-{
-	RendererList_[_Order].push_back(_Renderer);
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
@@ -70,25 +66,11 @@ void GameEngineLevel::Render()
 {
 	GameEngineDevice::RenderStart();
 
-	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)
-	{
-		std::list<GameEngineRenderer*>& Renderers = Pair.second;
-		float4x4 View = MainCameraActor_->GetViewMatrix();
-		float4x4 Porjection = MainCameraActor_->GetPorjectionMatrix();
+	// MainCamera가 가지는 모든 렌더러를 렌더링
+	MainCameraActor_->GetCamera()->Render();
 
-		for (GameEngineRenderer* Renderer : Renderers)
-		{
-			if (false == Renderer->IsUpdate())
-			{
-				continue;
-			}
-
-			Renderer->GetTransform()->GetTransformData().Projection_ = Porjection;
-			Renderer->GetTransform()->GetTransformData().View_ = View;
-
-			Renderer->Render();
-		}
-	}
+	// UICamera가 가지는 모든 렌더러를 렌더링
+	UICameraActor_->GetCamera()->Render();
 
 	GameEngineDevice::RenderEnd();
 }
@@ -103,10 +85,25 @@ CameraComponent* GameEngineLevel::GetMainCamera()
 	return MainCameraActor_->GetCamera();
 }
 
+CameraActor* GameEngineLevel::GetUICameraActor()
+{
+	return UICameraActor_;
+}
+
+CameraComponent* GameEngineLevel::GetUICamera()
+{
+	return UICameraActor_->GetCamera();
+}
+
 void GameEngineLevel::Init()
 {
 	// 레벨 초기화시 메인카메라를 반드시 생성한다.
 	MainCameraActor_ = CreateActor<CameraActor>();
+
+	// UI Camera 액터를 생성하며 투영타입을 직교투영으로 고정한다.
+	UICameraActor_ = CreateActor<CameraActor>();
+	UICameraActor_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void GameEngineLevel::Release(float _DeltaTime)
@@ -121,34 +118,8 @@ void GameEngineLevel::Release(float _DeltaTime)
 		}
 	}
 
-	std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapBeginIter = RendererList_.begin();
-	std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapEndIter = RendererList_.end();
-	for (; RenderMapBeginIter != RenderMapEndIter; ++RenderMapBeginIter)
-	{
-		std::list<GameEngineRenderer*>& Renderers = RenderMapBeginIter->second;
-
-		std::list<GameEngineRenderer*>::iterator RendererBeginIter = Renderers.begin();
-		std::list<GameEngineRenderer*>::iterator RendererEndIter = Renderers.end();
-
-		for (; RendererBeginIter != RendererEndIter; )
-		{
-			GameEngineRenderer* ReleaseRenderer = *RendererBeginIter;
-
-			if (nullptr == ReleaseRenderer)
-			{
-				GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
-			}
-
-			if (true == ReleaseRenderer->IsDeath())
-			{
-				RendererBeginIter = Renderers.erase(RendererBeginIter);
-
-				continue;
-			}
-
-			++RendererBeginIter;
-		}
-	}
+	MainCameraActor_->GetCamera()->ReleaseRenderer();
+	UICameraActor_->GetCamera()->ReleaseRenderer();
 
 	std::map<int, std::list<GameEngineActor*>>::iterator ActorMapBeginIter = ActorList_.begin();
 	std::map<int, std::list<GameEngineActor*>>::iterator ActorMapEndIter = ActorList_.end();

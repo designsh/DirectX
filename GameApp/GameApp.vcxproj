@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -43,6 +44,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TopUI.cpp" />
     <ClCompile Include="UserGame.cpp">
       <SubType>
       </SubType>
@@ -53,6 +55,7 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="Monster.h" />
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>
@@ -66,6 +69,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TopUI.h" />
     <ClInclude Include="UserGame.h">
       <SubType>
       </SubType>

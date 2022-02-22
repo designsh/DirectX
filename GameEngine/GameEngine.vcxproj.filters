@@ -124,6 +124,12 @@
     <Filter Include="Control">
       <UniqueIdentifier>{1c9d0afb-51cb-429a-ae77-938edd74e925}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Renderer\UI">
+      <UniqueIdentifier>{bb383447-0dc6-4c7b-bbd4-aa3ea6b4592c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Renderer\Image">
+      <UniqueIdentifier>{0313a8f8-e5eb-4b1b-bd86-517e24fed2d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -230,6 +236,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineInput.cpp">
       <Filter>Control</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineUIRenderer.cpp">
+      <Filter>Object\Component\Renderer\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineImageRenderer.cpp">
+      <Filter>Object\Component\Renderer\Image</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +352,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineInput.h">
       <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineUIRenderer.h">
+      <Filter>Object\Component\Renderer\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineImageRenderer.h">
+      <Filter>Object\Component\Renderer\Image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
