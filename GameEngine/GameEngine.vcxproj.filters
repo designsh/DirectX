@@ -130,6 +130,12 @@
     <Filter Include="Object\Component\Renderer\Image">
       <UniqueIdentifier>{0313a8f8-e5eb-4b1b-bd86-517e24fed2d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{b5bd0708-b6b3-49e8-9590-2eafcd28d45b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\DirectXTex">
+      <UniqueIdentifier>{9983d432-a8e3-495a-8507-70a2101f8257}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -364,5 +370,10 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>Resources\01Shader\HLSL%28ShaderCode%29</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
+      <Filter>Lib\DirectXTex</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

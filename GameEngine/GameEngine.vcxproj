@@ -323,6 +323,11 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VertexShaderFunction</EntryPointName>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
