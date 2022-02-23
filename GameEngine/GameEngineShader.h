@@ -16,6 +16,7 @@ enum class ShaderType
 //            단, 해당 클래스 자체로 객체화 하면 문제가 발생하므로 순수가상소멸자를 이용하여
 //            객체화를 막는다.
 class GameEngineConstantBufferSetting;
+class GameEngineTextureSetting;
 class GameEngineShader : public GameEngineObjectNameBase
 {
 private:
@@ -60,5 +61,6 @@ public:
 
 public:
 	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
+	virtual void SetTexture(const GameEngineTextureSetting* _Setting) = 0;
 };
 

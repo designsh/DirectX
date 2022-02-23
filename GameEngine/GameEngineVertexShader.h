@@ -71,5 +71,9 @@ public: // InputLayout Setting
 //========================================= 상수버퍼 세팅관련 기능함수 =========================================//
 public:
 	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+
+//========================================== 텍스쳐 세팅관련 기능함수 =========================================//
+public:
+	void SetTexture(const GameEngineTextureSetting* _Setting) override;
 };
 

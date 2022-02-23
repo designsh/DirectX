@@ -136,6 +136,18 @@
     <Filter Include="Lib\DirectXTex">
       <UniqueIdentifier>{9983d432-a8e3-495a-8507-70a2101f8257}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib\DirectXTex\Debug">
+      <UniqueIdentifier>{4d20680b-28ce-4d37-bc30-39a00030f747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\DirectXTex\Release">
+      <UniqueIdentifier>{6bac904b-682c-42e5-9ebf-7f3567a74ce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\04Sampler">
+      <UniqueIdentifier>{84052719-6ebb-469e-9d4d-ebf3ccea58a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Sampler">
+      <UniqueIdentifier>{bb58328f-02af-4bd0-b783-666f515f6208}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -248,6 +260,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineImageRenderer.cpp">
       <Filter>Object\Component\Renderer\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSampler.cpp">
+      <Filter>Resources\04Sampler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSamplerManager.cpp">
+      <Filter>Resources\99Manager\Sampler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -365,6 +383,12 @@
     <ClInclude Include="GameEngineImageRenderer.h">
       <Filter>Object\Component\Renderer\Image</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineSampler.h">
+      <Filter>Resources\04Sampler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSamplerManager.h">
+      <Filter>Resources\99Manager\Sampler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -373,7 +397,10 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
-      <Filter>Lib\DirectXTex</Filter>
+      <Filter>Lib\DirectXTex\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\DirectXTex\DirectXTex.lib">
+      <Filter>Lib\DirectXTex\Debug</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

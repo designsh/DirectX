@@ -31,5 +31,6 @@ public:		//member Func
 public:
 	std::string GetFileName();
 	std::string GetFileNameWithOutExtension();
+	std::string GetExtension();
 };
 

@@ -117,6 +117,16 @@ void GameEngineShader::ResCheck()
 
 				break;
 			}
+			case D3D_SIT_SAMPLER:
+			{
+				D3D11_SAMPLER_DESC Smp_Decs = {};
+
+				Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;	// 색뭉개기
+				Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT;		// 색도트화
+
+
+				break;
+			}
 			default:
 			{
 				GameEngineDebug::MsgBoxError("처리하지 못하는 Buffer Type의 Shader Resource가 발견되었습니다.");

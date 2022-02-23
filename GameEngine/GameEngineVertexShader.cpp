@@ -426,3 +426,8 @@ void GameEngineVertexShader::SetConstantBuffers(const GameEngineConstantBufferSe
 {
 	GameEngineDevice::GetContext()->VSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
 }
+
+void GameEngineVertexShader::SetTexture(const GameEngineTextureSetting* _Setting)
+{
+	GameEngineDevice::GetContext()->VSSetShaderResources(_Setting->SettingIndex_, 1, _Setting->Res_->GetShaderResourcesView());
+}

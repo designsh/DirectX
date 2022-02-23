@@ -1,19 +1,39 @@
 #include "CbufferHeader.fx"
 
-float4 Texture_VS(float4 pos : POSITION) : SV_POSITION
+struct VertexIn
 {
-    pos.w = 1.0f;
+    float4 Position : POSITION;
+    float4 Texcoord : TEXTURECOORD;
+};
 
-    pos = mul(pos, WorldWorld_);
-    pos = mul(pos, View_);
-    pos = mul(pos, Projection_);
+struct VertexOut
+{
+    float4 Position : SV_POSITION;
+    float4 Texcoord : TEXTURECOORD;
+};
 
-    return pos;
+VertexOut Texture_VS(VertexIn _in)
+{
+    VertexOut Out;
+
+    Out.Position = _in.Position;
+
+    Out.Position.w = 1.0f;
+    Out.Position = mul(Out.Position, WorldWorld_);
+    Out.Position = mul(Out.Position, View_);
+    Out.Position = mul(Out.Position, Projection_);
+
+    Out.Texcoord = _in.Texcoord;
+
+    return Out;
 }
 
+Texture2D Tex : register(t0);
+SamplerState Smp : register(s0);
 
-float4 Texture_PS(float4 pos : SV_POSITION) : SV_Target0
+float4 Texture_PS(VertexOut _in) : SV_Target0
 {
-    return float4(1.0f, 0.0f, 0.0f, 1.0f);
+    float4 Color = Tex.Sample(Smp, _in.Texcoord.xy);
+    return Color;
 }
 

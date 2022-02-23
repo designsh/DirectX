@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineConstantBuffer.h"
 #include "GameEngineShader.h"
+#include "GameEngineTexture.h"
 
 // 셰이더에 상수버퍼 세팅모드
 enum class SettingMode
@@ -71,3 +72,30 @@ public:
 	}
 };
 
+class GameEngineShader;
+class GameEngineTexture;
+class GameEngineTextureSetting
+{
+public:
+	GameEngineShader* Shader;
+	GameEngineTexture* Res_;
+	int SettingIndex_;
+
+public:
+	GameEngineTextureSetting() :
+		Res_(nullptr),
+		Shader(nullptr),
+		SettingIndex_(-1)
+	{
+	}
+
+	~GameEngineTextureSetting()
+	{
+	}
+
+public:
+	void ShaderSetting()
+	{
+		Shader->SetTexture(this);
+	}
+};

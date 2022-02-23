@@ -7,6 +7,7 @@
 // 설명 : 픽셀 셰이더는 렌더링 될 각각의 픽셀들의 색을 계산한다. 그러므로 픽셀 셰이더는 최종적으로 픽셀이 어떻게 보일지를 결정한다. 
 //            픽셀 셰이더는 간단하게 언제나 같은 색을 출력하는 간단한 일에서부터, 텍스처로부터 색을 읽어오거나, 빛을 적용하는 것, 
 //            범프 매핑, 그림자, 반사광, 투명처리 등 복잡한 현상 등을 수행할 수 있다.
+class GameEngineTextureSetting;
 class GameEnginePixelShader : public GameEngineShader
 {
 private:	// member Var
@@ -42,5 +43,9 @@ public: // Create Pixel Setting
 //========================================= 상수버퍼 세팅관련 기능함수 =========================================//
 public:
 	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+
+//========================================== 텍스쳐 세팅관련 기능함수 =========================================//
+public:
+	void SetTexture(const GameEngineTextureSetting* _Setting) override;
 };
 

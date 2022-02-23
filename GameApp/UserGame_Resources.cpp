@@ -15,10 +15,22 @@ void UserGame::ResourcesLoad()
 
 	// true 옵션을 주는경우 해당 경로의 있는 하위디렉터리를 모두 검사하여 모든 파일을 로드
 	//std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav", true);
-	std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav");
-	for (size_t i = 0; i < AllFile.size(); ++i)
+	std::vector<GameEngineFile> SoundAllFile = SoundDir.GetAllFile("wav");
+	for (size_t i = 0; i < SoundAllFile.size(); ++i)
 	{
-		GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
+		GameEngineSoundManager::GetInst().Load(SoundAllFile[i].GetFullPath());
+	}
+
+	// 텍스쳐 로드
+	GameEngineDirectory TextureDir;
+	TextureDir.MoveParent("DirectX");
+	TextureDir.MoveChild("Resources");
+	TextureDir.MoveChild("Image");
+
+	std::vector<GameEngineFile> TextureAllFile = TextureDir.GetAllFile();
+	for (size_t i = 0; i < TextureAllFile.size(); i++)
+	{
+		GameEngineTextureManager::GetInst().Load(TextureAllFile[i].GetFullPath());
 	}
 
 	// 셰이더 리소스 파일을 모두 읽어들여 셰이더를 생성
@@ -27,10 +39,11 @@ void UserGame::ResourcesLoad()
 	// ======================================================= Rectagle Rendering ======================================================= // 
 	// Vertex Buffer 생성
 	std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
-	RectVertex[0] = { float4({ -0.5f, 0.5f, 0.f }) };
-	RectVertex[1] = { float4({ 0.5f, 0.5f, 0.f }) };
-	RectVertex[2] = { float4({ 0.5f, -0.5f, 0.f }) };
-	RectVertex[3] = { float4({ -0.5f, -0.5f, 0.f }) };
+	RectVertex[0] = { float4({ -0.5f, 0.5f, 0.0f }),  { 0.0f, 0.0f } };
+	RectVertex[1] = { float4({ 0.5f, 0.5f, 0.0f }),  { 1.0f, 0.0f } };
+	RectVertex[2] = { float4({ 0.5f, -0.5f, 0.0f }),  { 1.0f, 1.0f } };
+	RectVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }),  { 0.0f, 1.0f } };
+
 	GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	// 인덱스 버퍼 생성

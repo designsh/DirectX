@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineDevice.h"
+#include "ThirdParty/Include/DirectXTex/DirectXTex.h"
 
 // 분류 : 
 // 용도 : 
@@ -9,6 +10,11 @@ class GameEngineTexture : public GameEngineObjectNameBase
 private:	// member Var
 	ID3D11Texture2D* Texture2D_;
 	ID3D11RenderTargetView* RenderTargetView_;
+
+private:
+	D3D11_TEXTURE2D_DESC TextureDesc_;
+	ID3D11ShaderResourceView* ShaderResourceViewPtr_;
+	DirectX::ScratchImage Image_;
 
 public:
 	GameEngineTexture(); // default constructer 디폴트 생성자
@@ -23,7 +29,14 @@ private:		//delete operator
 	GameEngineTexture& operator=(const GameEngineTexture&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	ID3D11RenderTargetView* GetRenderTargetView();
+	ID3D11ShaderResourceView** GetShaderResourcesView();
+
+public:
 	void Create(ID3D11Texture2D* _Texture2D);
 	ID3D11RenderTargetView* CreateRenderTargetView();
+
+public:
+	void Load(const std::string& _Path);
 };
 
