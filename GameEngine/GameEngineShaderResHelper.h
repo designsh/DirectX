@@ -8,12 +8,16 @@
 //            고정값을 사용하는지를 판단하여 셰이더 세팅하는 기능을 제공한다.
 //            결론적으로 각각의 셰이더에서 세팅한 데이터덩어리(상수버퍼)를 복제하여 관리하는 클래스
 class GameEngineConstantBuffer;
+class GameEngineTexture;
+class GameEngineSampler;
 class GameEngineShaderResHelper
 {
 	friend class  GameEngineRenderer;
 
 private:	// member Var
 	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBufferData_;
+	std::map<std::string, GameEngineTextureSetting*> AllTextureData_;
+	std::map<std::string, GameEngineSamplerSetting*> AllSamplerData_;
 
 public:
 	GameEngineShaderResHelper();
@@ -29,6 +33,7 @@ private:		//delete operator
 
 private:
 	void Setting();
+	void ReSet();
 
 public:
 	bool IsConstantBuffer(const std::string& _SettingName);
@@ -78,5 +83,8 @@ public:
 
 		memcpy_s(SettingData->SettingData_, sizeof(_Data), &_Data, sizeof(_Data));
 	}
+
+public:
+	void SettingTexture(const std::string& _SettingName, const std::string& _ImageName);
 };
 

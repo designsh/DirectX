@@ -75,5 +75,15 @@ public:
 //========================================== 텍스쳐 세팅관련 기능함수 =========================================//
 public:
 	void SetTexture(const GameEngineTextureSetting* _Setting) override;
+
+//========================================== 샘플러 세팅관련 기능함수 =========================================//
+public:
+	void SetSampler(const GameEngineSamplerSetting* _Setting) override;
+
+//======================================== 세이더 리소스 리셋관련 기능함수 =======================================//
+public:
+	void ReSetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+	void ReSetTexture(const GameEngineTextureSetting* _Setting) override;
+	void ReSetSampler(const GameEngineSamplerSetting* _Setting) override;
 };
 

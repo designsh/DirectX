@@ -24,6 +24,6 @@ private:
 	void Start() override;
 
 public:
-	void SetImage();
+	void SetImage(const std::string& _ImageName);
 };
 

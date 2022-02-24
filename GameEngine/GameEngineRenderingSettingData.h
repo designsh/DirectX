@@ -1,7 +1,8 @@
 #pragma once
-#include "GameEngineConstantBuffer.h"
 #include "GameEngineShader.h"
+#include "GameEngineConstantBuffer.h"
 #include "GameEngineTexture.h"
+#include "GameEngineSampler.h"
 
 // 셰이더에 상수버퍼 세팅모드
 enum class SettingMode
@@ -14,7 +15,6 @@ enum class SettingMode
 // 분류 : 렌더링파이프라인 필요조건 상수버퍼 세팅 관련 체크 및 관리
 // 용도 : 
 // 설명 : 렌더링파이프라인이 가동하는데 있어서 필요한 상수버퍼의 세팅여부을 체크하는 기능을 제공 및 관리
-class GameEngineConstantBuffer;
 class GameEngineConstantBufferSetting
 {
 public:
@@ -70,6 +70,45 @@ public:
 	{
 		Shader->SetConstantBuffers(this);
 	}
+
+	// gpu에 할당된 상수버퍼를 해제한다.
+	void ShaderReSet()
+	{
+		Shader->ReSetConstantBuffers(this);
+	}
+};
+
+class GameEngineShader;
+class GameEngineSampler;
+class GameEngineSamplerSetting
+{
+public:
+	GameEngineShader* Shader;
+	GameEngineSampler* Res_;
+	int SettingIndex_;
+
+public:
+	GameEngineSamplerSetting() :
+		Shader(nullptr),
+		Res_(nullptr),
+		SettingIndex_(-1)
+	{
+	}
+
+	~GameEngineSamplerSetting()
+	{
+	}
+
+public:
+	void ShaderSetting()
+	{
+		Shader->SetSampler(this);
+	}
+
+	void ShaderReSet()
+	{
+		Shader->ReSetSampler(this);
+	}
 };
 
 class GameEngineShader;
@@ -97,5 +136,10 @@ public:
 	void ShaderSetting()
 	{
 		Shader->SetTexture(this);
+	}
+
+	void ShaderReSet()
+	{
+		Shader->ReSetTexture(this);
 	}
 };

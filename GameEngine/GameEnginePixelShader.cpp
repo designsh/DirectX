@@ -143,3 +143,29 @@ void GameEnginePixelShader::SetTexture(const GameEngineTextureSetting* _Setting)
 	GameEngineDevice::GetContext()->PSSetShaderResources(_Setting->SettingIndex_, 1, _Setting->Res_->GetShaderResourcesView());
 }
 
+void GameEnginePixelShader::SetSampler(const GameEngineSamplerSetting* _Setting)
+{
+	GameEngineDevice::GetContext()->PSSetSamplers(_Setting->SettingIndex_, 1, _Setting->Res_->GetSamplerState());
+}
+
+void GameEnginePixelShader::ReSetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	// 모든 슬롯에 nullptr을 넣어 초기화
+	static ID3D11Buffer* const ReSetting[16] = { nullptr };
+	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEnginePixelShader::ReSetTexture(const GameEngineTextureSetting* _Setting)
+{
+	// 모든 슬롯에 nullptr을 넣어 초기화
+	static ID3D11ShaderResourceView* ReSetting[16] = { nullptr };
+	GameEngineDevice::GetContext()->PSSetShaderResources(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEnginePixelShader::ReSetSampler(const GameEngineSamplerSetting* _Setting)
+{
+	// 모든 슬롯에 nullptr을 넣어 초기화
+	static ID3D11SamplerState* const ReSetting[16] = { nullptr };
+	GameEngineDevice::GetContext()->PSSetSamplers(_Setting->SettingIndex_, 1, ReSetting);
+}
+

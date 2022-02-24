@@ -27,6 +27,7 @@ private:	// member Var
 
 public:
 	GameEngineSampler* Create(const std::string& _Name, const D3D11_SAMPLER_DESC& _Info);
+	GameEngineSampler* CreateAndFind(const std::string& _Name, const D3D11_SAMPLER_DESC& _Info);
 	GameEngineSampler* Find(const std::string& _Name);
 
 private:

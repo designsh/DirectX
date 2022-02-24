@@ -31,6 +31,7 @@ void GameEngineRenderer::Render()
 {
 	ShaderHelper.Setting();
 	PipeLine_->Rendering();
+	ShaderHelper.ReSet();
 }
 
 void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
@@ -42,8 +43,9 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 	}
 	else
 	{
-		ShaderHelper.ShaderResourcesCheck(PipeLine_->GetVertexShader());
 		ShaderHelper.ShaderResourcesCheck(PipeLine_->GetPixelShader());
+		ShaderHelper.ShaderResourcesCheck(PipeLine_->GetVertexShader());
+		
 		if (true == ShaderHelper.IsConstantBuffer("TransformData"))
 		{
 			ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());

@@ -6,6 +6,7 @@
 #include <GameEngineBase/GameEngineSound.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineString.h>
+#include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
 #include <GameEngineBase/GameEnginePath.h>
 

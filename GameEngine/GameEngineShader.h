@@ -15,12 +15,18 @@ enum class ShaderType
 // 설명 : 각 셰이더가 해당 클래스를 상속받으며, 셰이더의 공통정보 및 기능을 관리
 //            단, 해당 클래스 자체로 객체화 하면 문제가 발생하므로 순수가상소멸자를 이용하여
 //            객체화를 막는다.
+class GameEngineConstantBuffer;
+class GameEngineSampler;
+class GameEngineTexture;
 class GameEngineConstantBufferSetting;
+class GameEngineSamplerSetting;
 class GameEngineTextureSetting;
 class GameEngineShader : public GameEngineObjectNameBase
 {
 private:
-	std::map<unsigned int, GameEngineConstantBuffer*>		ConstanceBuffer_;				// 상수버퍼 관리 목록
+	std::map<unsigned int, GameEngineConstantBuffer*>		ConstanceBuffers_;			// 상수버퍼 관리 목록
+	std::map<unsigned int, GameEngineSampler*>					Samplers_;							// 샘플러 관리 목록
+	std::map<unsigned int, std::string>											Textures_;								// 텍스쳐 관리 목록
 
 protected:
 	UINT																									VersionHigh_;						// HLSL Version Hight
@@ -55,6 +61,8 @@ protected: // Create HLSL Version String
 public:
 	unsigned int GetTypeIndex();
 	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstantBuffers();
+	std::map<unsigned int, GameEngineSampler*>& GetSamplers();
+	std::map<unsigned int, std::string>& GetTextures();
 
 public:
 	void ResCheck();
@@ -62,5 +70,11 @@ public:
 public:
 	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
 	virtual void SetTexture(const GameEngineTextureSetting* _Setting) = 0;
+	virtual void SetSampler(const GameEngineSamplerSetting* _Setting) = 0;
+
+public:
+	virtual void ReSetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
+	virtual void ReSetTexture(const GameEngineTextureSetting* _Setting) = 0;
+	virtual void ReSetSampler(const GameEngineSamplerSetting* _Setting) = 0;
 };
 

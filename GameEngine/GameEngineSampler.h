@@ -30,6 +30,12 @@ private: // GameEngineSamplerManager에서만 호출하도록 제한
 	void Create(const D3D11_SAMPLER_DESC& _Info);
 
 public:
+	inline ID3D11SamplerState** GetSamplerState()
+	{
+		return &State_;
+	}
+
+public:
 	void ReSetting(const D3D11_SAMPLER_DESC& _Info);
 };
 

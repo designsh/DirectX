@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineShader.h"
 #include "GameEngineConstantBufferManager.h"
+#include "GameEngineSamplerManager.h"
 
 GameEngineShader::GameEngineShader(ShaderType _Type) :
 	VersionHigh_(5),
@@ -49,7 +50,17 @@ unsigned int GameEngineShader::GetTypeIndex()
 
 std::map<unsigned int, GameEngineConstantBuffer*>& GameEngineShader::GetConstantBuffers()
 {
-	return ConstanceBuffer_;
+	return ConstanceBuffers_;
+}
+
+std::map<unsigned int, GameEngineSampler*>& GameEngineShader::GetSamplers()
+{
+	return Samplers_;
+}
+
+std::map<unsigned int, std::string>& GameEngineShader::GetTextures()
+{
+	return Textures_;
 }
 
 void GameEngineShader::ResCheck()
@@ -113,7 +124,7 @@ void GameEngineShader::ResCheck()
 				}
 
 				// 성공적으로 상수버퍼를 생성하였다면 관리목록에 추가
-				ConstanceBuffer_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
+				ConstanceBuffers_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
 
 				break;
 			}
@@ -121,10 +132,32 @@ void GameEngineShader::ResCheck()
 			{
 				D3D11_SAMPLER_DESC Smp_Decs = {};
 
-				Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;	// 색뭉개기
-				Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT;		// 색도트화
+				memset(&Smp_Decs, 0, sizeof(D3D11_SAMPLER_DESC));
 
+				// D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR or D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT 은 그림자샘플러에 주로 사용
+				//Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;	// 색뭉개기
+				//Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT;		// 색도트화
 
+				// 색도트화
+				Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+
+				Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+				Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+				Smp_Decs.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+				Smp_Decs.MipLODBias = 0.0f;
+				Smp_Decs.MaxAnisotropy = 1;
+				Smp_Decs.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+				Smp_Decs.MinLOD = -FLT_MAX;
+				Smp_Decs.MaxLOD = FLT_MAX;
+
+				GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Create(BufferName, Smp_Decs);
+				Samplers_.insert(std::make_pair(ResInfo.BindPoint, NewRes));
+				break;
+			}
+			case D3D_SIT_TEXTURE:
+			{
+				Textures_.insert(std::make_pair(ResInfo.BindPoint, BufferName));
 				break;
 			}
 			default:

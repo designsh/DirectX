@@ -17,7 +17,7 @@ void Player::Start()
 {
 	{
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		PlayerImageRenderer->SetImage();
+		PlayerImageRenderer->SetImage("Char.png");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
 	}
 
