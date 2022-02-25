@@ -148,6 +148,12 @@
     <Filter Include="Resources\99Manager\Sampler">
       <UniqueIdentifier>{bb58328f-02af-4bd0-b783-666f515f6208}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\05Blend">
+      <UniqueIdentifier>{2e81be25-bdd1-4866-b475-972dc9f42e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Blend">
+      <UniqueIdentifier>{ff05e23f-a536-4039-848c-8859122ab002}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -266,6 +272,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineSamplerManager.cpp">
       <Filter>Resources\99Manager\Sampler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineBlend.cpp">
+      <Filter>Resources\05Blend</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineBlendManager.cpp">
+      <Filter>Resources\99Manager\Blend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +400,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineSamplerManager.h">
       <Filter>Resources\99Manager\Sampler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineBlend.h">
+      <Filter>Resources\05Blend</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineBlendManager.h">
+      <Filter>Resources\99Manager\Blend</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

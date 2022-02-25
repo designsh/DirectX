@@ -5,12 +5,14 @@
 #include "GameEngineIndexBufferManager.h"
 #include "GameEngineRasterizerManager.h"
 #include "GameEnginePixelShaderManager.h"
+#include "GameEngineBlendManager.h"
 
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineRasterizer.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineBlend.h"
 
 #include "GameEngineConstantBuffer.h"
 
@@ -24,6 +26,7 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() :
 	Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST),
 	Rasterizer_(nullptr),
 	PixelShader_(nullptr),
+	Blend_(nullptr),
 	RenderTarget_(nullptr)
 {
 }
@@ -117,15 +120,14 @@ void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
 	}
 }
 
-void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name)
+void GameEngineRenderingPipeLine::SetOutputMergerBlend(const std::string& _Name)
 {
-	//RenderTarget_ = GameEngineRenderTarget::GetInst().Find(_Name);
-	
-	//if (nullptr == RenderTarget_)
-	//{
-	//	GameEngineDebug::MsgBoxError("존재하지 않는 Render Target을 세팅하려고 했습니다.");
-	//	return;
-	//}
+	Blend_ = GameEngineBlendManager::GetInst().Find(_Name);
+	if (nullptr == Blend_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 블랜드를 세팅을 세팅하려고 했습니다.");
+		return;
+	}
 }
 
 // ======================================== Rendering PipeLine 가동 단계 ======================================== //
@@ -158,6 +160,11 @@ void GameEngineRenderingPipeLine::PixelShader()
 	PixelShader_->Setting();
 }
 
+void GameEngineRenderingPipeLine::OutputMerger()
+{
+	Blend_->Setting();
+}
+
 void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 {
 	InputAssembler1();
@@ -165,6 +172,7 @@ void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 	InputAssembler2();
 	Rasteriazer();
 	PixelShader();
+	OutputMerger();
 }
 
 void GameEngineRenderingPipeLine::Rendering()

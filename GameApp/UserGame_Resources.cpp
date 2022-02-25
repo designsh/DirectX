@@ -123,6 +123,43 @@ void UserGame::ResourcesLoad()
 	// Rendering PipeLine : Pixel Shader
 	RederingPipeLine->SetPixelShader("Color_PS");
 
+	// Rendering PipeLine : OutputMerger(Blend)
+	D3D11_BLEND_DESC BlendInfo = {};
+	memset(&BlendInfo, 0, sizeof(BlendInfo));
+
+	// 깊이관련
+	BlendInfo.AlphaToCoverageEnable = FALSE;
+	BlendInfo.IndependentBlendEnable = FALSE;
+
+	// 블렌딩사용
+	BlendInfo.RenderTarget[0].BlendEnable = true;
+	BlendInfo.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	// 블렌딩 공식
+	// FinalColor = (SrcColor * SrcFactor) BlendOp (DestColor * DestFactor)
+	// D3D11_BLEND_OP_ADD : BlendOp(+)
+	// D3D11_BLEND_OP_SUBTRACT : BlendOp(-)
+	// D3D11_BLEND_OP_REV_SUBTRACT : BlendOp(반전후 -)
+	// D3D11_BLEND_OP_MIN : BlendOp(최소값만남김)
+	// D3D11_BLEND_OP_MAX : BlendOp(최대값만남김)
+	BlendInfo.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+
+	// 블렌딩 방식
+	// D3D11_BLEND_SRC_ALPHA : (SrcColor * Src Alpha Value)로 블렌딩
+	// D3D11_BLEND_INV_SRC_ALPHA : DestColor * (1 - SRC Alpha Value)로 블렌딩
+	BlendInfo.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+	BlendInfo.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+
+	// Dx11 Version이후 블렌딩은 RGB/A로 구분하여 설정
+	// D3D11_BLEND_ONE : 알파값을 1로 곱한다 => 원본알파값 그대로 유지
+	BlendInfo.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+	BlendInfo.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+	BlendInfo.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+	// 블렌드 생성
+	GameEngineBlendManager::GetInst().Create("AlphaBlend", BlendInfo);
+
+	RederingPipeLine->SetOutputMergerBlend("AlphaBlend");
 
 	// ======================================================= Image Rendering ======================================================= // 
 	GameEngineRenderingPipeLine* TexturePipeLine = GameEngineRenderingPipeLineManager::GetInst().Create("Texture");
@@ -133,4 +170,5 @@ void UserGame::ResourcesLoad()
 	TexturePipeLine->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	TexturePipeLine->SetRasterizer("EngineBaseRasterizer");
 	TexturePipeLine->SetPixelShader("Texture_PS");
+	TexturePipeLine->SetOutputMergerBlend("AlphaBlend");
 }

@@ -13,6 +13,7 @@ class GameEngineVertexBuffer;
 class GameEngineVertexShader;
 class GameEngineRasterizer;
 class GameEnginePixelShader;
+class GameEngineBlend;
 class GameEngineRenderTarget;
 class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
@@ -40,6 +41,7 @@ private:
 
 // ======================================== Ouput Merger ======================================== //
 private:
+	GameEngineBlend*						Blend_;															// Blend(OM)
 	GameEngineRenderTarget*		RenderTarget_;											// Render Target(OM)
 
 public:
@@ -84,7 +86,7 @@ public: // Pixel Shader Setting
 	void SetPixelShader(const std::string& _Name);
 
 public: // Output Merger Setting
-	void SetOutputMerger(const std::string& _Name);
+	void SetOutputMergerBlend(const std::string& _Name);
 
 // ======================================= Rendering PipeLine 가동 준비단계 ======================================= //
 public: // RenderingPipeLine Setting
@@ -93,6 +95,7 @@ public: // RenderingPipeLine Setting
 	void InputAssembler2();
 	void Rasteriazer();
 	void PixelShader();
+	void OutputMerger();
 
 public: // RenderingPipeLine Setting
 	void RenderingPipeLineSetting();

@@ -32,7 +32,7 @@ void GameEngineSampler::Create(const D3D11_SAMPLER_DESC& _Info)
 	State_ = State;
 }
 
-void GameEngineSampler::ReSetting(const D3D11_SAMPLER_DESC& _Info)
+void GameEngineSampler::ReCreate(const D3D11_SAMPLER_DESC& _Info)
 {
 	Create(_Info);
 }

@@ -36,6 +36,6 @@ public:
 	}
 
 public:
-	void ReSetting(const D3D11_SAMPLER_DESC& _Info);
+	void ReCreate(const D3D11_SAMPLER_DESC& _Info);
 };
 
