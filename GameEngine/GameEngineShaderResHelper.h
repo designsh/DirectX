@@ -40,6 +40,9 @@ public:
 	void ShaderResourcesCheck(GameEngineShader* _Shader);
 
 public:
+
+
+public:
 	// SettingMode::LINK로 해당 상수버퍼의 내부 데이터만을 갱신하는 기능
 	// 한번 세팅 후 더이상의 조작이 필요없는 기능
 	template<typename T>

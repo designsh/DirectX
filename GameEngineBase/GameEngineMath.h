@@ -192,10 +192,16 @@ public:
 	}
 
 	// 대입연산자
-	float4& operator=(const float4& _value)
+	float4& operator=(const float4& _Value)
 	{
-		DirectVector = DirectX::XMVectorSet(_value.x, _value.y, _value.z, _value.w);
+		DirectVector = DirectX::XMVectorSet(_Value.x, _Value.y, _Value.z, _Value.w);
 		return *this;
+	}
+
+	// 비교연산자
+	bool operator==(const float4& _Value)
+	{
+		return x == _Value.x && y == _Value.y && z == _Value.z && w == _Value.w;
 	}
 
 public:
@@ -263,6 +269,11 @@ public:
 	int ihz() const
 	{
 		return static_cast<int>(hz());
+	}
+
+	bool IsZero() const
+	{
+		return ix() == 0 && iy() == 0 && iz() == 0;
 	}
 
 	float Len3D()

@@ -24,6 +24,6 @@ private:
 	void Start() override;
 
 public:
-	void SetImage(const std::string& _ImageName);
+	void SetImage(const std::string& _ImageName, const float4& _RenderSize = float4::ZERO);
 };
 
