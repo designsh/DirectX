@@ -41,7 +41,7 @@ void CameraComponent::CameraTransformUpdate()
 void CameraComponent::Render()
 {
 	float4x4 View = GetTransform()->GetTransformData().View_;
-	float4x4 Porjection = GetTransform()->GetTransformData().Projection_;
+	float4x4 Projection = GetTransform()->GetTransformData().Projection_;
 	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)
 	{
 		std::list<GameEngineRenderer*>& Renderers = Pair.second;
@@ -53,8 +53,12 @@ void CameraComponent::Render()
 				continue;
 			}
 
-			Renderer->GetTransform()->GetTransformData().Projection_ = Porjection;
+			Renderer->GetTransform()->GetTransformData().Projection_ = Projection;
 			Renderer->GetTransform()->GetTransformData().View_ = View;
+
+			// 렌더링 전에 최종행렬을 계산
+			Renderer->GetTransform()->GetTransformData().WVPCalculation();
+
 			Renderer->Render();
 		}
 	}

@@ -41,5 +41,8 @@ public:
 
 public:
 	void Setting();
+
+public:
+	void Reset();
 };
 

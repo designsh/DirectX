@@ -3,10 +3,7 @@
 float4 Color_VS(float4 pos : POSITION) : SV_POSITION
 {
     pos.w = 1.0f;
-
-    pos = mul(pos, WorldWorld_);
-    pos = mul(pos, View_);
-    pos = mul(pos, Projection_);
+    pos = mul(pos, WVP);
 
     return pos;
 }

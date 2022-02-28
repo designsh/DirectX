@@ -104,5 +104,8 @@ public: // RenderingPipeLine Setting
 public:
 	void Rendering();
 
+// ======================================== Rendering PipeLine 초기화단계 ======================================== //
+public:
+	void Reset();
 };
 

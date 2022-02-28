@@ -32,6 +32,7 @@ void GameEngineRenderer::Render()
 	ShaderHelper.Setting();
 	PipeLine_->Rendering();
 	ShaderHelper.ReSet();
+	PipeLine_->Reset();
 }
 
 void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)

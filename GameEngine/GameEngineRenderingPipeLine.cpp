@@ -186,3 +186,12 @@ void GameEngineRenderingPipeLine::Rendering()
 	// 세번째 인자 : 정점 버퍼에서 정점을 읽기 전에 각 인덱스에 추가된 값
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
 }
+
+void GameEngineRenderingPipeLine::Reset()
+{
+
+
+
+	// 블렌드 셋팅 초기화
+	Blend_->Reset();
+}

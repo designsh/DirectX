@@ -22,7 +22,7 @@ float4x4 CameraActor::GetViewMatrix()
 	return Camera_->GetTransform()->GetTransformData().View_;
 }
 
-float4x4 CameraActor::GetPorjectionMatrix()
+float4x4 CameraActor::GetProjectionMatrix()
 {
 	return Camera_->GetTransform()->GetTransformData().Projection_;
 }

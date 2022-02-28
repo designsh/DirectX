@@ -19,9 +19,7 @@ VertexOut Texture_VS(VertexIn _in)
     Out.Position = _in.Position;
 
     Out.Position.w = 1.0f;
-    Out.Position = mul(Out.Position, WorldWorld_);
-    Out.Position = mul(Out.Position, View_);
-    Out.Position = mul(Out.Position, Projection_);
+    Out.Position = mul(Out.Position, WVP);
 
     Out.Texcoord = _in.Texcoord;
 

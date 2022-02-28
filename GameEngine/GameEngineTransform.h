@@ -28,11 +28,20 @@ public:
 	float4x4 LocalPosition_;
 	float4x4 LocalWorld_;
 
+	// 부모행렬
 	float4x4 Parent_;
+
+	// 월드행렬
 	float4x4 WorldWorld_;
 
+	// 뷰행렬
 	float4x4 View_;
+
+	// 투영행렬
 	float4x4 Projection_;
+
+	// 최종행렬
+	float4x4 WVP;
 
 public:
 	TransformData() : 
@@ -65,6 +74,12 @@ public:
 	void RootCalculation()
 	{
 		WorldWorld_ = LocalWorld_;
+	}
+
+	// 최종행렬을 계산
+	void WVPCalculation()
+	{
+		WVP = WorldWorld_ * View_ * Projection_;
 	}
 };
 

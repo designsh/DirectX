@@ -29,5 +29,8 @@ cbuffer TransformData : register(b0)
 
     float4x4 View_;
     float4x4 Projection_;
+
+    // 최종행렬
+    float4x4 WVP;
 };
 
