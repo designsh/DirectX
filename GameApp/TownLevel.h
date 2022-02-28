@@ -1,24 +1,24 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
 
-// 분류 : 
+// 분류 : 마을 화면
 // 용도 : 
 // 설명 : 
-class PlayLevel : public GameEngineLevel
+class TownLevel : public GameEngineLevel
 {
 private:	// member Var
 
 public:
-	PlayLevel();
-	~PlayLevel();
+	TownLevel();
+	~TownLevel();
 
 protected:		// delete constructer
-	PlayLevel(const PlayLevel& _other) = delete;
-	PlayLevel(PlayLevel&& _other) noexcept = delete;
+	TownLevel(const TownLevel& _other) = delete;
+	TownLevel(TownLevel&& _other) noexcept = delete;
 
 private:		//delete operator
-	PlayLevel& operator=(const PlayLevel& _other) = delete;
-	PlayLevel& operator=(const PlayLevel&& _other) = delete;
+	TownLevel& operator=(const TownLevel& _other) = delete;
+	TownLevel& operator=(const TownLevel&& _other) = delete;
 
 public:
 	virtual void LevelChangeEndEvent() override;

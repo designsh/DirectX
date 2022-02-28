@@ -27,7 +27,7 @@ void UserGame::ResourcesLoad()
 	TextureDir.MoveChild("Resources");
 	TextureDir.MoveChild("Image");
 
-	std::vector<GameEngineFile> TextureAllFile = TextureDir.GetAllFile();
+	std::vector<GameEngineFile> TextureAllFile = TextureDir.GetAllFile("png", true);
 	for (size_t i = 0; i < TextureAllFile.size(); i++)
 	{
 		GameEngineTextureManager::GetInst().Load(TextureAllFile[i].GetFullPath());

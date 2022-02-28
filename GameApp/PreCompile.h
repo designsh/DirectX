@@ -3,6 +3,10 @@
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
+#include <GameEngineBase/GameEngineTime.h>
+
+#include <GameEngine/GameEngineWindow.h>
+#include <GameEngine/GameEngineInput.h>
 
 #include <GameEngine/GameEngineManager.h>
 

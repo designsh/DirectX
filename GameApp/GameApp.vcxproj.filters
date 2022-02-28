@@ -14,23 +14,50 @@
     <ClCompile Include="UserGame_Resources_Shader.cpp">
       <Filter>UserCore\ShaderResource</Filter>
     </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Object\Level</Filter>
-    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
-      <Filter>Object\Level</Filter>
+      <Filter>Object\Level\01.TitleLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Object\Actor</Filter>
+    <ClCompile Include="CreateCharactorLevel.cpp">
+      <Filter>Object\Level\02.CreateCharactorLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Object\Actor</Filter>
+    <ClCompile Include="SelectCharactorLevel.cpp">
+      <Filter>Object\Level\03.SelectCharactorLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>Object\Actor</Filter>
+    <ClCompile Include="LoadingLevel.cpp">
+      <Filter>Object\Level\04.LoadingLevel</Filter>
     </ClCompile>
-    <ClCompile Include="TopUI.cpp">
-      <Filter>Object\Actor</Filter>
+    <ClCompile Include="TownLevel.cpp">
+      <Filter>Object\Level\05.TownLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CatacombsLevel.cpp">
+      <Filter>Object\Level\06.CatacombsLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaosSanctuaryLevel.cpp">
+      <Filter>Object\Level\07.ChaosSanctuaryLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Necromancer.cpp">
+      <Filter>Object\Actor\00.Global\00.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonInfomation.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\00.CommonInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleBackDrop.cpp">
+      <Filter>Object\Actor\01.Title\00.BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
+      <Filter>Object\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Object\Actor\01.Title\01.Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStartButton.cpp">
+      <Filter>Object\Actor\01.Title\02.GameStartButton</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEndButton.cpp">
+      <Filter>Object\Actor\01.Title\03.GameEndButton</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateCharactorBackDrop.cpp">
+      <Filter>Object\Actor\02.CreateCharactor\00.BackDrop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +85,102 @@
     <Filter Include="Object\Actor">
       <UniqueIdentifier>{3c05d5ec-1e4d-4d50-84f0-de731c15aff6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Level\01.TitleLevel">
+      <UniqueIdentifier>{8fbf6e9c-8190-443d-b1f6-2068caa4555c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\02.CreateCharactorLevel">
+      <UniqueIdentifier>{637d22fc-55d4-4764-a8bc-24a5003a8f1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\03.SelectCharactorLevel">
+      <UniqueIdentifier>{d0ace612-a181-4755-82f4-605e1aa26aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\04.LoadingLevel">
+      <UniqueIdentifier>{719e4e5a-a1b2-4eeb-8fb3-f5e643e5cfb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\05.TownLevel">
+      <UniqueIdentifier>{ada521d3-af5a-4aac-b588-5d2376a1c8b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\06.CatacombsLevel">
+      <UniqueIdentifier>{22c76e74-51b0-412c-8580-3a856b90e82e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\07.ChaosSanctuaryLevel">
+      <UniqueIdentifier>{7121fc10-9576-40bd-92a6-379e4128af78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\01.Title">
+      <UniqueIdentifier>{633d8bad-7c78-48f1-b19c-699d8d29029b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor">
+      <UniqueIdentifier>{c1ede51c-feef-41b9-b87b-c5fbde458339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\03.SelectCharactor">
+      <UniqueIdentifier>{3baf64eb-2dc5-4210-b12c-0855bd24bf82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\04.Loading">
+      <UniqueIdentifier>{664af8d7-8c02-4cce-b13a-95086dbe4742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\05.Town">
+      <UniqueIdentifier>{78fb4558-b051-4605-b48a-6c536a01f285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\06.Catacombs">
+      <UniqueIdentifier>{1a6707aa-ad94-47c7-ab06-a58da929c982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\07.ChaosSanctuary">
+      <UniqueIdentifier>{1432a695-8a1d-4eac-ac88-026520e47e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global">
+      <UniqueIdentifier>{6d4bf183-faf7-479b-bb99-faa755f85b30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\00.Global">
+      <UniqueIdentifier>{c12ce5a7-5672-4ddf-b2cb-70539ee201b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player">
+      <UniqueIdentifier>{b583ae74-4e83-489e-8618-3b194782b896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster">
+      <UniqueIdentifier>{741ca80b-de77-4c00-8a8e-23618b9d789a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC">
+      <UniqueIdentifier>{ae5091d2-f035-48a5-8cc7-209c61f36844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\00.CommonInfo">
+      <UniqueIdentifier>{b10091e1-e68e-4996-915c-403049c24ea1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.JobInfo">
+      <UniqueIdentifier>{d317c8f9-8987-408e-a525-697dd1b13905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.JobInfo\00.Necromancer">
+      <UniqueIdentifier>{4422804c-41c4-47e8-a97d-f67a115279a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\01.Title\00.BackDrop">
+      <UniqueIdentifier>{d2175284-c43f-4be4-8b5f-49343eb9a462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\01.Title\01.Logo">
+      <UniqueIdentifier>{1aac03ee-daab-44cd-b94f-556bcc86980d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\01.Title\02.GameStartButton">
+      <UniqueIdentifier>{536514f7-9dc8-4eb2-8843-959ae3213fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\01.Title\03.GameEndButton">
+      <UniqueIdentifier>{acbc4b11-dbf9-4853-8f0a-24405abcd896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Global">
+      <UniqueIdentifier>{834cd530-b262-4c34-9945-10bfec683976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\00.BackDrop">
+      <UniqueIdentifier>{ffa48772-1fdd-41cd-8060-733810bbeda4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\01.FireObject">
+      <UniqueIdentifier>{a557badf-f83b-4631-a0bf-78e39cf5ff04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\02.NecObject">
+      <UniqueIdentifier>{a06b75a1-4a90-4c97-9dee-4f166f2cd6e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\03.InputText">
+      <UniqueIdentifier>{d317662e-f139-4bb5-8d36-0e810e9af204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\04.Button">
+      <UniqueIdentifier>{8dd3ec03-da65-4710-8cf2-9d7a141d2367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -72,23 +195,50 @@
     <ClInclude Include="UserGame_Resources_Shader.h">
       <Filter>UserCore\ShaderResource</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Object\Level</Filter>
-    </ClInclude>
     <ClInclude Include="TitleLevel.h">
-      <Filter>Object\Level</Filter>
+      <Filter>Object\Level\01.TitleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Object\Actor</Filter>
+    <ClInclude Include="CreateCharactorLevel.h">
+      <Filter>Object\Level\02.CreateCharactorLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Object\Actor</Filter>
+    <ClInclude Include="SelectCharactorLevel.h">
+      <Filter>Object\Level\03.SelectCharactorLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>Object\Actor</Filter>
+    <ClInclude Include="LoadingLevel.h">
+      <Filter>Object\Level\04.LoadingLevel</Filter>
     </ClInclude>
-    <ClInclude Include="TopUI.h">
-      <Filter>Object\Actor</Filter>
+    <ClInclude Include="TownLevel.h">
+      <Filter>Object\Level\05.TownLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CatacombsLevel.h">
+      <Filter>Object\Level\06.CatacombsLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaosSanctuaryLevel.h">
+      <Filter>Object\Level\07.ChaosSanctuaryLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Necromancer.h">
+      <Filter>Object\Actor\00.Global\00.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonInfomation.h">
+      <Filter>Object\Actor\00.Global\00.Player\00.CommonInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleBackDrop.h">
+      <Filter>Object\Actor\01.Title\00.BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <Filter>Object\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Object\Actor\01.Title\01.Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStartButton.h">
+      <Filter>Object\Actor\01.Title\02.GameStartButton</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEndButton.h">
+      <Filter>Object\Actor\01.Title\03.GameEndButton</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateCharactorBackDrop.h">
+      <Filter>Object\Actor\02.CreateCharactor\00.BackDrop</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

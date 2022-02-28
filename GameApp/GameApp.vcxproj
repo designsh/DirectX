@@ -20,13 +20,43 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Monster.cpp" />
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="CatacombsLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
+    <ClCompile Include="ChaosSanctuaryLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CommonInfomation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CreateCharactorBackDrop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CreateCharactorLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEndButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameStartButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="LoadingLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Necromancer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -40,11 +70,26 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Precompile.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="SelectCharactorLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleBackDrop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TopUI.cpp" />
+    <ClCompile Include="TitleLogo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TownLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UserGame.cpp">
       <SubType>
       </SubType>
@@ -53,23 +98,68 @@
     <ClCompile Include="UserGame_Resources_Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="CustomVertex.h" />
-    <ClInclude Include="Monster.h" />
-    <ClInclude Include="Player.h">
+    <ClInclude Include="CatacombsLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
+    <ClInclude Include="ChaosSanctuaryLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CommonInfomation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CreateCharactorBackDrop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CreateCharactorLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="GameEndButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameStartButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LoadingLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Necromancer.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="SelectCharactorLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleBackDrop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TopUI.h" />
+    <ClInclude Include="TitleLogo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TownLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UserGame.h">
       <SubType>
       </SubType>

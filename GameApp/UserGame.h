@@ -4,21 +4,28 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class TitleLevel;
+class CreateCharactorLevel;
+class SelectCharactorLevel;
+class LoadingLevel;
+class TownLevel;
+class CatacombsLevel;
+class ChaosSanctuaryLevel;
 class UserGame : public GameEngineCore
 {
 private:	// member Var
 
 public:
-	UserGame(); // default constructer 디폴트 생성자
-	~UserGame(); // default destructer 디폴트 소멸자
+	UserGame();
+	~UserGame();
 
 protected:		// delete constructer
-	UserGame(const UserGame& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	UserGame(UserGame&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	UserGame(const UserGame& _other) = delete;
+	UserGame(UserGame&& _other) noexcept = delete;
 
 private:		//delete operator
-	UserGame& operator=(const UserGame& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	UserGame& operator=(const UserGame&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+	UserGame& operator=(const UserGame& _other) = delete;
+	UserGame& operator=(const UserGame&& _other) = delete;
 
 public:
 	virtual void Initialize() override;

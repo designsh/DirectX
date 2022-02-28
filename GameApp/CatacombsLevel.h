@@ -1,24 +1,24 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
 
-// 분류 : 타이틀화면
+// 분류 : 카타콤 화면
 // 용도 : 
 // 설명 : 
-class TitleLevel : public GameEngineLevel
+class CatacombsLevel : public GameEngineLevel
 {
 private:	// member Var
 
 public:
-	TitleLevel();
-	~TitleLevel();
+	CatacombsLevel();
+	~CatacombsLevel();
 
 protected:		// delete constructer
-	TitleLevel(const TitleLevel& _other) = delete;
-	TitleLevel(TitleLevel&& _other) noexcept = delete;
+	CatacombsLevel(const CatacombsLevel& _other) = delete;
+	CatacombsLevel(CatacombsLevel&& _other) noexcept = delete;
 
 private:		//delete operator
-	TitleLevel& operator=(const TitleLevel& _other) = delete;
-	TitleLevel& operator=(const TitleLevel&& _other) = delete;
+	CatacombsLevel& operator=(const CatacombsLevel& _other) = delete;
+	CatacombsLevel& operator=(const CatacombsLevel&& _other) = delete;
 
 public:
 	virtual void LevelChangeEndEvent() override;
