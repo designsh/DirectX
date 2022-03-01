@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "TownLevel.h"
 
+#include "UserGame.h"
+
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
@@ -70,4 +72,9 @@ void TownLevel::LevelStart()
 
 void TownLevel::LevelUpdate(float _DeltaTime)
 {
+	// 테스트용
+	if (true == GameEngineInput::GetInst().Down("NextScene"))
+	{
+		UserGame::LevelChange("CatacombsLevel");
+	}
 }

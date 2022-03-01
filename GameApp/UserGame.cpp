@@ -11,6 +11,7 @@
 #include "TownLevel.h"
 #include "CatacombsLevel.h"
 #include "ChaosSanctuaryLevel.h"
+#include "EndingLevel.h"
 
 UserGame::UserGame()
 {
@@ -30,6 +31,7 @@ void UserGame::Initialize()
 	LevelCreate<TownLevel>("TownLevel");
 	LevelCreate<CatacombsLevel>("CatacombsLevel");
 	LevelCreate<ChaosSanctuaryLevel>("ChaosSanctuaryLevel");
+	LevelCreate<EndingLevel>("EndingLevel");
 
 	LevelChange("TitleLevel");
 

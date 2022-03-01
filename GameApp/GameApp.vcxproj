@@ -68,6 +68,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EndingLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEndButton.cpp">
       <SubType>
       </SubType>
@@ -208,6 +212,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="EndingLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEndButton.h">
       <SubType>
       </SubType>

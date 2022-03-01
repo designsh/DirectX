@@ -107,6 +107,9 @@
     <ClCompile Include="BottomStateBar.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar</Filter>
     </ClCompile>
+    <ClCompile Include="EndingLevel.cpp">
+      <Filter>Object\Level\08.EndingLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -352,6 +355,21 @@
     <Filter Include="Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo">
       <UniqueIdentifier>{3eef5d4b-22a7-4ba0-85c4-9527ef88d602}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Level\08.EndingLevel">
+      <UniqueIdentifier>{8a25709c-464f-4d3c-bb69-09b18a1ac49d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\08.Ending">
+      <UniqueIdentifier>{45877efa-abbd-40a0-aaae-97e0b1781d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\08.Ending\00.BackDrop">
+      <UniqueIdentifier>{a2172a5e-2a37-4a4b-b479-151904e3bc9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\08.Ending\01.FadeActor">
+      <UniqueIdentifier>{c3fb772b-9bbd-4719-a369-f0e8723463b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\08.Ending\02.CreditText">
+      <UniqueIdentifier>{d4c8cf75-c2ea-4822-b6c6-e4b1910c77f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -458,6 +476,9 @@
     </ClInclude>
     <ClInclude Include="BottomStateBar.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingLevel.h">
+      <Filter>Object\Level\08.EndingLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

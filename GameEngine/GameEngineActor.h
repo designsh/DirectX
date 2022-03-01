@@ -71,7 +71,7 @@ public: // 컴포넌트 생성
 			GameEngineDebug::MsgBoxError("트랜스폼을 세팅안 해줬습니다.");
 		}
 		NewComponent->AttachTransform(_ParentTrans);
-		ComponentList_.push_back(NewComponent);
+		TransformComponentList_.push_back(NewComponent);
 
 		NewComponent->Start();
 

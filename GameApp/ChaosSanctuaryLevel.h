@@ -1,12 +1,14 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
 
-// 분류 : 
+// 분류 : 카오스생츄어리 화면
 // 용도 : 
 // 설명 : 
+class MainPlayer;
 class ChaosSanctuaryLevel : public GameEngineLevel
 {
 private:	// member Var
+	MainPlayer* MainPlayer_;
 
 public:
 	ChaosSanctuaryLevel();
