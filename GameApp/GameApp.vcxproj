@@ -56,10 +56,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Necromancer.cpp">
+    <ClCompile Include="MainPlayer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="NecromancerInfo.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Precompile.h</PrecompiledHeaderFile>
@@ -135,7 +136,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Necromancer.h">
+    <ClInclude Include="MainPlayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NecromancerInfo.h">
       <SubType>
       </SubType>
     </ClInclude>

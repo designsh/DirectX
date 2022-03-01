@@ -35,17 +35,14 @@
     <ClCompile Include="ChaosSanctuaryLevel.cpp">
       <Filter>Object\Level\07.ChaosSanctuaryLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Necromancer.cpp">
-      <Filter>Object\Actor\00.Global\00.Player</Filter>
-    </ClCompile>
     <ClCompile Include="CommonInfomation.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\00.CommonInfo</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\00.CommonInfo</Filter>
     </ClCompile>
     <ClCompile Include="TitleBackDrop.cpp">
       <Filter>Object\Actor\01.Title\00.BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
-      <Filter>Object\Global</Filter>
+      <Filter>Object\GlobalValue</Filter>
     </ClCompile>
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Object\Actor\01.Title\01.Logo</Filter>
@@ -58,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="CreateCharactorBackDrop.cpp">
       <Filter>Object\Actor\02.CreateCharactor\00.BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer.cpp">
+      <Filter>Object\Actor\00.Global\00.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="NecromancerInfo.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\01.JobInfo\00.Necromancer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,15 +145,6 @@
     <Filter Include="Object\Actor\00.Global\02.NPC">
       <UniqueIdentifier>{ae5091d2-f035-48a5-8cc7-209c61f36844}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\00.CommonInfo">
-      <UniqueIdentifier>{b10091e1-e68e-4996-915c-403049c24ea1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.JobInfo">
-      <UniqueIdentifier>{d317c8f9-8987-408e-a525-697dd1b13905}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.JobInfo\00.Necromancer">
-      <UniqueIdentifier>{4422804c-41c4-47e8-a97d-f67a115279a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\01.Title\00.BackDrop">
       <UniqueIdentifier>{d2175284-c43f-4be4-8b5f-49343eb9a462}</UniqueIdentifier>
     </Filter>
@@ -162,9 +156,6 @@
     </Filter>
     <Filter Include="Object\Actor\01.Title\03.GameEndButton">
       <UniqueIdentifier>{acbc4b11-dbf9-4853-8f0a-24405abcd896}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Global">
-      <UniqueIdentifier>{834cd530-b262-4c34-9945-10bfec683976}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Actor\02.CreateCharactor\00.BackDrop">
       <UniqueIdentifier>{ffa48772-1fdd-41cd-8060-733810bbeda4}</UniqueIdentifier>
@@ -180,6 +171,24 @@
     </Filter>
     <Filter Include="Object\Actor\02.CreateCharactor\04.Button">
       <UniqueIdentifier>{8dd3ec03-da65-4710-8cf2-9d7a141d2367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\GlobalValue">
+      <UniqueIdentifier>{834cd530-b262-4c34-9945-10bfec683976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\00.Infomation">
+      <UniqueIdentifier>{10c8b0bf-82ce-4c0e-a95f-e839f7ca3ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\00.Infomation\01.JobInfo">
+      <UniqueIdentifier>{d317c8f9-8987-408e-a525-697dd1b13905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\00.Infomation\01.JobInfo\00.Necromancer">
+      <UniqueIdentifier>{6d06000a-9bc0-4085-b6e5-2409ebf0521c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\00.Infomation\00.CommonInfo">
+      <UniqueIdentifier>{b10091e1-e68e-4996-915c-403049c24ea1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons">
+      <UniqueIdentifier>{cb631d86-2e19-45c8-873e-0c6233773f39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -216,17 +225,14 @@
     <ClInclude Include="ChaosSanctuaryLevel.h">
       <Filter>Object\Level\07.ChaosSanctuaryLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Necromancer.h">
-      <Filter>Object\Actor\00.Global\00.Player</Filter>
-    </ClInclude>
     <ClInclude Include="CommonInfomation.h">
-      <Filter>Object\Actor\00.Global\00.Player\00.CommonInfo</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\00.CommonInfo</Filter>
     </ClInclude>
     <ClInclude Include="TitleBackDrop.h">
       <Filter>Object\Actor\01.Title\00.BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="GlobalValue.h">
-      <Filter>Object\Global</Filter>
+      <Filter>Object\GlobalValue</Filter>
     </ClInclude>
     <ClInclude Include="TitleLogo.h">
       <Filter>Object\Actor\01.Title\01.Logo</Filter>
@@ -239,6 +245,12 @@
     </ClInclude>
     <ClInclude Include="CreateCharactorBackDrop.h">
       <Filter>Object\Actor\02.CreateCharactor\00.BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer.h">
+      <Filter>Object\Actor\00.Global\00.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="NecromancerInfo.h">
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\01.JobInfo\00.Necromancer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

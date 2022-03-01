@@ -5,7 +5,11 @@
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
 
-TownLevel::TownLevel()
+#include "GlobalValue.h"
+#include "MainPlayer.h"
+
+TownLevel::TownLevel() :
+	MainPlayer_(nullptr)
 {
 }
 
@@ -28,6 +32,10 @@ void TownLevel::LevelStart()
 	// 맵로딩(타일맵 - 마름모)
 
 	// 플레이어 생성
+	MainPlayer_ = CreateActor<MainPlayer>();
+
+	// 메인플레이어 지정
+	GlobalValue::CurPlayer = MainPlayer_;
 
 	// NPC 생성(무기상인)
 

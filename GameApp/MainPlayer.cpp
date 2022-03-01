@@ -1,25 +1,28 @@
 #include "PreCompile.h"
-#include "Necromancer.h"
+#include "MainPlayer.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
-Necromancer::Necromancer() :
+MainPlayer::MainPlayer() :
 	PlayerInfomation_(nullptr),
 	PlayerImageRenderer(nullptr)
 {
 }
 
-Necromancer::~Necromancer()
+MainPlayer::~MainPlayer()
 {
 }
 
-void Necromancer::Start()
+void MainPlayer::Start()
 {
+
+
 
 
 
 }
 
-void Necromancer::Update(float _DeltaTime)
+void MainPlayer::Update(float _DeltaTime)
 {
 }
+

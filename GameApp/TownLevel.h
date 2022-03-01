@@ -4,9 +4,11 @@
 // 분류 : 마을 화면
 // 용도 : 
 // 설명 : 
+class MainPlayer;
 class TownLevel : public GameEngineLevel
 {
 private:	// member Var
+	MainPlayer* MainPlayer_;
 
 public:
 	TownLevel();

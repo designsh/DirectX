@@ -1,31 +1,30 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
-// 분류 : 캐릭터(네크로맨서)
+// 분류 : 플레이어
 // 용도 : 
-// 설명 : 
+// 설명 : 직업에 따라 정보가 달라진다.
 class CommonInfomation;
 class GameEngineImageRenderer;
-class Necromancer : public GameEngineActor
+class MainPlayer : public GameEngineActor
 {
 private:	// member Var
 	CommonInfomation* PlayerInfomation_;
 
 private:
 	GameEngineImageRenderer* PlayerImageRenderer;
-	
 
 public:
-	Necromancer();
-	~Necromancer();
+	MainPlayer();
+	~MainPlayer();
 
 protected:		// delete constructer
-	Necromancer(const Necromancer& _other) = delete;
-	Necromancer(Necromancer&& _other) noexcept = delete;
+	MainPlayer(const MainPlayer& _other) = delete;
+	MainPlayer(MainPlayer&& _other) noexcept = delete;
 
 private:		//delete operator
-	Necromancer& operator=(const Necromancer& _other) = delete;
-	Necromancer& operator=(const Necromancer&& _other) = delete;
+	MainPlayer& operator=(const MainPlayer& _other) = delete;
+	MainPlayer& operator=(const MainPlayer&& _other) = delete;
 
 private:
 	void Start() override;
