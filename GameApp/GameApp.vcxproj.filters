@@ -104,6 +104,9 @@
     <ClCompile Include="LoadingBackDrop.cpp">
       <Filter>Object\Actor\04.Loading\00.BackDrop</Filter>
     </ClCompile>
+    <ClCompile Include="BottomStateBar.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -283,6 +286,72 @@
     <Filter Include="Object\Actor\04.Loading\00.BackDrop">
       <UniqueIdentifier>{17fece50-6be3-4b0f-99b1-1092772cb145}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar">
+      <UniqueIdentifier>{cb76aaf7-fcc6-4f91-98d4-a77a78e1e802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\01.StateView">
+      <UniqueIdentifier>{414d7a8a-d674-4f85-9361-c2bd67535390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\02.SkillView">
+      <UniqueIdentifier>{01e56f95-5d78-40c1-890b-a89f29dc8008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\03.InventoryView">
+      <UniqueIdentifier>{38e7f2e7-8547-4b3a-84a5-d3b3b35134ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\02.Skill\00.BoneSpirit">
+      <UniqueIdentifier>{b6fcfa81-93d3-4f93-8ae7-e979f82c312e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\00.BloodGolem">
+      <UniqueIdentifier>{84ba3766-1cfd-4292-839a-17b15ce25db9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\01.ClayGolem">
+      <UniqueIdentifier>{be81a313-5eb8-41b0-8f6f-d95500c35e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\02.FireGolem">
+      <UniqueIdentifier>{183d923b-2c84-4bf2-8133-21aeefd197ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\03.IronGolem">
+      <UniqueIdentifier>{f72700e7-2628-469d-879d-45484170564c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon">
+      <UniqueIdentifier>{779ade46-5bb4-42f5-a2ea-8826f6b641d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\00.Warrior">
+      <UniqueIdentifier>{749e6bc8-2adb-4671-8f65-64660f91bdf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard">
+      <UniqueIdentifier>{6f2baad5-ae35-463a-a707-4f75e20d1440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\00.COD">
+      <UniqueIdentifier>{48e57005-bdef-4771-934b-c38e2dd635d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\01.FIR">
+      <UniqueIdentifier>{4253d85d-13c3-4175-9532-ad145b54c734}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\02.LHT">
+      <UniqueIdentifier>{99394069-ca50-4c0b-9b66-45e18cc2bc1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\03.POS">
+      <UniqueIdentifier>{89fb5e35-bc4e-4107-a3e4-cbcbc7cf698f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal\00.Fallen">
+      <UniqueIdentifier>{615937e1-5453-4c68-a73c-7623b03db26e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal\01.SpikeFiend">
+      <UniqueIdentifier>{910e8bb4-d0b0-42c9-8fb0-3b14da60a1f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal\02.Tainted">
+      <UniqueIdentifier>{d27abfc3-b955-4dab-b7f8-5a40536c7f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal\03.Zombie">
+      <UniqueIdentifier>{3b8fdd89-aa0f-447b-8521-9ae5dfb37bf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Boss\00.Andariel">
+      <UniqueIdentifier>{4dc47355-c999-48d6-af8e-6e1bff9123a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo">
+      <UniqueIdentifier>{3eef5d4b-22a7-4ba0-85c4-9527ef88d602}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -386,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="LoadingBackDrop.h">
       <Filter>Object\Actor\04.Loading\00.BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="BottomStateBar.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

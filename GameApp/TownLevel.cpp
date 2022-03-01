@@ -36,6 +36,7 @@ void TownLevel::LevelStart()
 
 	// 플레이어 생성
 	MainPlayer_ = CreateActor<MainPlayer>();
+	GetMainCameraActor()->GetTransform()->SetWorldPosition(MainPlayer_->GetTransform()->GetLocalPosition());
 
 	// 메인플레이어 지정
 	GlobalValue::CurPlayer = MainPlayer_;
@@ -47,6 +48,24 @@ void TownLevel::LevelStart()
 	// 창고오브젝트(이미지)
 
 	// ....
+
+	//=========================== 키생성 ===========================//
+
+	// 마우스 왼쪽버튼
+	if (false == GameEngineInput::GetInst().IsKey("MouseLButton"))
+	{
+		GameEngineInput::GetInst().CreateKey("MouseLButton", VK_LBUTTON);
+	}
+
+	// 방향키(특정 UI활성화에만 키체크)
+	if (false == GameEngineInput::GetInst().IsKey("UP"))
+	{
+		GameEngineInput::GetInst().CreateKey("UP", VK_UP);
+	}
+	if (false == GameEngineInput::GetInst().IsKey("DOWN"))
+	{
+		GameEngineInput::GetInst().CreateKey("DOWN", VK_DOWN);
+	}
 }
 
 void TownLevel::LevelUpdate(float _DeltaTime)

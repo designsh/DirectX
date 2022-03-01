@@ -4,6 +4,7 @@
 // 분류 : 플레이어
 // 용도 : 
 // 설명 : 직업에 따라 정보가 다름
+class BottomStateBar;
 class CommonInfomation;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
@@ -13,6 +14,9 @@ private:	// 플레이어 정보
 
 private: // 플레이어 부위별 애니메이션렌더러
 	GameEngineRenderer* PlayerImageRenderer_;
+
+private: // 플레이어 UI
+	BottomStateBar* BottomStateBar_;
 
 public:
 	MainPlayer();

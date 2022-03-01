@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="BottomStateBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CatacombsLevel.cpp">
       <SubType>
       </SubType>
@@ -155,6 +159,10 @@
     <ClCompile Include="UserGame_Resources_Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BottomStateBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CatacombsLevel.h">
       <SubType>
       </SubType>
