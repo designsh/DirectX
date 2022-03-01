@@ -199,6 +199,18 @@
     <Filter Include="Object\Actor\00.Global\00.Player\01.Summons">
       <UniqueIdentifier>{cb631d86-2e19-45c8-873e-0c6233773f39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\04.Button\00.CreateCharacterButton">
+      <UniqueIdentifier>{018bdd04-6a7b-4aa3-b793-54c4ceb470dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\04.Button\01.CharacterDeleteButton">
+      <UniqueIdentifier>{932cd0c9-7ef3-4b5e-bcb7-4a48f2d934ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\04.Button\02.PrevLevelButton">
+      <UniqueIdentifier>{d928b189-9b74-41cc-a17a-6063e34dee10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharactor\04.Button\03.GameStartButton">
+      <UniqueIdentifier>{0d204dda-5a16-498b-b1e1-fe9fe2e57229}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

@@ -8,10 +8,10 @@ class CommonInfomation;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
-private:	// member Var
+private:	// 플레이어 정보
 	CommonInfomation* PlayerInfomation_;
 
-private:
+private: // 플레이어 부위별 애니메이션렌더러
 	GameEngineImageRenderer* PlayerImageRenderer;
 
 public:
