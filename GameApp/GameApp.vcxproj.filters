@@ -62,6 +62,15 @@
     <ClCompile Include="NecromancerInfo.cpp">
       <Filter>Object\Actor\00.Global\00.Player\00.Infomation\01.JobInfo\00.Necromancer</Filter>
     </ClCompile>
+    <ClCompile Include="CreateCharactorFireObject.cpp">
+      <Filter>Object\Actor\02.CreateCharactor\01.FireObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateCharactorNecromancerObject.cpp">
+      <Filter>Object\Actor\02.CreateCharactor\02.NecObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateCharactorInputText.cpp">
+      <Filter>Object\Actor\02.CreateCharactor\03.InputText</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -251,6 +260,15 @@
     </ClInclude>
     <ClInclude Include="NecromancerInfo.h">
       <Filter>Object\Actor\00.Global\00.Player\00.Infomation\01.JobInfo\00.Necromancer</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateCharactorFireObject.h">
+      <Filter>Object\Actor\02.CreateCharactor\01.FireObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateCharactorNecromancerObject.h">
+      <Filter>Object\Actor\02.CreateCharactor\02.NecObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateCharactorInputText.h">
+      <Filter>Object\Actor\02.CreateCharactor\03.InputText</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

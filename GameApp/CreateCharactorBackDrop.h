@@ -1,8 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
-// 분류 : 캐릭터생성레벨 배경
-// 용도 : 
+// 분류 : 이미지
+// 용도 : 캐릭터생성레벨 배경
 // 설명 : 
 class GameEngineImageRenderer;
 class CreateCharactorBackDrop : public GameEngineActor

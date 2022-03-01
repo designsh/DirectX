@@ -36,7 +36,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CreateCharactorFireObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CreateCharactorInputText.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CreateCharactorLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CreateCharactorNecromancerObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -115,7 +127,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CreateCharactorFireObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CreateCharactorInputText.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CreateCharactorLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CreateCharactorNecromancerObject.h">
       <SubType>
       </SubType>
     </ClInclude>

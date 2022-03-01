@@ -1,8 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
-// 분류 : 타이틀레벨 로고
-// 용도 : 
+// 분류 : 애니메이션
+// 용도 : 타이틀레벨 로고
 // 설명 : 
 class TitleLogo : public GameEngineActor
 {
