@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "BottomStateBar.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineUIRenderer.h>
 
 BottomStateBar::BottomStateBar() :
@@ -21,11 +20,27 @@ void BottomStateBar::Start()
 	float4 ImageSize = BottomStateBarImage->GetImageSize();
 	float4 ImageHarfSize = ImageSize.halffloat4();
 
-	// 현재 ImageRenderer사용 -> 코드 적용시 UIRenderer로 변경
-	// 단, UIRenderer에 텍스쳐 셋팅하는 기능 추가 필요
-	BottomStateBar_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	BottomStateBar_->SetImage("Player_BottomStatBar_UI.png", float4(WindowSize.x, ImageSize.y));
+	// 하단상태바 틀
+	BottomStateBar_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	BottomStateBar_->SetRenderingPipeLine("Texture");
+	BottomStateBar_->ShaderHelper.SettingTexture("Tex", "Player_BottomStatBar_UI.png");
+	BottomStateBar_->GetTransform()->SetLocalScaling(float4(WindowSize.x, ImageSize.y));
 	BottomStateBar_->GetTransform()->SetLocalPosition(float4(0.f, ImageHarfSize.y - WindowHarfSize.y));
+
+	// 액터 한개로 할지 쪼갤지 고민중......
+	
+	// 왼쪽무기 활성화 스킬버튼
+
+	// 오른쪽무기 활성화 스킬버튼
+
+	// 스태미나 활성/비활성 버튼
+
+	// 스태미나 ProgressBar
+
+	// 물약칸충돌체?
+
+	// 미니메뉴관련
+
 }
 
 void BottomStateBar::Update(float _DeltaTime)

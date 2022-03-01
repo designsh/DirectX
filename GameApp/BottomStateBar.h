@@ -5,11 +5,10 @@
 // 용도 : 하단상태바
 // 설명 : 플레이어의 하단상태바관리
 class GameEngineUIRenderer;
-class GameEngineImageRenderer;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
-	GameEngineImageRenderer* BottomStateBar_;
+	GameEngineUIRenderer* BottomStateBar_;
 
 public:
 	BottomStateBar();
