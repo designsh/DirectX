@@ -28,27 +28,39 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CharacterDeleteButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CommonInfomation.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CreateCharactorBackDrop.cpp">
+    <ClCompile Include="CreateCharacterButton.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CreateCharactorFireObject.cpp">
+    <ClCompile Include="CreateCharacterBackDrop.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CreateCharactorInputText.cpp">
+    <ClCompile Include="CreateCharacterFireObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CreateCharactorLevel.cpp">
+    <ClCompile Include="CreateCharacterInputText.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CreateCharactorNecromancerObject.cpp">
+    <ClCompile Include="CreateCharacterLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CreateCharacterNecromancerObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CurPlayerGameStartButton.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -83,7 +95,19 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Precompile.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="SelectCharactorLevel.cpp">
+    <ClCompile Include="PrevLevelButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterBackDrop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SelPlayerGameStartButton.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -119,27 +143,39 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CharacterDeleteButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CommonInfomation.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CreateCharactorBackDrop.h">
+    <ClInclude Include="CreateCharacterButton.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CreateCharactorFireObject.h">
+    <ClInclude Include="CreateCharacterBackDrop.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CreateCharactorInputText.h">
+    <ClInclude Include="CreateCharacterFireObject.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CreateCharactorLevel.h">
+    <ClInclude Include="CreateCharacterInputText.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CreateCharactorNecromancerObject.h">
+    <ClInclude Include="CreateCharacterLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CreateCharacterNecromancerObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CurPlayerGameStartButton.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -169,7 +205,19 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
-    <ClInclude Include="SelectCharactorLevel.h">
+    <ClInclude Include="PrevLevelButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterBackDrop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SelPlayerGameStartButton.h">
       <SubType>
       </SubType>
     </ClInclude>

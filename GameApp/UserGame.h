@@ -5,8 +5,8 @@
 // 용도 : 
 // 설명 : 
 class TitleLevel;
-class CreateCharactorLevel;
-class SelectCharactorLevel;
+class CreateCharacterLevel;
+class SelectCharacterLevel;
 class LoadingLevel;
 class TownLevel;
 class CatacombsLevel;

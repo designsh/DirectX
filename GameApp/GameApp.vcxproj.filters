@@ -17,11 +17,11 @@
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Object\Level\01.TitleLevel</Filter>
     </ClCompile>
-    <ClCompile Include="CreateCharactorLevel.cpp">
-      <Filter>Object\Level\02.CreateCharactorLevel</Filter>
+    <ClCompile Include="CreateCharacterLevel.cpp">
+      <Filter>Object\Level\02.CreateCharacterLevel</Filter>
     </ClCompile>
-    <ClCompile Include="SelectCharactorLevel.cpp">
-      <Filter>Object\Level\03.SelectCharactorLevel</Filter>
+    <ClCompile Include="SelectCharacterLevel.cpp">
+      <Filter>Object\Level\03.SelectCharacterLevel</Filter>
     </ClCompile>
     <ClCompile Include="LoadingLevel.cpp">
       <Filter>Object\Level\04.LoadingLevel</Filter>
@@ -53,8 +53,8 @@
     <ClCompile Include="GameEndButton.cpp">
       <Filter>Object\Actor\01.Title\03.GameEndButton</Filter>
     </ClCompile>
-    <ClCompile Include="CreateCharactorBackDrop.cpp">
-      <Filter>Object\Actor\02.CreateCharactor\00.BackDrop</Filter>
+    <ClCompile Include="CreateCharacterBackDrop.cpp">
+      <Filter>Object\Actor\02.CreateCharacter\00.BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayer.cpp">
       <Filter>Object\Actor\00.Global\00.Player</Filter>
@@ -62,14 +62,32 @@
     <ClCompile Include="NecromancerInfo.cpp">
       <Filter>Object\Actor\00.Global\00.Player\00.Infomation\01.JobInfo\00.Necromancer</Filter>
     </ClCompile>
-    <ClCompile Include="CreateCharactorFireObject.cpp">
-      <Filter>Object\Actor\02.CreateCharactor\01.FireObject</Filter>
+    <ClCompile Include="CreateCharacterFireObject.cpp">
+      <Filter>Object\Actor\02.CreateCharacter\01.FireObject</Filter>
     </ClCompile>
-    <ClCompile Include="CreateCharactorNecromancerObject.cpp">
-      <Filter>Object\Actor\02.CreateCharactor\02.NecObject</Filter>
+    <ClCompile Include="CreateCharacterNecromancerObject.cpp">
+      <Filter>Object\Actor\02.CreateCharacter\02.NecObject</Filter>
     </ClCompile>
-    <ClCompile Include="CreateCharactorInputText.cpp">
-      <Filter>Object\Actor\02.CreateCharactor\03.InputText</Filter>
+    <ClCompile Include="CreateCharacterInputText.cpp">
+      <Filter>Object\Actor\02.CreateCharacter\03.InputText</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateCharacterButton.cpp">
+      <Filter>Object\Actor\03.SelectCharacter\04.Button\00.CreateCharacterButton</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterDeleteButton.cpp">
+      <Filter>Object\Actor\03.SelectCharacter\04.Button\01.CharacterDeleteButton</Filter>
+    </ClCompile>
+    <ClCompile Include="PrevLevelButton.cpp">
+      <Filter>Object\Actor\03.SelectCharacter\04.Button\02.PrevLevelButton</Filter>
+    </ClCompile>
+    <ClCompile Include="SelPlayerGameStartButton.cpp">
+      <Filter>Object\Actor\03.SelectCharacter\04.Button\03.GameStartButton</Filter>
+    </ClCompile>
+    <ClCompile Include="CurPlayerGameStartButton.cpp">
+      <Filter>Object\Actor\02.CreateCharacter\04.GameStartButton</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterBackDrop.cpp">
+      <Filter>Object\Actor\03.SelectCharacter\00.BackDrop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,12 +118,6 @@
     <Filter Include="Object\Level\01.TitleLevel">
       <UniqueIdentifier>{8fbf6e9c-8190-443d-b1f6-2068caa4555c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Level\02.CreateCharactorLevel">
-      <UniqueIdentifier>{637d22fc-55d4-4764-a8bc-24a5003a8f1a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Level\03.SelectCharactorLevel">
-      <UniqueIdentifier>{d0ace612-a181-4755-82f4-605e1aa26aa2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Level\04.LoadingLevel">
       <UniqueIdentifier>{719e4e5a-a1b2-4eeb-8fb3-f5e643e5cfb8}</UniqueIdentifier>
     </Filter>
@@ -120,12 +132,6 @@
     </Filter>
     <Filter Include="Object\Actor\01.Title">
       <UniqueIdentifier>{633d8bad-7c78-48f1-b19c-699d8d29029b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor">
-      <UniqueIdentifier>{c1ede51c-feef-41b9-b87b-c5fbde458339}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\03.SelectCharactor">
-      <UniqueIdentifier>{3baf64eb-2dc5-4210-b12c-0855bd24bf82}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Actor\04.Loading">
       <UniqueIdentifier>{664af8d7-8c02-4cce-b13a-95086dbe4742}</UniqueIdentifier>
@@ -166,21 +172,6 @@
     <Filter Include="Object\Actor\01.Title\03.GameEndButton">
       <UniqueIdentifier>{acbc4b11-dbf9-4853-8f0a-24405abcd896}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\00.BackDrop">
-      <UniqueIdentifier>{ffa48772-1fdd-41cd-8060-733810bbeda4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\01.FireObject">
-      <UniqueIdentifier>{a557badf-f83b-4631-a0bf-78e39cf5ff04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\02.NecObject">
-      <UniqueIdentifier>{a06b75a1-4a90-4c97-9dee-4f166f2cd6e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\03.InputText">
-      <UniqueIdentifier>{d317662e-f139-4bb5-8d36-0e810e9af204}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\04.Button">
-      <UniqueIdentifier>{8dd3ec03-da65-4710-8cf2-9d7a141d2367}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\GlobalValue">
       <UniqueIdentifier>{834cd530-b262-4c34-9945-10bfec683976}</UniqueIdentifier>
     </Filter>
@@ -199,17 +190,77 @@
     <Filter Include="Object\Actor\00.Global\00.Player\01.Summons">
       <UniqueIdentifier>{cb631d86-2e19-45c8-873e-0c6233773f39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\04.Button\00.CreateCharacterButton">
+    <Filter Include="Object\Actor\03.SelectCharacter">
+      <UniqueIdentifier>{3baf64eb-2dc5-4210-b12c-0855bd24bf82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\03.SelectCharacter\00.BackDrop">
+      <UniqueIdentifier>{6130c3cb-41b2-4bfe-b299-94e1c0989f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\03.SelectCharacter\01.Selector">
+      <UniqueIdentifier>{226b50d0-8f79-4048-bb5d-376e837b9ebc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\03.SelectCharacter\02.Scroll">
+      <UniqueIdentifier>{c939ed4a-125b-4a59-b667-3888b4dbedfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\03.SelectCharacter\03.CharacterList">
+      <UniqueIdentifier>{5b494b4b-f361-4c7f-b2e7-207fd97453ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\03.SelectCharacter\04.Button">
+      <UniqueIdentifier>{fc4ee3a0-c3ab-4045-b606-da7fbfa3eaa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\03.SelectCharacter\04.Button\00.CreateCharacterButton">
       <UniqueIdentifier>{018bdd04-6a7b-4aa3-b793-54c4ceb470dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\04.Button\01.CharacterDeleteButton">
+    <Filter Include="Object\Actor\03.SelectCharacter\04.Button\01.CharacterDeleteButton">
       <UniqueIdentifier>{932cd0c9-7ef3-4b5e-bcb7-4a48f2d934ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\04.Button\02.PrevLevelButton">
+    <Filter Include="Object\Actor\03.SelectCharacter\04.Button\02.PrevLevelButton">
       <UniqueIdentifier>{d928b189-9b74-41cc-a17a-6063e34dee10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\02.CreateCharactor\04.Button\03.GameStartButton">
+    <Filter Include="Object\Actor\03.SelectCharacter\04.Button\03.GameStartButton">
       <UniqueIdentifier>{0d204dda-5a16-498b-b1e1-fe9fe2e57229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter">
+      <UniqueIdentifier>{c1ede51c-feef-41b9-b87b-c5fbde458339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\00.BackDrop">
+      <UniqueIdentifier>{ffa48772-1fdd-41cd-8060-733810bbeda4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\01.FireObject">
+      <UniqueIdentifier>{a557badf-f83b-4631-a0bf-78e39cf5ff04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\02.NecObject">
+      <UniqueIdentifier>{a06b75a1-4a90-4c97-9dee-4f166f2cd6e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\03.InputText">
+      <UniqueIdentifier>{d317662e-f139-4bb5-8d36-0e810e9af204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\04.GameStartButton">
+      <UniqueIdentifier>{8dd3ec03-da65-4710-8cf2-9d7a141d2367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\02.CreateCharacterLevel">
+      <UniqueIdentifier>{637d22fc-55d4-4764-a8bc-24a5003a8f1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\03.SelectCharacterLevel">
+      <UniqueIdentifier>{d0ace612-a181-4755-82f4-605e1aa26aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal">
+      <UniqueIdentifier>{86732d3d-3e82-41ad-afc3-c5a858182dde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Boss">
+      <UniqueIdentifier>{5be284f3-8ee0-4c28-aed0-7e7678c59e3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\00.WeaponNPC">
+      <UniqueIdentifier>{2e7dafa2-e99d-4476-810f-15b3ae6ef5e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\01.ChandleryNPC">
+      <UniqueIdentifier>{f08ec3e2-3ae4-4688-b167-fe51c322ace4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\02.Skill">
+      <UniqueIdentifier>{34bf7bfa-7626-462c-8497-1b078255ee62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI">
+      <UniqueIdentifier>{25313959-9ae0-4236-95a7-ad1a20eb7de0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -228,11 +279,11 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Object\Level\01.TitleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="CreateCharactorLevel.h">
-      <Filter>Object\Level\02.CreateCharactorLevel</Filter>
+    <ClInclude Include="CreateCharacterLevel.h">
+      <Filter>Object\Level\02.CreateCharacterLevel</Filter>
     </ClInclude>
-    <ClInclude Include="SelectCharactorLevel.h">
-      <Filter>Object\Level\03.SelectCharactorLevel</Filter>
+    <ClInclude Include="SelectCharacterLevel.h">
+      <Filter>Object\Level\03.SelectCharacterLevel</Filter>
     </ClInclude>
     <ClInclude Include="LoadingLevel.h">
       <Filter>Object\Level\04.LoadingLevel</Filter>
@@ -264,8 +315,8 @@
     <ClInclude Include="GameEndButton.h">
       <Filter>Object\Actor\01.Title\03.GameEndButton</Filter>
     </ClInclude>
-    <ClInclude Include="CreateCharactorBackDrop.h">
-      <Filter>Object\Actor\02.CreateCharactor\00.BackDrop</Filter>
+    <ClInclude Include="CreateCharacterBackDrop.h">
+      <Filter>Object\Actor\02.CreateCharacter\00.BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="MainPlayer.h">
       <Filter>Object\Actor\00.Global\00.Player</Filter>
@@ -273,14 +324,32 @@
     <ClInclude Include="NecromancerInfo.h">
       <Filter>Object\Actor\00.Global\00.Player\00.Infomation\01.JobInfo\00.Necromancer</Filter>
     </ClInclude>
-    <ClInclude Include="CreateCharactorFireObject.h">
-      <Filter>Object\Actor\02.CreateCharactor\01.FireObject</Filter>
+    <ClInclude Include="CreateCharacterFireObject.h">
+      <Filter>Object\Actor\02.CreateCharacter\01.FireObject</Filter>
     </ClInclude>
-    <ClInclude Include="CreateCharactorNecromancerObject.h">
-      <Filter>Object\Actor\02.CreateCharactor\02.NecObject</Filter>
+    <ClInclude Include="CreateCharacterNecromancerObject.h">
+      <Filter>Object\Actor\02.CreateCharacter\02.NecObject</Filter>
     </ClInclude>
-    <ClInclude Include="CreateCharactorInputText.h">
-      <Filter>Object\Actor\02.CreateCharactor\03.InputText</Filter>
+    <ClInclude Include="CreateCharacterInputText.h">
+      <Filter>Object\Actor\02.CreateCharacter\03.InputText</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateCharacterButton.h">
+      <Filter>Object\Actor\03.SelectCharacter\04.Button\00.CreateCharacterButton</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterDeleteButton.h">
+      <Filter>Object\Actor\03.SelectCharacter\04.Button\01.CharacterDeleteButton</Filter>
+    </ClInclude>
+    <ClInclude Include="PrevLevelButton.h">
+      <Filter>Object\Actor\03.SelectCharacter\04.Button\02.PrevLevelButton</Filter>
+    </ClInclude>
+    <ClInclude Include="SelPlayerGameStartButton.h">
+      <Filter>Object\Actor\03.SelectCharacter\04.Button\03.GameStartButton</Filter>
+    </ClInclude>
+    <ClInclude Include="CurPlayerGameStartButton.h">
+      <Filter>Object\Actor\02.CreateCharacter\04.GameStartButton</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterBackDrop.h">
+      <Filter>Object\Actor\03.SelectCharacter\00.BackDrop</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

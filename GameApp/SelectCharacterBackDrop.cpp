@@ -1,18 +1,18 @@
 #include "PreCompile.h"
-#include "CreateCharactorBackDrop.h"
+#include "SelectCharacterBackDrop.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
-CreateCharactorBackDrop::CreateCharactorBackDrop() :
+SelectCharacterBackDrop::SelectCharacterBackDrop() :
 	BackDrop_(nullptr)
 {
 }
 
-CreateCharactorBackDrop::~CreateCharactorBackDrop()
+SelectCharacterBackDrop::~SelectCharacterBackDrop()
 {
 }
 
-void CreateCharactorBackDrop::Start()
+void SelectCharacterBackDrop::Start()
 {
 	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
 
@@ -20,6 +20,7 @@ void CreateCharactorBackDrop::Start()
 	BackDrop_->SetImage("CreateCharacter_BackDrop.png", WindowSize);
 }
 
-void CreateCharactorBackDrop::Update(float _DeltaTime)
+void SelectCharacterBackDrop::Update(float _DeltaTime)
 {
+
 }

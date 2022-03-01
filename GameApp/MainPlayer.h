@@ -3,7 +3,7 @@
 
 // 분류 : 플레이어
 // 용도 : 
-// 설명 : 직업에 따라 정보가 달라진다.
+// 설명 : 직업에 따라 정보가 다름
 class CommonInfomation;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor

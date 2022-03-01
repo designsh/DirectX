@@ -1,7 +1,7 @@
 #include "PreCompile.h"
-#include "CreateCharactorLevel.h"
+#include "CreateCharacterLevel.h"
 
-#include "CreateCharactorBackDrop.h"
+#include "CreateCharacterBackDrop.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -9,31 +9,31 @@
 
 #include "UserGame.h"
 
-CreateCharactorLevel::CreateCharactorLevel()
+CreateCharacterLevel::CreateCharacterLevel()
 {
 }
 
-CreateCharactorLevel::~CreateCharactorLevel()
+CreateCharacterLevel::~CreateCharacterLevel()
 {
 }
 
-void CreateCharactorLevel::LevelChangeEndEvent()
+void CreateCharacterLevel::LevelChangeEndEvent()
 {
 	// 배경음악 Off
 }
 
-void CreateCharactorLevel::LevelChangeStartEvent()
+void CreateCharacterLevel::LevelChangeStartEvent()
 {
 	// 배경음악 On
 }
 
-void CreateCharactorLevel::LevelStart()
+void CreateCharacterLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	// 배경액터 생성(이미지)
-	CreateCharactorBackDrop* BackDrop = CreateActor<CreateCharactorBackDrop>();
+	CreateCharacterBackDrop* BackDrop = CreateActor<CreateCharacterBackDrop>();
 
 	// 캠프파이어오브젝트 생성(애니메이션)
 
@@ -42,7 +42,7 @@ void CreateCharactorLevel::LevelStart()
 	// 이전버튼(이미지 + 텍스트) -> 타이틀레벨 이동
 }
 
-void CreateCharactorLevel::LevelUpdate(float _DeltaTime)
+void CreateCharacterLevel::LevelUpdate(float _DeltaTime)
 {
 	// 테스트용
 	if (true == GameEngineInput::GetInst().Down("NextScene"))

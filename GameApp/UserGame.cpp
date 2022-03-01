@@ -5,8 +5,8 @@
 
 // Level
 #include "TitleLevel.h"
-#include "CreateCharactorLevel.h"
-#include "SelectCharactorLevel.h"
+#include "CreateCharacterLevel.h"
+#include "SelectCharacterLevel.h"
 #include "LoadingLevel.h"
 #include "TownLevel.h"
 #include "CatacombsLevel.h"
@@ -24,8 +24,8 @@ void UserGame::Initialize()
 {
 	// 씬구성 : 타이틀-캐릭터생성-캐릭터선택(보류)-로딩-마을-카타콤-카오스생츄어리
 	LevelCreate<TitleLevel>("TitleLevel");
-	LevelCreate<CreateCharactorLevel>("CreateCharactorLevel");
-	LevelCreate<SelectCharactorLevel>("SelectCharactorLevel");
+	LevelCreate<CreateCharacterLevel>("CreateCharacterLevel");
+	LevelCreate<SelectCharacterLevel>("SelectCharacterLevel");
 	LevelCreate<LoadingLevel>("LoadingLevel");
 	LevelCreate<TownLevel>("TownLevel");
 	LevelCreate<CatacombsLevel>("CatacombsLevel");

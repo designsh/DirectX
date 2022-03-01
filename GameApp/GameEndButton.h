@@ -2,7 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 // 분류 : 위젯
-// 용도 : 타이틀레벨 게임종료버튼
+// 용도 : 타이틀레벨 버튼
 // 설명 : 윈도우 종료
 class GameEndButton : public GameEngineActor
 {
