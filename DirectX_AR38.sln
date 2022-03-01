@@ -52,6 +52,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "렌더링파이프라인(�
 		렌더링파이프라인_세팅참고(화면전체효과).txt = 렌더링파이프라인_세팅참고(화면전체효과).txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "컨텐츠참고", "컨텐츠참고", "{E38C0CC3-8251-4585-9CE8-418A03A87949}"
+	ProjectSection(SolutionItems) = preProject
+		1.Refernece_ImageCode.txt = 1.Refernece_ImageCode.txt
+		2.Reference_ImageGubunCode.txt = 2.Reference_ImageGubunCode.txt
+		3.Reference_Nec_ImageCode.txt = 3.Reference_Nec_ImageCode.txt
+		4.Reference_Characters_Infomation.txt = 4.Reference_Characters_Infomation.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -100,6 +108,7 @@ Global
 		{2A2F66EB-B7FB-4F11-8027-9DE9660CE272} = {074E09FF-30A0-4742-96F0-5A94B3B512D7}
 		{5B3E9C81-200F-4555-920F-999C7ED0EE4D} = {39D5669E-F6EF-4D35-AC9B-CB128861845C}
 		{FAAB9EE1-708A-4F90-983D-F66966971FB2} = {D64C11D0-3536-4B77-8DAE-0AF475AD9CC9}
+		{E38C0CC3-8251-4585-9CE8-418A03A87949} = {D64C11D0-3536-4B77-8DAE-0AF475AD9CC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1846C1B2-ED10-47AF-B442-66A222301435}

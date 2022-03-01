@@ -1,0 +1,209 @@
+<< ZM - Zombie(좀비) >>
+HD - 머리
+LA - 왼팔
+RA - 오른팔
+TR - 몸통
+LG - 다리
+S3 - 머리(투구)
+S1 - 오른어깨(오른어깨 갑옷)
+S2 - 왼어깨(왼어깨 갑옷)
+
+8개
+
+< 모션정리 >
+공격모션1 : ZMA1HTH
+공격모션2 : ZMA2HTH
+시체모션 : ZMDDHTH
+사망모션 : ZMDTHTH
+피격모션 : ZMGHHTH
+대기모션 : ZMNUHTH
+뛰기모션 : ZMRNHTH (적발견시 이동)
+이동모션 : ZMWLHTH (기본 이동)
+
+
+<< FA - Fallen(팔렌) >>
+RH - 무기
+SH - 방패
+TR - 몸통
+S1 - 왼어깨갑옷
+
+< 모션정리 >
+공격모션1 : Faa1hth
+공격모션2 : Faa2hth
+적발견모션 : FABLHTH
+시체모션  : FADDHTH
+사망모션  : FADTHTH
+피격모션 : faghhth
+대기모션 : fanuhth
+이동모션 : Fawlhth
+부활모션 : FAS1HTH (이전에 죽어있었음)
+부활모션 : FAS2HTH (이전에 살아있었음)
+
+<< SK - Skeltelon(스켈텔론 - 전사) >>
+HD : 머리
+LA : 왼팔
+RH : 오른팔
+LG : 다리
+RH : 오른쪽무기
+SH : 왼쪽방패
+TR : 몸통
+S3 : 투구
+S2 : 왼쪽어깨값옷
+S1 : 오른어깨갑옷
+
+< 모션정리 >
+공격모션1 : SKA11HS
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. RH : AXE -
+-. SH : BUC -
+-. TR : HVY -
+-. S3 : LIT -
+-. S2 : DES -
+-. S1 : DES -
+공격모션2 : SKA21HS
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. RH : AXE -
+-. SH : BUC -
+-. TR : HVY -
+-. S3 : LIT -
+-. S2 : DES -
+-. S1 : DES -
+사망모션 : SKDT1HS
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. TR : HVY -
+-. S3 : LIT -
+-. S2 : DES -
+-. S1 : DES -
+피격모션 : SKGH1HS
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. RH : AXE -
+-. TR : HVY -
+-. SH : BUC -
+-. S2 : DES -
+-. S1 : DES -
+대기모션 : SKNU1HS
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. RH : AXE -
+-. SH : BUC -
+-. TR : HVY -
+-. S3 : LIT -
+-. S2 : DES -
+-. S1 : DES -
+소환모션 : SKS11HS
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. RH : AXE -
+-. SH : BUC -
+-. TR : HVY -
+-. S3 : LIT -
+-. S2 : DES -
+-. S1 : DES 
+이동모션 : SKWL1HS
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. RH : AXE -
+-. SH : BUC -
+-. TR : HVY -
+-. S3 : LIT -
+-. S2 : DES -
+-. S1 : DES -
+
+
+<< SK - Skeltelon(스켈텔론 - 마법사) >>
+HD : 머리
+LA : 왼팔
+RA : 오른팔
+LG : 다리
+TR : 몸통
+S2 : 왼어깨갑옷
+S1 : 오른어깨갑옷
+S4 : 왼쪽무기(발사체)
+ -. CLD : 빙결
+ -. FIR : 화염
+ -. LHT : 라이트닝
+ -. POS : 독
+S5 : 오른쪽무기(발사체)
+ -. CLD : 빙결
+ -. FIR : 화염
+ -. LHT : 라이트닝
+ -. POS : 독
+
+< 모션정리 >
+공격모션1 : SKA1HTH
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. TR : HVY -
+-. S2 : DES -
+-. S1 : DES -
+-. S4 : COD - / FIR - / LHT - / POS -
+-. S5 : COD - / FIR - / LHT - / POS -
+사망모션 : SKDTHTH
+-. LA : DES -
+-. HD : DES -
+-. LG : DES -
+-. RA : DES -
+-. S1 : DES -
+-. S2 : DES -
+-. TR : HVY -
+-. S3 : LIT -
+피격모션 : SKGHHTH
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. TR : HVY -
+-. S2 : DES -
+-. S1 : DES -
+-. S4 : COD - / FIR - / LHT - / POS -
+-. S5 : COD - / FIR - / LHT - / POS -
+대기모션 : SKNUHTH
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. TR : HVY -
+-. S2 : DES -
+-. S1 : DES -
+-. S4 : COD - / FIR - / LHT - / POS -
+-. S5 : COD - / FIR - / LHT - / POS -
+소환모션 : SKS1HTH
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. TR : HVY -
+-. S2 : DES -
+-. S1 : DES -
+-. S4 : COD - / FIR - / LHT - / POS -
+-. S5 : COD - / FIR - / LHT - / POS -
+이동모션 : SKWLHTH
+-. HD : DES -
+-. LA : DES -
+-. LG : DES -
+-. RA : DES -
+-. TR : HVY -
+-. S2 : DES -
+-. S1 : DES -
+-. S4 : COD - / FIR - / LHT - / POS -
+-. S5 : COD - / FIR - / LHT - / POS -

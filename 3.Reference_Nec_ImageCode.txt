@@ -1,0 +1,93 @@
+<<<< Necromancer Image Code >>>>
+
+<<< Nec Body Part Image Code >>>
+HD - 머리
+TR - 몸통
+LG - 다리
+LA - 왼팔
+RA - 오른팔
+S2 - 왼어깨갑옷
+S1 - 오른어깨갑옷
+RH - 오른쪽손(무기)
+SH - 왼쪽손(방패)
+
+<<< Nec Weapon Image Code >>>
+LIT - 미착용
+MED - 아이템착용(가죽)
+HVY - 아이템착용(철제)
+
+<<< 초기 네크생성시 >>>
+HD - LIT
+TR - LIT
+LG - LIT
+LA - LIT
+RA - LIT
+S2 - LIT
+S1 - LIT
+RH - WND
+SH - 없음
+
+<<< Nec Animation Gubun ImageCode >>>
+
+<< 필드 >>
+< 공격모션1     > - NEA11HS
+< 공격모션2     > - NEA21HS
+< 방어모션      > - NEBL1HS
+< 시체모션      > - NEDDHTH
+< 사망모션      > - NEDTHTH
+< 피격모션      > - NEGH1HS
+< 킥모션        > - NEKK1HS
+< 대기모션      > - NENU1HS
+< 스킬공격모션  > - NES11HS
+< 캐스팅모션    > - NESC1HS
+< 이동모션      > - NEWL1HS
+
+<< 마을 >>
+< 대기모션 > - NETN1HS
+< 이동모션 > - NETW1HS
+
+<< 공통 >>
+< 뛰기모션      > - NERN1HS
+
+<<< Nec Motion Gubun Image >>
+
+<< 공격모션1(필드)    - NEA11HS >>
+<< 공격모션2(필드)    - NEA21HS >>
+<< 방어모션(필드)     - NEBL1HS >>
+<< 피격모션(필드)     - NEGH1SH >>
+<< 킥모션(필드)       - NEKK1HS >>
+<< 대기모션(필드)     - NENU1HS >>
+<< 스킬공격모션(필드) - NES11HS >>
+<< 캐스팅모션(필드)   - NESC1HS >>
+<< 이동모션(필드)     - NEWL1HS >>
+<< 대기모션(마을)     - NETN1HS >>
+<< 이동모션(마을)     - NEWL1HS >>
+< 기본생성 >
+-. HD - LIT
+-. TR - LIT
+-. LG - LIT
+-. LA - LIT
+-. RA - LIT
+-. S1 - LIT
+-. S2 - LIT
+-. RH - WND
+-. SH - 착용안함
+
+< 아이템착용 >
+-. HD - BHM
+-. TR - HVY
+-. LG - HVY
+-. LA - HVY
+-. RA - HVY
+-. S1 - HVY
+-. S2 - HVY
+-. RH - CRS
+-. SH - BSH
+
+<< 시체모션 - NEDDHTH >>
+-. TR - LIT
+
+<< 사망모션 - NEDTHTH >>
+-. TR - LIT
+
+
