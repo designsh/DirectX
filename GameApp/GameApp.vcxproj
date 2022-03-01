@@ -76,6 +76,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LoadingAnimation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="LoadingBackDrop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LoadingLevel.cpp">
       <SubType>
       </SubType>
@@ -104,6 +112,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="SelectCharacterLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterList.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterScroll.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterSelector.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -192,6 +212,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="LoadingAnimation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LoadingBackDrop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LoadingLevel.h">
       <SubType>
       </SubType>
@@ -214,6 +242,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="SelectCharacterLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterList.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterScroll.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterSelector.h">
       <SubType>
       </SubType>
     </ClInclude>

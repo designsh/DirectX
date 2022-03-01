@@ -1,9 +1,13 @@
 #include "PreCompile.h"
 #include "LoadingLevel.h"
 
+#include "LoadingAnimation.h"
+
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
+
+#include "UserGame.h"
 
 LoadingLevel::LoadingLevel()
 {
@@ -25,10 +29,18 @@ void LoadingLevel::LevelChangeStartEvent()
 
 void LoadingLevel::LevelStart()
 {
-	// 로딩액터(애니메이션)
+	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
+	// 로딩액터(애니메이션) - 임시(테스트용)
+	LoadingAnimation* Animation = CreateActor<LoadingAnimation>();
 }
 
 void LoadingLevel::LevelUpdate(float _DeltaTime)
 {
+	// 테스트용
+	if (true == GameEngineInput::GetInst().Down("NextScene"))
+	{
+		UserGame::LevelChange("TownLevel");
+	}
 }

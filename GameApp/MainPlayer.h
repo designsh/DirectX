@@ -12,7 +12,7 @@ private:	// 플레이어 정보
 	CommonInfomation* PlayerInfomation_;
 
 private: // 플레이어 부위별 애니메이션렌더러
-	GameEngineImageRenderer* PlayerImageRenderer;
+	GameEngineRenderer* PlayerImageRenderer_;
 
 public:
 	MainPlayer();

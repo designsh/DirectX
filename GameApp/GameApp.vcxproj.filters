@@ -89,6 +89,21 @@
     <ClCompile Include="SelectCharacterBackDrop.cpp">
       <Filter>Object\Actor\03.SelectCharacter\00.BackDrop</Filter>
     </ClCompile>
+    <ClCompile Include="SelectCharacterSelector.cpp">
+      <Filter>Object\Actor\03.SelectCharacter\01.Selector</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterScroll.cpp">
+      <Filter>Object\Actor\03.SelectCharacter\02.Scroll</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectCharacterList.cpp">
+      <Filter>Object\Actor\03.SelectCharacter\03.CharacterList</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingAnimation.cpp">
+      <Filter>Object\Actor\04.Loading\01.LoadingAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingBackDrop.cpp">
+      <Filter>Object\Actor\04.Loading\00.BackDrop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -262,6 +277,12 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI">
       <UniqueIdentifier>{25313959-9ae0-4236-95a7-ad1a20eb7de0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\04.Loading\01.LoadingAnimation">
+      <UniqueIdentifier>{12ca3d1b-6d3d-47c2-aeff-a110abbb26d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\04.Loading\00.BackDrop">
+      <UniqueIdentifier>{17fece50-6be3-4b0f-99b1-1092772cb145}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -350,6 +371,21 @@
     </ClInclude>
     <ClInclude Include="SelectCharacterBackDrop.h">
       <Filter>Object\Actor\03.SelectCharacter\00.BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterSelector.h">
+      <Filter>Object\Actor\03.SelectCharacter\01.Selector</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterScroll.h">
+      <Filter>Object\Actor\03.SelectCharacter\02.Scroll</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCharacterList.h">
+      <Filter>Object\Actor\03.SelectCharacter\03.CharacterList</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingAnimation.h">
+      <Filter>Object\Actor\04.Loading\01.LoadingAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingBackDrop.h">
+      <Filter>Object\Actor\04.Loading\00.BackDrop</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

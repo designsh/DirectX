@@ -29,6 +29,9 @@ void TownLevel::LevelChangeStartEvent()
 
 void TownLevel::LevelStart()
 {
+	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+
 	// 맵로딩(타일맵 - 마름모)
 
 	// 플레이어 생성
