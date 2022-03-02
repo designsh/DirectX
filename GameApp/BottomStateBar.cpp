@@ -21,11 +21,10 @@ void BottomStateBar::Start()
 	float4 ImageHarfSize = ImageSize.halffloat4();
 
 	// 하단상태바 틀
-	float4 CutData = float4(0.f, 0.f, 1.f, 1.f);
 	BottomStateBar_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	BottomStateBar_->SetRenderingPipeLine("Texture");
 	BottomStateBar_->ShaderHelper.SettingTexture("Tex", "Player_BottomStatBar_UI.png");
-	BottomStateBar_->ShaderHelper.SettingConstantBufferSet("TextureCutData", CutData);
+	BottomStateBar_->ShaderHelper.SettingConstantBufferSet("TextureCutData", float4(0.f, 0.f, 1.f, 1.f));
 	BottomStateBar_->GetTransform()->SetLocalScaling(float4(WindowSize.x, ImageSize.y));
 	BottomStateBar_->GetTransform()->SetLocalPosition(float4(0.f, ImageHarfSize.y - WindowHarfSize.y));
 
