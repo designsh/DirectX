@@ -143,6 +143,9 @@
     <ClCompile Include="Diablo.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo</Filter>
     </ClCompile>
+    <ClCompile Include="BoxObject.cpp">
+      <Filter>Object\Actor\00.Global\03.Object\02.Box</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -581,6 +584,9 @@
     </ClInclude>
     <ClInclude Include="Diablo.h">
       <Filter>Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxObject.h">
+      <Filter>Object\Actor\00.Global\03.Object\02.Box</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

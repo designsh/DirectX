@@ -444,11 +444,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
-      <Filter>Lib\DirectXTex\Release</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="..\ThirdParty\x64\Debug\DirectXTex\DirectXTex.lib">
       <Filter>Lib\DirectXTex\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
+      <Filter>Lib\DirectXTex\Release</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>
