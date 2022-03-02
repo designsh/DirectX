@@ -114,3 +114,64 @@ void GameEngineTexture::Load(const std::string& _Path)
 	TextureDesc_.Height = static_cast<unsigned int>(Image_.GetMetadata().height);
 }
 
+bool GameEngineTexture::IsCut()
+{
+	return CutList_.size() != 0;
+}
+
+void GameEngineTexture::Cut(int _x, int _y)
+{
+	// Sprites Image Cutting
+
+	// 들어오는 인자 : 컷팅할 개수 x, y
+	// UV값 기준으로 이미지를 컷팅
+	// x,y = 위치, z,w = 크기
+	for (int y = 0; y < _y; y++)
+	{
+		float4 CurStart;
+
+		CurStart.z = 1.0f / _x;
+		CurStart.w = 1.0f / _y;
+
+		CurStart.y = CurStart.w * y;
+
+		for (int x = 0; x < _x; x++)
+		{
+			CurStart.x = CurStart.z * x;
+			CutList_.push_back(CurStart);
+		}
+	}
+}
+
+void GameEngineTexture::PushCutIndex(const float4& _Size, const float4& _Pos)
+{
+	// Atlases Image Cutting
+
+	float4 CutUv = float4::ZERO;
+
+	// 위치
+	CutUv.x = _Pos.x;
+	CutUv.y = _Pos.y;
+
+	// 크기
+	CutUv.z = _Size.x;
+	CutUv.w = _Size.y;
+
+	CutList_.push_back(CutUv);
+}
+
+float4 GameEngineTexture::GetCutData(int _Index)
+{
+	if (0 == CutList_.size())
+	{
+		GameEngineDebug::MsgBoxError("자르지 않은 텍스처에서 인덱스를 얻어오려고 했습니다.");
+	}
+
+	if (_Index > CutList_.size())
+	{
+		GameEngineDebug::MsgBoxError("자른 개수에 비해서 인덱스가 너무 큽니다.");
+	}
+
+	return CutList_[_Index];
+}
+

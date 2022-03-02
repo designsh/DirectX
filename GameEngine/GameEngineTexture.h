@@ -16,6 +16,10 @@ private:
 	ID3D11ShaderResourceView* ShaderResourceViewPtr_;
 	DirectX::ScratchImage Image_;
 
+// ============================= Image Cutting ============================= //
+private:
+	std::vector<float4> CutList_;   // 이미지 UV값기준으로 잘라내어 관리하는 목록(애니메이션용)
+
 public:
 	GameEngineTexture(); // default constructer 디폴트 생성자
 	~GameEngineTexture(); // default destructer 디폴트 소멸자
@@ -41,5 +45,12 @@ public:
 
 public:
 	void Load(const std::string& _Path);
+
+// ============================= Image Cutting ============================= //
+public:
+	bool IsCut();
+	void Cut(int _x, int _y);
+	void PushCutIndex(const float4& _Size, const float4& _Pos);
+	float4 GetCutData(int _Index);
 };
 

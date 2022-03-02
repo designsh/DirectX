@@ -4,9 +4,46 @@
 // 분류 : Image Renderer
 // 용도 : 
 // 설명 : 
+class GameEngineTexture;
 class GameEngineImageRenderer : public GameEngineRenderer
 {
-private:	// member Var
+// ================================== Animation 관련 ================================== //
+private:
+	struct Animation2D
+	{
+	public:
+		GameEngineImageRenderer*										Renderer_;			// 
+		
+		float																						InterTime_;			// 프레임전환 시간(고정)
+		float																						CurTime_;				// 델타타임 누적(초기값 : InterTime_)
+
+		bool																						IsEnd_;					// Loop_ = false일때의 애니메이션 프레임 종료
+		bool																						Loop_;					// 애니메이션 반복여부 Flag
+		int																							CurFrame_;			// 애니메이션의 현재 프레임(초기값 : StartFrame_)
+		int																							StartFrame_;		// 애니메이션의 시작 프레임
+		int																							EndFrame_;			// 애니메이션의 끝 프레임
+
+		std::map<int, std::vector<std::function<void()>>>	FrameCallBack_;	// 지정 프레임에 호출하는 함수
+		std::vector<std::function<void()>>								EndCallBack_;		// 애니메이션 끝 프레임에 호출하는 함수
+		std::vector<std::function<void()>>								StartCallBack_;	// 애니메이션 생성시 첫프레임에 호출하는 함수
+
+	public:
+		void Reset();
+		void CallStart();
+		void CallEnd();
+		void CallFrame();
+		void Update(float _DeltaTime);
+	};
+
+private:
+	std::map<std::string, Animation2D*>								AllAnimations_;	// 애니메이션 관리 목록
+	Animation2D*																		CurAnimation_;	// 현재 애니메이션
+	GameEngineTexture*															CurTexture_;		// 현재 텍스쳐(애니메이션이므로 잘려있는 이미지)
+	float4																							CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
+
+
+// ==================================== Image 관련 ==================================== //
+private:
 
 public:
 	GameEngineImageRenderer(); // default constructer 디폴트 생성자
@@ -23,7 +60,22 @@ private:		//delete operator
 private:
 	void Start() override;
 
+// ==================================== Image 관련 ==================================== //
 public:
 	void SetImage(const std::string& _ImageName, const float4& _RenderSize = float4::ZERO);
+
+// ================================== Animation 관련 ================================== //
+protected:
+	void Update(float _DeltaTime) override;
+
+public:
+	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
+	void SetChangeAnimation(const std::string& _Name, bool _IsForce = false);
+	void SetIndex(const int _Index);
+
+public:
+	void SetStartCallBack(const std::string& _Name, std::function<void()> _CallBack);
+	void SetEndCallBack(const std::string& _Name, std::function<void()> _CallBack);
+	void SetFrameCallBack(const std::string& _Name, int _Index, std::function<void()> _CallBack);
 };
 

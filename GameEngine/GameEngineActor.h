@@ -85,7 +85,7 @@ protected:
 	virtual void ReleaseEvent() {}
 
 public:
-	void UpdateComponent();
+	void UpdateComponent(float _DeltaTime);
 	void ComponentRelease();
 	void Release(float _Time = 0.0f);
 	void ReleaseUpdate(float _DeltaTime);

@@ -1,5 +1,12 @@
 #include "CbufferHeader.fx"
 
+cbuffer TextureCutData : register(b1)
+{
+    // UV값으로 float4를 수신하며 x,y에 위치값, z,w에 크기값을 받아옴
+    float2 TextureCutDataPos;
+    float2 TextureCutDataSize;
+};
+
 struct VertexIn
 {
     float4 Position : POSITION;
@@ -21,7 +28,8 @@ VertexOut Texture_VS(VertexIn _in)
     Out.Position.w = 1.0f;
     Out.Position = mul(Out.Position, WVP);
 
-    Out.Texcoord = _in.Texcoord;
+    Out.Texcoord.x = (_in.Texcoord.x * TextureCutDataSize.x) + TextureCutDataPos.x;
+    Out.Texcoord.y = (_in.Texcoord.y * TextureCutDataSize.y) + TextureCutDataPos.y;
 
     return Out;
 }

@@ -59,16 +59,16 @@ void GameEngineActor::TransformUpdate()
 	Transform_->TransformUpdate();
 }
 
-void GameEngineActor::UpdateComponent()
+void GameEngineActor::UpdateComponent(float _DeltaTime)
 {
 	for (GameEngineComponent* Component : ComponentList_)
 	{
-		Component->Update();
+		Component->Update(_DeltaTime);
 	}
 
 	for (GameEngineTransformComponent* Component : TransformComponentList_)
 	{
-		Component->Update();
+		Component->Update(_DeltaTime);
 	}
 }
 

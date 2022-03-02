@@ -110,6 +110,12 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _
 				continue;
 			}
 
+			// 디렉터리 제외
+			if (true == File.is_directory())
+			{
+				continue;
+			}
+
 			vecReturnFile.push_back(GameEngineFile(File.path()));
 		}
 	}
@@ -122,6 +128,12 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _
 			std::string Ext = File.path().extension().string();
 			GameEngineString::toupper(Ext);
 			if (_filter != "*" && Filter != Ext)
+			{
+				continue;
+			}
+
+			// 디렉터리 제외
+			if (true == File.is_directory())
 			{
 				continue;
 			}

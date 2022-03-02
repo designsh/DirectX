@@ -39,6 +39,6 @@ public:
 protected:
 	virtual void InitComponent(GameEngineActor* Actor_);
 	virtual void Start() = 0;
-	virtual void Update() = 0;
+	virtual void Update(float _DeltaTime) = 0;
 };
 

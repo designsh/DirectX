@@ -5,29 +5,25 @@
 
 void UserGame::ResourcesLoad()
 {
-	// Game Resources Load Function
+	// ======================================================= Resource Load ======================================================= // 
 
 	// Sound Load
 	GameEngineDirectory SoundDir;
 	SoundDir.MoveParent("DirectX");
 	SoundDir.MoveChild("Resources");
 	SoundDir.MoveChild("Sound");
-
-	// true 옵션을 주는경우 해당 경로의 있는 하위디렉터리를 모두 검사하여 모든 파일을 로드
-	//std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav", true);
-	std::vector<GameEngineFile> SoundAllFile = SoundDir.GetAllFile("wav");
+	std::vector<GameEngineFile> SoundAllFile = SoundDir.GetAllFile("wav", true); // true : 하위디렉터리 모두 검사
 	for (size_t i = 0; i < SoundAllFile.size(); ++i)
 	{
 		GameEngineSoundManager::GetInst().Load(SoundAllFile[i].GetFullPath());
 	}
 
-	// 텍스쳐 로드
+	// Image Load
 	GameEngineDirectory TextureDir;
 	TextureDir.MoveParent("DirectX");
 	TextureDir.MoveChild("Resources");
 	TextureDir.MoveChild("Image");
-
-	std::vector<GameEngineFile> TextureAllFile = TextureDir.GetAllFile("png", true);
+	std::vector<GameEngineFile> TextureAllFile = TextureDir.GetAllFile("png", true); // true : 하위디렉터리 모두 검사
 	for (size_t i = 0; i < TextureAllFile.size(); i++)
 	{
 		GameEngineTextureManager::GetInst().Load(TextureAllFile[i].GetFullPath());
