@@ -110,6 +110,9 @@
     <ClCompile Include="EndingLevel.cpp">
       <Filter>Object\Level\08.EndingLevel</Filter>
     </ClCompile>
+    <ClCompile Include="MouseObject.cpp">
+      <Filter>Object\Actor\00.Global\04.Mouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -370,6 +373,12 @@
     <Filter Include="Object\Actor\08.Ending\02.CreditText">
       <UniqueIdentifier>{d4c8cf75-c2ea-4822-b6c6-e4b1910c77f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object">
+      <UniqueIdentifier>{813786d2-b77a-44f4-b8d3-59ee22af0ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\04.Mouse">
+      <UniqueIdentifier>{5ba9e8d3-88ce-4cb5-b705-ccd2c1f9e082}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -479,6 +488,9 @@
     </ClInclude>
     <ClInclude Include="EndingLevel.h">
       <Filter>Object\Level\08.EndingLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseObject.h">
+      <Filter>Object\Actor\00.Global\04.Mouse</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -100,6 +100,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MouseObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="NecromancerInfo.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -241,6 +245,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MouseObject.h">
       <SubType>
       </SubType>
     </ClInclude>

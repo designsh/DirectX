@@ -41,6 +41,30 @@ void UserGame::Initialize()
 	{
 		GameEngineInput::GetInst().CreateKey("NextScene", 'N');
 	}
+
+	//=========================== 키생성 ===========================//
+
+	// 마우스 왼쪽버튼
+	if (false == GameEngineInput::GetInst().IsKey("MouseLButton"))
+	{
+		GameEngineInput::GetInst().CreateKey("MouseLButton", VK_LBUTTON);
+	}
+
+	// 마우스 오른쪽버튼
+	if (false == GameEngineInput::GetInst().IsKey("MouseRButton"))
+	{
+		GameEngineInput::GetInst().CreateKey("MouseRButton", VK_RBUTTON);
+	}
+
+	// 방향키(특정 UI활성화에만 키체크)
+	if (false == GameEngineInput::GetInst().IsKey("UP"))
+	{
+		GameEngineInput::GetInst().CreateKey("UP", VK_UP);
+	}
+	if (false == GameEngineInput::GetInst().IsKey("DOWN"))
+	{
+		GameEngineInput::GetInst().CreateKey("DOWN", VK_DOWN);
+	}
 }
 
 void UserGame::Release()
