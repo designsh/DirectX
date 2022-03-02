@@ -113,6 +113,36 @@
     <ClCompile Include="MouseObject.cpp">
       <Filter>Object\Actor\00.Global\04.Mouse</Filter>
     </ClCompile>
+    <ClCompile Include="Storehouse.cpp">
+      <Filter>Object\Actor\00.Global\03.Object\00.Storehouse</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalPortal.cpp">
+      <Filter>Object\Actor\00.Global\03.Object\01.Portal\00.NormalPortal</Filter>
+    </ClCompile>
+    <ClCompile Include="BossPortal_Auto.cpp">
+      <Filter>Object\Actor\00.Global\03.Object\01.Portal\01.BossPortal</Filter>
+    </ClCompile>
+    <ClCompile Include="CoffinObject.cpp">
+      <Filter>Object\Actor\00.Global\03.Object\03.Coffin</Filter>
+    </ClCompile>
+    <ClCompile Include="Fallen.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\00.Fallen</Filter>
+    </ClCompile>
+    <ClCompile Include="SpikeFiend.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\01.SpikeFiend</Filter>
+    </ClCompile>
+    <ClCompile Include="Tainted.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\02.Tainted</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\03.Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="Andariel.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Boss\00.Andariel</Filter>
+    </ClCompile>
+    <ClCompile Include="Diablo.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -391,11 +421,23 @@
     <Filter Include="Object\Actor\00.Global\03.Object\01.Portal\01.BossPortal">
       <UniqueIdentifier>{dbb696a4-bbd3-47ce-922d-357fb680c4f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\03.Object\02.DropBox">
+    <Filter Include="Object\Actor\00.Global\03.Object\03.Coffin">
+      <UniqueIdentifier>{8ae9ea88-6f39-4515-8131-6405920dd801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\02.Box">
       <UniqueIdentifier>{2191d23a-454f-4746-b602-2bc7aff3e5e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\03.Object\03.DropCoffin">
-      <UniqueIdentifier>{8ae9ea88-6f39-4515-8131-6405920dd801}</UniqueIdentifier>
+    <Filter Include="Object\Actor\00.Global\03.Object\04.Well">
+      <UniqueIdentifier>{736c5cc3-4af8-4e0d-998a-0c02184dc331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\04.Well\00.Stamina">
+      <UniqueIdentifier>{4973b934-dfee-4a22-8d44-2cbc45f2040d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\04.Well\01.HP">
+      <UniqueIdentifier>{9dae9110-2ab9-46b2-b010-4ac74f43a1af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\04.Well\02.MP">
+      <UniqueIdentifier>{6fe0273a-11ec-4bd1-9d44-837e2017a7ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -509,6 +551,36 @@
     </ClInclude>
     <ClInclude Include="MouseObject.h">
       <Filter>Object\Actor\00.Global\04.Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Storehouse.h">
+      <Filter>Object\Actor\00.Global\03.Object\00.Storehouse</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalPortal.h">
+      <Filter>Object\Actor\00.Global\03.Object\01.Portal\00.NormalPortal</Filter>
+    </ClInclude>
+    <ClInclude Include="BossPortal_Auto.h">
+      <Filter>Object\Actor\00.Global\03.Object\01.Portal\01.BossPortal</Filter>
+    </ClInclude>
+    <ClInclude Include="CoffinObject.h">
+      <Filter>Object\Actor\00.Global\03.Object\03.Coffin</Filter>
+    </ClInclude>
+    <ClInclude Include="Fallen.h">
+      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\00.Fallen</Filter>
+    </ClInclude>
+    <ClInclude Include="SpikeFiend.h">
+      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\01.SpikeFiend</Filter>
+    </ClInclude>
+    <ClInclude Include="Tainted.h">
+      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\02.Tainted</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\03.Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="Andariel.h">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Boss\00.Andariel</Filter>
+    </ClInclude>
+    <ClInclude Include="Diablo.h">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

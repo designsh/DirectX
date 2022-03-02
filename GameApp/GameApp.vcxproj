@@ -19,7 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Andariel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="BossPortal_Auto.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BottomStateBar.cpp">
       <SubType>
       </SubType>
@@ -33,6 +41,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CharacterDeleteButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CoffinObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -68,7 +80,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Diablo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Fallen.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -105,6 +125,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="NecromancerInfo.cpp" />
+    <ClCompile Include="NormalPortal.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Precompile.h</PrecompiledHeaderFile>
@@ -143,6 +167,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SpikeFiend.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Storehouse.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Tainted.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleBackDrop.cpp">
       <SubType>
       </SubType>
@@ -165,8 +201,20 @@
     </ClCompile>
     <ClCompile Include="UserGame_Resources.cpp" />
     <ClCompile Include="UserGame_Resources_Shader.cpp" />
+    <ClCompile Include="Zombie.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Andariel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossPortal_Auto.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BottomStateBar.h">
       <SubType>
       </SubType>
@@ -180,6 +228,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CharacterDeleteButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CoffinObject.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -216,7 +268,15 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="Diablo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EndingLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Fallen.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -256,6 +316,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="NormalPortal.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="PrevLevelButton.h">
       <SubType>
@@ -285,6 +349,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="SpikeFiend.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Storehouse.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Tainted.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleBackDrop.h">
       <SubType>
       </SubType>
@@ -306,6 +382,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UserGame_Resources_Shader.h" />
+    <ClInclude Include="Zombie.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

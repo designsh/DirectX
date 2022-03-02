@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "LoadingLevel.h"
 
+#include "LoadingBackDrop.h"
 #include "LoadingAnimation.h"
 
 #include <GameEngine/CameraComponent.h>
@@ -31,6 +32,9 @@ void LoadingLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+
+	// 로딩 배경
+	LoadingBackDrop* BackDrop = CreateActor<LoadingBackDrop>();
 
 	// 로딩액터(애니메이션) - 임시(테스트용)
 	LoadingAnimation* Animation = CreateActor<LoadingAnimation>();
