@@ -379,6 +379,24 @@
     <Filter Include="Object\Actor\00.Global\04.Mouse">
       <UniqueIdentifier>{5ba9e8d3-88ce-4cb5-b705-ccd2c1f9e082}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\00.Storehouse">
+      <UniqueIdentifier>{491f65ec-e26a-48b0-a02b-1df1211746cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\01.Portal">
+      <UniqueIdentifier>{f295207a-938c-4d1d-86c2-aba77ed7b126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\01.Portal\00.NormalPortal">
+      <UniqueIdentifier>{4578db20-d929-495f-8b7e-ff8251231344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\01.Portal\01.BossPortal">
+      <UniqueIdentifier>{dbb696a4-bbd3-47ce-922d-357fb680c4f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\02.DropBox">
+      <UniqueIdentifier>{2191d23a-454f-4746-b602-2bc7aff3e5e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\03.DropCoffin">
+      <UniqueIdentifier>{8ae9ea88-6f39-4515-8131-6405920dd801}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
