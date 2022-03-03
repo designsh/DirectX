@@ -126,10 +126,10 @@ void GameEngineTexture::Cut(int _x, int _y)
 	// 들어오는 인자 : 컷팅할 개수 x, y
 	// UV값 기준으로 이미지를 컷팅
 	// x,y = 위치, z,w = 크기
+	float4 CurStart = float4::ZERO;
+
 	for (int y = 0; y < _y; y++)
 	{
-		float4 CurStart;
-
 		CurStart.z = 1.0f / _x;
 		CurStart.w = 1.0f / _y;
 
