@@ -40,12 +40,11 @@ private:
 private:
 	std::map<std::string, Animation2D*>								AllAnimations_;	// 애니메이션 관리 목록
 	Animation2D*																		CurAnimation_;	// 현재 애니메이션
-	GameEngineTexture*															CurTexture_;		// SetImage()호출할때 지정(관리용)
 	float4																							CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
-
 
 // ==================================== Image 관련 ==================================== //
 private:
+	GameEngineTexture*															CurTexture_;		// SetImage()호출할때 지정(관리용)
 
 public:
 	GameEngineImageRenderer(); // default constructer 디폴트 생성자
