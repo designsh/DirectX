@@ -41,9 +41,6 @@
     <ClCompile Include="TitleBackDrop.cpp">
       <Filter>Object\Actor\01.Title\00.BackDrop</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalValue.cpp">
-      <Filter>Object\GlobalValue</Filter>
-    </ClCompile>
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Object\Actor\01.Title\01.Logo</Filter>
     </ClCompile>
@@ -151,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="MainPlayer_AnimationCutting.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.SettingFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
+      <Filter>Object\GlobalValue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -492,9 +492,6 @@
     <ClInclude Include="TitleBackDrop.h">
       <Filter>Object\Actor\01.Title\00.BackDrop</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalValue.h">
-      <Filter>Object\GlobalValue</Filter>
-    </ClInclude>
     <ClInclude Include="TitleLogo.h">
       <Filter>Object\Actor\01.Title\01.Logo</Filter>
     </ClInclude>
@@ -596,6 +593,9 @@
     </ClInclude>
     <ClInclude Include="BoxObject.h">
       <Filter>Object\Actor\00.Global\03.Object\02.Box</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <Filter>Object\GlobalValue</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

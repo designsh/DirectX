@@ -7,7 +7,8 @@
 class MainPlayer;
 class GlobalValue
 {
-public:
+public: // 플레이어 관련
 	static MainPlayer* CurPlayer;
+	static std::string CurPlayerID;
 };
 
