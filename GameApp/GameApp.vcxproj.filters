@@ -147,10 +147,10 @@
       <Filter>Object\Actor\00.Global\03.Object\02.Box</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayer_CreateAnimation.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.PlayerSettingFunction</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\99.SettingFunction</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayer_AnimationCutting.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.PlayerSettingFunction</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\99.SettingFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -448,7 +448,7 @@
     <Filter Include="Object\Actor\00.Global\03.Object\04.Well\02.MP">
       <UniqueIdentifier>{6fe0273a-11ec-4bd1-9d44-837e2017a7ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.PlayerSettingFunction">
+    <Filter Include="Object\Actor\00.Global\00.Player\99.SettingFunction">
       <UniqueIdentifier>{f28554de-ba68-4138-99e7-7242899d69e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
