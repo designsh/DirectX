@@ -31,7 +31,18 @@ void GameEngineTransform::DetachChildTransform(GameEngineTransform* _Transform)
 {
 	// 자식이 자신을 해제해주기를 요청했으므로
 	// 자식목록에서 해당 자식을 제거
-	Childs_.remove(_Transform);
+	static std::vector<GameEngineTransform*>::iterator StartIter = Childs_.begin();
+	static std::vector<GameEngineTransform*>::iterator EndIter = Childs_.end();
+	for (; StartIter != EndIter; )
+	{
+		if (*StartIter != _Transform)
+		{
+			++StartIter;
+			continue;
+		}
+
+		StartIter = Childs_.erase(StartIter);
+	}
 }
 
 TransformData& GameEngineTransform::GetTransformData()
@@ -153,6 +164,9 @@ void GameEngineTransform::SetLocalScaling(const float4& _Value)
 		// 자식이 존재한다면 자식을 모두 계산
 		AllChildCalculationScaling();
 
+		// 즉시 행렬에 적용
+		TransformUpdate();
+
 		return;
 	}
 
@@ -164,6 +178,9 @@ void GameEngineTransform::SetLocalScaling(const float4& _Value)
 
 	// 자식이 존재한다면 자식을 모두 계산
 	AllChildCalculationScaling();
+
+	// 즉시 행렬에 적용
+	TransformUpdate();
 }
 
 void GameEngineTransform::SetWorldScaling(const float4& _Value)
@@ -180,6 +197,9 @@ void GameEngineTransform::SetWorldScaling(const float4& _Value)
 		// 자식이 존재한다면 자식을 모두 계산
 		AllChildCalculationScaling();
 
+		// 즉시 행렬에 적용
+		TransformUpdate();
+
 		return;
 	}
 
@@ -191,6 +211,9 @@ void GameEngineTransform::SetWorldScaling(const float4& _Value)
 
 	// 자식이 존재한다면 자식을 모두 계산
 	AllChildCalculationScaling();
+
+	// 즉시 행렬에 적용
+	TransformUpdate();
 }
 
 void GameEngineTransform::SetLocalRotation(const float4& _Value)
@@ -207,6 +230,9 @@ void GameEngineTransform::SetLocalRotation(const float4& _Value)
 		// 자식이 존재한다면 자식을 모두 계산
 		AllChildCalculationRotation();
 
+		// 즉시 행렬에 적용
+		TransformUpdate();
+
 		return;
 	}
 
@@ -218,6 +244,9 @@ void GameEngineTransform::SetLocalRotation(const float4& _Value)
 
 	// 자식이 존재한다면 모두 계산
 	AllChildCalculationRotation();
+
+	// 즉시 행렬에 적용
+	TransformUpdate();
 }
 
 void GameEngineTransform::SetWorldRotation(const float4& _Value)
@@ -234,6 +263,9 @@ void GameEngineTransform::SetWorldRotation(const float4& _Value)
 		// 자식이 존재한다면 자식을 모두 계산
 		AllChildCalculationRotation();
 
+		// 즉시 행렬에 적용
+		TransformUpdate();
+
 		return;
 	}
 
@@ -245,6 +277,9 @@ void GameEngineTransform::SetWorldRotation(const float4& _Value)
 
 	// 자식이 존재한다면 모두 계산
 	AllChildCalculationRotation();
+
+	// 즉시 행렬에 적용
+	TransformUpdate();
 }
 
 void GameEngineTransform::SetLocalPosition(const float4& _Value)
@@ -261,6 +296,9 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 		// 자식이 존재한다면 모두 계산
 		AllChildCalculationPosition();
 
+		// 즉시 행렬에 적용
+		TransformUpdate();
+
 		return;
 	}
 
@@ -272,6 +310,9 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 
 	// 자식이 존재한다면 모두 계산
 	AllChildCalculationPosition();
+
+	// 즉시 행렬에 적용
+	TransformUpdate();
 }
 
 void GameEngineTransform::SetWorldPosition(const float4& _Value)
@@ -288,6 +329,9 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 		// 자식이 존재한다면 모두 계산
 		AllChildCalculationPosition();
 
+		// 즉시 행렬에 적용
+		TransformUpdate();
+
 		return;
 	}
 
@@ -299,6 +343,9 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 
 	// 자식이 존재한다면 모두 계산
 	AllChildCalculationPosition();
+
+	// 즉시 행렬에 적용
+	TransformUpdate();
 }
 
 void GameEngineTransform::SetLocalDeltaTimeRotation(const float4& _Value)

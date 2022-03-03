@@ -5,6 +5,7 @@
 // 용도 : 
 // 설명 : 
 class GameEngineTexture;
+class GameEngineFolderTexture;
 class GameEngineImageRenderer : public GameEngineRenderer
 {
 // ================================== Animation 관련 ================================== //
@@ -12,6 +13,7 @@ private:
 	struct Animation2D
 	{
 	public:
+		GameEngineFolderTexture*											FolderTextures_;	// 
 		GameEngineImageRenderer*										Renderer_;			// 
 		
 		float																						InterTime_;			// 프레임전환 시간(고정)
@@ -38,7 +40,7 @@ private:
 private:
 	std::map<std::string, Animation2D*>								AllAnimations_;	// 애니메이션 관리 목록
 	Animation2D*																		CurAnimation_;	// 현재 애니메이션
-	GameEngineTexture*															CurTexture_;		// 현재 텍스쳐(애니메이션이므로 잘려있는 이미지)
+	GameEngineTexture*															CurTexture_;		// SetImage()호출할때 지정(관리용)
 	float4																							CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
 
 
@@ -70,6 +72,7 @@ protected:
 
 public:
 	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
+	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop = true);
 	void SetChangeAnimation(const std::string& _Name, bool _IsForce = false);
 	void SetIndex(const int _Index);
 

@@ -40,6 +40,9 @@ void CameraComponent::CameraTransformUpdate()
 
 void CameraComponent::Render()
 {
+	// 렌더링 전 카메라의 최종행렬을 계산한다.
+	CameraTransformUpdate();
+
 	float4x4 View = GetTransform()->GetTransformData().View_;
 	float4x4 Projection = GetTransform()->GetTransformData().Projection_;
 	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)

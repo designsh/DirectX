@@ -9,6 +9,7 @@ class GameEngineDirectory : public GameEnginePath
 {
 public:
 	GameEngineDirectory(); // default constructer 디폴트 생성자
+	GameEngineDirectory(const std::string& _Path);
 	~GameEngineDirectory(); // default destructer 디폴트 소멸자
 
 public:		// delete constructer

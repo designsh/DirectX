@@ -90,9 +90,9 @@ public:
 class GameEngineTransform
 {
 private:	// member Var
-	TransformData										TransformData_;		// 로컬/월드 크기/회전/위치 및 공전, 부모 행렬을 제공하는 트랜스폼 정보
-	GameEngineTransform*						Parent_;							// 현재 트랜스폼의 부모 트랜스폼
-	std::list<GameEngineTransform*>	Childs_;							// 현재 트랜스폼의 자식 트랜스폼 목록
+	TransformData											TransformData_;		// 로컬/월드 크기/회전/위치 및 공전, 부모 행렬을 제공하는 트랜스폼 정보
+	GameEngineTransform*							Parent_;							// 현재 트랜스폼의 부모 트랜스폼
+	std::vector<GameEngineTransform*>	Childs_;							// 현재 트랜스폼의 자식 트랜스폼 목록
 
 public:
 	GameEngineTransform();

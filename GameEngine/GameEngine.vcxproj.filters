@@ -184,6 +184,24 @@
     <Filter Include="00.UI\00.Widget\06. NumberImage">
       <UniqueIdentifier>{3ebe88f8-3f3e-4877-8d4f-6633614a9808}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\02Texture\00RenderTarget">
+      <UniqueIdentifier>{8a35b576-c8f6-4bbd-810e-1f3ebaa63de5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\02Texture\01Texture">
+      <UniqueIdentifier>{51b7baf4-1492-46a4-82b3-a2970f28e9b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\02Texture\02FolderTexture">
+      <UniqueIdentifier>{fd8af564-429a-4aa6-bd08-600c713d1b70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Texture\RenderTarget">
+      <UniqueIdentifier>{3f5c5bdb-919a-42fc-8520-5e4a7f9752eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Texture\Texture">
+      <UniqueIdentifier>{d3b748d4-a806-44aa-a84d-8b8e1f0f92d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Texture\FolderTexture">
+      <UniqueIdentifier>{24deab29-9a5b-41d2-8257-ed585ab2b0fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -204,17 +222,11 @@
     <ClCompile Include="GameEngineVertexBuffer.cpp">
       <Filter>Resources\00Buffer\Vertex</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineTexture.cpp">
-      <Filter>Resources\02Texture</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineRasterizer.cpp">
       <Filter>Resources\03Rasterizer</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineDevice.cpp">
       <Filter>RenderingPipeLine\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineRenderTarget.cpp">
-      <Filter>Resources\02Texture</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineMesh.cpp">
       <Filter>Resources\00Buffer\Mesh</Filter>
@@ -224,12 +236,6 @@
     </ClCompile>
     <ClCompile Include="GameEngineRenderingPipeLineManager.cpp">
       <Filter>Resources\99Manager\RenderingPipeLine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineRenderTargetManager.cpp">
-      <Filter>Resources\99Manager\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineTextureManager.cpp">
-      <Filter>Resources\99Manager\Texture</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineVertexShaderManager.cpp">
       <Filter>Resources\99Manager\Shader\Vertex</Filter>
@@ -309,6 +315,24 @@
     <ClCompile Include="GameEngineBlendManager.cpp">
       <Filter>Resources\99Manager\Blend</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineRenderTarget.cpp">
+      <Filter>Resources\02Texture\00RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTexture.cpp">
+      <Filter>Resources\02Texture\01Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFolderTexture.cpp">
+      <Filter>Resources\02Texture\02FolderTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTargetManager.cpp">
+      <Filter>Resources\99Manager\Texture\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTextureManager.cpp">
+      <Filter>Resources\99Manager\Texture\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFolderTextureManager.cpp">
+      <Filter>Resources\99Manager\Texture\FolderTexture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -329,9 +353,6 @@
     <ClInclude Include="GameEngineVertexBuffer.h">
       <Filter>Resources\00Buffer\Vertex</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineTexture.h">
-      <Filter>Resources\02Texture</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineRasterizer.h">
       <Filter>Resources\03Rasterizer</Filter>
     </ClInclude>
@@ -341,9 +362,6 @@
     <ClInclude Include="GameEngineDevice.h">
       <Filter>RenderingPipeLine\Device</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineRenderTarget.h">
-      <Filter>Resources\02Texture</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineMesh.h">
       <Filter>Resources\00Buffer\Mesh</Filter>
     </ClInclude>
@@ -352,12 +370,6 @@
     </ClInclude>
     <ClInclude Include="GameEngineRenderingPipeLineManager.h">
       <Filter>Resources\99Manager\RenderingPipeLine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineRenderTargetManager.h">
-      <Filter>Resources\99Manager\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineTextureManager.h">
-      <Filter>Resources\99Manager\Texture</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineVertexShaderManager.h">
       <Filter>Resources\99Manager\Shader\Vertex</Filter>
@@ -436,6 +448,24 @@
     </ClInclude>
     <ClInclude Include="GameEngineBlendManager.h">
       <Filter>Resources\99Manager\Blend</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTarget.h">
+      <Filter>Resources\02Texture\00RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTexture.h">
+      <Filter>Resources\02Texture\01Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFolderTexture.h">
+      <Filter>Resources\02Texture\02FolderTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTargetManager.h">
+      <Filter>Resources\99Manager\Texture\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTextureManager.h">
+      <Filter>Resources\99Manager\Texture\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFolderTextureManager.h">
+      <Filter>Resources\99Manager\Texture\FolderTexture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

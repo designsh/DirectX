@@ -80,7 +80,6 @@ public: // 컴포넌트 생성
 
 protected:
 	virtual void Start() {}
-	virtual void TransformUpdate();
 	virtual void Update(float _DeltaTime) {}
 	virtual void ReleaseEvent() {}
 

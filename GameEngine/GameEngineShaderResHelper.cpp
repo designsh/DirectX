@@ -168,3 +168,21 @@ void GameEngineShaderResHelper::SettingTexture(const std::string& _SettingName, 
 	// 현재 세팅하려는 텍스쳐정보로 교체
 	FindIter->second->Res_ = FindTexture;
 }
+
+void GameEngineShaderResHelper::SettingTexture(const std::string& _SettingName, GameEngineTexture* _Texture)
+{
+	std::map<std::string, GameEngineTextureSetting*>::iterator FindIter = AllTextureData_.find(_SettingName);
+	if (FindIter == AllTextureData_.end())
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처 슬롯에 세팅하려고 했습니다." + _SettingName);
+		return;
+	}
+
+	if (nullptr == _Texture)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처를 세팅하려고 했습니다. >>> " + _Texture->GetName());
+		return;
+	}
+
+	FindIter->second->Res_ = _Texture;
+}

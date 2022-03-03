@@ -32,12 +32,6 @@ void CameraActor::Start()
 	Camera_ = CreateTransformComponent<CameraComponent>(GetTransform());
 }
 
-void CameraActor::TransformUpdate()
-{
-	GameEngineActor::TransformUpdate();
-	Camera_->CameraTransformUpdate();
-}
-
 void CameraActor::Update(float _DeltaTime)
 {
 }

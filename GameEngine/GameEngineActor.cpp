@@ -54,11 +54,6 @@ void GameEngineActor::SetLevel(GameEngineLevel* _Level)
 	Level_ = _Level;
 }
 
-void GameEngineActor::TransformUpdate()
-{
-	Transform_->TransformUpdate();
-}
-
 void GameEngineActor::UpdateComponent(float _DeltaTime)
 {
 	for (GameEngineComponent* Component : ComponentList_)

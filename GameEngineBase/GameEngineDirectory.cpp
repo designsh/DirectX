@@ -14,6 +14,11 @@ GameEngineDirectory::GameEngineDirectory()
 	path_ = std::filesystem::current_path();
 }
 
+GameEngineDirectory::GameEngineDirectory(const std::string& _Path)
+{
+	path_ = _Path;
+}
+
 GameEngineDirectory::GameEngineDirectory(const GameEngineDirectory& _other)
 	: GameEnginePath(_other)
 {

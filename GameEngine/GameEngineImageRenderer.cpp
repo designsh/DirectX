@@ -2,6 +2,8 @@
 #include "GameEngineImageRenderer.h"
 #include "GameEngineTransform.h"
 #include "GameEngineTextureManager.h"
+#include "GameEngineFolderTextureManager.h"
+#include "GameEngineFolderTexture.h"
 
 GameEngineImageRenderer::GameEngineImageRenderer() :
 	CurAnimation_(nullptr),
@@ -81,6 +83,8 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _Sta
 
 	Animation2D* NewAnimation = new Animation2D();
 
+	NewAnimation->FolderTextures_ = nullptr;
+
 	NewAnimation->IsEnd_ = false;
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->InterTime_ = _InterTime;
@@ -89,6 +93,37 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _Sta
 	NewAnimation->CurFrame_ = _StartFrame;
 	NewAnimation->EndFrame_ = _EndFrame;
 	NewAnimation->StartFrame_ = _StartFrame;
+	NewAnimation->Renderer_ = this;
+
+	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
+}
+
+void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop)
+{
+	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
+	if (AllAnimations_.end() != FindIter)
+	{
+		GameEngineDebug::MsgBoxError("이미 존재하는 애니메이션을 또 만들었습니다.");
+	}
+
+	GameEngineFolderTexture* FolderTexture = GameEngineFolderTextureManager::GetInst().Find(_FolderTexName);
+	if (nullptr == FolderTexture)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 폴더 텍스처를 세팅하려고 했습니다..");
+	}
+
+	Animation2D* NewAnimation = new Animation2D();
+
+	NewAnimation->FolderTextures_ = FolderTexture;
+
+	NewAnimation->IsEnd_ = false;
+	NewAnimation->Loop_ = _Loop;
+	NewAnimation->InterTime_ = _InterTime;
+	NewAnimation->CurTime_ = _InterTime;
+
+	NewAnimation->CurFrame_ = 0;
+	NewAnimation->EndFrame_ = FolderTexture->GetTextureCount() - 1;
+	NewAnimation->StartFrame_ = 0;
 	NewAnimation->Renderer_ = this;
 
 	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
@@ -249,5 +284,14 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 	}
 
 	CallFrame();
-	Renderer_->SetIndex(CurFrame_);
+
+	if (nullptr == FolderTextures_)
+	{
+		Renderer_->SetIndex(CurFrame_);
+	}
+	else
+	{
+		Renderer_->CutData_ = float4(0, 0, 1, 1);
+		Renderer_->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
+	}
 }
