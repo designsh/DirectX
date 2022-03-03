@@ -21,6 +21,7 @@ private:
 
 		bool																						IsEnd_;					// Loop_ = false일때의 애니메이션 프레임 종료
 		bool																						Loop_;					// 애니메이션 반복여부 Flag
+		bool																						Manual;					// 애니메이션 수동으로 프레임진행여부 Flag
 		int																							CurFrame_;			// 애니메이션의 현재 프레임(초기값 : StartFrame_)
 		int																							StartFrame_;		// 애니메이션의 시작 프레임
 		int																							EndFrame_;			// 애니메이션의 끝 프레임
@@ -70,10 +71,26 @@ protected:
 	void Update(float _DeltaTime) override;
 
 public:
+	// 프레임 자동 진행
 	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
 	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop = true);
+
+	// 프레임 수동진행
+	void CreateAnimationManual(const std::string& _Name, int _StartFrame, int _EndFrame, bool _Manual = true);
+	void CreateAnimationManualFolder(const std::string& _Name, const std::string& _FolderTexName, bool _Manual = true);
+
+public:
 	void SetChangeAnimation(const std::string& _Name, bool _IsForce = false);
 	void SetIndex(const int _Index);
+
+public: // 강제 루프 종료 및 시작
+	void LoopOff();
+	void LoopOn();
+
+public:
+	// 해당 애니메이션이 CreateAnimationManual() or CreateAnimationManualFolder()에 의하여 생성된 애니메이션 경우 프레임을 수동진행하기때문에
+	// 해당 함수를 호출하여 사용자가 원하는 시점에 프레임 진행을 한다.
+	void ManualNextFrame();
 
 public:
 	void SetStartCallBack(const std::string& _Name, std::function<void()> _CallBack);

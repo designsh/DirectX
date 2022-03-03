@@ -75,24 +75,24 @@ private: // 애니메이션 생성관련
 	void SetFirstAnimation();							// 최초 애니메이션 지정
 	void SetRenderSize();								// 최초 렌더링크기 지정
 	void CreateAnimation();							// 플레이어의 전체 애니메이션 모두 생성
-	void CreateA1Animation();						// 
-	void CreateA2Animation();						// 
-	void CreateBLAnimation();						// 
-	void CreateDDAnimation();						// 
-	void CreateDTAnimation();						// 
-	void CreateGHAnimation();					// 
-	void CreateKKAnimation();						// 
-	void CreateNUAnimation();
-	void CreateRNAnimation();
-	void CreateS1Animation();
-	void CreateSCAnimation();
-	void CreateTNAnimation();
-	void CreateTWAnimation();
-	void CreateWLAnimation();
+	void CreateA1Animation();						// 공격모션1
+	void CreateA2Animation();						// 공격모션2
+	void CreateBLAnimation();						// 방어모션
+	void CreateDDAnimation();						// 시체모션
+	void CreateDTAnimation();						// 사망모션
+	void CreateGHAnimation();					// 피격모션
+	void CreateKKAnimation();						// 킥모션
+	void CreateNUAnimation();						// 필드_대기모션
+	void CreateRNAnimation();						// 뛰기모션
+	void CreateS1Animation();						// 스킬공격모션
+	void CreateSCAnimation();						// 스킬캐스팅모션
+	void CreateTNAnimation();						// 마을_대기모션
+	void CreateTWAnimation();					// 마을_걷기모션
+	void CreateWLAnimation();						// 필드_걷기모션
 
-private:
-	// 상태변경시 애니메이션 변경을 위한 기능으로, 방향과 상태명을 수신받아 변경해야하는 애니메이션으로 변경하는 기능
-	void ChangeAnimaton(const std::string& _AnimationName, TargetDirect _Direct);
+private: // 상태 or 애니메이션 변경관련
+	void ChangeAnimaton(const std::string& _AnimationName, TargetDirect _Direct); // 상태변경시 애니메이션 변경을 위한 기능으로, 방향과 상태명을 수신받아 변경해야하는 애니메이션으로 변경하는 기능
+	void ChangeState(const std::string& _StateName);																// 상태변경시 SetImage()를 사용하여 텍스쳐파일을 변경해야한다.
 
 private:
 	void Start() override;

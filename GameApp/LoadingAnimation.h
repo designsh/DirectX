@@ -10,6 +10,8 @@ class LoadingAnimation : public GameEngineActor
 private:	// member Var
 	GameEngineImageRenderer* LoadingAnimation_;
 
+	int test;
+
 public:
 	LoadingAnimation();
 	~LoadingAnimation();
@@ -27,5 +29,8 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void LoadingEnd();
+
+	void TestFunction();
 };
 

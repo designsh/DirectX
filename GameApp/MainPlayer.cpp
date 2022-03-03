@@ -39,6 +39,10 @@ void MainPlayer::ChangeAnimaton(const std::string& _AnimationName, TargetDirect 
 
 }
 
+void MainPlayer::ChangeState(const std::string& _StateName)
+{
+}
+
 void MainPlayer::Start()
 {
 	// 플레이어 애니메이션 관련 이미지 Cut
