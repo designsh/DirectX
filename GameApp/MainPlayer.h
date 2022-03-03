@@ -56,6 +56,9 @@ private:
 	void AnimationWLCut();
 
 private:
+	void SetPlayerCurImage();
+	void SetFirstAnimation();
+	void SetRenderSize();
 	void CreateAnimation();
 	void CreateA1Animation();
 	void CreateA2Animation();
