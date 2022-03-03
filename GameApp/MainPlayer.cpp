@@ -6,6 +6,8 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 
 MainPlayer::MainPlayer() :
+	PrevDirect_(TargetDirect::None),
+	CurDirect_(TargetDirect::None),
 	PlayerInfomation_(nullptr),
 	BottomStateBar_(nullptr),
 	HD_Renderer_(nullptr),
@@ -24,10 +26,14 @@ MainPlayer::~MainPlayer()
 {
 }
 
-void MainPlayer::ChangeAnimaton(const std::string& _Name)
+void MainPlayer::ChangeAnimaton(const std::string& _AnimationName, TargetDirect _Direct)
 {
 	// 수신한 인자를 이용하여 애니메이션 명칭 편집
+	TargetDirect ChangeDirect = _Direct;
 
+	std::string EditName = _AnimationName;
+
+	// 
 
 
 
