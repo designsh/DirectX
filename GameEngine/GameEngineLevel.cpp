@@ -6,6 +6,7 @@
 #include "GameEngineTransform.h"
 #include "CameraActor.h"
 #include "CameraComponent.h"
+#include "GameEngineCollision.h"
 
 GameEngineLevel::GameEngineLevel() :
 	MainCameraActor_(nullptr),
@@ -27,6 +28,18 @@ GameEngineLevel::~GameEngineLevel()
 			}
 		}
 	}
+}
+
+void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Collision)
+{
+	CollisionList_[_Collision->GetOrder()].remove(_Collision);
+	_Collision->SetOrder(_Group);
+	CollisionList_[_Collision->GetOrder()].push_back(_Collision);
+}
+
+void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _Group)
+{
+	CollisionList_[_Group].push_back(_Collision);
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
@@ -107,6 +120,35 @@ void GameEngineLevel::Release(float _DeltaTime)
 	MainCameraActor_->GetCamera()->ReleaseRenderer();
 	UICameraActor_->GetCamera()->ReleaseRenderer();
 
+	// Collision Release
+	std::map<int, std::list<GameEngineCollision*>>::iterator CollisionMapBeginIter = CollisionList_.begin();
+	std::map<int, std::list<GameEngineCollision*>>::iterator CollisionMapEndIter = CollisionList_.end();
+	for (; CollisionMapBeginIter != CollisionMapEndIter; ++CollisionMapBeginIter)
+	{
+		std::list<GameEngineCollision*>& Collisions = CollisionMapBeginIter->second;
+
+		std::list<GameEngineCollision*>::iterator CollisionsBeginIter = Collisions.begin();
+		std::list<GameEngineCollision*>::iterator CollisionsEndIter = Collisions.end();
+		for (; CollisionsBeginIter != CollisionsEndIter; )
+		{
+			GameEngineCollision* ReleaseCollision = *CollisionsBeginIter;
+			if (nullptr == ReleaseCollision)
+			{
+				GameEngineDebug::MsgBoxError("Release Collision Is Nullptr!!!!");
+			}
+
+			if (true == ReleaseCollision->IsDeath())
+			{
+				CollisionsBeginIter = Collisions.erase(CollisionsBeginIter);
+
+				continue;
+			}
+
+			++CollisionsBeginIter;
+		}
+	}
+
+	// Actor Release
 	std::map<int, std::list<GameEngineActor*>>::iterator ActorMapBeginIter = ActorList_.begin();
 	std::map<int, std::list<GameEngineActor*>>::iterator ActorMapEndIter = ActorList_.end();
 	for (; ActorMapBeginIter != ActorMapEndIter; ++ActorMapBeginIter)

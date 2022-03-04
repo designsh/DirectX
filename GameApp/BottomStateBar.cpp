@@ -17,7 +17,7 @@ void BottomStateBar::Start()
 	GameEngineTexture* BottomStateBarImage = GameEngineTextureManager::GetInst().Find("Player_BottomStatBar_UI.png");
 	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
 	float4 WindowHarfSize = WindowSize.halffloat4();
-	float4 ImageSize = BottomStateBarImage->GetImageSize();
+	float4 ImageSize = BottomStateBarImage->GetTextureSize();
 	float4 ImageHarfSize = ImageSize.halffloat4();
 
 	// 하단상태바 틀

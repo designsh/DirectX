@@ -7,10 +7,12 @@
 class CameraActor;
 class CameraComponent;
 class GameEngineRenderer;
+class GameEngineCollision;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend class GameEngineCore;
 	friend class GameEngineRenderer;
+	friend class GameEngineCollision;
 
 // ==================================== Actor 관련 =================================== //
 private:	// member Var
@@ -22,6 +24,10 @@ private:	// member Var
 private:
 	CameraActor* MainCameraActor_;		// 
 	CameraActor* UICameraActor_;			// 
+
+// =================================== Collision 관련 ================================== //
+private:
+	std::map<int, std::list<GameEngineCollision*>> CollisionList_;
 
 public:
 	GameEngineLevel();
@@ -35,7 +41,23 @@ private:		//delete operator
 	GameEngineLevel& operator=(const GameEngineLevel& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineLevel& operator=(const GameEngineLevel&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-// ==================================== Actor 관련 =================================== //
+private: // 충돌체관련 기능
+	inline std::list<GameEngineCollision*>& GetCollisionGroup(int _Group)
+	{
+		return CollisionList_[_Group];
+	}
+
+	void ChangeCollisionGroup(int _Group, GameEngineCollision* _Collision);
+
+public:
+	template<typename UserEnumType>
+	void PushCollision(GameEngineCollision* _Collision, UserEnumType _Group)
+	{
+		PushCollision(_Collision, static_cast<int>(_Group));
+	}
+
+	void PushCollision(GameEngineCollision* _Collision, int _Group);
+
 public:
 	template<typename ActorType>
 	ActorType* CreateActor(int _UpdateOrder = 0)

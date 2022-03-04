@@ -31,7 +31,7 @@ GameEngineTexture::~GameEngineTexture() // default destructer 디폴트 소멸자
 	}
 }
 
-float4 GameEngineTexture::GetImageSize() const
+float4 GameEngineTexture::GetTextureSize() const
 {
 	unsigned int ImageWidth = TextureDesc_.Width;
 	unsigned int ImageHeight = TextureDesc_.Height;

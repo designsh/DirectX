@@ -51,7 +51,7 @@ void GameEngineImageRenderer::SetImage(const std::string& _ImageName, const floa
 		GameEngineTexture* FindTexture = GameEngineTextureManager::GetInst().Find(_ImageName);
 		if (nullptr != FindTexture)
 		{
-			float4 ImageSize = FindTexture->GetImageSize();
+			float4 ImageSize = FindTexture->GetTextureSize();
 			GetTransform()->SetLocalScaling(float4(ImageSize));
 		}
 	}

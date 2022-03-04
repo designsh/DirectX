@@ -33,7 +33,7 @@ private:		//delete operator
 	GameEngineTexture& operator=(const GameEngineTexture&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	float4 GetImageSize() const;
+	float4 GetTextureSize() const;
 
 public:
 	ID3D11RenderTargetView* GetRenderTargetView();

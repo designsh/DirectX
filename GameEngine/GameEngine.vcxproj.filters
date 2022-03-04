@@ -202,6 +202,9 @@
     <Filter Include="Resources\99Manager\Texture\FolderTexture">
       <UniqueIdentifier>{24deab29-9a5b-41d2-8257-ed585ab2b0fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Collision">
+      <UniqueIdentifier>{ff34fd32-82aa-48a9-a79f-09c456914832}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -332,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineFolderTextureManager.cpp">
       <Filter>Resources\99Manager\Texture\FolderTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCollision.cpp">
+      <Filter>Object\Component\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineFolderTextureManager.h">
       <Filter>Resources\99Manager\Texture\FolderTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineCollision.h">
+      <Filter>Object\Component\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

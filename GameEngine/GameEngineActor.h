@@ -60,6 +60,21 @@ public: // 컴포넌트 생성
 	}
 
 	template<typename ComponentType>
+	ComponentType* CreateTransformComponent(int _Order = 0)
+	{
+		// 업캐스팅을 이용해서 컴파일 에러를 낼것이다.
+		GameEngineTransformComponent* NewComponent = new ComponentType();
+		NewComponent->SetOrder(_Order);
+		NewComponent->InitComponent(this);
+		NewComponent->AttachTransform(GetTransform());
+		TransformComponentList_.push_back(NewComponent);
+
+		NewComponent->Start();
+
+		return dynamic_cast<ComponentType*>(NewComponent);;
+	}
+
+	template<typename ComponentType>
 	ComponentType* CreateTransformComponent(GameEngineTransform* _ParentTrans, int _Order = 0)
 	{
 		// 업캐스팅을 이용해서 컴파일 에러를 낼것이다.
