@@ -52,10 +52,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CommonInfomation.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="CreateCharacterButton.cpp">
       <SubType>
       </SubType>
@@ -124,6 +120,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainPlayerInfomation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MainPlayer_AnimationCutting.cpp" />
     <ClCompile Include="MainPlayer_ChangeAnimation.cpp" />
     <ClCompile Include="MainPlayer_CreateAnimation.cpp" />
@@ -131,7 +131,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="NecromancerInfo.cpp" />
     <ClCompile Include="NormalPortal.cpp">
       <SubType>
       </SubType>
@@ -246,10 +245,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CommonInfomation.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="CreateCharacterButton.h">
       <SubType>
       </SubType>
@@ -319,11 +314,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MouseObject.h">
+    <ClInclude Include="MainPlayerInfomation.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="NecromancerInfo.h">
+    <ClInclude Include="MouseObject.h">
       <SubType>
       </SubType>
     </ClInclude>

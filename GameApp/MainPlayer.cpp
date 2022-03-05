@@ -41,6 +41,7 @@ void MainPlayer::Start()
 
 	// 스킬창
 
+
 	// 스탯창
 
 	// 인벤토리창

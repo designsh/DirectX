@@ -280,7 +280,7 @@ void MainPlayer::ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _M
 			PartRenderer_[i].Renderer_->GetTransform()->SetLocalScaling(PlayerSize_);
 		}
 	}
-	else // 모션변경이 없을때 
+	else // 모션변경이 없을때 텍스쳐명이 저장안되어있는 경우를 대비하여 텍스쳐명칭을 다시 세팅해준다.
 	{
 		ReSettingTextureName();
 	}
