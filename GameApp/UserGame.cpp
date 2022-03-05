@@ -23,6 +23,13 @@ UserGame::~UserGame()
 {
 	// 메인플레이어 정보 릴리즈
 	MainPlayerInfomation::Destroy();
+
+	// 몬스터 정보 릴리즈
+
+	// NPC 정보 릴리즈
+
+	// 아이템 정보 릴리즈
+
 }
 
 void UserGame::Initialize()
