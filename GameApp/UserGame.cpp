@@ -13,12 +13,16 @@
 #include "ChaosSanctuaryLevel.h"
 #include "EndingLevel.h"
 
+#include "MainPlayerInfomation.h"
+
 UserGame::UserGame()
 {
 }
 
 UserGame::~UserGame()
 {
+	// 메인플레이어 정보 릴리즈
+	MainPlayerInfomation::Destroy();
 }
 
 void UserGame::Initialize()
