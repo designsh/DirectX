@@ -11,7 +11,6 @@ MainPlayer::MainPlayer() :
 	PrevState_(PlayerState::STAT_TN),
 	CurState_(PlayerState::STAT_TN),
 	StateName_(),
-	PlayerInfomation_(nullptr),
 	BottomStateBar_(nullptr),
 	PlayerSize_(float4::ZERO)
 {

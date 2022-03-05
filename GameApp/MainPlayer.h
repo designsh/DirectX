@@ -77,7 +77,6 @@ struct PlayerRendererPart
 // 용도 : 
 // 설명 : 직업에 따라 정보가 다름
 class BottomStateBar;
-class CommonInfomation;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
@@ -89,9 +88,6 @@ private:
 	PlayerState PrevState_;
 	PlayerState CurState_;
 	std::vector<std::string> StateName_;
-
-private:	// 플레이어 정보
-	CommonInfomation* PlayerInfomation_;
 
 private: // 플레이어 UI
 	BottomStateBar* BottomStateBar_;
