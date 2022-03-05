@@ -143,14 +143,17 @@
     <ClCompile Include="BoxObject.cpp">
       <Filter>Object\Actor\00.Global\03.Object\02.Box</Filter>
     </ClCompile>
-    <ClCompile Include="MainPlayer_CreateAnimation.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.SettingFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="MainPlayer_AnimationCutting.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.SettingFunction</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Object\GlobalValue</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_CreateAnimation.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.SettingFunction\CreateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_AnimationCutting.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.SettingFunction\TextureCutting</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_ChangeAnimation.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.SettingFunction\ChangeAnimation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -450,6 +453,15 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\99.SettingFunction">
       <UniqueIdentifier>{f28554de-ba68-4138-99e7-7242899d69e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.SettingFunction\CreateAnimation">
+      <UniqueIdentifier>{290cfd95-e8af-4bc3-bece-58e1deda3895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.SettingFunction\TextureCutting">
+      <UniqueIdentifier>{6279e8b6-01d5-4954-862f-385efcf54659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.SettingFunction\ChangeAnimation">
+      <UniqueIdentifier>{c7c0e559-ccec-4234-b73a-f40650878b0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

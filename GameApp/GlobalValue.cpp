@@ -9,3 +9,6 @@ MainPlayer* GlobalValue::CurPlayer = nullptr;
 // 로딩레벨에서 생성한 캐릭터 정보를 로드하여 플레이어 정보생성
 // 플레이레벨에서 게임종료시 현재 갱신된 플레이어 정보를 이용하여 기존파일 덮어씌우기
 std::string GlobalValue::CurPlayerID = "";
+
+// 현재 생성된 게임의 메인 마우스오브젝트
+MouseObject* GlobalValue::CurMouse = nullptr;

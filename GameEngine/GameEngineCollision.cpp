@@ -60,6 +60,102 @@ void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _Othe
 
 void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
+	switch (_ThisType)
+	{
+		case CollisionType::Sphere:
+		{
+			switch (_OtherType)
+			{
+				case CollisionType::Sphere:
+				{
+					SphereToSphereCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				case CollisionType::AABBBox:
+				{
+					SphereToAABBBoxCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				case CollisionType::OBBBox:
+				{
+					SphereToOBBBoxCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				default:
+				{
+					GameEngineDebug::MsgBox("등록되지 않은 타입의 충돌방식입니다.!!!!");
+					break;
+				}
+			}
+
+			break;
+		}
+		case CollisionType::AABBBox:
+		{
+			switch (_OtherType)
+			{
+				case CollisionType::AABBBox:
+				{
+					AABBBoxToAABBBoxCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				case CollisionType::Sphere:
+				{
+					AABBBoxToSphereCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				case CollisionType::OBBBox:
+				{
+					AABBBoxToOBBBoxCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				default:
+				{
+					GameEngineDebug::MsgBox("등록되지 않은 타입의 충돌방식입니다.!!!!");
+					break;
+				}
+			}
+
+			break;
+		}
+		case CollisionType::OBBBox:
+		{
+			switch (_OtherType)
+			{
+				case CollisionType::OBBBox:
+				{
+					OBBBoxToOBBBoxCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				case CollisionType::Sphere:
+				{
+					OBBBoxToSphereCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				case CollisionType::AABBBox:
+				{
+					OBBBoxToAABBBoxCollision(_OtherGroup, _CallBack);
+					break;
+				}
+				default:
+				{
+					GameEngineDebug::MsgBox("등록되지 않은 타입의 충돌방식입니다.!!!!");
+					break;
+				}
+			}
+
+			break;
+		}
+		default:
+		{
+			GameEngineDebug::MsgBox("등록되지 않은 타입의 충돌방식입니다.!!!!");
+			break;
+		}
+	}
+}
+
+void GameEngineCollision::SphereToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
 	std::list<GameEngineCollision*>& Group = GetLevel()->GetCollisionGroup(_OtherGroup);
 
 	DirectX::BoundingSphere ThisSphere;
@@ -94,4 +190,43 @@ void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _Othe
 
 		_CallBack(OtherCollision);
 	}
+}
+
+void GameEngineCollision::SphereToAABBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
+}
+
+void GameEngineCollision::SphereToOBBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
+}
+
+void GameEngineCollision::AABBBoxToAABBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
+
+
+
+}
+
+void GameEngineCollision::AABBBoxToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
+}
+
+void GameEngineCollision::AABBBoxToOBBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
+}
+
+void GameEngineCollision::OBBBoxToOBBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
+
+
+
+
+}
+
+void GameEngineCollision::OBBBoxToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
+}
+
+void GameEngineCollision::OBBBoxToAABBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
 }

@@ -8,43 +8,28 @@
 MainPlayer::MainPlayer() :
 	PrevDirect_(TargetDirect::None),
 	CurDirect_(TargetDirect::None),
+	PrevState_(PlayerState::STAT_TN),
+	CurState_(PlayerState::STAT_TN),
+	StateName_(),
 	PlayerInfomation_(nullptr),
 	BottomStateBar_(nullptr),
-	HD_Renderer_(nullptr),
-	LA_Renderer_(nullptr),
-	LG_Renderer_(nullptr),
-	RA_Renderer_(nullptr),
-	RH_Renderer_(nullptr),
-	S1_Renderer_(nullptr),
-	S2_Renderer_(nullptr),
-	SH_Renderer_(nullptr),
-	TR_Renderer_(nullptr)
+	PlayerSize_(float4::ZERO)
 {
 }
 
 MainPlayer::~MainPlayer()
 {
-}
-
-void MainPlayer::ChangeAnimaton(const std::string& _AnimationName, TargetDirect _Direct)
-{
-	// 수신한 인자를 이용하여 애니메이션 명칭 편집
-	TargetDirect ChangeDirect = _Direct;
-
-	std::string EditName = _AnimationName;
-
-	// 
-
-
-
-}
-
-void MainPlayer::ChangeState(const std::string& _StateName)
-{
+	if (!StateName_.empty())
+	{
+		StateName_.clear();
+	}
 }
 
 void MainPlayer::Start()
 {
+	// 플레이어 상태명을 생성
+	CreateStateName();
+
 	// 플레이어 애니메이션 관련 이미지 Cut
 	AllAnimationCut();
 
@@ -60,13 +45,28 @@ void MainPlayer::Start()
 
 	// 인벤토리창
 
+
+	// TEST
+	if (false == GameEngineInput::GetInst().IsKey("NextAnimation"))
+	{
+		GameEngineInput::GetInst().CreateKey("NextAnimation", '1');
+	}
 }
 
 void MainPlayer::Update(float _DeltaTime)
 {
+	// TEST
+	if (true == GameEngineInput::GetInst().Down("NextAnimation"))
+	{
+		ChangePlayerAnimation(PlayerState::STAT_TN, static_cast<TargetDirect>(Test));
+		++Test;
+		if (Test >= static_cast<int>(TargetDirect::DIR_MAX))
+		{
+			Test = 0;
+		}
+	}
+
 	// 카메라위치를 플레이어위치에 따라 갱신
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
-
-
 }
 
