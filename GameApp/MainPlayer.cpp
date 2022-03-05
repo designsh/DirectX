@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MainPlayer.h"
 
+#include "MainPlayerInfomation.h"
 #include "BottomStateBar.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
@@ -47,6 +48,9 @@ void MainPlayer::Start()
 
 
 	// TEST
+	MainPlayerInfomation::GetInst().CreateMainPlayerInfo("aaaa", JobType::Necromancer);
+
+
 	if (false == GameEngineInput::GetInst().IsKey("NextAnimation"))
 	{
 		GameEngineInput::GetInst().CreateKey("NextAnimation", '1');
