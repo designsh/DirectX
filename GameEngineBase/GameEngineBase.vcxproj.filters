@@ -40,6 +40,9 @@
     <Filter Include="Math\Random">
       <UniqueIdentifier>{ed833e43-c14a-4795-a3d1-cc65aa35bb8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IO\ExelFile">
+      <UniqueIdentifier>{0dffaf43-ebb8-442c-9d63-7d9db5ea6bf3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
