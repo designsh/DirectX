@@ -187,7 +187,7 @@ struct MainPlayerInfo
 	JobType								JobType;									// 캐릭터 생성시 선택한 직업
 	std::wstring						JobName;									// 선택한 직업의 한글명
 	int										Level;											// 현재 레벨(생성시 1레벨 고정)
-	float									Exp;											// 현재 경험치(생성시 0.f 고정)
+	int										Exp;											// 현재 경험치(생성시 0 고정)
 
 	// 플레이어 시작 스킬정보(공통)
 	int										LeftStartSkill;							// 캐릭터 생성시 SkillCode 0번 (일반공격) 고정 - LeftWeaponSkill(고정 - 사용안함)
@@ -220,10 +220,12 @@ struct MainPlayerInfo
 	int										RunStaminaDrain;					// 뛰기상태(스태미나소모활성화)일때의 스태미나 소모량
 
 	// 플레이어 스킬정보(JobType에 따라 다름)
+	int										SkillInfoCnt;								// 스킬정보 갯수
 	std::vector<SkillList>		SkillInfo;									// 스킬정보
 
 	// 플레이어 아이템정보(초기 생성시 : 기본무기, 포탈스크롤, 아이템감정스크롤 고정)
-	std::vector<ItemList>		ItemInfo;									// 보유아이템정보
+	int										ItemInfoCnt;							// 보유 아이템정보 갯수
+	std::vector<ItemList>		ItemInfo;									// 보유 아이템정보
 };
 
 class MainPlayerInfomation
@@ -264,12 +266,27 @@ private:		//delete operator
 public:
 	const MainPlayerInfo* GetMainPlayerInfo();
 
+public: // MainPlayerInfo Stat Infomation Update
+	void PlayerLevelUP();
+	void PlayerEXPUP();
+	void PlayerStrengthStatUP();
+	void PlayerDexterityStatUP();
+	void PlayerVitalityStatUP();
+	void PlayerEnergyStatUP();
+
+public: // MainPlayer ItemInfo Update
+	void PlayerItemAdd(ItemList _ItemInfo);
+	void PlayerItemDel(const std::string& _ItemName);
+
+public:
+	void PlayerSkillLevelUP(const std::string& _SkillName);
+
 public: // CreateMainPlayerInfo : 캐릭터생성화면에서 생성하여 해당 정보 파일로 저장한 후 생성
 	void CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType);					// 메인플레이어 정보 초기생성
 	MainPlayerInfo InformationByClass(JobType _JobType);															// 클래스별 스탯정보 생성
 	std::vector<SkillList> SkillInfoLoad(JobType _JobType);															// 해당 클래스의 스킬정보 로드
 
 public: // MainPlayerInfo Save & Load
-	void SaveMainPlayerInfo(const std::string& _PlayerID, bool _CreateFlag = false);
+	void SaveMainPlayerInfo(const std::string& _PlayerID);
 	void LoadMainPlayerInfo(const std::string& _PlayerID);
 };

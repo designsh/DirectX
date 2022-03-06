@@ -133,6 +133,13 @@ void GameEngineFile::Write(const std::string& _Data)
 	Write(_Data.c_str(), _Data.size());
 }
 
+void GameEngineFile::Write(const std::wstring& _Data)
+{
+	int Size = static_cast<int>(_Data.size());
+	Write(&Size, sizeof(int));
+	Write(_Data.c_str(), _Data.size());
+}
+
 void GameEngineFile::Write(const int& _Data)
 {
 	Write(&_Data, sizeof(int));
@@ -145,6 +152,15 @@ void GameEngineFile::Read(std::string& _Data)
 	_Data.resize(Size);
 	Read(&_Data[0], Size, Size);
 }
+
+void GameEngineFile::Read(std::wstring& _Data)
+{
+	int Size = 0;
+	Read(&Size, sizeof(int), sizeof(int));
+	_Data.resize(Size);
+	Read(&_Data[0], Size, Size);
+}
+
 void GameEngineFile::Read(int& _Data)
 {
 	Read(&_Data, sizeof(int), sizeof(int));

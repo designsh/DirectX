@@ -42,6 +42,7 @@ public:
 	// 필요하면 직접 만드세요.
 	// short 저장하는게 없어요 
 	void Write(const std::string& _Data);
+	void Write(const std::wstring& _Data);
 	void Write(const int& _Data);
 
 	template<typename DataType>
@@ -94,6 +95,7 @@ public:
 
 	void Read(void* _Buffer, size_t _BufferSize, size_t _Size);
 	void Read(std::string& _Data);
+	void Read(std::wstring& _Data);
 	void Read(int& _Data);
 
 	template<typename DataType>

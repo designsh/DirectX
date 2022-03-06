@@ -34,8 +34,9 @@ public:
 
 private:	// member Var
 	std::vector<AllSkillInfo> AllSkillInfo_;
+	int ClassCount_;
 	bool ZFlag_;
-
+	
 private:
 	AllSkillInfomation();
 	~AllSkillInfomation();
@@ -52,7 +53,12 @@ public:
 	bool ClassSkillFind(JobType _ClassType, std::vector<SkillList>& _ClassSkillList);
 
 public:
-	void CreateAllSkillInfomation();
+	void CreateAllSkillInfomation(bool _ExcelFile = false);
 	void LoadSkillExcelFile();
+	void LoadSkillBinaryFile();
+
+public:
+	void SaveSkillBinaryFile();
+	
 };
 
