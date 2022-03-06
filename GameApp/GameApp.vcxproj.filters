@@ -117,22 +117,22 @@
       <Filter>Object\Actor\00.Global\03.Object\03.Coffin</Filter>
     </ClCompile>
     <ClCompile Include="Fallen.cpp">
-      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\00.Fallen</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen</Filter>
     </ClCompile>
     <ClCompile Include="SpikeFiend.cpp">
-      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\01.SpikeFiend</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\01.SpikeFiend</Filter>
     </ClCompile>
     <ClCompile Include="Tainted.cpp">
-      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\02.Tainted</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted</Filter>
     </ClCompile>
     <ClCompile Include="Zombie.cpp">
-      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\03.Zombie</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\03.Zombie</Filter>
     </ClCompile>
     <ClCompile Include="Andariel.cpp">
-      <Filter>Object\Actor\00.Global\01.Monster\01.Boss\00.Andariel</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel</Filter>
     </ClCompile>
     <ClCompile Include="Diablo.cpp">
-      <Filter>Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\01.Diablo</Filter>
     </ClCompile>
     <ClCompile Include="BoxObject.cpp">
       <Filter>Object\Actor\00.Global\03.Object\02.Box</Filter>
@@ -150,7 +150,19 @@
       <Filter>Object\Actor\00.Global\00.Player\99.Function\ChangeAnimation</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayerInfomation.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\00.Infomation</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\00.MainPlayerInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="AllSkillInfomation.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\01SkillInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="AllItemInfomation.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\02ItemInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="AllMonsterInfomation.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\00.MonsterInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="AllNPCInfomation.cpp">
+      <Filter>Object\Actor\00.Global\02.NPC\00.NPCInfo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,18 +310,6 @@
     <Filter Include="Object\Level\03.SelectCharacterLevel">
       <UniqueIdentifier>{d0ace612-a181-4755-82f4-605e1aa26aa2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal">
-      <UniqueIdentifier>{86732d3d-3e82-41ad-afc3-c5a858182dde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\01.Boss">
-      <UniqueIdentifier>{5be284f3-8ee0-4c28-aed0-7e7678c59e3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\02.NPC\00.WeaponNPC">
-      <UniqueIdentifier>{2e7dafa2-e99d-4476-810f-15b3ae6ef5e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\02.NPC\01.ChandleryNPC">
-      <UniqueIdentifier>{f08ec3e2-3ae4-4688-b167-fe51c322ace4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\02.Skill">
       <UniqueIdentifier>{34bf7bfa-7626-462c-8497-1b078255ee62}</UniqueIdentifier>
     </Filter>
@@ -369,24 +369,6 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\03.POS">
       <UniqueIdentifier>{89fb5e35-bc4e-4107-a3e4-cbcbc7cf698f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal\00.Fallen">
-      <UniqueIdentifier>{615937e1-5453-4c68-a73c-7623b03db26e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal\01.SpikeFiend">
-      <UniqueIdentifier>{910e8bb4-d0b0-42c9-8fb0-3b14da60a1f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal\02.Tainted">
-      <UniqueIdentifier>{d27abfc3-b955-4dab-b7f8-5a40536c7f2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\00.Normal\03.Zombie">
-      <UniqueIdentifier>{3b8fdd89-aa0f-447b-8521-9ae5dfb37bf4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\01.Boss\00.Andariel">
-      <UniqueIdentifier>{4dc47355-c999-48d6-af8e-6e1bff9123a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo">
-      <UniqueIdentifier>{3eef5d4b-22a7-4ba0-85c4-9527ef88d602}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Level\08.EndingLevel">
       <UniqueIdentifier>{8a25709c-464f-4d3c-bb69-09b18a1ac49d}</UniqueIdentifier>
@@ -462,6 +444,51 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu">
       <UniqueIdentifier>{be378c1f-efe8-4620-bcfd-a8d4d74b1d17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\00.Infomation\01SkillInfo">
+      <UniqueIdentifier>{77c4d94b-6759-4c2a-8033-c3a5779f909a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\00.Infomation\02ItemInfo">
+      <UniqueIdentifier>{346d3382-6ade-4ace-bb8a-4b64264f4f6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\00.Infomation\00.MainPlayerInfo">
+      <UniqueIdentifier>{5667a511-acf4-4114-b97b-90fe5d614e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\00.MonsterInfo">
+      <UniqueIdentifier>{8f19be78-1ae4-40ba-9a99-f9ae86592836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Normal">
+      <UniqueIdentifier>{86732d3d-3e82-41ad-afc3-c5a858182dde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen">
+      <UniqueIdentifier>{615937e1-5453-4c68-a73c-7623b03db26e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Normal\01.SpikeFiend">
+      <UniqueIdentifier>{910e8bb4-d0b0-42c9-8fb0-3b14da60a1f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted">
+      <UniqueIdentifier>{d27abfc3-b955-4dab-b7f8-5a40536c7f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Normal\03.Zombie">
+      <UniqueIdentifier>{3b8fdd89-aa0f-447b-8521-9ae5dfb37bf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\02.Boss">
+      <UniqueIdentifier>{5be284f3-8ee0-4c28-aed0-7e7678c59e3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel">
+      <UniqueIdentifier>{4dc47355-c999-48d6-af8e-6e1bff9123a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\02.Boss\01.Diablo">
+      <UniqueIdentifier>{3eef5d4b-22a7-4ba0-85c4-9527ef88d602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\00.NPCInfo">
+      <UniqueIdentifier>{e2825ff5-8512-4eac-b165-060487aaffa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\01.WeaponNPC">
+      <UniqueIdentifier>{2e7dafa2-e99d-4476-810f-15b3ae6ef5e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\02.ChandleryNPC">
+      <UniqueIdentifier>{f08ec3e2-3ae4-4688-b167-fe51c322ace4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -580,22 +607,22 @@
       <Filter>Object\Actor\00.Global\03.Object\03.Coffin</Filter>
     </ClInclude>
     <ClInclude Include="Fallen.h">
-      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\00.Fallen</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen</Filter>
     </ClInclude>
     <ClInclude Include="SpikeFiend.h">
-      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\01.SpikeFiend</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\01.SpikeFiend</Filter>
     </ClInclude>
     <ClInclude Include="Tainted.h">
-      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\02.Tainted</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted</Filter>
     </ClInclude>
     <ClInclude Include="Zombie.h">
-      <Filter>Object\Actor\00.Global\01.Monster\00.Normal\03.Zombie</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\03.Zombie</Filter>
     </ClInclude>
     <ClInclude Include="Andariel.h">
-      <Filter>Object\Actor\00.Global\01.Monster\01.Boss\00.Andariel</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel</Filter>
     </ClInclude>
     <ClInclude Include="Diablo.h">
-      <Filter>Object\Actor\00.Global\01.Monster\01.Boss\01.Diablo</Filter>
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\01.Diablo</Filter>
     </ClInclude>
     <ClInclude Include="BoxObject.h">
       <Filter>Object\Actor\00.Global\03.Object\02.Box</Filter>
@@ -604,7 +631,19 @@
       <Filter>Object\GlobalValue</Filter>
     </ClInclude>
     <ClInclude Include="MainPlayerInfomation.h">
-      <Filter>Object\Actor\00.Global\00.Player\00.Infomation</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\00.MainPlayerInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="AllSkillInfomation.h">
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\01SkillInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="AllItemInfomation.h">
+      <Filter>Object\Actor\00.Global\00.Player\00.Infomation\02ItemInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="AllMonsterInfomation.h">
+      <Filter>Object\Actor\00.Global\01.Monster\00.MonsterInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="AllNPCInfomation.h">
+      <Filter>Object\Actor\00.Global\02.NPC\00.NPCInfo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

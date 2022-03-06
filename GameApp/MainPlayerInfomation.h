@@ -8,7 +8,8 @@ enum class JobType
 	amazon,						// 아마존
 	Sorceress,						// 소서리스
 	barbarian,						// 바바리안
-	paladin							// 팔라딘
+	paladin,							// 팔라딘
+	MAX
 };
 
 // 아이템타입
@@ -83,7 +84,8 @@ struct ItemList
 {
 	// ============================== 플레이어 아이템정보 ============================== //
 	// 아이템 기본정보
-	std::wstring						ItemName;								// 아이템 한글명
+	std::string							ItemName_Eng;						// 아이템 영어명
+	std::wstring						ItemName_Kor;						// 아이템 한글명
 	int										ItemCode;									// 아이템코드
 	ItemType							ItemType;									// 아이템타입
 
@@ -92,13 +94,28 @@ struct ItemList
 	int										StartPosition;							// 각각의 창에서 시작하는 위치의 인덱스
 	int										WidthSize;								// 아이템넓이 -> 이벤토리 or 창고 or 판매창에서 차지하는 너비칸수
 	int										HeightSize;								// 아이템높이 -> 이벤토리 or 창고 or 판매창에서 차지하는 높이칸수
+
+	// 아이템 상세정보
+	bool									IsDurability;								// 내구도 사용여부 판단(TRUE : 내구도사용)
+	int										MaxDurability;							// 최대 내구도
+	int										CurDurability;							// 현재 내구도
+	
+	int										Block;											// 피격차단확률
+	int										Weight;										// 아이템무게(플레이어 이동속도 감소)
+	int										Price;											// 아이템 비용(판매창에서 판매하는 비용)
+	int										PullDamage;							// 아이템 장착시 증가공격력
+	int										PullArmor;								// 아이템 장착시 증가방어력
+
+	int										Recovery;									// 회복량(포션용) : 퍼센트
+	
 };
 
 struct SkillList
 {
 	// =============================== 플레이어 스킬정보 =============================== //
 	// 플레이어 스킬 기본정보
-	std::wstring						SkillName;									// 스킬 한글명
+	std::string							SkillName_Eng;						// 스킬 영어명
+	std::wstring						SkillName_Kor;						// 스킬 한글명
 	int										SkillCode;									// 스킬코드
 	SkillType							SkillType;									// 스킬타입
 

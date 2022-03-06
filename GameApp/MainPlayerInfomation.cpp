@@ -74,7 +74,8 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	
 	// 완드 : 인벤토리 - 무기칸 장착
 	ItemList BasicWeaponItem = {};
-	BasicWeaponItem.ItemName = L"완드";
+	BasicWeaponItem.ItemName_Eng = "Wand";
+	BasicWeaponItem.ItemName_Kor = L"완드";
 	BasicWeaponItem.ItemCode = 1;
 	BasicWeaponItem.ItemType = ItemType::Weapon;
 
@@ -83,11 +84,24 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	BasicWeaponItem.WidthSize = 1;
 	BasicWeaponItem.HeightSize = 2;
 
+	BasicWeaponItem.IsDurability = true;
+	BasicWeaponItem.MaxDurability = 15;
+	BasicWeaponItem.CurDurability = 15;
+
+	BasicWeaponItem.Block = 0;
+	BasicWeaponItem.Weight = 0;
+	BasicWeaponItem.Price = 50;
+	BasicWeaponItem.PullDamage = 100;
+	BasicWeaponItem.PullArmor = 0;
+
+	BasicWeaponItem.Recovery = 0;
+
 	MainPlayerInfo_.ItemInfo.push_back(BasicWeaponItem);
 
 	// 포탈스크롤 : 인벤토리 - 하단칸(10x4)의 29번째 인덱스 칸
 	ItemList BasicPortalScroll = {};
-	BasicPortalScroll.ItemName = L"포탈 스크롤";
+	BasicPortalScroll.ItemName_Eng = "PortalScroll";
+	BasicPortalScroll.ItemName_Kor = L"포탈 스크롤";
 	BasicPortalScroll.ItemCode = 7;
 	BasicPortalScroll.ItemType = ItemType::Scroll;
 
@@ -96,11 +110,24 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	BasicPortalScroll.WidthSize = 1;
 	BasicPortalScroll.HeightSize = 1;
 
+	BasicWeaponItem.IsDurability = false;
+	BasicWeaponItem.MaxDurability = 0;
+	BasicWeaponItem.CurDurability = 0;
+
+	BasicWeaponItem.Block = 0;
+	BasicWeaponItem.Weight = 0;
+	BasicWeaponItem.Price = 10;
+	BasicWeaponItem.PullDamage = 0;
+	BasicWeaponItem.PullArmor = 0;
+
+	BasicWeaponItem.Recovery = 0;
+
 	MainPlayerInfo_.ItemInfo.push_back(BasicPortalScroll);
 	
 	// 아이템감정스크롤 : 인벤토리 - 하단칸(10x4)의 39번째 인덱스 칸
 	ItemList BasicIdentifyScroll = {};
-	BasicIdentifyScroll.ItemName = L"감정 스크롤";
+	BasicIdentifyScroll.ItemName_Eng = "IdentifyScoll";
+	BasicIdentifyScroll.ItemName_Kor = L"감정 스크롤";
 	BasicIdentifyScroll.ItemCode = 8;
 	BasicIdentifyScroll.ItemType = ItemType::Scroll;
 
@@ -108,6 +135,18 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	BasicIdentifyScroll.StartPosition = 39;
 	BasicIdentifyScroll.WidthSize = 1;
 	BasicIdentifyScroll.HeightSize = 1;
+
+	BasicWeaponItem.IsDurability = false;
+	BasicWeaponItem.MaxDurability = 0;
+	BasicWeaponItem.CurDurability = 0;
+
+	BasicWeaponItem.Block = 0;
+	BasicWeaponItem.Weight = 0;
+	BasicWeaponItem.Price = 10;
+	BasicWeaponItem.PullDamage = 0;
+	BasicWeaponItem.PullArmor = 0;
+
+	BasicWeaponItem.Recovery = 0;
 
 	MainPlayerInfo_.ItemInfo.push_back(BasicIdentifyScroll);
 }
@@ -264,9 +303,16 @@ std::vector<SkillList> MainPlayerInfomation::NecromancerSkillInfo()
 {
 	std::vector<SkillList> SkillInfoList;
 
-	// 스킬 정보 파일 로드
+	// 스킬정보 편집
+	SkillList SkillInfo = {};
 
 
+
+
+
+
+
+	SkillInfoList.push_back(SkillInfo);
 	
 	return SkillInfoList;
 }

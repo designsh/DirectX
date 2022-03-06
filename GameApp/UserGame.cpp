@@ -13,7 +13,12 @@
 #include "ChaosSanctuaryLevel.h"
 #include "EndingLevel.h"
 
+// InGame Infomation
 #include "MainPlayerInfomation.h"
+#include "AllSkillInfomation.h"
+#include "AllItemInfomation.h"
+#include "AllMonsterInfomation.h"
+#include "AllNPCInfomation.h"
 
 UserGame::UserGame()
 {
@@ -24,12 +29,17 @@ UserGame::~UserGame()
 	// 메인플레이어 정보 릴리즈
 	MainPlayerInfomation::Destroy();
 
+	// 스킬 정보 릴리즈
+	AllSkillInfomation::Destroy();
+
 	// 몬스터 정보 릴리즈
+	AllMonsterInfomation::Destroy();
 
 	// NPC 정보 릴리즈
+	AllNPCInfomation::Destroy();
 
 	// 아이템 정보 릴리즈
-
+	AllItemInfomation::Destroy();
 }
 
 void UserGame::Initialize()
