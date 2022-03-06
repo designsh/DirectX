@@ -43,9 +43,13 @@ void UserGame::ResourcesLoad()
 	// 모든 클래스 스킬 정보
 	AllSkillInfomation::GetInst().CreateAllSkillInfomation();
 
-	// 모든 몬스터 정보
+	// 구현하려는 모든 아이템 정보
+	AllItemInfomation::GetInst().CreateAllItemInfomation();
 
-	// 모든 NPC 정보
+	// 구현하려는 모든 몬스터 정보
+
+
+	// 구현하려는 모든 NPC 정보
 
 
 	// ======================================================= Rectagle Rendering ======================================================= // 

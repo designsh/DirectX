@@ -56,6 +56,12 @@ void AllSkillInfomation::CreateAllSkillInfomation(bool _ExcelFile)
 
 void AllSkillInfomation::LoadSkillExcelFile()
 {
+	// 기존의 스킬정보를 들고있다면 클리어
+	if (!AllSkillInfo_.empty())
+	{
+		AllSkillInfo_.clear();
+	}
+
 	// 게임 시작과 동시에 해당 함수가 호출되어 모든 클래스의 스킬정보를 생성한다.
 	CExcelControl* ExcelFile = new CExcelControl();
 

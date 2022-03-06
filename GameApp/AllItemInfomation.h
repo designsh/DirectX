@@ -1,4 +1,8 @@
 #pragma once
+#include "MainPlayerInfomation.h"
+#include <GameEngineBase/ExcelControl.h>
+
+#define ALL_ITEM_CNT 11
 
 // 분류 : 정보
 // 용도 : 아이템정보 관리용
@@ -24,6 +28,10 @@ public:
 	}
 
 private:	// member Var
+	std::vector<ItemList> AllItemList_;
+
+private:
+	bool ZFlag_;
 
 private:
 	AllItemInfomation();
@@ -38,6 +46,14 @@ private:		//delete operator
 	AllItemInfomation& operator=(const AllItemInfomation&& _other) = delete;
 
 public:
-	void CreateAllItemInfomation();
+	bool ItemInfoFind(const std::string& _ItemName, ItemList& _ItemInfo);
+
+public:
+	void CreateAllItemInfomation(bool _ExcelFile = false);
+	void LoadItemExcelFile();
+	void LoadItemBinaryFile();
+
+public:
+	void SaveItemBinaryFile();
 };
 

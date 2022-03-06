@@ -118,7 +118,6 @@ struct ItemList
 	int										PullArmor;								// 아이템 장착시 증가방어력
 
 	int										Recovery;									// 회복량(포션용) : 퍼센트
-	
 };
 
 struct SkillList
