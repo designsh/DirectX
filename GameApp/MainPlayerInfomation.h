@@ -5,10 +5,10 @@ enum class JobType
 {
 	None = -1,
 	Necromancer = 0,		// 네크로맨서
-	amazon,						// 아마존
+	Amazon,						// 아마존
 	Sorceress,						// 소서리스
-	barbarian,						// 바바리안
-	paladin,							// 팔라딘
+	Barbarian,						// 바바리안
+	Paladin,							// 팔라딘
 	MAX
 };
 
@@ -70,12 +70,23 @@ enum class SkillDebuffType
 	Bleeding,						// 출혈 : 초당 n데미지
 	BlurredVision,				// 시야감소 : 일정시야반경 감소
 	SpeedReduction,		// 속력감소 : 이동속도 감소
+	Damage,						// 데미지감소
+	BounceOffDamage,	// 데미지반환 : 적에게 입힌피해 반환
+	Terror,							// 공포 : 공포에 떨며 도망
+	Confusion,					// 혼란 : 공격대상이 플레이어에서 무작위로 변경(가장가까운위치에 존재한 물체)
+	LowerResist,					// 저항력감소 : 모든 저항력을 감소
+};
+
+enum class SkillBuffType
+{
+	AmplifyDamage,			// 데미지 증폭
+	LifeTap,							// 적에게 받은 데미지 생명력으로 전환하여 회복
 };
 
 // 패시브 타입(소환수스킬)
-enum class PassiveType
+enum class SkillPassiveType
 {
-	SkeletonWarrior,			// 스켈텔론 마스터리 : 소환수 스켈텔론류의 라이프, 방어력, 데미지를 증가
+	Skeleton,						// 스켈텔론 마스터리 : 소환수 스켈텔론류의 라이프, 방어력, 데미지를 증가
 	Golem,							// 골렘 마스터리 : 소환수 골렘류의 라이프, 이동속도, 공격등급을 증가
 	SummonResist,			// 소환수저항 : 소환수의 모든 속성 저항력을 증가
 };
@@ -114,8 +125,7 @@ struct SkillList
 {
 	// =============================== 플레이어 스킬정보 =============================== //
 	// 플레이어 스킬 기본정보
-	std::string							SkillName_Eng;						// 스킬 영어명
-	std::wstring						SkillName_Kor;						// 스킬 한글명
+	std::string							SkillName;									// 스킬 영어명
 	int										SkillCode;									// 스킬코드
 	SkillType							SkillType;									// 스킬타입
 
@@ -123,15 +133,13 @@ struct SkillList
 	int										SkillRow;									// 플레이어 스킬창의 속한 페이지의 Row
 	int										SkillColumn;								// 플레이어 스킬창의 속한 페이지의 Column
 
-	int										reqSkillName1;						// 해당 스킬 활성화 조건(선행스킬이름)
+	int										reqSkillLevel;							// 해당 스킬 활성화 조건(스킬레벨)
+	std::string							reqSkillName1;						// 해당 스킬 활성화 조건(선행스킬이름)
 	int										reqSkillCode1;							// 해당 스킬 활성화 조건(선행스킬코드)
-	int										reqSkillLevel1;							// 해당 스킬 활성화 조건(선행스킬레벨)
-	int										reqSkillName2;						// 해당 스킬 활성화 조건(선행스킬이름)
+	std::string							reqSkillName2;						// 해당 스킬 활성화 조건(선행스킬이름)
 	int										reqSkillCode2;							// 해당 스킬 활성화 조건(선행스킬코드)
-	int										reqSkillLevel2;							// 해당 스킬 활성화 조건(선행스킬레벨)
-	int										reqSkillName3;						// 해당 스킬 활성화 조건(선행스킬이름)
+	std::string							reqSkillName3;						// 해당 스킬 활성화 조건(선행스킬이름)
 	int										reqSkillCode3;							// 해당 스킬 활성화 조건(선행스킬코드)
-	int										reqSkillLevel3;							// 해당 스킬 활성화 조건(선행스킬레벨)
 
 	int										MaxSkillLevel;							// 최대 스킬레벨
 	int										CurSkillLevel;							// 현재 스킬레벨
@@ -145,20 +153,23 @@ struct SkillList
 	bool									IsDebuff;									// 해당 스킬이 디버프 스킬인지 판단(TRUE : 디버프스킬) - 몬스터 디버프용
 	bool									ManaUse;									// 해당 스킬 사용시 마나소모여부 판단(TRUE : 마나소모함)
 	bool									LeftSkillUse;								// 왼쪽무기에 장착가능한 스킬인지 판단(TRUE : 사용가능)
-	bool									IsSummons;								// 해당 스킬이 몬스터 시체에 시전가능한 스킬인지 판단(TRUE : 시전가능) - 소환수 스킬전용
+	bool									IsSelDead;									// 해당 스킬이 몬스터 시체에 시전가능한 스킬인지 판단(TRUE : 시전가능) - 소환수 스킬전용
 
 	// IsPassive = TURE 일때 사용
-	PassiveType						PassiveType;								// 패시브 타입
+	SkillPassiveType				PassiveType;								// 패시브 타입
 	int										PassiveLifePerLevel;				// 스킬레벨당 라이프 증가량
-	int										PassiveDefensePerLevel;		// 스킬레벨당 방어력 증가량
-	int										PassiveVelocityPerLevel;		// 스킬레벨당 이동속도 증가량
+	int										PassiveBonusLifePerLevel;	// 스킬레벨당 보너스 라이프 증가량(시체로 선택된 몬스터의 본래체력의 퍼센트 : 100% 기준)
+	int										PassiveVelocityPerLevel;		// 스킬레벨당 이동속도 증가량(100% 기준)
 	int										PassiveDamagePerLevel;		// 스킬레벨당 데미지 증가량
+	int										PassiveResistAllPerLevel;		// 스킬레벨당 모든속성 저항력 증가량(100% 기준)
 
 	// IsDebuff = TRUE 일때 사용
 	SkillDebuffType				DebuffType;								// 해당 스킬을 맞은 몬스터가 받는 디버프효과 타입
-	int										DebuffDuration;						// 디버프 지속시간
-	int										MinDebuffDamage;				// 디버프 타입이 화상, 중독, 출혈인 경우 몬스터에게 입히는 최소데미지
-	int										MaxDebuffDamage;				// 디버프 타입이 화상, 중독, 출혈인 경우 몬스터에게 입히는 최대데미지
+	SkillBuffType					BuffType;									// 해당 스킬시전시 플레이어가 받는 버프효과 타입
+	int										DebuffDuration;						// 지속시간(1레벨값) - 100% 기준(값 / 100)
+	int										DebuffDurationPerLevel;		// 스킬레벨당 디버프 지속시간 증가량 - 100% 기준(값 / 100)
+	int										DebuffDamage;						// 디버프 타입의 데미지
+	int										DebuffDamagePerLevel;		// 스킬레벨당 디버프 타입의 데미지 증가량
 
 	// ManaUse = TURE일때 사용
 	int										ManaUsage;							// 마나소모량
@@ -256,13 +267,9 @@ public:
 public: // CreateMainPlayerInfo : 캐릭터생성화면에서 생성하여 해당 정보 파일로 저장한 후 생성
 	void CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType);					// 메인플레이어 정보 초기생성
 	MainPlayerInfo InformationByClass(JobType _JobType);															// 클래스별 스탯정보 생성
-	std::vector<SkillList> NecromancerSkillInfo();																				// 네크로맨서 스킬정보 생성
-	std::vector<SkillList> AmazonSkillInfo();																						// 아마존 스킬정보 생성
-	std::vector<SkillList> SorceressSkillInfo();																						// 소서리스 스킬정보 생성
-	std::vector<SkillList> BarbarianSkillInfo();																					// 바바리안 스킬정보 생성
-	std::vector<SkillList> PaladinSkillInfo();																							// 팔라딘 스킬정보 생성
+	std::vector<SkillList> SkillInfoLoad(JobType _JobType);															// 해당 클래스의 스킬정보 로드
 
 public: // MainPlayerInfo Save & Load
-	void SaveMainPlayerInfo(const std::string& _PlayerID);
+	void SaveMainPlayerInfo(const std::string& _PlayerID, bool _CreateFlag = false);
 	void LoadMainPlayerInfo(const std::string& _PlayerID);
 };

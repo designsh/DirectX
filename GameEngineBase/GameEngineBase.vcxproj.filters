@@ -40,6 +40,9 @@
     <Filter Include="Math\Random">
       <UniqueIdentifier>{ed833e43-c14a-4795-a3d1-cc65aa35bb8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IO\ExcelFileControl">
+      <UniqueIdentifier>{fbc2f571-b565-4386-9dc8-2be233784b61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -84,6 +87,9 @@
     <ClCompile Include="GameEngineDirectory.cpp">
       <Filter>IO</Filter>
     </ClCompile>
+    <ClCompile Include="ExcelControl.cpp">
+      <Filter>IO\ExcelFileControl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -127,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineDirectory.h">
       <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelControl.h">
+      <Filter>IO\ExcelFileControl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

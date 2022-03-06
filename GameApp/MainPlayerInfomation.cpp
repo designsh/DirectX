@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MainPlayerInfomation.h"
 
+#include "AllSkillInfomation.h"
+
 MainPlayerInfomation* MainPlayerInfomation::Inst = new MainPlayerInfomation();
 
 MainPlayerInfomation::MainPlayerInfomation() :
@@ -38,35 +40,7 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 
 	// ======================= 플레이어 스킬정보 ======================= //
 	std::vector<SkillList> ResultSkillList;
-	switch (_JobType)
-	{
-		case JobType::Necromancer:
-		{
-			ResultSkillList = NecromancerSkillInfo();
-			break;
-		}
-		case JobType::amazon:
-		{
-			ResultSkillList = AmazonSkillInfo();
-			break;
-		}
-		case JobType::Sorceress:
-		{
-			ResultSkillList = SorceressSkillInfo();
-			break;
-		}
-		case JobType::barbarian:
-		{
-			ResultSkillList = BarbarianSkillInfo();
-			break;
-		}
-		case JobType::paladin:
-		{
-			ResultSkillList = PaladinSkillInfo();
-			break;
-		}
-	}
-
+	ResultSkillList = SkillInfoLoad(_JobType);
 	MainPlayerInfo_.SkillInfo = ResultSkillList;
 
 	// ====================== 플레이어 아이템정보 ====================== //
@@ -110,17 +84,17 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	BasicPortalScroll.WidthSize = 1;
 	BasicPortalScroll.HeightSize = 1;
 
-	BasicWeaponItem.IsDurability = false;
-	BasicWeaponItem.MaxDurability = 0;
-	BasicWeaponItem.CurDurability = 0;
+	BasicPortalScroll.IsDurability = false;
+	BasicPortalScroll.MaxDurability = 0;
+	BasicPortalScroll.CurDurability = 0;
 
-	BasicWeaponItem.Block = 0;
-	BasicWeaponItem.Weight = 0;
-	BasicWeaponItem.Price = 10;
-	BasicWeaponItem.PullDamage = 0;
-	BasicWeaponItem.PullArmor = 0;
+	BasicPortalScroll.Block = 0;
+	BasicPortalScroll.Weight = 0;
+	BasicPortalScroll.Price = 10;
+	BasicPortalScroll.PullDamage = 0;
+	BasicPortalScroll.PullArmor = 0;
 
-	BasicWeaponItem.Recovery = 0;
+	BasicPortalScroll.Recovery = 0;
 
 	MainPlayerInfo_.ItemInfo.push_back(BasicPortalScroll);
 	
@@ -136,19 +110,21 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	BasicIdentifyScroll.WidthSize = 1;
 	BasicIdentifyScroll.HeightSize = 1;
 
-	BasicWeaponItem.IsDurability = false;
-	BasicWeaponItem.MaxDurability = 0;
-	BasicWeaponItem.CurDurability = 0;
+	BasicIdentifyScroll.IsDurability = false;
+	BasicIdentifyScroll.MaxDurability = 0;
+	BasicIdentifyScroll.CurDurability = 0;
 
-	BasicWeaponItem.Block = 0;
-	BasicWeaponItem.Weight = 0;
-	BasicWeaponItem.Price = 10;
-	BasicWeaponItem.PullDamage = 0;
-	BasicWeaponItem.PullArmor = 0;
+	BasicIdentifyScroll.Block = 0;
+	BasicIdentifyScroll.Weight = 0;
+	BasicIdentifyScroll.Price = 10;
+	BasicIdentifyScroll.PullDamage = 0;
+	BasicIdentifyScroll.PullArmor = 0;
 
-	BasicWeaponItem.Recovery = 0;
+	BasicIdentifyScroll.Recovery = 0;
 
 	MainPlayerInfo_.ItemInfo.push_back(BasicIdentifyScroll);
+
+
 }
 
 MainPlayerInfo MainPlayerInfomation::InformationByClass(JobType _JobType)
@@ -213,7 +189,7 @@ MainPlayerInfo MainPlayerInfomation::InformationByClass(JobType _JobType)
 
 			break;
 		}
-		case JobType::amazon:
+		case JobType::Amazon:
 		{
 			CurPlayerInfo.JobName = L"아마존";
 
@@ -240,7 +216,7 @@ MainPlayerInfo MainPlayerInfomation::InformationByClass(JobType _JobType)
 
 			break;
 		}
-		case JobType::barbarian:
+		case JobType::Barbarian:
 		{
 			CurPlayerInfo.JobName = L"바바리안";
 
@@ -267,7 +243,7 @@ MainPlayerInfo MainPlayerInfomation::InformationByClass(JobType _JobType)
 
 			break;
 		}
-		case JobType::paladin:
+		case JobType::Paladin:
 		{
 			CurPlayerInfo.JobName = L"팔라딘";
 
@@ -299,59 +275,55 @@ MainPlayerInfo MainPlayerInfomation::InformationByClass(JobType _JobType)
 	return CurPlayerInfo;
 }
 
-std::vector<SkillList> MainPlayerInfomation::NecromancerSkillInfo()
+std::vector<SkillList> MainPlayerInfomation::SkillInfoLoad(JobType _JobType)
 {
 	std::vector<SkillList> SkillInfoList;
 
-	// 스킬정보 편집
-	SkillList SkillInfo = {};
-
-
-
-
-
-
-
-	SkillInfoList.push_back(SkillInfo);
-	
-	return SkillInfoList;
-}
-
-std::vector<SkillList> MainPlayerInfomation::AmazonSkillInfo()
-{
-	std::vector<SkillList> SkillInfoList;
+	// 해당 클래스의 스킬목록 로드
+	if (false == AllSkillInfomation::GetInst().ClassSkillFind(_JobType, SkillInfoList))
+	{
+		GameEngineDebug::MsgBoxError("해당 클래스(직업)의 스킬 정보를 로드하지 못하였습니다.!!!!");
+	}
 
 	return SkillInfoList;
 }
 
-std::vector<SkillList> MainPlayerInfomation::SorceressSkillInfo()
+void MainPlayerInfomation::SaveMainPlayerInfo(const std::string& _PlayerID, bool _CreateFlag)
 {
-	std::vector<SkillList> SkillInfoList;
+	GameEngineDirectory SaveFileDir;
+	SaveFileDir.MoveParent("DirectX");
+	SaveFileDir.MoveChild("Resources");
+	SaveFileDir.MoveChild("SaveFile");
 
-	return SkillInfoList;
-}
+	// 경로 편집
 
-std::vector<SkillList> MainPlayerInfomation::BarbarianSkillInfo()
-{
-	std::vector<SkillList> SkillInfoList;
 
-	return SkillInfoList;
-}
 
-std::vector<SkillList> MainPlayerInfomation::PaladinSkillInfo()
-{
-	std::vector<SkillList> SkillInfoList;
+	// 1. 캐릭터생성화면에서 최초 정보파일 생성용 저장
+	if (true == _CreateFlag)
+	{
+		// PlayerID.dat 파일 생성
 
-	return SkillInfoList;
-}
 
-void MainPlayerInfomation::SaveMainPlayerInfo(const std::string& _PlayerID)
-{
-	// 캐릭터 생성화면에서 파일로 저장
 
+
+
+
+	}
+	else // 2. 게임종료 시 해당 파일 갱신용 저장
+	{
+		// PlayerID.dat 파일 찾아서 덮어씌우기
+
+
+
+
+
+	}
 }
 
 void MainPlayerInfomation::LoadMainPlayerInfo(const std::string& _PlayerID)
 {
 	// 캐릭터 선택화면에서 해당 파일 로드
+	// 시간나면 처리
+
 }

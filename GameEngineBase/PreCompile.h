@@ -18,6 +18,7 @@
 #include <io.h>
 #include <filesystem>
 #include <conio.h>
+#include <comdef.h>
 
 // Debug
 #include <assert.h>

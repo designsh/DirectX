@@ -3,6 +3,12 @@
 #include "CustomVertex.h"
 #include "UserGame_Resources_Shader.h"
 
+// InGame Infomation
+#include "AllSkillInfomation.h"
+#include "AllMonsterInfomation.h"
+#include "AllNPCInfomation.h"
+#include "AllItemInfomation.h"
+
 void UserGame::ResourcesLoad()
 {
 	// ======================================================= Resource Load ======================================================= // 
@@ -31,6 +37,16 @@ void UserGame::ResourcesLoad()
 
 	// 셰이더 리소스 파일을 모두 읽어들여 셰이더를 생성
 	AppShaderLoad();
+
+	// 인게임 관련 모든 정보 로드
+	
+	// 모든 클래스 스킬 정보
+	AllSkillInfomation::GetInst().CreateAllSkillInfomation();
+
+	// 모든 몬스터 정보
+
+	// 모든 NPC 정보
+
 
 	// ======================================================= Rectagle Rendering ======================================================= // 
 	// Vertex Buffer 생성
