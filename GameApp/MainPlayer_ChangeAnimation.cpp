@@ -276,6 +276,11 @@ void MainPlayer::ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _M
 				continue;
 			}
 
+			if ((PlayerState::STAT_DD != CurState_) || (PlayerState::STAT_DT != CurState_))
+			{
+				PartRenderer_[i].Renderer_->On();
+			}
+
 			PartRenderer_[i].Renderer_->SetImage(TextureName);
 			PartRenderer_[i].Renderer_->GetTransform()->SetLocalScaling(PlayerSize_);
 		}
@@ -286,29 +291,26 @@ void MainPlayer::ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _M
 	}
 
 	// 이동방향이 변경되었다면
-	if (CurDirect_ != _MoveDir)
+	PrevDirect_ = CurDirect_;
+	CurDirect_ = _MoveDir;
+
+	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
 	{
-		PrevDirect_ = CurDirect_;
-		CurDirect_ = _MoveDir;
+		std::string AnimationName = ChangeDirectCheck(static_cast<RendererPartType>(i));
 
-		for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
+		// 해당 렌더러가 LIT_ 타입일때 SH 파트는 제외한다.
+		if (ItemEquipState::TP_LIT == PartRenderer_[i].ItemEquipState_ && i == static_cast<int>(RendererPartType::PART_SH))
 		{
-			std::string AnimationName = ChangeDirectCheck(static_cast<RendererPartType>(i));
-
-			// 해당 렌더러가 LIT_ 타입일때 SH 파트는 제외한다.
-			if (ItemEquipState::TP_LIT == PartRenderer_[i].ItemEquipState_ && i == static_cast<int>(RendererPartType::PART_SH))
-			{
-				continue;
-			}
-
-			// 시체모션상태 또는 사망모션상태라면 TR을 제외한 모두 Off상태가 되며, 애니메이션을 변경하지않는다.
-			if ((PlayerState::STAT_DD == CurState_ && i != static_cast<int>(RendererPartType::PART_TR))
-				|| (PlayerState::STAT_DT == CurState_ && i != static_cast<int>(RendererPartType::PART_TR)))
-			{
-				continue;
-			}
-
-			PartRenderer_[i].Renderer_->SetChangeAnimation(AnimationName);
+			continue;
 		}
+
+		// 시체모션상태 또는 사망모션상태라면 TR을 제외한 모두 Off상태가 되며, 애니메이션을 변경하지않는다.
+		if ((PlayerState::STAT_DD == CurState_ && i != static_cast<int>(RendererPartType::PART_TR))
+			|| (PlayerState::STAT_DT == CurState_ && i != static_cast<int>(RendererPartType::PART_TR)))
+		{
+			continue;
+		}
+
+		PartRenderer_[i].Renderer_->SetChangeAnimation(AnimationName);
 	}
 }

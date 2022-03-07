@@ -97,7 +97,8 @@ private: // 플레이어 부위별 애니메이션렌더러
 	float4 PlayerSize_;
 
 private: // test
-	int Test = 0;
+	int StateTest = 0;
+	int DirectText = 0;
 
 public:
 	MainPlayer();

@@ -47,27 +47,64 @@ void MainPlayer::Start()
 
 
 
+	// ================================== 키생성 ================================== //
+	// 스킬창 열기
+	if (false == GameEngineInput::GetInst().IsKey("SkillViewActive"))
+	{
+		GameEngineInput::GetInst().CreateKey("SkillViewActive", 'T');
+	}
 
+	// 스탯창 열기
+	if (false == GameEngineInput::GetInst().IsKey("StatViewActive"))
+	{
+		GameEngineInput::GetInst().CreateKey("StatViewActive", 'A');
+	}
+
+	// 인벤토리 열기
+	if (false == GameEngineInput::GetInst().IsKey("InventoryActive"))
+	{
+		GameEngineInput::GetInst().CreateKey("InventoryActive", 'I');
+	}
 
 	// TEST 용
 	//MainPlayerInfomation::GetInst().CreateMainPlayerInfo("aaaa", JobType::Necromancer);
-	if (false == GameEngineInput::GetInst().IsKey("NextAnimation"))
+	if (false == GameEngineInput::GetInst().IsKey("NextDirect"))
 	{
-		GameEngineInput::GetInst().CreateKey("NextAnimation", '1');
+		GameEngineInput::GetInst().CreateKey("NextDirect", '1');
 	}
+
+	if (false == GameEngineInput::GetInst().IsKey("NextState"))
+	{
+		GameEngineInput::GetInst().CreateKey("NextState", '2');
+	}
+
+	//DirectText = static_cast<int>(CurDirect_);
+	StateTest = static_cast<int>(PlayerState::STAT_TN);
 }
 
 void MainPlayer::Update(float _DeltaTime)
 {
 	// TEST
-	if (true == GameEngineInput::GetInst().Down("NextAnimation"))
+	if (true == GameEngineInput::GetInst().Down("NextDirect"))
 	{
-		ChangePlayerAnimation(PlayerState::STAT_TN, static_cast<TargetDirect>(Test));
-		++Test;
-		if (Test >= static_cast<int>(TargetDirect::DIR_MAX))
+		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
+		++DirectText;
+
+		if (DirectText >= static_cast<int>(TargetDirect::DIR_MAX))
 		{
-			Test = 0;
+			DirectText = 0;
 		}
+	}
+
+	if (true == GameEngineInput::GetInst().Down("NextState"))
+	{
+		DirectText = 0;
+		++StateTest;
+		if (StateTest >= static_cast<int>(PlayerState::STAT_MAX))
+		{
+			StateTest = 0;
+		}
+		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
 	}
 
 	// 카메라위치를 플레이어위치에 따라 갱신
