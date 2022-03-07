@@ -3,6 +3,66 @@
 #include "GameEngineLevel.h"
 #include "GameEngineTransform.h"
 
+std::function<bool(GameEngineTransform*, GameEngineTransform*)> GameEngineCollision::CollisionCheckFunction[static_cast<int>(CollisionType::MAX)][static_cast<int>(CollisionType::MAX)];
+
+void GameEngineCollision::Init()
+{
+	// CollisionType::Sphere
+	CollisionCheckFunction[static_cast<int>(CollisionType::CirCle)][static_cast<int>(CollisionType::CirCle)] = std::bind(&GameEngineCollision::CirCleToCirCle, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::Sphere3D)][static_cast<int>(CollisionType::Sphere3D)] = std::bind(&GameEngineCollision::Sphere3DToSphere3D, std::placeholders::_1, std::placeholders::_2);
+
+	// GameEngineCollision::AABBBox
+	CollisionCheckFunction[static_cast<int>(CollisionType::Rect)][static_cast<int>(CollisionType::Rect)] = std::bind(&GameEngineCollision::RectToRect, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::AABBBox3D)][static_cast<int>(CollisionType::AABBBox3D)] = std::bind(&GameEngineCollision::AABB3DToAABB3D, std::placeholders::_1, std::placeholders::_2);
+
+	// CollisionType::OBBBox
+	CollisionCheckFunction[static_cast<int>(CollisionType::OrientedRect)][static_cast<int>(CollisionType::OrientedRect)] = std::bind(&GameEngineCollision::OrientedRectToOrientedRect, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::OBBBox3D)][static_cast<int>(CollisionType::OBBBox3D)] = std::bind(&GameEngineCollision::OBB3DToOBB3D, std::placeholders::_1, std::placeholders::_2);
+}
+
+bool GameEngineCollision::CirCleToCirCle(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingSphere Left = _Left->GetSphere();
+	DirectX::BoundingSphere Right = _Right->GetSphere();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::Sphere3DToSphere3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetSphere().Intersects(_Right->GetSphere());
+}
+
+bool GameEngineCollision::RectToRect(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingBox Left = _Left->GetAABB();
+	DirectX::BoundingBox Right = _Right->GetAABB();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::AABB3DToAABB3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetAABB().Intersects(_Right->GetAABB());
+}
+
+bool GameEngineCollision::OrientedRectToOrientedRect(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingOrientedBox Left = _Left->GetOBB();
+	DirectX::BoundingOrientedBox Right = _Right->GetOBB();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::OBB3DToOBB3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetOBB().Intersects(_Right->GetOBB());
+}
+
+
 GameEngineCollision::GameEngineCollision()
 {
 }
@@ -25,151 +85,9 @@ void GameEngineCollision::SetCollisionGroup(int _Type)
 	GetLevel()->ChangeCollisionGroup(_Type, this);
 }
 
-void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::vector<GameEngineCollision*>& _ColVector)
-{
-	std::list<GameEngineCollision*>& Group = GetLevel()->GetCollisionGroup(_OtherGroup);
-
-	DirectX::BoundingSphere ThisSphere;
-	DirectX::BoundingSphere OtherSphere;
-
-	float4 Pos = GetTransform()->GetWorldPosition();
-	float4 Scale = GetTransform()->GetWorldScaling() * 0.5f;
-
-	float4 OtherPos;
-	float4 OtherScale;
-
-	memcpy_s(&ThisSphere.Center, sizeof(ThisSphere.Center), &Pos, sizeof(ThisSphere.Center));
-	memcpy_s(&ThisSphere.Radius, sizeof(float), &Scale, sizeof(float));
-
-	for (GameEngineCollision* OtherCollision : Group)
-	{
-		OtherPos = OtherCollision->GetTransform()->GetWorldPosition();
-		OtherScale = OtherCollision->GetTransform()->GetLocalScaling() * 0.5f;
-
-		memcpy_s(&OtherSphere.Center, sizeof(ThisSphere.Center), &OtherPos, sizeof(ThisSphere.Center));
-		memcpy_s(&OtherSphere.Radius, sizeof(float), &OtherScale, sizeof(float));
-
-		if (false == ThisSphere.Intersects(OtherSphere))
-		{
-			continue;
-		}
-
-		_ColVector.push_back(OtherCollision);
-	}
-}
-
 void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
-	switch (_ThisType)
-	{
-		case CollisionType::Sphere:
-		{
-			switch (_OtherType)
-			{
-				case CollisionType::Sphere:
-				{
-					SphereToSphereCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				case CollisionType::AABBBox:
-				{
-					SphereToAABBBoxCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				case CollisionType::OBBBox:
-				{
-					SphereToOBBBoxCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				default:
-				{
-					GameEngineDebug::MsgBox("등록되지 않은 타입의 충돌방식입니다.!!!!");
-					break;
-				}
-			}
-
-			break;
-		}
-		case CollisionType::AABBBox:
-		{
-			switch (_OtherType)
-			{
-				case CollisionType::AABBBox:
-				{
-					AABBBoxToAABBBoxCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				case CollisionType::Sphere:
-				{
-					AABBBoxToSphereCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				case CollisionType::OBBBox:
-				{
-					AABBBoxToOBBBoxCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				default:
-				{
-					GameEngineDebug::MsgBox("등록되지 않은 타입의 충돌방식입니다.!!!!");
-					break;
-				}
-			}
-
-			break;
-		}
-		case CollisionType::OBBBox:
-		{
-			switch (_OtherType)
-			{
-				case CollisionType::OBBBox:
-				{
-					OBBBoxToOBBBoxCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				case CollisionType::Sphere:
-				{
-					OBBBoxToSphereCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				case CollisionType::AABBBox:
-				{
-					OBBBoxToAABBBoxCollision(_OtherGroup, _CallBack);
-					break;
-				}
-				default:
-				{
-					GameEngineDebug::MsgBox("등록되지 않은 타입의 충돌방식입니다.!!!!");
-					break;
-				}
-			}
-
-			break;
-		}
-		default:
-		{
-			GameEngineDebug::MsgBox("등록되지 않은 타입의 충돌방식입니다.!!!!");
-			break;
-		}
-	}
-}
-
-void GameEngineCollision::SphereToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
-{
 	std::list<GameEngineCollision*>& Group = GetLevel()->GetCollisionGroup(_OtherGroup);
-
-	DirectX::BoundingSphere ThisSphere;
-	DirectX::BoundingSphere OtherSphere;
-
-	float4 Pos = GetTransform()->GetWorldPosition();
-	float4 Scale = GetTransform()->GetWorldScaling() * 0.5f;
-
-	float4 OtherPos;
-	float4 OtherScale;
-
-	memcpy_s(&ThisSphere.Center, sizeof(ThisSphere.Center), &Pos, sizeof(ThisSphere.Center));
-	memcpy_s(&ThisSphere.Radius, sizeof(float), &Scale, sizeof(float));
-
 	for (GameEngineCollision* OtherCollision : Group)
 	{
 		if (false == OtherCollision->IsUpdate())
@@ -177,13 +95,14 @@ void GameEngineCollision::SphereToSphereCollision(int _OtherGroup, std::function
 			continue;
 		}
 
-		OtherPos = OtherCollision->GetTransform()->GetWorldPosition();
-		OtherScale = OtherCollision->GetTransform()->GetLocalScaling() * 0.5f;
+		auto& CheckFunction = CollisionCheckFunction[static_cast<int>(_ThisType)][static_cast<int>(_OtherType)];
 
-		memcpy_s(&OtherSphere.Center, sizeof(ThisSphere.Center), &OtherPos, sizeof(ThisSphere.Center));
-		memcpy_s(&OtherSphere.Radius, sizeof(float), &OtherScale, sizeof(float));
+		if (nullptr == CheckFunction)
+		{
+			GameEngineDebug::MsgBoxError("아직 구현하지 않는 타입간에 충돌을 하려고 했습니다.");
+		}
 
-		if (false == ThisSphere.Intersects(OtherSphere))
+		if (false == CheckFunction(GetTransform(), OtherCollision->GetTransform()))
 		{
 			continue;
 		}
@@ -192,41 +111,47 @@ void GameEngineCollision::SphereToSphereCollision(int _OtherGroup, std::function
 	}
 }
 
+void GameEngineCollision::SphereToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+{
+	Collision(CollisionType::Sphere3D, CollisionType::Sphere3D, _OtherGroup, _CallBack);
+}
+
 void GameEngineCollision::SphereToAABBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
+	Collision(CollisionType::Sphere3D, CollisionType::AABBBox3D, _OtherGroup, _CallBack);
 }
 
 void GameEngineCollision::SphereToOBBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
+	Collision(CollisionType::Sphere3D, CollisionType::OBBBox3D, _OtherGroup, _CallBack);
 }
 
 void GameEngineCollision::AABBBoxToAABBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
-
-
-
+	Collision(CollisionType::AABBBox3D, CollisionType::AABBBox3D, _OtherGroup, _CallBack);
 }
 
 void GameEngineCollision::AABBBoxToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
+	Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, _OtherGroup, _CallBack);
 }
 
 void GameEngineCollision::AABBBoxToOBBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
+	Collision(CollisionType::AABBBox3D, CollisionType::OBBBox3D, _OtherGroup, _CallBack);
 }
 
 void GameEngineCollision::OBBBoxToOBBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
-
-
-
-
+	Collision(CollisionType::OBBBox3D, CollisionType::OBBBox3D, _OtherGroup, _CallBack);
 }
 
 void GameEngineCollision::OBBBoxToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
+	Collision(CollisionType::OBBBox3D, CollisionType::Sphere3D, _OtherGroup, _CallBack);
 }
 
 void GameEngineCollision::OBBBoxToAABBBoxCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
+	Collision(CollisionType::OBBBox3D, CollisionType::AABBBox3D, _OtherGroup, _CallBack);
 }

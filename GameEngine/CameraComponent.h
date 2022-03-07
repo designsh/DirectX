@@ -40,6 +40,7 @@ private:		//delete operator
 	CameraComponent& operator=(const CameraComponent&& _other) = delete;
 
 private:
+	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 	void CameraTransformUpdate();
 	void Render();
 	void ReleaseRenderer();

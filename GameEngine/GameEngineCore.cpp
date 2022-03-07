@@ -3,6 +3,7 @@
 #include "GameEngineWindow.h"
 #include "GameEngineDevice.h"
 #include "GameEngineLevel.h"
+#include "GameEngineCollision.h"
 #include "GameEngineInput.h"
 
 // Release
@@ -116,6 +117,7 @@ void GameEngineCore::EngineInitialize()
 		GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 	}
 
+	GameEngineCollision::Init();
 	GameEngineSoundManager::GetInst().Initialize();
 }
 

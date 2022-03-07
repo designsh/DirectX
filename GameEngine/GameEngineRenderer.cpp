@@ -23,6 +23,11 @@ void GameEngineRenderer::Start()
 	GetLevel()->GetMainCamera()->PushRenderer(GetOrder(), this);
 }
 
+void GameEngineRenderer::SetRenderGroup(int _Order)
+{
+	GetLevel()->ChangeRendererGroup(_Order, this);
+}
+
 void GameEngineRenderer::Update(float _DeltaTime)
 {
 }

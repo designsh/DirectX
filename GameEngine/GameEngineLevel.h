@@ -48,6 +48,7 @@ private: // 충돌체관련 기능
 	}
 
 	void ChangeCollisionGroup(int _Group, GameEngineCollision* _Collision);
+	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 
 public:
 	template<typename UserEnumType>

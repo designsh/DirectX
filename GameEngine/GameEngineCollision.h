@@ -15,21 +15,47 @@
 //      4) 오브젝트 2 Up축 기준 투영
 enum class CollisionType
 {
-	Sphere,				// 구
-	AABBBox,			// AABB : 정렬된 축
-	OBBBox,			// OBB : 박스와 함께 축도 회전
+	// 2D와 3D 충돌체간의 충돌은 금지한다.
+	Point2D,					// 
+	CirCle,						// 원
+	Rect,							// 사각형
+	OrientedRect,			// 회전한사각형
+
+	Point3D,					// 
+	Sphere3D,				// 구
+	AABBBox3D,			// 박스
+	OBBBox3D,				// 회전한박스
 	MAX,
 };
 
 // 분류 : 충돌
 // 용도 : 충돌관리
 // 설명 : 
+class GameEngineCore;
 class GameEngineLevel;
 class GameEngineCollision : public GameEngineTransformComponent
 {
+	friend GameEngineCore;
 	friend GameEngineLevel;
 
+private:
+	static std::function<bool(GameEngineTransform*, GameEngineTransform*)> CollisionCheckFunction[static_cast<int>(CollisionType::MAX)][static_cast<int>(CollisionType::MAX)];
+
+private: // GameEngineCore에서 호출하며 각 충돌체별 CallbackFunction 을 지정하여 CollisionCheckFunction 에 저장
+	static void Init();
+
+public:
+	static bool CirCleToCirCle(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool Sphere3DToSphere3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+
+	static bool RectToRect(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool AABB3DToAABB3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+
+	static bool OrientedRectToOrientedRect(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool OBB3DToOBB3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+
 private:	// member Var
+
 
 public:
 	GameEngineCollision();
@@ -57,9 +83,6 @@ public:
 	void SetCollisionGroup(int _Type);
 
 public:
-	// 해당 객체가 원하는 _OtherGroup과의 충돌체크 후 충돌한 충돌체 벡터반환
-	void Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::vector<GameEngineCollision*>& _ColVector);
-
 	// 해당 객체가 원하는 _OtherGroup과의 충돌체크 후 충돌한 충돌체의 CallbackFunction 호출
 	void Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack);
 

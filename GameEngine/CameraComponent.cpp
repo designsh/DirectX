@@ -19,6 +19,13 @@ CameraComponent::~CameraComponent()
 
 }
 
+void CameraComponent::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
+{
+	RendererList_[_Renderer->GetOrder()].remove(_Renderer);
+	_Renderer->SetOrder(_Group);
+	RendererList_[_Renderer->GetOrder()].push_back(_Renderer);
+}
+
 void CameraComponent::CameraTransformUpdate()
 {
 	GetTransform()->GetTransformData().View_.ViewToLH(GetTransform()->GetWorldPosition(), GetTransform()->GetWorldForwardVector(), GetTransform()->GetWorldUpVector());

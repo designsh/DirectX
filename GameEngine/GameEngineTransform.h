@@ -1,6 +1,21 @@
 #pragma once
 #include "GameEngineComponent.h"
 
+#include <DirectXCollision.h>
+#include <DirectXCollision.inl>
+
+union CollisionData
+{
+public:
+	DirectX::BoundingSphere				Sphere;		// 구
+	DirectX::BoundingBox						AABB;		// 회전이 고려하면 안되는 박스
+	DirectX::BoundingOrientedBox		OBB;			// 회전한 박스
+
+	CollisionData() : OBB()
+	{
+	}
+};
+
 // 각 물체의 지역 공간상의 위치, 크기, 회전 정보와 월드 공간상의 위치, 크기, 회전 정보를 통하여
 // 생성하는 각각의 행렬을 관리하는 클래스
 class TransformData
@@ -94,6 +109,9 @@ private:	// member Var
 	GameEngineTransform*							Parent_;							// 현재 트랜스폼의 부모 트랜스폼
 	std::vector<GameEngineTransform*>	Childs_;							// 현재 트랜스폼의 자식 트랜스폼 목록
 
+private:
+	CollisionData												ColData_;						// 
+
 public:
 	GameEngineTransform();
 	~GameEngineTransform();
@@ -112,6 +130,27 @@ public:
 
 public:
 	TransformData& GetTransformData();
+
+public: // 충돌체 관련
+	const CollisionData& GetCollisionData()
+	{
+		return ColData_;
+	}
+
+	const DirectX::BoundingSphere& GetSphere()
+	{
+		return ColData_.Sphere;
+	}
+
+	const DirectX::BoundingOrientedBox& GetOBB()
+	{
+		return ColData_.OBB;
+	}
+
+	const DirectX::BoundingBox& GetAABB()
+	{
+		return ColData_.AABB;
+	}
 
 private: // 내부처리
 	void AllChildCalculationScaling();									// 모든 자식의 크기변화를 계산(부모가 존재한다면 부모행렬의 영향을 받음)
