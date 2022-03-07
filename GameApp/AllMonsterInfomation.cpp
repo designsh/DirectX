@@ -32,16 +32,15 @@ void AllMonsterInfomation::CreateAllMonsterInfomation(bool _ExcelFile)
 	// 모든 클래스의 스킬을 모두 로드하여 정보로 관리
 	if (true == _ExcelFile)
 	{
-		// .dat 파일 만들어놓으려고 하는거임(테스트용)
+		// ExcelDataFile 수정시 해당 기능으로 바이너리 파일생성 필요
 		LoadMonsterExcelFile();
+		SaveMonsterBinaryFile();
 	}
 	else
 	{
 		// 실질적으로 이걸로 할꺼임
 		LoadMonsterBinaryFile();
 	}
-
-	SaveMonsterBinaryFile();
 }
 
 void AllMonsterInfomation::LoadMonsterExcelFile()
@@ -73,11 +72,11 @@ void AllMonsterInfomation::LoadMonsterExcelFile()
 		ExcelFile->SetVisible(false);
 		ExcelFile->SetActiveSheet(1);
 
-		// 모든 컬럼과 로우를 검사하여 스킬정보로드
+		// 모든 컬럼과 로우를 검사하여 몬스터정보로드
 		char ColRowName[MAX_PATH] = {};
 		char RowNumber[MAX_PATH] = {};
 		int RowNo = 1;
-		for (int j = 0; j < MONSTER_MAX; ++j)
+		for (int j = 0; j < static_cast<int>(MonsterClassType::MAX); ++j)
 		{
 			memset(ColRowName, 0, sizeof(ColRowName));
 			ColRowName[0] = 'A' + j;

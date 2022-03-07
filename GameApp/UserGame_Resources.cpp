@@ -50,7 +50,7 @@ void UserGame::ResourcesLoad()
 	AllMonsterInfomation::GetInst().CreateAllMonsterInfomation();
 
 	// 구현하려는 모든 NPC 정보
-
+	AllNPCInfomation::GetInst().CreateAllNPCInfomation();
 
 	// ======================================================= Rectagle Rendering ======================================================= // 
 	// Vertex Buffer 생성

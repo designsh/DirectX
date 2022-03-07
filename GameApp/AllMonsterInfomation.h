@@ -2,8 +2,6 @@
 #include "MainPlayerInfomation.h"
 #include <GameEngineBase/ExcelControl.h>
 
-#define MONSTER_MAX 6
-
 // 몬스터 클래스
 enum class MonsterClassType
 {
@@ -12,7 +10,8 @@ enum class MonsterClassType
 	Fallen,						// 
 	Tainted,						// 
 	Andariel,					// 
-	Diablo						// 
+	Diablo,						// 
+	MAX,
 };
 
 // 몬스터 타입

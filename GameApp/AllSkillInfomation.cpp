@@ -42,16 +42,15 @@ void AllSkillInfomation::CreateAllSkillInfomation(bool _ExcelFile)
 	// 모든 클래스의 스킬을 모두 로드하여 정보로 관리
 	if (true == _ExcelFile)
 	{
-		// .dat 파일 만들어놓으려고 하는거임(테스트용)
+		// ExcelDataFile 수정시 해당 기능으로 바이너리 파일생성 필요
 		LoadSkillExcelFile();
+		SaveSkillBinaryFile();
 	}
 	else
 	{
 		// 실질적으로 이걸로 할꺼임
 		LoadSkillBinaryFile();
 	}
-
-	SaveSkillBinaryFile();
 }
 
 void AllSkillInfomation::LoadSkillExcelFile()
