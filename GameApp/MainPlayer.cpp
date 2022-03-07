@@ -73,9 +73,19 @@ void MainPlayer::Start()
 		GameEngineInput::GetInst().CreateKey("NextDirect", '1');
 	}
 
+	if (false == GameEngineInput::GetInst().IsKey("PrevDirect"))
+	{
+		GameEngineInput::GetInst().CreateKey("PrevDirect", '2');
+	}
+
 	if (false == GameEngineInput::GetInst().IsKey("NextState"))
 	{
-		GameEngineInput::GetInst().CreateKey("NextState", '2');
+		GameEngineInput::GetInst().CreateKey("NextState", '3');
+	}
+
+	if (false == GameEngineInput::GetInst().IsKey("PrevState"))
+	{
+		GameEngineInput::GetInst().CreateKey("PrevState", '4');
 	}
 
 	//DirectText = static_cast<int>(CurDirect_);
@@ -96,13 +106,35 @@ void MainPlayer::Update(float _DeltaTime)
 		}
 	}
 
+	if (true == GameEngineInput::GetInst().Down("PrevDirect"))
+	{
+		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
+		--DirectText;
+
+		if (DirectText <= 0)
+		{
+			DirectText = static_cast<int>(TargetDirect::DIR_MAX) - 1;
+		}
+	}
+
 	if (true == GameEngineInput::GetInst().Down("NextState"))
 	{
-		DirectText = 0;
+		DirectText = 4;
 		++StateTest;
 		if (StateTest >= static_cast<int>(PlayerState::STAT_MAX))
 		{
 			StateTest = 0;
+		}
+		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
+	}
+
+	if (true == GameEngineInput::GetInst().Down("PrevState"))
+	{
+		DirectText = 4;
+		--StateTest;
+		if (StateTest < 0)
+		{
+			StateTest = static_cast<int>(PlayerState::STAT_MAX) - 1;
 		}
 		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
 	}

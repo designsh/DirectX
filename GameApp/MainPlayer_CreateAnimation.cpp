@@ -547,14 +547,14 @@ void MainPlayer::CreateDDAnimation()
 	// =========================== x :  1, y : 16 ============================ //
 
 	// =============================== LIT =============================== //
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_LB", 0, 0, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_LT", 1, 1, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_RT", 2, 2, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_RB", 3, 3, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_B", 4, 4, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_L", 5, 5, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_T", 6, 6, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_R", 7, 7, 0.1f);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_LB", 0, 0, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_LT", 1, 1, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_RT", 2, 2, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_RB", 3, 3, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_B", 4, 4, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_L", 5, 5, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_T", 6, 6, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Dead_TR_R", 7, 7, 0.1f, false);
 
 	// =============================== HVY =============================== //
 	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Dead_TR_LB", 0, 0, 0.1f);
@@ -572,24 +572,24 @@ void MainPlayer::CreateDTAnimation()
 	// =========================== x : 27, y : 16 ============================ //
 
 	// =============================== LIT =============================== //
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_LB", 0, 26, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_LT", 27, 53, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_RT", 54, 80, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_RB", 81, 107, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_B", 108, 134, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_L", 135, 161, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_T", 162, 188, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_R", 189, 215, 0.1f);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_LB", 0, 26, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_LT", 27, 53, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_RT", 54, 80, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_RB", 81, 107, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_B", 108, 134, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_L", 135, 161, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_T", 162, 188, 0.1f, false);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("LIT_Death_TR_R", 189, 215, 0.1f, false);
 
 	// =============================== HVY =============================== //
-	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_LB", 0, 26, 0.1f);
-	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_LT", 27, 53, 0.1f);
-	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_RT", 54, 80, 0.1f);
-	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_RB", 81, 107, 0.1f);
-	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_B", 108, 134, 0.1f);
-	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_L", 135, 161, 0.1f);
-	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_T", 162, 188, 0.1f);
-	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_R", 189, 215, 0.1f);
+	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_LB", 0, 26, 0.1f, false);
+	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_LT", 27, 53, 0.1f, false);
+	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_RT", 54, 80, 0.1f, false);
+	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_RB", 81, 107, 0.1f, false);
+	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_B", 108, 134, 0.1f, false);
+	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_L", 135, 161, 0.1f, false);
+	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_T", 162, 188, 0.1f, false);
+	//PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_->CreateAnimation("HVY_Death_TR_R", 189, 215, 0.1f, false);
 }
 
 void MainPlayer::CreateGHAnimation()
