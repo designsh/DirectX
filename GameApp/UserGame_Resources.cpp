@@ -47,7 +47,7 @@ void UserGame::ResourcesLoad()
 	AllItemInfomation::GetInst().CreateAllItemInfomation();
 
 	// 구현하려는 모든 몬스터 정보
-
+	AllMonsterInfomation::GetInst().CreateAllMonsterInfomation();
 
 	// 구현하려는 모든 NPC 정보
 

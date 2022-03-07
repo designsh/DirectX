@@ -35,7 +35,7 @@ public:
 private:	// member Var
 	std::vector<AllSkillInfo> AllSkillInfo_;
 	int ClassCount_;
-	bool ZFlag_;
+	bool ExcelZFlag_;
 	
 private:
 	AllSkillInfomation();

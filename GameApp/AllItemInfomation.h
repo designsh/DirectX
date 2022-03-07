@@ -31,7 +31,7 @@ private:	// member Var
 	std::vector<ItemList> AllItemList_;
 
 private:
-	bool ZFlag_;
+	bool ExcelZFlag_;
 
 private:
 	AllItemInfomation();

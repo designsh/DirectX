@@ -45,9 +45,12 @@ void MainPlayer::Start()
 
 	// 인벤토리창
 
-	// TEST(원래는 캐릭터생성화면에서 해당 함수 호출됨)
-	//MainPlayerInfomation::GetInst().CreateMainPlayerInfo("aaaa", JobType::Necromancer);
 
+
+
+
+	// TEST 용
+	//MainPlayerInfomation::GetInst().CreateMainPlayerInfo("aaaa", JobType::Necromancer);
 	if (false == GameEngineInput::GetInst().IsKey("NextAnimation"))
 	{
 		GameEngineInput::GetInst().CreateKey("NextAnimation", '1');

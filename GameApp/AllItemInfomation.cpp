@@ -4,7 +4,7 @@
 AllItemInfomation* AllItemInfomation::Inst = new AllItemInfomation();
 
 AllItemInfomation::AllItemInfomation() :
-	ZFlag_(false)
+	ExcelZFlag_(false)
 {
 }
 
@@ -69,7 +69,7 @@ void AllItemInfomation::LoadItemExcelFile()
 	// 로드해야하는 시트는 한개
 	if (1 == ExcelFile->Open(chFullPath))
 	{
-		// SkillInfo.xlsx 파일의 시트는 총 1개
+		// ItemInfo.xlsx 파일의 시트는 총 1개
 		ExcelFile->SetVisible(false);
 		ExcelFile->SetActiveSheet(1);
 
@@ -81,7 +81,7 @@ void AllItemInfomation::LoadItemExcelFile()
 		{
 			memset(ColRowName, 0, sizeof(ColRowName));
 			ColRowName[0] = 'A' + j;
-			if (ZFlag_) // 컬럼 Z가 넘어가면 A1 식으로 컬럼진행이므로 체크한다.
+			if (ExcelZFlag_) // 컬럼 Z가 넘어가면 A1 식으로 컬럼진행이므로 체크한다.
 			{
 				ColRowName[0] = 'A';
 				ColRowName[1] = 'A' + (j - 26);
@@ -95,7 +95,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템 영어명
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -109,7 +109,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템 한글명(저장안함)
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -126,7 +126,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템코드
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -142,7 +142,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템타입
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -160,7 +160,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템위치(인벤토리, 하단상태바, 창고, 판매창)
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -176,7 +176,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 각각의 창에서 시작하는 위치의 인덱스
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -192,7 +192,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템넓이 -> 이벤토리 or 창고 or 판매창에서 차지하는 너비칸수
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -208,7 +208,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템높이 -> 이벤토리 or 창고 or 판매창에서 차지하는 높이칸수
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -226,7 +226,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 내구도 사용여부 판단(TRUE : 내구도사용)
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -249,7 +249,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 최대 내구도
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -265,7 +265,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 현재 내구도
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -281,7 +281,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 피격차단확률
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -297,7 +297,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템무게(플레이어 이동속도 감소)
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -313,7 +313,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템 비용(판매창에서 판매하는 비용)
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -329,7 +329,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템 장착시 증가공격력
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -345,7 +345,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 아이템 장착시 증가방어력
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -361,7 +361,7 @@ void AllItemInfomation::LoadItemExcelFile()
 			// 회복량(포션용) : 퍼센트
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-			if (ZFlag_)
+			if (ExcelZFlag_)
 				memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 			else
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -383,11 +383,11 @@ void AllItemInfomation::LoadItemExcelFile()
 
 			if (ColRowName[0] == 'Z')
 			{
-				ZFlag_ = true;
+				ExcelZFlag_ = true;
 			}
 		}
 
-		ZFlag_ = false;
+		ExcelZFlag_ = false;
 
 		// 파일 종료 및 권한 모두 릴리즈
 		ExcelFile->Close();

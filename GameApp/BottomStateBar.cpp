@@ -28,7 +28,7 @@ void BottomStateBar::Start()
 	BottomStateBar_->GetTransform()->SetLocalScaling(float4(WindowSize.x, ImageSize.y));
 	BottomStateBar_->GetTransform()->SetLocalPosition(float4(0.f, ImageHarfSize.y - WindowHarfSize.y));
 
-	// 액터 한개로 할지 쪼갤지 고민중......
+	// 관련 액터 생성
 	
 	// 왼쪽무기 활성화 스킬버튼
 

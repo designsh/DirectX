@@ -10,6 +10,9 @@ class BottomStateBar : public GameEngineActor
 private:	// member Var
 	GameEngineUIRenderer* BottomStateBar_;
 
+private:
+
+
 public:
 	BottomStateBar();
 	~BottomStateBar();

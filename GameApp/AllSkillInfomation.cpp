@@ -7,7 +7,7 @@ AllSkillInfomation* AllSkillInfomation::Inst = new AllSkillInfomation();
 
 AllSkillInfomation::AllSkillInfomation() :
 	ClassCount_(5),
-	ZFlag_(false)
+	ExcelZFlag_(false)
 {
 }
 
@@ -129,7 +129,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 			{
 				memset(ColRowName, 0, sizeof(ColRowName));
 				ColRowName[0] = 'A' + j;
-				if (ZFlag_) // 컬럼 Z가 넘어가면 A1 식으로 컬럼진행이므로 체크한다.
+				if (ExcelZFlag_) // 컬럼 Z가 넘어가면 A1 식으로 컬럼진행이므로 체크한다.
 				{
 					ColRowName[0] = 'A';
 					ColRowName[1] = 'A' + (j - 26);
@@ -142,7 +142,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬명
 				memset(RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -156,7 +156,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬코드
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -172,7 +172,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬타입
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -188,7 +188,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 플레이어 스킬창의 속한 페이지 No
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -204,7 +204,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 플레이어 스킬창의 속한 페이지의 Row
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -220,7 +220,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 플레이어 스킬창의 속한 페이지의 Column
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -236,7 +236,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬 활성화 조건(스킬레벨)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -252,7 +252,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬 활성화 조건(선행스킬이름1)
 				memset(RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -266,7 +266,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬 활성화 조건(선행스킬코드1)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -282,7 +282,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬 활성화 조건(선행스킬이름2)
 				memset(RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -296,7 +296,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬 활성화 조건(선행스킬코드2)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -312,7 +312,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬 활성화 조건(선행스킬이름3)
 				memset(RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -326,7 +326,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬 활성화 조건(선행스킬코드3)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -342,7 +342,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 최대 스킬레벨
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -358,7 +358,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 현재 스킬레벨
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -374,7 +374,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬사용가능여부(초기에 0번스킬인 일반공격만 TRUE 상태)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -393,7 +393,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 벽을 넘을수있는 스킬인지 판단(TURE : 벽통과가능)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -412,7 +412,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬 시전중 플레이어가 피격상태가 되면 해당 스킬시전이 취소되는지 판단(TRUE : 취소됨)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -431,7 +431,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 마을내에서 사용가능한 스킬인지 판단(TRUE : 마을내 사용가능)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -450,7 +450,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬이 패시브 스킬인지 판단(TRUE : 패시브스킬로 판단) - 플레이어 버프용
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -469,7 +469,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬이 디버프 스킬인지 판단(TRUE : 디버프스킬) - 몬스터 디버프용
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -488,7 +488,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬 사용시 마나소모여부 판단(TRUE : 마나소모함)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -507,7 +507,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 왼쪽무기에 장착가능한 스킬인지 판단(TRUE : 사용가능)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -526,7 +526,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬이 몬스터 시체에 시전가능한 스킬인지 판단(TRUE : 시전가능) - 소환수 스킬전용
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -545,7 +545,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 패시브 타입
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -561,7 +561,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬레벨당 라이프 증가량
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -577,7 +577,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬레벨당 보너스 라이프 증가량(시체로 선택된 몬스터의 본래체력의 퍼센트 : 100% 기준)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -593,7 +593,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬레벨당 이동속도 증가량(100% 기준)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -609,7 +609,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬레벨당 데미지 증가량
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -625,7 +625,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬레벨당 모든속성 저항력 증가량(100% 기준)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -641,7 +641,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬을 맞은 몬스터가 받는 디버프효과 타입
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -657,7 +657,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 해당 스킬시전시 플레이어가 받는 버프효과 타입
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -673,7 +673,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 지속시간(1레벨값) - 100% 기준(값 / 100)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -689,7 +689,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬레벨당 디버프 지속시간 증가량 - 100% 기준(값 / 100)
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -705,7 +705,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 디버프 타입의 데미지
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -721,7 +721,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬레벨당 디버프 타입의 데미지 증가량
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -737,7 +737,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 마나소모량
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -753,7 +753,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬 데미지
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -769,7 +769,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				// 스킬 시전 딜레이시간
 				memset(&RowNumber, 0, sizeof(RowNumber));
 				strcpy_s(RowNumber, std::to_string(RowNo).c_str());
-				if (ZFlag_)
+				if (ExcelZFlag_)
 					memset(&ColRowName[2], 0, sizeof(ColRowName) - 2);
 				else
 					memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
@@ -792,14 +792,14 @@ void AllSkillInfomation::LoadSkillExcelFile()
 
 				if (ColRowName[0] == 'Z')
 				{
-					ZFlag_ = true;
+					ExcelZFlag_ = true;
 				}
 			}
 
 			// 로드완료한 시트(클래스)의 스킬정보를 멤버변수(관리용)에 저장
 			AllSkillInfo_.push_back(NewAllSkill);
 
-			ZFlag_ = false;
+			ExcelZFlag_ = false;
 		}
 
 		// 파일 종료 및 권한 모두 릴리즈
