@@ -9,13 +9,16 @@ class GameEngineUIRenderer;
 class CreateCharacterInputText : public GameEngineActor
 {
 private:
-	static std::string InputID;
+	static std::string InputText;
 
 public:
 	static std::string GetInputID();
 
 private:	// member Var
 	GameEngineUIRenderer* IDInput_;
+
+private:
+	bool InputBoxActive_;
 
 public:
 	CreateCharacterInputText();
@@ -34,5 +37,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void CharacterIDInput();
 };
 

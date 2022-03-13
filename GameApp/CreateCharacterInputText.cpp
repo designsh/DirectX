@@ -3,15 +3,16 @@
 
 #include <GameEngine/GameEngineUIRenderer.h>
 
-std::string CreateCharacterInputText::InputID = "";
+std::string CreateCharacterInputText::InputText = "";
 
 std::string CreateCharacterInputText::GetInputID()
 {
-	return InputID;
+	return InputText;
 }
 
 CreateCharacterInputText::CreateCharacterInputText() :
-	IDInput_(nullptr)
+	IDInput_(nullptr),
+	InputBoxActive_(false)
 {
 }
 
@@ -38,7 +39,24 @@ void CreateCharacterInputText::Start()
 void CreateCharacterInputText::Update(float _DeltaTime)
 {
 	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 입력창 활성화
-	// 활성화된 입력창에 키보드를 이용하여 입력가능
-	// 입력마다 InputID에 저장
+	// 활성화된 입력창에 키보드를 이용하여 입력가능상태로 전환 : InputBoxActive_ = true;
+	
+
+
+
+	// 입력가능 상태라면 입력마다 InputID에 저장
+	if (true == InputBoxActive_)
+	{
+		CharacterIDInput();
+	}
+}
+
+void CreateCharacterInputText::CharacterIDInput()
+{
+	// 키보드 키 입력을 받아와서 InputID에 저장하며,
+	// InputID를 실시간으로 업데이트하여 화면에 표시
+	// 글자수제한 걸기!!!
+
+
 
 }

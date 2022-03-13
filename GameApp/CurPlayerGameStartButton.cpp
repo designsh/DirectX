@@ -8,6 +8,7 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 
 #include "UserGame.h"
+#include "ErrorMsgPopup.h"
 
 bool CurPlayerGameStartButton::ClassSelect_ = false;
 
@@ -92,16 +93,13 @@ void CurPlayerGameStartButton::GameStartConditionCheck()
 	{
 		// 현재 선택된 직업이 없으면 경고장 표시
 		// 플레이하려는 클래스를 선택하십시오!!!!!
-
-
-
+		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
+		ErrorMsg->ErrorMsgPopupActive("Please select a Class(Job)!!!!");
 	}
 }
 
 void CurPlayerGameStartButton::CheckSameID()
 {
-	bool CheckFlag = false;
-
 	// 버튼클릭 시점에 호출되며, 지정된 경로에 해당 ID와 같은이름이 존재한다면
 	// 경고창을 화면에 표시하며, 존재하지않다면 해당 ID로 파일을 생성
 
@@ -110,26 +108,24 @@ void CurPlayerGameStartButton::CheckSameID()
 	if (true == CurID.empty()) // 입력한 ID가 없다면 경고창 표시
 	{
 		// ID를 입력하시오!!!! 경고창 표시
+		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
+		ErrorMsg->ErrorMsgPopupActive("Please enter your character ID!!!!");
 
-
-		CheckFlag = true;
+		return;
 	}
 
 	// 2. 해당 ID를 파일명으로 가지는 파일이 존재하는지 탐색
 	if (true == DefaultPathFileNameCheck(CurID))
 	{
 		// 같은 ID의 플레이어가 이미 존재합니다!!!! 경고창 표시
+		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
+		ErrorMsg->ErrorMsgPopupActive("This ID already exists.Please enter a new ID");
 
-
-		// 플레이어 정보 생성 실패 Flag On
-		CheckFlag = true;
+		return;
 	}
 
 	// 3. 동일한 ID가 없다면 플레이어 정보 생성
-	if (false == CheckFlag)
-	{
-		CreateCurPlayer(CurID);
-	}
+	CreateCurPlayer(CurID);
 }
 
 bool CurPlayerGameStartButton::DefaultPathFileNameCheck(const std::string& _PlayerID)

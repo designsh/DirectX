@@ -170,8 +170,14 @@
     <ClCompile Include="ClassSelectObject.cpp">
       <Filter>Object\Actor\02.CreateCharacter\06.ClassSelectAnimation</Filter>
     </ClCompile>
-    <ClCompile Include="ErrorMsgView.cpp">
-      <Filter>Object\Actor\00.Global\99.ErrorMsgView</Filter>
+    <ClCompile Include="ErrorMsgPopup.cpp">
+      <Filter>Object\Actor\00.Global\99.ErrorMsgPopup</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorMsgPanel.cpp">
+      <Filter>Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorMsgButton.cpp">
+      <Filter>Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -505,8 +511,14 @@
     <Filter Include="Object\Actor\02.CreateCharacter\06.ClassSelectAnimation">
       <UniqueIdentifier>{e30b6761-9065-43af-a035-0a106ed54391}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\99.ErrorMsgView">
+    <Filter Include="Object\Actor\00.Global\99.ErrorMsgPopup">
       <UniqueIdentifier>{09236cc2-ed37-4122-8fa3-d27524e1e815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgPanel">
+      <UniqueIdentifier>{3754506e-65fe-4b92-8108-98db5b1a0b48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgButton">
+      <UniqueIdentifier>{f14ad536-e524-423f-aa25-2ce87c17377e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -669,8 +681,14 @@
     <ClInclude Include="ClassSelectObject.h">
       <Filter>Object\Actor\02.CreateCharacter\06.ClassSelectAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="ErrorMsgView.h">
-      <Filter>Object\Actor\00.Global\99.ErrorMsgView</Filter>
+    <ClInclude Include="ErrorMsgPopup.h">
+      <Filter>Object\Actor\00.Global\99.ErrorMsgPopup</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorMsgPanel.h">
+      <Filter>Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorMsgButton.h">
+      <Filter>Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgButton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
