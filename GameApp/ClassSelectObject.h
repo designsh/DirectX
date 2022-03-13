@@ -26,7 +26,7 @@ class GameEngineImageRenderer;
 class ClassSelectObject : public GameEngineActor
 {
 private: // 해당 클래스를 사용하는 객체가 한개의 값을 가지도록 멤버전역변수로 선언 
-	static JobType SelClassID;
+	static JobType SelectClassType;
 
 public:
 	static JobType GetSelectClass();

@@ -5,11 +5,11 @@
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
-JobType ClassSelectObject::SelClassID = JobType::None;
+JobType ClassSelectObject::SelectClassType = JobType::None;
 
 JobType ClassSelectObject::GetSelectClass()
 {
-	return SelClassID;
+	return SelectClassType;
 }
 
 ClassSelectObject::ClassSelectObject() :
@@ -281,6 +281,8 @@ void ClassSelectObject::SelectEnd()
 
 void ClassSelectObject::CurClassSelect()
 {
+	bool ChangeFlag = false;
+
 	std::string EntityName = JobName_;
 	EntityName += "Entity";
 
@@ -300,7 +302,7 @@ void ClassSelectObject::CurClassSelect()
 			SelectState_ = CurSelectState::SelStart;
 
 			// 선택했으므로 해당 직업타입을 넘긴다.
-			SelClassID = JobType_;
+			SelectClassType = JobType_;
 
 			// 확인버튼 활성화
 			CurPlayerGameStartButton::UserClassSelect();
@@ -316,7 +318,7 @@ void ClassSelectObject::CurClassSelect()
 			SelectState_ = CurSelectState::SelDeslect;
 
 			// 선택해제 했으므로 선택하지않은 상태로 값을 넘긴다.
-			SelClassID = JobType::None;
+			SelectClassType = JobType::None;
 
 			// 확인버튼 비활성화
 			CurPlayerGameStartButton::UserClassDeselect();
@@ -326,17 +328,21 @@ void ClassSelectObject::CurClassSelect()
 		case CurSelectState::SelStart:
 		{
 			// 현재 선택해제 상태 or 선택시작 상태라면 무시
+			ChangeFlag = true;
 			break;
 		}
 	}
 
-	ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetImage(EntityName + ".png", float4(256.f, 256.f, 1.f));
-	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetImage(EffectName + ".png", float4(256.f, 256.f, 1.f));
+	if (false == ChangeFlag)
+	{
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetImage(EntityName + ".png", float4(256.f, 256.f, 1.f));
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetImage(EffectName + ".png", float4(256.f, 256.f, 1.f));
 
-	ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(EntityName);
-	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(EffectName);
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(EntityName);
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(EffectName);
 
-	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
+	}
 }
 
 void ClassSelectObject::ChangeAnimation(CurSelectState _SelectState)
