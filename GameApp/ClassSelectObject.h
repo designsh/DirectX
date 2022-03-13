@@ -3,21 +3,47 @@
 
 #include "MainPlayerInfomation.h"
 
+enum class ClassRendererType
+{
+	ENTITY,
+	EFFECT,
+	MAX
+};
+
+enum class CurSelectState
+{
+	NotSel,
+	SelStart,
+	SelDefault,
+	SelDeslect,
+	MAX,
+};
+
 // 분류 : 애니메이션
 // 용도 : 직업선택
 // 설명 : 마우스와 충돌중이며 마우스 왼쪽버튼 클릭시 해당 직업(클래스)를 선택하는것으로 판단
 class GameEngineImageRenderer;
 class ClassSelectObject : public GameEngineActor
 {
-private:
+private: // 해당 클래스를 사용하는 객체가 한개의 값을 가지도록 멤버전역변수로 선언 
 	static JobType SelClassID;
 
 public:
 	static JobType GetSelectClass();
 
 private:	// member Var
-	GameEngineImageRenderer* ClassEntityRenderer_;
-	GameEngineImageRenderer* ClassEffectRenderer_;
+	GameEngineImageRenderer* ClassRenderer[static_cast<int>(ClassRendererType::MAX)];
+
+private:
+	std::string TextureName_[static_cast<int>(CurSelectState::MAX)];
+
+private:
+	CurSelectState SelectState_;
+	JobType JobType_;
+	std::string JobName_;
+
+private: // TEST
+	int TESTIndex_ = 0;
 
 public:
 	ClassSelectObject();
@@ -36,6 +62,14 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
-	void CreateClassRenderer(JobType _JobType, const float4& _Pos, const float4& _Size);
+	void CreateClassRenderer(const float4& _Pos, JobType _JobType = JobType::Necromancer, CurSelectState _FirstTextureType = CurSelectState::NotSel);
+
+public:
+	void DeSelectEnd();
+	void SelectEnd();
+
+public:
+	void CurClassSelect();
+	void ChangeAnimation(CurSelectState _SelectType);
 };
 

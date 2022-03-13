@@ -370,6 +370,16 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 	// 자동 프레임 진행
 	if (false == Manual)
 	{
+		if (nullptr == FolderTextures_)
+		{
+			Renderer_->SetIndex(CurFrame_);
+		}
+		else
+		{
+			Renderer_->CutData_ = float4(0, 0, 1, 1);
+			Renderer_->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
+		}
+
 		CurTime_ -= _DeltaTime;
 		if (CurTime_ <= 0.0f)
 		{
@@ -393,15 +403,5 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		}
 
 		CallFrame();
-
-		if (nullptr == FolderTextures_)
-		{
-			Renderer_->SetIndex(CurFrame_);
-		}
-		else
-		{
-			Renderer_->CutData_ = float4(0, 0, 1, 1);
-			Renderer_->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
-		}
 	}
 }

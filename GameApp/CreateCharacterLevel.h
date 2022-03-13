@@ -20,6 +20,9 @@ private:		//delete operator
 	CreateCharacterLevel& operator=(const CreateCharacterLevel& _other) = delete;
 	CreateCharacterLevel& operator=(const CreateCharacterLevel&& _other) = delete;
 
+public: 
+	void ClassImageCutting();
+
 public:
 	virtual void LevelChangeEndEvent() override;
 	virtual void LevelChangeStartEvent() override;
