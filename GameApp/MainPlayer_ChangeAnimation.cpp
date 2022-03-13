@@ -32,31 +32,43 @@ std::string MainPlayer::ChangeStateCheck(RendererPartType _PartType)
 {
 	int Index = static_cast<int>(_PartType);
 
-	// 플레이어가 LIT_(기본), HVY_(아이템착용) 인지 체크하여 텍스쳐명을 편집하고,
+	// 플레이어가 각 부위별 아이템 착용여부에 따라 애니메이션 및 이미지 이름이 정해진다.
 	std::string EquipStateName = "";
+
+	// 해당 부위가 아이템 착용중이라면
 	if (ItemEquipState::TP_HVY == PartRenderer_[Index].ItemEquipState_)
 	{
-		// 단, PART_SH는 HVY_ 상태일때 화면에 보여야하므로 ON() 한다.
-		if (Index == static_cast<int>(RendererPartType::PART_SH))
+		// 해당 부위가 아이템 착용중이기때문에 아이템 미착용 렌더러 off 상태로 전환되며,
+		// 해당 타입의 렌더러는 on상태로 전환
+		PartRenderer_[Index].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->Off();
+		PartRenderer_[Index].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->On();
+
+		// 단, LIT_ 일때 PART_SH 는 OFF 상태이므로 ON상태로 변경한다.
+		if (_PartType == RendererPartType::PART_SH)
 		{
-			PartRenderer_[Index].Renderer_->On();
+			PartRenderer_[Index].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->On();
 		}
 
 		PartRenderer_[Index].ItemEquipState_ = ItemEquipState::TP_HVY;
 		EquipStateName = "HVY_";
 	}
-	else
+	else // 해당 부위가 아이템 미착용중이라면
 	{
-		// 단, PART_SH는 LIT_ 상태일때 화면에 보이지않아야하므로 OFF() 한다.
-		if (Index == static_cast<int>(RendererPartType::PART_SH))
+		// 해당 부위가 아이템 미착용중이기때문에 아이템 착용 렌더러 off상태로 전환되며,
+		// 해당 타입의 렌더러는 on상태 전환
+		PartRenderer_[Index].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->On();
+		PartRenderer_[Index].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->Off();
+
+		// 단, LIT_ 일때 PART_SH 는 OFF 상태
+		if (_PartType == RendererPartType::PART_SH)
 		{
-			PartRenderer_[Index].Renderer_->Off();
+			PartRenderer_[Index].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->Off();
 		}
 
 		PartRenderer_[Index].ItemEquipState_ = ItemEquipState::TP_LIT;
 		EquipStateName = "LIT_";
 	}
-
+	
 	// 변경하려는 모션상태
 	std::string StateName = StateName_[static_cast<int>(CurState_)];
 	StateName += "_";
@@ -268,21 +280,40 @@ void MainPlayer::ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _M
 				continue;
 			}
 
-			// 시체모션상태 또는 사망모션상태라면 TR을 제외한 모두 Off상태가 되며, 텍스쳐를 셋팅하지않는다.
+			// 시체모션상태 또는 사망모션상태라면 TR을 제외한 모두 Off상태가 되며, TR을 제외한 모든 텍스쳐를 셋팅하지않는다.
 			if ( (PlayerState::STAT_DD == CurState_ && i != static_cast<int>(RendererPartType::PART_TR)) 
 				|| (PlayerState::STAT_DT == CurState_ && i != static_cast<int>(RendererPartType::PART_TR)) )
 			{
-				PartRenderer_[i].Renderer_->Off();
+				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->Off();
+				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->Off();
 				continue;
 			}
 
+			// 사망모션 or 시체모션이 아니라면 모든 렌더러는 On상태로 전환
+			// 단, 해당 부위 렌더러의 아이템 착용여부에 따라 On상태로 전환되는 렌더러를 정한다.
 			if ((PlayerState::STAT_DD != CurState_) || (PlayerState::STAT_DT != CurState_))
 			{
-				PartRenderer_[i].Renderer_->On();
+				if (PartRenderer_[i].ItemEquipState_ == ItemEquipState::TP_HVY)
+				{
+					PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->On();
+				}
+				else
+				{
+					PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->On();
+				}
 			}
 
-			PartRenderer_[i].Renderer_->SetImage(TextureName);
-			PartRenderer_[i].Renderer_->GetTransform()->SetLocalScaling(PlayerSize_);
+			// 아이템 착용 / 아이템 미착용 타입에 따라 설정
+			if (ItemEquipState::TP_HVY == PartRenderer_[i].ItemEquipState_)
+			{
+				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetImage(TextureName);
+				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalScaling(PlayerSize_);
+			}
+			else
+			{
+				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetImage(TextureName);
+				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetLocalScaling(PlayerSize_);
+			}
 		}
 	}
 	else // 모션변경이 없을때 텍스쳐명이 저장안되어있는 경우를 대비하여 텍스쳐명칭을 다시 세팅해준다.
@@ -311,6 +342,14 @@ void MainPlayer::ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _M
 			continue;
 		}
 
-		PartRenderer_[i].Renderer_->SetChangeAnimation(AnimationName);
+		// 아이템 착용 / 아이템 미착용 타입에 따라 설정
+		if (ItemEquipState::TP_HVY == PartRenderer_[i].ItemEquipState_)
+		{
+			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation(AnimationName);
+		}
+		else
+		{
+			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation(AnimationName);
+		}
 	}
 }

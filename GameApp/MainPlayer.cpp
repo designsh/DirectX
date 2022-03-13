@@ -9,8 +9,8 @@
 MainPlayer::MainPlayer() :
 	PrevDirect_(TargetDirect::None),
 	CurDirect_(TargetDirect::None),
-	PrevState_(PlayerState::STAT_TN),
-	CurState_(PlayerState::STAT_TN),
+	PrevState_(PlayerState::STAT_A1),
+	CurState_(PlayerState::STAT_A1),
 	StateName_(),
 	BottomStateBar_(nullptr),
 	PlayerSize_(float4::ZERO)
@@ -89,7 +89,7 @@ void MainPlayer::Start()
 	}
 
 	//DirectText = static_cast<int>(CurDirect_);
-	StateTest = static_cast<int>(PlayerState::STAT_TN);
+	StateTest = static_cast<int>(PlayerState::STAT_A1);
 }
 
 void MainPlayer::Update(float _DeltaTime)

@@ -30,54 +30,54 @@ void MainPlayer::AnimationA1Cut()
 	// HD(머리)
 	GameEngineTexture* LIT_A1_HD = GameEngineTextureManager::GetInst().Find("LIT_Attack1_HD.png");
 	LIT_A1_HD->Cut(19, 16);
-	//GameEngineTexture* HVY_A1_HD = GameEngineTextureManager::GetInst().Find("HVY_Attack1_HD.png");
-	//HVY_A1_HD->Cut(19, 16);
+	GameEngineTexture* HVY_A1_HD = GameEngineTextureManager::GetInst().Find("HVY_Attack1_HD.png");
+	HVY_A1_HD->Cut(19, 16);
 
 	// LA(왼팔)
 	GameEngineTexture* LIT_A1_LA = GameEngineTextureManager::GetInst().Find("LIT_Attack1_LA.png");
 	LIT_A1_LA->Cut(19, 16);
-	//GameEngineTexture* HVY_A1_LA = GameEngineTextureManager::GetInst().Find("HVY_Attack1_LA.png");
-	//HVY_A1_LA->Cut(19, 16);
+	GameEngineTexture* HVY_A1_LA = GameEngineTextureManager::GetInst().Find("HVY_Attack1_LA.png");
+	HVY_A1_LA->Cut(19, 16);
 
 	// LG(다리)
 	GameEngineTexture* LIT_A1_LG = GameEngineTextureManager::GetInst().Find("LIT_Attack1_LG.png");
 	LIT_A1_LG->Cut(19, 16);
-	//GameEngineTexture* HVY_A1_LG = GameEngineTextureManager::GetInst().Find("HVY_Attack1_LG.png");
-	//HVY_A1_LG->Cut(19, 16);
+	GameEngineTexture* HVY_A1_LG = GameEngineTextureManager::GetInst().Find("HVY_Attack1_LG.png");
+	HVY_A1_LG->Cut(19, 16);
 
 	// RA(오른팔)
 	GameEngineTexture* LIT_A1_RA = GameEngineTextureManager::GetInst().Find("LIT_Attack1_RA.png");
 	LIT_A1_RA->Cut(19, 16);
-	//GameEngineTexture* HVY_A1_RA = GameEngineTextureManager::GetInst().Find("HVY_Attack1_RA.png");
-	//HVY_A1_RA->Cut(19, 16);
+	GameEngineTexture* HVY_A1_RA = GameEngineTextureManager::GetInst().Find("HVY_Attack1_RA.png");
+	HVY_A1_RA->Cut(19, 16);
 
 	// RH(무기)
 	GameEngineTexture* LIT_A1_RH = GameEngineTextureManager::GetInst().Find("LIT_Attack1_RH.png");
 	LIT_A1_RH->Cut(19, 16);
-	//GameEngineTexture* HVY_A1_RH = GameEngineTextureManager::GetInst().Find("HVY_Attack1_RH.png");
-	//HVY_A1_RH->Cut(19, 16);
+	GameEngineTexture* HVY_A1_RH = GameEngineTextureManager::GetInst().Find("HVY_Attack1_RH.png");
+	HVY_A1_RH->Cut(19, 16);
 
 	// S1(오른어깨)
 	GameEngineTexture* LIT_A1_S1 = GameEngineTextureManager::GetInst().Find("LIT_Attack1_S1.png");
 	LIT_A1_S1->Cut(19, 16);
-	//GameEngineTexture* HVY_A1_S1 = GameEngineTextureManager::GetInst().Find("HVY_Attack1_S1.png");
-	//HVY_A1_S1->Cut(19, 16);
+	GameEngineTexture* HVY_A1_S1 = GameEngineTextureManager::GetInst().Find("HVY_Attack1_S1.png");
+	HVY_A1_S1->Cut(19, 16);
 
 	// S2(왼어깨)
 	GameEngineTexture* LIT_A1_S2 = GameEngineTextureManager::GetInst().Find("LIT_Attack1_S2.png");
 	LIT_A1_S2->Cut(19, 16);
-	//GameEngineTexture* HVY_A1_S2 = GameEngineTextureManager::GetInst().Find("HVY_Attack1_S2.png");
-	//HVY_A1_S2->Cut(19, 16);
-
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_A1_SH = GameEngineTextureManager::GetInst().Find("HVY_Attack1_SH.png");
-	//HVY_A1_SH->Cut(19, 16);
+	GameEngineTexture* HVY_A1_S2 = GameEngineTextureManager::GetInst().Find("HVY_Attack1_S2.png");
+	HVY_A1_S2->Cut(19, 16);
 
 	// TR(몸통)
 	GameEngineTexture* LIT_A1_TR = GameEngineTextureManager::GetInst().Find("LIT_Attack1_TR.png");
 	LIT_A1_TR->Cut(19, 16);
-	//GameEngineTexture* HVY_A1_TR = GameEngineTextureManager::GetInst().Find("HVY_Attack1_TR.png");
-	//HVY_A1_TR->Cut(19, 16);
+	GameEngineTexture* HVY_A1_TR = GameEngineTextureManager::GetInst().Find("HVY_Attack1_TR.png");
+	HVY_A1_TR->Cut(19, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	GameEngineTexture* HVY_A1_SH = GameEngineTextureManager::GetInst().Find("HVY_Attack1_SH.png");
+	HVY_A1_SH->Cut(19, 16);
 }
 
 void MainPlayer::AnimationA2Cut()
@@ -126,15 +126,15 @@ void MainPlayer::AnimationA2Cut()
 	//GameEngineTexture* HVY_A2_S2 = GameEngineTextureManager::GetInst().Find("HVY_Attack2_S2.png");
 	//HVY_A2_S2->Cut(19, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_A2_SH = GameEngineTextureManager::GetInst().Find("HVY_Attack2_SH.png");
-	//HVY_A2_SH->Cut(19, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_A2_TR = GameEngineTextureManager::GetInst().Find("LIT_Attack2_TR.png");
 	LIT_A2_TR->Cut(19, 16);
 	//GameEngineTexture* HVY_A2_TR = GameEngineTextureManager::GetInst().Find("HVY_Attack2_TR.png");
 	//HVY_A2_TR->Cut(19, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_A2_SH = GameEngineTextureManager::GetInst().Find("HVY_Attack2_SH.png");
+	//HVY_A2_SH->Cut(19, 16);
 }
 
 void MainPlayer::AnimationBLCut()
@@ -183,15 +183,15 @@ void MainPlayer::AnimationBLCut()
 	//GameEngineTexture* HVY_BL_S2 = GameEngineTextureManager::GetInst().Find("HVY_Block_S2.png");
 	//HVY_BL_S2->Cut(6, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_BL_SH = GameEngineTextureManager::GetInst().Find("HVY_Block_SH.png");
-	//HVY_BL_SH->Cut(6, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_BL_TR = GameEngineTextureManager::GetInst().Find("LIT_Block_TR.png");
 	LIT_BL_TR->Cut(6, 16);
 	//GameEngineTexture* HVY_BL_TR = GameEngineTextureManager::GetInst().Find("HVY_Block_TR.png");
 	//HVY_BL_TR->Cut(6, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_BL_SH = GameEngineTextureManager::GetInst().Find("HVY_Block_SH.png");
+	//HVY_BL_SH->Cut(6, 16);
 }
 
 void MainPlayer::AnimationDDCut()
@@ -262,15 +262,15 @@ void MainPlayer::AnimationGHCut()
 	//GameEngineTexture* HVY_GH_S2 = GameEngineTextureManager::GetInst().Find("HVY_Gethit_S2.png");
 	//HVY_GH_S2->Cut(7, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_GH_SH = GameEngineTextureManager::GetInst().Find("HVY_Gethit_SH.png");
-	//HVY_GH_SH->Cut(7, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_GH_TR = GameEngineTextureManager::GetInst().Find("LIT_Gethit_TR.png");
 	LIT_GH_TR->Cut(7, 16);
 	//GameEngineTexture* HVY_GH_TR = GameEngineTextureManager::GetInst().Find("HVY_Gethit_TR.png");
 	//HVY_GH_TR->Cut(7, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_GH_SH = GameEngineTextureManager::GetInst().Find("HVY_Gethit_SH.png");
+	//HVY_GH_SH->Cut(7, 16);
 }
 
 void MainPlayer::AnimationKKCut()
@@ -319,15 +319,15 @@ void MainPlayer::AnimationKKCut()
 	//GameEngineTexture* HVY_KK_S2 = GameEngineTextureManager::GetInst().Find("HVY_Kick_S2.png");
 	//HVY_KK_S2->Cut(12, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_KK_SH = GameEngineTextureManager::GetInst().Find("HVY_Kick_SH.png");
-	//HVY_KK_SH->Cut(12, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_KK_TR = GameEngineTextureManager::GetInst().Find("LIT_Kick_TR.png");
 	LIT_KK_TR->Cut(12, 16);
 	//GameEngineTexture* HVY_KK_TR = GameEngineTextureManager::GetInst().Find("HVY_Kick_TR.png");
 	//HVY_KK_TR->Cut(12, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_KK_SH = GameEngineTextureManager::GetInst().Find("HVY_Kick_SH.png");
+	//HVY_KK_SH->Cut(12, 16);
 }
 
 void MainPlayer::AnimationNUCut()
@@ -376,15 +376,15 @@ void MainPlayer::AnimationNUCut()
 	//GameEngineTexture* HVY_NU_S2 = GameEngineTextureManager::GetInst().Find("HVY_Natural_Field_S2.png");
 	//HVY_NU_S2->Cut(8, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_NU_SH = GameEngineTextureManager::GetInst().Find("HVY_Natural_Field_SH.png");
-	//HVY_NU_SH->Cut(8, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_NU_TR = GameEngineTextureManager::GetInst().Find("LIT_Natural_Field_TR.png");
 	LIT_NU_TR->Cut(8, 16);
 	//GameEngineTexture* HVY_NU_TR = GameEngineTextureManager::GetInst().Find("HVY_Natural_Field_TR.png");
 	//HVY_NU_TR->Cut(8, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_NU_SH = GameEngineTextureManager::GetInst().Find("HVY_Natural_Field_SH.png");
+	//HVY_NU_SH->Cut(8, 16);
 }
 
 void MainPlayer::AnimationRNCut()
@@ -433,15 +433,15 @@ void MainPlayer::AnimationRNCut()
 	//GameEngineTexture* HVY_RN_S2 = GameEngineTextureManager::GetInst().Find("HVY_Run_S2.png");
 	//HVY_RN_S2->Cut(8, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_RN_SH = GameEngineTextureManager::GetInst().Find("HVY_Run_SH.png");
-	//HVY_RN_SH->Cut(8, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_RN_TR = GameEngineTextureManager::GetInst().Find("LIT_Run_TR.png");
 	LIT_RN_TR->Cut(8, 16);
 	//GameEngineTexture* HVY_RN_TR = GameEngineTextureManager::GetInst().Find("HVY_Run_TR.png");
 	//HVY_RN_TR->Cut(8, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_RN_SH = GameEngineTextureManager::GetInst().Find("HVY_Run_SH.png");
+	//HVY_RN_SH->Cut(8, 16);
 }
 
 void MainPlayer::AnimationS1Cut()
@@ -490,15 +490,15 @@ void MainPlayer::AnimationS1Cut()
 	//GameEngineTexture* HVY_S1_S2 = GameEngineTextureManager::GetInst().Find("HVY_Special_Attack_S2.png");
 	//HVY_S1_S2->Cut(16, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_S1_SH = GameEngineTextureManager::GetInst().Find("HVY_Special_Attack_SH.png");
-	//HVY_S1_SH->Cut(16, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_S1_TR = GameEngineTextureManager::GetInst().Find("LIT_Special_Attack_TR.png");
 	LIT_S1_TR->Cut(16, 16);
 	//GameEngineTexture* HVY_S1_TR = GameEngineTextureManager::GetInst().Find("HVY_Special_Attack_TR.png");
 	//HVY_S1_TR->Cut(16, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_S1_SH = GameEngineTextureManager::GetInst().Find("HVY_Special_Attack_SH.png");
+	//HVY_S1_SH->Cut(16, 16);
 }
 
 void MainPlayer::AnimationSCCut()
@@ -547,15 +547,15 @@ void MainPlayer::AnimationSCCut()
 	//GameEngineTexture* HVY_SC_S2 = GameEngineTextureManager::GetInst().Find("HVY_Special_Cast_S2.png");
 	//HVY_SC_S2->Cut(16, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_SC_SH = GameEngineTextureManager::GetInst().Find("HVY_Special_Cast_SH.png");
-	//HVY_SC_SH->Cut(16, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_SC_TR = GameEngineTextureManager::GetInst().Find("LIT_Special_Cast_TR.png");
 	LIT_SC_TR->Cut(16, 16);
 	//GameEngineTexture* HVY_SC_TR = GameEngineTextureManager::GetInst().Find("HVY_Special_Cast_TR.png");
 	//HVY_SC_TR->Cut(16, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_SC_SH = GameEngineTextureManager::GetInst().Find("HVY_Special_Cast_SH.png");
+	//HVY_SC_SH->Cut(16, 16);
 }
 
 void MainPlayer::AnimationTNCut()
@@ -604,15 +604,15 @@ void MainPlayer::AnimationTNCut()
 	//GameEngineTexture* HVY_TN_S2 = GameEngineTextureManager::GetInst().Find("HVY_Natural_Town_S2.png");
 	//HVY_TN_S2->Cut(16, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_TN_SH = GameEngineTextureManager::GetInst().Find("HVY_Natural_Town_SH.png");
-	//HVY_TN_SH->Cut(16, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_TN_TR = GameEngineTextureManager::GetInst().Find("LIT_Natural_Town_TR.png");
 	LIT_TN_TR->Cut(16, 16);
 	//GameEngineTexture* HVY_TN_TR = GameEngineTextureManager::GetInst().Find("HVY_Natural_Town_TR.png");
 	//HVY_TN_TR->Cut(16, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_TN_SH = GameEngineTextureManager::GetInst().Find("HVY_Natural_Town_SH.png");
+	//HVY_TN_SH->Cut(16, 16);
 }
 
 void MainPlayer::AnimationTWCut()
@@ -661,15 +661,15 @@ void MainPlayer::AnimationTWCut()
 	//GameEngineTexture* HVY_TW_S2 = GameEngineTextureManager::GetInst().Find("HVY_Walk_Town_S2.png");
 	//HVY_TW_S2->Cut(8, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_TW_SH = GameEngineTextureManager::GetInst().Find("HVY_Walk_Town_SH.png");
-	//HVY_TW_SH->Cut(8, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_TW_TR = GameEngineTextureManager::GetInst().Find("LIT_Walk_Town_TR.png");
 	LIT_TW_TR->Cut(8, 16);
 	//GameEngineTexture* HVY_TW_TR = GameEngineTextureManager::GetInst().Find("HVY_Walk_Town_TR.png");
 	//HVY_TW_TR->Cut(8, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_TW_SH = GameEngineTextureManager::GetInst().Find("HVY_Walk_Town_SH.png");
+	//HVY_TW_SH->Cut(8, 16);
 }
 
 void MainPlayer::AnimationWLCut()
@@ -718,13 +718,13 @@ void MainPlayer::AnimationWLCut()
 	//GameEngineTexture* HVY_WL_S2 = GameEngineTextureManager::GetInst().Find("HVY_Walk_Field_S2.png");
 	//HVY_WL_S2->Cut(8, 16);
 
-	// SH(방패) - LIT_ 일때 방패없음
-	//GameEngineTexture* HVY_WL_SH = GameEngineTextureManager::GetInst().Find("HVY_Walk_Field_SH.png");
-	//HVY_WL_SH->Cut(8, 16);
-
 	// TR(몸통)
 	GameEngineTexture* LIT_WL_TR = GameEngineTextureManager::GetInst().Find("LIT_Walk_Field_TR.png");
 	LIT_WL_TR->Cut(8, 16);
 	//GameEngineTexture* HVY_WL_TR = GameEngineTextureManager::GetInst().Find("HVY_Walk_Field_TR.png");
 	//HVY_WL_TR->Cut(8, 16);
+
+	// SH(방패) - LIT_ 일때 방패없음
+	//GameEngineTexture* HVY_WL_SH = GameEngineTextureManager::GetInst().Find("HVY_Walk_Field_SH.png");
+	//HVY_WL_SH->Cut(8, 16);
 }

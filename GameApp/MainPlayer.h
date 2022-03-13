@@ -43,7 +43,8 @@ enum class PlayerState
 enum class ItemEquipState
 {
 	TP_LIT,
-	TP_HVY
+	TP_HVY,
+	TP_MAX
 };
 
 // 렌더러 부위별 타입
@@ -66,11 +67,11 @@ enum class RendererPartType
 class GameEngineImageRenderer;
 struct PlayerRendererPart
 {
-	GameEngineImageRenderer*		Renderer_;					// 렌더러(애니메이션)
-	ItemEquipState									ItemEquipState_;		// 아이템 장착상태
-	RendererPartType								PartType_;						// 부위 타입
-	std::string												TextureName_;			// 현재 텍스쳐명
-	std::string												AnimationName_;		// 현재 애니메이션명
+	ItemEquipState									ItemEquipState_;																					// 아이템 장착상태
+	GameEngineImageRenderer*		Renderer_[static_cast<int>(ItemEquipState::TP_MAX)];			// 렌더러(0 : TP_LIT(기본), 1 : TP_HVY(아이템착용))
+	RendererPartType								PartType_;																									// 부위 타입
+	std::string												TextureName_;																						// 현재 텍스쳐명
+	std::string												AnimationName_;																					// 현재 애니메이션명
 };
 
 // 분류 : 플레이어
@@ -133,6 +134,7 @@ private: // 애니메이션 생성관련
 	void SetPlayerCurImage();						// 최초 텍스쳐 지정
 	void SetFirstAnimation();							// 최초 애니메이션 지정
 	void SetRenderSize();								// 최초 렌더링크기 지정
+	void SetFirstItemEquipState();				// 최초 렌더링하는 애니메이션타입 지정
 	void CreateAnimation();							// 플레이어의 전체 애니메이션 모두 생성
 	void CreateA1Animation();						// 공격모션1
 	void CreateA2Animation();						// 공격모션2
