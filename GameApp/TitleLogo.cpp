@@ -15,10 +15,6 @@ TitleLogo::~TitleLogo()
 
 void TitleLogo::Start()
 {
-	// 400 x 196
-
-	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
-
 	GameEngineTexture* LogoTexture = GameEngineTextureManager::GetInst().Find("Title_Logo.png");
 	LogoTexture->Cut(30, 1);
 
