@@ -296,7 +296,11 @@ void ClassSelectObject::CurClassSelect()
 			EntityName += TextureName_[static_cast<int>(CurSelectState::SelStart)];
 			EffectName += TextureName_[static_cast<int>(CurSelectState::SelStart)];
 
+			// 현재 상태 변경
 			SelectState_ = CurSelectState::SelStart;
+
+			// 선택했으므로 해당 직업타입을 넘긴다.
+			SelClassID = JobType_;
 
 			// 확인버튼 활성화
 			CurPlayerGameStartButton::UserClassSelect();
@@ -308,7 +312,11 @@ void ClassSelectObject::CurClassSelect()
 			EntityName += TextureName_[static_cast<int>(CurSelectState::SelDeslect)];
 			EffectName += TextureName_[static_cast<int>(CurSelectState::SelDeslect)];
 
+			// 현재 상태 변경
 			SelectState_ = CurSelectState::SelDeslect;
+
+			// 선택해제 했으므로 선택하지않은 상태로 값을 넘긴다.
+			SelClassID = JobType::None;
 
 			// 확인버튼 비활성화
 			CurPlayerGameStartButton::UserClassDeselect();

@@ -38,6 +38,7 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void GameStartConditionCheck();
 	void CheckSameID();
 	bool DefaultPathFileNameCheck(const std::string& _PlayerID);
 	void CreateCurPlayer(const std::string& _PlayerID);

@@ -74,8 +74,20 @@ void CurPlayerGameStartButton::Update(float _DeltaTime)
 	// 메인플레이어 정보도 생성하며 해당 플레이어 정보를 가지는 파일을 생성하고
 	// 생성 완료 후 로딩레벨로 전환된다.
 	// 단, 이전 플레이어 생성시 사용된 ID를 체크하여 동일한 ID의 파일이 존재하다면 경고창을 화면에 띄우고 레벨전환이 불가하다.
+	// GameStartConditionCheck();
 
+}
 
+void CurPlayerGameStartButton::GameStartConditionCheck()
+{
+	// 현재 선택된 직업(클래스)가 있는지 검사
+	if (JobType::None != ClassSelectObject::GetSelectClass())
+	{
+		// 선택된 직업(클래스)가 있다면 생성 가능한 플레이어 ID인지 검사 후
+		// 정상적이라면 플레이어 정보 생성 및 정보파일 저장
+		// 비정상이라면 경고창이 화면에 표시되며, 정보 생성 및 레벨전환 불가
+		CheckSameID();
+	}
 }
 
 void CurPlayerGameStartButton::CheckSameID()
@@ -91,6 +103,8 @@ void CurPlayerGameStartButton::CheckSameID()
 	{
 		// ID를 입력하시오!!!! 경고창 표시
 
+
+		CheckFlag = true;
 	}
 
 	// 2. 해당 ID를 파일명으로 가지는 파일이 존재하는지 탐색
