@@ -4,9 +4,11 @@
 // 분류 : 위젯
 // 용도 : 타이틀레벨 버튼
 // 설명 : 캐릭터생성레벨로 이동
+class GameEngineUIRenderer;
 class GameStartButton : public GameEngineActor
 {
 private:	// member Var
+	GameEngineUIRenderer* StartButton_;
 
 public:
 	GameStartButton();

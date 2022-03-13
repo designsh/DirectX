@@ -3,6 +3,8 @@
 
 #include "TitleBackDrop.h"
 #include "TitleLogo.h"
+#include "GameStartButton.h"
+#include "GameEndButton.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -40,11 +42,10 @@ void TitleLevel::LevelStart()
 	TitleLogo* Logo = CreateActor<TitleLogo>();
 
 	// 게임시작 버튼 생성(이미지+텍스트)
-
+	GameStartButton* StartButton = CreateActor<GameStartButton>();
 
 	// 게임종료 버튼 생성(이미지+텍스트)
-
-
+	GameEndButton* EndButton = CreateActor<GameEndButton>();
 }
 
 void TitleLevel::LevelUpdate(float _DeltaTime)

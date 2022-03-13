@@ -164,6 +164,15 @@
     <ClCompile Include="AllNPCInfomation.cpp">
       <Filter>Object\Actor\00.Global\02.NPC\00.NPCInfo</Filter>
     </ClCompile>
+    <ClCompile Include="TitleLevelMoveBtn.cpp">
+      <Filter>Object\Actor\02.CreateCharacter\05.TitleLevelMoveButton</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassSelectObject.cpp">
+      <Filter>Object\Actor\02.CreateCharacter\06.ClassSelectAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorMsgView.cpp">
+      <Filter>Object\Actor\00.Global\99.ErrorMsgView</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -490,6 +499,15 @@
     <Filter Include="Object\Actor\00.Global\02.NPC\02.ChandleryNPC">
       <UniqueIdentifier>{f08ec3e2-3ae4-4688-b167-fe51c322ace4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\05.TitleLevelMoveButton">
+      <UniqueIdentifier>{73163eac-bd4a-4cd2-914a-a6c3bb237530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\06.ClassSelectAnimation">
+      <UniqueIdentifier>{e30b6761-9065-43af-a035-0a106ed54391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\99.ErrorMsgView">
+      <UniqueIdentifier>{09236cc2-ed37-4122-8fa3-d27524e1e815}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -644,6 +662,15 @@
     </ClInclude>
     <ClInclude Include="AllNPCInfomation.h">
       <Filter>Object\Actor\00.Global\02.NPC\00.NPCInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevelMoveBtn.h">
+      <Filter>Object\Actor\02.CreateCharacter\05.TitleLevelMoveButton</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassSelectObject.h">
+      <Filter>Object\Actor\02.CreateCharacter\06.ClassSelectAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorMsgView.h">
+      <Filter>Object\Actor\00.Global\99.ErrorMsgView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

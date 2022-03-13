@@ -23,7 +23,7 @@ void TitleLogo::Start()
 	LogoAnimation_->SetImage("Title_Logo.png", float4(550.f, 196.f));
 	LogoAnimation_->CreateAnimation("TitleLogoAnimation", 0, 29, 0.1f);
 	LogoAnimation_->SetChangeAnimation("TitleLogoAnimation");
-	LogoAnimation_->GetTransform()->SetLocalPosition(float4(0.f, 230.f));
+	LogoAnimation_->GetTransform()->SetLocalPosition(float4(0.f, 240.f));
 	
 }
 

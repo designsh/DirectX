@@ -149,3 +149,20 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _
 	
 	return vecReturnFile;
 }
+
+bool GameEngineDirectory::CheckSameFileName(const std::string& _Name, const std::string& _Filter)
+{
+	std::string FileName = _Name;
+	FileName += _Filter;
+
+	// 동일한 이름이 있으며 TRUE, 없으면 FALSE
+	for (auto& AllFileName : std::filesystem::recursive_directory_iterator(path_))
+	{
+		if (AllFileName.path().filename() == FileName)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

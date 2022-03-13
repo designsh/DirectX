@@ -30,5 +30,8 @@ public:		//member Func
 public:
 	std::string PathToPlusFileName(const std::string& _FileName);
 	std::vector<GameEngineFile> GetAllFile(const std::string& _filter = "*", bool _AllDirectory = false);
+
+public:
+	bool CheckSameFileName(const std::string& _Name, const std::string& _Filter = ".txt");
 };
 

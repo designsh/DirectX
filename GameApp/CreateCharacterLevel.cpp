@@ -2,6 +2,11 @@
 #include "CreateCharacterLevel.h"
 
 #include "CreateCharacterBackDrop.h"
+#include "CreateCharacterFireObject.h"
+#include "CurPlayerGameStartButton.h"
+#include "TitleLevelMoveBtn.h"
+#include "CreateCharacterInputText.h"
+#include "ClassSelectObject.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -36,10 +41,25 @@ void CreateCharacterLevel::LevelStart()
 	CreateCharacterBackDrop* BackDrop = CreateActor<CreateCharacterBackDrop>();
 
 	// 캠프파이어오브젝트 생성(애니메이션)
+	CreateCharacterFireObject* Fire = CreateActor<CreateCharacterFireObject>();
+
+	// ID 입력창
+	CreateCharacterInputText* IDInputTextBox = CreateActor<CreateCharacterInputText>();
 
 	// 시작버튼(이미지 + 텍스트) -> 로딩레벨 이동
+	CurPlayerGameStartButton* GameStartBtn = CreateActor<CurPlayerGameStartButton>();
 
 	// 이전버튼(이미지 + 텍스트) -> 타이틀레벨 이동
+	TitleLevelMoveBtn* PrevMenuBtn = CreateActor<TitleLevelMoveBtn>();
+
+	// 직업선택용 애니메이션
+
+	// 네크로맨서(임시)
+	ClassSelectObject* NecromancerClass = CreateActor<ClassSelectObject>();
+	NecromancerClass->CreateClassRenderer(JobType::Necromancer, float4(0.f, 0.f), float4(0.f, 0.f));
+
+	// ...
+
 }
 
 void CreateCharacterLevel::LevelUpdate(float _DeltaTime)

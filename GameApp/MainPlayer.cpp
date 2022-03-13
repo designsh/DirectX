@@ -67,7 +67,6 @@ void MainPlayer::Start()
 	}
 
 	// TEST ¿ë
-	//MainPlayerInfomation::GetInst().CreateMainPlayerInfo("aaaa", JobType::Necromancer);
 	if (false == GameEngineInput::GetInst().IsKey("NextDirect"))
 	{
 		GameEngineInput::GetInst().CreateKey("NextDirect", '1');
