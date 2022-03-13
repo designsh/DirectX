@@ -34,6 +34,7 @@ private:		//delete operator
 
 public:
 	float4 GetTextureSize() const;
+	int GetCutCount() const;
 
 public:
 	ID3D11RenderTargetView* GetRenderTargetView();

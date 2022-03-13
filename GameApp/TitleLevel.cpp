@@ -2,6 +2,7 @@
 #include "TitleLevel.h"
 
 #include "TitleBackDrop.h"
+#include "TitleLogo.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -36,7 +37,7 @@ void TitleLevel::LevelStart()
 	TitleBackDrop* BackDrop = CreateActor<TitleBackDrop>();
 
 	// 로고액터 생성(애니메이션)
-
+	TitleLogo* Logo = CreateActor<TitleLogo>();
 
 	// 게임시작 버튼 생성(이미지+텍스트)
 

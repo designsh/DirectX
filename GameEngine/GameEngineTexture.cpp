@@ -43,6 +43,11 @@ float4 GameEngineTexture::GetTextureSize() const
 	return ReturnValue;
 }
 
+int GameEngineTexture::GetCutCount() const
+{
+	return static_cast<int>(CutList_.size());
+}
+
 ID3D11RenderTargetView* GameEngineTexture::GetRenderTargetView()
 {
 	return RenderTargetView_;
