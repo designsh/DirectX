@@ -88,6 +88,14 @@ void CurPlayerGameStartButton::GameStartConditionCheck()
 		// 비정상이라면 경고창이 화면에 표시되며, 정보 생성 및 레벨전환 불가
 		CheckSameID();
 	}
+	else
+	{
+		// 현재 선택된 직업이 없으면 경고장 표시
+		// 플레이하려는 클래스를 선택하십시오!!!!!
+
+
+
+	}
 }
 
 void CurPlayerGameStartButton::CheckSameID()
