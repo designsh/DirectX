@@ -38,7 +38,7 @@ void UserGame::ResourcesLoad()
 	// 셰이더 리소스 파일을 모두 읽어들여 셰이더를 생성
 	AppShaderLoad();
 
-	// 인게임 관련 모든 정보 로드
+	// 인게임 관련 모든 정보 로드(추후 로딩레벨로 이동 고민중.....)
 	
 	// 모든 클래스 스킬 정보
 	AllSkillInfomation::GetInst().CreateAllSkillInfomation();
