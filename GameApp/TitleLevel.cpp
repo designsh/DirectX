@@ -49,9 +49,10 @@ void TitleLevel::LevelStart()
 	// 게임종료 버튼 생성(이미지+텍스트)
 	GameEndButton* EndButton = CreateActor<GameEndButton>();
 
-	// 현재 마우스 생성 - 이미지 편집 후 생성예정(집에가서해야지)
-	//MouseObject* MainMouse = CreateActor<MouseObject>();
-	//GlobalValue::CurMouse = MainMouse;
+	// 현재 마우스 생성
+	MouseObject* MainMouse = CreateActor<MouseObject>();
+	MainMouse->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
+	GlobalValue::CurMouse = MainMouse;
 }
 
 void TitleLevel::LevelUpdate(float _DeltaTime)

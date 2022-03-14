@@ -29,8 +29,23 @@ public:
 	static bool OrientedRectToOrientedRect(GameEngineTransform* _Left, GameEngineTransform* _Right);
 	static bool OBB3DToOBB3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
 
-private:	// member Var
+public:
+	static bool CirCleToRect(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool CirCleToOrientedRect(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool Sphere3DToAABBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool Sphere3DToOBBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
 
+	static bool RectToCirCle(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool RectToOrientedRect(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool AABBBox3DToSphere3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool AABBBox3DToOBBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+
+	static bool OrientedRectToCirCle(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool OrientedRectToRect(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool OBBBox3DToSphere3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool OBBBox3DToAABBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+
+private:	// member Var
 
 public:
 	GameEngineCollision();

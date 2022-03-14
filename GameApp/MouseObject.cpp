@@ -24,7 +24,7 @@ void MouseObject::Start()
 	MouseStay->Cut(8, 1);
 
 	Mouse_ = CreateTransformComponent<GameEngineImageRenderer>(static_cast<int>(OrderGroup::Mouse));
-	Mouse_->CreateAnimation("Mouse.png", "StayState", 0, 7, 0.1f);
+	Mouse_->CreateAnimation("Mouse.png", "StayState", 0, 7, 0.4f);
 	Mouse_->CreateAnimation("Mouse.png", "MoveState", 0, 0, 0.1f, false);
 	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
 	Mouse_->SetChangeAnimation("StayState");
@@ -35,8 +35,8 @@ void MouseObject::Start()
 
 void MouseObject::Update(float _DeltaTime)
 {
-	float4 PrevPos = GameEngineInput::GetInst().GetPrevMousePos();
-	float4 CurPos = GameEngineInput::GetInst().GetMousePos();
+	float4 PrevPos = GameEngineInput::GetInst().GetPrevMouse3DPos();
+	float4 CurPos = GameEngineInput::GetInst().GetMouse3DPos();
 
 	// 마우스 위치 갱신
 	GetTransform()->SetLocalPosition(CurPos);
@@ -54,7 +54,7 @@ void MouseObject::Update(float _DeltaTime)
 			State_ = MouseState::Stay;
 		}
 	}
-	else
+	else if(PrevPos.x != CurPos.x || PrevPos.y != CurPos.y)
 	{
 		// 마우스상태가 대기상태였다면
 		if (State_ == MouseState::Stay)

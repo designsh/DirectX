@@ -7,12 +7,14 @@
 #include "TitleLevelMoveBtn.h"
 #include "CreateCharacterInputText.h"
 #include "ClassSelectObject.h"
+#include "MouseObject.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
 
 #include "UserGame.h"
+#include "GlobalValue.h"
 
 CreateCharacterLevel::CreateCharacterLevel()
 {
@@ -97,7 +99,10 @@ void CreateCharacterLevel::LevelStart()
 	ClassSelectObject* NecromancerClass = CreateActor<ClassSelectObject>();
 	NecromancerClass->CreateClassRenderer(float4(0.f, 0.f), JobType::Necromancer);
 
-	// ...
+	// 현재 마우스 생성
+	MouseObject* MainMouse = CreateActor<MouseObject>();
+	MainMouse->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
+	GlobalValue::CurMouse = MainMouse;
 }
 
 void CreateCharacterLevel::LevelUpdate(float _DeltaTime)

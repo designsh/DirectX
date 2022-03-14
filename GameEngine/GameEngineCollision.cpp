@@ -7,19 +7,42 @@ std::function<bool(GameEngineTransform*, GameEngineTransform*)> GameEngineCollis
 
 void GameEngineCollision::Init()
 {
-	// CollisionType::Sphere
+	// CollisionType::Sphere To CollisionType::Sphere
 	CollisionCheckFunction[static_cast<int>(CollisionType::CirCle)][static_cast<int>(CollisionType::CirCle)] = std::bind(&GameEngineCollision::CirCleToCirCle, std::placeholders::_1, std::placeholders::_2);
 	CollisionCheckFunction[static_cast<int>(CollisionType::Sphere3D)][static_cast<int>(CollisionType::Sphere3D)] = std::bind(&GameEngineCollision::Sphere3DToSphere3D, std::placeholders::_1, std::placeholders::_2);
 
-	// GameEngineCollision::AABBBox
+	// GameEngineCollision::AABBBox To GameEngineCollision::AABBBox
 	CollisionCheckFunction[static_cast<int>(CollisionType::Rect)][static_cast<int>(CollisionType::Rect)] = std::bind(&GameEngineCollision::RectToRect, std::placeholders::_1, std::placeholders::_2);
 	CollisionCheckFunction[static_cast<int>(CollisionType::AABBBox3D)][static_cast<int>(CollisionType::AABBBox3D)] = std::bind(&GameEngineCollision::AABB3DToAABB3D, std::placeholders::_1, std::placeholders::_2);
 
-	// CollisionType::OBBBox
+	// CollisionType::OBBBox To CollisionType::OBBBox
 	CollisionCheckFunction[static_cast<int>(CollisionType::OrientedRect)][static_cast<int>(CollisionType::OrientedRect)] = std::bind(&GameEngineCollision::OrientedRectToOrientedRect, std::placeholders::_1, std::placeholders::_2);
 	CollisionCheckFunction[static_cast<int>(CollisionType::OBBBox3D)][static_cast<int>(CollisionType::OBBBox3D)] = std::bind(&GameEngineCollision::OBB3DToOBB3D, std::placeholders::_1, std::placeholders::_2);
+
+	// ============================================================ OtherCollisionType CollisionCheckFunction ============================================================ //
+	// CollisionType::Sphere To OtherType
+	CollisionCheckFunction[static_cast<int>(CollisionType::CirCle)][static_cast<int>(CollisionType::Rect)] = std::bind(&GameEngineCollision::CirCleToRect, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::CirCle)][static_cast<int>(CollisionType::OrientedRect)] = std::bind(&GameEngineCollision::CirCleToOrientedRect, std::placeholders::_1, std::placeholders::_2);
+
+	CollisionCheckFunction[static_cast<int>(CollisionType::Sphere3D)][static_cast<int>(CollisionType::AABBBox3D)] = std::bind(&GameEngineCollision::Sphere3DToAABBBox3D, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::Sphere3D)][static_cast<int>(CollisionType::OBBBox3D)] = std::bind(&GameEngineCollision::Sphere3DToOBBBox3D, std::placeholders::_1, std::placeholders::_2);
+
+	// CollisionType::AABBBox To OtherType
+	CollisionCheckFunction[static_cast<int>(CollisionType::Rect)][static_cast<int>(CollisionType::CirCle)] = std::bind(&GameEngineCollision::RectToCirCle, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::Rect)][static_cast<int>(CollisionType::OrientedRect)] = std::bind(&GameEngineCollision::RectToOrientedRect, std::placeholders::_1, std::placeholders::_2);
+
+	CollisionCheckFunction[static_cast<int>(CollisionType::AABBBox3D)][static_cast<int>(CollisionType::Sphere3D)] = std::bind(&GameEngineCollision::AABBBox3DToSphere3D, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::AABBBox3D)][static_cast<int>(CollisionType::OBBBox3D)] = std::bind(&GameEngineCollision::AABBBox3DToOBBBox3D, std::placeholders::_1, std::placeholders::_2);
+
+	// CollisionType::OBBBox To OtherType
+	CollisionCheckFunction[static_cast<int>(CollisionType::OrientedRect)][static_cast<int>(CollisionType::CirCle)] = std::bind(&GameEngineCollision::OrientedRectToCirCle, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::OrientedRect)][static_cast<int>(CollisionType::Rect)] = std::bind(&GameEngineCollision::OrientedRectToRect, std::placeholders::_1, std::placeholders::_2);
+
+	CollisionCheckFunction[static_cast<int>(CollisionType::OBBBox3D)][static_cast<int>(CollisionType::Sphere3D)] = std::bind(&GameEngineCollision::OBBBox3DToSphere3D, std::placeholders::_1, std::placeholders::_2);
+	CollisionCheckFunction[static_cast<int>(CollisionType::OBBBox3D)][static_cast<int>(CollisionType::AABBBox3D)] = std::bind(&GameEngineCollision::OBBBox3DToAABBBox3D, std::placeholders::_1, std::placeholders::_2);
 }
 
+// ========================================= SameCollisionType 面倒眉农 ========================================= //
 bool GameEngineCollision::CirCleToCirCle(GameEngineTransform* _Left, GameEngineTransform* _Right)
 {
 	DirectX::BoundingSphere Left = _Left->GetSphere();
@@ -57,9 +80,94 @@ bool GameEngineCollision::OrientedRectToOrientedRect(GameEngineTransform* _Left,
 	return Left.Intersects(Right);
 }
 
+// ========================================= OtherCollisionType 面倒眉农 ========================================= //
 bool GameEngineCollision::OBB3DToOBB3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
 {
 	return _Left->GetOBB().Intersects(_Right->GetOBB());
+}
+
+bool GameEngineCollision::CirCleToRect(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingSphere Left = _Left->GetSphere();
+	DirectX::BoundingBox Right = _Right->GetAABB();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::CirCleToOrientedRect(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingSphere Left = _Left->GetSphere();
+	DirectX::BoundingOrientedBox Right = _Right->GetOBB();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::Sphere3DToAABBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetSphere().Intersects(_Right->GetAABB());
+}
+
+bool GameEngineCollision::Sphere3DToOBBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetSphere().Intersects(_Right->GetOBB());
+}
+
+bool GameEngineCollision::RectToCirCle(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingBox Left = _Left->GetAABB();
+	DirectX::BoundingSphere Right = _Right->GetSphere();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::RectToOrientedRect(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingBox Left = _Left->GetAABB();
+	DirectX::BoundingOrientedBox Right = _Right->GetOBB();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::AABBBox3DToSphere3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetAABB().Intersects(_Right->GetSphere());
+}
+
+bool GameEngineCollision::AABBBox3DToOBBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetAABB().Intersects(_Right->GetOBB());
+}
+
+bool GameEngineCollision::OrientedRectToCirCle(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingOrientedBox Left = _Left->GetOBB();
+	DirectX::BoundingSphere Right = _Right->GetSphere();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::OrientedRectToRect(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	DirectX::BoundingOrientedBox Left = _Left->GetOBB();
+	DirectX::BoundingBox Right = _Right->GetAABB();
+	Left.Center.z = 0.0f;
+	Right.Center.z = 0.0f;
+	return Left.Intersects(Right);
+}
+
+bool GameEngineCollision::OBBBox3DToSphere3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetOBB().Intersects(_Right->GetSphere());
+}
+
+bool GameEngineCollision::OBBBox3DToAABBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right)
+{
+	return _Left->GetOBB().Intersects(_Right->GetAABB());
 }
 
 

@@ -169,28 +169,30 @@ void GameEngineInput::Update()
         _Key.second->Update();
     }
 
-    //POINT P;
+    POINT P;
 
-    //// 모니터 상에서의 위치 현재 커서의 위치를 가져오고
-    //GetCursorPos(&P);
+    // 모니터 상에서의 위치 현재 커서의 위치를 가져오고
+    GetCursorPos(&P);
 
-    //// 윈도우 상에서의 위치로 바꾸고
-    //// 이 핸들을 가진 윈도우를 기준으로한 좌표로 변경
-    //ScreenToClient(GameEngineWindow::GetInst().GetWindowHWND(), &P);
-    //// 4가지 캐스트를 적절하게 이용해야 한다.
-    //MousePos_.x = static_cast<float>(P.x);
-    //MousePos_.y = static_cast<float>(P.y);
+    // 윈도우 상에서의 위치로 바꾸고
+    // 이 핸들을 가진 윈도우를 기준으로한 좌표로 변경
+    ScreenToClient(GameEngineWindow::GetInst().GetWindowHWND(), &P);
 
-    //// 요거 이해됐나요?
-    //// 이전거 저장해 놓은 다음에
-    //// 너무 급격하게 변할수 있으니까.
-    //PrevMousePos3D_ = MousePos3D_;
-    //MousePos3D_.x = MousePos_.x - GameEngineWindow::GetInst().GetSize().hx();
-    //MousePos3D_.y = MousePos_.y - GameEngineWindow::GetInst().GetSize().hy();
-    //MousePos3D_.y *= -1.0f;
+    // 4가지 캐스트를 적절하게 이용해야 한다.
+    PrevMousePos_ = MousePos_;
+    MousePos_.x = static_cast<float>(P.x);
+    MousePos_.y = static_cast<float>(P.y);
 
-    //MouseDir3D = MousePos3D - PrevMousePos3D;
-    //MouseDir3D = MouseDir3D.GetNormalize();
+    // 요거 이해됐나요?
+    // 이전거 저장해 놓은 다음에
+    // 너무 급격하게 변할수 있으니까.
+    PrevMousePos3D_ = MousePos3D_;
+    MousePos3D_.x = MousePos_.x - GameEngineWindow::GetInst().GetSize().hx();
+    MousePos3D_.y = MousePos_.y - GameEngineWindow::GetInst().GetSize().hy();
+    MousePos3D_.y *= -1.0f;
+
+    MouseDir3D_ = MousePos3D_ - PrevMousePos3D_;
+    MouseDir3D_.Normalize3D();
 }
 
 float4 GameEngineInput::GetMousePos()
@@ -201,6 +203,11 @@ float4 GameEngineInput::GetMousePos()
 float4 GameEngineInput::GetPrevMousePos()
 {
     return Inst->PrevMousePos_;
+}
+
+float4 GameEngineInput::GetPrevMouse3DPos()
+{
+    return Inst->PrevMousePos3D_;
 }
 
 float4 GameEngineInput::GetMouse3DPos() 

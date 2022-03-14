@@ -35,66 +35,12 @@ ClassSelectObject::~ClassSelectObject()
 
 void ClassSelectObject::Start()
 {
-	// TEST
-	if(false == GameEngineInput::GetInst().IsKey("SelectClass"))
-	{
-		GameEngineInput::GetInst().CreateKey("SelectClass", VK_UP);
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("DeSelectClass"))
-	{
-		GameEngineInput::GetInst().CreateKey("DeSelectClass", VK_DOWN);
-	}
 }
 
 void ClassSelectObject::Update(float _DeltaTime)
 {
 	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 해당 직업으로 선택 or 선택해제
 	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&ClassSelectObject::ClassSelOrDesel, this, std::placeholders::_1));
-
-
-	// TEST
-	if (true == GameEngineInput::GetInst().Down("SelectClass"))
-	{
-		++TESTIndex_;
-		if (TESTIndex_ >= static_cast<int>(CurSelectState::MAX))
-		{
-			TESTIndex_ = 0;
-		}
-
-		std::string EntityName = JobName_;
-		EntityName += "Entity";
-		EntityName += TextureName_[TESTIndex_];
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(EntityName);
-
-
-		std::string EffectName = JobName_;
-		EffectName += "Effect";
-		EffectName += TextureName_[TESTIndex_];
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(EffectName);
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
-	}
-
-	if (true == GameEngineInput::GetInst().Down("DeSelectClass"))
-	{
-		--TESTIndex_;
-		if (TESTIndex_ < 0)
-		{
-			TESTIndex_ = static_cast<int>(CurSelectState::MAX) - 1;
-		}
-
-		std::string EntityName = JobName_;
-		EntityName += "Entity";
-		EntityName += TextureName_[TESTIndex_];
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(EntityName);
-
-
-		std::string EffectName = JobName_;
-		EffectName += "Effect";
-		EffectName += TextureName_[TESTIndex_];
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(EffectName);
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
-	}
 }
 
 void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType, CurSelectState _FirstTextureType)
@@ -214,7 +160,7 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(FirstEffectAni);
 
 		// ============================================= 충돌체 생성 ============================================= //
-		MainCollision_ = CreateTransformComponent<GameEngineCollision>(GetTransform(), static_cast<int>(OrderGroup::NormalObject0));
+		MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::NormalObject0));
 		MainCollision_->GetTransform()->SetLocalScaling(float4(256.0f, 256.0f, 1.0f));
 
 		// 현재 상태 저장
