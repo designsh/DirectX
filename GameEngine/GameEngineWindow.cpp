@@ -79,7 +79,7 @@ int GameEngineWindow::CreateMainWindowClass()
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_HREDRAW | CS_VREDRAW; // 화면 재갱신 옵션
 	//wcex.lpfnWndProc = WndProc;
-	wcex.lpfnWndProc = WindowEvent;
+	wcex.lpfnWndProc = WindowEvent;	// 220315 SJH : 윈도우 강제종료 Flag 셋팅을 위해 전역멤버함수로 변경
 	wcex.cbClsExtra = 0; // 신경안써도 됨
 	wcex.cbWndExtra = 0; // 신경안써도 됨.
 	wcex.hInstance = hInstance_;
