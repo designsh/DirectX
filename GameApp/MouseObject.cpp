@@ -2,7 +2,6 @@
 #include "MouseObject.h"
 
 #include "GlobalEnumClass.h"
-#include "GlobalValue.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>

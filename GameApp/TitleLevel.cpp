@@ -12,6 +12,7 @@
 #include <GameEngine/CameraActor.h>
 
 #include "UserGame.h"
+#include "GlobalValue.h"
 
 TitleLevel::TitleLevel()
 {
@@ -50,6 +51,7 @@ void TitleLevel::LevelStart()
 
 	// 현재 마우스 생성 - 이미지 편집 후 생성예정(집에가서해야지)
 	//MouseObject* MainMouse = CreateActor<MouseObject>();
+	//GlobalValue::CurMouse = MainMouse;
 }
 
 void TitleLevel::LevelUpdate(float _DeltaTime)
