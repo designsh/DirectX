@@ -227,7 +227,7 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(FirstEffectAni);
 
 		// ============================================= 충돌체 생성 ============================================= //
-		MainCollision_ = CreateTransformComponent<GameEngineCollision>(GetTransform(), static_cast<int>(OrderGroup::NormalObject));
+		MainCollision_ = CreateTransformComponent<GameEngineCollision>(GetTransform(), static_cast<int>(OrderGroup::NormalObject0));
 		MainCollision_->GetTransform()->SetLocalScaling(float4(256.0f, 256.0f, 1.0f));
 
 		// 현재 상태 저장
