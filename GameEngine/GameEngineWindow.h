@@ -35,6 +35,8 @@ private:
 	float4 size_;
 	float4 pos_;
 
+	bool WindowOn_;
+
 private:
 	GameEngineWindow();
 	~GameEngineWindow();
@@ -67,4 +69,7 @@ public:
 	{
 		return pos_;
 	}
+
+public:
+	void CloseWindow();
 };

@@ -8,8 +8,6 @@
 // Æ÷ÀÎÅÍÇü ½Ì±ÛÅæ
 GameEngineWindow* GameEngineWindow::Inst = new GameEngineWindow();
 
-bool WindowOn = true;
-
 LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
 {
 	switch (_message)
@@ -31,7 +29,7 @@ LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lPar
 		}
 		case WM_DESTROY:
 		{
-			WindowOn = false;
+			//WindowOn_ = false;
 			break;
 		}
 		default:
@@ -50,6 +48,7 @@ GameEngineWindow::GameEngineWindow()
 	, windowhandle_(nullptr)
 	, hInstance_(nullptr)
 	, devicecontext_(nullptr)
+	, WindowOn_(true)
 {
 }
 
@@ -153,7 +152,7 @@ void GameEngineWindow::SetSizeAndPos(const float4& _size, const float4& _pos)
 void GameEngineWindow::Loop(void(*_loopFunc)()) 
 {
 	MSG msg;
-	while (WindowOn)
+	while (WindowOn_)
 	{
 		if (0 != PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
@@ -183,5 +182,10 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
 			_loopFunc();
 		}
 	}
+}
+
+void GameEngineWindow::CloseWindow()
+{
+	WindowOn_ = false;
 }
 

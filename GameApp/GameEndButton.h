@@ -5,10 +5,12 @@
 // 용도 : 타이틀레벨 버튼
 // 설명 : 윈도우 종료
 class GameEngineUIRenderer;
+class GameEngineCollision;
 class GameEndButton : public GameEngineActor
 {
 private:	// member Var
 	GameEngineUIRenderer* EndButton_;
+	GameEngineCollision* MainCollision_;
 
 public:
 	GameEndButton();
@@ -27,5 +29,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void GameEndButtonClick(GameEngineCollision* _OtherCollision);
 };
 
