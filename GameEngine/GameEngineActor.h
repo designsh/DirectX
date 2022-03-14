@@ -1,19 +1,20 @@
 #pragma once
+#include "GameEngineTransform.h"
 
 // 분류 : 액터
 // 용도 : 
 // 설명 : 모든 물체에 대한 기능을 제공하고 갱신, 렌더링 기능을 제공
 class GameEngineLevel;
 class GameEngineComponent;
-class GameEngineTransformComponent;
 class GameEngineTransform;
+class GameEngineTransformComponent;
 class GameEngineActor : public GameEngineObjectNameBase
 {
 	friend GameEngineLevel;
 
 private:	// member Var
 	GameEngineLevel*															Level_;													// 본인이 속한 레벨을 알고있는다.
-	GameEngineTransform*													Transform_;											// 액터는 반드시 트랜스폼데이터를 가진다.
+	GameEngineTransform													Transform_;											// 액터는 반드시 트랜스폼데이터를 가진다.
 
 private:
 	std::list<GameEngineComponent*>								ComponentList_;								// 액터는 Transform을 가지지않는 여러개의 컴포넌트를 가질수 있다.

@@ -154,36 +154,6 @@
     <Filter Include="Resources\99Manager\Blend">
       <UniqueIdentifier>{ff05e23f-a536-4039-848c-8859122ab002}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.UI">
-      <UniqueIdentifier>{7fb1ce99-a143-40c5-9f05-57f878b9cf5e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget">
-      <UniqueIdentifier>{2bbca3b0-0008-46ae-b57a-a4b8b7a134f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget\07. Mouse">
-      <UniqueIdentifier>{1d03ec25-0636-4672-b1ff-63b234a17b07}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget\00.Button">
-      <UniqueIdentifier>{81ba4a57-e333-48e7-8b02-7b4218ec76b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget\01.Image">
-      <UniqueIdentifier>{cccb5257-a453-41d2-95c7-61bb15a76865}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget\02.Text">
-      <UniqueIdentifier>{a13668c0-1670-4a0e-9729-c756f7c74b87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget\03. ProgressBar">
-      <UniqueIdentifier>{0ea5bb25-7121-47f3-9562-141ec26abaa8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget\04. CheckBox">
-      <UniqueIdentifier>{d6e0ea50-d611-44f4-a9fe-ee391b9c617b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget\05. InputText">
-      <UniqueIdentifier>{bf0eaef4-aaae-48a0-bc35-463de06a7fba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.UI\00.Widget\06. NumberImage">
-      <UniqueIdentifier>{3ebe88f8-3f3e-4877-8d4f-6633614a9808}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources\02Texture\00RenderTarget">
       <UniqueIdentifier>{8a35b576-c8f6-4bbd-810e-1f3ebaa63de5}</UniqueIdentifier>
     </Filter>
@@ -204,6 +174,18 @@
     </Filter>
     <Filter Include="Object\Component\Collision">
       <UniqueIdentifier>{ff34fd32-82aa-48a9-a79f-09c456914832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{7fb1ce99-a143-40c5-9f05-57f878b9cf5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\EngineVertex">
+      <UniqueIdentifier>{953bdd50-6b53-4df7-a8e4-47b3bea1927f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\EngineEnum">
+      <UniqueIdentifier>{5dc18d11-b59d-4763-af93-082509161d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{e74cdaeb-12b7-4eb4-bff4-21dbb2710bc8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -339,6 +321,12 @@
     <ClCompile Include="GameEngineCollision.cpp">
       <Filter>Object\Component\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineDebugRenderData.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCore_Resources.cpp">
+      <Filter>GameEngineCore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -362,7 +350,7 @@
     <ClInclude Include="GameEngineRasterizer.h">
       <Filter>Resources\03Rasterizer</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineManager.h">
+    <ClInclude Include="GameEngineResourcesManager.h">
       <Filter>SubClassInclude</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineDevice.h">
@@ -475,6 +463,15 @@
     </ClInclude>
     <ClInclude Include="GameEngineCollision.h">
       <Filter>Object\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Global\EngineEnum</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineVertex.h">
+      <Filter>Global\EngineVertex</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDebugRenderData.h">
+      <Filter>Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

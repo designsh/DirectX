@@ -24,12 +24,12 @@ public:
 	~GameEngineShaderResHelper();
 
 protected:		// delete constructer
-	GameEngineShaderResHelper(const GameEngineShaderResHelper& _other) = delete;
-	GameEngineShaderResHelper(GameEngineShaderResHelper&& _other) noexcept = delete;
+	//GameEngineShaderResHelper(const GameEngineShaderResHelper& _other) = delete;
+	//GameEngineShaderResHelper(GameEngineShaderResHelper&& _other) noexcept = delete;
 
 private:		//delete operator
-	GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper& _other) = delete;
-	GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper&& _other) = delete;
+	//GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper& _other) = delete;
+	//GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper&& _other) = delete;
 
 private:
 	void Setting();

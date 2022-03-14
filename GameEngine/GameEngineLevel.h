@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineActor.h"
+#include "Enums.h"
 
 // 분류 : 레벨(씬)
 // 용도 : 
@@ -7,7 +8,9 @@
 class CameraActor;
 class CameraComponent;
 class GameEngineRenderer;
+class GameEngineTransform;
 class GameEngineCollision;
+class GameEngineDebugRenderData;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend class GameEngineCore;
@@ -58,6 +61,9 @@ public:
 	}
 
 	void PushCollision(GameEngineCollision* _Collision, int _Group);
+
+public:
+	void DebugRender(GameEngineTransform* _Transform, CollisionType _Type);
 
 public:
 	template<typename ActorType>

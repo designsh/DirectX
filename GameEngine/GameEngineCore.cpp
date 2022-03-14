@@ -7,7 +7,7 @@
 #include "GameEngineInput.h"
 
 // Release
-#include "GameEngineManager.h"
+#include "GameEngineResourcesManager.h"
 
 // ============================================= Level 관리자 관련 ============================================= //
 GameEngineLevel* GameEngineCore::NextLevel_ = nullptr;
@@ -106,16 +106,11 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize()
 {
-	// Engine용 Texture(텍스쳐 세팅을 위한 기본 텍스쳐) 로드
-	GameEngineDirectory EngineTextureDir;
-	EngineTextureDir.MoveParent("DirectX");
-	EngineTextureDir.MoveChild("EngineResources");
-	EngineTextureDir.MoveChild("Texture");
-	std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile();
-	for (size_t i = 0; i < AllFile.size(); i++)
-	{
-		GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-	}
+	// 엔진용 리소스 로드
+	EngineResourcesLoad();
+
+	// 엔진용 리소스 생성
+	EngineResourcesCreate();
 
 	GameEngineCollision::Init();
 	GameEngineSoundManager::GetInst().Initialize();

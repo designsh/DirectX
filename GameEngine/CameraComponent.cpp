@@ -2,6 +2,11 @@
 #include "CameraComponent.h"
 #include "GameEngineTransform.h"
 #include "GameEngineRenderer.h"
+#include "GameEngineRenderingPipeLineManager.h"
+#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineShader.h"
+#include "GameEnginePixelShader.h"
+#include "GameEngineVertexShader.h"
 
 #include "GameEngineWindow.h"
 
@@ -10,7 +15,8 @@ CameraComponent::CameraComponent() :
 	FovAngleY_(90.0f),
 	CamSize_(GameEngineWindow::GetInst().GetSize()),
 	NearZ_(0.1f),
-	FarZ_(1000.0f)
+	FarZ_(1000.0f),
+	DebugRenderCount_(0)
 {
 }
 
@@ -74,6 +80,15 @@ void CameraComponent::Render()
 	}
 }
 
+void CameraComponent::DebugRender()
+{
+
+
+
+
+	DebugRenderCount_ = 0;
+}
+
 void CameraComponent::ReleaseRenderer()
 {
 	std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapBeginIter = RendererList_.begin();
@@ -117,8 +132,44 @@ void CameraComponent::PushRenderer(int _Order, GameEngineRenderer* _Renderer)
 	RendererList_[_Order].push_back(_Renderer);
 }
 
+void CameraComponent::PushDebug(GameEngineTransform* _Trans, CollisionType _Type)
+{
+	switch (_Type)
+	{
+		case CollisionType::Point2D:
+		case CollisionType::CirCle:
+		case CollisionType::Rect:
+		case CollisionType::OrientedRect:
+		{
+			DebugVector_[DebugRenderCount_].Data_ = _Trans->GetTransformData();
+			++DebugRenderCount_;
+			break;
+		}
+
+		case CollisionType::Point3D:
+		case CollisionType::Sphere3D:
+		case CollisionType::AABBBox3D:
+		case CollisionType::OBBBox3D:
+		case CollisionType::MAX:
+		{
+			GameEngineDebug::MsgBoxError("처리할수 없는 디버그 타입입니다.");
+			break;
+		}
+	}
+}
+
 void CameraComponent::Start()
 {
+	DebugVector_.resize(1000);
+	DebugRenderCount_ = 0;
+
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("DebugColorRect");
+	for (size_t i = 0; i < DebugVector_.size(); i++)
+	{
+		DebugVector_[i].ShaderHelper_.ShaderResourcesCheck(Pipe->GetVertexShader());
+		DebugVector_[i].ShaderHelper_.ShaderResourcesCheck(Pipe->GetPixelShader());
+		DebugVector_[i].ShaderHelper_.SettingConstantBufferLink("TransformData", DebugVector_[i].Data_);
+	}
 }
 
 void CameraComponent::Update(float _DeltaTime)

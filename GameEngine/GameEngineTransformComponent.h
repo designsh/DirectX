@@ -1,16 +1,16 @@
 #pragma once
 #include "GameEngineComponent.h"
+#include "GameEngineTransform.h"
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineTransform;
 class GameEngineTransformComponent : public GameEngineComponent
 {
 	friend GameEngineActor;
 
 private:	// member Var
-	GameEngineTransform* Transform_;
+	GameEngineTransform Transform_;
 
 public:
 	GameEngineTransformComponent();

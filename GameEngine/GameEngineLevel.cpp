@@ -7,6 +7,7 @@
 #include "CameraActor.h"
 #include "CameraComponent.h"
 #include "GameEngineCollision.h"
+#include "GameEngineDebugRenderData.h"
 
 GameEngineLevel::GameEngineLevel() :
 	MainCameraActor_(nullptr),
@@ -47,6 +48,10 @@ void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _Group)
 	CollisionList_[_Group].push_back(_Collision);
 }
 
+void GameEngineLevel::DebugRender(GameEngineTransform* _Transform, CollisionType _Type)
+{
+}
+
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
@@ -75,6 +80,8 @@ void GameEngineLevel::Render()
 
 	// UICamera가 가지는 모든 렌더러를 렌더링
 	UICameraActor_->GetCamera()->Render();
+
+	// MainCameraActor_->GetCamera()->DebugRender();
 
 	GameEngineDevice::RenderEnd();
 }

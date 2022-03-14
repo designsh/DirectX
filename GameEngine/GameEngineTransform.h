@@ -117,8 +117,8 @@ public:
 	~GameEngineTransform();
 
 protected:		// delete constructer
-	GameEngineTransform(const GameEngineTransform& _other) = delete;
-	GameEngineTransform(GameEngineTransform&& _other) noexcept = delete;
+	//GameEngineTransform(const GameEngineTransform& _other) = delete;
+	//GameEngineTransform(GameEngineTransform&& _other) noexcept = delete;
 
 private:		//delete operator
 	GameEngineTransform& operator=(const GameEngineTransform& _other) = delete;

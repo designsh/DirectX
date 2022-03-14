@@ -8,7 +8,7 @@
 #include <GameEngine/GameEngineWindow.h>
 #include <GameEngine/GameEngineInput.h>
 
-#include <GameEngine/GameEngineManager.h>
+#include <GameEngine/GameEngineResourcesManager.h>
 
 #include <GameEngine/CameraActor.h>
 #include <GameEngine/CameraComponent.h>

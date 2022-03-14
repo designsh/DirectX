@@ -1,5 +1,7 @@
 #pragma once
 #include "GameEngineTransformComponent.h"
+#include "GameEngineDebugRenderData.h"
+#include "Enums.h"
 
 // 투영 타입
 enum class ProjectionMode
@@ -27,6 +29,10 @@ private:	// member Var
 private:
 	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
 
+private:
+	std::vector<GameEngineDebugRenderData> DebugVector_;
+	int DebugRenderCount_;
+
 public:
 	CameraComponent();
 	~CameraComponent();
@@ -43,11 +49,15 @@ private:
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 	void CameraTransformUpdate();
 	void Render();
+	void DebugRender();
 	void ReleaseRenderer();
 
 public:
 	void SetProjectionMode(ProjectionMode _ProjectionMode);
 	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
+
+public:
+	void PushDebug(GameEngineTransform* _Trans, CollisionType _Type);
 
 protected:
 	void Start() override;

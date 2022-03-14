@@ -88,6 +88,8 @@ private:		//delete operator
 
 public:
 	void EngineInitialize();
+	void EngineResourcesLoad();
+	void EngineResourcesCreate();
 	void EngineDestory();
 
 protected:

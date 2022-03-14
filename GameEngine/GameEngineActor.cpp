@@ -9,17 +9,10 @@ GameEngineActor::GameEngineActor() :
 	IsDestroyed_(false),
 	DeathTime_(-1.f)
 {
-	Transform_ = new GameEngineTransform();
 }
 
 GameEngineActor::~GameEngineActor()
 {
-	if (nullptr != Transform_)
-	{
-		delete Transform_;
-		Transform_ = nullptr;
-	}
-
 	for (auto& Component : ComponentList_)
 	{
 		if (nullptr != Component)
@@ -46,7 +39,7 @@ GameEngineLevel* GameEngineActor::GetLevel() const
 
 GameEngineTransform* GameEngineActor::GetTransform()
 {
-	return 	Transform_;
+	return &Transform_;
 }
 
 void GameEngineActor::SetLevel(GameEngineLevel* _Level)

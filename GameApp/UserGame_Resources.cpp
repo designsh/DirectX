@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "UserGame.h"
-#include "CustomVertex.h"
+#include <GameEngine/EngineVertex.h>
 #include "UserGame_Resources_Shader.h"
 
 // InGame Infomation
@@ -110,7 +110,7 @@ void UserGame::ResourcesLoad()
 																																// FALSE : z-클립핑을 비활성화(단, 픽셀수준에서의 부적절한 깊이 순서가 발생할 가능성이 있다.)
 	Info.SlopeScaledDepthBias = 0.f;																// 주어진 픽셀의 기울기에 대한 스칼라값
 
-	GameEngineRasterizer* Rasterizer = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
+	GameEngineRasterizer* Rasterizer = GameEngineRasterizerManager::GetInst().Create("UserBaseRasterizer", Info);
 	Rasterizer->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Rendering PipeList 생성
@@ -134,7 +134,7 @@ void UserGame::ResourcesLoad()
 	// Vertex Buffer를 이용하여 생성한 면이 간섭하는 픽셀을 건져낸다.
 	// 샘플링 작업을 거치지 않았기 때문에 디테일한 화면표현이 되지않으며,
 	// 단순 면이 간섭하는 모든 픽셀을 찾아내는 역할을 수행한다.
-	RederingPipeLine->SetRasterizer("EngineBaseRasterizer");
+	RederingPipeLine->SetRasterizer("UserBaseRasterizer");
 
 	// Rendering PipeLine : Pixel Shader
 	RederingPipeLine->SetPixelShader("Color_PS");
@@ -173,9 +173,7 @@ void UserGame::ResourcesLoad()
 	BlendInfo.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
 
 	// 블렌드 생성
-	GameEngineBlendManager::GetInst().Create("AlphaBlend", BlendInfo);
-
-	RederingPipeLine->SetOutputMergerBlend("AlphaBlend");
+	GameEngineBlendManager::GetInst().Create("UserAlphaBlend", BlendInfo);
 
 	// ======================================================= Image Rendering ======================================================= // 
 	GameEngineRenderingPipeLine* TexturePipeLine = GameEngineRenderingPipeLineManager::GetInst().Create("Texture");
@@ -184,7 +182,7 @@ void UserGame::ResourcesLoad()
 	TexturePipeLine->SetVertexShader("Texture_VS");
 	TexturePipeLine->SetInputAssembler2IndexBufferSetting("Rect");
 	TexturePipeLine->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	TexturePipeLine->SetRasterizer("EngineBaseRasterizer");
+	TexturePipeLine->SetRasterizer("UserBaseRasterizer");
 	TexturePipeLine->SetPixelShader("Texture_PS");
-	TexturePipeLine->SetOutputMergerBlend("AlphaBlend");
+	TexturePipeLine->SetOutputMergerBlend("UserAlphaBlend");
 }
