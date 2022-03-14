@@ -358,6 +358,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GlobalEnumClass.h" />
     <ClInclude Include="GlobalValue.h">
       <SubType>
       </SubType>

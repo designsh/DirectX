@@ -198,6 +198,11 @@ float4 GameEngineInput::GetMousePos()
     return Inst->MousePos_;
 }
 
+float4 GameEngineInput::GetPrevMousePos()
+{
+    return Inst->PrevMousePos_;
+}
+
 float4 GameEngineInput::GetMouse3DPos() 
 {
     return Inst->MousePos3D_;

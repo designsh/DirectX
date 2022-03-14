@@ -101,12 +101,14 @@ public: // member func
 
 private:
     float4 MousePos_;
+    float4 PrevMousePos_;
     float4 MousePos3D_;
     float4 PrevMousePos3D_;
     float4 MouseDir3D_;
 
 public: // Mouse
-    static float4 GetMousePos(); // 순수한 윈도우 좌표계 스크린 포스
+    static float4 GetMousePos(); // 순수한 윈도우 좌표계 스크린 포스(현재)
+    static float4 GetPrevMousePos(); // 순수한 윈도우 좌표계 스크린 포스(이전)
     static float4 GetMouse3DPos(); // 중앙을 0,0 으로보고 위로올라갈수록 y 증가하는 3d용 스크린 좌표
     static float4 GetMouse3DDir(); // 그때 마우스가 움직인 마우스 좌표의 변화량 
 

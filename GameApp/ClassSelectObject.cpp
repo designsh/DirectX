@@ -2,8 +2,13 @@
 #include "ClassSelectObject.h"
 
 #include "CurPlayerGameStartButton.h"
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
+#include "MouseObject.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
+#include <GameEngine/GameEngineTransform.h>
 
 JobType ClassSelectObject::SelectClassType = JobType::None;
 
@@ -13,6 +18,7 @@ JobType ClassSelectObject::GetSelectClass()
 }
 
 ClassSelectObject::ClassSelectObject() :
+	MainCollision_(nullptr),
 	SelectState_(CurSelectState::MAX),
 	JobType_(JobType::None),
 	JobName_{}
@@ -43,11 +49,8 @@ void ClassSelectObject::Start()
 
 void ClassSelectObject::Update(float _DeltaTime)
 {
-	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 해당 직업으로 선택된다.
-	// 선택시 SelectStartAnimation이 실행되며, 선택해제시 ReleaseStartAnimation이 실행된다.
-	// 선택하지않은 클래스는 DefaultAnimation을 실행한다.
-	// 또한, 현재 선택한 직업이 존재한다면 '확인' 버튼을 활성화한다.
-	//CurClassSelect();
+	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 해당 직업으로 선택 or 선택해제
+	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&ClassSelectObject::ClassSelOrDesel, this, std::placeholders::_1));
 
 
 	// TEST
@@ -223,6 +226,10 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(FirstEntityAni);
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(FirstEffectAni);
 
+		// ============================================= 충돌체 생성 ============================================= //
+		MainCollision_ = CreateTransformComponent<GameEngineCollision>(GetTransform(), static_cast<int>(OrderGroup::NormalObject));
+		MainCollision_->GetTransform()->SetLocalScaling(float4(256.0f, 256.0f, 1.0f));
+
 		// 현재 상태 저장
 		SelectState_ = _FirstTextureType;
 		JobType_ = _JobType;
@@ -276,6 +283,18 @@ void ClassSelectObject::SelectEnd()
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
 
 		SelectState_ = CurSelectState::SelDefault;
+	}
+}
+
+void ClassSelectObject::ClassSelOrDesel(GameEngineCollision* _OtherCollision)
+{
+	// 충돌중 마우스왼쪽버튼 클릭시 해당 액터 애니메이션 상태 전환
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		// 해당 액터(직업클래스)의 선택/미선택 상태에 따라 애니메이션 변경처리
+		// 선택 : 이전에 이미 선택된 클래스로 한번더 클릭시 선택해제 모션 시작 및 확인버튼 비활성화
+		// 미선택 : 이전에 선택되지않은 클래스로 클릭시 선택 모션 시작 및 확인버튼 활성화
+		CurClassSelect();
 	}
 }
 

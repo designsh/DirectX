@@ -520,6 +520,9 @@
     <Filter Include="Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgButton">
       <UniqueIdentifier>{f14ad536-e524-423f-aa25-2ce87c17377e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\GlobalValue\GlobalEnum">
+      <UniqueIdentifier>{0aa58a24-b9fc-473f-b489-061c697c4258}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -689,6 +692,9 @@
     </ClInclude>
     <ClInclude Include="ErrorMsgButton.h">
       <Filter>Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgButton</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalEnumClass.h">
+      <Filter>Object\GlobalValue\GlobalEnum</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

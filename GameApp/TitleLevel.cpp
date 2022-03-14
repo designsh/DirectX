@@ -5,6 +5,7 @@
 #include "TitleLogo.h"
 #include "GameStartButton.h"
 #include "GameEndButton.h"
+#include "MouseObject.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -46,6 +47,9 @@ void TitleLevel::LevelStart()
 
 	// 게임종료 버튼 생성(이미지+텍스트)
 	GameEndButton* EndButton = CreateActor<GameEndButton>();
+
+	// 현재 마우스 생성 - 이미지 편집 후 생성예정(집에가서해야지)
+	//MouseObject* MainMouse = CreateActor<MouseObject>();
 }
 
 void TitleLevel::LevelUpdate(float _DeltaTime)

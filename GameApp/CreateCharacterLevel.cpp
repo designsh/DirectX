@@ -98,7 +98,6 @@ void CreateCharacterLevel::LevelStart()
 	NecromancerClass->CreateClassRenderer(float4(0.f, 0.f), JobType::Necromancer);
 
 	// ...
-
 }
 
 void CreateCharacterLevel::LevelUpdate(float _DeltaTime)
