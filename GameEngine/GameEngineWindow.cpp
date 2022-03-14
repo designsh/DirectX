@@ -10,6 +10,7 @@ bool GameEngineWindow::WindowLoopFlag = true;
 // 포인터형 싱글톤
 GameEngineWindow* GameEngineWindow::Inst = new GameEngineWindow();
 
+// 220315 윈도우 메세지 처리 함수 변경
 //LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
 //{
 //	switch (_message)
