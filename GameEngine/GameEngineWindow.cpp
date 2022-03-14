@@ -5,41 +5,43 @@
 #include <GameEngineBase/GameEngineSoundManager.h>
 #include <iostream>
 
+bool GameEngineWindow::WindowLoopFlag = true;
+
 // 포인터형 싱글톤
 GameEngineWindow* GameEngineWindow::Inst = new GameEngineWindow();
 
-LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
-{
-	switch (_message)
-	{
-		case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-
-			// HDC 윈도우에 픽셀에 색깔을 바꿀수 있는 권한이입니다.
-			// 윈도우창이 그려지는 2차원 배열에 접근할수 있는 권한입니다.
-			HDC hdc = BeginPaint(_hWnd, &ps);
-			EndPaint(_hWnd, &ps);
-			break;
-		}
-		case WM_SIZE:
-		{
-			return DefWindowProc(_hWnd, _message, _wParam, _lParam);
-			break;
-		}
-		case WM_DESTROY:
-		{
-			//WindowOn_ = false;
-			break;
-		}
-		default:
-		{
-			return DefWindowProc(_hWnd, _message, _wParam, _lParam);
-		}
-	}
-
-	return 0;
-}
+//LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
+//{
+//	switch (_message)
+//	{
+//		case WM_PAINT:
+//		{
+//			PAINTSTRUCT ps;
+//
+//			// HDC 윈도우에 픽셀에 색깔을 바꿀수 있는 권한이입니다.
+//			// 윈도우창이 그려지는 2차원 배열에 접근할수 있는 권한입니다.
+//			HDC hdc = BeginPaint(_hWnd, &ps);
+//			EndPaint(_hWnd, &ps);
+//			break;
+//		}
+//		case WM_SIZE:
+//		{
+//			return DefWindowProc(_hWnd, _message, _wParam, _lParam);
+//			break;
+//		}
+//		case WM_DESTROY:
+//		{
+//			
+//			break;
+//		}
+//		default:
+//		{
+//			return DefWindowProc(_hWnd, _message, _wParam, _lParam);
+//		}
+//	}
+//
+//	return 0;
+//}
 
 // constructer destructer
 GameEngineWindow::GameEngineWindow() 
@@ -48,7 +50,6 @@ GameEngineWindow::GameEngineWindow()
 	, windowhandle_(nullptr)
 	, hInstance_(nullptr)
 	, devicecontext_(nullptr)
-	, WindowOn_(true)
 {
 }
 
@@ -77,7 +78,8 @@ int GameEngineWindow::CreateMainWindowClass()
 	WNDCLASSEXA wcex = {};
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_HREDRAW | CS_VREDRAW; // 화면 재갱신 옵션
-	wcex.lpfnWndProc = WndProc;
+	//wcex.lpfnWndProc = WndProc;
+	wcex.lpfnWndProc = WindowEvent;
 	wcex.cbClsExtra = 0; // 신경안써도 됨
 	wcex.cbWndExtra = 0; // 신경안써도 됨.
 	wcex.hInstance = hInstance_;
@@ -152,7 +154,7 @@ void GameEngineWindow::SetSizeAndPos(const float4& _size, const float4& _pos)
 void GameEngineWindow::Loop(void(*_loopFunc)()) 
 {
 	MSG msg;
-	while (WindowOn_)
+	while (WindowLoopFlag)
 	{
 		if (0 != PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
@@ -184,8 +186,41 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
 	}
 }
 
+__int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue)
+{
+	switch (_EventType)
+	{
+		case WM_PAINT:
+		{
+			PAINTSTRUCT ps;
+
+			// HDC 윈도우에 픽셀에 색깔을 바꿀수 있는 권한이입니다.
+			// 윈도우창이 그려지는 2차원 배열에 접근할수 있는 권한입니다.
+			HDC hdc = BeginPaint(_hWnd, &ps);
+			EndPaint(_hWnd, &ps);
+			break;
+		}
+		case WM_SIZE:
+		{
+			return DefWindowProc(_hWnd, _EventType, _LValue, _SubValue);
+			break;
+		}
+		case WM_DESTROY:
+		{
+			WindowLoopFlag = false;
+			break;
+		}
+		default:
+		{
+			return DefWindowProc(_hWnd, _EventType, _LValue, _SubValue);
+		}
+	}
+
+	return 0;
+}
+
 void GameEngineWindow::CloseWindow()
 {
-	WindowOn_ = false;
+	WindowLoopFlag = false;
 }
 

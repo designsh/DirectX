@@ -8,6 +8,7 @@
 class GameEngineWindow : public GameEngineObjectNameBase
 {
 private:
+	static bool WindowLoopFlag;
 	static GameEngineWindow* Inst;
 
 public:
@@ -35,8 +36,6 @@ private:
 	float4 size_;
 	float4 pos_;
 
-	bool WindowOn_;
-
 private:
 	GameEngineWindow();
 	~GameEngineWindow();
@@ -48,6 +47,9 @@ public:
 	void CreateMainWindow(const std::string& _titlename, const float4& _size, const float4& _pos);
 	void SetSizeAndPos(const float4& _size, const float4& _pos);
 	void Loop(void(*_loopFunc)());
+
+public:
+	static __int64 WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue);
 
 public:
 	HWND  GetWindowHWND()
