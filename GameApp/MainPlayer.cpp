@@ -66,6 +66,12 @@ void MainPlayer::Start()
 		GameEngineInput::GetInst().CreateKey("InventoryActive", 'I');
 	}
 
+	// 스태미나 활성/비활성
+	if (false == GameEngineInput::GetInst().IsKey("StaminaActive"))
+	{
+		GameEngineInput::GetInst().CreateKey("StaminaActive", 'R');
+	}
+
 	// TEST 용
 	if (false == GameEngineInput::GetInst().IsKey("NextDirect"))
 	{
