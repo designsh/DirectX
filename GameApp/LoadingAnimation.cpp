@@ -20,8 +20,7 @@ void LoadingAnimation::Start()
 	Loading->Cut(10, 1);
 
 	LoadingAnimation_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	LoadingAnimation_->SetImage("Loading.png");
-	LoadingAnimation_->CreateAnimation("LoadingAnimation", 0, 9, 0.1f, false);
+	LoadingAnimation_->CreateAnimation("Loading.png", "LoadingAnimation", 0, 9, 0.1f, false);
 	LoadingAnimation_->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
 	LoadingAnimation_->SetChangeAnimation("LoadingAnimation");
 

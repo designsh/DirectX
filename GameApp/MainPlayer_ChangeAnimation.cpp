@@ -306,12 +306,12 @@ void MainPlayer::ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _M
 			// 아이템 착용 / 아이템 미착용 타입에 따라 설정
 			if (ItemEquipState::TP_HVY == PartRenderer_[i].ItemEquipState_)
 			{
-				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetImage(TextureName);
+				//PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetImage(TextureName);
 				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalScaling(PlayerSize_);
 			}
 			else
 			{
-				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetImage(TextureName);
+				//PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetImage(TextureName);
 				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetLocalScaling(PlayerSize_);
 			}
 		}

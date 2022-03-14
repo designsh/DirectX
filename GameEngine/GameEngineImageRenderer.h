@@ -13,22 +13,23 @@ private:
 	struct Animation2D
 	{
 	public:
-		GameEngineFolderTexture*											FolderTextures_;	// 
-		GameEngineImageRenderer*										Renderer_;			// 
+		GameEngineFolderTexture*											FolderTextures_;				// 리소스 폴더로드
+		GameEngineTexture*														AnimationTexture_;		// 리소스 로드
+		GameEngineImageRenderer*										Renderer_;						// 
 		
-		float																						InterTime_;			// 프레임전환 시간(고정)
-		float																						CurTime_;				// 델타타임 누적(초기값 : InterTime_)
+		float																						InterTime_;						// 프레임전환 시간(고정)
+		float																						CurTime_;							// 델타타임 누적(초기값 : InterTime_)
 
-		bool																						IsEnd_;					// Loop_ = false일때의 애니메이션 프레임 종료
-		bool																						Loop_;					// 애니메이션 반복여부 Flag
-		bool																						Manual;					// 애니메이션 수동으로 프레임진행여부 Flag
-		int																							CurFrame_;			// 애니메이션의 현재 프레임(초기값 : StartFrame_)
-		int																							StartFrame_;		// 애니메이션의 시작 프레임
-		int																							EndFrame_;			// 애니메이션의 끝 프레임
+		bool																						IsEnd_;								// Loop_ = false일때의 애니메이션 프레임 종료
+		bool																						Loop_;								// 애니메이션 반복여부 Flag
+		bool																						Manual;								// 애니메이션 수동으로 프레임진행여부 Flag
+		int																							CurFrame_;						// 애니메이션의 현재 프레임(초기값 : StartFrame_)
+		int																							StartFrame_;					// 애니메이션의 시작 프레임
+		int																							EndFrame_;						// 애니메이션의 끝 프레임
 
-		std::map<int, std::vector<std::function<void()>>>	FrameCallBack_;	// 지정 프레임에 호출하는 함수
-		std::vector<std::function<void()>>								EndCallBack_;		// 애니메이션 끝 프레임에 호출하는 함수
-		std::vector<std::function<void()>>								StartCallBack_;	// 애니메이션 생성시 첫프레임에 호출하는 함수
+		std::map<int, std::vector<std::function<void()>>>	FrameCallBack_;				// 지정 프레임에 호출하는 함수
+		std::vector<std::function<void()>>								EndCallBack_;					// 애니메이션 끝 프레임에 호출하는 함수
+		std::vector<std::function<void()>>								StartCallBack_;				// 애니메이션 생성시 첫프레임에 호출하는 함수
 
 	public:
 		void Reset();
@@ -72,7 +73,7 @@ protected:
 
 public:
 	// 프레임 자동 진행
-	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
+	void CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
 	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop = true);
 
 	// 프레임 수동진행

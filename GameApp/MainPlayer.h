@@ -131,7 +131,6 @@ private: // 텍스쳐 컷팅관련
 	void AnimationWLCut();							// 필드_걷기모션
 
 private: // 애니메이션 생성관련
-	void SetPlayerCurImage();						// 최초 텍스쳐 지정
 	void SetFirstAnimation();							// 최초 애니메이션 지정
 	void SetRenderSize();								// 최초 렌더링크기 지정
 	void SetFirstItemEquipState();				// 최초 렌더링하는 애니메이션타입 지정

@@ -18,8 +18,7 @@ void CreateCharacterFireObject::Start()
 	Loading->Cut(30, 1);
 
 	FireAnimation_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	FireAnimation_->SetImage("CreateCharacter_Fire.png");
-	FireAnimation_->CreateAnimation("FireAnimation", 0, 29, 0.1f);
+	FireAnimation_->CreateAnimation("CreateCharacter_Fire.png", "FireAnimation", 0, 29, 0.1f);
 	FireAnimation_->GetTransform()->SetLocalScaling(float4(150.f, 176.f, 1.f));
 	FireAnimation_->GetTransform()->SetLocalPosition(float4(0.f, -100.f));
 	FireAnimation_->SetChangeAnimation("FireAnimation");

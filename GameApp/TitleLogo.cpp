@@ -20,10 +20,10 @@ void TitleLogo::Start()
 
 	// 로고 애니메이션 렌더러 생성
 	LogoAnimation_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	LogoAnimation_->SetImage("Title_Logo.png", float4(550.f, 196.f));
-	LogoAnimation_->CreateAnimation("TitleLogoAnimation", 0, 29, 0.1f);
+	LogoAnimation_->CreateAnimation("Title_Logo.png", "TitleLogoAnimation", 0, 29, 0.1f);
 	LogoAnimation_->SetChangeAnimation("TitleLogoAnimation");
 	LogoAnimation_->GetTransform()->SetLocalPosition(float4(0.f, 240.f));
+	LogoAnimation_->GetTransform()->SetLocalScaling(float4(550.f, 196.f));
 	
 }
 
