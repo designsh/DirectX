@@ -2,7 +2,7 @@
 #include "CreateCharacterInputText.h"
 
 #include <GameEngine/GameEngineUIRenderer.h>
-
+#include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
@@ -16,6 +16,7 @@ std::string CreateCharacterInputText::GetInputID()
 
 CreateCharacterInputText::CreateCharacterInputText() :
 	IDInput_(nullptr),
+	ActiveCollider_(nullptr),
 	InputBoxActive_(false)
 {
 }
@@ -31,24 +32,37 @@ void CreateCharacterInputText::Start()
 	GameEngineTexture* InputTextImage = GameEngineTextureManager::GetInst().Find("InputText.png");
 	float4 TextureSize = InputTextImage->GetTextureSize();
 
-	// 추후 버튼UI 만들면 변경예정
 	IDInput_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
 	IDInput_->SetImage("InputText.png", float4(150.f, 30.f));
 	IDInput_->GetTransform()->SetLocalPosition(float4(0.f, -WindowSize.ihy() + 60.f));
+
+	ActiveCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0_Collider));
+	ActiveCollider_->GetTransform()->SetLocalScaling(float4(150.f, 30.f, 1.f));
+	ActiveCollider_->GetTransform()->SetLocalPosition(IDInput_->GetTransform()->GetLocalPosition());
 }
 
 void CreateCharacterInputText::Update(float _DeltaTime)
 {
-	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 입력창 활성화
-	// 활성화된 입력창에 키보드를 이용하여 입력가능상태로 전환 : InputBoxActive_ = true;
+	// 마우스와 충돌체크
+	ActiveCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&CreateCharacterInputText::InputBoxActive, this, std::placeholders::_1));
 	
-
-
-
+	
 	// 입력가능 상태라면 입력마다 InputID에 저장
 	if (true == InputBoxActive_)
 	{
 		CharacterIDInput();
+	}
+}
+
+void CreateCharacterInputText::InputBoxActive(GameEngineCollision* _OtherCollision)
+{
+	// 마우스 왼쪽버튼 클릭시 ID입력창 활성화
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		if (false == InputBoxActive_)
+		{
+			InputBoxActive_ = true;
+		}
 	}
 }
 
