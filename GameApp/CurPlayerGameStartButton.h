@@ -17,6 +17,7 @@ public:
 
 private:	// member Var
 	GameEngineUIRenderer* CurPlayerGameStartBtn_;
+	GameEngineCollision* MainCollider_;
 
 private:
 	bool RenderFlag_;
@@ -36,6 +37,9 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+public:
+	void OKButtonClick(GameEngineCollision* _OtherCollision);
 
 public:
 	void GameStartConditionCheck();

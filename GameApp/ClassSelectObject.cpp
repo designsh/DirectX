@@ -1,14 +1,15 @@
 #include "PreCompile.h"
 #include "ClassSelectObject.h"
 
-#include "CurPlayerGameStartButton.h"
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
-#include "MouseObject.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngine/GameEngineTransform.h>
+
+#include "CurPlayerGameStartButton.h"
+#include "MouseObject.h"
 
 JobType ClassSelectObject::SelectClassType = JobType::None;
 
@@ -102,7 +103,7 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 	if (JobType::None != _JobType)
 	{
 		// ============================================== 본체 생성 ============================================== //
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)] = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)] = CreateTransformComponent<GameEngineImageRenderer>(static_cast<int>(OrderGroup::NormalObject0));
 		
 		std::string Entity_NotSelName = EntityName;
 		Entity_NotSelName += TextureName_[static_cast<int>(CurSelectState::NotSel)];
@@ -125,7 +126,7 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetEndCallBack(Entity_SelStartName, std::bind(&ClassSelectObject::SelectEnd, this));
 
 		// ============================================== 효과 생성 ============================================== //
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)] = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)] = CreateTransformComponent<GameEngineImageRenderer>(static_cast<int>(OrderGroup::NormalObject1));
 
 		std::string Effect_NotSelName = EffectName;
 		Effect_NotSelName += TextureName_[static_cast<int>(CurSelectState::NotSel)];
@@ -160,7 +161,7 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(FirstEffectAni);
 
 		// ============================================= 충돌체 생성 ============================================= //
-		MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::NormalObject0));
+		MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::NormalObject0_Collider));
 		MainCollision_->GetTransform()->SetLocalScaling(float4(256.0f, 256.0f, 1.0f));
 
 		// 현재 상태 저장

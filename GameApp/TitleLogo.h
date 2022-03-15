@@ -4,11 +4,11 @@
 // 분류 : 애니메이션
 // 용도 : 타이틀레벨 로고
 // 설명 : 
-class GameEngineImageRenderer;
+class GameEngineUIRenderer;
 class TitleLogo : public GameEngineActor
 {
 private:	// member Var
-	GameEngineImageRenderer* LogoAnimation_;
+	GameEngineUIRenderer* LogoAnimation_;
 
 public:
 	TitleLogo();

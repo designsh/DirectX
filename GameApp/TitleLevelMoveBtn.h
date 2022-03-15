@@ -5,10 +5,12 @@
 // 용도 : 캐릭터생성레벨 버튼
 // 설명 : 현재 생성한 플레이어로 게임시작
 class GameEngineUIRenderer;
+class GameEngineCollision;
 class TitleLevelMoveBtn : public GameEngineActor
 {
 private:	// member Var
 	GameEngineUIRenderer* PrevMenuBtn_;
+	GameEngineCollision* MainCollider_;
 
 public:
 	TitleLevelMoveBtn();
@@ -27,5 +29,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void PrevButtonClick(GameEngineCollision* _OtherCollision);
 };
 

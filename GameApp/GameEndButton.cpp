@@ -26,7 +26,7 @@ void GameEndButton::Start()
 	EndButton_->GetTransform()->SetLocalPosition(float4(0.f, -300.f));
 
 	// 中宜端 持失
-	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0));
+	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0_Collider));
 	MainCollision_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
 	MainCollision_->GetTransform()->SetLocalPosition(float4(0.f, -300.f));
 }

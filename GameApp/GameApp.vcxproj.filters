@@ -56,11 +56,8 @@
     <ClCompile Include="CreateCharacterFireObject.cpp">
       <Filter>Object\Actor\02.CreateCharacter\01.FireObject</Filter>
     </ClCompile>
-    <ClCompile Include="CreateCharacterNecromancerObject.cpp">
-      <Filter>Object\Actor\02.CreateCharacter\02.NecObject</Filter>
-    </ClCompile>
     <ClCompile Include="CreateCharacterInputText.cpp">
-      <Filter>Object\Actor\02.CreateCharacter\03.InputText</Filter>
+      <Filter>Object\Actor\02.CreateCharacter\02.InputText</Filter>
     </ClCompile>
     <ClCompile Include="CreateCharacterButton.cpp">
       <Filter>Object\Actor\03.SelectCharacter\04.Button\00.CreateCharacterButton</Filter>
@@ -75,7 +72,7 @@
       <Filter>Object\Actor\03.SelectCharacter\04.Button\03.GameStartButton</Filter>
     </ClCompile>
     <ClCompile Include="CurPlayerGameStartButton.cpp">
-      <Filter>Object\Actor\02.CreateCharacter\04.GameStartButton</Filter>
+      <Filter>Object\Actor\02.CreateCharacter\03.GameStartButton</Filter>
     </ClCompile>
     <ClCompile Include="SelectCharacterBackDrop.cpp">
       <Filter>Object\Actor\03.SelectCharacter\00.BackDrop</Filter>
@@ -165,10 +162,10 @@
       <Filter>Object\Actor\00.Global\02.NPC\00.NPCInfo</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevelMoveBtn.cpp">
-      <Filter>Object\Actor\02.CreateCharacter\05.TitleLevelMoveButton</Filter>
+      <Filter>Object\Actor\02.CreateCharacter\04.TitleLevelMoveButton</Filter>
     </ClCompile>
     <ClCompile Include="ClassSelectObject.cpp">
-      <Filter>Object\Actor\02.CreateCharacter\06.ClassSelectAnimation</Filter>
+      <Filter>Object\Actor\02.CreateCharacter\05.ClassSelectAnimation</Filter>
     </ClCompile>
     <ClCompile Include="ErrorMsgPopup.cpp">
       <Filter>Object\Actor\00.Global\99.ErrorMsgPopup</Filter>
@@ -306,15 +303,6 @@
     </Filter>
     <Filter Include="Object\Actor\02.CreateCharacter\01.FireObject">
       <UniqueIdentifier>{a557badf-f83b-4631-a0bf-78e39cf5ff04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharacter\02.NecObject">
-      <UniqueIdentifier>{a06b75a1-4a90-4c97-9dee-4f166f2cd6e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharacter\03.InputText">
-      <UniqueIdentifier>{d317662e-f139-4bb5-8d36-0e810e9af204}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharacter\04.GameStartButton">
-      <UniqueIdentifier>{8dd3ec03-da65-4710-8cf2-9d7a141d2367}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Level\02.CreateCharacterLevel">
       <UniqueIdentifier>{637d22fc-55d4-4764-a8bc-24a5003a8f1a}</UniqueIdentifier>
@@ -502,12 +490,6 @@
     <Filter Include="Object\Actor\00.Global\02.NPC\02.ChandleryNPC">
       <UniqueIdentifier>{f08ec3e2-3ae4-4688-b167-fe51c322ace4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\02.CreateCharacter\05.TitleLevelMoveButton">
-      <UniqueIdentifier>{73163eac-bd4a-4cd2-914a-a6c3bb237530}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\02.CreateCharacter\06.ClassSelectAnimation">
-      <UniqueIdentifier>{e30b6761-9065-43af-a035-0a106ed54391}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\99.ErrorMsgPopup">
       <UniqueIdentifier>{09236cc2-ed37-4122-8fa3-d27524e1e815}</UniqueIdentifier>
     </Filter>
@@ -522,6 +504,18 @@
     </Filter>
     <Filter Include="Object\Level\00.Global">
       <UniqueIdentifier>{c12ce5a7-5672-4ddf-b2cb-70539ee201b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\02.InputText">
+      <UniqueIdentifier>{d317662e-f139-4bb5-8d36-0e810e9af204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\03.GameStartButton">
+      <UniqueIdentifier>{8dd3ec03-da65-4710-8cf2-9d7a141d2367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\04.TitleLevelMoveButton">
+      <UniqueIdentifier>{73163eac-bd4a-4cd2-914a-a6c3bb237530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\02.CreateCharacter\05.ClassSelectAnimation">
+      <UniqueIdentifier>{e30b6761-9065-43af-a035-0a106ed54391}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -579,11 +573,8 @@
     <ClInclude Include="CreateCharacterFireObject.h">
       <Filter>Object\Actor\02.CreateCharacter\01.FireObject</Filter>
     </ClInclude>
-    <ClInclude Include="CreateCharacterNecromancerObject.h">
-      <Filter>Object\Actor\02.CreateCharacter\02.NecObject</Filter>
-    </ClInclude>
     <ClInclude Include="CreateCharacterInputText.h">
-      <Filter>Object\Actor\02.CreateCharacter\03.InputText</Filter>
+      <Filter>Object\Actor\02.CreateCharacter\02.InputText</Filter>
     </ClInclude>
     <ClInclude Include="CreateCharacterButton.h">
       <Filter>Object\Actor\03.SelectCharacter\04.Button\00.CreateCharacterButton</Filter>
@@ -598,7 +589,7 @@
       <Filter>Object\Actor\03.SelectCharacter\04.Button\03.GameStartButton</Filter>
     </ClInclude>
     <ClInclude Include="CurPlayerGameStartButton.h">
-      <Filter>Object\Actor\02.CreateCharacter\04.GameStartButton</Filter>
+      <Filter>Object\Actor\02.CreateCharacter\03.GameStartButton</Filter>
     </ClInclude>
     <ClInclude Include="SelectCharacterBackDrop.h">
       <Filter>Object\Actor\03.SelectCharacter\00.BackDrop</Filter>
@@ -679,10 +670,10 @@
       <Filter>Object\Actor\00.Global\02.NPC\00.NPCInfo</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevelMoveBtn.h">
-      <Filter>Object\Actor\02.CreateCharacter\05.TitleLevelMoveButton</Filter>
+      <Filter>Object\Actor\02.CreateCharacter\04.TitleLevelMoveButton</Filter>
     </ClInclude>
     <ClInclude Include="ClassSelectObject.h">
-      <Filter>Object\Actor\02.CreateCharacter\06.ClassSelectAnimation</Filter>
+      <Filter>Object\Actor\02.CreateCharacter\05.ClassSelectAnimation</Filter>
     </ClInclude>
     <ClInclude Include="ErrorMsgPopup.h">
       <Filter>Object\Actor\00.Global\99.ErrorMsgPopup</Filter>

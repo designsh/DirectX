@@ -3,6 +3,9 @@
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
+
 CreateCharacterBackDrop::CreateCharacterBackDrop() :
 	BackDrop_(nullptr)
 {
@@ -16,7 +19,7 @@ void CreateCharacterBackDrop::Start()
 {
 	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
 
-	BackDrop_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	BackDrop_ = CreateTransformComponent<GameEngineImageRenderer>(static_cast<int>(OrderGroup::BackDrop));
 	BackDrop_->SetImage("CreateCharacter_BackDrop.png", WindowSize);
 }
 

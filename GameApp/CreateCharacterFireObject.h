@@ -4,11 +4,11 @@
 // 분류 : 애니메이션
 // 용도 : 캐릭터생성레벨 캠프파이어
 // 설명 : 
-class GameEngineImageRenderer;
+class GameEngineUIRenderer;
 class CreateCharacterFireObject : public GameEngineActor
 {
 private:	// member Var
-	GameEngineImageRenderer* FireAnimation_;
+	GameEngineUIRenderer* FireAnimation_;
 
 public:
 	CreateCharacterFireObject();

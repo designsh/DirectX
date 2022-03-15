@@ -25,7 +25,7 @@ void GameStartButton::Start()
 	StartButton_->SetImage("LongButton_Stay.png", float4(430.f, 40.f, 1.0f));
 
 	// 中宜端 持失
-	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0));
+	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0_Collider));
 	MainCollision_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
 }
 

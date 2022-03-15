@@ -7,6 +7,7 @@
 #include "MainPlayerInfomation.h"
 
 #include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
 
 #include "UserGame.h"
 #include "GlobalEnumClass.h"
@@ -26,6 +27,7 @@ void CurPlayerGameStartButton::UserClassDeselect()
 
 CurPlayerGameStartButton::CurPlayerGameStartButton() :
 	CurPlayerGameStartBtn_(nullptr),
+	MainCollider_(nullptr),
 	RenderFlag_(false)
 {
 }
@@ -38,24 +40,32 @@ void CurPlayerGameStartButton::Start()
 {
 	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
 
-	GameEngineTexture* ButtonImage = GameEngineTextureManager::GetInst().Find("ShortButton_Stay.png");
-	float4 TextureSize = ButtonImage->GetTextureSize();
-
-	// 추후 버튼UI 만들면 변경예정
 	CurPlayerGameStartBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
 	CurPlayerGameStartBtn_->SetImage("ShortButton_Stay.png", float4(150.f, 40.f));
 	CurPlayerGameStartBtn_->GetTransform()->SetLocalPosition(float4(WindowSize.ihx() - 130.f, -WindowSize.ihy() + 60.f));
 	CurPlayerGameStartBtn_->Off();
+
+	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0_Collider));
+	MainCollider_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.0f));
+	MainCollider_->GetTransform()->SetLocalPosition(CurPlayerGameStartBtn_->GetTransform()->GetLocalPosition());
+	MainCollider_->Off();
 }
 
 void CurPlayerGameStartButton::Update(float _DeltaTime)
 {
+	// 충돌세크
+	if (true == CurPlayerGameStartBtn_->IsUpdate())
+	{
+		MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&CurPlayerGameStartButton::OKButtonClick, this, std::placeholders::_1));
+	}
+
 	// 1. 버튼 활성/비활성 여부 판단
 	if (false == RenderFlag_)
 	{
 		if (true == ClassSelect_)
 		{
 			CurPlayerGameStartBtn_->On();
+			MainCollider_->On();
 			RenderFlag_ = true;
 		}
 	}
@@ -64,6 +74,7 @@ void CurPlayerGameStartButton::Update(float _DeltaTime)
 		if (false == ClassSelect_)
 		{
 			CurPlayerGameStartBtn_->Off();
+			MainCollider_->Off();
 			RenderFlag_ = false;
 		}
 	}
@@ -76,6 +87,15 @@ void CurPlayerGameStartButton::Update(float _DeltaTime)
 	// 단, 이전 플레이어 생성시 사용된 ID를 체크하여 동일한 ID의 파일이 존재하다면 경고창을 화면에 띄우고 레벨전환이 불가하다.
 	// GameStartConditionCheck();
 
+}
+
+void CurPlayerGameStartButton::OKButtonClick(GameEngineCollision* _OtherCollision)
+{
+	// 마우스와 충돌시
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		GameStartConditionCheck();
+	}
 }
 
 void CurPlayerGameStartButton::GameStartConditionCheck()
