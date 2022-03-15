@@ -10,12 +10,12 @@ enum class MouseState
 // 분류 : 마우스
 // 용도 : 인게임 마우스
 // 설명 : 
-class GameEngineImageRenderer;
+class GameEngineUIRenderer;
 class GameEngineCollision;
 class MouseObject : public GameEngineActor
 {
 private:	// member Var
-	GameEngineImageRenderer* Mouse_;
+	GameEngineUIRenderer* Mouse_;
 	GameEngineCollision* MouseCollider_;
 
 private:

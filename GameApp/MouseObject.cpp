@@ -3,7 +3,7 @@
 
 #include "GlobalEnumClass.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 MouseObject::MouseObject() :
@@ -23,7 +23,7 @@ void MouseObject::Start()
 	GameEngineTexture* MouseStay = GameEngineTextureManager::GetInst().Find("Mouse.png");
 	MouseStay->Cut(8, 1);
 
-	Mouse_ = CreateTransformComponent<GameEngineImageRenderer>(static_cast<int>(OrderGroup::Mouse));
+	Mouse_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::Mouse));
 	Mouse_->CreateAnimation("Mouse.png", "StayState", 0, 7, 0.4f);
 	Mouse_->CreateAnimation("Mouse.png", "MoveState", 0, 0, 0.1f, false);
 	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));

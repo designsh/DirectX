@@ -40,8 +40,8 @@ enum class OrderGroup
 	UI1,
 	UI2,
 	UI3,
-	Mouse,
-	MouseCollider,
+	Mouse = 99,
+	MouseCollider = 100,
 	MAX
 };
 

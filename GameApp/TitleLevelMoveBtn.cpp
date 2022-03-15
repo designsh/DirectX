@@ -3,6 +3,9 @@
 
 #include <GameEngine/GameEngineUIRenderer.h>
 
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
+
 TitleLevelMoveBtn::TitleLevelMoveBtn() :
 	PrevMenuBtn_(nullptr)
 {
@@ -20,11 +23,8 @@ void TitleLevelMoveBtn::Start()
 	float4 TextureSize = ButtonImage->GetTextureSize();
 
 	// 추후 버튼UI 만들면 변경예정
-	PrevMenuBtn_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	PrevMenuBtn_->SetRenderingPipeLine("Texture");
-	PrevMenuBtn_->ShaderHelper.SettingTexture("Tex", "ShortButton_Stay.png");
-	PrevMenuBtn_->ShaderHelper.SettingConstantBufferSet("TextureCutData", float4(0.f, 0.f, 1.f, 1.f));
-	PrevMenuBtn_->GetTransform()->SetLocalScaling(float4(150.f, 40.f));
+	PrevMenuBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
+	PrevMenuBtn_->SetImage("ShortButton_Stay.png", float4(150.f, 40.f));
 	PrevMenuBtn_->GetTransform()->SetLocalPosition(float4(-WindowSize.ihx() + 130.f, -WindowSize.ihy() + 60.f));
 }
 

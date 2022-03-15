@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "CurPlayerGameStartButton.h"
 
+#include "ErrorMsgPopup.h"
 #include "ClassSelectObject.h"
 #include "CreateCharacterInputText.h"
 #include "MainPlayerInfomation.h"
@@ -8,7 +9,8 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 
 #include "UserGame.h"
-#include "ErrorMsgPopup.h"
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
 
 bool CurPlayerGameStartButton::ClassSelect_ = false;
 
@@ -40,11 +42,8 @@ void CurPlayerGameStartButton::Start()
 	float4 TextureSize = ButtonImage->GetTextureSize();
 
 	// 추후 버튼UI 만들면 변경예정
-	CurPlayerGameStartBtn_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	CurPlayerGameStartBtn_->SetRenderingPipeLine("Texture");
-	CurPlayerGameStartBtn_->ShaderHelper.SettingTexture("Tex", "ShortButton_Stay.png");
-	CurPlayerGameStartBtn_->ShaderHelper.SettingConstantBufferSet("TextureCutData", float4(0.f, 0.f, 1.f, 1.f));
-	CurPlayerGameStartBtn_->GetTransform()->SetLocalScaling(float4(150.f, 40.f));
+	CurPlayerGameStartBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
+	CurPlayerGameStartBtn_->SetImage("ShortButton_Stay.png", float4(150.f, 40.f));
 	CurPlayerGameStartBtn_->GetTransform()->SetLocalPosition(float4(WindowSize.ihx() - 130.f, -WindowSize.ihy() + 60.f));
 	CurPlayerGameStartBtn_->Off();
 }

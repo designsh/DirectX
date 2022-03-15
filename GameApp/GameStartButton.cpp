@@ -21,14 +21,8 @@ GameStartButton::~GameStartButton()
 
 void GameStartButton::Start()
 {
-	GameEngineTexture* ButtonImage = GameEngineTextureManager::GetInst().Find("LongButton_Stay.png");
-	float4 TextureSize = ButtonImage->GetTextureSize();
-	
-	StartButton_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	StartButton_->SetRenderingPipeLine("Texture");
-	StartButton_->ShaderHelper.SettingTexture("Tex", "LongButton_Stay.png");
-	StartButton_->ShaderHelper.SettingConstantBufferSet("TextureCutData", float4(0.f, 0.f, 1.f, 1.f));
-	StartButton_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
+	StartButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
+	StartButton_->SetImage("LongButton_Stay.png", float4(430.f, 40.f, 1.0f));
 
 	// 中宜端 持失
 	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0));
