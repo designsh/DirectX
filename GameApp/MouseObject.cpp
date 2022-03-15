@@ -31,6 +31,9 @@ void MouseObject::Start()
 
 	MouseCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::MouseCollider));
 	MouseCollider_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
+
+	// 220315 테스트 편의를 위해 임시주석
+	//ShowCursor(FALSE);
 }
 
 void MouseObject::Update(float _DeltaTime)
