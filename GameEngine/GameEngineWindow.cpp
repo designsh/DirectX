@@ -222,6 +222,7 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 
 void GameEngineWindow::CloseWindow()
 {
+	// GameLoop 종료시 엔진의 모든 리소스 릴리즈하기때문에 Loop Flag만 해제
 	WindowLoopFlag = false;
 }
 
