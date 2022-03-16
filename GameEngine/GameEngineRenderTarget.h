@@ -1,16 +1,23 @@
 #pragma once
 #include "GameEngineDevice.h"
+#include "GameEngineShaderResHelper.h"
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
 class GameEngineTexture;
+class GameEngineRenderingPipeLine;
 class GameEngineRenderTarget : public GameEngineObjectNameBase
 {
 private:	// member Var
+	std::vector<GameEngineTexture*> ReleaseTextures_;
 	std::vector<GameEngineTexture*> Textures_;
 	std::vector<ID3D11RenderTargetView*> RenderTargetViews_;
 	std::vector<float4> ClearColor_;
+
+private:
+	GameEngineRenderingPipeLine* Pipe_;
+	GameEngineShaderResHelper Res_;
 
 public:
 	GameEngineRenderTarget(); // default constructer 디폴트 생성자
@@ -30,5 +37,11 @@ public:
 
 public:
 	void Create(const std::string _TextureName, float4 _ClearColor);
+	void Create(float4 _Scale, float4 _ClearColor);
+	void Create(GameEngineTexture* _Texture, float4 _ClearColor);
+
+public:
+	void Merge(GameEngineRenderTarget* _Other, int _Index = 0);		// 기존에 그려진 그림 위에 이 랜더타겟의 그림을 합친다.
+	void Copy(GameEngineRenderTarget* _Other);										// 기존에 뭐가 그려졌든 그걸 지우고. 넣어준걸로 바꾼다.
 };
 

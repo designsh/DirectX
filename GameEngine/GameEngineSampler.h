@@ -2,7 +2,6 @@
 #include "GameEngineDevice.h"
 #include "ThirdParty/Include/DirectXTex/DirectXTex.h"
 
-
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -12,6 +11,8 @@ class GameEngineSampler : public GameEngineObjectNameBase
 
 private:	// member Var
 	ID3D11SamplerState* State_;
+
+public:
 	D3D11_SAMPLER_DESC Info_;
 
 public:
@@ -36,6 +37,7 @@ public:
 	}
 
 public:
-	void ReCreate(const D3D11_SAMPLER_DESC& _Info);
+	void ReCreate();																				// 자기자신 샘플러의 옵션에 접근해서 수정 후 자기자신 샘플러상태를 재생성
+	void ReCreate(const D3D11_SAMPLER_DESC& _Info);		// 수신받은 샘플러의 옵션으로 샘플러 상태를 재생성
 };
 

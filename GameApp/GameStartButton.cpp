@@ -32,6 +32,8 @@ void GameStartButton::Start()
 void GameStartButton::Update(float _DeltaTime)
 {
 	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&GameStartButton::GameStartButtonClick, this, std::placeholders::_1));
+
+	GetLevel()->PushDebugRender(MainCollision_->GetTransform(), CollisionType::Rect);
 }
 
 void GameStartButton::GameStartButtonClick(GameEngineCollision* _OtherCollision)

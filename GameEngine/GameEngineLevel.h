@@ -63,7 +63,7 @@ public:
 	void PushCollision(GameEngineCollision* _Collision, int _Group);
 
 public:
-	void DebugRender(GameEngineTransform* _Transform, CollisionType _Type);
+	void PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type);
 
 public:
 	template<typename ActorType>

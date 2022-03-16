@@ -41,10 +41,6 @@ GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
 {
 	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", _RuntimeCore.StartWindowSize(), _RuntimeCore.StartWindowPos());
-
-	// 디바이스가 만들어져야 합니다.
-	// HWND 윈도우에서 제공하는 3D 라이브러리니까 WINDOW API를 기반으로 처리되어 있습니다.
-	GameEngineDevice::GetInst().Initialize();
 }
 
 void GameEngineCore::Loop()
@@ -106,11 +102,17 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize()
 {
+	// 디바이스가 만들어져야 합니다.
+	// HWND 윈도우에서 제공하는 3D 라이브러리니까 WINDOW API를 기반으로 처리되어 있습니다.
+	GameEngineDevice::GetInst().Initialize();
+
 	// 엔진용 리소스 로드
 	EngineResourcesLoad();
 
 	// 엔진용 리소스 생성
 	EngineResourcesCreate();
+
+	GameEngineDevice::GetInst().CreateSwapChain();
 
 	GameEngineCollision::Init();
 	GameEngineSoundManager::GetInst().Initialize();

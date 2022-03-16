@@ -14,6 +14,7 @@ class GameEngineDebugRenderData
 
 private:	// member Var
 	TransformData											Data_;
+	float4																Color_;
 	GameEngineShaderResHelper				ShaderHelper_;
 	GameEngineRenderingPipeLine*			PipeLine_;
 

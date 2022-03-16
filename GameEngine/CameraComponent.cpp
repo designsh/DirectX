@@ -7,6 +7,7 @@
 #include "GameEngineShader.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineVertexShader.h"
+#include "GameEngineRenderTarget.h"
 
 #include "GameEngineWindow.h"
 
@@ -16,13 +17,23 @@ CameraComponent::CameraComponent() :
 	CamSize_(GameEngineWindow::GetInst().GetSize()),
 	NearZ_(0.1f),
 	FarZ_(1000.0f),
-	DebugRenderCount_(0)
+	DebugRenderCount_(0),
+	CameraBufferTarget_(nullptr)
 {
 }
 
 CameraComponent::~CameraComponent()
 {
+	if (nullptr != CameraBufferTarget_)
+	{
+		delete CameraBufferTarget_;
+		CameraBufferTarget_ = nullptr;
+	}
+}
 
+void CameraComponent::ClearCameraTarget()
+{
+	CameraBufferTarget_->Clear();
 }
 
 void CameraComponent::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
@@ -53,6 +64,9 @@ void CameraComponent::CameraTransformUpdate()
 
 void CameraComponent::Render()
 {
+	// 카메라 전용 렌더타겟으로 셋팅
+	CameraBufferTarget_->Setting();
+
 	// 렌더링 전 카메라의 최종행렬을 계산한다.
 	CameraTransformUpdate();
 
@@ -82,9 +96,27 @@ void CameraComponent::Render()
 
 void CameraComponent::DebugRender()
 {
+	if (true == IsDebugCheck())
+	{
+		return;
+	}
 
+	CameraBufferTarget_->Setting();
 
+	float4x4 View = GetTransform()->GetTransformData().View_;
+	float4x4 Projection = GetTransform()->GetTransformData().Projection_;
 
+	for (size_t i = 0; i < DebugRenderCount_; i++)
+	{
+		DebugVector_[i].Data_.Projection_ = Projection;
+		DebugVector_[i].Data_.View_ = View;
+		DebugVector_[i].Data_.WVPCalculation();
+
+		DebugVector_[i].ShaderHelper_.Setting();
+		DebugVector_[i].PipeLine_->Rendering();
+		DebugVector_[i].ShaderHelper_.ReSet();
+		DebugVector_[i].PipeLine_->Reset();
+	}
 
 	DebugRenderCount_ = 0;
 }
@@ -132,17 +164,28 @@ void CameraComponent::PushRenderer(int _Order, GameEngineRenderer* _Renderer)
 	RendererList_[_Order].push_back(_Renderer);
 }
 
-void CameraComponent::PushDebug(GameEngineTransform* _Trans, CollisionType _Type)
+void CameraComponent::PushDebugRender(GameEngineTransform* _Trans, CollisionType _Type)
 {
 	switch (_Type)
 	{
 		case CollisionType::Point2D:
+		{
+			DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
+			break;
+		}
 		case CollisionType::CirCle:
+		{
+			DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
+			break;
+		}
 		case CollisionType::Rect:
+		{
+			DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
+			break;
+		}
 		case CollisionType::OrientedRect:
 		{
-			DebugVector_[DebugRenderCount_].Data_ = _Trans->GetTransformData();
-			++DebugRenderCount_;
+			DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
 			break;
 		}
 
@@ -156,6 +199,9 @@ void CameraComponent::PushDebug(GameEngineTransform* _Trans, CollisionType _Type
 			break;
 		}
 	}
+
+	DebugVector_[DebugRenderCount_].Data_ = _Trans->GetTransformData();
+	++DebugRenderCount_;
 }
 
 void CameraComponent::Start()
@@ -163,13 +209,18 @@ void CameraComponent::Start()
 	DebugVector_.resize(1000);
 	DebugRenderCount_ = 0;
 
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("DebugColorRect");
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
 	for (size_t i = 0; i < DebugVector_.size(); i++)
 	{
 		DebugVector_[i].ShaderHelper_.ShaderResourcesCheck(Pipe->GetVertexShader());
 		DebugVector_[i].ShaderHelper_.ShaderResourcesCheck(Pipe->GetPixelShader());
+		DebugVector_[i].Color_ = float4::RED;
+		DebugVector_[i].ShaderHelper_.SettingConstantBufferLink("ResultColor", DebugVector_[i].Color_);
 		DebugVector_[i].ShaderHelper_.SettingConstantBufferLink("TransformData", DebugVector_[i].Data_);
 	}
+
+	CameraBufferTarget_ = new GameEngineRenderTarget();
+	CameraBufferTarget_->Create(GameEngineWindow::GetInst().GetSize(), float4::NONE);
 }
 
 void CameraComponent::Update(float _DeltaTime)

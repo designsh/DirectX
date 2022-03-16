@@ -48,16 +48,6 @@ int GameEngineTexture::GetCutCount() const
 	return static_cast<int>(CutList_.size());
 }
 
-ID3D11RenderTargetView* GameEngineTexture::GetRenderTargetView()
-{
-	return RenderTargetView_;
-}
-
-ID3D11ShaderResourceView** GameEngineTexture::GetShaderResourcesView()
-{
-	return &ShaderResourceViewPtr_;
-}
-
 void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
 {
 	if (nullptr == _Texture2D)
@@ -68,11 +58,58 @@ void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
 	Texture2D_ = _Texture2D;
 }
 
+void GameEngineTexture::Create(float4 _TextureSize, DXGI_FORMAT _Format, D3D11_USAGE _Usage, unsigned int _BindFlag)
+{
+	D3D11_TEXTURE2D_DESC TextureInfo = { 0, };
+	TextureInfo.ArraySize = 1;
+	TextureInfo.Width = _TextureSize.uix();
+	TextureInfo.Height = _TextureSize.uiy();
+	TextureInfo.Format = _Format;
+	TextureInfo.SampleDesc.Count = 1;
+	TextureInfo.SampleDesc.Quality = 0;
+	TextureInfo.MipLevels = 1;
+	TextureInfo.Usage = _Usage;
+
+	if (_Usage == D3D11_USAGE::D3D11_USAGE_DYNAMIC)
+	{
+		TextureInfo.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	}
+	else
+	{
+		TextureInfo.CPUAccessFlags = 0;
+	}
+
+	TextureInfo.BindFlags = _BindFlag;
+
+	Create(TextureInfo);
+}
+
+void GameEngineTexture::Create(D3D11_TEXTURE2D_DESC _Desc)
+{
+	TextureDesc_ = _Desc;
+
+	GameEngineDevice::GetDevice()->CreateTexture2D(&TextureDesc_, nullptr, &Texture2D_);
+	if (nullptr == Texture2D_)
+	{
+		GameEngineDebug::MsgBoxError("Texture Create Error");
+		return;
+	}
+
+	if (_Desc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+	{
+		CreateRenderTargetView();
+	}
+	if (_Desc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+	{
+		CreateShaderResourceView();
+	}
+}
+
 ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 {
 	if (nullptr != RenderTargetView_)
 	{
-		GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
+		return RenderTargetView_;
 	}
 
 	if (S_OK != GameEngineDevice::GetDevice()->CreateRenderTargetView(Texture2D_, nullptr, &RenderTargetView_))
@@ -81,6 +118,21 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 	}
 
 	return RenderTargetView_;
+}
+
+ID3D11ShaderResourceView* GameEngineTexture::CreateShaderResourceView()
+{
+	if (nullptr != ShaderResourceViewPtr_)
+	{
+		return ShaderResourceViewPtr_;
+	}
+
+	if (S_OK != GameEngineDevice::GetDevice()->CreateShaderResourceView(Texture2D_, nullptr, &ShaderResourceViewPtr_))
+	{
+		GameEngineDebug::MsgBoxError("RenderTargetView Create Error");
+	}
+
+	return ShaderResourceViewPtr_;
 }
 
 void GameEngineTexture::Load(const std::string& _Path)

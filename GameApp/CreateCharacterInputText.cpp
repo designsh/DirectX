@@ -46,6 +46,7 @@ void CreateCharacterInputText::Update(float _DeltaTime)
 	// 마우스와 충돌체크
 	ActiveCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&CreateCharacterInputText::InputBoxActive, this, std::placeholders::_1));
 	
+	GetLevel()->PushDebugRender(ActiveCollider_->GetTransform(), CollisionType::Rect);
 	
 	// 입력가능 상태라면 입력마다 InputID에 저장
 	if (true == InputBoxActive_)

@@ -32,7 +32,19 @@ void GameEngineSampler::Create(const D3D11_SAMPLER_DESC& _Info)
 	State_ = State;
 }
 
+void GameEngineSampler::ReCreate()
+{
+	ReCreate(Info_);
+}
+
 void GameEngineSampler::ReCreate(const D3D11_SAMPLER_DESC& _Info)
 {
+	// 기존의 상태를 지우고 재생성
+	if (nullptr != State_)
+	{
+		State_->Release();
+		State_ = nullptr;
+	}
+
 	Create(_Info);
 }

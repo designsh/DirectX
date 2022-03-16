@@ -63,6 +63,10 @@ void GameEngineCore::EngineResourcesLoad()
 			GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Load(FileName + "_PS", ShaderFile.GetFullPath(), FileName + "_PS");
 		}
 	}
+
+	GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Find("PointSmp");
+	NewRes->Info_.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	NewRes->ReCreate();
 }
 
 void GameEngineCore::EngineResourcesCreate()
@@ -166,10 +170,10 @@ void GameEngineCore::EngineResourcesCreate()
 
 		{
 			// ¾Õ¸é
-			RectVertex[0] = { float4({ -1.0f, 1.0f, 0.0f }) };
-			RectVertex[1] = { float4({ 1.0f, 1.0f, 0.0f }) };
-			RectVertex[2] = { float4({ 1.0f, -1.0f, 0.0f }) };
-			RectVertex[3] = { float4({ -1.0f, -1.0f, 0.0f }) };
+			RectVertex[0] = { float4({ -1.0f, 1.0f, 0.0f }),float4({ 0.0f, 0.0f }) };
+			RectVertex[1] = { float4({ 1.0f, 1.0f, 0.0f }), float4({ 1.0f, 0.0f }) };
+			RectVertex[2] = { float4({ 1.0f, -1.0f, 0.0f }), float4({ 1.0f, 1.0f }) };
+			RectVertex[3] = { float4({ -1.0f, -1.0f, 0.0f }),  float4({ 0.0f, 1.0f }) };
 		}
 
 		GameEngineVertexBufferManager::GetInst().Create("FullRect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
@@ -219,14 +223,26 @@ void GameEngineCore::EngineResourcesCreate()
 	}
 
 	{
-		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("DebugColorRect");
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("DebugRect");
 		Pipe->SetInputAssembler1VertexBufferSetting("DebugRect");
 		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
 		Pipe->SetVertexShader("Color_VS");
 		Pipe->SetInputAssembler2IndexBufferSetting("DebugRect");
-		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		Pipe->SetRasterizer("EngineBaseRasterizer");
 		Pipe->SetPixelShader("Color_PS");
+		Pipe->SetOutputMergerBlend("EngineAlphaBlend");
+	}
+
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TargetMerge");
+		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
+		Pipe->SetInputAssembler1InputLayOutSetting("TargetMerge_VS");
+		Pipe->SetVertexShader("TargetMerge_VS");
+		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("TargetMerge_PS");
 		Pipe->SetOutputMergerBlend("EngineAlphaBlend");
 	}
 }

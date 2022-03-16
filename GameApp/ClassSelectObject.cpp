@@ -42,6 +42,8 @@ void ClassSelectObject::Update(float _DeltaTime)
 {
 	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 해당 직업으로 선택 or 선택해제
 	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&ClassSelectObject::ClassSelOrDesel, this, std::placeholders::_1));
+
+	GetLevel()->PushDebugRender(MainCollision_->GetTransform(), CollisionType::Rect);
 }
 
 void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType, CurSelectState _FirstTextureType)

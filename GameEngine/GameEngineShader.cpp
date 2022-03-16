@@ -138,8 +138,8 @@ void GameEngineShader::ResCheck()
 				//Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;	// 색뭉개기
 				//Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT;		// 색도트화
 
-				// 색도트화
-				Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+				// 색라인화(기본)
+				Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 
 				Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
 				Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -151,7 +151,7 @@ void GameEngineShader::ResCheck()
 				Smp_Decs.MinLOD = -FLT_MAX;
 				Smp_Decs.MaxLOD = FLT_MAX;
 
-				GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Create(BufferName, Smp_Decs);
+				GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().CreateAndFind(BufferName, Smp_Decs);
 				Samplers_.insert(std::make_pair(ResInfo.BindPoint, NewRes));
 				break;
 			}

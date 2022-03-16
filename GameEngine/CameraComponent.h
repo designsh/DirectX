@@ -34,6 +34,9 @@ private:
 	int DebugRenderCount_;
 
 public:
+	GameEngineRenderTarget* CameraBufferTarget_;
+
+public:
 	CameraComponent();
 	~CameraComponent();
 
@@ -46,6 +49,13 @@ private:		//delete operator
 	CameraComponent& operator=(const CameraComponent&& _other) = delete;
 
 private:
+	inline GameEngineRenderTarget* GetCameraRenderTarget()
+	{
+		return CameraBufferTarget_;
+	}
+
+private:
+	void ClearCameraTarget();
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 	void CameraTransformUpdate();
 	void Render();
@@ -57,7 +67,7 @@ public:
 	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
 
 public:
-	void PushDebug(GameEngineTransform* _Trans, CollisionType _Type);
+	void PushDebugRender(GameEngineTransform* _Trans, CollisionType _Type);
 
 protected:
 	void Start() override;

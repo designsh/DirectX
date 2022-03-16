@@ -8,6 +8,7 @@
 #include "CameraComponent.h"
 #include "GameEngineCollision.h"
 #include "GameEngineDebugRenderData.h"
+#include "GameEngineRenderTarget.h"
 
 GameEngineLevel::GameEngineLevel() :
 	MainCameraActor_(nullptr),
@@ -48,8 +49,9 @@ void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _Group)
 	CollisionList_[_Group].push_back(_Collision);
 }
 
-void GameEngineLevel::DebugRender(GameEngineTransform* _Transform, CollisionType _Type)
+void GameEngineLevel::PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type)
 {
+	MainCameraActor_->GetCamera()->PushDebugRender(_Transform, _Type);
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
@@ -73,16 +75,26 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 
 void GameEngineLevel::Render()
 {
+	// 백버퍼(스왑체인이 제공한 렌더타겟) 클리어
 	GameEngineDevice::RenderStart();
 
-	// MainCamera가 가지는 모든 렌더러를 렌더링
-	MainCameraActor_->GetCamera()->Render();
+	// 메인카메라가 들고있는 렌더타겟 클리어
+	MainCameraActor_->GetCamera()->ClearCameraTarget();
 
-	// UICamera가 가지는 모든 렌더러를 렌더링
+	// UI카메라가 들고있는 렌더타겟 클리어
+	UICameraActor_->GetCamera()->ClearCameraTarget();
+
+	// 각각의 Camera가 가지는 모든 렌더러를 렌더링
+	MainCameraActor_->GetCamera()->Render();
+	MainCameraActor_->GetCamera()->DebugRender();
 	UICameraActor_->GetCamera()->Render();
 
-	// MainCameraActor_->GetCamera()->DebugRender();
+	// 각각의 카메라가 자신의 렌더타겟을 가지므로, 최종적으로 스왑체인으로부터 얻어온 렌더타겟(백버퍼)에 모든 렌더링항목을 병합
+	// 병합 : 본래의 타겟에 그려져있는 렌더들을 지우지않고 그대로 합치는 것
+	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
+	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
 
+	// 스왑체인(화면에 뿌려라)
 	GameEngineDevice::RenderEnd();
 }
 

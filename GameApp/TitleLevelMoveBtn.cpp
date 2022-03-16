@@ -37,6 +37,8 @@ void TitleLevelMoveBtn::Start()
 void TitleLevelMoveBtn::Update(float _DeltaTime)
 {
 	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&TitleLevelMoveBtn::PrevButtonClick, this, std::placeholders::_1));
+
+	GetLevel()->PushDebugRender(MainCollider_->GetTransform(), CollisionType::Rect);
 }
 
 void TitleLevelMoveBtn::PrevButtonClick(GameEngineCollision* _OtherCollision)

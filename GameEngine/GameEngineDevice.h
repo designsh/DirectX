@@ -40,6 +40,7 @@ public:
 	}
 
 public:
+	static GameEngineRenderTarget* GetBackBufferTarget();
 	static ID3D11Device* GetDevice();
 	static ID3D11DeviceContext* GetContext();
 	static void RenderStart();
@@ -62,8 +63,7 @@ private:		//delete operator
 public: // 디바이스 초기화
 	void Initialize();
 
-private: // 스왑체인 생성
+public: // 스왑체인 생성
 	void CreateSwapChain();
-
 };
 

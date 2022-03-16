@@ -81,13 +81,9 @@ public:
 		isDebug_ = false;
 	}
 
-	void IsDebugCheck()
+	bool IsDebugCheck()
 	{
-		if (true == isDebug_)
-		{
-			// 해당 오브젝트의 디버깅 기능을 제공
-			int a = 0;
-		}
+		return isDebug_;
 	}
 
 	void SetOrder(int _Order)

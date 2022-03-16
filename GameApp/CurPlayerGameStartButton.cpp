@@ -53,11 +53,13 @@ void CurPlayerGameStartButton::Start()
 
 void CurPlayerGameStartButton::Update(float _DeltaTime)
 {
-	// 충돌세크
+	// 충돌체크
 	if (true == CurPlayerGameStartBtn_->IsUpdate())
 	{
 		MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&CurPlayerGameStartButton::OKButtonClick, this, std::placeholders::_1));
 	}
+
+	GetLevel()->PushDebugRender(MainCollider_->GetTransform(), CollisionType::Rect);
 
 	// 1. 버튼 활성/비활성 여부 판단
 	if (false == RenderFlag_)
