@@ -38,12 +38,21 @@ CurPlayerGameStartButton::~CurPlayerGameStartButton()
 
 void CurPlayerGameStartButton::Start()
 {
+	GameEngineTexture* ButtonDefault = GameEngineTextureManager::GetInst().Find("ShortButton_Stay.png");
+	ButtonDefault->Cut(1, 1);
+
+	GameEngineTexture* ButtonClick = GameEngineTextureManager::GetInst().Find("ShortButton_Click.png");
+	ButtonClick->Cut(1, 1);
+
 	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
 
 	CurPlayerGameStartBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
-	CurPlayerGameStartBtn_->SetImage("ShortButton_Stay.png", float4(150.f, 40.f));
+	CurPlayerGameStartBtn_->CreateAnimation("ShortButton_Stay.png", "Default", 0, 0, 0.1f, false);
+	CurPlayerGameStartBtn_->CreateAnimation("ShortButton_Click.png", "Click", 0, 0, 0.1f, false);
+	CurPlayerGameStartBtn_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.f));
 	CurPlayerGameStartBtn_->GetTransform()->SetLocalPosition(float4(WindowSize.ihx() - 130.f, -WindowSize.ihy() + 60.f));
 	CurPlayerGameStartBtn_->Off();
+	CurPlayerGameStartBtn_->SetChangeAnimation("Default");
 
 	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0_Collider));
 	MainCollider_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.0f));
@@ -53,13 +62,13 @@ void CurPlayerGameStartButton::Start()
 
 void CurPlayerGameStartButton::Update(float _DeltaTime)
 {
+	DebugRender();
+
 	// 충돌체크
 	if (true == CurPlayerGameStartBtn_->IsUpdate())
 	{
 		MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&CurPlayerGameStartButton::OKButtonClick, this, std::placeholders::_1));
 	}
-
-	GetLevel()->PushDebugRender(MainCollider_->GetTransform(), CollisionType::Rect);
 
 	// 1. 버튼 활성/비활성 여부 판단
 	if (false == RenderFlag_)
@@ -80,22 +89,30 @@ void CurPlayerGameStartButton::Update(float _DeltaTime)
 			RenderFlag_ = false;
 		}
 	}
+}
 
-	// 2. 마우스와 충돌체크
-	// 마우스와 충돌하였으며, 마우스 왼쪽버튼 클릭시
-	//MainPlayerInfomation::GetInst().CreateMainPlayerInfo("aaaa", JobType::Necromancer); 함수를 호출하여
-	// 메인플레이어 정보도 생성하며 해당 플레이어 정보를 가지는 파일을 생성하고
-	// 생성 완료 후 로딩레벨로 전환된다.
-	// 단, 이전 플레이어 생성시 사용된 ID를 체크하여 동일한 ID의 파일이 존재하다면 경고창을 화면에 띄우고 레벨전환이 불가하다.
-	// GameStartConditionCheck();
+void CurPlayerGameStartButton::ChangeStartReset()
+{
+	CurPlayerGameStartBtn_->SetChangeAnimation("Default");
+}
 
+void CurPlayerGameStartButton::DebugRender()
+{
+	GetLevel()->PushDebugRender(MainCollider_->GetTransform(), CollisionType::Rect);
 }
 
 void CurPlayerGameStartButton::OKButtonClick(GameEngineCollision* _OtherCollision)
 {
 	// 마우스와 충돌시
+	if (true == GameEngineInput::GetInst().Free("MouseLButton"))
+	{
+		CurPlayerGameStartBtn_->SetChangeAnimation("Default");
+	}
+
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
+		CurPlayerGameStartBtn_->SetChangeAnimation("Click");
+
 		GameStartConditionCheck();
 	}
 }

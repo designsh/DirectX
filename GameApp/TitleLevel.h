@@ -4,9 +4,13 @@
 // 분류 : 타이틀화면
 // 용도 : 
 // 설명 : 
+class GameStartButton;
+class GameEndButton;
 class TitleLevel : public GameEngineLevel
 {
 private:	// member Var
+	GameStartButton* StartButton_;
+	GameEndButton* EndButton_;
 
 public:
 	TitleLevel();

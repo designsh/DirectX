@@ -33,11 +33,13 @@ void MouseObject::Start()
 	MouseCollider_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
 
 	// 220315 테스트 편의를 위해 임시주석
-	//ShowCursor(FALSE);
+	ShowCursor(FALSE);
 }
 
 void MouseObject::Update(float _DeltaTime)
 {
+	GetLevel()->PushDebugRender(MouseCollider_->GetTransform(), CollisionType::Rect);
+
 	float4 PrevPos = GameEngineInput::GetInst().GetPrevMouse3DPos();
 	float4 CurPos = GameEngineInput::GetInst().GetMouse3DPos();
 

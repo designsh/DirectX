@@ -39,6 +39,12 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void ChangeStartReset();
+
+public:
+	void DebugRender();
+
+public:
 	void OKButtonClick(GameEngineCollision* _OtherCollision);
 
 public:

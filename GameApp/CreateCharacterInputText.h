@@ -41,6 +41,12 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void ChangeStartReset();
+
+public:
+	void DebugRender();
+
+public:
 	void InputBoxActive(GameEngineCollision* _OtherCollision);
 	void CharacterIDInput();
 };

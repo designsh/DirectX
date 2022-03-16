@@ -43,16 +43,31 @@ void CreateCharacterInputText::Start()
 
 void CreateCharacterInputText::Update(float _DeltaTime)
 {
+	// 디버그용
+	DebugRender();
+
 	// 마우스와 충돌체크
 	ActiveCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&CreateCharacterInputText::InputBoxActive, this, std::placeholders::_1));
-	
-	GetLevel()->PushDebugRender(ActiveCollider_->GetTransform(), CollisionType::Rect);
 	
 	// 입력가능 상태라면 입력마다 InputID에 저장
 	if (true == InputBoxActive_)
 	{
 		CharacterIDInput();
 	}
+}
+
+void CreateCharacterInputText::ChangeStartReset()
+{
+	// 기존 입력 ID 삭제
+	InputText.clear();
+
+	// ID 입력창 비활성화
+	InputBoxActive_ = false;
+}
+
+void CreateCharacterInputText::DebugRender()
+{
+	GetLevel()->PushDebugRender(ActiveCollider_->GetTransform(), CollisionType::Rect);
 }
 
 void CreateCharacterInputText::InputBoxActive(GameEngineCollision* _OtherCollision)

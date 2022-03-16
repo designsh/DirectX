@@ -4,9 +4,17 @@
 // 분류 : 캐릭터생성화면
 // 용도 : 
 // 설명 : 
+class CreateCharacterInputText;
+class CurPlayerGameStartButton;
+class TitleLevelMoveBtn;
+class ClassSelectObject;
 class CreateCharacterLevel : public GameEngineLevel
 {
 private:	// member Var
+	CreateCharacterInputText* IDInputTextBox_;
+	CurPlayerGameStartButton* GameStartBtn_;
+	TitleLevelMoveBtn* PrevMenuBtn_;
+	ClassSelectObject* NecromancerClass_;
 
 public:
 	CreateCharacterLevel();

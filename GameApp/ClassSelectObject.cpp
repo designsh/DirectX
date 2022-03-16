@@ -40,9 +40,78 @@ void ClassSelectObject::Start()
 
 void ClassSelectObject::Update(float _DeltaTime)
 {
+	// 디버그용
+	DebugRender();
+
 	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 해당 직업으로 선택 or 선택해제
 	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&ClassSelectObject::ClassSelOrDesel, this, std::placeholders::_1));
+}
 
+void ClassSelectObject::ChangeStartReset()
+{
+	// 직업별 이름 편집
+	std::string EntityName = "";
+	std::string EffectName = "";
+	switch (JobType_)
+	{
+	case JobType::Necromancer:
+	{
+		JobName_ = "Nec_";
+		EntityName = "Nec_Entity";
+		EffectName = "Nec_Effect";
+		break;
+	}
+	case JobType::Amazon:
+	{
+		JobName_ = "Ama_";
+		EntityName = "Ama_Entity";
+		EffectName = "Ama_Effect";
+		break;
+	}
+	case JobType::Sorceress:
+	{
+		JobName_ = "Sor_";
+		EntityName = "Sor_Entity";
+		EffectName = "Sor_Effect";
+		break;
+	}
+	case JobType::Barbarian:
+	{
+		JobName_ = "Bar_";
+		EntityName = "Bar_Entity";
+		EffectName = "Bar_Effect";
+		break;
+	}
+	case JobType::Paladin:
+	{
+		JobName_ = "Pal_";
+		EntityName = "Pal_Entity";
+		EffectName = "Pal_Effect";
+		break;
+	}
+	}
+
+	std::string FirstEntityAni = EntityName;
+	FirstEntityAni += TextureName_[static_cast<int>(CurSelectState::NotSel)];
+
+	std::string FirstEffectAni = EffectName;
+	FirstEffectAni += TextureName_[static_cast<int>(CurSelectState::NotSel)];
+
+	ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(FirstEntityAni);
+	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(FirstEffectAni);
+
+	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
+	ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
+	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
+
+	SelectState_ = CurSelectState::NotSel;
+
+	// 확인버튼 비활성화
+	CurPlayerGameStartButton::UserClassDeselect();
+}
+
+void ClassSelectObject::DebugRender()
+{
 	GetLevel()->PushDebugRender(MainCollision_->GetTransform(), CollisionType::Rect);
 }
 
@@ -109,22 +178,30 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		
 		std::string Entity_NotSelName = EntityName;
 		Entity_NotSelName += TextureName_[static_cast<int>(CurSelectState::NotSel)];
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->CreateAnimation("Nec_Entity_NotSelDefault.png", Entity_NotSelName, 0, 11, 0.1f);
+		std::string Entity_NotSelTextureName = Entity_NotSelName;
+		Entity_NotSelTextureName += ".png";
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->CreateAnimation(Entity_NotSelTextureName, Entity_NotSelName, 0, 11, 0.1f);
 
 		std::string Entity_SelDefaultName = EntityName;
 		Entity_SelDefaultName += TextureName_[static_cast<int>(CurSelectState::SelDefault)];
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->CreateAnimation("Nec_Entity_SelDefault.png", Entity_SelDefaultName, 0, 11, 0.1f);
+		std::string Entity_SelDefaulTextureName = Entity_SelDefaultName;
+		Entity_SelDefaulTextureName += ".png";
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->CreateAnimation(Entity_SelDefaulTextureName, Entity_SelDefaultName, 0, 11, 0.1f);
 
 		// 선택해제 애니메이션 종료시 선택되지않은 애니메이션으로 전환을 위해 Callback Function 지정
 		std::string Entity_SelDeslectName = EntityName;
 		Entity_SelDeslectName += TextureName_[static_cast<int>(CurSelectState::SelDeslect)];
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->CreateAnimation("Nec_Entity_SelDeslect.png", Entity_SelDeslectName, 0, 27, 0.1f, false);
+		std::string Entity_SelDeslectTextureName = Entity_SelDeslectName;
+		Entity_SelDeslectTextureName += ".png";
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->CreateAnimation(Entity_SelDeslectTextureName, Entity_SelDeslectName, 0, 27, 0.1f, false);
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetEndCallBack(Entity_SelDeslectName, std::bind(&ClassSelectObject::DeSelectEnd, this));
 
 		// 선택시작 애니메이션 종료시 선택된 애니메이션으로 전환을 위해 Callback Function 지정
 		std::string Entity_SelStartName = EntityName;
 		Entity_SelStartName += TextureName_[static_cast<int>(CurSelectState::SelStart)];
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->CreateAnimation("Nec_Entity_SelStart.png", Entity_SelStartName, 0, 37, 0.1f, false);
+		std::string Entity_SelStartTextureName = Entity_SelStartName;
+		Entity_SelStartTextureName += ".png";
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->CreateAnimation(Entity_SelStartTextureName, Entity_SelStartName, 0, 37, 0.1f, false);
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetEndCallBack(Entity_SelStartName, std::bind(&ClassSelectObject::SelectEnd, this));
 
 		// ============================================== 효과 생성 ============================================== //
@@ -132,19 +209,27 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 
 		std::string Effect_NotSelName = EffectName;
 		Effect_NotSelName += TextureName_[static_cast<int>(CurSelectState::NotSel)];
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation("Nec_Effect_NotSelDefault.png", Effect_NotSelName, 0, 11, 0.1f);
+		std::string Effect_NotSelTextureName = Effect_NotSelName;
+		Effect_NotSelTextureName += ".png";
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation(Effect_NotSelTextureName, Effect_NotSelName, 0, 11, 0.1f);
 
 		std::string Effect_SelDefaultName = EffectName;
 		Effect_SelDefaultName += TextureName_[static_cast<int>(CurSelectState::SelDefault)];
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation("Nec_Effect_SelDefault.png", Effect_SelDefaultName, 0, 11, 0.1f);
+		std::string Effect_SelDefaultTextureName = Effect_SelDefaultName;
+		Effect_SelDefaultTextureName += ".png";
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation(Effect_SelDefaultTextureName, Effect_SelDefaultName, 0, 11, 0.1f);
 
 		std::string Effect_SelDeslectName = EffectName;
 		Effect_SelDeslectName += TextureName_[static_cast<int>(CurSelectState::SelDeslect)];
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation("Nec_Effect_SelDeslect.png", Effect_SelDeslectName, 0, 27, 0.1f, false);
+		std::string Effect_SelDeslectTextureName = Effect_SelDeslectName;
+		Effect_SelDeslectTextureName += ".png";
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation(Effect_SelDeslectTextureName, Effect_SelDeslectName, 0, 27, 0.1f, false);
 
 		std::string Effect_SelStartName = EffectName;
 		Effect_SelStartName += TextureName_[static_cast<int>(CurSelectState::SelStart)];
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation("Nec_Effect_SelStart.png", Effect_SelStartName, 0, 37, 0.1f, false);
+		std::string Effect_SelStartTextureName = Effect_SelStartName;
+		Effect_SelStartTextureName += ".png";
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation(Effect_SelStartTextureName, Effect_SelStartName, 0, 37, 0.1f, false);
 
 		// 최종
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalPosition(_Pos);

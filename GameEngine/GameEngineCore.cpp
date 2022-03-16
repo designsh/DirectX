@@ -9,6 +9,8 @@
 // Release
 #include "GameEngineResourcesManager.h"
 
+#include "CameraComponent.h"
+
 // ============================================= Level 관리자 관련 ============================================= //
 GameEngineLevel* GameEngineCore::NextLevel_ = nullptr;
 GameEngineLevel* GameEngineCore::CurrentLevel_ = nullptr;

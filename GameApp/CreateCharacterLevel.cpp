@@ -16,7 +16,11 @@
 #include "UserGame.h"
 #include "GlobalValue.h"
 
-CreateCharacterLevel::CreateCharacterLevel()
+CreateCharacterLevel::CreateCharacterLevel() :
+	IDInputTextBox_(nullptr),
+	GameStartBtn_(nullptr),
+	PrevMenuBtn_(nullptr),
+	NecromancerClass_(nullptr)
 {
 }
 
@@ -69,6 +73,12 @@ void CreateCharacterLevel::LevelChangeEndEvent()
 
 void CreateCharacterLevel::LevelChangeStartEvent()
 {
+	// 레벨변경시 기존액터들의 필요항목 리셋
+	IDInputTextBox_->ChangeStartReset();
+	GameStartBtn_->ChangeStartReset();
+	PrevMenuBtn_->ChangeStartReset();
+	NecromancerClass_->ChangeStartReset();
+
 	// 배경음악 On
 }
 
@@ -84,20 +94,20 @@ void CreateCharacterLevel::LevelStart()
 	CreateCharacterFireObject* Fire = CreateActor<CreateCharacterFireObject>();
 
 	// ID 입력창
-	CreateCharacterInputText* IDInputTextBox = CreateActor<CreateCharacterInputText>();
+	IDInputTextBox_ = CreateActor<CreateCharacterInputText>();
 
 	// 시작버튼(이미지 + 텍스트) -> 로딩레벨 이동
-	CurPlayerGameStartButton* GameStartBtn = CreateActor<CurPlayerGameStartButton>();
+	GameStartBtn_ = CreateActor<CurPlayerGameStartButton>();
 
 	// 이전버튼(이미지 + 텍스트) -> 타이틀레벨 이동
-	TitleLevelMoveBtn* PrevMenuBtn = CreateActor<TitleLevelMoveBtn>();
+	PrevMenuBtn_ = CreateActor<TitleLevelMoveBtn>();
 
 	// 직업선택용 애니메이션
 	ClassImageCutting();
 
 	// 네크로맨서(임시)
-	ClassSelectObject* NecromancerClass = CreateActor<ClassSelectObject>();
-	NecromancerClass->CreateClassRenderer(float4(0.f, 0.f), JobType::Necromancer);
+	NecromancerClass_ = CreateActor<ClassSelectObject>();
+	NecromancerClass_->CreateClassRenderer(float4(0.f, 0.f), JobType::Necromancer);
 
 	// 현재 마우스 생성
 	MouseObject* MainMouse = CreateActor<MouseObject>();

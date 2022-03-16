@@ -14,7 +14,9 @@
 #include "UserGame.h"
 #include "GlobalValue.h"
 
-TitleLevel::TitleLevel()
+TitleLevel::TitleLevel() :
+	StartButton_(nullptr),
+	EndButton_(nullptr)
 {
 }
 
@@ -28,8 +30,14 @@ void TitleLevel::LevelChangeEndEvent()
 
 void TitleLevel::LevelChangeStartEvent()
 {
+	// 레벨변경시 기존액터들의 필요항목 리셋
+	StartButton_->ChangeStartReset();
+	EndButton_->ChangeStartReset();
+
 	// 레벨 첫 시작시 배경음악 재생
 	
+
+
 }
 
 void TitleLevel::LevelStart()
@@ -44,10 +52,10 @@ void TitleLevel::LevelStart()
 	TitleLogo* Logo = CreateActor<TitleLogo>();
 
 	// 게임시작 버튼 생성(이미지+텍스트)
-	GameStartButton* StartButton = CreateActor<GameStartButton>();
+	StartButton_ = CreateActor<GameStartButton>();
 
 	// 게임종료 버튼 생성(이미지+텍스트)
-	GameEndButton* EndButton = CreateActor<GameEndButton>();
+	EndButton_ = CreateActor<GameEndButton>();
 
 	// 현재 마우스 생성
 	MouseObject* MainMouse = CreateActor<MouseObject>();

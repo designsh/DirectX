@@ -30,5 +30,9 @@ private:
 
 public:
 	void GameEndButtonClick(GameEngineCollision* _OtherCollision);
+
+public:
+	void ChangeStartReset();
+	void DebugRender();
 };
 

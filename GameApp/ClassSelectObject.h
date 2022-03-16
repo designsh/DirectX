@@ -64,6 +64,12 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void ChangeStartReset();
+
+public:
+	void DebugRender();
+
+public:
 	void CreateClassRenderer(const float4& _Pos, JobType _JobType = JobType::Necromancer, CurSelectState _FirstTextureType = CurSelectState::NotSel);
 
 public:
