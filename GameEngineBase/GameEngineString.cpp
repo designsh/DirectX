@@ -2,16 +2,24 @@
 #include "GameEngineString.h"
 #include "GameEngineDebug.h"
 
-void GameEngineString::toupper(std::string& Text)
+std::string GameEngineString::toupper(const std::string& _Text)
 {
+	std::string Text = _Text;
+
 	// 문자열 전체 대문자로 변환
 	std::transform(Text.begin(), Text.end(), Text.begin(), ::toupper);
+
+	return Text;
 }
 
-void GameEngineString::tolower(std::string& Text)
+std::string GameEngineString::tolower(const std::string& _Text)
 {
+	std::string Text = _Text;
+
 	// 문자열 전체 소문자로 변환
 	std::transform(Text.begin(), Text.end(), Text.begin(), ::tolower);
+
+	return Text;
 }
 
 void GameEngineString::StringToWString(const std::string& _Text, std::wstring& _Out)
@@ -37,7 +45,7 @@ void GameEngineString::StringToWString(const std::string& _Text, std::wstring& _
 
 void GameEngineString::WStringToString(const std::wstring& _Text, std::string& _Out)
 {
-	int ConvertLength = WideCharToMultiByte(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), nullptr, 0, nullptr, nullptr );
+	int ConvertLength = WideCharToMultiByte(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), nullptr, 0, nullptr, nullptr);
 	if (ConvertLength == 0)
 	{
 		GameEngineDebug::MsgBoxError("WString To String Convert Error");
@@ -53,14 +61,14 @@ void GameEngineString::WStringToString(const std::wstring& _Text, std::string& _
 	}
 }
 
-GameEngineString::GameEngineString() // default constructer 디폴트 생성자
+GameEngineString::GameEngineString()
 {
 }
 
-GameEngineString::~GameEngineString() // default destructer 디폴트 소멸자
+GameEngineString::~GameEngineString()
 {
 }
 
-GameEngineString::GameEngineString(GameEngineString&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
+GameEngineString::GameEngineString(GameEngineString&& _other) noexcept
 {
 }

@@ -6,8 +6,8 @@
 class GameEngineString
 {
 public:
-	static void toupper(std::string& Text);
-	static void tolower(std::string& Text);
+	static std::string toupper(const std::string& _Text);
+	static std::string tolower(const std::string& _Text);
 
 public:
 	static void StringToWString(const std::string& _Text, std::wstring& _Out); // String -> WString Convert
