@@ -5,6 +5,4 @@
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	GameEngineCore::Start<UserGame>();
-
-	// a
 }
