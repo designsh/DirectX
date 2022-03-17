@@ -92,6 +92,7 @@ void CreateCharacterLevel::LevelStart()
 
 	// 캠프파이어오브젝트 생성(애니메이션)
 	CreateCharacterFireObject* Fire = CreateActor<CreateCharacterFireObject>();
+	//Fire->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -1.f));
 
 	// ID 입력창
 	IDInputTextBox_ = CreateActor<CreateCharacterInputText>();
@@ -108,6 +109,7 @@ void CreateCharacterLevel::LevelStart()
 	// 네크로맨서(임시)
 	NecromancerClass_ = CreateActor<ClassSelectObject>();
 	NecromancerClass_->CreateClassRenderer(float4(0.f, 0.f), JobType::Necromancer);
+	NecromancerClass_->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -1.f));
 
 	// 현재 마우스 생성
 	MouseObject* MainMouse = CreateActor<MouseObject>();

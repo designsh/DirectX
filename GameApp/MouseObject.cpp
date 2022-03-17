@@ -44,7 +44,7 @@ void MouseObject::Update(float _DeltaTime)
 	float4 CurPos = GameEngineInput::GetInst().GetMouse3DPos();
 
 	// 마우스 위치 갱신
-	GetTransform()->SetLocalPosition(CurPos);
+	GetTransform()->SetLocalPosition(float4(CurPos.x, CurPos.y, -2.f));
 
 	// 이전 마우스위치와 현재마우스가 달라졌을때 동작상태에서 대기상태로 전환
 	if (PrevPos == CurPos)

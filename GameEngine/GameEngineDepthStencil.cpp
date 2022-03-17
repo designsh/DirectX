@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "GameEngineDepthStencil.h"
 
-GameEngineDepthStencil::GameEngineDepthStencil()
+GameEngineDepthStencil::GameEngineDepthStencil() :
+	Info_{0,},
+	State_(nullptr)
 {
 }
 
