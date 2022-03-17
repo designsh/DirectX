@@ -12,6 +12,7 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 그래픽카드에 접근할수 있는 권한(포인터)
+class GameEngineDepthBuffer;
 class GameEngineRenderTarget;
 class GameEngineDevice
 {

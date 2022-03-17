@@ -6,6 +6,7 @@
 #include "GameEngineRasterizerManager.h"
 #include "GameEnginePixelShaderManager.h"
 #include "GameEngineBlendManager.h"
+#include "GameEngineDepthStencilManager.h"
 
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
@@ -13,6 +14,7 @@
 #include "GameEngineRasterizer.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineBlend.h"
+#include "GameEngineDepthStencil.h"
 
 #include "GameEngineConstantBuffer.h"
 
@@ -27,8 +29,13 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() :
 	Rasterizer_(nullptr),
 	PixelShader_(nullptr),
 	Blend_(nullptr),
-	RenderTarget_(nullptr)
+	RenderTarget_(nullptr),
+	DepthStencil_(nullptr)
 {
+	SetOutputMergerBlend("EngineAlphaBlend");
+	SetRasterizer("EngineBaseRasterizer");
+	SetOutputMergerDepthStencil("BaseDepthOn");
+	SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
@@ -44,7 +51,9 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine(GameEngineRenderingPipe
 	Topology_(_other.Topology_),
 	Rasterizer_(_other.Rasterizer_),
 	PixelShader_(_other.PixelShader_),
-	RenderTarget_(_other.RenderTarget_)
+	Blend_(_other.Blend_),
+	RenderTarget_(_other.RenderTarget_),
+	DepthStencil_(_other.DepthStencil_)
 {
 }
 
@@ -130,6 +139,16 @@ void GameEngineRenderingPipeLine::SetOutputMergerBlend(const std::string& _Name)
 	}
 }
 
+void GameEngineRenderingPipeLine::SetOutputMergerDepthStencil(const std::string& _Name)
+{
+	DepthStencil_ = GameEngineDepthStencilManager::GetInst().Find(_Name);
+	if (nullptr == DepthStencil_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 깊이 세팅을 세팅하려고 했습니다.");
+		return;
+	}
+}
+
 // ======================================== Rendering PipeLine 가동 단계 ======================================== //
 void GameEngineRenderingPipeLine::InputAssembler1()
 {
@@ -163,6 +182,7 @@ void GameEngineRenderingPipeLine::PixelShader()
 void GameEngineRenderingPipeLine::OutputMerger()
 {
 	Blend_->Setting();
+	DepthStencil_->Setting();
 }
 
 void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
@@ -189,9 +209,9 @@ void GameEngineRenderingPipeLine::Rendering()
 
 void GameEngineRenderingPipeLine::Reset()
 {
-
-
-
 	// 블렌드 셋팅 초기화
 	Blend_->Reset();
+
+	// DepthStencil 셋팅 초기화
+	DepthStencil_->Reset();
 }

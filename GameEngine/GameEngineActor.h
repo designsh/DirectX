@@ -13,7 +13,7 @@ class GameEngineActor : public GameEngineObjectNameBase
 	friend GameEngineLevel;
 
 private:	// member Var
-	GameEngineLevel*															Level_;													// 본인이 속한 레벨을 알고있는다.
+	GameEngineLevel* Level_;													// 본인이 속한 레벨을 알고있는다.
 	GameEngineTransform													Transform_;											// 액터는 반드시 트랜스폼데이터를 가진다.
 
 private:
@@ -98,6 +98,8 @@ protected:
 	virtual void Start() {}
 	virtual void Update(float _DeltaTime) {}
 	virtual void ReleaseEvent() {}
+	virtual void LevelChangeEndEvent() {}
+	virtual void LevelChangeStartEvent() {}
 
 public:
 	void UpdateComponent(float _DeltaTime);

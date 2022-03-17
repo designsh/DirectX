@@ -7,6 +7,7 @@
 #include "GameEngineBase/GameEngineFile.h"
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
+#include "GameEngineDepthStencil.h"
 #include "EngineVertex.h"
 
 void GameEngineCore::EngineResourcesLoad()
@@ -206,7 +207,7 @@ void GameEngineCore::EngineResourcesCreate()
 	}
 
 	{
-		D3D11_BLEND_DESC BlendInfo;
+		D3D11_BLEND_DESC BlendInfo = { 0, };
 
 		BlendInfo.AlphaToCoverageEnable = FALSE;
 		BlendInfo.IndependentBlendEnable = FALSE;
@@ -220,6 +221,24 @@ void GameEngineCore::EngineResourcesCreate()
 		BlendInfo.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
 
 		GameEngineBlendManager::GetInst().Create("EngineAlphaBlend", BlendInfo);
+	}
+
+	{
+		D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
+
+		DepthInfo.DepthEnable = true;
+		DepthInfo.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		DepthInfo.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+		DepthInfo.StencilEnable = false;
+		GameEngineDepthStencilManager::GetInst().Create("BaseDepthOn", DepthInfo);
+	}
+
+	{
+		D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
+
+		DepthInfo.DepthEnable = false;
+		DepthInfo.StencilEnable = false;
+		GameEngineDepthStencilManager::GetInst().Create("BaseDepthOff", DepthInfo);
 	}
 
 	{
@@ -237,12 +256,9 @@ void GameEngineCore::EngineResourcesCreate()
 	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TargetMerge");
 		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
+		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
 		Pipe->SetInputAssembler1InputLayOutSetting("TargetMerge_VS");
 		Pipe->SetVertexShader("TargetMerge_VS");
-		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
-		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		Pipe->SetRasterizer("EngineBaseRasterizer");
 		Pipe->SetPixelShader("TargetMerge_PS");
-		Pipe->SetOutputMergerBlend("EngineAlphaBlend");
 	}
 }

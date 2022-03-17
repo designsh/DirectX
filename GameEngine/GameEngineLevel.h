@@ -17,13 +17,13 @@ class GameEngineLevel : public GameEngineObjectNameBase
 	friend class GameEngineRenderer;
 	friend class GameEngineCollision;
 
-// ==================================== Actor 관련 =================================== //
+	// ==================================== Actor 관련 =================================== //
 private:	// member Var
 	// Key값 : 갱신순서(우선순위 판단 오더)
 	// Value값 : 액터목록
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
 
-// =================================== Camera 관련 ================================== //
+	// =================================== Camera 관련 ================================== //
 private:
 	CameraActor* MainCameraActor_;		// 
 	CameraActor* UICameraActor_;			// 
@@ -52,6 +52,10 @@ private: // 충돌체관련 기능
 
 	void ChangeCollisionGroup(int _Group, GameEngineCollision* _Collision);
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
+
+private:
+	void LevelChangeEndActorEvent();
+	void LevelChangeStartActorEvent();
 
 public:
 	template<typename UserEnumType>

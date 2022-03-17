@@ -10,13 +10,14 @@ class GameEngineTexture : public GameEngineObjectNameBase
 private:	// member Var
 	ID3D11Texture2D* Texture2D_;
 	ID3D11RenderTargetView* RenderTargetView_;
+	ID3D11ShaderResourceView* ShaderResourceView_;
+	ID3D11DepthStencilView* DepthStencilView_;
 
 private:
 	D3D11_TEXTURE2D_DESC TextureDesc_;
-	ID3D11ShaderResourceView* ShaderResourceViewPtr_;
 	DirectX::ScratchImage Image_;
 
-// ============================= Image Cutting ============================= //
+	// ============================= Image Cutting ============================= //
 private:
 	std::vector<float4> CutList_;   // 이미지 UV값기준으로 잘라내어 관리하는 목록(애니메이션용)
 
@@ -44,7 +45,12 @@ public:
 
 	inline ID3D11ShaderResourceView** GetShaderResourcesView()
 	{
-		return &ShaderResourceViewPtr_;
+		return &ShaderResourceView_;
+	}
+
+	inline ID3D11DepthStencilView* GetDepthStencilView()
+	{
+		return DepthStencilView_;
 	}
 
 public:
@@ -55,15 +61,17 @@ public:
 public:
 	ID3D11RenderTargetView* CreateRenderTargetView();
 	ID3D11ShaderResourceView* CreateShaderResourceView();
+	ID3D11DepthStencilView* CreateDepthStencilView();
 
 public:
 	void Load(const std::string& _Path);
 
-// ============================= Image Cutting ============================= //
+	// ============================= Image Cutting ============================= //
 public:
 	bool IsCut();
 	void Cut(int _x, int _y);
 	void PushCutIndex(const float4& _Size, const float4& _Pos);
 	float4 GetCutData(int _Index);
+	float4 GetPixel(int _x, int _y);
 };
 

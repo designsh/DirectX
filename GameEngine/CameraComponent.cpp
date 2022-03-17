@@ -11,8 +11,8 @@
 
 #include "GameEngineWindow.h"
 
-CameraComponent::CameraComponent() : 
-	ProjectionMode_(ProjectionMode::Perspective), 
+CameraComponent::CameraComponent() :
+	ProjectionMode_(ProjectionMode::Perspective),
 	FovAngleY_(90.0f),
 	CamSize_(GameEngineWindow::GetInst().GetSize()),
 	NearZ_(0.1f),
@@ -49,16 +49,16 @@ void CameraComponent::CameraTransformUpdate()
 
 	switch (ProjectionMode_)
 	{
-		case ProjectionMode::Perspective:
-		{
-			GetTransform()->GetTransformData().Projection_.PerspectiveFovLH(FovAngleY_, CamSize_.x, CamSize_.y, NearZ_, FarZ_);
-			break;
-		}
-		case ProjectionMode::Orthographic:
-		{
-			GetTransform()->GetTransformData().Projection_.OrthographicLH(CamSize_.x, CamSize_.y, NearZ_, FarZ_);
-			break;
-		}
+	case ProjectionMode::Perspective:
+	{
+		GetTransform()->GetTransformData().Projection_.PerspectiveFovLH(FovAngleY_, CamSize_.x, CamSize_.y, NearZ_, FarZ_);
+		break;
+	}
+	case ProjectionMode::Orthographic:
+	{
+		GetTransform()->GetTransformData().Projection_.OrthographicLH(CamSize_.x, CamSize_.y, NearZ_, FarZ_);
+		break;
+	}
 	}
 }
 
@@ -168,36 +168,36 @@ void CameraComponent::PushDebugRender(GameEngineTransform* _Trans, CollisionType
 {
 	switch (_Type)
 	{
-		case CollisionType::Point2D:
-		{
-			DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
-			break;
-		}
-		case CollisionType::CirCle:
-		{
-			DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
-			break;
-		}
-		case CollisionType::Rect:
-		{
-			DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
-			break;
-		}
-		case CollisionType::OrientedRect:
-		{
-			DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
-			break;
-		}
+	case CollisionType::Point2D:
+	{
+		DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
+		break;
+	}
+	case CollisionType::CirCle:
+	{
+		DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
+		break;
+	}
+	case CollisionType::Rect:
+	{
+		DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
+		break;
+	}
+	case CollisionType::OrientedRect:
+	{
+		DebugVector_[DebugRenderCount_].PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
+		break;
+	}
 
-		case CollisionType::Point3D:
-		case CollisionType::Sphere3D:
-		case CollisionType::AABBBox3D:
-		case CollisionType::OBBBox3D:
-		case CollisionType::MAX:
-		{
-			GameEngineDebug::MsgBoxError("처리할수 없는 디버그 타입입니다.");
-			break;
-		}
+	case CollisionType::Point3D:
+	case CollisionType::Sphere3D:
+	case CollisionType::AABBBox3D:
+	case CollisionType::OBBBox3D:
+	case CollisionType::MAX:
+	{
+		GameEngineDebug::MsgBoxError("처리할수 없는 디버그 타입입니다.");
+		break;
+	}
 	}
 
 	DebugVector_[DebugRenderCount_].Data_ = _Trans->GetTransformData();
@@ -221,6 +221,7 @@ void CameraComponent::Start()
 
 	CameraBufferTarget_ = new GameEngineRenderTarget();
 	CameraBufferTarget_->Create(GameEngineWindow::GetInst().GetSize(), float4::NONE);
+	CameraBufferTarget_->CreateDepthBuffer(GameEngineWindow::GetInst().GetSize());
 }
 
 void CameraComponent::Update(float _DeltaTime)

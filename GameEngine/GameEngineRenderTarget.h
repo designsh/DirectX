@@ -14,6 +14,7 @@ private:	// member Var
 	std::vector<GameEngineTexture*> Textures_;
 	std::vector<ID3D11RenderTargetView*> RenderTargetViews_;
 	std::vector<float4> ClearColor_;
+	GameEngineDepthBuffer* DepthBuffer_;
 
 private:
 	GameEngineRenderingPipeLine* Pipe_;
@@ -25,7 +26,7 @@ public:
 
 protected:		// delete constructer
 	GameEngineRenderTarget(const GameEngineRenderTarget& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	GameEngineRenderTarget(GameEngineRenderTarget&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	GameEngineRenderTarget(GameEngineRenderTarget&& _other) noexcept = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
 
 private:		//delete operator
 	GameEngineRenderTarget& operator=(const GameEngineRenderTarget& _other) = delete; // default Copy operator 디폴트 대입 연산자
@@ -39,6 +40,9 @@ public:
 	void Create(const std::string _TextureName, float4 _ClearColor);
 	void Create(float4 _Scale, float4 _ClearColor);
 	void Create(GameEngineTexture* _Texture, float4 _ClearColor);
+
+public:
+	void CreateDepthBuffer(float4 _Scale);
 
 public:
 	void Merge(GameEngineRenderTarget* _Other, int _Index = 0);		// 기존에 그려진 그림 위에 이 랜더타겟의 그림을 합친다.

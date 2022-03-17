@@ -63,11 +63,17 @@ void GameEngineCore::MainLoop()
 		if (nullptr == CurrentLevel_)
 		{
 			CurrentLevel_ = NextLevel_;
+			NextLevel_->LevelChangeStartActorEvent();
+			NextLevel_->LevelChangeStartEvent();
 		}
 		else
 		{
+			CurrentLevel_->LevelChangeEndActorEvent();
 			CurrentLevel_->LevelChangeEndEvent();
+
+			NextLevel_->LevelChangeStartActorEvent();
 			NextLevel_->LevelChangeStartEvent();
+
 			CurrentLevel_ = NextLevel_;
 		}
 

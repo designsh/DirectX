@@ -3,7 +3,9 @@
 #include "GameEngineWindow.h"
 #include "GameEngineTextureManager.h"
 #include "GameEngineRenderTargetManager.h"
+#include "GameEngineDepthBufferManager.h"
 #include "GameEngineRenderTarget.h"
+#include "GameEngineDepthBuffer.h"
 
 // 포인터형 싱글톤
 GameEngineDevice* GameEngineDevice::Inst = new GameEngineDevice();
@@ -186,7 +188,7 @@ void GameEngineDevice::CreateSwapChain()
 	pF->Release();
 	pA->Release();
 	pD->Release();
-	
+
 	// 현재 SwapChain이 가지고있는 텍스쳐(렌더타겟뷰)를 얻어온다.
 	ID3D11Texture2D* BackBufferTexture = nullptr;
 	if (S_OK != SwapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&BackBufferTexture)))

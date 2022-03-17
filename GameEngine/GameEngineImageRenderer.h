@@ -8,15 +8,15 @@ class GameEngineTexture;
 class GameEngineFolderTexture;
 class GameEngineImageRenderer : public GameEngineRenderer
 {
-// ================================== Animation 관련 ================================== //
+	// ================================== Animation 관련 ================================== //
 private:
 	struct Animation2D
 	{
 	public:
-		GameEngineFolderTexture*											FolderTextures_;				// 리소스 폴더로드
-		GameEngineTexture*														AnimationTexture_;		// 리소스 로드
-		GameEngineImageRenderer*										Renderer_;						// 
-		
+		GameEngineFolderTexture* FolderTextures_;				// 리소스 폴더로드
+		GameEngineTexture* AnimationTexture_;		// 리소스 로드
+		GameEngineImageRenderer* Renderer_;						// 
+
 		float																						InterTime_;						// 프레임전환 시간(고정)
 		float																						CurTime_;							// 델타타임 누적(초기값 : InterTime_)
 
@@ -41,12 +41,12 @@ private:
 
 private:
 	std::map<std::string, Animation2D*>								AllAnimations_;	// 애니메이션 관리 목록
-	Animation2D*																		CurAnimation_;	// 현재 애니메이션
+	Animation2D* CurAnimation_;	// 현재 애니메이션
 	float4																							CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
 
 // ==================================== Image 관련 ==================================== //
 private:
-	GameEngineTexture*															CurTexture_;		// SetImage()호출할때 지정(관리용)
+	GameEngineTexture* CurTexture_;		// SetImage()호출할때 지정(관리용)
 
 public:
 	GameEngineImageRenderer(); // default constructer 디폴트 생성자
@@ -60,14 +60,20 @@ private:		//delete operator
 	GameEngineImageRenderer& operator=(const GameEngineImageRenderer& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineImageRenderer& operator=(const GameEngineImageRenderer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
+public:
+	inline GameEngineTexture* GetCurTexture()
+	{
+		return CurTexture_;
+	}
+
 private:
 	void Start() override;
 
-// ==================================== Image 관련 ==================================== //
+	// ==================================== Image 관련 ==================================== //
 public:
 	void SetImage(const std::string& _ImageName, const float4& _RenderSize = float4::ZERO);
 
-// ================================== Animation 관련 ================================== //
+	// ================================== Animation 관련 ================================== //
 protected:
 	void Update(float _DeltaTime) override;
 

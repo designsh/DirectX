@@ -65,6 +65,22 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineDepthBuffer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthBufferManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthStencil.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthStencilManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineDevice.h">
       <SubType>
       </SubType>
@@ -240,6 +256,22 @@
     </ClCompile>
     <ClCompile Include="GameEngineCore_Resources.cpp" />
     <ClCompile Include="GameEngineDebugRenderData.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthBuffer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthBufferManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthStencil.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthStencilManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

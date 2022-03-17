@@ -7,6 +7,7 @@
 // 용도 : 
 // 설명 : 렌더링 파이프라인 순서별 기능을 제공하고 화면에 물체를 출력하기 위한 전단계를 관리하는 기능을 제공
 class GameEngineShader;
+class GameEngineDepthStencil;
 class GameEngineConstantBuffer;
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
@@ -17,32 +18,33 @@ class GameEngineBlend;
 class GameEngineRenderTarget;
 class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
-// ======================================= InputAssembler 1 ======================================= //
+	// ======================================= InputAssembler 1 ======================================= //
 private:
-	GameEngineVertexBuffer*			VertexBuffer_;												// Vertex Buffer(IA1)
-	GameEngineVertexShader*		InputLayOutVertexShader_;					// Vertex Shader InputLayout
+	GameEngineVertexBuffer* VertexBuffer_;												// Vertex Buffer(IA1)
+	GameEngineVertexShader* InputLayOutVertexShader_;					// Vertex Shader InputLayout
 
 // ======================================== Vertex Shader ========================================= //
 private:
-	GameEngineVertexShader*		VertexShader_;											// Vertex Shader(VS)
+	GameEngineVertexShader* VertexShader_;											// Vertex Shader(VS)
 
 // ======================================= InputAssembler 2 ======================================= //
 private:
-	GameEngineIndexBuffer*			IndexBuffer_;												// Index Buffer(IA2)
+	GameEngineIndexBuffer* IndexBuffer_;												// Index Buffer(IA2)
 	D3D11_PRIMITIVE_TOPOLOGY	Topology_;													// Topology(면생성 방법 : 점, 선, 삼각형, 다각형)
 
 // ========================================== Rasterizer ========================================== //
 private:
-	GameEngineRasterizer*				Rasterizer_;													// Rasterizer(RS)
+	GameEngineRasterizer* Rasterizer_;													// Rasterizer(RS)
 
 // ========================================= Pixel Shader ========================================= //
 private:
-	GameEnginePixelShader*			PixelShader_;												// Pixel Shader(PS)
+	GameEnginePixelShader* PixelShader_;												// Pixel Shader(PS)
 
 // ======================================== Ouput Merger ======================================== //
 private:
-	GameEngineBlend*						Blend_;															// Blend(OM)
-	GameEngineRenderTarget*		RenderTarget_;											// Render Target(OM)
+	GameEngineBlend* Blend_;															// Blend(OM)
+	GameEngineRenderTarget* RenderTarget_;											// Render Target(OM)
+	GameEngineDepthStencil* DepthStencil_;												// DepthStencil(OM)
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
@@ -67,7 +69,7 @@ public:
 		return VertexShader_;
 	}
 
-// ======================================== Rendering PipeLine 준비단계 ======================================== //
+	// ======================================== Rendering PipeLine 준비단계 ======================================== //
 public: // Assembler1 Setting
 	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
 	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
@@ -87,8 +89,9 @@ public: // Pixel Shader Setting
 
 public: // Output Merger Setting
 	void SetOutputMergerBlend(const std::string& _Name);
+	void SetOutputMergerDepthStencil(const std::string& _Name);
 
-// ======================================= Rendering PipeLine 가동 준비단계 ======================================= //
+	// ======================================= Rendering PipeLine 가동 준비단계 ======================================= //
 public: // RenderingPipeLine Setting
 	void InputAssembler1();
 	void VertexShader();
@@ -100,11 +103,11 @@ public: // RenderingPipeLine Setting
 public: // RenderingPipeLine Setting
 	void RenderingPipeLineSetting();
 
-// ========================================= Rendering PipeLine 가동단계 ========================================= //
+	// ========================================= Rendering PipeLine 가동단계 ========================================= //
 public:
 	void Rendering();
 
-// ======================================== Rendering PipeLine 초기화단계 ======================================== //
+	// ======================================== Rendering PipeLine 초기화단계 ======================================== //
 public:
 	void Reset();
 };

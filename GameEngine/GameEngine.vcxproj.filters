@@ -187,6 +187,24 @@
     <Filter Include="Debug">
       <UniqueIdentifier>{e74cdaeb-12b7-4eb4-bff4-21dbb2710bc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\06Depth">
+      <UniqueIdentifier>{a738b780-a861-41e7-9a3b-6ef740349d75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Depth">
+      <UniqueIdentifier>{41db70f5-cab2-4d6c-af78-66b16e071294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Depth\DepthStencil">
+      <UniqueIdentifier>{7efc7326-f702-4dcf-bb65-199eedfc1eb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Depth\DepthBuffer">
+      <UniqueIdentifier>{b4c891dd-3ff6-489d-84e1-af7389d072e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\06Depth\00DepthStencil">
+      <UniqueIdentifier>{2f2e9653-03d7-44a1-bcae-857fa19d9e39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\06Depth\01DepthBuffer">
+      <UniqueIdentifier>{4031be77-d1c4-4aa4-9d76-6064543a96c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -326,6 +344,18 @@
     </ClCompile>
     <ClCompile Include="GameEngineCore_Resources.cpp">
       <Filter>GameEngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthStencil.cpp">
+      <Filter>Resources\06Depth\00DepthStencil</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthStencilManager.cpp">
+      <Filter>Resources\99Manager\Depth\DepthStencil</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthBufferManager.cpp">
+      <Filter>Resources\99Manager\Depth\DepthBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthBuffer.cpp">
+      <Filter>Resources\06Depth\01DepthBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -472,6 +502,18 @@
     </ClInclude>
     <ClInclude Include="GameEngineDebugRenderData.h">
       <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthStencil.h">
+      <Filter>Resources\06Depth\00DepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthStencilManager.h">
+      <Filter>Resources\99Manager\Depth\DepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthBufferManager.h">
+      <Filter>Resources\99Manager\Depth\DepthBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthBuffer.h">
+      <Filter>Resources\06Depth\01DepthBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

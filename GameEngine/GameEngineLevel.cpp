@@ -44,6 +44,32 @@ void GameEngineLevel::ChangeRendererGroup(int _Group, GameEngineRenderer* _Rende
 	MainCameraActor_->GetCamera()->ChangeRendererGroup(_Group, _Renderer);
 }
 
+void GameEngineLevel::LevelChangeEndActorEvent()
+{
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			Actor->LevelChangeEndEvent();
+		}
+	}
+}
+
+void GameEngineLevel::LevelChangeStartActorEvent()
+{
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			Actor->LevelChangeStartEvent();
+		}
+	}
+}
+
 void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _Group)
 {
 	CollisionList_[_Group].push_back(_Collision);
