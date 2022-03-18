@@ -76,12 +76,14 @@ struct PlayerRendererPart
 // 플레이어 방향별 렌더오더
 struct PlayerAnimationRenderOrder
 {
-	std::vector<RendererPartType>								DefaultDirectRenderOrder_;	// 애니메이션 시작시 렌더링 오더
+	std::vector<RendererPartType>								DefaultDirectRenderOrder_;	// 애니메이션실행 기본 렌더링 오더
 
-	// 애니메이션 실행중 렌더링 오더가 변경되는 시점
-	bool														ChangeRenderOrderFlag_;		// 애니메이션 중간에 렌더링오더가 변경되어야하는지
+	// 애니메이션 실행중 렌더링 오더가 변경는지 검사
+	bool														ChangeRenderOrderFlag_;		// 애니메이션실행 중간에 렌더링오더가 변경되어야하는지
+	int															ChangeRenderCount_;			// 애니메이션실행 중간에 렌더링오더가 변경되는 수
+
 	int															ChangeStartIndex_;			// 렌더링 오더가 변경되는 시점의 인덱스
-	int															ChangeEndIndex_;			// 렌더링 오더가 본래 렌더링오더로 돌아가는 시점의 인덱스
+	int															ChangeEndIndex_;			// 렌더링 오더가 기본렌더링 오더로 돌아가는 시점의 인덱스
 	std::vector<RendererPartType>								ChangeDirectRenderOrder_;	// 애니메이션 중간 변경되는 렌더링 오더
 
 };
