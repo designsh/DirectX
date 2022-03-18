@@ -1,14 +1,15 @@
 #include "PreCompile.h"
 #include "TownLevel.h"
 
-#include "UserGame.h"
+#include "MainPlayer.h"
+#include "MouseObject.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
 
+#include "UserGame.h"
 #include "GlobalValue.h"
-#include "MainPlayer.h"
 
 TownLevel::TownLevel() :
 	MainPlayer_(nullptr)
@@ -50,6 +51,11 @@ void TownLevel::LevelStart()
 	// 창고오브젝트(이미지)
 
 	// ....
+
+	// 마우스
+	MouseObject* MainMouse = CreateActor<MouseObject>();
+	MainMouse->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
+	GlobalValue::CurMouse = MainMouse;
 }
 
 void TownLevel::LevelUpdate(float _DeltaTime)

@@ -71,6 +71,7 @@ void MainPlayer::SetRenderSize()
 		if (PartRenderer_[i].ItemEquipState_ == ItemEquipState::TP_HVY)
 		{
 			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalScaling(PlayerSize_);
+			//PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalPosition(float4(0.f, 0.f, ));
 		}
 		else
 		{

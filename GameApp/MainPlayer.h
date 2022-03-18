@@ -18,6 +18,12 @@ enum class TargetDirect
 	DIR_MAX,
 };
 
+// 플레이어 파트별 Z오더
+enum class ZOrder
+{
+
+};
+
 // 애니메이션은 총 16방향의 애니메이션을 가지나,
 // 게임내에서 8방향만 사용
 enum class PlayerState
