@@ -27,6 +27,7 @@
 // Math
 #include <math.h>
 #include <random>
+#include <algorithm>
 #include <DirectXPackedVector.h>	// simd 연산(16Byte를 한번에 연산)용 기능 제공(x64 빌드를 사용해야한다)
 
 // Memory

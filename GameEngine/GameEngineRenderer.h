@@ -35,7 +35,6 @@ private:		//delete operator
 
 protected:
 	void Start() override;
-	virtual void SetRenderGroup(int _Order);
 
 private:
 	void Update(float _DeltaTime) override;
@@ -43,5 +42,6 @@ private:
 
 public:
 	void SetRenderingPipeLine(const std::string& _Value);
+	virtual void SetRenderGroup(int _Order);
 };
 

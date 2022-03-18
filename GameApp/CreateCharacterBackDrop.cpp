@@ -19,8 +19,9 @@ void CreateCharacterBackDrop::Start()
 {
 	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
 
-	BackDrop_ = CreateTransformComponent<GameEngineImageRenderer>(static_cast<int>(OrderGroup::BackDrop));
+	BackDrop_ = CreateTransformComponent<GameEngineImageRenderer>();
 	BackDrop_->SetImage("CreateCharacter_BackDrop.png", WindowSize);
+	BackDrop_->GetTransform()->SetLocalPosition(float4(0.f, 0.f, static_cast<float>(DepthZOrder::BackDrop)));
 }
 
 void CreateCharacterBackDrop::Update(float _DeltaTime)

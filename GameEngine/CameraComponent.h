@@ -20,11 +20,11 @@ class CameraComponent : public GameEngineTransformComponent
 	friend class GameEngineLevel;
 
 private:	// member Var
-	ProjectionMode	ProjectionMode_;			// 
+	ProjectionMode				ProjectionMode_;			// 
 	float						FovAngleY_;					// 
-	float4						CamSize_;							// 
-	float						NearZ_;								// 
-	float						FarZ_;									// 
+	float4						CamSize_;					// 
+	float						NearZ_;						// 
+	float						FarZ_;						// 
 
 private:
 	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
@@ -56,7 +56,6 @@ private:
 
 private:
 	void ClearCameraTarget();
-	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 	void CameraTransformUpdate();
 	void Render();
 	void DebugRender();
@@ -68,6 +67,7 @@ public:
 
 public:
 	void PushDebugRender(GameEngineTransform* _Trans, CollisionType _Type);
+	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 
 protected:
 	void Start() override;

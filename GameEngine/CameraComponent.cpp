@@ -36,13 +36,6 @@ void CameraComponent::ClearCameraTarget()
 	CameraBufferTarget_->Clear();
 }
 
-void CameraComponent::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
-{
-	RendererList_[_Renderer->GetOrder()].remove(_Renderer);
-	_Renderer->SetOrder(_Group);
-	RendererList_[_Renderer->GetOrder()].push_back(_Renderer);
-}
-
 void CameraComponent::CameraTransformUpdate()
 {
 	GetTransform()->GetTransformData().View_.ViewToLH(GetTransform()->GetWorldPosition(), GetTransform()->GetWorldForwardVector(), GetTransform()->GetWorldUpVector());
@@ -62,6 +55,11 @@ void CameraComponent::CameraTransformUpdate()
 	}
 }
 
+bool ZSort(GameEngineRenderer* _Left, GameEngineRenderer* _Right)
+{
+	return _Left->GetTransform()->GetWorldPosition().z > _Right->GetTransform()->GetWorldPosition().z;
+}
+
 void CameraComponent::Render()
 {
 	// 카메라 전용 렌더타겟으로 셋팅
@@ -75,6 +73,10 @@ void CameraComponent::Render()
 	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)
 	{
 		std::list<GameEngineRenderer*>& Renderers = Pair.second;
+
+		// 같은 그룹내에 존재하는 렌더러를 Z값에 따라서 오름차순 정렬
+		// => 겹쳐서 그려야하는 렌더러들을 z값에따라 오름차순하여 블렌딩작업하도록하기 위하여 렌더링 전에 정렬
+		Renderers.sort(ZSort);
 
 		for (GameEngineRenderer* Renderer : Renderers)
 		{
@@ -202,6 +204,13 @@ void CameraComponent::PushDebugRender(GameEngineTransform* _Trans, CollisionType
 
 	DebugVector_[DebugRenderCount_].Data_ = _Trans->GetTransformData();
 	++DebugRenderCount_;
+}
+
+void CameraComponent::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
+{
+	RendererList_[_Renderer->GetOrder()].remove(_Renderer);
+	_Renderer->SetOrder(_Group);
+	RendererList_[_Renderer->GetOrder()].push_back(_Renderer);
 }
 
 void CameraComponent::Start()

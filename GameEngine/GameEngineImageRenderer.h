@@ -10,26 +10,26 @@ class GameEngineImageRenderer : public GameEngineRenderer
 {
 	// ================================== Animation 관련 ================================== //
 private:
-	struct Animation2D
+	struct Animation2D : public GameEngineObjectNameBase
 	{
 	public:
-		GameEngineFolderTexture* FolderTextures_;				// 리소스 폴더로드
-		GameEngineTexture* AnimationTexture_;		// 리소스 로드
-		GameEngineImageRenderer* Renderer_;						// 
+		GameEngineFolderTexture*										FolderTextures_;		// 리소스 폴더로드
+		GameEngineTexture*												AnimationTexture_;		// 리소스 로드
+		GameEngineImageRenderer*										Renderer_;				// 
 
-		float																						InterTime_;						// 프레임전환 시간(고정)
-		float																						CurTime_;							// 델타타임 누적(초기값 : InterTime_)
+		float															InterTime_;				// 프레임전환 시간(고정)
+		float															CurTime_;				// 델타타임 누적(초기값 : InterTime_)
 
-		bool																						IsEnd_;								// Loop_ = false일때의 애니메이션 프레임 종료
-		bool																						Loop_;								// 애니메이션 반복여부 Flag
-		bool																						Manual;								// 애니메이션 수동으로 프레임진행여부 Flag
-		int																							CurFrame_;						// 애니메이션의 현재 프레임(초기값 : StartFrame_)
-		int																							StartFrame_;					// 애니메이션의 시작 프레임
-		int																							EndFrame_;						// 애니메이션의 끝 프레임
+		bool															IsEnd_;					// Loop_ = false일때의 애니메이션 프레임 종료
+		bool															Loop_;					// 애니메이션 반복여부 Flag
+		bool															Manual;					// 애니메이션 수동으로 프레임진행여부 Flag
+		int																CurFrame_;				// 애니메이션의 현재 프레임(초기값 : StartFrame_)
+		int																StartFrame_;			// 애니메이션의 시작 프레임
+		int																EndFrame_;				// 애니메이션의 끝 프레임
 
-		std::map<int, std::vector<std::function<void()>>>	FrameCallBack_;				// 지정 프레임에 호출하는 함수
-		std::vector<std::function<void()>>								EndCallBack_;					// 애니메이션 끝 프레임에 호출하는 함수
-		std::vector<std::function<void()>>								StartCallBack_;				// 애니메이션 생성시 첫프레임에 호출하는 함수
+		std::map<int, std::vector<std::function<void()>>>				FrameCallBack_;			// 지정 프레임에 호출하는 함수
+		std::vector<std::function<void()>>								EndCallBack_;			// 애니메이션 끝 프레임에 호출하는 함수
+		std::vector<std::function<void()>>								StartCallBack_;			// 애니메이션 생성시 첫프레임에 호출하는 함수
 
 	public:
 		void Reset();
@@ -40,9 +40,9 @@ private:
 	};
 
 private:
-	std::map<std::string, Animation2D*>								AllAnimations_;	// 애니메이션 관리 목록
-	Animation2D* CurAnimation_;	// 현재 애니메이션
-	float4																							CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
+	std::map<std::string, Animation2D*>									AllAnimations_;			// 애니메이션 관리 목록
+	Animation2D*														CurAnimation_;			// 현재 애니메이션
+	float4																CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
 
 // ==================================== Image 관련 ==================================== //
 private:
@@ -61,9 +61,24 @@ private:		//delete operator
 	GameEngineImageRenderer& operator=(const GameEngineImageRenderer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	inline GameEngineTexture* GetCurTexture()
+	inline GameEngineTexture* GetCurrentTexture()
 	{
 		return CurTexture_;
+	}
+
+	inline std::string GetCurrentAnimationName()
+	{
+		return CurAnimation_->GetName();
+	}
+
+	inline bool IsCurrentAnimationString(const std::string& _Name)
+	{
+		return CurAnimation_->GetName() == _Name;
+	}
+
+	inline bool IsCurrentAnimationPtr(const char* _Name)
+	{
+		return CurAnimation_->GetName() == _Name;
 	}
 
 private:
@@ -76,6 +91,7 @@ public:
 	// ================================== Animation 관련 ================================== //
 protected:
 	void Update(float _DeltaTime) override;
+	void ImageRendererStart();
 
 public:
 	// 프레임 자동 진행

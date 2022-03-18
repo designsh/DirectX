@@ -205,6 +205,9 @@
     <Filter Include="Resources\06Depth\01DepthBuffer">
       <UniqueIdentifier>{4031be77-d1c4-4aa4-9d76-6064543a96c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\MouseActor">
+      <UniqueIdentifier>{0f48ead2-28f4-4ebc-8548-c6538d80b1c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -356,6 +359,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineDepthBuffer.cpp">
       <Filter>Resources\06Depth\01DepthBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseActor.cpp">
+      <Filter>Object\Actor\MouseActor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -514,6 +520,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineDepthBuffer.h">
       <Filter>Resources\06Depth\01DepthBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseActor.h">
+      <Filter>Object\Actor\MouseActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

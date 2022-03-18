@@ -26,6 +26,7 @@ void GameEngineShaderResHelper::Clear()
 			Setting.second = nullptr;
 		}
 	}
+	AllTextureData_.clear();
 
 	for (auto& Setting : AllSamplerData_)
 	{
@@ -35,6 +36,7 @@ void GameEngineShaderResHelper::Clear()
 			Setting.second = nullptr;
 		}
 	}
+	AllSamplerData_.clear();
 
 	for (auto& Setting : AllConstantBufferData_)
 	{
@@ -44,6 +46,7 @@ void GameEngineShaderResHelper::Clear()
 			Setting.second = nullptr;
 		}
 	}
+	AllConstantBufferData_.clear();
 }
 
 void GameEngineShaderResHelper::Setting()

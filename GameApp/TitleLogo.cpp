@@ -23,7 +23,7 @@ void TitleLogo::Start()
 	LogoTexture->Cut(30, 1);
 
 	// 로고 애니메이션 렌더러 생성
-	LogoAnimation_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
+	LogoAnimation_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	LogoAnimation_->CreateAnimation("Title_Logo.png", "TitleLogoAnimation", 0, 29, 0.1f);
 	LogoAnimation_->SetChangeAnimation("TitleLogoAnimation");
 	LogoAnimation_->GetTransform()->SetLocalPosition(float4(0.f, 240.f));

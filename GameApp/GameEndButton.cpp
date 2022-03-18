@@ -27,7 +27,7 @@ void GameEndButton::Start()
 	GameEngineTexture* ButtonClick = GameEngineTextureManager::GetInst().Find("LongButton_Click.png");
 	ButtonClick->Cut(1, 1);
 
-	EndButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
+	EndButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	EndButton_->CreateAnimation("LongButton_Stay.png", "Default", 0, 0, 0.1f, false);
 	EndButton_->CreateAnimation("LongButton_Click.png", "Click", 0, 0, 0.1f, false);
 	EndButton_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
@@ -35,7 +35,7 @@ void GameEndButton::Start()
 	EndButton_->SetChangeAnimation("Default");
 
 	// 충돌체 생성
-	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0_Collider));
+	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	MainCollision_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
 	MainCollision_->GetTransform()->SetLocalPosition(float4(0.f, -300.f));
 }
@@ -45,7 +45,7 @@ void GameEndButton::Update(float _DeltaTime)
 	// 디버그용
 	DebugRender();
 
-	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&GameEndButton::GameEndButtonClick, this, std::placeholders::_1));
+	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&GameEndButton::GameEndButtonClick, this, std::placeholders::_1));
 }
 
 void GameEndButton::GameEndButtonClick(GameEngineCollision* _OtherCollision)

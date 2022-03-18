@@ -132,6 +132,11 @@ bool GameEngineInput::Free(const std::string& _Name)
     return FindKey->Free_;
 }
 
+void GameEngineInput::HideCursor()
+{
+    ShowCursor(false);
+}
+
 // construct destruct -------------------------------------------------------------
 GameEngineInput::GameEngineInput()
 {

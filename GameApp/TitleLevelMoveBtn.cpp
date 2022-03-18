@@ -31,14 +31,14 @@ void TitleLevelMoveBtn::Start()
 	GameEngineTexture* ButtonImage = GameEngineTextureManager::GetInst().Find("ShortButton_Stay.png");
 	float4 TextureSize = ButtonImage->GetTextureSize();
 
-	PrevMenuBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
+	PrevMenuBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	PrevMenuBtn_->CreateAnimation("ShortButton_Stay.png", "Default", 0, 0, 0.1f, false);
 	PrevMenuBtn_->CreateAnimation("ShortButton_Click.png", "Click", 0, 0, 0.1f, false);
 	PrevMenuBtn_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.f));
 	PrevMenuBtn_->GetTransform()->SetLocalPosition(float4(-WindowSize.ihx() + 130.f, -WindowSize.ihy() + 60.f));
 	PrevMenuBtn_->SetChangeAnimation("Default");
 
-	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0_Collider));
+	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	MainCollider_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(PrevMenuBtn_->GetTransform()->GetLocalPosition());
 }
@@ -47,7 +47,7 @@ void TitleLevelMoveBtn::Update(float _DeltaTime)
 {
 	DebugRender();
 
-	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&TitleLevelMoveBtn::PrevButtonClick, this, std::placeholders::_1));
+	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&TitleLevelMoveBtn::PrevButtonClick, this, std::placeholders::_1));
 }
 
 void TitleLevelMoveBtn::ChangeStartReset()

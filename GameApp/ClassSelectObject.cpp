@@ -44,7 +44,7 @@ void ClassSelectObject::Update(float _DeltaTime)
 	DebugRender();
 
 	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 해당 직업으로 선택 or 선택해제
-	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&ClassSelectObject::ClassSelOrDesel, this, std::placeholders::_1));
+	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&ClassSelectObject::ClassSelOrDesel, this, std::placeholders::_1));
 }
 
 void ClassSelectObject::ChangeStartReset()
@@ -174,7 +174,7 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 	if (JobType::None != _JobType)
 	{
 		// ============================================== 본체 생성 ============================================== //
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)] = CreateTransformComponent<GameEngineImageRenderer>(static_cast<int>(OrderGroup::NormalObject0));
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)] = CreateTransformComponent<GameEngineImageRenderer>();
 		
 		std::string Entity_NotSelName = EntityName;
 		Entity_NotSelName += TextureName_[static_cast<int>(CurSelectState::NotSel)];
@@ -205,7 +205,7 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetEndCallBack(Entity_SelStartName, std::bind(&ClassSelectObject::SelectEnd, this));
 
 		// ============================================== 효과 생성 ============================================== //
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)] = CreateTransformComponent<GameEngineImageRenderer>(static_cast<int>(OrderGroup::NormalObject1));
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)] = CreateTransformComponent<GameEngineImageRenderer>();
 
 		std::string Effect_NotSelName = EffectName;
 		Effect_NotSelName += TextureName_[static_cast<int>(CurSelectState::NotSel)];
@@ -232,10 +232,10 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->CreateAnimation(Effect_SelStartTextureName, Effect_SelStartName, 0, 37, 0.1f, false);
 
 		// 최종
-		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalPosition(_Pos);
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalPosition(float4(_Pos.x, _Pos.y, static_cast<float>(DepthZOrder::PlayerObject)));
 
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(_Pos.x, _Pos.y + 100.f));
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(_Pos.x, _Pos.y + 100.f, static_cast<float>(DepthZOrder::PlayerObject_Effect)));
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
 
 		std::string FirstEntityAni = EntityName;
@@ -248,7 +248,7 @@ void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(FirstEffectAni);
 
 		// ============================================= 충돌체 생성 ============================================= //
-		MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::NormalObject0_Collider));
+		MainCollision_ = CreateTransformComponent<GameEngineCollision>();
 		MainCollision_->GetTransform()->SetLocalScaling(float4(256.0f, 256.0f, 1.0f));
 
 		// 현재 상태 저장
@@ -273,7 +273,10 @@ void ClassSelectObject::DeSelectEnd()
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(EntityAniName);
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(EffectAniName);
 
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f, -2.f));
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetZOrder(static_cast<float>(DepthZOrder::PlayerObject));
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetZOrder(static_cast<float>(DepthZOrder::PlayerObject_Effect));
+
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
 
@@ -297,7 +300,10 @@ void ClassSelectObject::SelectEnd()
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(EntityAniName);
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(EffectAniName);
 
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f, -2.f));
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetZOrder(static_cast<float>(DepthZOrder::PlayerObject));
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetZOrder(static_cast<float>(DepthZOrder::PlayerObject_Effect));
+
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
 
@@ -376,7 +382,10 @@ void ClassSelectObject::CurClassSelect()
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(EntityName);
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(EffectName);
 
-		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f, -2.f));
+		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetZOrder(static_cast<float>(DepthZOrder::PlayerObject));
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetZOrder(static_cast<float>(DepthZOrder::PlayerObject_Effect));
+
+		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
 		ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
 		ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
 	}
@@ -421,14 +430,16 @@ void ClassSelectObject::ChangeAnimation(CurSelectState _SelectState)
 	EntityName += TextureName_[static_cast<int>(_SelectState)];
 	ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->SetChangeAnimation(EntityName);
 	ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
+	ClassRenderer[static_cast<int>(ClassRendererType::ENTITY)]->GetTransform()->SetZOrder(static_cast<float>(DepthZOrder::PlayerObject));
 
 	// 이펙트 애니메이션 변경
 	std::string EffectName = AnimationName;
 	EffectName += "Effect";
 	EffectName += TextureName_[static_cast<int>(_SelectState)];
 	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->SetChangeAnimation(EffectName);
-	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f, -2.f));
+	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalPosition(float4(0.f, 100.f));
 	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f, 1.f));
+	ClassRenderer[static_cast<int>(ClassRendererType::EFFECT)]->GetTransform()->SetZOrder(static_cast<float>(DepthZOrder::PlayerObject_Effect));
 
 	// 선택 상태 저장
 	SelectState_ = _SelectState;

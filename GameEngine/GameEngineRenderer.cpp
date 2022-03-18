@@ -23,11 +23,6 @@ void GameEngineRenderer::Start()
 	GetLevel()->GetMainCamera()->PushRenderer(GetOrder(), this);
 }
 
-void GameEngineRenderer::SetRenderGroup(int _Order)
-{
-	GetLevel()->ChangeRendererGroup(_Order, this);
-}
-
 void GameEngineRenderer::Update(float _DeltaTime)
 {
 }
@@ -42,6 +37,8 @@ void GameEngineRenderer::Render()
 
 void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 {
+	ShaderHelper.Clear();
+
 	PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find(_Value);
 	if (nullptr == PipeLine_)
 	{
@@ -57,4 +54,9 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 			ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
 		}
 	}
+}
+
+void GameEngineRenderer::SetRenderGroup(int _Order)
+{
+	GetLevel()->GetMainCamera()->ChangeRendererGroup(_Order, this);
 }

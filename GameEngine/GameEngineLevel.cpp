@@ -39,11 +39,6 @@ void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Col
 	CollisionList_[_Collision->GetOrder()].push_back(_Collision);
 }
 
-void GameEngineLevel::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
-{
-	MainCameraActor_->GetCamera()->ChangeRendererGroup(_Group, _Renderer);
-}
-
 void GameEngineLevel::LevelChangeEndActorEvent()
 {
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)

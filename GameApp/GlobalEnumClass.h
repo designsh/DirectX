@@ -1,80 +1,8 @@
 #pragma once
 
-enum class UpdateOrder
+// UI전용 렌더오더
+enum class UIRenderOrder
 {
-	Map,
-	MapObject,
-	NormalObject,
-	Player,
-	Monster,
-	UI,
-	Mouse
-};
-
-enum class OrderGroup
-{
-	BackDrop,
-	Map,
-	MapObject0,
-	MapObject0_Collider,
-	MapObject0_Text,
-	MapObject1,
-	MapObject1_Collider,
-	MapObject1_Text,
-	MapObject2,
-	MapObject2_Collider,
-	MapObject2_Text,
-	MapObject3,
-	MapObject3_Collider,
-	MapObject3_Text,
-	NormalObject0,
-	NormalObject0_Collider,
-	NormalObject0_Text,
-	NormalObject1,
-	NormalObject1_Collider,
-	NormalObject1_Text,
-	NormalObject2,
-	NormalObject2_Collider,
-	NormalObject2_Text,
-	NormalObject3,
-	NormalObject3_Collider,
-	NormalObject3_Text,
-	Player,
-	Player_Collider,
-	Player_Text,
-	PlayerAttack,
-	PlayerAttack_Collider,
-	PlayerAttack_Text,
-	PlayerSkill,
-	PlayerSkill_Collider,
-	PlayerSkill_Text,
-	PlayerUI0,
-	PlayerUI0_Collider,
-	PlayerUI0_Text,
-	PlayerUI1,
-	PlayerUI1_Collider,
-	PlayerUI1_Text,
-	PlayerUI2,
-	PlayerUI2_Collider,
-	PlayerUI2_Text,
-	PlayerUI3,
-	PlayerUI3_Collider,
-	PlayerUI3_Text,
-	Monster,
-	MonsterAttack,
-	MonsterSkill,
-	MonsterUI0,
-	MonsterUI0_Collider,
-	MonsterUI0_Text,
-	MonsterUI1,
-	MonsterUI1_Collider,
-	MonsterUI1_Text,
-	MonsterUI2,
-	MonsterUI2_Collider,
-	MonsterUI2_Text,
-	MonsterUI3,
-	MonsterUI3_Collider,
-	MonsterUI3_Text,
 	UI0,
 	UI0_Collider,
 	UI0_Text,
@@ -87,8 +15,32 @@ enum class OrderGroup
 	UI3,
 	UI3_Collider,
 	UI3_Text,
-	Mouse = 99,
-	MouseCollider = 100,
+	UI4,
+	UI4_Collider,
+	UI4_Text,
+	UI5,
+	UI5_Collider,
+	UI5_Text,
+	Mouse = 9999,
 	MAX
 };
 
+// 깊이버퍼의 z값 오더
+enum class DepthZOrder
+{
+	Object,
+	Monster,
+	PlayerObject_Effect,
+	PlayerObject,
+	Player,
+	MapObject,
+	Map,
+	BackDrop,
+	MAX
+};
+
+// 플레이어 z값 오더
+enum class PlayerZOrder
+{
+
+};

@@ -177,7 +177,7 @@ public:
 	void SetLocalPosition(const float4& _Value);				// 자신의 로컬위치를 Set
 	void SetWorldPosition(const float4& _Value);			// 자신의 월드위치를 Set
 
-public: // DeltaTime Update 관련
+public:
 	void SetLocalDeltaTimeRotation(const float4& _Value);	// DeltaTime 영향을 받아 로컬회전
 	void SetWorldDeltaTimeRotation(const float4& _Value);	// DeltaTime 영향을 받아 월드회전
 	void SetLocalDeltaTimeMove(const float4& _Value);			// DeltaTime 영향을 받아 로컬이동
@@ -186,6 +186,9 @@ public: // DeltaTime Update 관련
 public: // Normal Update 관련
 	void SetLocalMove(const float4& _Value);								// _Value만큼 로컬이동
 	void SetWorldMove(const float4& _Value);							// _Value만큼 월드이동
+
+public:
+	void SetZOrder(float _Value);
 
 public: // 기본 상수버퍼 관련
 	float4 GetLocalScaling() const;

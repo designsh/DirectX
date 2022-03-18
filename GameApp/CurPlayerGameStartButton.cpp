@@ -46,7 +46,7 @@ void CurPlayerGameStartButton::Start()
 
 	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
 
-	CurPlayerGameStartBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::UI0));
+	CurPlayerGameStartBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	CurPlayerGameStartBtn_->CreateAnimation("ShortButton_Stay.png", "Default", 0, 0, 0.1f, false);
 	CurPlayerGameStartBtn_->CreateAnimation("ShortButton_Click.png", "Click", 0, 0, 0.1f, false);
 	CurPlayerGameStartBtn_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.f));
@@ -54,7 +54,7 @@ void CurPlayerGameStartButton::Start()
 	CurPlayerGameStartBtn_->Off();
 	CurPlayerGameStartBtn_->SetChangeAnimation("Default");
 
-	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::UI0_Collider));
+	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	MainCollider_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(CurPlayerGameStartBtn_->GetTransform()->GetLocalPosition());
 	MainCollider_->Off();
@@ -67,7 +67,7 @@ void CurPlayerGameStartButton::Update(float _DeltaTime)
 	// 충돌체크
 	if (true == CurPlayerGameStartBtn_->IsUpdate())
 	{
-		MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(OrderGroup::MouseCollider), std::bind(&CurPlayerGameStartButton::OKButtonClick, this, std::placeholders::_1));
+		MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&CurPlayerGameStartButton::OKButtonClick, this, std::placeholders::_1));
 	}
 
 	// 1. 버튼 활성/비활성 여부 판단

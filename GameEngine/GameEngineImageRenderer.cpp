@@ -31,7 +31,7 @@ void GameEngineImageRenderer::Start()
 	GameEngineRenderer::Start();
 
 	SetRenderingPipeLine("Texture");
-	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData_);
+	ImageRendererStart();
 }
 
 void GameEngineImageRenderer::SetImage(const std::string& _ImageName, const float4& _RenderSize)
@@ -72,6 +72,11 @@ void GameEngineImageRenderer::Update(float _DeltaTime)
 	CurAnimation_->Update(_DeltaTime);
 }
 
+void GameEngineImageRenderer::ImageRendererStart()
+{
+	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData_);
+}
+
 void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop)
 {
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
@@ -90,6 +95,7 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, c
 		GameEngineDebug::MsgBoxError("존재하지 않는 텍스쳐로 애니메이션을 만들려고 했습니다.");
 	}
 
+	NewAnimation->SetName(_Name);
 	NewAnimation->IsEnd_ = false;
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->Manual = false;
@@ -122,6 +128,7 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 
 	NewAnimation->FolderTextures_ = FolderTexture;
 
+	NewAnimation->SetName(_Name);
 	NewAnimation->IsEnd_ = false;
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->Manual = false;
@@ -149,6 +156,7 @@ void GameEngineImageRenderer::CreateAnimationManual(const std::string& _Name, in
 
 	NewAnimation->FolderTextures_ = nullptr;
 
+	NewAnimation->SetName(_Name);
 	NewAnimation->IsEnd_ = false;
 	NewAnimation->Loop_ = false;
 	NewAnimation->Manual = _Manual;
@@ -182,6 +190,7 @@ void GameEngineImageRenderer::CreateAnimationManualFolder(const std::string& _Na
 
 	NewAnimation->FolderTextures_ = FolderTexture;
 
+	NewAnimation->SetName(_Name);
 	NewAnimation->IsEnd_ = false;
 	NewAnimation->Loop_ = false;
 	NewAnimation->Manual = false;

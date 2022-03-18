@@ -23,17 +23,17 @@ void MouseObject::Start()
 	GameEngineTexture* MouseStay = GameEngineTextureManager::GetInst().Find("Mouse.png");
 	MouseStay->Cut(8, 1);
 
-	Mouse_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(OrderGroup::Mouse));
+	Mouse_ = CreateTransformComponent<GameEngineUIRenderer>();
 	Mouse_->CreateAnimation("Mouse.png", "StayState", 0, 7, 0.4f);
 	Mouse_->CreateAnimation("Mouse.png", "MoveState", 0, 0, 0.1f, false);
 	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
+	Mouse_->SetRenderGroup(static_cast<int>(UIRenderOrder::Mouse));
 	Mouse_->SetChangeAnimation("StayState");
 
-	MouseCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(OrderGroup::MouseCollider));
+	MouseCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Mouse));
 	MouseCollider_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
 
-	// 220315 테스트 편의를 위해 임시주석
-	ShowCursor(FALSE);
+	GameEngineInput::GetInst().HideCursor();
 }
 
 void MouseObject::Update(float _DeltaTime)
@@ -44,7 +44,7 @@ void MouseObject::Update(float _DeltaTime)
 	float4 CurPos = GameEngineInput::GetInst().GetMouse3DPos();
 
 	// 마우스 위치 갱신
-	GetTransform()->SetLocalPosition(float4(CurPos.x, CurPos.y, -2.f));
+	GetTransform()->SetLocalPosition(float4(CurPos.x, CurPos.y));
 
 	// 이전 마우스위치와 현재마우스가 달라졌을때 동작상태에서 대기상태로 전환
 	if (PrevPos == CurPos)

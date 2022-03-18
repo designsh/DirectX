@@ -378,6 +378,11 @@ void GameEngineTransform::SetWorldMove(const float4& _Value)
 	SetWorldPosition(TransformData_.vWorldPosition_ + _Value);
 }
 
+void GameEngineTransform::SetZOrder(float _Value)
+{
+	TransformData_.vLocalPosition_.z = _Value;
+}
+
 float4 GameEngineTransform::GetLocalScaling() const
 {
 	return TransformData_.vLocalScaling_;
