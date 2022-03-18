@@ -220,7 +220,7 @@ void GameEngineCore::EngineResourcesCreate()
 	{
 		D3D11_RASTERIZER_DESC Info = { D3D11_FILL_MODE::D3D11_FILL_SOLID, };
 		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 		Info.AntialiasedLineEnable = true;
 		Info.MultisampleEnable = true;
 		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
