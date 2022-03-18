@@ -7,8 +7,8 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 
 MainPlayer::MainPlayer() :
-	PrevDirect_(TargetDirect::None),
-	CurDirect_(TargetDirect::None),
+	PrevDirect_(TargetDirect::DIR_B),
+	CurDirect_(TargetDirect::DIR_B),
 	PrevState_(PlayerState::STAT_A1),
 	CurState_(PlayerState::STAT_A1),
 	StateName_(),
@@ -23,12 +23,25 @@ MainPlayer::~MainPlayer()
 	{
 		StateName_.clear();
 	}
+
+	if (!PartRenderer_.empty())
+	{
+		PartRenderer_.clear();
+	}
+
+	for (int i = 0; i < static_cast<int>(TargetDirect::DIR_MAX); ++i)
+	{
+		DirectRenderOrder_[i].clear();
+	}
 }
 
 void MainPlayer::Start()
 {
 	// 플레이어 상태명을 생성
 	CreateStateName();
+
+	// 방향별 렌더링 오더 생성
+	CreateDirectRenderOrderType();
 
 	// 플레이어 애니메이션 관련 이미지 Cut
 	AllAnimationCut();
@@ -44,8 +57,6 @@ void MainPlayer::Start()
 	// 스탯창
 
 	// 인벤토리창
-
-
 
 	// ================================== 키생성 ================================== //
 	// 스킬창 열기
@@ -99,6 +110,17 @@ void MainPlayer::Start()
 
 void MainPlayer::Update(float _DeltaTime)
 {
+	// 카메라위치를 플레이어위치에 따라 갱신
+	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+
+	// 플레이어 관련 키체크
+	PlayerUIActiveKeyCheck();
+
+
+
+
+
+
 	// TEST
 	if (true == GameEngineInput::GetInst().Down("NextDirect"))
 	{
@@ -143,8 +165,32 @@ void MainPlayer::Update(float _DeltaTime)
 		}
 		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
 	}
+}
 
-	// 카메라위치를 플레이어위치에 따라 갱신
-	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+void MainPlayer::PlayerUIActiveKeyCheck()
+{
+	// 스킬창 열기
+	if (true == GameEngineInput::GetInst().Down("SkillViewActive"))
+	{
+		int a = 0;
+	}
+	
+	// 스탯창 열기
+	if (true == GameEngineInput::GetInst().Down("StatViewActive"))
+	{
+		int a = 0;
+	}
+
+	// 인벤토리 열기
+	if (true == GameEngineInput::GetInst().Down("InventoryActive"))
+	{
+		int a = 0;
+	}
+
+	// 스태미나 활성/비활성
+	if (true == GameEngineInput::GetInst().Down("StaminaActive"))
+	{
+		int a = 0;
+	}
 }
 

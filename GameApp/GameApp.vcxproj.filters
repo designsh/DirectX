@@ -176,6 +176,9 @@
     <ClCompile Include="ErrorMsgButton.cpp">
       <Filter>Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgButton</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_CreateRenderOrderType.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\CreateRenderOrderType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -516,6 +519,9 @@
     </Filter>
     <Filter Include="Object\Actor\02.CreateCharacter\05.ClassSelectAnimation">
       <UniqueIdentifier>{e30b6761-9065-43af-a035-0a106ed54391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\CreateRenderOrderType">
+      <UniqueIdentifier>{0594f0b6-ae68-4ca8-aee0-ca57c56d4f58}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

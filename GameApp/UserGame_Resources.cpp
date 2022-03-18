@@ -185,5 +185,5 @@ void UserGame::ResourcesLoad()
 	TexturePipeLine->SetRasterizer("UserBaseRasterizer");
 	TexturePipeLine->SetPixelShader("Texture_PS");
 	TexturePipeLine->SetOutputMergerBlend("UserAlphaBlend");
-	TexturePipeLine->SetOutputMergerDepthStencil("BaseDepthOff");
+	//TexturePipeLine->SetOutputMergerDepthStencil("BaseDepthOff");
 }

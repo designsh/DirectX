@@ -63,7 +63,7 @@ void MainPlayer::SetFirstAnimation()
 
 void MainPlayer::SetRenderSize()
 {
-	PlayerSize_ = float4(500.f, 500.f, 1.f);
+	PlayerSize_ = float4(256.f, 256.f, 1.f);
 
 	int PartSize = static_cast<int>(PartRenderer_.size());
 	for (int i = 0; i < PartSize; ++i)
@@ -71,7 +71,6 @@ void MainPlayer::SetRenderSize()
 		if (PartRenderer_[i].ItemEquipState_ == ItemEquipState::TP_HVY)
 		{
 			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalScaling(PlayerSize_);
-			//PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalPosition(float4(0.f, 0.f, ));
 		}
 		else
 		{
@@ -83,6 +82,11 @@ void MainPlayer::SetRenderSize()
 			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetLocalScaling(PlayerSize_);
 		}
 	}
+}
+
+void MainPlayer::SetFirstZOrder()
+{
+
 }
 
 void MainPlayer::SetFirstItemEquipState()
