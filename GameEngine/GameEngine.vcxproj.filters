@@ -208,6 +208,9 @@
     <Filter Include="Object\Actor\MouseActor">
       <UniqueIdentifier>{0f48ead2-28f4-4ebc-8548-c6538d80b1c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FSM">
+      <UniqueIdentifier>{f3035d9a-9c4e-408f-8390-11a31c627dd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -362,6 +365,9 @@
     </ClCompile>
     <ClCompile Include="MouseActor.cpp">
       <Filter>Object\Actor\MouseActor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFSM.cpp">
+      <Filter>FSM</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +529,9 @@
     </ClInclude>
     <ClInclude Include="MouseActor.h">
       <Filter>Object\Actor\MouseActor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFSM.h">
+      <Filter>FSM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,15 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 
 MainPlayer::MainPlayer() :
+	IsTown_(true),
+	IsRun_(false),
+	IsInventory_(false),
+	IsStateView_(false),
+	IsSkillView_(false),
+	IsRightSkillList_(false),
+	IsLeftSkillList_(false),
+	IsStorehouse_(false),
+	State_(this),
 	PrevDirect_(TargetDirect::DIR_B),
 	CurDirect_(TargetDirect::DIR_B),
 	PrevState_(PlayerState::STAT_A1),
@@ -48,6 +57,10 @@ void MainPlayer::Start()
 
 	// 플레이어 애니메이션 생성 관련
 	CreateAnimation();
+
+	// 플레이어 FSM 상태 생성 관련
+	CreatePlayerStateFSM();
+	State_.ChangeState("Natural_Town");
 
 	// 하단 상태바
 	BottomStateBar_ = GetLevel()->CreateActor<BottomStateBar>();
@@ -116,7 +129,8 @@ void MainPlayer::Update(float _DeltaTime)
 	// 플레이어 관련 키체크
 	PlayerUIActiveKeyCheck();
 
-
+	// 상태별 행동패턴 처리
+	State_.Update();
 
 
 
@@ -172,25 +186,67 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	// 스킬창 열기
 	if (true == GameEngineInput::GetInst().Down("SkillViewActive"))
 	{
-		int a = 0;
+		// 이미 활성화 되어있다면 비활성화
+		if (true == IsSkillView_)
+		{
+			IsSkillView_ = false;
+		}
+		else // 아니라면 활성화
+		{
+			IsSkillView_ = true;
+		}
 	}
 	
 	// 스탯창 열기
 	if (true == GameEngineInput::GetInst().Down("StatViewActive"))
 	{
-		int a = 0;
+		// 이미 활성화 되어있다면 비활성화
+		if (true == IsStateView_)
+		{
+			IsStateView_ = false;
+		}
+		else // 아니라면 활성화
+		{
+			IsStateView_ = true;
+		}
 	}
 
 	// 인벤토리 열기
 	if (true == GameEngineInput::GetInst().Down("InventoryActive"))
 	{
-		int a = 0;
+		// 이미 활성화 되어있다면 비활성화
+		if (true == IsInventory_)
+		{
+			IsInventory_ = false;
+		}
+		else // 아니라면 활성화
+		{
+			IsInventory_ = true;
+		}
 	}
 
 	// 스태미나 활성/비활성
 	if (true == GameEngineInput::GetInst().Down("StaminaActive"))
 	{
-		int a = 0;
+		// 이미 활성화 되어있다면 비활성화
+		if (true == IsRun_)
+		{
+			IsRun_ = false;
+		}
+		else // 아니라면 활성화
+		{
+			IsRun_ = true;
+		}
+	}
+
+	// 마우스 왼쪽버튼
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		// 이동인지 체크후 이동이라면 방향계산후 상태 변경
+		if (true == MoveDirectCheck())
+		{
+			MoveStart();
+		}
 	}
 }
 

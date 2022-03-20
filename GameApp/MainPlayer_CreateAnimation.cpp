@@ -86,6 +86,10 @@ void MainPlayer::SetRenderSize()
 
 void MainPlayer::SetFirstZOrder()
 {
+	// 첫시작 방향 및 상태에 따라 오더 결정
+
+
+
 
 }
 
@@ -154,6 +158,9 @@ void MainPlayer::CreateAnimation()
 
 	// 최초 타입 렌더러 지정
 	SetFirstItemEquipState();
+
+	// 최초 렌더링 오더 지정
+	SetFirstZOrder();
 }
 
 void MainPlayer::CreateA1Animation()

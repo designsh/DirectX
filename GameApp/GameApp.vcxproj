@@ -151,7 +151,10 @@
     <ClCompile Include="MainPlayer_AnimationCutting.cpp" />
     <ClCompile Include="MainPlayer_ChangeAnimation.cpp" />
     <ClCompile Include="MainPlayer_CreateAnimation.cpp" />
+    <ClCompile Include="MainPlayer_CreateFSM.cpp" />
     <ClCompile Include="MainPlayer_CreateRenderOrderType.cpp" />
+    <ClCompile Include="MainPlayer_FSMFunction.cpp" />
+    <ClCompile Include="MainPlayer_MoveDirectCheck.cpp" />
     <ClCompile Include="MouseObject.cpp">
       <SubType>
       </SubType>

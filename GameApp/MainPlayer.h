@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineFSM.h>
 
 // 플레이어는 총 8방향의 애니메이션을 소유한다.
 // 그러므로 현재 플레이어의 위치와 마우스커서가 클릭한 위치의
@@ -95,7 +96,20 @@ class BottomStateBar;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
-private:
+private: // 플레이어관련 Flag
+	bool IsTown_;						// 마을/필드 존재 여부(true : 마을)
+	bool IsRun_;						// 뛰기/걷기 상태 여부(true : 뛰기상태(스태미나 소모))
+	bool IsInventory_;					// 인벤토리 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
+	bool IsStateView_;					// 스탯창 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화 - 활성화시 화면크기절반의 왼쪽은 이동방향으로 설정 불가
+	bool IsSkillView_;					// 스킬창 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
+	bool IsRightSkillList_;				// 오른쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 오른쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
+	bool IsLeftSkillList_;				// 왼쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 왼쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
+	bool IsStorehouse_;					// 창고 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화되며, 동시에 인벤토리 활성화 - 화면 전체를 이동방향으로 설정 불가
+
+private: // FSM
+	GameEngineFSM<MainPlayer> State_;
+
+private: // 이동방향
 	TargetDirect PrevDirect_;
 	TargetDirect CurDirect_;
 
@@ -168,6 +182,9 @@ private: // 애니메이션 생성관련
 	void CreateTWAnimation();						// 마을_걷기모션
 	void CreateWLAnimation();						// 필드_걷기모션
 
+private: // FSM 생성관련
+	void CreatePlayerStateFSM();
+
 private:
 	void CreateDirectRenderOrderType();				// 플레이어 이동방향별 렌더오더 타입 생성
 	void ChangeZOrderType(TargetDirect _Direct);	// 플레이어의 이동방향에 따라 렌더오더 타입 변경
@@ -185,5 +202,48 @@ private:
 
 private:
 	void PlayerUIActiveKeyCheck();
+
+private:
+	bool MoveDirectCheck();
+	void MoveStart();
+
+private: // FSM 처리관련
+	void ChangeFSMState(std::string _StateName);
+
+	// ========================== 마을 관련 ========================== //
+	StateInfo StartTownNatural(StateInfo _state);
+	StateInfo UpdateTownNatural(StateInfo _state);
+	StateInfo StartTownWalk(StateInfo _state);
+	StateInfo UpdateTownWalk(StateInfo _state);
+
+	// ========================== 필드 관련 ========================== //
+	StateInfo StartFieldNatural(StateInfo _state);
+	StateInfo UpdateFieldNatural(StateInfo _state);
+	StateInfo StartFieldWalk(StateInfo _state);
+	StateInfo UpdateFieldWalk(StateInfo _state);
+
+	// ========================== 공통 관련 ========================== //
+	StateInfo StartAttack1(StateInfo _state);
+	StateInfo UpdateAttack1(StateInfo _state);
+	StateInfo StartAttack2(StateInfo _state);
+	StateInfo UpdateAttack2(StateInfo _state);
+	StateInfo StartBlock(StateInfo _state);
+	StateInfo UpdateBlock(StateInfo _state);
+	StateInfo StartGetHit(StateInfo _state);
+	StateInfo UpdateGetHit(StateInfo _state);
+	StateInfo StartKick(StateInfo _state);
+	StateInfo UpdateKick(StateInfo _state);
+	StateInfo StartRun(StateInfo _state);
+	StateInfo UpdateRun(StateInfo _state);
+	StateInfo StartSkillAttack(StateInfo _state);
+	StateInfo UpdateSkillAttack(StateInfo _state);
+	StateInfo StartSkillCasting(StateInfo _state);
+	StateInfo UpdateSkillCasting(StateInfo _state);
+
+	// ========================== 사망 관련 ========================== //
+	StateInfo StartDead(StateInfo _state);
+	StateInfo UpdateDead(StateInfo _state);
+	StateInfo StartDeath(StateInfo _state);
+	StateInfo UpdateDeath(StateInfo _state);
 };
 

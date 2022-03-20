@@ -179,6 +179,15 @@
     <ClCompile Include="MainPlayer_CreateRenderOrderType.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.Function\CreateRenderOrderType</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_CreateFSM.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM\Create</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_FSMFunction.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM\FSMFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_MoveDirectCheck.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\MainPlayerMove</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -522,6 +531,18 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function\CreateRenderOrderType">
       <UniqueIdentifier>{0594f0b6-ae68-4ca8-aee0-ca57c56d4f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM">
+      <UniqueIdentifier>{0395a076-bb0c-4623-a5c0-1adbfbd3b5a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM\Create">
+      <UniqueIdentifier>{759e3116-2737-46a5-b63b-d23d075fbf7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM\FSMFunction">
+      <UniqueIdentifier>{55c45fa8-0390-4341-ba99-ea33f4aa21a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\MainPlayerMove">
+      <UniqueIdentifier>{38fb999e-abba-41e7-a13d-08cc36283e62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
