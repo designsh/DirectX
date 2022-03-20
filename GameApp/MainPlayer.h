@@ -89,17 +89,22 @@ struct PlayerRendererPart
 };
 
 // 플레이어 방향별 렌더오더
-struct PlayerAnimationRenderOrder
+struct UnderChangeZOrder
 {
-	std::vector<RendererPartType>								DefaultDirectRenderOrder_;	// 애니메이션실행 기본 렌더링 오더
+	int															StartIndex_;				// 애니메이션 변경 시작 인덱스
+	int															EndIndex_;					// 애니메이션 변경 종료 인덱스
+	std::vector<int>											DirectZOrder_;				// 애니메이션 실행 기본 렌더링 Z오더
+};
 
-	// 애니메이션 실행중 렌더링 오더가 변경는지 검사
-	bool														ChangeRenderOrderFlag_;		// 애니메이션실행 중간에 렌더링오더가 변경되어야하는지
-	int															ChangeRenderCount_;			// 애니메이션실행 중간에 렌더링오더가 변경되는 수
+struct PlayerZOrderManagement
+{
+	TargetDirect												Direct_;					// 현재 오더를 사용하는 방향
+	int															TotalAnimationCnt_;			// 현재 상태의 애니메이션 인덱스 Max
+	std::vector<UnderChangeZOrder>								DefaultDirectZOrder_;		// 기본 렌더링 ZOrder
 
-	int															ChangeStartIndex_;			// 렌더링 오더가 변경되는 시점의 인덱스
-	int															ChangeEndIndex_;			// 렌더링 오더가 기본렌더링 오더로 돌아가는 시점의 인덱스
-	std::vector<RendererPartType>								ChangeDirectRenderOrder_;	// 애니메이션 중간 변경되는 렌더링 오더
+	// 애니메이션 실행중 Z오더가 변경되어야하는지 검사
+	bool														UnderChangeZOrderFlag_;		// 애니메이션 실행중 Z오더 변경유무 Flag(true : 변경필요)
+	std::vector<UnderChangeZOrder>								UnderChange_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
 
 };
 
@@ -142,10 +147,12 @@ private: // FSM
 #pragma region PlayerRenderer
 private: // 플레이어 부위별 애니메이션렌더러
 	std::vector<PlayerRendererPart> PartRenderer_;
-	float4 PlayerSize_;
 
-private: // 플레이어 방향별 렌더오더
-	std::vector<PlayerAnimationRenderOrder> DirectRenderOrder_[static_cast<int>(TargetDirect::DIR_MAX)];
+private: // 플레이어 렌더링 크기
+	float4 RenderSize_;
+
+private: // 플레이어 상태별 렌더오더
+	std::vector<PlayerZOrderManagement> DirectRenderOrder_[static_cast<int>(PlayerState::STAT_MAX)];
 #pragma endregion
 
 #pragma region PlayerDirectAndState

@@ -16,7 +16,7 @@ MainPlayer::MainPlayer() :
 	IsLeftSkillList_(false),
 	IsStorehouse_(false),
 	State_(this),
-	PlayerSize_(float4(256.f, 256.f)),
+	RenderSize_(float4(256.f, 256.f)),
 	PrevDirect_(TargetDirect::DIR_B),
 	CurDirect_(TargetDirect::DIR_B),
 	PrevState_(PlayerState::STAT_TN),

@@ -55,7 +55,7 @@ void MainPlayer::ChangeAnimation(const std::string& _CurStateName)
 		PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->SetChangeAnimation(AnimationName);
 
 		// 크기 지정
-		PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->GetTransform()->SetLocalScaling(PlayerSize_);
+		PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->GetTransform()->SetLocalScaling(RenderSize_);
 
 		// 현재 상태에 따른 렌더러 ZOrder 변경
 		ChangeZOrderType(i, CurPartItemEquipState);
