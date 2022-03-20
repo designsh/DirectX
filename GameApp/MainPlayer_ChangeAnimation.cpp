@@ -3,31 +3,6 @@
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
-void MainPlayer::CreateStateName()
-{
-	if (!StateName_.empty())
-	{
-		StateName_.clear();
-	}
-
-	// PlayerState 순서와 동일하게 명칭관리
-	// 텍스쳐 정보를 변경(SetImage() 호출)시 사용하기 위해 미리 저장
-	StateName_.push_back("Attack1");
-	StateName_.push_back("Attack2");
-	StateName_.push_back("Block");
-	StateName_.push_back("Dead");
-	StateName_.push_back("Death");
-	StateName_.push_back("Gethit");
-	StateName_.push_back("Kick");
-	StateName_.push_back("Natural_Field");
-	StateName_.push_back("Run");
-	StateName_.push_back("Special_Attack");
-	StateName_.push_back("Special_Cast");
-	StateName_.push_back("Natural_Town");
-	StateName_.push_back("Walk_Town");
-	StateName_.push_back("Walk_Field");
-}
-
 std::string MainPlayer::ChangeStateCheck(RendererPartType _PartType)
 {
 	int Index = static_cast<int>(_PartType);

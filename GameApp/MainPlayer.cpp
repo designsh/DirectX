@@ -16,23 +16,17 @@ MainPlayer::MainPlayer() :
 	IsLeftSkillList_(false),
 	IsStorehouse_(false),
 	State_(this),
+	PlayerSize_(float4::ZERO),
 	PrevDirect_(TargetDirect::DIR_B),
 	CurDirect_(TargetDirect::DIR_B),
 	PrevState_(PlayerState::STAT_A1),
 	CurState_(PlayerState::STAT_A1),
-	StateName_(),
-	BottomStateBar_(nullptr),
-	PlayerSize_(float4::ZERO)
+	BottomStateBar_(nullptr)
 {
 }
 
 MainPlayer::~MainPlayer()
 {
-	if (!StateName_.empty())
-	{
-		StateName_.clear();
-	}
-
 	if (!PartRenderer_.empty())
 	{
 		PartRenderer_.clear();
@@ -46,21 +40,8 @@ MainPlayer::~MainPlayer()
 
 void MainPlayer::Start()
 {
-	// 플레이어 상태명을 생성
-	CreateStateName();
-
-	// 방향별 렌더링 오더 생성
-	CreateDirectRenderOrderType();
-
-	// 플레이어 애니메이션 관련 이미지 Cut
-	AllAnimationCut();
-
-	// 플레이어 애니메이션 생성 관련
-	CreateAnimation();
-
-	// 플레이어 FSM 상태 생성 관련
-	CreatePlayerStateFSM();
-	State_.ChangeState("Natural_Town");
+	// 플레이어 초기화
+	MainPlayerinitialization();
 
 	// 하단 상태바
 	BottomStateBar_ = GetLevel()->CreateActor<BottomStateBar>();

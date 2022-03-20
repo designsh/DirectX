@@ -137,15 +137,6 @@
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Object\GlobalValue</Filter>
     </ClCompile>
-    <ClCompile Include="MainPlayer_CreateAnimation.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.Function\CreateAnimation</Filter>
-    </ClCompile>
-    <ClCompile Include="MainPlayer_AnimationCutting.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.Function\TextureCutting</Filter>
-    </ClCompile>
-    <ClCompile Include="MainPlayer_ChangeAnimation.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.Function\ChangeAnimation</Filter>
-    </ClCompile>
     <ClCompile Include="MainPlayerInfomation.cpp">
       <Filter>Object\Actor\00.Global\00.Player\00.Infomation\00.MainPlayerInfo</Filter>
     </ClCompile>
@@ -176,17 +167,29 @@
     <ClCompile Include="ErrorMsgButton.cpp">
       <Filter>Object\Actor\00.Global\99.ErrorMsgPopup\ErrorMsgButton</Filter>
     </ClCompile>
-    <ClCompile Include="MainPlayer_CreateRenderOrderType.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.Function\CreateRenderOrderType</Filter>
+    <ClCompile Include="MainPlayer_CreateAnimation.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\Animation</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayer_CreateFSM.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM\Create</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\FSM</Filter>
     </ClCompile>
-    <ClCompile Include="MainPlayer_FSMFunction.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM\FSMFunction</Filter>
+    <ClCompile Include="MainPlayer_CreateRenderOrderType.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\ZOrder</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_Init.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_AnimationCutting.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\TextureCut</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayer_MoveDirectCheck.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.Function\MainPlayerMove</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_FSMFunction.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_ChangeAnimation.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -436,15 +439,6 @@
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function">
       <UniqueIdentifier>{f28554de-ba68-4138-99e7-7242899d69e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\CreateAnimation">
-      <UniqueIdentifier>{290cfd95-e8af-4bc3-bece-58e1deda3895}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\TextureCutting">
-      <UniqueIdentifier>{6279e8b6-01d5-4954-862f-385efcf54659}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\ChangeAnimation">
-      <UniqueIdentifier>{c7c0e559-ccec-4234-b73a-f40650878b0c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LeftWeaponSkill">
       <UniqueIdentifier>{9dac6442-adab-459b-9d0e-8c205fddd14f}</UniqueIdentifier>
     </Filter>
@@ -529,20 +523,32 @@
     <Filter Include="Object\Actor\02.CreateCharacter\05.ClassSelectAnimation">
       <UniqueIdentifier>{e30b6761-9065-43af-a035-0a106ed54391}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\CreateRenderOrderType">
-      <UniqueIdentifier>{0594f0b6-ae68-4ca8-aee0-ca57c56d4f58}</UniqueIdentifier>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer">
+      <UniqueIdentifier>{da1e8904-c4c8-46b4-955f-3422de29be55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM">
-      <UniqueIdentifier>{0395a076-bb0c-4623-a5c0-1adbfbd3b5a1}</UniqueIdentifier>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\FSM">
+      <UniqueIdentifier>{9e8d581a-a68f-493b-8403-7da454e9d319}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM\Create">
-      <UniqueIdentifier>{759e3116-2737-46a5-b63b-d23d075fbf7b}</UniqueIdentifier>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\Animation">
+      <UniqueIdentifier>{a3667be8-8ca1-4682-92ca-ca5281779028}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\MainPlayerFSM\FSMFunction">
-      <UniqueIdentifier>{55c45fa8-0390-4341-ba99-ea33f4aa21a2}</UniqueIdentifier>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\ZOrder">
+      <UniqueIdentifier>{5150b2c5-6d4f-4e7c-8090-3d51972adf79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\MainPlayerMove">
-      <UniqueIdentifier>{38fb999e-abba-41e7-a13d-08cc36283e62}</UniqueIdentifier>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\TextureCut">
+      <UniqueIdentifier>{ee7a1e78-c624-496b-b24b-b83a5a097b19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction">
+      <UniqueIdentifier>{6c8857ff-08c1-4295-9579-9d32ecd81445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Animation">
+      <UniqueIdentifier>{ea56bfa0-5c61-4210-917f-b2d7974354c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\FSM">
+      <UniqueIdentifier>{10c181ad-9e0a-4905-80fb-f3092aa6de3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Common">
+      <UniqueIdentifier>{0f05292c-a423-42b0-a63b-9938c23b59b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -96,6 +96,7 @@ class BottomStateBar;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
+#pragma region PlayerFlag
 private: // 플레이어관련 Flag
 	bool IsTown_;						// 마을/필드 존재 여부(true : 마을)
 	bool IsRun_;						// 뛰기/걷기 상태 여부(true : 뛰기상태(스태미나 소모))
@@ -105,21 +106,11 @@ private: // 플레이어관련 Flag
 	bool IsRightSkillList_;				// 오른쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 오른쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
 	bool IsLeftSkillList_;				// 왼쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 왼쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
 	bool IsStorehouse_;					// 창고 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화되며, 동시에 인벤토리 활성화 - 화면 전체를 이동방향으로 설정 불가
+#pragma endregion
 
+#pragma region PlayerState
 private: // FSM
 	GameEngineFSM<MainPlayer> State_;
-
-private: // 이동방향
-	TargetDirect PrevDirect_;
-	TargetDirect CurDirect_;
-
-private:
-	PlayerState PrevState_;
-	PlayerState CurState_;
-	std::vector<std::string> StateName_;
-
-private: // 플레이어 UI
-	BottomStateBar* BottomStateBar_;
 
 private: // 플레이어 부위별 애니메이션렌더러
 	std::vector<PlayerRendererPart> PartRenderer_;
@@ -127,11 +118,31 @@ private: // 플레이어 부위별 애니메이션렌더러
 
 private: // 플레이어 방향별 렌더오더
 	std::vector<PlayerAnimationRenderOrder> DirectRenderOrder_[static_cast<int>(TargetDirect::DIR_MAX)];
+#pragma endregion
+
+#pragma region PlayerCurrentState
+private: // 이동방향
+	TargetDirect PrevDirect_;
+	TargetDirect CurDirect_;
+
+private:
+	PlayerState PrevState_;
+	PlayerState CurState_;
+#pragma endregion
+
+#pragma region PlayerUI
+private: // 플레이어 UI
+	BottomStateBar* BottomStateBar_;
+
+private:
+
+#pragma endregion
 
 private: // test
 	int StateTest = 0;
 	int DirectText = 0;
 
+#pragma region MainPlayerBasicFunction
 public:
 	MainPlayer();
 	~MainPlayer();
@@ -143,7 +154,13 @@ protected:		// delete constructer
 private:		//delete operator
 	MainPlayer& operator=(const MainPlayer& _other) = delete;
 	MainPlayer& operator=(const MainPlayer&& _other) = delete;
+#pragma endregion
 
+#pragma region InitPlayer
+private: // 플레이어 초기값 설정을 위한 초기화
+	void MainPlayerinitialization();
+	void MainPlayerStartSetting();
+	
 private: // 텍스쳐 컷팅관련
 	void AllAnimationCut();							// 플레이어의 전체 애니메이션에 필요한 모든 텍스쳐 컷팅처리
 	void AnimationA1Cut();							// 공격모션1
@@ -182,28 +199,20 @@ private: // 애니메이션 생성관련
 	void CreateTWAnimation();						// 마을_걷기모션
 	void CreateWLAnimation();						// 필드_걷기모션
 
-private: // FSM 생성관련
+private: // FSM 생성 및 상태이름 
 	void CreatePlayerStateFSM();
 
 private:
 	void CreateDirectRenderOrderType();				// 플레이어 이동방향별 렌더오더 타입 생성
-	void ChangeZOrderType(TargetDirect _Direct);	// 플레이어의 이동방향에 따라 렌더오더 타입 변경
+#pragma endregion
 
-private: // 상태가 바뀌면 애니메이션과 텍스쳐정보가 변경되어야하므로 SetImage()와 ChangeAnimation()이 동시에 수행되는 기능제공
-	void CreateStateName();
-	std::string ChangeStateCheck(RendererPartType _PartType);
-	void ReSettingTextureName();
-	std::string ChangeDirectCheck(RendererPartType _PartType);
-	void ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _MoveDir);
-
-private:
-	void Start() override;
-	void Update(float _DeltaTime) override;
-
+#pragma region KeyCheck
 private:
 	void PlayerUIActiveKeyCheck();
+#pragma endregion
 
-private:
+#pragma region ChangeDirectAndState
+private: // 방향 처리 관련
 	bool MoveDirectCheck();
 	void MoveStart();
 
@@ -245,5 +254,19 @@ private: // FSM 처리관련
 	StateInfo UpdateDead(StateInfo _state);
 	StateInfo StartDeath(StateInfo _state);
 	StateInfo UpdateDeath(StateInfo _state);
+#pragma endregion
+
+private:
+	void ChangeZOrderType(TargetDirect _Direct);	// 플레이어의 이동방향에 따라 렌더오더 타입 변경
+
+private: // 상태가 바뀌면 애니메이션과 텍스쳐정보가 변경되어야하므로 SetImage()와 ChangeAnimation()이 동시에 수행되는 기능제공
+	std::string ChangeStateCheck(RendererPartType _PartType);
+	void ReSettingTextureName();
+	std::string ChangeDirectCheck(RendererPartType _PartType);
+	void ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _MoveDir);
+
+private:
+	void Start() override;
+	void Update(float _DeltaTime) override;
 };
 
