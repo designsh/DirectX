@@ -191,6 +191,9 @@
     <ClCompile Include="MainPlayer_ChangeAnimation.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_ItemEqupFunction.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\UI\ItemEquipFunction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -549,6 +552,12 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Common">
       <UniqueIdentifier>{0f05292c-a423-42b0-a63b-9938c23b59b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\UI">
+      <UniqueIdentifier>{3acc57ea-225b-4418-a142-b9574faddbec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\UI\ItemEquipFunction">
+      <UniqueIdentifier>{701bcc68-1f87-4e05-8da5-d35f309ab1fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -19,10 +19,13 @@ MainPlayer::MainPlayer() :
 	PlayerSize_(float4::ZERO),
 	PrevDirect_(TargetDirect::DIR_B),
 	CurDirect_(TargetDirect::DIR_B),
-	PrevState_(PlayerState::STAT_A1),
-	CurState_(PlayerState::STAT_A1),
 	BottomStateBar_(nullptr)
 {
+	IsItemEquipState_.clear();
+	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
+	{
+		IsItemEquipState_.insert(std::map<RendererPartType, bool>::value_type(static_cast<RendererPartType>(i), false));
+	}
 }
 
 MainPlayer::~MainPlayer()
@@ -97,9 +100,6 @@ void MainPlayer::Start()
 	{
 		GameEngineInput::GetInst().CreateKey("PrevState", '4');
 	}
-
-	//DirectText = static_cast<int>(CurDirect_);
-	StateTest = static_cast<int>(PlayerState::STAT_A1);
 }
 
 void MainPlayer::Update(float _DeltaTime)
@@ -113,52 +113,29 @@ void MainPlayer::Update(float _DeltaTime)
 	// 상태별 행동패턴 처리
 	State_.Update();
 
-
-
-
 	// TEST
 	if (true == GameEngineInput::GetInst().Down("NextDirect"))
 	{
-		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
-		++DirectText;
 
-		if (DirectText >= static_cast<int>(TargetDirect::DIR_MAX))
-		{
-			DirectText = 0;
-		}
+		int a = 0;
 	}
 
 	if (true == GameEngineInput::GetInst().Down("PrevDirect"))
 	{
-		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
-		--DirectText;
 
-		if (DirectText <= 0)
-		{
-			DirectText = static_cast<int>(TargetDirect::DIR_MAX) - 1;
-		}
+		int a = 0;
 	}
 
 	if (true == GameEngineInput::GetInst().Down("NextState"))
 	{
-		DirectText = 4;
-		++StateTest;
-		if (StateTest >= static_cast<int>(PlayerState::STAT_MAX))
-		{
-			StateTest = 0;
-		}
-		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
+
+		int a = 0;
 	}
 
 	if (true == GameEngineInput::GetInst().Down("PrevState"))
 	{
-		DirectText = 4;
-		--StateTest;
-		if (StateTest < 0)
-		{
-			StateTest = static_cast<int>(PlayerState::STAT_MAX) - 1;
-		}
-		ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
+
+		int a = 0;
 	}
 }
 
@@ -220,7 +197,7 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		}
 	}
 
-	// 마우스 왼쪽버튼
+	// 마우스 왼쪽버튼(추후 충돌시 호출로 변경예정)
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		// 이동인지 체크후 이동이라면 방향계산후 상태 변경

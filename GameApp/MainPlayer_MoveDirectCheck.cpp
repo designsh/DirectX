@@ -3,11 +3,15 @@
 
 bool MainPlayer::MoveDirectCheck()
 {
+	// UI 활성화 여부 체크
+
+
+
 	// 마우스 클릭 지점 Get
 
 
 
-	// UI 활성화 여부 체크
+	// 플레이어와 마우스 클릭지점의 각도 계산하여 방향을 결정
 
 
 

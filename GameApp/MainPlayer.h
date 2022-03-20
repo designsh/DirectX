@@ -62,12 +62,26 @@ enum class RendererPartType
 	PART_MAX,
 };
 
+// 아이템 착용 부위
+enum class ItemEquipPart
+{
+	Inv_Helm,		// 투구
+	Inv_Armor,		// 갑옷
+	Inv_LRing,		// 왼쪽 링
+	Inv_RRing,		// 오른쪽 링
+	Inv_Amulet,		// 목걸이
+	Inv_Gloves,		// 장갑
+	Inv_Boots,		// 부츠
+	Inv_Weapon,		// 무기
+	Inv_Shield,		// 방패
+	Inv_MAX
+};
+
 // 현재 플레이어의 부위별 아이템착용상태 체크를 위해
 // 구조체로 렌더러를 관리한다.
 class GameEngineImageRenderer;
 struct PlayerRendererPart
 {
-	ItemEquipState												ItemEquipState_;												// 아이템 장착상태
 	GameEngineImageRenderer*									Renderer_[static_cast<int>(ItemEquipState::TP_MAX)];			// 렌더러(0 : TP_LIT(기본), 1 : TP_HVY(아이템착용))
 	RendererPartType											PartType_;														// 부위 타입
 	std::string													TextureName_;													// 현재 텍스쳐명
@@ -97,7 +111,7 @@ class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
 #pragma region PlayerFlag
-private: // 플레이어관련 Flag
+private: // 플레이어상태관련 Flag
 	bool IsTown_;						// 마을/필드 존재 여부(true : 마을)
 	bool IsRun_;						// 뛰기/걷기 상태 여부(true : 뛰기상태(스태미나 소모))
 	bool IsInventory_;					// 인벤토리 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
@@ -106,12 +120,26 @@ private: // 플레이어관련 Flag
 	bool IsRightSkillList_;				// 오른쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 오른쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
 	bool IsLeftSkillList_;				// 왼쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 왼쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
 	bool IsStorehouse_;					// 창고 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화되며, 동시에 인벤토리 활성화 - 화면 전체를 이동방향으로 설정 불가
+
+private: // 플레이어 아이템착용관련 Flag
+	std::map<RendererPartType, bool> IsItemEquipState_;		// 각 부위별 아이템 착용상태 Flag
+															// 투구 착용여부 Flag(true : 착용) - 인벤토리창의 머리부분에 장착시 활성화(HVY_상태가된다.)
+															// 장갑 착용여부 Flag(true : 착용) - 인벤토리창의 장갑부분에 장착시 활성화(HVY_상태가된다.)
+															// 장갑 착용여부 Flag(true : 착용) - 인벤토리창의 장갑부분에 장착시 활성화(HVY_상태가된다.)
+															// 갑옷 착용여부 Flag(true : 착용) - 인벤토리창의 갑옷부분에 장착시 활성화(HVY_상태가된다.)
+															// 갑옷 착용여부 Flag(true : 착용) - 인벤토리창의 갑옷부분에 장착시 활성화(HVY_상태가된다.)
+															// 갑옷 착용여부 Flag(true : 착용) - 인벤토리창의 갑옷부분에 장착시 활성화(HVY_상태가된다.)
+															// 부츠 착용여부 Flag(true : 착용) - 인벤토리창의 부츠부분에 장착시 활성화(HVY_상태가된다.)
+															// 무기 착용여부 Flag(true : 착용) - 인벤토리창의 무기부분에 장착시 활성화(HVY_상태가된다.) - 오른쪽무기
+															// 방패 착용여부 Flag(true : 착용) - 인벤토리창의 방패부분에 장착시 활성화(HVY_상태가된다.) - 왼쪽무기
 #pragma endregion
 
-#pragma region PlayerState
+#pragma region PlayerFSMState
 private: // FSM
 	GameEngineFSM<MainPlayer> State_;
+#pragma endregion
 
+#pragma region PlayerRenderer
 private: // 플레이어 부위별 애니메이션렌더러
 	std::vector<PlayerRendererPart> PartRenderer_;
 	float4 PlayerSize_;
@@ -120,14 +148,10 @@ private: // 플레이어 방향별 렌더오더
 	std::vector<PlayerAnimationRenderOrder> DirectRenderOrder_[static_cast<int>(TargetDirect::DIR_MAX)];
 #pragma endregion
 
-#pragma region PlayerCurrentState
+#pragma region PlayerDirect
 private: // 이동방향
 	TargetDirect PrevDirect_;
 	TargetDirect CurDirect_;
-
-private:
-	PlayerState PrevState_;
-	PlayerState CurState_;
 #pragma endregion
 
 #pragma region PlayerUI
@@ -138,9 +162,9 @@ private:
 
 #pragma endregion
 
-private: // test
-	int StateTest = 0;
-	int DirectText = 0;
+private:
+	void Start() override;
+	void Update(float _DeltaTime) override;
 
 #pragma region MainPlayerBasicFunction
 public:
@@ -179,10 +203,6 @@ private: // 텍스쳐 컷팅관련
 	void AnimationWLCut();							// 필드_걷기모션
 
 private: // 애니메이션 생성관련
-	void SetFirstAnimation();						// 최초 애니메이션 지정
-	void SetRenderSize();							// 최초 렌더링크기 지정
-	void SetFirstZOrder();							// 최초 Z오더 설정
-	void SetFirstItemEquipState();					// 최초 렌더링하는 애니메이션타입 지정
 	void CreateAnimation();							// 플레이어의 전체 애니메이션 모두 생성
 	void CreateA1Animation();						// 공격모션1
 	void CreateA2Animation();						// 공격모션2
@@ -200,10 +220,13 @@ private: // 애니메이션 생성관련
 	void CreateWLAnimation();						// 필드_걷기모션
 
 private: // FSM 생성 및 상태이름 
-	void CreatePlayerStateFSM();
+	void CreatePlayerStateFSM();					// FSM 상태 생성
 
 private:
 	void CreateDirectRenderOrderType();				// 플레이어 이동방향별 렌더오더 타입 생성
+
+private:
+	void SettingRender();							// 초기 렌더링 셋팅관련
 #pragma endregion
 
 #pragma region KeyCheck
@@ -211,7 +234,7 @@ private:
 	void PlayerUIActiveKeyCheck();
 #pragma endregion
 
-#pragma region ChangeDirectAndState
+#pragma region ChangeState
 private: // 방향 처리 관련
 	bool MoveDirectCheck();
 	void MoveStart();
@@ -254,19 +277,23 @@ private: // FSM 처리관련
 	StateInfo UpdateDead(StateInfo _state);
 	StateInfo StartDeath(StateInfo _state);
 	StateInfo UpdateDeath(StateInfo _state);
+
+private: // 애니메이션 변경관련
+	void ChangeAnimation(const std::string& _CurStateName);
+	bool ItemEquipCheck(std::string& _AnimationName, RendererPartType _PartType);
+	bool RnderPartType(std::string& _AnimationName, RendererPartType _PartType);
+	bool RenderDirectCheck(std::string& _AnimationName);
+
+private: // ZOrder 변경관련
+	void ChangeZOrderType(int _Index, ItemEquipState _ItemEquipType);
 #pragma endregion
 
-private:
-	void ChangeZOrderType(TargetDirect _Direct);	// 플레이어의 이동방향에 따라 렌더오더 타입 변경
+#pragma region ItemPutOnAndOffFunction
+private: // 아이템 착용 / 아이템 해제
+	ItemEquipState CheckItemEquip(RendererPartType _PlayerPart);
+	void ItemPutOn(ItemEquipPart _ItemPart);
+	void ItemPutOff(ItemEquipPart _ItemPart);
+#pragma endregion
 
-private: // 상태가 바뀌면 애니메이션과 텍스쳐정보가 변경되어야하므로 SetImage()와 ChangeAnimation()이 동시에 수행되는 기능제공
-	std::string ChangeStateCheck(RendererPartType _PartType);
-	void ReSettingTextureName();
-	std::string ChangeDirectCheck(RendererPartType _PartType);
-	void ChangePlayerAnimation(PlayerState _ChangeState, TargetDirect _MoveDir);
-
-private:
-	void Start() override;
-	void Update(float _DeltaTime) override;
 };
 

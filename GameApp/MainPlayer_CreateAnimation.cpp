@@ -6,109 +6,6 @@
 #include <GameEngine/GameEngineTexture.h>
 #include <GameEngine/GameEngineTransform.h>
 
-void MainPlayer::SetFirstAnimation()
-{
-	// HD
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].ItemEquipState_ == ItemEquipState::TP_LIT)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation("LIT_Attack1_HD_B");
-	else
-		PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_HD_B");
-
-	// LA
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].ItemEquipState_ == ItemEquipState::TP_LIT)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation("LIT_Attack1_LA_B");
-	else
-		PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_LA_B");
-
-	// LG
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].ItemEquipState_ == ItemEquipState::TP_LIT)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation("LIT_Attack1_LG_B");
-	else
-		PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_LG_B");
-
-	// RA
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].ItemEquipState_ == ItemEquipState::TP_LIT)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation("LIT_Attack1_RA_B");
-	else
-		PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_RA_B");
-
-	// RH
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].ItemEquipState_ == ItemEquipState::TP_LIT)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation("LIT_Attack1_RH_B");
-	else
-		PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_RH_B");
-
-	// S1
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].ItemEquipState_ == ItemEquipState::TP_LIT)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation("LIT_Attack1_S1_B");
-	else
-		PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_S1_B");
-
-	// S2
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].ItemEquipState_ == ItemEquipState::TP_LIT)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation("LIT_Attack1_S2_B");
-	else
-		PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_S2_B");
-
-	// TR
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].ItemEquipState_ == ItemEquipState::TP_LIT)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetChangeAnimation("LIT_Attack1_TR_B");
-	else
-		PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_TR_B");
-
-	// SH
-	if (PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].ItemEquipState_ == ItemEquipState::TP_HVY)
-		PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetChangeAnimation("HVY_Attack1_SH_B");
-}
-
-void MainPlayer::SetRenderSize()
-{
-	PlayerSize_ = float4(256.f, 256.f, 1.f);
-
-	int PartSize = static_cast<int>(PartRenderer_.size());
-	for (int i = 0; i < PartSize; ++i)
-	{
-		if (PartRenderer_[i].ItemEquipState_ == ItemEquipState::TP_HVY)
-		{
-			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalScaling(PlayerSize_);
-		}
-		else
-		{
-			if (i == static_cast<int>(RendererPartType::PART_SH))
-			{
-				continue;
-			}
-
-			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetLocalScaling(PlayerSize_);
-		}
-	}
-}
-
-void MainPlayer::SetFirstZOrder()
-{
-	// 첫시작 방향 및 상태에 따라 오더 결정
-
-
-
-
-}
-
-void MainPlayer::SetFirstItemEquipState()
-{
-	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
-	{
-		// 아이템착용중 상태라면 아이템 미착용타입의 렌더러를 Off
-		if (ItemEquipState::TP_HVY == PartRenderer_[i].ItemEquipState_)
-		{
-			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->Off();
-		}
-		else
-		{
-			PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->Off();
-		}
-	}
-}
-
 void MainPlayer::CreateAnimation()
 {
 	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
@@ -120,16 +17,16 @@ void MainPlayer::CreateAnimation()
 		{
 			RenderPart.Renderer_[j] = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		}
-		RenderPart.ItemEquipState_ = ItemEquipState::TP_LIT;
+
+		// 초기 LIT 상태이므로 HVY상태 렌더러 모두 Off
+		RenderPart.Renderer_[1]->Off();
+
 		RenderPart.PartType_ = static_cast<RendererPartType>(i);
 
-		if (RenderPart.ItemEquipState_ == ItemEquipState::TP_LIT)
+		// 초기 방패 렌더러 Off
+		if (i == static_cast<int>(RendererPartType::PART_SH))
 		{
-			// LIT_ 타입일때 방패 이미지 없음
-			if (i == static_cast<int>(RendererPartType::PART_SH))
-			{
-				RenderPart.Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->Off();
-			}
+			RenderPart.Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->Off();
 		}
 
 		PartRenderer_.push_back(RenderPart);
@@ -149,18 +46,6 @@ void MainPlayer::CreateAnimation()
 	CreateTNAnimation();
 	CreateTWAnimation();
 	CreateWLAnimation();
-
-	// 최초 애니메이션 지정
-	SetFirstAnimation();
-	
-	// 렌더러 크기지정
-	SetRenderSize();
-
-	// 최초 타입 렌더러 지정
-	SetFirstItemEquipState();
-
-	// 최초 렌더링 오더 지정
-	SetFirstZOrder();
 }
 
 void MainPlayer::CreateA1Animation()

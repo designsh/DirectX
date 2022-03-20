@@ -25,4 +25,12 @@ void MainPlayer::MainPlayerStartSetting()
 {
 	// FSM 초기 상태 지정
 	State_.ChangeState("Natural_Town");
+
+	SettingRender();
+}
+
+// 초기 렌더링 셋팅
+void MainPlayer::SettingRender()
+{
+	int a = 0;
 }

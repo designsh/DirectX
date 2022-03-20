@@ -11,24 +11,19 @@ void MainPlayer::ChangeFSMState(std::string _StateName)
 // ============================ 대기 ============================ //
 StateInfo MainPlayer::StartTownNatural(StateInfo _state)
 {
-	// 애니메이션변경을 위한 이름 편집
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
 
+	// 관련 사운드 시작
+	
 
-	//ChangePlayerAnimation(static_cast<PlayerState>(StateTest), static_cast<TargetDirect>(DirectText));
-
-
-	//std::string AniName = 
-
-
-	int a = 0;
-
-
+	// 기타
+	
 	return StateInfo();
 }
 
 StateInfo MainPlayer::UpdateTownNatural(StateInfo _state)
 {
-
 	// 현재 플레이어가 마을인지 필드인지 체크
 
 
@@ -45,6 +40,10 @@ StateInfo MainPlayer::UpdateTownNatural(StateInfo _state)
 // ============================ 걷기 ============================ //
 StateInfo MainPlayer::StartTownWalk(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -60,6 +59,10 @@ StateInfo MainPlayer::UpdateTownWalk(StateInfo _state)
 // ============================ 대기 ============================ //
 StateInfo MainPlayer::StartFieldNatural(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -73,6 +76,10 @@ StateInfo MainPlayer::UpdateFieldNatural(StateInfo _state)
 // ============================ 걷기 ============================ //
 StateInfo MainPlayer::StartFieldWalk(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -88,6 +95,10 @@ StateInfo MainPlayer::UpdateFieldWalk(StateInfo _state)
 // ========================== 공격모션1 ========================== //
 StateInfo MainPlayer::StartAttack1(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -101,6 +112,10 @@ StateInfo MainPlayer::UpdateAttack1(StateInfo _state)
 // ========================== 공격모션2 ========================== //
 StateInfo MainPlayer::StartAttack2(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -114,6 +129,10 @@ StateInfo MainPlayer::UpdateAttack2(StateInfo _state)
 // ========================== 방어모션 =========================== //
 StateInfo MainPlayer::StartBlock(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -127,6 +146,10 @@ StateInfo MainPlayer::UpdateBlock(StateInfo _state)
 // ========================== 피격모션 =========================== //
 StateInfo MainPlayer::StartGetHit(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -140,6 +163,10 @@ StateInfo MainPlayer::UpdateGetHit(StateInfo _state)
 // ========================== 킥모션 ============================ //
 StateInfo MainPlayer::StartKick(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -153,6 +180,10 @@ StateInfo MainPlayer::UpdateKick(StateInfo _state)
 // ========================== 뛰기모션 =========================== //
 StateInfo MainPlayer::StartRun(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -166,6 +197,10 @@ StateInfo MainPlayer::UpdateRun(StateInfo _state)
 // ======================== 스킬공격모션 ========================= //
 StateInfo MainPlayer::StartSkillAttack(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -179,6 +214,10 @@ StateInfo MainPlayer::UpdateSkillAttack(StateInfo _state)
 // ======================= 스킬캐스팅모션 ======================== //
 StateInfo MainPlayer::StartSkillCasting(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -194,6 +233,10 @@ StateInfo MainPlayer::UpdateSkillCasting(StateInfo _state)
 // ========================== 시체모션 =========================== //
 StateInfo MainPlayer::StartDead(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
@@ -207,6 +250,10 @@ StateInfo MainPlayer::UpdateDead(StateInfo _state)
 // ========================== 사망모션 =========================== //
 StateInfo MainPlayer::StartDeath(StateInfo _state)
 {
+	// 애니메이션변경
+	ChangeAnimation(_state._NextState);
+
+
 
 	return StateInfo();
 }
