@@ -204,6 +204,8 @@ bool MainPlayer::RenderDirectCheck(std::string& _AnimationName)
 void MainPlayer::ChangeZOrderType(int _Index, ItemEquipState _ItemEquipType)
 {
 	// 각 방향별 렌더오더를 변경하는 구문
+	// DirectRenderOrder_ 사용해서 체크
+
 
 	// 이동방향별 플레이어 파트별 렌더러의 렌더링 오더 순서 변경
 	// 각 방향별 애니메이션 변경타이밍에 해당 함수 호출
