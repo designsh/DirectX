@@ -111,9 +111,10 @@ void MainPlayer::CreateAnimation()
 	{
 		PlayerRendererPart RenderPart = {};
 
-		for (int i = 0; i < 2; ++i)
+		// LIT / HVY ·»´õ·¯ Ãß°¡
+		for (int j = 0; j < 2; ++j)
 		{
-			RenderPart.Renderer_[i] = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+			RenderPart.Renderer_[j] = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		}
 		RenderPart.ItemEquipState_ = ItemEquipState::TP_LIT;
 		RenderPart.PartType_ = static_cast<RendererPartType>(i);
