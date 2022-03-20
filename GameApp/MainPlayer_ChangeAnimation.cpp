@@ -38,11 +38,16 @@ void MainPlayer::ChangeAnimation(const std::string& _CurStateName)
 			return;
 		}
 
-		// LIT_ 타입일때 SH 없음
+		// LIT_ 타입일때 SH 없으므로 Off상태가 되며 HVY_ 타입이되면 On상태로 전환
 		ItemEquipState CurPartItemEquipState = CheckItemEquip(static_cast<RendererPartType>(i));
 		if (CurPartItemEquipState == ItemEquipState::TP_LIT && static_cast<RendererPartType>(i) == RendererPartType::PART_SH)
 		{
 			PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->Off();
+			continue;
+		}
+		else if (CurPartItemEquipState == ItemEquipState::TP_HVY && static_cast<RendererPartType>(i) == RendererPartType::PART_SH)
+		{
+			PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->On();
 			continue;
 		}
 
@@ -50,7 +55,7 @@ void MainPlayer::ChangeAnimation(const std::string& _CurStateName)
 		PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->SetChangeAnimation(AnimationName);
 
 		// 크기 지정
-		PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+		PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->GetTransform()->SetLocalScaling(PlayerSize_);
 
 		// 현재 상태에 따른 렌더러 ZOrder 변경
 		ChangeZOrderType(i, CurPartItemEquipState);
@@ -194,4 +199,62 @@ bool MainPlayer::RenderDirectCheck(std::string& _AnimationName)
 	}
 
 	return true;
+}
+
+void MainPlayer::ChangeZOrderType(int _Index, ItemEquipState _ItemEquipType)
+{
+	// 각 방향별 렌더오더를 변경하는 구문
+
+	// 이동방향별 플레이어 파트별 렌더러의 렌더링 오더 순서 변경
+	// 각 방향별 애니메이션 변경타이밍에 해당 함수 호출
+	switch (CurDirect_)
+	{
+	case TargetDirect::DIR_LB:
+	{
+
+		break;
+	}
+	case TargetDirect::DIR_LT:
+	{
+
+		break;
+	}
+	case TargetDirect::DIR_RT:
+	{
+
+		break;
+	}
+	case TargetDirect::DIR_RB:
+	{
+
+		break;
+	}
+	case TargetDirect::DIR_B:
+	{
+
+		break;
+	}
+	case TargetDirect::DIR_L:
+	{
+
+		break;
+	}
+	case TargetDirect::DIR_T:
+	{
+
+		break;
+	}
+	case TargetDirect::DIR_R:
+	{
+
+		break;
+	}
+	case TargetDirect::DIR_MAX:
+	{
+
+		break;
+	}
+	}
+
+	PartRenderer_[_Index].Renderer_[static_cast<int>(_ItemEquipType)]->GetTransform()->SetZOrder(static_cast<float>(_Index));
 }

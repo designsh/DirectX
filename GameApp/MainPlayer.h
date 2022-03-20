@@ -148,10 +148,14 @@ private: // 플레이어 방향별 렌더오더
 	std::vector<PlayerAnimationRenderOrder> DirectRenderOrder_[static_cast<int>(TargetDirect::DIR_MAX)];
 #pragma endregion
 
-#pragma region PlayerDirect
+#pragma region PlayerDirectAndState
 private: // 이동방향
 	TargetDirect PrevDirect_;
 	TargetDirect CurDirect_;
+
+private: // 상태
+	PlayerState PrevState_;
+	PlayerState CurState_;
 #pragma endregion
 
 #pragma region PlayerUI
@@ -162,9 +166,11 @@ private:
 
 #pragma endregion
 
+#pragma region PlayerOverrideFunction
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+#pragma endregion
 
 #pragma region MainPlayerBasicFunction
 public:
@@ -240,7 +246,8 @@ private: // 방향 처리 관련
 	void MoveStart();
 
 private: // FSM 처리관련
-	void ChangeFSMState(std::string _StateName);
+	void ChangeCheckProcess();						// 상태 변경전 체크사항 처리
+	void ChangeFSMState(std::string _StateName);	// 상태 변경
 
 	// ========================== 마을 관련 ========================== //
 	StateInfo StartTownNatural(StateInfo _state);

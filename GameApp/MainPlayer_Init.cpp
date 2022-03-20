@@ -32,5 +32,5 @@ void MainPlayer::MainPlayerStartSetting()
 // 초기 렌더링 셋팅
 void MainPlayer::SettingRender()
 {
-	int a = 0;
+	
 }
