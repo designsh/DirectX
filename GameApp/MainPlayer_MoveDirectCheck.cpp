@@ -33,6 +33,13 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 
 
 	/*
+	Vector3 Vector3::Axis[(int)AXIS::AXIS_END] =
+	{
+		Vector3(1.f, 0.f, 0.f),
+		Vector3(0.f, 1.f, 0.f),
+		Vector3(0.f, 0.f, 1.f)
+	};
+
 	// 플레이어가 마우스를 바라보는 마우스의 방향벡터를 알아낸다.
 	Vector3 PlayerDir = TargetPos - CurPos;
 	PlayerDir.Normalize();
