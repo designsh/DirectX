@@ -18,13 +18,18 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 	// 마우스 클릭지점을 이용하여 이동방향을 얻어와서 현재 이동방향 변경
 	PrevDirect_ = CurDirect_;
 
-	//// 두벡터(플레이어<->목표지점)의 각도 계산
-	//
-	//float4 VectorMulti = _MousePos * MyPos;
+	// 두벡터(플레이어<->목표지점)의 각도 계산
 	float4 MoveDirect = _MousePos - MyPos;
 	MoveDirect.Normalize3D();
 
-	//
+	// 플레이어의 Y축기준 방향벡터를 얻어온다.
+
+
+	// 두 벡터를 내적하여 각도를 계산
+
+
+	// 각도를 이용하여 플레이어의 이동방향을 알아낸다.
+
 
 
 	/*
