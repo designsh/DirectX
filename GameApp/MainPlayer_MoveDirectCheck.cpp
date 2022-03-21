@@ -55,6 +55,11 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 		return Angle;
 	}
 
+	// 타겟위치와 현재 위치를 계산하여 플레이어 방향 갱신
+	Vector2 MousePos = CInput::GetInst()->GetMouse2DWorldPos();
+	Vector3 CurPos = GetWorldPos();
+	MoveDirectCalc(CurPos, Vector3(MousePos.x, MousePos.y, CurPos.z));
+
 	// 플레이어가 마우스를 바라보는 마우스의 방향벡터를 알아낸다.
 	Vector3 PlayerDir = TargetPos - CurPos;
 	PlayerDir.Normalize();
