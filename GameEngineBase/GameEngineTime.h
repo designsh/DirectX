@@ -1,5 +1,11 @@
 #pragma once
 
+struct TimeEvent
+{
+	float Time_;
+	std::function<void()> Event_;
+};
+
 // 분류 : 델타타임 관리
 // 용도 : 
 // 설명 : DeltaTime 관리 및 리셋 기능 제공
@@ -41,6 +47,10 @@ private:
 	LARGE_INTEGER endCheck_;
 	double deltaTime_;
 
+private:
+	std::list<TimeEvent*> AllEvent_;
+	std::list<TimeEvent*> AddEvent_;
+
 public:	//member Func
 	double GetDeltaTimeD()
 	{
@@ -55,5 +65,8 @@ public:	//member Func
 public:
 	void TimeCheckReset();
 	void TimeCheck();
+
+public:
+	void AddTimeEvent(float _Time, std::function<void()> _Event);
 };
 

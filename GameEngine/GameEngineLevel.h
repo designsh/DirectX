@@ -32,6 +32,10 @@ private:
 private:
 	std::map<int, std::list<GameEngineCollision*>> CollisionList_;
 
+private:
+	std::list<TimeEvent*> AllEvent_;
+	std::list<TimeEvent*> AddEvent_;
+
 public:
 	GameEngineLevel();
 	~GameEngineLevel();
@@ -105,5 +109,9 @@ public: // 레벨시작 및 갱신관련
 
 public:
 	void Release(float _DeltaTime);
+
+public:
+	void AddTimeEvent(float _Time, std::function<void()> _Event);
+	void TimeEventUpdate();
 };
 
