@@ -27,8 +27,160 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 	//
 
 
-	//// 두 벡터의 내적
-	//float cos = float4::Dot3DToCos(VectorMulti, MoveDirect);
+	/*
+	// 플레이어가 마우스를 바라보는 마우스의 방향벡터를 알아낸다.
+	Vector3 PlayerDir = TargetPos - CurPos;
+	PlayerDir.Normalize();
+
+	// 플레이어의 Y축기준 방향벡터를 얻어온다.
+	Vector3 FrontVector = CurPos.Axis[(int)AXIS::AXIS_Y];
+
+	// 두 벡터의 내적을 계산하여 각도를 계산한다.
+	float cosAngle = FrontVector.Angle(PlayerDir);
+
+	// 위에서 처리한 두벡터의 x,y값을 이용하여 해당 각도가 오른쪽 각도인지 왼쪽각도인지 알아낸다.
+	float Angle = ((FrontVector.x * PlayerDir.y) - (FrontVector.y * PlayerDir.x) > 0.0f) ? cosAngle : -cosAngle;
+
+	// 현재 플레이어가 뛰기/걷기 상태에 따라 애니메이션 변경이 달라진다.
+	if (m_RunFlag) // 뛰기 상태라면
+	{
+		if (Angle < 0.0f) // 오른쪽
+		{
+			if (Angle > -60.f && Angle <= -30.f)
+			{
+				// 우상단
+				m_Animation->ChangeAnimation("RT_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::RightTop);
+			}
+			else if (Angle > -150.f && Angle <= -120.f)
+			{
+				// 우하단
+				m_Animation->ChangeAnimation("RB_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::RightBottom);
+			}
+			else if (Angle > -30.f && Angle <= 0.f)
+			{
+				// 상단
+				m_Animation->ChangeAnimation("U_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::Top);
+			}
+			else if (Angle > -120.f && Angle <= -60.f)
+			{
+				// 우단
+				m_Animation->ChangeAnimation("R_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::Right);
+			}
+			else if (Angle > -180.f && Angle <= -150.f)
+			{
+				// 하단
+				m_Animation->ChangeAnimation("D_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::Bottom);
+			}
+		}
+		else // 왼쪽
+		{
+			if (Angle > 30.f && Angle <= 60.f)
+			{
+				// 좌상단
+				m_Animation->ChangeAnimation("LT_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::LeftTop);
+			}
+			else if (Angle > 120.f && Angle <= 150.f)
+			{
+				// 좌하단
+				m_Animation->ChangeAnimation("LB_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::LeftBottom);
+			}
+			else if (Angle > 0.f && Angle <= 30.f)
+			{
+				// 상단
+				m_Animation->ChangeAnimation("U_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::Top);
+			}
+			else if (Angle > 60.f && Angle <= 120.f)
+			{
+				// 좌단
+				m_Animation->ChangeAnimation("L_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::Left);
+			}
+			else if (Angle > 150.f && Angle <= 180.f)
+			{
+				// 하단
+				m_Animation->ChangeAnimation("D_Nec_Run");
+				m_Animation->SetMoveDir(MoveDirect::Bottom);
+			}
+		}
+	}
+	else // 걷기상태라면
+	{
+		if (Angle < 0.0f) // 오른쪽
+		{
+			if (Angle > -60.f && Angle <= -30.f)
+			{
+				// 우상단
+				m_Animation->ChangeAnimation("RT_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::RightTop);
+			}
+			else if (Angle > -150.f && Angle <= -120.f)
+			{
+				// 우하단
+				m_Animation->ChangeAnimation("RB_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::RightBottom);
+			}
+			else if (Angle > -30.f && Angle <= 0.f)
+			{
+				// 상단
+				m_Animation->ChangeAnimation("U_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::Top);
+			}
+			else if (Angle > -120.f && Angle <= -60.f)
+			{
+				// 우단
+				m_Animation->ChangeAnimation("R_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::Right);
+			}
+			else if (Angle > -180.f && Angle <= -150.f)
+			{
+				// 하단
+				m_Animation->ChangeAnimation("D_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::Bottom);
+			}
+		}
+		else // 왼쪽
+		{
+			if (Angle > 30.f && Angle <= 60.f)
+			{
+				// 좌상단
+				m_Animation->ChangeAnimation("LT_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::LeftTop);
+			}
+			else if (Angle > 120.f && Angle <= 150.f)
+			{
+				// 좌하단
+				m_Animation->ChangeAnimation("LB_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::LeftBottom);
+			}
+			else if (Angle > 0.f && Angle <= 30.f)
+			{
+				// 상단
+				m_Animation->ChangeAnimation("U_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::Top);
+			}
+			else if (Angle > 60.f && Angle <= 120.f)
+			{
+				// 좌단
+				m_Animation->ChangeAnimation("L_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::Left);
+			}
+			else if (Angle > 150.f && Angle <= 180.f)
+			{
+				// 하단
+				m_Animation->ChangeAnimation("D_Nec_TownWalk");
+				m_Animation->SetMoveDir(MoveDirect::Bottom);
+			}
+		}
+	}
+	*/
 
 
 	int a = 0;
