@@ -93,19 +93,21 @@ struct UnderChangeZOrder
 {
 	int															StartIndex_;				// 애니메이션 변경 시작 인덱스
 	int															EndIndex_;					// 애니메이션 변경 종료 인덱스
-	std::vector<int>											DirectZOrder_;				// 애니메이션 실행 기본 렌더링 Z오더
+	int															DirectZOrder_;				// 애니메이션 실행 기본 렌더링 Z오더
 };
 
 struct PlayerZOrderManagement
 {
-	TargetDirect												Direct_;					// 현재 오더를 사용하는 방향
-	int															TotalAnimationCnt_;			// 현재 상태의 애니메이션 인덱스 Max
-	std::vector<UnderChangeZOrder>								DefaultDirectZOrder_;		// 기본 렌더링 ZOrder
-
 	// 애니메이션 실행중 Z오더가 변경되어야하는지 검사
 	bool														UnderChangeZOrderFlag_;		// 애니메이션 실행중 Z오더 변경유무 Flag(true : 변경필요)
-	std::vector<UnderChangeZOrder>								UnderChange_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
+	int															UnderChangeZOrderCnt_;		// 애니메이션 실행중 Z오더가 변경되는 카운트
+	std::vector<UnderChangeZOrder>								UnderChange1_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
+	std::vector<UnderChangeZOrder>								UnderChange2_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
+	std::vector<UnderChangeZOrder>								UnderChange3_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
+	std::vector<UnderChangeZOrder>								UnderChange4_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
+	std::vector<UnderChangeZOrder>								UnderChange5_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
 
+	std::vector<UnderChangeZOrder>								DefaultDirectZOrder_;		// 기본 렌더링 ZOrder
 };
 
 // 분류 : 플레이어
@@ -117,15 +119,18 @@ class MainPlayer : public GameEngineActor
 {
 #pragma region PlayerFlag
 private: // 플레이어상태관련 Flag
-	bool IsTown_;						// 마을/필드 존재 여부(true : 마을)
-	bool IsRun_;						// 뛰기/걷기 상태 여부(true : 뛰기상태(스태미나 소모))
-	bool IsInventory_;					// 인벤토리 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
-	bool IsStateView_;					// 스탯창 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화 - 활성화시 화면크기절반의 왼쪽은 이동방향으로 설정 불가
-	bool IsSkillView_;					// 스킬창 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
-	bool IsRightSkillList_;				// 오른쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 오른쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
-	bool IsLeftSkillList_;				// 왼쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 왼쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
-	bool IsStorehouse_;					// 창고 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화되며, 동시에 인벤토리 활성화 - 화면 전체를 이동방향으로 설정 불가
+	bool IsTown_;											// 마을/필드 존재 여부(true : 마을)
+	bool IsRun_;											// 뛰기/걷기 상태 여부(true : 뛰기상태(스태미나 소모))
+	bool IsInventory_;										// 인벤토리 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
+	bool IsStateView_;										// 스탯창 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화 - 활성화시 화면크기절반의 왼쪽은 이동방향으로 설정 불가
+	bool IsSkillView_;										// 스킬창 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
+	bool IsRightSkillList_;									// 오른쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 오른쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
+	bool IsLeftSkillList_;									// 왼쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 왼쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
+	bool IsStorehouse_;										// 창고 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화되며, 동시에 인벤토리 활성화 - 화면 전체를 이동방향으로 설정 불가
 
+private: // 플레이어 이동관련 Flag
+	bool IsMove_;											// 현재 플레이어 목표지점 이동 중
+	
 private: // 플레이어 아이템착용관련 Flag
 	std::map<RendererPartType, bool> IsItemEquipState_;		// 각 부위별 아이템 착용상태 Flag
 															// 투구 착용여부 Flag(true : 착용) - 인벤토리창의 머리부분에 장착시 활성화(HVY_상태가된다.)
@@ -148,11 +153,16 @@ private: // FSM
 private: // 플레이어 부위별 애니메이션렌더러
 	std::vector<PlayerRendererPart> PartRenderer_;
 
+private: // 플레이어 상태별 렌더오더
+	std::vector<PlayerZOrderManagement> DirectRenderOrder_[static_cast<int>(PlayerState::STAT_MAX)];
+#pragma endregion
+
+#pragma region PlayerFloatValue
 private: // 플레이어 렌더링 크기
 	float4 RenderSize_;
 
-private: // 플레이어 상태별 렌더오더
-	std::vector<PlayerZOrderManagement> DirectRenderOrder_[static_cast<int>(PlayerState::STAT_MAX)];
+private: // 이동 목표 지점
+	float4 MoveTargetPos_;
 #pragma endregion
 
 #pragma region PlayerDirectAndState
@@ -249,7 +259,7 @@ private:
 
 #pragma region ChangeState
 private: // 방향 처리 관련
-	bool MoveDirectCheck();
+	bool MoveDirectCheck(const float4& _MousePos);
 	void MoveStart();
 
 private: // FSM 처리관련

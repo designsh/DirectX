@@ -3,8 +3,12 @@
 
 #include "MainPlayerInfomation.h"
 #include "BottomStateBar.h"
+#include "MouseObject.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
+
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
 
 MainPlayer::MainPlayer() :
 	IsTown_(true),
@@ -15,8 +19,10 @@ MainPlayer::MainPlayer() :
 	IsRightSkillList_(false),
 	IsLeftSkillList_(false),
 	IsStorehouse_(false),
+	IsMove_(false),
 	State_(this),
 	RenderSize_(float4(256.f, 256.f)),
+	MoveTargetPos_(float4::ZERO),
 	PrevDirect_(TargetDirect::DIR_B),
 	CurDirect_(TargetDirect::DIR_B),
 	PrevState_(PlayerState::STAT_TN),
@@ -118,7 +124,6 @@ void MainPlayer::Update(float _DeltaTime)
 	// TEST
 	if (true == GameEngineInput::GetInst().Down("NextDirect"))
 	{
-
 		int a = 0;
 	}
 
@@ -203,8 +208,19 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		// 이동인지 체크후 이동이라면 방향계산후 상태 변경
-		if (true == MoveDirectCheck())
+		MouseObject* MainMouse = GlobalValue::CurMouse;
+		if (nullptr == MainMouse)
 		{
+			GameEngineDebug::MsgBoxError("현재 마우스 오브젝트를 찾지 못하였습니다!!!!");
+			return;
+		}
+
+		float4 MousePos = MainMouse->GetTransform()->GetLocalPosition();
+
+		// 현재 방향 전환 및 이동 Flag On
+		if (true == MoveDirectCheck(MousePos))
+		{
+			// 이동 시작
 			MoveStart();
 		}
 	}

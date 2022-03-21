@@ -34,17 +34,26 @@ void MainPlayer::CreateDirectRenderOrderType()
 	for (int i = 0; i < static_cast<int>(TargetDirect::DIR_MAX); ++i)
 	{
 		PlayerZOrderManagement NewZOrderManagement = {};
-		NewZOrderManagement.Direct_ = static_cast<TargetDirect>(i);
-		NewZOrderManagement.TotalAnimationCnt_ = 15;
 		DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)].push_back(NewZOrderManagement);
 	}
 
 	// LeftBottom ZOrder
-	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].DefaultDirectZOrder_.resize(9);
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].DefaultDirectZOrder_.resize(static_cast<int>(RendererPartType::PART_MAX));
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].UnderChange1_.resize(static_cast<int>(RendererPartType::PART_MAX));
 
+	// HD
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].UnderChangeZOrderFlag_ = true;
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].UnderChangeZOrderCnt_ = 1;
 
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].UnderChange1_[static_cast<int>(RendererPartType::PART_HD)].StartIndex_ = 8;
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].UnderChange1_[static_cast<int>(RendererPartType::PART_HD)].EndIndex_ = 14;
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].UnderChange1_[static_cast<int>(RendererPartType::PART_HD)].DirectZOrder_ = 6;
 
-	int a = 0;
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].DefaultDirectZOrder_[static_cast<int>(RendererPartType::PART_HD)].StartIndex_ = 0;
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].DefaultDirectZOrder_[static_cast<int>(RendererPartType::PART_HD)].EndIndex_ = 7;
+	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].DefaultDirectZOrder_[static_cast<int>(RendererPartType::PART_HD)].DirectZOrder_ = 5;
+
+	// 
 
 	// 공격모션2
 	DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A2)];
