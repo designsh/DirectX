@@ -40,6 +40,21 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 		Vector3(0.f, 0.f, 1.f)
 	};
 
+	float Vector3::Angle(const Vector3& v) const
+	{
+		Vector3 v1 = *this;
+		Vector3 v2 = v;
+
+		v1.Normalize();
+		v2.Normalize();
+
+		float   Angle = v1.Dot(v2);
+
+		Angle = RadianToDegree(acosf(Angle));
+
+		return Angle;
+	}
+
 	// 플레이어가 마우스를 바라보는 마우스의 방향벡터를 알아낸다.
 	Vector3 PlayerDir = TargetPos - CurPos;
 	PlayerDir.Normalize();
