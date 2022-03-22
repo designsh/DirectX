@@ -5,6 +5,8 @@
 #include <GameEngineBase/GameEngineSoundManager.h>
 #include <iostream>
 
+#include <GameEngineBase/GameEngineDirectory.h>
+
 bool GameEngineWindow::WindowLoopFlag = true;
 
 // 포인터형 싱글톤

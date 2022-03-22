@@ -64,7 +64,10 @@ void GameEngineUIRenderer::Render()
 
 	// 
 	GameEngineFont* Font = GameEngineFontManager::GetInst().Find(FontName_);
-	Font->DrawFont(PrintText_, FontSize_, RenderPos, Color_, Flags_);
+	if (nullptr != Font)
+	{
+		Font->DrawFont(PrintText_, FontSize_, RenderPos, Color_, Flags_);
+	}
 
 	// Shader Reset
 	GameEngineDevice::ShaderReset();

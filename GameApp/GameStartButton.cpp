@@ -34,7 +34,7 @@ void GameStartButton::Start()
 	StartButton_->SetChangeAnimation("Default");
 
 	// 게임시작 TextSetting
-	StartButton_->TextSetting("Diablo", "SINGLE PLAYER", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
+	StartButton_->TextSetting("diablo", "SINGLE PLAYER", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
 
 	// 충돌체 생성
 	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));

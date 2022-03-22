@@ -39,7 +39,7 @@ void TitleLevelMoveBtn::Start()
 	PrevMenuBtn_->SetChangeAnimation("Default");
 
 	// PREV TextSetting
-	PrevMenuBtn_->TextSetting("Diablo", "PREV", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
+	PrevMenuBtn_->TextSetting("diablo", "PREV", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
 
 	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	MainCollider_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));

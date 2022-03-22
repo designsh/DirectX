@@ -29,7 +29,7 @@ private:		//delete operator
 	GameEngineFont& operator=(const GameEngineFont&& _other) = delete;
 
 protected:
-	void Load(const std::string& _Path);
+	void Load(const std::string& _FontFileName);
 
 public:
 	void DrawFont(const std::string& _Text, float _Size, const float4& _Pos, const float4& _Color, unsigned int _Flags = FW1_CENTER);
