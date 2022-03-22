@@ -193,6 +193,22 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 {
 	switch (_EventType)
 	{
+		case WM_CREATE :
+		{
+			// 윈도우 생성과 동시에 시스템에 폰트 등록
+			GameEngineDirectory SoundDir;
+			SoundDir.MoveParent("DirectX");
+			SoundDir.MoveChild("Resources");
+			SoundDir.MoveChild("Font");
+
+			std::string FontPathName = SoundDir.GetFullPath();
+			FontPathName += "\\diablo.ttf";
+
+			AddFontResource(FontPathName.c_str());
+
+
+			break;
+		}
 		case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
@@ -211,6 +227,18 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 		case WM_DESTROY:
 		{
 			WindowLoopFlag = false;
+
+			// 윈도우 제거와 동시에 등록된 폰트 해제
+			GameEngineDirectory SoundDir;
+			SoundDir.MoveParent("DirectX");
+			SoundDir.MoveChild("Resources");
+			SoundDir.MoveChild("Font");
+
+			std::string FontPathName = SoundDir.GetFullPath();
+			FontPathName += "\\diablo.ttf";
+
+			RemoveFontResource(FontPathName.c_str());
+
 			break;
 		}
 		default:
@@ -224,8 +252,7 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 
 void GameEngineWindow::CloseWindow()
 {
-	// GameLoop 종료시 엔진의 모든 리소스 릴리즈하기때문에 Loop Flag만 해제
-	WindowLoopFlag = false;
-	//DestroyWindow(windowhandle_);
+	// Window Message Send
+	DestroyWindow(windowhandle_);
 }
 
