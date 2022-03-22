@@ -107,6 +107,7 @@ struct PlayerZOrderManagement
 	bool														UnderChangeZOrderFlag_;	// 애니메이션 실행중 Z오더 변경유무 Flag(true : 변경필요)
 	int															UnderChangeZOrderCnt_;	// 애니메이션 실행중 Z오더가 변경되는 카운트
 
+	int															UnderChangeCurIndex_;	// 변경되는 렌더러 현재 적용중인 ZOrder Index(변경될때마다 증가하며, 마지막 변경 ZOrder가 끝날때 초기화된다)
 	std::vector<UnderChangeZOrder>								UnderChangeZOrder_;		// 변경되는 렌더러 ZOrder(UnderChangeZOrderCnt_ 만큼 할당된다.)
 																						// 상태를 체크하여 해당 애니메이션 프레임이 되면 해당 ZOrder로 갱신
 };

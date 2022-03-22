@@ -12,7 +12,7 @@ void MainPlayer::DirectChangeZOrder()
 
 void MainPlayer::AnimationFrameZOrderChange()
 {
-	// 애니메이션 프레임별 오더 변경이 필요할때 호출되는 함수
+	// 현재상태와 현재방향에서 애니메이션 프레임별 오더 변경이 필요할때 호출되는 함수
 
 
 
