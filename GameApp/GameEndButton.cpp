@@ -30,14 +30,17 @@ void GameEndButton::Start()
 	EndButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	EndButton_->CreateAnimation("LongButton_Stay.png", "Default", 0, 0, 0.1f, false);
 	EndButton_->CreateAnimation("LongButton_Click.png", "Click", 0, 0, 0.1f, false);
-	EndButton_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
-	EndButton_->GetTransform()->SetLocalPosition(float4(0.f, -300.f));
+	EndButton_->GetTransform()->SetLocalScaling(float4(272.f, 35.f, 1.0f));
+	EndButton_->GetTransform()->SetLocalPosition(float4(0.f, -200.f));
 	EndButton_->SetChangeAnimation("Default");
+
+	// 게임종료 TextSetting
+	EndButton_->TextSetting("Diablo", "EXIT DIABLO 11", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
 
 	// 충돌체 생성
 	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	MainCollision_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
-	MainCollision_->GetTransform()->SetLocalPosition(float4(0.f, -300.f));
+	MainCollision_->GetTransform()->SetLocalScaling(float4(272.f, 35.f, 1.0f));
+	MainCollision_->GetTransform()->SetLocalPosition(float4(0.f, -200.f));
 }
 
 void GameEndButton::Update(float _DeltaTime)

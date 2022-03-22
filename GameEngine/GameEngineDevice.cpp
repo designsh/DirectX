@@ -30,6 +30,20 @@ ID3D11DeviceContext* GameEngineDevice::GetContext()
 	return Context_;
 }
 
+void GameEngineDevice::ShaderReset()
+{
+	Context_->VSSetShader(nullptr, nullptr, 0);
+	Context_->HSSetShader(nullptr, nullptr, 0);
+	Context_->GSSetShader(nullptr, nullptr, 0);
+	Context_->DSSetShader(nullptr, nullptr, 0);
+	Context_->PSSetShader(nullptr, nullptr, 0);
+}
+
+void GameEngineDevice::ResourceReset()
+{
+	ShaderReset();
+}
+
 void GameEngineDevice::RenderStart()
 {
 	// 백버퍼 ClearColor로 Clear

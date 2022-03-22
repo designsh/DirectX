@@ -15,11 +15,13 @@
 #include "GameEngineBlendManager.h"
 #include "GameEngineDepthStencilManager.h"
 #include "GameEngineDepthBufferManager.h"
+#include "GameEngineFontManager.h" 
 
 #include "GameEngineRenderingPipeLineManager.h"
 
 #include "GameEngineConstantBufferManager.h"
 
+#include "GameEngineFont.h"
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
@@ -41,6 +43,7 @@ public:
 	static void ManagerRelease()
 	{
 		GameEngineSoundManager::Destroy();
+		GameEngineFontManager::Destroy();
 
 		GameEngineRenderingPipeLineManager::Destroy();
 

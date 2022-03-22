@@ -54,8 +54,8 @@ void UserGame::Initialize()
 	LevelCreate<ChaosSanctuaryLevel>("ChaosSanctuaryLevel");
 	LevelCreate<EndingLevel>("EndingLevel");
 
-	//LevelChange("TitleLevel");
-	LevelChange("TownLevel");
+	LevelChange("TitleLevel");
+	//LevelChange("TownLevel");
 
 
 	// 테스트용 키생성
@@ -101,6 +101,6 @@ float4 UserGame::StartWindowPos()
 
 float4 UserGame::StartWindowSize()
 {
-	return float4(1280.f, 720.f, 0.f);
+	return float4(800.f, 600.f, 0.f);
 }
 

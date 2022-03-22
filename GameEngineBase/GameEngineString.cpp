@@ -35,6 +35,7 @@ void GameEngineString::StringToWString(const std::string& _Text, std::wstring& _
 
 	// 위에서 추출한 크기로 _Out의 크기를 리사이즈한다.
 	_Out.resize(ConvertLength);
+
 	int CurOutStringLen = MultiByteToWideChar(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), &_Out[0], ConvertLength);
 	if (CurOutStringLen == 0)
 	{
@@ -53,12 +54,60 @@ void GameEngineString::WStringToString(const std::wstring& _Text, std::string& _
 	}
 
 	_Out.resize(ConvertLength);
+
 	int CurOutStringLen = WideCharToMultiByte(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), &_Out[0], ConvertLength, nullptr, nullptr);
 	if (CurOutStringLen == 0)
 	{
 		GameEngineDebug::MsgBoxError("WString To String Convert Error");
 		return;
 	}
+}
+
+std::wstring GameEngineString::StringToWStringReturn(const std::string& _Text)
+{
+	std::wstring Return;
+
+	int ConvertLength = MultiByteToWideChar(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), nullptr, 0);
+
+	if (ConvertLength == 0)
+	{
+		GameEngineDebug::MsgBoxError("String To WString Convert Error");
+		return L"";
+	}
+
+	Return.resize(ConvertLength);
+
+	int CurOutStringLen = MultiByteToWideChar(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), &Return[0], ConvertLength);
+	if (CurOutStringLen == 0)
+	{
+		GameEngineDebug::MsgBoxError("String To WString Convert Error");
+		return L"";
+	}
+
+	return Return;
+}
+
+std::string GameEngineString::WStringToStringReturn(const std::wstring& _Text)
+{
+	std::string Return;
+
+	int ConvertLength = WideCharToMultiByte(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), nullptr, 0, nullptr, nullptr);
+	if (ConvertLength == 0)
+	{
+		GameEngineDebug::MsgBoxError("WString To String Convert Error");
+		return "";
+	}
+
+	Return.resize(ConvertLength);
+
+	int CurOutStringLen = WideCharToMultiByte(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), &Return[0], ConvertLength, nullptr, nullptr);
+	if (CurOutStringLen == 0)
+	{
+		GameEngineDebug::MsgBoxError("WString To String Convert Error");
+		return "";
+	}
+
+	return Return;
 }
 
 GameEngineString::GameEngineString()

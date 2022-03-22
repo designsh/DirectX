@@ -33,11 +33,11 @@ void CreateCharacterInputText::Start()
 	float4 TextureSize = InputTextImage->GetTextureSize();
 
 	IDInput_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
-	IDInput_->SetImage("InputText.png", float4(150.f, 30.f));
+	IDInput_->SetImage("InputText.png", float4(169.f, 26.f, 1.f));
 	IDInput_->GetTransform()->SetLocalPosition(float4(0.f, -WindowSize.ihy() + 60.f));
 
 	ActiveCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	ActiveCollider_->GetTransform()->SetLocalScaling(float4(150.f, 30.f, 1.f));
+	ActiveCollider_->GetTransform()->SetLocalScaling(float4(169.f, 26.f, 1.f));
 	ActiveCollider_->GetTransform()->SetLocalPosition(IDInput_->GetTransform()->GetLocalPosition());
 }
 

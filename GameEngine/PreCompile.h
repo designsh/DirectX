@@ -13,3 +13,4 @@
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 
 #pragma comment(lib, "DirectXTex.lib")
+#pragma comment(lib, "FW1FontWrapper.lib")

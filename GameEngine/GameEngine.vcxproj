@@ -93,6 +93,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineFont.h" />
+    <ClInclude Include="GameEngineFontManager.h" />
     <ClInclude Include="GameEngineFSM.h">
       <SubType>
       </SubType>
@@ -295,6 +297,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineFont.cpp" />
+    <ClCompile Include="GameEngineFontManager.cpp" />
     <ClCompile Include="GameEngineFSM.cpp">
       <SubType>
       </SubType>
@@ -450,6 +454,16 @@
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FW1Font\FW1FontWrapper.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FW1Font\FW1FontWrapper.lib">
+      <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">

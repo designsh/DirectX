@@ -49,13 +49,16 @@ void CurPlayerGameStartButton::Start()
 	CurPlayerGameStartBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	CurPlayerGameStartBtn_->CreateAnimation("ShortButton_Stay.png", "Default", 0, 0, 0.1f, false);
 	CurPlayerGameStartBtn_->CreateAnimation("ShortButton_Click.png", "Click", 0, 0, 0.1f, false);
-	CurPlayerGameStartBtn_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.f));
-	CurPlayerGameStartBtn_->GetTransform()->SetLocalPosition(float4(WindowSize.ihx() - 130.f, -WindowSize.ihy() + 60.f));
+	CurPlayerGameStartBtn_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.f));
+	CurPlayerGameStartBtn_->GetTransform()->SetLocalPosition(float4(WindowSize.ihx() - 80.f, -WindowSize.ihy() + 60.f));
 	CurPlayerGameStartBtn_->Off();
 	CurPlayerGameStartBtn_->SetChangeAnimation("Default");
 
+	// OK TextSetting
+	CurPlayerGameStartBtn_->TextSetting("Diablo", "OK", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
+
 	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	MainCollider_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.0f));
+	MainCollider_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(CurPlayerGameStartBtn_->GetTransform()->GetLocalPosition());
 	MainCollider_->Off();
 }

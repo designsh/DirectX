@@ -26,8 +26,8 @@ void TitleLogo::Start()
 	LogoAnimation_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	LogoAnimation_->CreateAnimation("Title_Logo.png", "TitleLogoAnimation", 0, 29, 0.1f);
 	LogoAnimation_->SetChangeAnimation("TitleLogoAnimation");
-	LogoAnimation_->GetTransform()->SetLocalPosition(float4(0.f, 240.f));
-	LogoAnimation_->GetTransform()->SetLocalScaling(float4(550.f, 196.f));
+	LogoAnimation_->GetTransform()->SetLocalPosition(float4(0.f, 200.f));
+	LogoAnimation_->GetTransform()->SetLocalScaling(float4(362.f, 172.f));
 }
 
 void TitleLogo::Update(float _DeltaTime)

@@ -35,10 +35,10 @@ private:		//delete operator
 
 protected:
 	void Start() override;
+	virtual void Render();
 
 private:
 	void Update(float _DeltaTime) override;
-	virtual void Render();
 
 public:
 	void SetRenderingPipeLine(const std::string& _Value);

@@ -44,6 +44,8 @@ public:
 	static GameEngineRenderTarget* GetBackBufferTarget();
 	static ID3D11Device* GetDevice();
 	static ID3D11DeviceContext* GetContext();
+	static void ShaderReset();
+	static void ResourceReset();
 	static void RenderStart();
 	static void RenderEnd();
 

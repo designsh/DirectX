@@ -84,6 +84,8 @@ void CreateCharacterLevel::LevelChangeStartEvent()
 
 void CreateCharacterLevel::LevelStart()
 {
+	float4 WindowSize = GameEngineWindow::GetInst().GetSize();
+
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 

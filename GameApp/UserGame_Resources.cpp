@@ -35,8 +35,10 @@ void UserGame::ResourcesLoad()
 		GameEngineTextureManager::GetInst().Load(TextureAllFile[i].GetFullPath());
 	}
 
-	// 셰이더 리소스 파일을 모두 읽어들여 셰이더를 생성
-	//AppShaderLoad();
+	// Font Load
+	GameEngineFontManager::GetInst().Load("궁서");
+	GameEngineFontManager::GetInst().Load("Exocet");
+	GameEngineFontManager::GetInst().Load("Diablo");
 
 	// 인게임 관련 모든 정보 로드(추후 로딩레벨로 이동 고민중.....)
 	
@@ -51,4 +53,7 @@ void UserGame::ResourcesLoad()
 
 	// 구현하려는 모든 NPC 정보
 	AllNPCInfomation::GetInst().CreateAllNPCInfomation();
+
+	// 셰이더 리소스 파일을 모두 읽어들여 셰이더를 생성
+	//AppShaderLoad();
 }

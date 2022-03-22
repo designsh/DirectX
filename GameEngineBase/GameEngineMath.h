@@ -215,6 +215,19 @@ public:
 	}
 
 public:
+	unsigned int ColorToUint() const
+	{
+		char Color255[4] = { 0, };
+
+		Color255[0] = static_cast<char>(x * 255.0f);
+		Color255[1] = static_cast<char>(y * 255.0f);
+		Color255[2] = static_cast<char>(z * 255.0f);
+		Color255[3] = static_cast<char>(w * 255.0f);
+
+		return *(reinterpret_cast<unsigned int*>(Color255));
+	}
+
+public:
 	int ix() const
 	{
 		return static_cast<int>(x);

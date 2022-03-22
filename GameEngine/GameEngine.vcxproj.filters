@@ -211,6 +211,15 @@
     <Filter Include="FSM">
       <UniqueIdentifier>{f3035d9a-9c4e-408f-8390-11a31c627dd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\07Font">
+      <UniqueIdentifier>{587f9aba-a7bc-49d8-aa35-88250745eddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Font">
+      <UniqueIdentifier>{dd61d320-09b7-41ff-8fdf-1532aa4952f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\FW1Font">
+      <UniqueIdentifier>{fd7d6767-0298-4fa2-9032-396e8d472d34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -368,6 +377,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineFSM.cpp">
       <Filter>FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFontManager.cpp">
+      <Filter>Resources\99Manager\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFont.cpp">
+      <Filter>Resources\07Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +548,12 @@
     <ClInclude Include="GameEngineFSM.h">
       <Filter>FSM</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineFontManager.h">
+      <Filter>Resources\99Manager\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFont.h">
+      <Filter>Resources\07Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -545,6 +566,12 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
       <Filter>Lib\DirectXTex\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FW1Font\FW1FontWrapper.dll">
+      <Filter>Lib\FW1Font</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FW1Font\FW1FontWrapper.lib">
+      <Filter>Lib\FW1Font</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

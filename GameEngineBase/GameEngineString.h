@@ -13,6 +13,10 @@ public:
 	static void StringToWString(const std::string& _Text, std::wstring& _Out); // String -> WString Convert
 	static void WStringToString(const std::wstring& _Text, std::string& _Out); // WString -> String Convert
 
+public:
+	static std::wstring StringToWStringReturn(const std::string& _Text);
+	static std::string WStringToStringReturn(const std::wstring& _Text);
+
 private:
 	GameEngineString(); // default constructer 디폴트 생성자
 	virtual ~GameEngineString(); // default destructer 디폴트 소멸자

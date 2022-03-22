@@ -12,6 +12,13 @@ class GameEngineRenderingPipeLine;
 class GameEngineUIRenderer : public GameEngineImageRenderer
 {
 private:	// member Var
+	bool IsText_;
+	std::string FontName_;
+	std::string PrintText_;
+	float FontSize_;
+	float4 FontPivot_;
+	float4 Color_;
+	unsigned int Flags_;
 
 public:
 	GameEngineUIRenderer(); // default constructer 디폴트 생성자
@@ -27,8 +34,12 @@ private:		//delete operator
 
 private:
 	void Start() override;
+	void Render() override;
 
 public:
 	void SetRenderGroup(int _Order) override;
+
+public: // Text 관련
+	void TextSetting(std::string _FontName, std::string _PrintText, float _FontSize, unsigned int _Flags = 0, float4 _Color = float4::WHITE);
 };
 

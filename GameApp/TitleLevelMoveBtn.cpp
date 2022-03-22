@@ -34,12 +34,15 @@ void TitleLevelMoveBtn::Start()
 	PrevMenuBtn_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	PrevMenuBtn_->CreateAnimation("ShortButton_Stay.png", "Default", 0, 0, 0.1f, false);
 	PrevMenuBtn_->CreateAnimation("ShortButton_Click.png", "Click", 0, 0, 0.1f, false);
-	PrevMenuBtn_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.f));
-	PrevMenuBtn_->GetTransform()->SetLocalPosition(float4(-WindowSize.ihx() + 130.f, -WindowSize.ihy() + 60.f));
+	PrevMenuBtn_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
+	PrevMenuBtn_->GetTransform()->SetLocalPosition(float4(-WindowSize.ihx() + 80.f, -WindowSize.ihy() + 60.f));
 	PrevMenuBtn_->SetChangeAnimation("Default");
 
+	// PREV TextSetting
+	PrevMenuBtn_->TextSetting("Diablo", "PREV", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
+
 	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	MainCollider_->GetTransform()->SetLocalScaling(float4(150.f, 40.f, 1.0f));
+	MainCollider_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(PrevMenuBtn_->GetTransform()->GetLocalPosition());
 }
 

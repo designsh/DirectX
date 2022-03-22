@@ -30,12 +30,15 @@ void GameStartButton::Start()
 	StartButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	StartButton_->CreateAnimation("LongButton_Stay.png", "Default", 0, 0, 0.1f, false);
 	StartButton_->CreateAnimation("LongButton_Click.png", "Click", 0, 0, 0.1f, false);
-	StartButton_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
+	StartButton_->GetTransform()->SetLocalScaling(float4(272.f, 35.f, 1.0f));
 	StartButton_->SetChangeAnimation("Default");
+
+	// 게임시작 TextSetting
+	StartButton_->TextSetting("Diablo", "SINGLE PLAYER", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
 
 	// 충돌체 생성
 	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	MainCollision_->GetTransform()->SetLocalScaling(float4(430.f, 40.f, 1.0f));
+	MainCollision_->GetTransform()->SetLocalScaling(float4(272.f, 35.f, 1.0f));
 }
 
 void GameStartButton::Update(float _DeltaTime)
