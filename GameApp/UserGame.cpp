@@ -54,7 +54,8 @@ void UserGame::Initialize()
 	LevelCreate<ChaosSanctuaryLevel>("ChaosSanctuaryLevel");
 	LevelCreate<EndingLevel>("EndingLevel");
 
-	LevelChange("TitleLevel");
+	//LevelChange("TitleLevel");
+	LevelChange("TownLevel");
 
 
 	// 테스트용 키생성

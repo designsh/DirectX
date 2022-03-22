@@ -22,266 +22,69 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 	float4 MoveDirect = _MousePos - MyPos;
 	MoveDirect.Normalize3D();
 
-	// 플레이어의 Y축기준 방향벡터를 얻어온다.
+	// 월드의 y축기준 방향벡터를 얻어온다.
+	float4 FrontVector = float4::UP;
 
-
-	// 두 벡터를 내적하여 각도를 계산
-
-
-	// 각도를 이용하여 플레이어의 이동방향을 알아낸다.
-
-
-
-	/*
-	Vector3 Vector3::Axis[(int)AXIS::AXIS_END] =
-	{
-		Vector3(1.f, 0.f, 0.f),
-		Vector3(0.f, 1.f, 0.f),
-		Vector3(0.f, 0.f, 1.f)
-	};
-
-	float Vector3::Angle(const Vector3& v) const
-	{
-		Vector3 v1 = *this;
-		Vector3 v2 = v;
-
-		v1.Normalize();
-		v2.Normalize();
-
-		float   Angle = v1.Dot(v2);
-
-		Angle = RadianToDegree(acosf(Angle));
-
-		return Angle;
-	}
-
-	// 타겟위치와 현재 위치를 계산하여 플레이어 방향 갱신
-	Vector2 MousePos = CInput::GetInst()->GetMouse2DWorldPos();
-	Vector3 CurPos = GetWorldPos();
-	MoveDirectCalc(CurPos, Vector3(MousePos.x, MousePos.y, CurPos.z));
-
-	// 플레이어가 마우스를 바라보는 마우스의 방향벡터를 알아낸다.
-	Vector3 PlayerDir = TargetPos - CurPos;
-	PlayerDir.Normalize();
-
-	// 플레이어의 Y축기준 방향벡터를 얻어온다.
-	Vector3 FrontVector = CurPos.Axis[(int)AXIS::AXIS_Y];
-
-	// 두 벡터의 내적을 계산하여 각도를 계산한다.
-	float cosAngle = FrontVector.Angle(PlayerDir);
-
-	// 위에서 처리한 두벡터의 x,y값을 이용하여 해당 각도가 오른쪽 각도인지 왼쪽각도인지 알아낸다.
-	float Angle = ((FrontVector.x * PlayerDir.y) - (FrontVector.y * PlayerDir.x) > 0.0f) ? cosAngle : -cosAngle;
-
-	// 현재 플레이어가 뛰기/걷기 상태에 따라 애니메이션 변경이 달라진다.
-	if (m_RunFlag) // 뛰기 상태라면
-	{
-		if (Angle < 0.0f) // 오른쪽
-		{
-			if (Angle > -60.f && Angle <= -30.f)
-			{
-				// 우상단
-				m_Animation->ChangeAnimation("RT_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::RightTop);
-			}
-			else if (Angle > -150.f && Angle <= -120.f)
-			{
-				// 우하단
-				m_Animation->ChangeAnimation("RB_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::RightBottom);
-			}
-			else if (Angle > -30.f && Angle <= 0.f)
-			{
-				// 상단
-				m_Animation->ChangeAnimation("U_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::Top);
-			}
-			else if (Angle > -120.f && Angle <= -60.f)
-			{
-				// 우단
-				m_Animation->ChangeAnimation("R_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::Right);
-			}
-			else if (Angle > -180.f && Angle <= -150.f)
-			{
-				// 하단
-				m_Animation->ChangeAnimation("D_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::Bottom);
-			}
-		}
-		else // 왼쪽
-		{
-			if (Angle > 30.f && Angle <= 60.f)
-			{
-				// 좌상단
-				m_Animation->ChangeAnimation("LT_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::LeftTop);
-			}
-			else if (Angle > 120.f && Angle <= 150.f)
-			{
-				// 좌하단
-				m_Animation->ChangeAnimation("LB_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::LeftBottom);
-			}
-			else if (Angle > 0.f && Angle <= 30.f)
-			{
-				// 상단
-				m_Animation->ChangeAnimation("U_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::Top);
-			}
-			else if (Angle > 60.f && Angle <= 120.f)
-			{
-				// 좌단
-				m_Animation->ChangeAnimation("L_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::Left);
-			}
-			else if (Angle > 150.f && Angle <= 180.f)
-			{
-				// 하단
-				m_Animation->ChangeAnimation("D_Nec_Run");
-				m_Animation->SetMoveDir(MoveDirect::Bottom);
-			}
-		}
-	}
-	else // 걷기상태라면
-	{
-		if (Angle < 0.0f) // 오른쪽
-		{
-			if (Angle > -60.f && Angle <= -30.f)
-			{
-				// 우상단
-				m_Animation->ChangeAnimation("RT_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::RightTop);
-			}
-			else if (Angle > -150.f && Angle <= -120.f)
-			{
-				// 우하단
-				m_Animation->ChangeAnimation("RB_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::RightBottom);
-			}
-			else if (Angle > -30.f && Angle <= 0.f)
-			{
-				// 상단
-				m_Animation->ChangeAnimation("U_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::Top);
-			}
-			else if (Angle > -120.f && Angle <= -60.f)
-			{
-				// 우단
-				m_Animation->ChangeAnimation("R_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::Right);
-			}
-			else if (Angle > -180.f && Angle <= -150.f)
-			{
-				// 하단
-				m_Animation->ChangeAnimation("D_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::Bottom);
-			}
-		}
-		else // 왼쪽
-		{
-			if (Angle > 30.f && Angle <= 60.f)
-			{
-				// 좌상단
-				m_Animation->ChangeAnimation("LT_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::LeftTop);
-			}
-			else if (Angle > 120.f && Angle <= 150.f)
-			{
-				// 좌하단
-				m_Animation->ChangeAnimation("LB_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::LeftBottom);
-			}
-			else if (Angle > 0.f && Angle <= 30.f)
-			{
-				// 상단
-				m_Animation->ChangeAnimation("U_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::Top);
-			}
-			else if (Angle > 60.f && Angle <= 120.f)
-			{
-				// 좌단
-				m_Animation->ChangeAnimation("L_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::Left);
-			}
-			else if (Angle > 150.f && Angle <= 180.f)
-			{
-				// 하단
-				m_Animation->ChangeAnimation("D_Nec_TownWalk");
-				m_Animation->SetMoveDir(MoveDirect::Bottom);
-			}
-		}
-	}
-	*/
-
-
-	int a = 0;
+	// 두 벡터를 내적하여 COS(세타) 각도를 계산
+	float cosAngle = float4::DegreeDot3DToACosAngle(FrontVector, MoveDirect);
 	
+	float Angle = ((FrontVector.x * MoveDirect.y) - (FrontVector.y * MoveDirect.x) > 0.0f) ? cosAngle : -cosAngle;
 
-
-
-
-
-
-
-
-
-
-	// 오른쪽
-	if (MoveDirect.x > 0.0f)
+	// 각도별 방향 전환(각 방향별 범위 : 30도)
+	if (Angle < 0.0f) // 오른쪽
 	{
-		// 위
-		if (_MousePos.y > MyPos.y)
+		if (Angle > -60.f && Angle <= -30.f)
 		{
+			// 우상단
 			CurDirect_ = TargetDirect::DIR_RT;
 		}
-		else if (_MousePos.y < MyPos.y) // 아래
+		else if (Angle > -150.f && Angle <= -120.f)
 		{
+			// 우하단
 			CurDirect_ = TargetDirect::DIR_RB;
 		}
-		else // 오른쪽만
+		else if (Angle > -30.f && Angle <= 0.f)
 		{
+			// 상단
+			CurDirect_ = TargetDirect::DIR_T;
+		}
+		else if (Angle > -120.f && Angle <= -60.f)
+		{
+			// 우단
 			CurDirect_ = TargetDirect::DIR_R;
 		}
-	}
-	else if(MoveDirect.x < 0.0f) // 왼쪽
-	{
-		// 위
-		if (_MousePos.y > MyPos.y)
+		else if (Angle > -180.f && Angle <= -150.f)
 		{
+			// 하단
+			CurDirect_ = TargetDirect::DIR_B;
+		}
+	}
+	else // 왼쪽
+	{
+		if (Angle > 30.f && Angle <= 60.f)
+		{
+			// 좌상단
 			CurDirect_ = TargetDirect::DIR_LT;
 		}
-		else if (_MousePos.y < MyPos.y) // 아래
+		else if (Angle > 120.f && Angle <= 150.f)
 		{
+			// 좌하단
 			CurDirect_ = TargetDirect::DIR_LB;
 		}
-		else // 왼쪽만
+		else if (Angle > 0.f && Angle <= 30.f)
 		{
+			// 상단
+			CurDirect_ = TargetDirect::DIR_T;
+		}
+		else if (Angle > 60.f && Angle <= 120.f)
+		{
+			// 좌단
 			CurDirect_ = TargetDirect::DIR_L;
 		}
-	}
-	else if (MoveDirect.y > 0.0f) // 위쪽
-	{
-		// 오른쪽
-		if (_MousePos.x > MyPos.x)
+		else if (Angle > 150.f && Angle <= 180.f)
 		{
-			CurDirect_ = TargetDirect::DIR_R;
-		}
-		else if (_MousePos.x < MyPos.x) // 왼쪽
-		{
-			CurDirect_ = TargetDirect::DIR_L;
-		}
-	}
-	else if (MoveDirect.y < 0.0f) // 아래쪽
-	{
-		// 오른쪽
-		if (_MousePos.x > MyPos.x)
-		{
-			CurDirect_ = TargetDirect::DIR_R;
-		}
-		else if (_MousePos.x < MyPos.x) // 왼쪽
-		{
-			CurDirect_ = TargetDirect::DIR_L;
+			// 하단
+			CurDirect_ = TargetDirect::DIR_B;
 		}
 	}
 
@@ -290,8 +93,6 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 
 	// 이동중 Flag On
 	IsMove_ = true;
-
-
 
 	return true;
 }
