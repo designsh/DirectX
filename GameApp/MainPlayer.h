@@ -148,7 +148,7 @@ private: // 플레이어 아이템착용관련 Flag
 
 #pragma region PlayerFSMState
 private: // FSM
-	GameEngineFSM<MainPlayer> State_;
+	GameEngineFSM State_;
 #pragma endregion
 
 #pragma region PlayerRenderer
@@ -274,40 +274,54 @@ private: // FSM 처리관련
 	void ChangeFSMState(std::string _StateName);	// 상태 변경
 
 	// ========================== 마을 관련 ========================== //
-	StateInfo StartTownNatural(StateInfo _state);
-	StateInfo UpdateTownNatural(StateInfo _state);
-	StateInfo StartTownWalk(StateInfo _state);
-	StateInfo UpdateTownWalk(StateInfo _state);
+	void StartTownNatural();
+	void UpdateTownNatural();
+	void EndTownNatural();
+	void StartTownWalk();
+	void UpdateTownWalk();
+	void EndTownWalk();
 
 	// ========================== 필드 관련 ========================== //
-	StateInfo StartFieldNatural(StateInfo _state);
-	StateInfo UpdateFieldNatural(StateInfo _state);
-	StateInfo StartFieldWalk(StateInfo _state);
-	StateInfo UpdateFieldWalk(StateInfo _state);
+	void StartFieldNatural();
+	void UpdateFieldNatural();
+	void EndFieldNatural();
+	void StartFieldWalk();
+	void UpdateFieldWalk();
+	void EndFieldWalk();
 
 	// ========================== 공통 관련 ========================== //
-	StateInfo StartAttack1(StateInfo _state);
-	StateInfo UpdateAttack1(StateInfo _state);
-	StateInfo StartAttack2(StateInfo _state);
-	StateInfo UpdateAttack2(StateInfo _state);
-	StateInfo StartBlock(StateInfo _state);
-	StateInfo UpdateBlock(StateInfo _state);
-	StateInfo StartGetHit(StateInfo _state);
-	StateInfo UpdateGetHit(StateInfo _state);
-	StateInfo StartKick(StateInfo _state);
-	StateInfo UpdateKick(StateInfo _state);
-	StateInfo StartRun(StateInfo _state);
-	StateInfo UpdateRun(StateInfo _state);
-	StateInfo StartSkillAttack(StateInfo _state);
-	StateInfo UpdateSkillAttack(StateInfo _state);
-	StateInfo StartSkillCasting(StateInfo _state);
-	StateInfo UpdateSkillCasting(StateInfo _state);
+	void StartAttack1();
+	void UpdateAttack1();
+	void EndAttack1();
+	void StartAttack2();
+	void UpdateAttack2();
+	void EndAttack2();
+	void StartBlock();
+	void UpdateBlock();
+	void EndBlock();
+	void StartGetHit();
+	void UpdateGetHit();
+	void EndGetHit();
+	void StartKick();
+	void UpdateKick();
+	void EndKick();
+	void StartRun();
+	void UpdateRun();
+	void EndRun();
+	void StartSkillAttack();
+	void UpdateSkillAttack();
+	void EndSkillAttack();
+	void StartSkillCasting();
+	void UpdateSkillCasting();
+	void EndSkillCasting();
 
 	// ========================== 사망 관련 ========================== //
-	StateInfo StartDead(StateInfo _state);
-	StateInfo UpdateDead(StateInfo _state);
-	StateInfo StartDeath(StateInfo _state);
-	StateInfo UpdateDeath(StateInfo _state);
+	void StartDead();
+	void UpdateDead();
+	void EndDead();
+	void StartDeath();
+	void UpdateDeath();
+	void EndDeath();
 
 private: // 애니메이션 변경관련
 	void ChangeAnimation(const std::string& _CurStateName);

@@ -42,313 +42,307 @@ void MainPlayer::ChangeFSMState(std::string _StateName)
 
 // ========================== 마을 관련 ========================= //
 // ============================ 대기 ============================ //
-StateInfo MainPlayer::StartTownNatural(StateInfo _state)
+void MainPlayer::StartTownNatural()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_TN;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
+	ChangeAnimation(State_.GetCurStateName());
 
 	// 관련 사운드 시작
-	
+
 
 	// 기타
-	
-	return StateInfo();
 }
 
-StateInfo MainPlayer::UpdateTownNatural(StateInfo _state)
+void MainPlayer::UpdateTownNatural()
 {
-	// 현재 플레이어가 마을인지 필드인지 체크
-
-
-
-	// 이동 체크
 
 
 
 
+}
 
-	return StateInfo();
+void MainPlayer::EndTownNatural()
+{
+
 }
 
 // ============================ 걷기 ============================ //
-StateInfo MainPlayer::StartTownWalk(StateInfo _state)
+void MainPlayer::StartTownWalk()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_TW;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateTownWalk(StateInfo _state)
+void MainPlayer::UpdateTownWalk()
 {
+}
 
-	return StateInfo();
+void MainPlayer::EndTownWalk()
+{
 }
 
 // ========================== 필드 관련 ========================== //
 
 // ============================ 대기 ============================ //
-StateInfo MainPlayer::StartFieldNatural(StateInfo _state)
+void MainPlayer::StartFieldNatural()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_NU;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateFieldNatural(StateInfo _state)
+void MainPlayer::UpdateFieldNatural()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndFieldNatural()
+{
+
 }
 
 // ============================ 걷기 ============================ //
-StateInfo MainPlayer::StartFieldWalk(StateInfo _state)
+void MainPlayer::StartFieldWalk()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_WL;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateFieldWalk(StateInfo _state)
+void MainPlayer::UpdateFieldWalk()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndFieldWalk()
+{
+
 }
 
 // ========================== 공통 관련 ========================== //
 
 // ========================== 공격모션1 ========================== //
-StateInfo MainPlayer::StartAttack1(StateInfo _state)
+void MainPlayer::StartAttack1()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_A1;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateAttack1(StateInfo _state)
+void MainPlayer::UpdateAttack1()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndAttack1()
+{
+
 }
 
 // ========================== 공격모션2 ========================== //
-StateInfo MainPlayer::StartAttack2(StateInfo _state)
+void MainPlayer::StartAttack2()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_A2;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateAttack2(StateInfo _state)
+void MainPlayer::UpdateAttack2()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndAttack2()
+{
+
 }
 
 // ========================== 방어모션 =========================== //
-StateInfo MainPlayer::StartBlock(StateInfo _state)
+void MainPlayer::StartBlock()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_BL;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateBlock(StateInfo _state)
+void MainPlayer::UpdateBlock()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndBlock()
+{
+
 }
 
 // ========================== 피격모션 =========================== //
-StateInfo MainPlayer::StartGetHit(StateInfo _state)
+void MainPlayer::StartGetHit()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_GH;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateGetHit(StateInfo _state)
+void MainPlayer::UpdateGetHit()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndGetHit()
+{
+
 }
 
 // ========================== 킥모션 ============================ //
-StateInfo MainPlayer::StartKick(StateInfo _state)
+void MainPlayer::StartKick()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_KK;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateKick(StateInfo _state)
+void MainPlayer::UpdateKick()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndKick()
+{
+
 }
 
 // ========================== 뛰기모션 =========================== //
-StateInfo MainPlayer::StartRun(StateInfo _state)
+void MainPlayer::StartRun()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_RN;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateRun(StateInfo _state)
+void MainPlayer::UpdateRun()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndRun()
+{
+
 }
 
 // ======================== 스킬공격모션 ========================= //
-StateInfo MainPlayer::StartSkillAttack(StateInfo _state)
+void MainPlayer::StartSkillAttack()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_S1;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateSkillAttack(StateInfo _state)
+void MainPlayer::UpdateSkillAttack()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndSkillAttack()
+{
+
 }
 
 // ======================= 스킬캐스팅모션 ======================== //
-StateInfo MainPlayer::StartSkillCasting(StateInfo _state)
+void MainPlayer::StartSkillCasting()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_SC;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateSkillCasting(StateInfo _state)
+void MainPlayer::UpdateSkillCasting()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndSkillCasting()
+{
+
 }
 
 // ========================== 사망 관련 ========================== //
 
 // ========================== 시체모션 =========================== //
-StateInfo MainPlayer::StartDead(StateInfo _state)
+void MainPlayer::StartDead()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_DD;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateDead(StateInfo _state)
+void MainPlayer::UpdateDead()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndDead()
+{
+
 }
 
 // ========================== 사망모션 =========================== //
-StateInfo MainPlayer::StartDeath(StateInfo _state)
+void MainPlayer::StartDeath()
 {
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_DT;
 
 	// 애니메이션변경
-	ChangeAnimation(_state._NextState);
-
-
-
-	return StateInfo();
+	ChangeAnimation(State_.GetCurStateName());
 }
 
-StateInfo MainPlayer::UpdateDeath(StateInfo _state)
+void MainPlayer::UpdateDeath()
 {
 
-	return StateInfo();
+}
+
+void MainPlayer::EndDeath()
+{
+
 }

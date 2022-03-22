@@ -21,26 +21,26 @@ void MainPlayer::CreatePlayerStateFSM()
 	// 플레이어 보유 애니메이션 상태별 FSM 생성
 
 	// ========================== 마을 관련 ========================== //
-	State_.CreateState("Natural_Town", &MainPlayer::StartTownNatural, &MainPlayer::UpdateTownNatural);
-	State_.CreateState("Walk_Town", &MainPlayer::StartTownWalk, &MainPlayer::UpdateTownWalk);
+	State_.CreateState("Natural_Town", std::bind(&MainPlayer::UpdateTownNatural, this), std::bind(&MainPlayer::StartTownNatural, this), std::bind(&MainPlayer::EndTownNatural, this));
+	State_.CreateState("Walk_Town", std::bind(&MainPlayer::UpdateTownWalk, this), std::bind(&MainPlayer::StartTownWalk, this), std::bind(&MainPlayer::EndTownWalk, this));
 
 	// ========================== 필드 관련 ========================== //
-	State_.CreateState("Natural_Field", &MainPlayer::StartFieldNatural, &MainPlayer::UpdateFieldNatural);
-	State_.CreateState("Walk_Field", &MainPlayer::StartFieldWalk, &MainPlayer::UpdateFieldWalk);
+	State_.CreateState("Natural_Field", std::bind(&MainPlayer::UpdateFieldNatural, this), std::bind(&MainPlayer::StartFieldNatural, this), std::bind(&MainPlayer::EndFieldNatural, this));
+	State_.CreateState("Walk_Field", std::bind(&MainPlayer::UpdateFieldWalk, this), std::bind(&MainPlayer::StartFieldWalk, this), std::bind(&MainPlayer::EndFieldWalk, this));
 
 	// ========================== 공통 관련 ========================== //
-	State_.CreateState("Attack1", &MainPlayer::StartAttack1, &MainPlayer::UpdateAttack1);
-	State_.CreateState("Attack2", &MainPlayer::StartAttack2, &MainPlayer::UpdateAttack2);
-	State_.CreateState("Block", &MainPlayer::StartBlock, &MainPlayer::UpdateBlock);
-	State_.CreateState("Gethit", &MainPlayer::StartGetHit, &MainPlayer::UpdateGetHit);
-	State_.CreateState("Kick", &MainPlayer::StartKick, &MainPlayer::UpdateKick);	
-	State_.CreateState("Run", &MainPlayer::StartRun, &MainPlayer::UpdateRun);
-	State_.CreateState("Special_Attack", &MainPlayer::StartSkillAttack, &MainPlayer::UpdateSkillAttack);
-	State_.CreateState("Special_Cast", &MainPlayer::StartSkillCasting, &MainPlayer::UpdateSkillCasting);
+	State_.CreateState("Attack1", std::bind(&MainPlayer::UpdateAttack1, this), std::bind(&MainPlayer::StartAttack1, this), std::bind(&MainPlayer::EndAttack1, this));
+	State_.CreateState("Attack2", std::bind(&MainPlayer::UpdateAttack2, this), std::bind(&MainPlayer::StartAttack2, this), std::bind(&MainPlayer::EndAttack2, this));
+	State_.CreateState("Block", std::bind(&MainPlayer::UpdateBlock, this), std::bind(&MainPlayer::StartBlock, this), std::bind(&MainPlayer::EndBlock, this));
+	State_.CreateState("Gethit", std::bind(&MainPlayer::UpdateGetHit, this), std::bind(&MainPlayer::StartGetHit, this), std::bind(&MainPlayer::EndGetHit, this));
+	State_.CreateState("Kick", std::bind(&MainPlayer::UpdateKick, this), std::bind(&MainPlayer::StartKick, this), std::bind(&MainPlayer::EndKick, this));
+	State_.CreateState("Run", std::bind(&MainPlayer::UpdateRun, this), std::bind(&MainPlayer::StartRun, this), std::bind(&MainPlayer::EndRun, this));
+	State_.CreateState("Special_Attack", std::bind(&MainPlayer::UpdateSkillAttack, this), std::bind(&MainPlayer::StartSkillAttack, this), std::bind(&MainPlayer::EndSkillAttack, this));
+	State_.CreateState("Special_Cast", std::bind(&MainPlayer::UpdateSkillCasting, this), std::bind(&MainPlayer::StartSkillCasting, this), std::bind(&MainPlayer::EndSkillCasting, this));
 	
 	// ========================== 사망 관련 ========================== //
-	State_.CreateState("Dead", &MainPlayer::StartDead, &MainPlayer::UpdateDead);
-	State_.CreateState("Death", &MainPlayer::StartDeath, &MainPlayer::UpdateDeath);
+	State_.CreateState("Dead", std::bind(&MainPlayer::UpdateDead, this), std::bind(&MainPlayer::StartDead, this), std::bind(&MainPlayer::EndDead, this));
+	State_.CreateState("Death", std::bind(&MainPlayer::UpdateDeath, this), std::bind(&MainPlayer::StartDeath, this), std::bind(&MainPlayer::EndDeath, this));
 }
 
 

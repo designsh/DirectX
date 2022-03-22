@@ -20,7 +20,7 @@ MainPlayer::MainPlayer() :
 	IsLeftSkillList_(false),
 	IsStorehouse_(false),
 	IsMove_(false),
-	State_(this),
+	State_(),
 	RenderSize_(float4(256.f, 256.f)),
 	PrevMoveTargetPos_(float4::ZERO),
 	CurMoveTargetPos_(float4::ZERO),
