@@ -55,7 +55,7 @@ public:
 		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
 	}
 
-	// 내적하는 두 벡터의 COS(세타)를 얻어 라디안 각도를 디그리 각도로 변환하여 반환
+	// 내적하는 두 벡터의 ACOS(세타)를 얻어 라디안 각도를 디그리 각도로 변환하여 반환
 	static float DegreeDot3DToACosAngle(float4 _Left, float4 _Right)
 	{
 		return DirectX::XMConvertToDegrees(acosf(Dot3DToCos(_Left, _Right)));
