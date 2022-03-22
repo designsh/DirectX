@@ -275,7 +275,7 @@ float4 GameEngineTexture::GetPixel(int _x, int _y)
 		return float4::ZERO;
 	}
 
-	if (Image_.GetMetadata().height <= _x)
+	if (Image_.GetMetadata().height <= _y)
 	{
 		return float4::ZERO;
 	}
