@@ -95,6 +95,13 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 	// 이동중 Flag On
 	IsMove_ = true;
 
+	// 방향 결정 후 ZOrder Setting
+	// 단, 이전방향과 현재 방향이 달라졌을때만 호출
+	if (PrevDirect_ != CurDirect_)
+	{
+		DirectChangeZOrder();
+	}
+
 	return true;
 }
 

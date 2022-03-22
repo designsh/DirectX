@@ -91,34 +91,24 @@ struct PlayerRendererPart
 // 플레이어 방향별 렌더오더
 struct UnderChangeZOrder
 {
-	int															StartIndex_;				// 애니메이션 변경 시작 인덱스
-	int															EndIndex_;					// 애니메이션 변경 종료 인덱스
-	int															DirectZOrder_;				// 애니메이션 실행 기본 렌더링 Z오더
+	int															ChangeStartIndex_;			// 애니메이션 실행중 변경된 렌더링 Z오더 적용 시작프레임 인덱스
+	int															ChangeEndIndex_;			// 애니메이션 실행중 변경된 렌더링 Z오더 적용 종료프레임 인덱스
+	std::vector<int>											ChangeZOrder_;				// 애니메이션 실행중 변경 렌더링 Z오더
 };
 
 struct PlayerZOrderManagement
 {
-	// 구조 : 상태 - 플레이어 파트 렌더러 - 
-	// Ex) A1 - HD - LB
-	//             - LT
-	//             - ...
+	// 기본 ZOrder
+	int															DefaultStartIndex_;		// 기본 렌더러 ZOrder의 애니메이션 시작 인덱스
+	int															DefaultEndIndex_;		// 기본 렌더러 ZOrder의 애니메이션 종료 인덱스
+	std::vector<int>											DefaultZOrder_;			// 기본 렌더러 ZOrder
 
-	// 애니메이션 실행중 Z오더가 변경되어야하는지 검사
-	bool														UnderChangeZOrderFlag_;		// 애니메이션 실행중 Z오더 변경유무 Flag(true : 변경필요)
-	int															UnderChangeZOrderCnt_;		// 애니메이션 실행중 Z오더가 변경되는 카운트
+	// 변경 Zorder
+	bool														UnderChangeZOrderFlag_;	// 애니메이션 실행중 Z오더 변경유무 Flag(true : 변경필요)
+	int															UnderChangeZOrderCnt_;	// 애니메이션 실행중 Z오더가 변경되는 카운트
 
-
-
-
-
-
-	std::vector<UnderChangeZOrder>								UnderChange1_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
-	std::vector<UnderChangeZOrder>								UnderChange2_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
-	std::vector<UnderChangeZOrder>								UnderChange3_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
-	std::vector<UnderChangeZOrder>								UnderChange4_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
-	std::vector<UnderChangeZOrder>								UnderChange5_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
-
-	std::vector<UnderChangeZOrder>								DefaultDirectZOrder_;		// 기본 렌더링 ZOrder
+	std::vector<UnderChangeZOrder>								UnderChangeZOrder_;		// 변경되는 렌더러 ZOrder(UnderChangeZOrderCnt_ 만큼 할당된다.)
+																						// 상태를 체크하여 해당 애니메이션 프레임이 되면 해당 ZOrder로 갱신
 };
 
 // 분류 : 플레이어
@@ -273,6 +263,10 @@ private:
 private: // 방향 처리 관련
 	bool MoveDirectCheck(const float4& _MousePos);
 	void MoveStart();
+
+private: // ZOrder 변경처리 관련
+	void DirectChangeZOrder();
+	void AnimationFrameZOrderChange();
 
 private: // FSM 처리관련
 	void ChangeCheckProcess();						// 상태 변경전 체크사항 처리

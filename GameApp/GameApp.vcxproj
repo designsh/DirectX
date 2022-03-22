@@ -128,6 +128,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainPlayer_ChangeZOrder.cpp" />
     <ClCompile Include="MainPlayer_Init.cpp" />
     <ClCompile Include="LoadingAnimation.cpp">
       <SubType>
