@@ -226,8 +226,6 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 		}
 		case WM_DESTROY:
 		{
-			WindowLoopFlag = false;
-
 			// 윈도우 제거와 동시에 등록된 폰트 해제
 			GameEngineDirectory SoundDir;
 			SoundDir.MoveParent("DirectX");
@@ -238,6 +236,8 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 			FontPathName += "\\diablo.ttf";
 
 			RemoveFontResource(FontPathName.c_str());
+
+			WindowLoopFlag = false;
 
 			break;
 		}
