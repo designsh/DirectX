@@ -157,12 +157,13 @@ private: // 플레이어 상태별 렌더오더
 	std::vector<PlayerZOrderManagement> DirectRenderOrder_[static_cast<int>(PlayerState::STAT_MAX)];
 #pragma endregion
 
-#pragma region PlayerFloatValue
+#pragma region PlayerFloat4Value
 private: // 플레이어 렌더링 크기
 	float4 RenderSize_;
 
 private: // 이동 목표 지점
-	float4 MoveTargetPos_;
+	float4 PrevMoveTargetPos_;
+	float4 CurMoveTargetPos_;
 #pragma endregion
 
 #pragma region PlayerDirectAndState
