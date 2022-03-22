@@ -89,7 +89,8 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 	}
 
 	// 목표지점 저장
-	MoveTargetPos_ = _MousePos;
+	PrevMoveTargetPos_ = CurMoveTargetPos_;
+	CurMoveTargetPos_ = _MousePos;
 
 	// 이동중 Flag On
 	IsMove_ = true;

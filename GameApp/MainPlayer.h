@@ -98,9 +98,20 @@ struct UnderChangeZOrder
 
 struct PlayerZOrderManagement
 {
+	// 구조 : 상태 - 플레이어 파트 렌더러 - 
+	// Ex) A1 - HD - LB
+	//             - LT
+	//             - ...
+
 	// 애니메이션 실행중 Z오더가 변경되어야하는지 검사
 	bool														UnderChangeZOrderFlag_;		// 애니메이션 실행중 Z오더 변경유무 Flag(true : 변경필요)
 	int															UnderChangeZOrderCnt_;		// 애니메이션 실행중 Z오더가 변경되는 카운트
+
+
+
+
+
+
 	std::vector<UnderChangeZOrder>								UnderChange1_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
 	std::vector<UnderChangeZOrder>								UnderChange2_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
 	std::vector<UnderChangeZOrder>								UnderChange3_;				// 애니메이션 실행중 Z오더 변경시작하는 Animation Frame Index
