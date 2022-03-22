@@ -35,6 +35,16 @@ void GameEngineFont::Load(const std::string& _Path)
 		GameEngineDebug::MsgBoxError("폰트 캐칭에 실패했습니다 랩핑이 되지 않았습니다.");
 		return;
 	}
+
+	//// 폰트 윈도우에 등록
+	//GameEngineDirectory SoundDir;
+	//SoundDir.MoveParent("DirectX");
+	//SoundDir.MoveChild("Resources");
+	//SoundDir.MoveChild("Font");
+	//std::string FontPathName = SoundDir.GetFullPath();
+	//FontPathName += "\\diablo.ttf";
+
+	//AddFontResourceA(FontPathName.c_str());
 }
 
 void GameEngineFont::DrawFont(const std::string& _Text, float _Size, const float4& _Pos, const float4& _Color, unsigned int _Flags)

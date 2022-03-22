@@ -224,5 +224,6 @@ void GameEngineWindow::CloseWindow()
 {
 	// GameLoop 종료시 엔진의 모든 리소스 릴리즈하기때문에 Loop Flag만 해제
 	WindowLoopFlag = false;
+	//DestroyWindow(windowhandle_);
 }
 
