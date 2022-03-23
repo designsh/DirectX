@@ -17,7 +17,8 @@ GameEngineUIRenderer::GameEngineUIRenderer() :
 	FontSize_(20),
 	FontPivot_(float4::ZERO),
 	Color_(float4::WHITE),
-	Flags_(FW1_CENTER | FW1_VCENTER)
+	Flags_(FW1_CENTER | FW1_VCENTER),
+	MaxLen_(0)
 {
 }
 
