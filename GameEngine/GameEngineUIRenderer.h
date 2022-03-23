@@ -11,6 +11,12 @@ class GameEngineLevel;
 class GameEngineRenderingPipeLine;
 class GameEngineUIRenderer : public GameEngineImageRenderer
 {
+private:
+	static GameEngineRenderTarget* FontTarget_;
+
+public:
+	static void GlobalFontTargetClear();
+
 private:	// member Var
 	bool IsText_;
 	std::string FontName_;

@@ -9,6 +9,14 @@
 #include "GameEngineFontManager.h"
 #include "GameEngineFont.h"
 #include "GameEngineWindow.h"
+#include "GameEngineRenderTarget.h"
+
+GameEngineRenderTarget* GameEngineUIRenderer::FontTarget_ = nullptr;
+
+void GameEngineUIRenderer::GlobalFontTargetClear()
+{
+	FontTarget_->Clear();
+}
 
 GameEngineUIRenderer::GameEngineUIRenderer() :
 	IsText_(false),
@@ -24,6 +32,11 @@ GameEngineUIRenderer::GameEngineUIRenderer() :
 
 GameEngineUIRenderer::~GameEngineUIRenderer()
 {
+	if (nullptr != FontTarget_)
+	{
+		delete FontTarget_;
+		FontTarget_ = nullptr;
+	}
 }
 
 void GameEngineUIRenderer::Start()
@@ -32,6 +45,13 @@ void GameEngineUIRenderer::Start()
 
 	SetRenderingPipeLine("TextureUI");
 	ImageRendererStart();
+
+	// Global 렌더타겟 생성
+	if (nullptr == FontTarget_)
+	{
+		FontTarget_ = new GameEngineRenderTarget();
+		FontTarget_->Create(GameEngineWindow::GetInst().GetSize(), float4::NONE);
+	}
 }
 
 void GameEngineUIRenderer::Render()
@@ -43,6 +63,10 @@ void GameEngineUIRenderer::Render()
 	{
 		return;
 	}
+
+	// Font 전용 렌더타겟 셋팅으로 변경 및 UI RenderTaret으로 재전환하기위해 현재 마지막 렌더타겟 저장
+	GameEngineRenderTarget* UIRenderTarget = GameEngineRenderTarget::GetLastRenderTarget();
+	FontTarget_->Setting();
 
 	// UIRenderer는 화면의 중앙을 원점(0,0,0)을 기준으로 설정되어있고,
 	// GameEngineFont는 스크린좌표(윈도우좌표)를 기준으로 설정되어있으므로,
@@ -72,6 +96,12 @@ void GameEngineUIRenderer::Render()
 
 	// Shader Reset
 	GameEngineDevice::ShaderReset();
+
+	// Font RenderTarget Merge To UI Render Target
+	UIRenderTarget->Merge(FontTarget_);
+
+	// RenderTarget를 UIRender Target으로 변경
+	UIRenderTarget->Setting();
 }
 
 void GameEngineUIRenderer::SetRenderGroup(int _Order)

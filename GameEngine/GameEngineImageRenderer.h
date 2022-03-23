@@ -37,6 +37,10 @@ private:
 		void CallEnd();
 		void CallFrame();
 		void Update(float _DeltaTime);
+
+	public:
+		void FrameUpdate();
+		void ReverseFrameUpdate();
 	};
 
 private:

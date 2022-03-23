@@ -385,25 +385,13 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 	if (false == Manual)
 	{
 		CurTime_ -= _DeltaTime;
-		if (CurTime_ <= 0.0f)
+		if (StartFrame_ < EndFrame_)
 		{
-			++CurFrame_;
-			CurTime_ = InterTime_;
-			if (true == Loop_ && CurFrame_ > EndFrame_)
-			{
-				CallEnd();
-				CurFrame_ = StartFrame_;
-			}
-			else if (false == Loop_ && CurFrame_ > EndFrame_)
-			{
-				if (false == IsEnd_)
-				{
-					CallEnd();
-				}
-
-				IsEnd_ = true;
-				CurFrame_ = EndFrame_;
-			}
+			FrameUpdate();
+		}
+		else
+		{
+			ReverseFrameUpdate();
 		}
 
 		CallFrame();
@@ -418,6 +406,56 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		{
 			Renderer_->CutData_ = float4(0, 0, 1, 1);
 			Renderer_->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
+		}
+	}
+}
+
+void GameEngineImageRenderer::Animation2D::FrameUpdate()
+{
+	if (CurTime_ <= 0.0f)
+	{
+		++CurFrame_;
+		CurTime_ = InterTime_;
+		if (true == Loop_ && CurFrame_ > EndFrame_)
+		{
+			CallEnd();
+			CurFrame_ = StartFrame_;
+		}
+		else if (false == Loop_ && CurFrame_ > EndFrame_)
+		{
+			if (false == IsEnd_)
+			{
+				CallEnd();
+			}
+
+			IsEnd_ = true;
+
+			CurFrame_ = EndFrame_;
+		}
+	}
+}
+
+void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
+{
+	if (CurTime_ <= 0.0f)
+	{
+		--CurFrame_;
+		CurTime_ = InterTime_;
+		if (true == Loop_ && CurFrame_ < EndFrame_)
+		{
+			CallEnd();
+			CurFrame_ = StartFrame_;
+		}
+		else if (false == Loop_ && CurFrame_ < EndFrame_)
+		{
+			if (false == IsEnd_)
+			{
+				CallEnd();
+			}
+
+			IsEnd_ = true;
+
+			CurFrame_ = StartFrame_;
 		}
 	}
 }

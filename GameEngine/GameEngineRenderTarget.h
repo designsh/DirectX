@@ -9,6 +9,20 @@ class GameEngineTexture;
 class GameEngineRenderingPipeLine;
 class GameEngineRenderTarget : public GameEngineObjectNameBase
 {
+private:
+	static GameEngineRenderTarget* LastRenderTarget;
+	static GameEngineDepthBuffer* LastDepthBuffer;
+
+public:
+	static GameEngineRenderTarget* GetLastRenderTarget()
+	{
+		return LastRenderTarget;
+	}
+	static GameEngineDepthBuffer* GetLastDepthBuffer()
+	{
+		return LastDepthBuffer;
+	}
+
 private:	// member Var
 	std::vector<GameEngineTexture*> ReleaseTextures_;
 	std::vector<GameEngineTexture*> Textures_;
