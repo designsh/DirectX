@@ -100,8 +100,13 @@ void CreateCharacterInputText::CharacterIDInput()
 	// 글자수제한 걸기!!!
 
 	// 일반 키이면 AddText() 호출
-
-
+	while (false == KeyboardClass::GetInst().CharBufferIsEmpty())
+	{
+		std::string SetStr = "";
+		unsigned char ReadChar = KeyboardClass::GetInst().ReadChar();
+		SetStr += ReadChar;
+		IDInput_->AddText(SetStr);
+	}
 
 	// 백스페이스 키이면 DelText() 호출
 
@@ -127,6 +132,9 @@ void CreateCharacterInputText::AddText(const std::string& _Text)
 		InputText.clear();
 	}
 	InputText = IDInput_->GetPrintText();
+
+	// 입력된 문자 병합완료이므로 키보드 버퍼 클리어
+	KeyboardClass::GetInst().DeleteCharBuffer();
 
 	// 캐럿 위치 이동
 	int CurTextLen = IDInput_->GetPrintTextLen();
