@@ -78,7 +78,7 @@ void GameEngineUIRenderer::SetRenderGroup(int _Order)
 	GetLevel()->GetUICamera()->ChangeRendererGroup(_Order, this);
 }
 
-void GameEngineUIRenderer::TextSetting(std::string _FontName, std::string _PrintText, float _FontSize, unsigned int _Flags, float4 _Color, const float4& _FontPivot)
+void GameEngineUIRenderer::TextSetting(std::string _FontName, std::string _PrintText, float _FontSize, unsigned int _Flags, float4 _Color, const float4& _FontPivot, int _MaxLen)
 {
 	// 해당 UIRenderer는 텍스트를 사용하므로 Flag On
 	IsText_ = true;
@@ -90,17 +90,24 @@ void GameEngineUIRenderer::TextSetting(std::string _FontName, std::string _Print
 	Color_ = _Color;
 	Flags_ = _Flags;
 	FontPivot_ = _FontPivot;
+	MaxLen_ = _MaxLen;
 }
 
-void GameEngineUIRenderer::AddText(std::string _PrintText)
+bool GameEngineUIRenderer::AddText(std::string _PrintText)
 {
 	// 기존의 문자열에 해당 문자열을 병합한다.
-	// PrintText_
+	// 단, 입력가능 최대치를 넘어가면 병합불가
+	int Length = static_cast<int>(PrintText_.length());
+	if (Length <= MaxLen_)
+	{
+		PrintText_ += _PrintText;
+		return true;
+	}
 
-
+	return false;
 }
 
-void GameEngineUIRenderer::DelText()
+bool GameEngineUIRenderer::DelText()
 {
 	// 기존 문자열의 끝의 문자열을 삭제한다.
 	// PrintText_

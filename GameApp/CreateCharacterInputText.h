@@ -25,7 +25,7 @@ private: // InputTextBox Active Flag
 	bool InputBoxActive_;						// 활성화되면 ID 입력가능
 
 private: // Caret 관련
-
+	int CurCaretIndex_;
 
 private: // ID 관련(입력관리)
 	std::string InputText_;
@@ -59,10 +59,11 @@ public:
 
 public: // Input Text Function
 	void AddText(const std::string& _Text);
+	void DelText();
 
 
 public: // Caret Function
-	void SetCaretIndex(int _Index);
+	void SetCaretIndex();
 	void AddCaretIndex(int _Index);
 	void DelCaretIndex(int _Index);
 };
