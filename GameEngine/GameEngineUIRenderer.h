@@ -41,5 +41,7 @@ public:
 
 public: // Text ฐüทร
 	void TextSetting(std::string _FontName, std::string _PrintText, float _FontSize, unsigned int _Flags = 0, float4 _Color = float4::WHITE, const float4& _FontPivot = float4::ZERO);
+	void AddText(std::string _PrintText);
+	void DelText();
 };
 

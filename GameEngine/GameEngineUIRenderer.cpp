@@ -91,3 +91,19 @@ void GameEngineUIRenderer::TextSetting(std::string _FontName, std::string _Print
 	Flags_ = _Flags;
 	FontPivot_ = _FontPivot;
 }
+
+void GameEngineUIRenderer::AddText(std::string _PrintText)
+{
+	// 기존의 문자열에 해당 문자열을 병합한다.
+	// PrintText_
+
+
+}
+
+void GameEngineUIRenderer::DelText()
+{
+	// 기존 문자열의 끝의 문자열을 삭제한다.
+	// PrintText_
+
+
+}

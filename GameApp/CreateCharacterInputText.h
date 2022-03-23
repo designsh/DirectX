@@ -21,8 +21,15 @@ private:	// member Var
 	GameEngineUIRenderer*	IDInput_;			// ID 입력창
 	GameEngineCollision*	ActiveCollider_;	// ID 입력창 활성/비활성 여부 판단 충돌체
 
-private:
-	bool InputBoxActive_;
+private: // InputTextBox Active Flag
+	bool InputBoxActive_;						// 활성화되면 ID 입력가능
+
+private: // Caret 관련
+
+
+private: // ID 관련(입력관리)
+	std::string InputText_;
+
 
 public:
 	CreateCharacterInputText();
@@ -49,5 +56,14 @@ public:
 public:
 	void InputBoxActive(GameEngineCollision* _OtherCollision);
 	void CharacterIDInput();
+
+public: // Input Text Function
+	void AddText(const std::string& _Text);
+
+
+public: // Caret Function
+	void SetCaretIndex(int _Index);
+	void AddCaretIndex(int _Index);
+	void DelCaretIndex(int _Index);
 };
 
