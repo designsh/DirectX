@@ -65,6 +65,12 @@ void GameEngineString::WStringToString(const std::wstring& _Text, std::string& _
 
 std::wstring GameEngineString::StringToWStringReturn(const std::string& _Text)
 {
+	// 인자 수신받은 문자열이 비어있다면
+	if (true == _Text.empty())
+	{
+		return L"";
+	}
+
 	std::wstring Return;
 
 	int ConvertLength = MultiByteToWideChar(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), nullptr, 0);
@@ -88,7 +94,13 @@ std::wstring GameEngineString::StringToWStringReturn(const std::string& _Text)
 }
 
 std::string GameEngineString::WStringToStringReturn(const std::wstring& _Text)
-{
+{	
+	// 인자 수신받은 문자열이 비어있다면
+	if (true == _Text.empty())
+	{
+		return "";
+	}
+
 	std::string Return;
 
 	int ConvertLength = WideCharToMultiByte(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), nullptr, 0, nullptr, nullptr);
