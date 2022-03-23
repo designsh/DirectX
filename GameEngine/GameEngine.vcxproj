@@ -214,6 +214,8 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineWindow.h" />
+    <ClInclude Include="KeyboardClass.h" />
+    <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MouseActor.h">
       <SubType>
       </SubType>
@@ -417,6 +419,8 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineWindow.cpp" />
+    <ClCompile Include="KeyboardClass.cpp" />
+    <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="MouseActor.cpp">
       <SubType>
       </SubType>

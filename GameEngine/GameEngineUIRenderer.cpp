@@ -66,7 +66,7 @@ void GameEngineUIRenderer::Render()
 	GameEngineFont* Font = GameEngineFontManager::GetInst().Find(FontName_);
 	if (nullptr != Font)
 	{
-		Font->DrawFont(PrintText_, FontSize_, RenderPos, Color_, Flags_);
+		Font->DrawFont(PrintText_, FontSize_, RenderPos, FontPivot_, Color_, Flags_);
 	}
 
 	// Shader Reset
@@ -78,7 +78,7 @@ void GameEngineUIRenderer::SetRenderGroup(int _Order)
 	GetLevel()->GetUICamera()->ChangeRendererGroup(_Order, this);
 }
 
-void GameEngineUIRenderer::TextSetting(std::string _FontName, std::string _PrintText, float _FontSize, unsigned int _Flags, float4 _Color)
+void GameEngineUIRenderer::TextSetting(std::string _FontName, std::string _PrintText, float _FontSize, unsigned int _Flags, float4 _Color, const float4& _FontPivot)
 {
 	// 해당 UIRenderer는 텍스트를 사용하므로 Flag On
 	IsText_ = true;
@@ -89,4 +89,5 @@ void GameEngineUIRenderer::TextSetting(std::string _FontName, std::string _Print
 	FontSize_ = _FontSize;
 	Color_ = _Color;
 	Flags_ = _Flags;
+	FontPivot_ = _FontPivot;
 }

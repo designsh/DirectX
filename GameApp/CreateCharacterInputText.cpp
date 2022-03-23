@@ -36,6 +36,9 @@ void CreateCharacterInputText::Start()
 	IDInput_->SetImage("InputText.png", float4(169.f, 26.f, 1.f));
 	IDInput_->GetTransform()->SetLocalPosition(float4(0.f, -WindowSize.ihy() + 60.f));
 
+	// Text(max : 15)
+	IDInput_->TextSetting("diablo", "", 15, FW1_VCENTER | FW1_LEFT, float4::WHITE, float4(-82.5f, 0.f, 0.f));
+
 	ActiveCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	ActiveCollider_->GetTransform()->SetLocalScaling(float4(169.f, 26.f, 1.f));
 	ActiveCollider_->GetTransform()->SetLocalPosition(IDInput_->GetTransform()->GetLocalPosition());

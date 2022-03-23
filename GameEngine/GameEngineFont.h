@@ -32,6 +32,6 @@ protected:
 	void Load(const std::string& _FontFileName);
 
 public:
-	void DrawFont(const std::string& _Text, float _Size, const float4& _Pos, const float4& _Color, unsigned int _Flags = FW1_CENTER);
+	void DrawFont(const std::string& _Text, float _Size, const float4& _Pos, const float4& _PivotPos = float4::ZERO, const float4& _Color = float4::WHITE, unsigned int _Flags = FW1_CENTER);
 };
 

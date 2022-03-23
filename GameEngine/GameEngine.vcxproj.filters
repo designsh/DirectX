@@ -220,6 +220,9 @@
     <Filter Include="Lib\FW1Font">
       <UniqueIdentifier>{fd7d6767-0298-4fa2-9032-396e8d472d34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Control\Keyboard">
+      <UniqueIdentifier>{768e4c8d-8c92-41b8-9757-d2ae1c6c73ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -383,6 +386,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineFont.cpp">
       <Filter>Resources\07Font</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardClass.cpp">
+      <Filter>Control\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardEvent.cpp">
+      <Filter>Control\Keyboard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -553,6 +562,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineFont.h">
       <Filter>Resources\07Font</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardEvent.h">
+      <Filter>Control\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardClass.h">
+      <Filter>Control\Keyboard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
