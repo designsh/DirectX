@@ -7,6 +7,8 @@
 
 #include <GameEngineBase/GameEngineDirectory.h>
 
+#include "KeyboardClass.h"
+
 bool GameEngineWindow::WindowLoopFlag = true;
 
 // 포인터형 싱글톤
@@ -240,6 +242,75 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 			WindowLoopFlag = false;
 
 			break;
+		}
+
+		// ===================================================== 키보드입력을 그대로 받기위한 처리 ===================================================== //
+		case WM_CHAR:
+		{
+			unsigned char ch = static_cast<unsigned char>(_LValue);
+
+			// 예외처리 : 해당 키들은 input에 등록하여 사용함
+			if (ch == '\b') // BackSpace Key Down
+			{
+				int a = 0;
+
+				break;
+			}
+			else if (ch == '\r') // Enter Key Down
+			{
+				int a = 0;
+
+				break;
+			}
+			else if (ch == ' ') // Space Key Down
+			{
+				int a = 0;
+
+				break;
+			}
+
+			// 문자 입력에 의한 큐 등록
+			if (KeyboardClass::GetInst().IsCharsAutoRepeat())
+			{
+				KeyboardClass::GetInst().OnChar(ch);
+			}
+			else
+			{
+				const bool wasPressed = _LValue & 0x40000000;
+				if (!wasPressed)
+				{
+					KeyboardClass::GetInst().OnChar(ch);
+				}
+			}
+			return 0;
+
+			break;
+		}
+		case WM_KEYDOWN:
+		{
+			unsigned char keycode = static_cast<unsigned char>(_LValue);
+
+			if (KeyboardClass::GetInst().IsKeysAutoRepeat())
+			{
+				KeyboardClass::GetInst().OnKeyPressed(keycode);
+			}
+			else
+			{
+				const bool wasPressed = _SubValue & 0x40000000;
+				if (!wasPressed)
+				{
+					KeyboardClass::GetInst().OnKeyPressed(keycode);
+				}
+			}
+
+			return 0;
+		}
+		case WM_KEYUP:
+		{
+			unsigned char keycode = static_cast<unsigned char>(_LValue);
+			KeyboardClass::GetInst().OnKeyReleased(keycode);
+
+			return 0;
 		}
 		default:
 		{

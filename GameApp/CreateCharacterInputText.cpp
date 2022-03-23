@@ -17,6 +17,7 @@ std::string CreateCharacterInputText::GetInputID()
 CreateCharacterInputText::CreateCharacterInputText() :
 	IDInput_(nullptr),
 	ActiveCollider_(nullptr),
+	IDCaret_(nullptr),
 	InputBoxActive_(false),
 	CurCaretIndex_(0),
 	InputText_{}
@@ -34,6 +35,7 @@ void CreateCharacterInputText::Start()
 	GameEngineTexture* InputTextImage = GameEngineTextureManager::GetInst().Find("InputText.png");
 	float4 TextureSize = InputTextImage->GetTextureSize();
 
+	// InputText ID 입력창
 	IDInput_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	IDInput_->SetImage("InputText.png", float4(169.f, 26.f, 1.f));
 	IDInput_->GetTransform()->SetLocalPosition(float4(0.f, -WindowSize.ihy() + 60.f));
@@ -44,6 +46,10 @@ void CreateCharacterInputText::Start()
 	ActiveCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	ActiveCollider_->GetTransform()->SetLocalScaling(float4(169.f, 26.f, 1.f));
 	ActiveCollider_->GetTransform()->SetLocalPosition(IDInput_->GetTransform()->GetLocalPosition());
+
+	// InputText ID 입력창의 Caret
+	//IDCaret_ = CreateTransformComponent<GameEngineRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	
 }
 
 void CreateCharacterInputText::Update(float _DeltaTime)

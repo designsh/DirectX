@@ -37,6 +37,8 @@
 
 #include "GameEngineRenderingPipeLine.h"
 
+#include "KeyboardClass.h"
+
 class GameEngineManagerHelper
 {
 public:
@@ -44,6 +46,7 @@ public:
 	{
 		GameEngineSoundManager::Destroy();
 		GameEngineFontManager::Destroy();
+		KeyboardClass::Destroy();
 
 		GameEngineRenderingPipeLineManager::Destroy();
 

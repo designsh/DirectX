@@ -113,4 +113,7 @@ bool GameEngineUIRenderer::DelText()
 	// PrintText_
 
 
+
+
+	return true;
 }
