@@ -112,9 +112,14 @@ bool GameEngineUIRenderer::DelText()
 {
 	// 기존 문자열의 끝의 문자열을 삭제한다.
 	// PrintText_
+	int CurLen = static_cast<int>(PrintText_.length());
+	if (CurLen <= 0)
+	{
+		return false;
+	}
 
-
-
+	std::string::iterator EndIter = PrintText_.end() - 1;
+	PrintText_.erase(EndIter);
 
 	return true;
 }

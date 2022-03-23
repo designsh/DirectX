@@ -46,6 +46,11 @@ void CreateCharacterInputText::Start()
 	// InputText ID 입력창의 Caret
 	//IDCaret_ = CreateTransformComponent<GameEngineRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
 	
+	// 전용 키 생성
+	if (false == GameEngineInput::GetInst().IsKey("Delete_IDText"))
+	{
+		GameEngineInput::GetInst().CreateKey("Delete_IDText", VK_BACK);
+	}
 }
 
 void CreateCharacterInputText::Update(float _DeltaTime)
@@ -89,12 +94,14 @@ void CreateCharacterInputText::CharacterIDInput()
 		std::string SetStr = "";
 		unsigned char ReadChar = KeyboardClass::GetInst().ReadChar();
 		SetStr += ReadChar;
-		IDInput_->AddText(SetStr);
+		AddText(SetStr);
 	}
 
 	// 백스페이스 키이면 DelText() 호출
-
-
+	if (true == GameEngineInput::GetInst().Down("Delete_IDText"))
+	{
+		DelText();
+	}
 }
 
 void CreateCharacterInputText::AddText(const std::string& _Text)
