@@ -44,4 +44,11 @@ void AppShaderLoad()
 	//		GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Load(FileName + "_PS", ShaderFile.GetFullPath(), FileName + "_PS");
 	//	}
 	//}
+
+	// User Custom Shader
+
+
+
+
+
 }

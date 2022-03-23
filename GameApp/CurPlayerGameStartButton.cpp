@@ -156,7 +156,7 @@ void CurPlayerGameStartButton::CheckSameID()
 	}
 
 	// 2. 해당 ID를 파일명으로 가지는 파일이 존재하는지 탐색
-	if (true == DefaultPathFileNameCheck(CurID))
+	if (false == DefaultPathFileNameCheck(CurID))
 	{
 		// 같은 ID의 플레이어가 이미 존재합니다!!!! 경고창 표시
 		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
@@ -179,10 +179,10 @@ bool CurPlayerGameStartButton::DefaultPathFileNameCheck(const std::string& _Play
 	if (true == PlayerFileDir.CheckSameFileName(_PlayerID, ".dat"))
 	{
 		// 동일한 파일명을 찾음
-		return true;
+		return false;
 	}
 	
-	return false;
+	return true;
 }
 
 void CurPlayerGameStartButton::CreateCurPlayer(const std::string& _PlayerID)
