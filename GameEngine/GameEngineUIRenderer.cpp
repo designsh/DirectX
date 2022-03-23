@@ -117,3 +117,11 @@ bool GameEngineUIRenderer::DelText()
 
 	return true;
 }
+
+void GameEngineUIRenderer::AllDelText()
+{
+	if (false == PrintText_.empty())
+	{
+		PrintText_.clear();
+	}
+}

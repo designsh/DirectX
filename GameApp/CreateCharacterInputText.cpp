@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "CreateCharacterInputText.h"
 
+#include "ClassSelectObject.h"
+
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -16,9 +18,7 @@ std::string CreateCharacterInputText::GetInputID()
 
 CreateCharacterInputText::CreateCharacterInputText() :
 	IDInput_(nullptr),
-	ActiveCollider_(nullptr),
 	IDCaret_(nullptr),
-	InputBoxActive_(false),
 	CurCaretIndex_(0),
 	InputText_{}
 {
@@ -43,10 +43,6 @@ void CreateCharacterInputText::Start()
 	// Text(max : 15)
 	IDInput_->TextSetting("diablo", InputText_, 15, FW1_VCENTER | FW1_LEFT, float4::WHITE, float4(-82.5f, 0.f, 0.f), ID_MAX_LEN);
 
-	ActiveCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	ActiveCollider_->GetTransform()->SetLocalScaling(float4(169.f, 26.f, 1.f));
-	ActiveCollider_->GetTransform()->SetLocalPosition(IDInput_->GetTransform()->GetLocalPosition());
-
 	// InputText ID 입력창의 Caret
 	//IDCaret_ = CreateTransformComponent<GameEngineRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
 	
@@ -57,40 +53,28 @@ void CreateCharacterInputText::Update(float _DeltaTime)
 	// 디버그용
 	DebugRender();
 
-	// 마우스와 충돌체크
-	ActiveCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&CreateCharacterInputText::InputBoxActive, this, std::placeholders::_1));
-	
 	// 입력가능 상태라면 입력마다 InputID에 저장
-	if (true == InputBoxActive_)
+	if (JobType::None != ClassSelectObject::GetSelectClass())
 	{
 		CharacterIDInput();
 	}
-}
-
-void CreateCharacterInputText::ChangeStartReset()
-{
-	// 기존 입력 ID 삭제
-	InputText.clear();
-
-	// ID 입력창 비활성화
-	InputBoxActive_ = false;
+	else // 직업선탱이 되어있지않다면 키보드입력 버퍼 클리어
+	{
+		if (false == KeyboardClass::GetInst().CharBufferIsEmpty())
+		{
+			KeyboardClass::GetInst().DeleteCharBuffer();
+		}
+	}
 }
 
 void CreateCharacterInputText::DebugRender()
 {
-	GetLevel()->PushDebugRender(ActiveCollider_->GetTransform(), CollisionType::Rect);
 }
 
-void CreateCharacterInputText::InputBoxActive(GameEngineCollision* _OtherCollision)
+void CreateCharacterInputText::ChangeStartReset()
 {
-	// 마우스 왼쪽버튼 클릭시 ID입력창 활성화
-	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
-	{
-		if (false == InputBoxActive_)
-		{
-			InputBoxActive_ = true;
-		}
-	}
+	// 현재 입력된 ID가 존재한다면 삭제
+	IDInput_->AllDelText();
 }
 
 void CreateCharacterInputText::CharacterIDInput()

@@ -19,20 +19,15 @@ public:
 
 private: // InputText Box 관련
 	GameEngineUIRenderer*	IDInput_;			// ID 입력창
-	GameEngineCollision*	ActiveCollider_;	// ID 입력창 활성/비활성 여부 판단 충돌체
 
 private: // InputText Caret 관련
 	GameEngineRenderer*		IDCaret_;			// ID 입력창 캐럿(라인메쉬(점2개)을 이용하는 랜파만들어야함)
-
-private: // InputTextBox Active Flag
-	bool InputBoxActive_;						// 활성화되면 ID 입력가능
 
 private: // Caret 관련
 	int CurCaretIndex_;
 
 private: // ID 관련(입력관리)
 	std::string InputText_;
-
 
 public:
 	CreateCharacterInputText();
@@ -51,19 +46,15 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void DebugRender();
 	void ChangeStartReset();
 
 public:
-	void DebugRender();
-
-public:
-	void InputBoxActive(GameEngineCollision* _OtherCollision);
 	void CharacterIDInput();
 
 public: // Input Text Function
 	void AddText(const std::string& _Text);
 	void DelText();
-
 
 public: // Caret Function
 	void SetCaretIndex();
