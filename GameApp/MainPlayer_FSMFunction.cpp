@@ -64,7 +64,8 @@ void MainPlayer::StartTownNatural()
 
 void MainPlayer::UpdateTownNatural()
 {
-
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
 
 
 
@@ -72,7 +73,8 @@ void MainPlayer::UpdateTownNatural()
 
 void MainPlayer::EndTownNatural()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ============================ 걷기 ============================ //
@@ -92,10 +94,17 @@ void MainPlayer::StartTownWalk()
 
 void MainPlayer::UpdateTownWalk()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
+
 }
 
 void MainPlayer::EndTownWalk()
 {
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 필드 관련 ========================== //
@@ -118,12 +127,17 @@ void MainPlayer::StartFieldNatural()
 
 void MainPlayer::UpdateFieldNatural()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndFieldNatural()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ============================ 걷기 ============================ //
@@ -143,12 +157,17 @@ void MainPlayer::StartFieldWalk()
 
 void MainPlayer::UpdateFieldWalk()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndFieldWalk()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 공통 관련 ========================== //
@@ -170,12 +189,17 @@ void MainPlayer::StartAttack1()
 
 void MainPlayer::UpdateAttack1()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndAttack1()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 공격모션2 ========================== //
@@ -195,12 +219,17 @@ void MainPlayer::StartAttack2()
 
 void MainPlayer::UpdateAttack2()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndAttack2()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 방어모션 =========================== //
@@ -220,12 +249,17 @@ void MainPlayer::StartBlock()
 
 void MainPlayer::UpdateBlock()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndBlock()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 피격모션 =========================== //
@@ -245,12 +279,17 @@ void MainPlayer::StartGetHit()
 
 void MainPlayer::UpdateGetHit()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndGetHit()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 킥모션 ============================ //
@@ -270,12 +309,17 @@ void MainPlayer::StartKick()
 
 void MainPlayer::UpdateKick()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndKick()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 뛰기모션 =========================== //
@@ -295,12 +339,17 @@ void MainPlayer::StartRun()
 
 void MainPlayer::UpdateRun()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndRun()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ======================== 스킬공격모션 ========================= //
@@ -320,12 +369,17 @@ void MainPlayer::StartSkillAttack()
 
 void MainPlayer::UpdateSkillAttack()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndSkillAttack()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ======================= 스킬캐스팅모션 ======================== //
@@ -345,12 +399,17 @@ void MainPlayer::StartSkillCasting()
 
 void MainPlayer::UpdateSkillCasting()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndSkillCasting()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 사망 관련 ========================== //
@@ -372,12 +431,17 @@ void MainPlayer::StartDead()
 
 void MainPlayer::UpdateDead()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndDead()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }
 
 // ========================== 사망모션 =========================== //
@@ -386,7 +450,7 @@ void MainPlayer::StartDeath()
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_DT;
-
+	
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
@@ -397,10 +461,15 @@ void MainPlayer::StartDeath()
 
 void MainPlayer::UpdateDeath()
 {
+	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
+	AnimationFrameCheckZOrderChange();
+
+
 
 }
 
 void MainPlayer::EndDeath()
 {
-
+	// Animation Frame Check ZOrder Change Flag Off
+	IsZOrderChange_ = false;
 }

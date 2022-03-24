@@ -111,7 +111,8 @@ void MainPlayer::MoveStart()
 	{
 		if (true == IsTown_)
 		{
-			ChangeFSMState("Walk_Town");
+			//ChangeFSMState("Walk_Town");
+			ChangeFSMState("Attack1");
 		}
 		else
 		{

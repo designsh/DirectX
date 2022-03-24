@@ -20,6 +20,7 @@ MainPlayer::MainPlayer() :
 	IsLeftSkillList_(false),
 	IsStorehouse_(false),
 	IsMove_(false),
+	IsZOrderChange_(false),
 	State_(),
 	RenderSize_(float4(500.f, 500.f)),
 	PrevMoveTargetPos_(float4::ZERO),
@@ -119,16 +120,13 @@ void MainPlayer::Update(float _DeltaTime)
 	// 플레이어 관련 키체크
 	PlayerUIActiveKeyCheck();
 
-	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
-	AnimationFrameCheckZOrderChange();
-
 	// 상태별 행동패턴 처리
 	State_.Update();
 
 	// TEST
 	if (true == GameEngineInput::GetInst().Down("NextDirect"))
 	{
-		int a = 0;
+
 	}
 
 	if (true == GameEngineInput::GetInst().Down("PrevDirect"))

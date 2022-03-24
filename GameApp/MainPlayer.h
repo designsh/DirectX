@@ -132,6 +132,9 @@ private: // 플레이어상태관련 Flag
 
 private: // 플레이어 이동관련 Flag
 	bool IsMove_;											// 현재 플레이어 목표지점 이동 중
+
+private: // 플레이어 ZOrder 변경체크 Flag
+	bool IsZOrderChange_;									// 현재 플레이어 상태, 방향에 따른 애니메이션실행중 변경되어야하는 ZOrder로 셋팅할지 여부
 	
 private: // 플레이어 아이템착용관련 Flag
 	std::map<RendererPartType, bool> IsItemEquipState_;		// 각 부위별 아이템 착용상태 Flag
@@ -267,6 +270,7 @@ private: // 방향 처리 관련
 
 private: // ZOrder 변경처리 관련
 	void StateAndDirectChangeZOrder();
+	bool CalcCurAnimationFrame(GameEngineImageRenderer* _Renderer, int _CheckFrame);
 	void AnimationFrameCheckZOrderChange();
 	void Attack1ZorderCheckChange();
 	void Attack2ZorderCheckChange();

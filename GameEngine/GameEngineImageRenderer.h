@@ -91,6 +91,21 @@ public:
 		ResultColor_.a = _Value;
 	}
 
+	inline int GetCurAnimationFrame() const
+	{
+		return CurAnimation_->CurFrame_;
+	}
+
+	inline int GetStartAnimationFrame() const
+	{
+		return CurAnimation_->StartFrame_;
+	}
+
+	inline int GetEndAnimationFrame() const
+	{
+		return CurAnimation_->EndFrame_;
+	}
+
 private:
 	void Start() override;
 
