@@ -266,9 +266,22 @@ private: // 방향 처리 관련
 	void MoveStart();
 
 private: // ZOrder 변경처리 관련
-	void DirectChangeZOrder();
-	void AnimationFrameZOrderChange();
-
+	void StateAndDirectChangeZOrder();
+	void AnimationFrameCheckZOrderChange();
+	void Attack1ZorderCheckChange();
+	void Attack2ZorderCheckChange();
+	void BlockZorderCheckChange();
+	void DeadAndDeathZorderCheckChange();
+	void GetHitZorderCheckChange();
+	void KickZorderCheckChange();
+	void FieldIdleZorderCheckChange();
+	void RunZorderCheckChange();
+	void SkillAttackZorderCheckChange();
+	void SkillCastingZorderCheckChange();
+	void TownIdleZorderCheckChange();
+	void TownWalkZorderCheckChange();
+	void FieldWalkZorderCheckChange();
+	
 private: // FSM 처리관련
 	void ChangeCheckProcess();						// 상태 변경전 체크사항 처리
 	void ChangeFSMState(std::string _StateName);	// 상태 변경
@@ -328,9 +341,6 @@ private: // 애니메이션 변경관련
 	bool ItemEquipCheck(std::string& _AnimationName, RendererPartType _PartType);
 	bool RnderPartType(std::string& _AnimationName, RendererPartType _PartType);
 	bool RenderDirectCheck(std::string& _AnimationName);
-
-private: // ZOrder 변경관련
-	void ChangeZOrderType(int _Index, ItemEquipState _ItemEquipType);
 #pragma endregion
 
 #pragma region ItemPutOnAndOffFunction

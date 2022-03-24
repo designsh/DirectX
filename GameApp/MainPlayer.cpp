@@ -21,7 +21,7 @@ MainPlayer::MainPlayer() :
 	IsStorehouse_(false),
 	IsMove_(false),
 	State_(),
-	RenderSize_(float4(256.f, 256.f)),
+	RenderSize_(float4(500.f, 500.f)),
 	PrevMoveTargetPos_(float4::ZERO),
 	CurMoveTargetPos_(float4::ZERO),
 	PrevDirect_(TargetDirect::DIR_B),
