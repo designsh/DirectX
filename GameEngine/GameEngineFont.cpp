@@ -39,10 +39,13 @@ void GameEngineFont::Load(const std::string& _FontFileName)
 
 void GameEngineFont::DrawFont(const std::string& _Text, float _Size, const float4& _Pos, const float4& _PivotPos, const float4& _Color, unsigned int _Flags)
 {
-	// Pivot 값을 포함한 위치 계산
-	float4 DrawPos = _Pos;
-	DrawPos += _PivotPos;
+	if (nullptr != FontWrapper_)
+	{
+		// Pivot 값을 포함한 위치 계산
+		float4 DrawPos = _Pos;
+		DrawPos += _PivotPos;
 
-	std::wstring wText = GameEngineString::StringToWStringReturn(_Text);
-	FontWrapper_->DrawString(GameEngineDevice::GetContext(), wText.c_str(), _Size, DrawPos.x, DrawPos.y, _Color.ColorToUint(), _Flags);
+		std::wstring wText = GameEngineString::StringToWStringReturn(_Text);
+		FontWrapper_->DrawString(GameEngineDevice::GetContext(), wText.c_str(), _Size, DrawPos.x, DrawPos.y, _Color.ColorToUint(), _Flags);
+	}
 }

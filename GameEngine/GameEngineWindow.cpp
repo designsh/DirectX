@@ -207,6 +207,7 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 			FontPathName += "\\diablo.ttf";
 
 			AddFontResource(FontPathName.c_str());
+			//AddFontResourceEx(FontPathName.c_str(), FR_PRIVATE, 0);
 
 
 			break;
@@ -238,6 +239,7 @@ __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsig
 			FontPathName += "\\diablo.ttf";
 
 			RemoveFontResource(FontPathName.c_str());
+			//RemoveFontResourceEx(FontPathName.c_str(), FR_PRIVATE, 0);
 
 			WindowLoopFlag = false;
 

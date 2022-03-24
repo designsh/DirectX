@@ -36,7 +36,8 @@ void UserGame::ResourcesLoad()
 	}
 
 	// Font Load
-	GameEngineFontManager::GetInst().Load("diablo");
+	//GameEngineFontManager::GetInst().Load("diablo");
+	GameEngineFontManager::GetInst().Load("Arial");
 
 	// 인게임 관련 모든 정보 로드(추후 로딩레벨로 이동 고민중.....)
 	
