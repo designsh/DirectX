@@ -224,24 +224,9 @@ void MainPlayer::ZorderCheckChange()
 			// _CheckFrame과 동일하면 true 반환
 			if (ChangeEndFrame == CurFrame)
 			{
+				// 다음 변경 ZOrder 체크를 위해 인덱스 증가
 				DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeCurIndex_ += 1;
 			}
 		}
-
-
-
-		// DirectRenderOrder_[static_cast<int>(PlayerState::STAT_A1)][static_cast<int>(TargetDirect::DIR_LB)].UnderChangeCurIndex_ 를 증가
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 }
