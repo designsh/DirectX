@@ -10,6 +10,7 @@
 #include "GameEngineDebugRenderData.h"
 #include "GameEngineRenderTarget.h"
 #include "GameEngineUIRenderer.h"
+#include "GameEngineGUI.h"
 
 GameEngineLevel::GameEngineLevel() :
 	MainCameraActor_(nullptr),
@@ -130,6 +131,10 @@ void GameEngineLevel::Render()
 	// 병합 : 본래의 타겟에 그려져있는 렌더들을 지우지않고 그대로 합치는 것
 	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
 	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
+
+	// IMGUI Render
+	GameEngineGUI::GetInst()->GUIRenderStart();
+	GameEngineGUI::GetInst()->GUIRenderEnd();
 
 	// 스왑체인(화면에 뿌려라)
 	GameEngineDevice::RenderEnd();

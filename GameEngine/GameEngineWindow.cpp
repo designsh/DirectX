@@ -9,6 +9,7 @@
 
 #include "KeyboardClass.h"
 
+std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> GameEngineWindow::MessageCallBack_ = nullptr;
 bool GameEngineWindow::WindowLoopFlag = true;
 
 // Æ÷ÀÎÅÍÇü ½Ì±ÛÅæ
@@ -193,6 +194,14 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
 
 __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue)
 {
+	if (nullptr != GameEngineWindow::MessageCallBack_)
+	{
+		if (0 != GameEngineWindow::MessageCallBack_(_hWnd, _EventType, _LValue, _SubValue))
+		{
+			return true;
+		}
+	}
+
 	switch (_EventType)
 	{
 		case WM_CREATE :

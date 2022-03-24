@@ -37,9 +37,14 @@ VertexOut Texture_VS(VertexIn _in)
 Texture2D Tex : register(t0);
 SamplerState Smp : register(s0);
 
+cbuffer ResultColor : register(b0)
+{
+    float4 vColor;
+};
+
 float4 Texture_PS(VertexOut _in) : SV_Target0
 {
-    float4 Color = Tex.Sample(Smp, _in.Texcoord.xy);
+    float4 Color = Tex.Sample(Smp, _in.Texcoord.xy) * vColor;
     return Color;
 }
 

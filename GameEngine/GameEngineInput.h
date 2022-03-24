@@ -92,6 +92,12 @@ public: // member func
             return;
         }
 
+        // TopUpper
+        if ('a' <= _Key && 'z' >= _Key)
+        {
+            _Key = std::toupper(_Key);
+        }
+
         GameEngineKey* NewKey = new GameEngineKey();
         NewKey->Reset();
         NewKey->PushKey(_Key);

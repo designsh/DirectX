@@ -7,8 +7,11 @@
 // Ό³Έν : 
 class GameEngineWindow : public GameEngineObjectNameBase
 {
+	friend LRESULT CALLBACK WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue);
+
 private:
 	static bool WindowLoopFlag;
+	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> MessageCallBack_;
 	static GameEngineWindow* Inst;
 
 public:
@@ -24,6 +27,12 @@ public:
 			delete Inst;
 			Inst = nullptr;
 		}
+	}
+
+public:
+	static inline void SetMessageCallBack(std::function<LRESULT(HWND, unsigned int, unsigned __int64, __int64)> _CallBack)
+	{
+		MessageCallBack_ = _CallBack;
 	}
 
 private:

@@ -8,7 +8,8 @@
 GameEngineImageRenderer::GameEngineImageRenderer() :
 	CurAnimation_(nullptr),
 	CurTexture_(nullptr),
-	CutData_(0, 0, 1, 1)
+	CutData_(0, 0, 1, 1),
+	ResultColor_(float4::ONE)
 {
 }
 
@@ -75,6 +76,9 @@ void GameEngineImageRenderer::Update(float _DeltaTime)
 void GameEngineImageRenderer::ImageRendererStart()
 {
 	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData_);
+
+	ResultColor_ = float4::ONE;
+	ShaderHelper.SettingConstantBufferLink("ResultColor", ResultColor_);
 }
 
 void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop)
@@ -455,7 +459,7 @@ void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
 
 			IsEnd_ = true;
 
-			CurFrame_ = StartFrame_;
+			CurFrame_ = EndFrame_;
 		}
 	}
 }

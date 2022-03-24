@@ -47,6 +47,7 @@ private:
 	std::map<std::string, Animation2D*>									AllAnimations_;			// 애니메이션 관리 목록
 	Animation2D*														CurAnimation_;			// 현재 애니메이션
 	float4																CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
+	float4																ResultColor_;			// 알파 조절값
 
 // ==================================== Image 관련 ==================================== //
 private:
@@ -83,6 +84,11 @@ public:
 	inline bool IsCurrentAnimationPtr(const char* _Name)
 	{
 		return CurAnimation_->GetName() == _Name;
+	}
+
+	inline void SetAlpha(float _Value)
+	{
+		ResultColor_.a = _Value;
 	}
 
 private:
