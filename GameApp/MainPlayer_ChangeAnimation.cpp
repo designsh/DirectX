@@ -57,9 +57,6 @@ void MainPlayer::ChangeAnimation(const std::string& _CurStateName)
 		// 크기 지정
 		PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->GetTransform()->SetLocalScaling(RenderSize_);
 	}
-
-	// 프레임마다 ZOrder 체크
-	AnimationFrameCheckZOrderChange();
 }
 
 bool MainPlayer::ItemEquipCheck(std::string& _AnimationName, RendererPartType _PartType)

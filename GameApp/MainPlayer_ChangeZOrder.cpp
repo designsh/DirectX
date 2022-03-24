@@ -61,28 +61,6 @@ void MainPlayer::StateAndDirectChangeZOrder()
 // 매 프레임마다 애니메이션 특정 프레임에 ZOrder가 변경되는지를 판단하여 ZOrder를 변경한다.
 void MainPlayer::AnimationFrameCheckZOrderChange()
 {
-	int PartRendererCnt = static_cast<int>(PartRenderer_.size());
-	for (int i = 0; i < PartRendererCnt; ++i)
-	{
-		std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(static_cast<RendererPartType>(i));
-		bool ItemEquipFlag = FindIter->second;
-		if (false == ItemEquipFlag) // 아이템 미착용
-		{
-
-		}
-		else
-		{
-
-		}
-
-
-
-
-	}
-
-
-
-
 	switch (CurState_)
 	{
 		case PlayerState::STAT_A1:
@@ -103,8 +81,8 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 		case PlayerState::STAT_DD:
 		case PlayerState::STAT_DT:
 		{
-			DeadAndDeathZorderCheckChange();
-			break;
+			// TR 파트만 존재하므로 기본 상태 유지
+			return;
 		}
 		case PlayerState::STAT_GH:
 		{
@@ -161,7 +139,26 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 
 void MainPlayer::Attack1ZorderCheckChange()
 {
+	// 
 
+	int PartRendererCnt = static_cast<int>(PartRenderer_.size());
+	for (int i = 0; i < PartRendererCnt; ++i)
+	{
+		std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(static_cast<RendererPartType>(i));
+		bool ItemEquipFlag = FindIter->second;
+		if (false == ItemEquipFlag) // 아이템 미착용
+		{
+
+		}
+		else
+		{
+
+		}
+
+
+
+
+	}
 }
 
 void MainPlayer::Attack2ZorderCheckChange()
@@ -171,12 +168,6 @@ void MainPlayer::Attack2ZorderCheckChange()
 
 void MainPlayer::BlockZorderCheckChange()
 {
-
-}
-
-void MainPlayer::DeadAndDeathZorderCheckChange()
-{
-	// TR 파트를 제외한 모든 부위가 하위에의 Zorder를 가진다.
 
 }
 
