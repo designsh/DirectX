@@ -61,14 +61,6 @@ void MainPlayer::StateAndDirectChangeZOrder()
 // 매 프레임마다 애니메이션 특정 프레임에 ZOrder가 변경되는지를 판단하여 ZOrder를 변경한다.
 void MainPlayer::AnimationFrameCheckZOrderChange()
 {
-	// 현재 
-
-
-
-	// 현재 애니메이션의 현재 프레임 Get
-
-
-
 	switch (CurState_)
 	{
 		case PlayerState::STAT_A1:
@@ -82,10 +74,6 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 			break;
 		}
 		case PlayerState::STAT_BL:
-		{
-			// Animation Frame별 ZOrder 변화없음
-			return;
-		}
 		case PlayerState::STAT_DD:
 		case PlayerState::STAT_DT:
 		{
