@@ -194,6 +194,7 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
 
 __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue)
 {
+	// IMGUI Message Proc
 	if (nullptr != GameEngineWindow::MessageCallBack_)
 	{
 		if (0 != GameEngineWindow::MessageCallBack_(_hWnd, _EventType, _LValue, _SubValue))
