@@ -151,7 +151,7 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 		}
 
 		// 현재 애니메이션의 시작프레임과 종료프레임을 체크하여 일정범위의 프레임을 반환
-		if (true == CalcCurAnimationFrame(CurRenderer, CheckAnimationFrame))
+		if (true == DefaultZOrderEndFrameCheck(CurRenderer, CheckAnimationFrame))
 		{
 			// 단, 현재 상태의 현재 방향의 변경되는 ZOrder값이 false이면 Flag On 못함
 			if (false != DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrderFlag_)
@@ -162,7 +162,7 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 	}
 }
 
-bool MainPlayer::CalcCurAnimationFrame(GameEngineImageRenderer* _Renderer, int _CheckFrame)
+bool MainPlayer::DefaultZOrderEndFrameCheck(GameEngineImageRenderer* _Renderer, int _CheckFrame)
 {
 	// 현재 렌더러 애니메이션의 시작프레임과 종료프레임을 이용하여 현재 애니메이션 프레임을 
 	int StartFrame = _Renderer->GetStartAnimationFrame();

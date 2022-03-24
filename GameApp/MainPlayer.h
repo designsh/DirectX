@@ -270,7 +270,7 @@ private: // 规氢 贸府 包访
 
 private: // ZOrder 函版贸府 包访
 	void StateAndDirectChangeZOrder();
-	bool CalcCurAnimationFrame(GameEngineImageRenderer* _Renderer, int _CheckFrame);
+	bool DefaultZOrderEndFrameCheck(GameEngineImageRenderer* _Renderer, int _CheckFrame);
 	void AnimationFrameCheckZOrderChange();
 	void Attack1ZorderCheckChange();
 	void Attack2ZorderCheckChange();
