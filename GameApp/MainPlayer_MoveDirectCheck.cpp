@@ -111,9 +111,7 @@ void MainPlayer::MoveStart()
 	{
 		if (true == IsTown_)
 		{
-			// 220325 SJH : ZOrder 변경로직 제작을 위해 임시변경
-			//ChangeFSMState("Walk_Town");
-			ChangeFSMState("Attack1");
+			ChangeFSMState("Walk_Town");
 		}
 		else
 		{

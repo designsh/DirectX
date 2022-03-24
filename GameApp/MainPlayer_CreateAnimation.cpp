@@ -1915,7 +1915,7 @@ void MainPlayer::CreateWLAnimation()
 	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->CreateAnimation("LIT_Walk_Field_S1.png", "LIT_Walk_Field_S1_B", 32, 39, 0.1f);
 	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->CreateAnimation("LIT_Walk_Field_S1.png", "LIT_Walk_Field_S1_L", 40, 47, 0.1f);
 	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->CreateAnimation("LIT_Walk_Field_S1.png", "LIT_Walk_Field_S1_T", 48, 55, 0.1f);
-	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->CreateAnimation("LIT_Walk_Field_S1.png", "LIT_WaSlk_Field_S1_R", 56, 63, 0.1f);
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->CreateAnimation("LIT_Walk_Field_S1.png", "LIT_Walk_Field_S1_R", 56, 63, 0.1f);
 
 	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->CreateAnimation("LIT_Walk_Field_S2.png", "LIT_Walk_Field_S2_LB", 0, 7, 0.1f);
 	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->CreateAnimation("LIT_Walk_Field_S2.png", "LIT_Walk_Field_S2_LT", 8, 15, 0.1f);

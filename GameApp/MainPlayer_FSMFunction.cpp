@@ -74,7 +74,7 @@ void MainPlayer::UpdateTownNatural()
 void MainPlayer::EndTownNatural()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ============================ 걷기 ============================ //
@@ -104,7 +104,7 @@ void MainPlayer::UpdateTownWalk()
 void MainPlayer::EndTownWalk()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 필드 관련 ========================== //
@@ -137,7 +137,7 @@ void MainPlayer::UpdateFieldNatural()
 void MainPlayer::EndFieldNatural()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ============================ 걷기 ============================ //
@@ -167,7 +167,7 @@ void MainPlayer::UpdateFieldWalk()
 void MainPlayer::EndFieldWalk()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 공통 관련 ========================== //
@@ -199,7 +199,7 @@ void MainPlayer::UpdateAttack1()
 void MainPlayer::EndAttack1()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 공격모션2 ========================== //
@@ -229,7 +229,7 @@ void MainPlayer::UpdateAttack2()
 void MainPlayer::EndAttack2()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 방어모션 =========================== //
@@ -259,7 +259,7 @@ void MainPlayer::UpdateBlock()
 void MainPlayer::EndBlock()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 피격모션 =========================== //
@@ -289,7 +289,7 @@ void MainPlayer::UpdateGetHit()
 void MainPlayer::EndGetHit()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 킥모션 ============================ //
@@ -319,7 +319,7 @@ void MainPlayer::UpdateKick()
 void MainPlayer::EndKick()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 뛰기모션 =========================== //
@@ -349,7 +349,7 @@ void MainPlayer::UpdateRun()
 void MainPlayer::EndRun()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ======================== 스킬공격모션 ========================= //
@@ -379,7 +379,7 @@ void MainPlayer::UpdateSkillAttack()
 void MainPlayer::EndSkillAttack()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ======================= 스킬캐스팅모션 ======================== //
@@ -409,7 +409,7 @@ void MainPlayer::UpdateSkillCasting()
 void MainPlayer::EndSkillCasting()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 사망 관련 ========================== //
@@ -441,7 +441,7 @@ void MainPlayer::UpdateDead()
 void MainPlayer::EndDead()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }
 
 // ========================== 사망모션 =========================== //
@@ -471,5 +471,5 @@ void MainPlayer::UpdateDeath()
 void MainPlayer::EndDeath()
 {
 	// Animation Frame Check ZOrder Change Flag Off
-	IsZOrderChange_ = false;
+	IsDefaultZOrderChangeChk_ = false;
 }

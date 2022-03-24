@@ -6,7 +6,7 @@
 // 현재 상태가 바뀌거나 현재 이동방향이 바뀔때 호출되는 함수로, DirectRenderOrder_의 DefaultZOrder_로 ZOrder를 초기 셋팅한다.
 void MainPlayer::StateAndDirectChangeZOrder()
 {
-	if (false == IsZOrderChange_)
+	if (false == IsDefaultZOrderChangeChk_)
 	{
 		// 사망 모션과 시체 모션은 TR 타입렌더러만 On 상태이므로 다른 파트는 0으로 셋팅하고 TR파트만 1로변경한다.
 		if (PlayerState::STAT_DD == CurState_ || PlayerState::STAT_DT == CurState_)
@@ -64,7 +64,7 @@ void MainPlayer::StateAndDirectChangeZOrder()
 // 매 프레임마다 애니메이션 특정 프레임에 ZOrder가 변경되는지를 판단하여 ZOrder를 변경한다.
 void MainPlayer::AnimationFrameCheckZOrderChange()
 {
-	if (true == IsZOrderChange_)
+	if (true == IsDefaultZOrderChangeChk_)
 	{
 		switch (CurState_)
 		{
@@ -91,15 +91,20 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 			default:
 			{				
 				// Animation Frame별 ZOrder 변화없음
-				IsZOrderChange_ = false;
+				IsDefaultZOrderChangeChk_ = false;
 				return;
 			}
 		}
 	}
 
 	// 기본 ZOrder의 마지막인덱스 프레임이 종료되었다면 Flag On
-	if (false == IsZOrderChange_)
+	if (false == IsDefaultZOrderChangeChk_)
 	{
+		if (CurState_ == PlayerState::STAT_DD || CurState_ == PlayerState::STAT_DT)
+		{
+			return;
+		}
+
 		GameEngineImageRenderer* CurRenderer = nullptr;
 		int CheckAnimationFrame = DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].DefaultEndIndex_;
 		std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(static_cast<RendererPartType>(RendererPartType::PART_TR));
@@ -119,7 +124,7 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 			// 단, 현재 상태의 현재 방향의 변경되는 ZOrder값이 false이면 Flag On 못함
 			if (false != DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrderFlag_)
 			{
-				IsZOrderChange_ = true;
+				IsDefaultZOrderChangeChk_ = true;
 			}
 		}
 	}
@@ -148,8 +153,9 @@ bool MainPlayer::DefaultZOrderEndFrameCheck(GameEngineImageRenderer* _Renderer, 
 
 void MainPlayer::ZorderCheckChange()
 {	
-	// 현재 인덱스가 최대갯수와 같거나 커지면 변경완료 되었으므로 원래의 ZOrder로 돌아간다.
 	int Index = DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeCurIndex_;
+
+	// 현재 인덱스가 최대갯수와 같거나 커지면 변경완료 되었으므로 원래의 ZOrder로 돌아간다.
 	if (Index >= DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrderCnt_)
 	{
 		// 변경횟수를 넘어가면 현재 인덱스를 초기화하고,
@@ -174,55 +180,103 @@ void MainPlayer::ZorderCheckChange()
 		}
 
 		// Flag 해제
-		IsZOrderChange_ = false;
+		IsDefaultZOrderChangeChk_ = false;
 
 		return;
 	}
 
-	// 현재 변경되는 ZOrder의 인덱스의 StartIndex와 현재 실행중인 애니메이션의 CurFrame이 같다면 해당 ZOrder로 변경하고
-	int ChangeStartFrame = DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrder_[Index].ChangeStartIndex_;
-
-
-
-
-
-
-
-
-
-
-
-	// 현재 변경되는 ZOrder의 인덱스의 EndIndex와 현재 실행중인 애니메이션의 CurFrame이 같다면 UnderChangeCurIndex_를 증가시킨다.
-	int ChangeEndFrame = DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrder_[Index].ChangeEndIndex_;
-
-	GameEngineImageRenderer* CurRenderer = nullptr;
-	std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(static_cast<RendererPartType>(RendererPartType::PART_TR));
-	bool ItemEquipType = FindIter->second;
-	if (false == ItemEquipType)
+	if (false == IsFrameZOrderChangeChk_)
 	{
-		CurRenderer = PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)];
-	}
-	else
-	{
-		CurRenderer = PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)];
-	}
+		// 현재 변경되는 ZOrder의 인덱스의 StartIndex와 현재 실행중인 애니메이션의 CurFrame이 같다면 해당 ZOrder로 변경하고
+		int ChangeStartFrame = DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrder_[Index].ChangeStartIndex_;
 
-	if (nullptr != CurRenderer)
-	{
-		int StartFrame = CurRenderer->GetStartAnimationFrame();
-		int CurFrame = CurRenderer->GetCurAnimationFrame();
-
-		// 프레임 계산
-		if (0 != StartFrame)
+		GameEngineImageRenderer* CurRenderer = nullptr;
+		std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(static_cast<RendererPartType>(RendererPartType::PART_TR));
+		bool ItemEquipType = FindIter->second;
+		if (false == ItemEquipType)
 		{
-			CurFrame = CurFrame % StartFrame;
+			CurRenderer = PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)];
+		}
+		else
+		{
+			CurRenderer = PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)];
 		}
 
-		// _CheckFrame과 동일하면 true 반환
-		if (ChangeEndFrame == CurFrame)
+		if (nullptr != CurRenderer)
 		{
-			// 다음 변경 ZOrder 체크를 위해 인덱스 증가
-			DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeCurIndex_ += 1;
+			int StartFrame = CurRenderer->GetStartAnimationFrame();
+			int CurFrame = CurRenderer->GetCurAnimationFrame();
+
+			// 프레임 계산
+			if (0 != StartFrame)
+			{
+				CurFrame = CurFrame % StartFrame;
+			}
+
+			// _CheckFrame과 동일하면 true 반환
+			if (ChangeStartFrame == CurFrame)
+			{
+				// 현재 ZOrder로 변경
+				int PartCnt = static_cast<int>(PartRenderer_.size());
+				for (int i = 0; i < PartCnt; ++i)
+				{
+					std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(static_cast<RendererPartType>(i));
+					bool ItemEquipFlag = FindIter->second;
+					if (false == ItemEquipFlag) // 아이템 미착용
+					{
+						float ZOrder = static_cast<float>(DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].DefaultZOrder_[i]);
+						PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetZOrder(ZOrder);
+					}
+					else // 아이템 착용
+					{
+						float ZOrder = static_cast<float>(DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].DefaultZOrder_[i]);
+						PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetZOrder(ZOrder);
+					}
+				}
+
+				// 현재 ZOrder의 종료프레임체크를 위해 Flag On
+				IsFrameZOrderChangeChk_ = true;
+			}
+		}
+	}
+
+	if (true == IsFrameZOrderChangeChk_)
+	{
+		// 현재 변경되는 ZOrder의 인덱스의 EndIndex와 현재 실행중인 애니메이션의 CurFrame이 같다면 UnderChangeCurIndex_를 증가시킨다.
+		int ChangeEndFrame = DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrder_[Index].ChangeEndIndex_;
+
+		GameEngineImageRenderer* CurRenderer = nullptr;
+		std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(static_cast<RendererPartType>(RendererPartType::PART_TR));
+		bool ItemEquipType = FindIter->second;
+		if (false == ItemEquipType)
+		{
+			CurRenderer = PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)];
+		}
+		else
+		{
+			CurRenderer = PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)];
+		}
+
+		if (nullptr != CurRenderer)
+		{
+			int StartFrame = CurRenderer->GetStartAnimationFrame();
+			int CurFrame = CurRenderer->GetCurAnimationFrame();
+
+			// 프레임 계산
+			if (0 != StartFrame)
+			{
+				CurFrame = CurFrame % StartFrame;
+			}
+
+			// _CheckFrame과 동일하면 true 반환
+			if (ChangeEndFrame == CurFrame)
+			{
+				// 다음 변경 ZOrder 체크를 위해 인덱스 증가
+				DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeCurIndex_ += 1;
+
+				// 다음 변경된 인덱스의 ZOrder 체크를 위해 Flag 해제
+				IsFrameZOrderChangeChk_ = false;
+			}
 		}
 	}
 }
