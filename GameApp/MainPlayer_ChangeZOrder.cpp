@@ -61,6 +61,14 @@ void MainPlayer::StateAndDirectChangeZOrder()
 // 매 프레임마다 애니메이션 특정 프레임에 ZOrder가 변경되는지를 판단하여 ZOrder를 변경한다.
 void MainPlayer::AnimationFrameCheckZOrderChange()
 {
+	// 현재 
+
+
+
+	// 현재 애니메이션의 현재 프레임 Get
+
+
+
 	switch (CurState_)
 	{
 		case PlayerState::STAT_A1:
@@ -75,13 +83,13 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 		}
 		case PlayerState::STAT_BL:
 		{
-			BlockZorderCheckChange();
-			break;
+			// Animation Frame별 ZOrder 변화없음
+			return;
 		}
 		case PlayerState::STAT_DD:
 		case PlayerState::STAT_DT:
 		{
-			// TR 파트만 존재하므로 기본 상태 유지
+			// Animation Frame별 ZOrder 변화없음
 			return;
 		}
 		case PlayerState::STAT_GH:
@@ -96,8 +104,8 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 		}
 		case PlayerState::STAT_NU:
 		{
-			FieldIdleZorderCheckChange();
-			break;
+			// Animation Frame별 ZOrder 변화없음
+			return;
 		}
 		case PlayerState::STAT_RN:
 		{
@@ -120,14 +128,10 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 			break;
 		}
 		case PlayerState::STAT_TW:
-		{
-			TownWalkZorderCheckChange();
-			break;
-		}
 		case PlayerState::STAT_WL:
 		{
-			FieldWalkZorderCheckChange();
-			break;
+			// Animation Frame별 ZOrder 변화없음
+			return;
 		}
 		case PlayerState::STAT_MAX:
 		default:
@@ -166,22 +170,12 @@ void MainPlayer::Attack2ZorderCheckChange()
 
 }
 
-void MainPlayer::BlockZorderCheckChange()
-{
-
-}
-
 void MainPlayer::GetHitZorderCheckChange()
 {
 
 }
 
 void MainPlayer::KickZorderCheckChange()
-{
-
-}
-
-void MainPlayer::FieldIdleZorderCheckChange()
 {
 
 }
@@ -202,16 +196,6 @@ void MainPlayer::SkillCastingZorderCheckChange()
 }
 
 void MainPlayer::TownIdleZorderCheckChange()
-{
-
-}
-
-void MainPlayer::TownWalkZorderCheckChange()
-{
-
-}
-
-void MainPlayer::FieldWalkZorderCheckChange()
 {
 
 }

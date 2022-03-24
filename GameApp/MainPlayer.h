@@ -270,17 +270,12 @@ private: // ZOrder 변경처리 관련
 	void AnimationFrameCheckZOrderChange();
 	void Attack1ZorderCheckChange();
 	void Attack2ZorderCheckChange();
-	void BlockZorderCheckChange();
-	void DeadAndDeathZorderCheckChange();
 	void GetHitZorderCheckChange();
 	void KickZorderCheckChange();
-	void FieldIdleZorderCheckChange();
 	void RunZorderCheckChange();
 	void SkillAttackZorderCheckChange();
 	void SkillCastingZorderCheckChange();
 	void TownIdleZorderCheckChange();
-	void TownWalkZorderCheckChange();
-	void FieldWalkZorderCheckChange();
 	
 private: // FSM 처리관련
 	void ChangeCheckProcess();						// 상태 변경전 체크사항 처리
