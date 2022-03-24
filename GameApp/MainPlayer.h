@@ -272,14 +272,7 @@ private: // ZOrder 변경처리 관련
 	void StateAndDirectChangeZOrder();
 	bool DefaultZOrderEndFrameCheck(GameEngineImageRenderer* _Renderer, int _CheckFrame);
 	void AnimationFrameCheckZOrderChange();
-	void Attack1ZorderCheckChange();
-	void Attack2ZorderCheckChange();
-	void GetHitZorderCheckChange();
-	void KickZorderCheckChange();
-	void RunZorderCheckChange();
-	void SkillAttackZorderCheckChange();
-	void SkillCastingZorderCheckChange();
-	void TownIdleZorderCheckChange();
+	void ZorderCheckChange();
 	
 private: // FSM 처리관련
 	void ChangeCheckProcess();						// 상태 변경전 체크사항 처리
