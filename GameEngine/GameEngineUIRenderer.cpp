@@ -13,11 +13,6 @@
 
 GameEngineRenderTarget* GameEngineUIRenderer::FontTarget_ = nullptr;
 
-void GameEngineUIRenderer::GlobalFontTargetClear()
-{
-	FontTarget_->Clear();
-}
-
 GameEngineUIRenderer::GameEngineUIRenderer() :
 	IsText_(false),
 	FontName_("궁서"),
@@ -66,6 +61,8 @@ void GameEngineUIRenderer::Render()
 
 	// Font 전용 렌더타겟 셋팅으로 변경 및 UI RenderTaret으로 재전환하기위해 현재 마지막 렌더타겟 저장
 	GameEngineRenderTarget* UIRenderTarget = GameEngineRenderTarget::GetLastRenderTarget();
+
+	FontTarget_->Clear();
 	FontTarget_->Setting();
 
 	// UIRenderer는 화면의 중앙을 원점(0,0,0)을 기준으로 설정되어있고,

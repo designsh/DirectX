@@ -115,9 +115,6 @@ void GameEngineLevel::Render()
 	// 백버퍼(스왑체인이 제공한 렌더타겟) 클리어
 	GameEngineDevice::RenderStart();
 
-	// Global Font RenderTarget Clear
-	GameEngineUIRenderer::GlobalFontTargetClear();
-
 	// 메인카메라가 들고있는 렌더타겟 클리어
 	MainCameraActor_->GetCamera()->ClearCameraTarget();
 

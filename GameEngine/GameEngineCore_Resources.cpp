@@ -283,6 +283,7 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetInputAssembler1InputLayOutSetting("TargetMerge_VS");
 		Pipe->SetVertexShader("TargetMerge_VS");
 		Pipe->SetPixelShader("TargetMerge_PS");
+		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
 	}
 
 	{
