@@ -7,7 +7,7 @@
 #include "GlobalValue.h"
 
 BottomStateBar::BottomStateBar() :
-	BottomStateBar_(nullptr)
+	Panel_(nullptr)
 {
 }
 
@@ -24,9 +24,9 @@ void BottomStateBar::Start()
 	float4 ImageHarfSize = ImageSize.halffloat4();
 
 	// 하단상태바 틀
-	BottomStateBar_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
-	BottomStateBar_->SetImage("Player_BottomStatBar_UI.png", float4(WindowSize.x, ImageSize.y));
-	BottomStateBar_->GetTransform()->SetLocalPosition(float4(0.f, ImageHarfSize.y - WindowHarfSize.y));
+	Panel_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI2));
+	Panel_->SetImage("Player_BottomStatBar_UI.png", float4(WindowSize.x, ImageSize.y));
+	Panel_->GetTransform()->SetLocalPosition(float4(0.f, ImageHarfSize.y - WindowHarfSize.y));
 
 	// 관련 액터 생성
 	

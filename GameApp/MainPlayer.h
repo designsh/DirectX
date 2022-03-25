@@ -116,6 +116,7 @@ struct PlayerZOrderManagement
 // 용도 : 
 // 설명 : 직업에 따라 정보가 다름
 class BottomStateBar;
+class StatView;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
@@ -185,6 +186,7 @@ private: // 상태
 #pragma region PlayerUI
 private: // 플레이어 UI
 	BottomStateBar* BottomStateBar_;
+	StatView* StatView_;
 
 private:
 

@@ -8,7 +8,7 @@ class GameEngineUIRenderer;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
-	GameEngineUIRenderer* BottomStateBar_;
+	GameEngineUIRenderer* Panel_;
 
 private:
 

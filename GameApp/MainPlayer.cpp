@@ -2,8 +2,10 @@
 #include "MainPlayer.h"
 
 #include "MainPlayerInfomation.h"
-#include "BottomStateBar.h"
 #include "MouseObject.h"
+
+#include "BottomStateBar.h"
+#include "StatView.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
@@ -30,7 +32,8 @@ MainPlayer::MainPlayer() :
 	CurDirect_(TargetDirect::DIR_B),
 	PrevState_(PlayerState::STAT_TN),
 	CurState_(PlayerState::STAT_TN),
-	BottomStateBar_(nullptr)
+	BottomStateBar_(nullptr),
+	StatView_(nullptr)
 {
 	IsItemEquipState_.clear();
 	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
@@ -63,6 +66,7 @@ void MainPlayer::Start()
 	// 스킬창
 
 	// 스탯창
+	StatView_ = GetLevel()->CreateActor<StatView>();
 
 	// 인벤토리창
 
@@ -172,10 +176,12 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		if (true == IsStateView_)
 		{
 			IsStateView_ = false;
+			StatView_->Off();
 		}
 		else // 아니라면 활성화
 		{
 			IsStateView_ = true;
+			StatView_->On();
 		}
 	}
 

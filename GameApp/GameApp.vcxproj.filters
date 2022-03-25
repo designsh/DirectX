@@ -197,6 +197,9 @@
     <ClCompile Include="MainPlayer_ChangeZOrder.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\ZOrder</Filter>
     </ClCompile>
+    <ClCompile Include="StatView.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\01.StateView</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -734,6 +737,9 @@
     </ClInclude>
     <ClInclude Include="GlobalEnumClass.h">
       <Filter>Object\GlobalValue\GlobalEnum</Filter>
+    </ClInclude>
+    <ClInclude Include="StatView.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\01.StateView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

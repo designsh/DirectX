@@ -158,6 +158,10 @@
     <ClCompile Include="MainPlayer_FSMFunction.cpp" />
     <ClCompile Include="MainPlayer_ItemEqupFunction.cpp" />
     <ClCompile Include="MainPlayer_MoveDirectCheck.cpp" />
+    <ClCompile Include="StatView.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MouseObject.cpp">
       <SubType>
       </SubType>
@@ -379,6 +383,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayerInfomation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StatView.h">
       <SubType>
       </SubType>
     </ClInclude>
