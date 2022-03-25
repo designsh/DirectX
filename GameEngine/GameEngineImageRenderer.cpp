@@ -114,7 +114,7 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, c
 	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
 }
 
-void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop)
+void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _FolderTexName, const std::string& _Name, float _InterTime, bool _Loop)
 {
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
 	if (AllAnimations_.end() != FindIter)

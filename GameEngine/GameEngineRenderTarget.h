@@ -27,6 +27,7 @@ private:	// member Var
 	std::vector<GameEngineTexture*> ReleaseTextures_;
 	std::vector<GameEngineTexture*> Textures_;
 	std::vector<ID3D11RenderTargetView*> RenderTargetViews_;
+	std::vector<ID3D11ShaderResourceView*> ShaderResourcesViews_;
 	std::vector<float4> ClearColor_;
 	GameEngineDepthBuffer* DepthBuffer_;
 
@@ -45,6 +46,12 @@ protected:		// delete constructer
 private:		//delete operator
 	GameEngineRenderTarget& operator=(const GameEngineRenderTarget& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineRenderTarget& operator=(const GameEngineRenderTarget&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+
+public:
+	inline ID3D11ShaderResourceView* GetShaderResourcesView(size_t _Index)
+	{
+		return ShaderResourcesViews_[_Index];
+	}
 
 public:
 	void Clear();

@@ -95,5 +95,10 @@ public:
 	{
 		return Order_;
 	}
+
+	bool& GetIsUpdateRef()
+	{
+		return isUpdate_;
+	}
 };
 

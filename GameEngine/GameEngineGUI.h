@@ -1,10 +1,15 @@
 #pragma once
+#include "imgui.h"
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineGUIWindow;
 class GameEngineGUI
 {
+	friend class GameEngineCore;
+	friend class GameEngineLevel;
+
 private:
 	static GameEngineGUI* Inst;
 
@@ -24,6 +29,7 @@ public:
 	}
 
 private:	// member Var
+	std::map<std::string, GameEngineGUIWindow*> Windows_;
 
 public:
 	GameEngineGUI();
@@ -41,5 +47,62 @@ public:
 	void Initialize();
 	void GUIRenderStart();
 	void GUIRenderEnd();
+
+public:
+	GameEngineGUIWindow* FindGUIWindow(const std::string& _Name)
+	{
+		std::map<std::string, GameEngineGUIWindow*>::iterator FindIter = Windows_.find(_Name);
+
+		if (FindIter == Windows_.end())
+		{
+			return nullptr;
+		}
+
+		return FindIter->second;
+	}
+
+public:
+	template<typename WindowType>
+	WindowType* CreateGUIWindow(const std::string& _Name)
+	{
+		WindowType* NewWindow = new WindowType();
+
+		NewWindow->SetName(_Name);
+
+		Windows_.insert(std::map<std::string, GameEngineGUIWindow*>::value_type(_Name, NewWindow));
+
+		return NewWindow;
+	}
 };
 
+class GameEngineGUIWindow : public GameEngineObjectNameBase
+{
+	friend class GameEngineGUI;
+
+private:	// member Var
+
+public:
+	GameEngineGUIWindow();
+	~GameEngineGUIWindow();
+
+protected:		// delete constructer
+	GameEngineGUIWindow(const GameEngineGUIWindow& _other) = delete;
+	GameEngineGUIWindow(GameEngineGUIWindow&& _other) noexcept = delete;
+
+private:		//delete operator
+	GameEngineGUIWindow& operator=(const GameEngineGUIWindow& _other) = delete;
+	GameEngineGUIWindow& operator=(const GameEngineGUIWindow&& _other) = delete;
+
+public:
+	void Begin()
+	{
+		ImGui::Begin(GetName().c_str(), &GetIsUpdateRef());
+	}
+
+	virtual void OnGUI() = 0;
+
+	void End()
+	{
+		ImGui::End();
+	}
+};

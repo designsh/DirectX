@@ -102,7 +102,7 @@ bool GameEnginePixelShader::FileCompile(const std::string& _Path)
 
 	// D3DCompileFromFile의 첫번째인자로 LPCWSTR 타입을 받으므로 경로를 WideByte 문자집합으로 변환
 	std::wstring Path = L"";
-	GameEngineString::StringToWString(_Path, Path);
+	GameEngineString::AnsiToUnicode(_Path, Path);
 
 	// D3D_COMPILE_STANDARD_FILE_INCLUDE : 해당 파일이 참조(#include)하고있는 파일을 모두 찾아내서 컴파일
 	if (S_OK != D3DCompileFromFile(Path.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, EntryPoint_.c_str(), Version_.c_str(), Flag, 0, &ResultBlob, &ErrorBlob))

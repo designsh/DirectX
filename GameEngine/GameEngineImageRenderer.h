@@ -41,6 +41,12 @@ private:
 	public:
 		void FrameUpdate();
 		void ReverseFrameUpdate();
+
+	public:
+		void SetCurrentIndex(int _Index)
+		{
+			CurFrame_ = _Index;
+		}
 	};
 
 private:
@@ -106,6 +112,11 @@ public:
 		return CurAnimation_->EndFrame_;
 	}
 
+	inline void IsCurrentAnimationIndex(const int _Index)
+	{
+		CurAnimation_->SetCurrentIndex(_Index);
+	}
+
 private:
 	void Start() override;
 
@@ -121,7 +132,7 @@ protected:
 public:
 	// 프레임 자동 진행
 	void CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
-	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop = true);
+	void CreateAnimationFolder(const std::string& _FolderTexName, const std::string& _Name, float _InterTime, bool _Loop = true);
 
 	// 프레임 수동진행
 	void CreateAnimationManual(const std::string& _Name, int _StartFrame, int _EndFrame, bool _Manual = true);

@@ -10,8 +10,12 @@ public:
 	static std::string tolower(const std::string& _Text);
 
 public:
-	static void StringToWString(const std::string& _Text, std::wstring& _Out); // String -> WString Convert
-	static void WStringToString(const std::wstring& _Text, std::string& _Out); // WString -> String Convert
+	static void AnsiToUnicode(const std::string& _Text, std::wstring& _Out); // String -> WString Convert
+	static void UniCodeToUTF8(const std::wstring& _Text, std::string& _Out); // WString -> String Convert
+
+public:
+	static void AnsiToUTF8(const std::string& _Text, std::string& _Out);
+	static std::string AnsiToUTF8Return(const std::string& _Text);
 
 public:
 	static std::wstring StringToWStringReturn(const std::string& _Text);

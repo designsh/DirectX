@@ -164,7 +164,7 @@ ID3D11DepthStencilView* GameEngineTexture::CreateDepthStencilView()
 void GameEngineTexture::Load(const std::string& _Path)
 {
 	std::wstring wPath = L"";
-	GameEngineString::StringToWString(_Path, wPath);
+	GameEngineString::AnsiToUnicode(_Path, wPath);
 
 	GameEngineFile NewFile = GameEngineFile(_Path);
 

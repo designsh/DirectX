@@ -22,7 +22,7 @@ std::string GameEngineString::tolower(const std::string& _Text)
 	return Text;
 }
 
-void GameEngineString::StringToWString(const std::string& _Text, std::wstring& _Out)
+void GameEngineString::AnsiToUnicode(const std::string& _Text, std::wstring& _Out)
 {
 	// _Text를 wstring으로 변환했을때의 크기를 얻어온다.
 	// Return Value : 변환한 문자열의 길이를 반환(0이면 실패)
@@ -44,7 +44,7 @@ void GameEngineString::StringToWString(const std::string& _Text, std::wstring& _
 	}
 }
 
-void GameEngineString::WStringToString(const std::wstring& _Text, std::string& _Out)
+void GameEngineString::UniCodeToUTF8(const std::wstring& _Text, std::string& _Out)
 {
 	int ConvertLength = WideCharToMultiByte(CP_ACP, 0, _Text.c_str(), static_cast<int>(_Text.size()), nullptr, 0, nullptr, nullptr);
 	if (ConvertLength == 0)
@@ -61,6 +61,25 @@ void GameEngineString::WStringToString(const std::wstring& _Text, std::string& _
 		GameEngineDebug::MsgBoxError("WString To String Convert Error");
 		return;
 	}
+}
+
+void GameEngineString::AnsiToUTF8(const std::string& _Text, std::string& _Out)
+{
+	std::wstring WString;
+
+	AnsiToUnicode(_Text, WString);
+	UniCodeToUTF8(WString, _Out);
+}
+
+std::string GameEngineString::AnsiToUTF8Return(const std::string& _Text)
+{
+	std::wstring WString;
+	std::string Result;
+
+	AnsiToUnicode(_Text, WString);
+	UniCodeToUTF8(WString, Result);
+
+	return Result;
 }
 
 std::wstring GameEngineString::StringToWStringReturn(const std::string& _Text)

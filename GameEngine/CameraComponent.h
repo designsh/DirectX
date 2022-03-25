@@ -49,17 +49,17 @@ private:		//delete operator
 	CameraComponent& operator=(const CameraComponent&& _other) = delete;
 
 private:
-	inline GameEngineRenderTarget* GetCameraRenderTarget()
-	{
-		return CameraBufferTarget_;
-	}
-
-private:
 	void ClearCameraTarget();
 	void CameraTransformUpdate();
 	void Render();
 	void DebugRender();
 	void ReleaseRenderer();
+
+public:
+	inline GameEngineRenderTarget* GetCameraRenderTarget()
+	{
+		return CameraBufferTarget_;
+	}
 
 public:
 	void SetProjectionMode(ProjectionMode _ProjectionMode);

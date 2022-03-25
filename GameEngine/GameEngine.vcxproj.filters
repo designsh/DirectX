@@ -229,6 +229,9 @@
     <Filter Include="Imgui\Code">
       <UniqueIdentifier>{e8369a74-cdef-4295-8506-e9c950592ab8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imgui\RenderWindow">
+      <UniqueIdentifier>{a9d4bf32-4682-4fe8-b4e4-b3b8dd76419d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -419,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineGUI.cpp">
       <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderWindow.cpp">
+      <Filter>Imgui\RenderWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -622,6 +628,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineGUI.h">
       <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderWindow.h">
+      <Filter>Imgui\RenderWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

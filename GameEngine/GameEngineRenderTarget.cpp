@@ -100,6 +100,7 @@ void GameEngineRenderTarget::Create(GameEngineTexture* _Texture, float4 _ClearCo
 {
 	Textures_.push_back(_Texture);
 	RenderTargetViews_.push_back(_Texture->GetRenderTargetView());
+	ShaderResourcesViews_.push_back(*_Texture->GetShaderResourcesView());
 	ClearColor_.push_back(_ClearColor);
 }
 
