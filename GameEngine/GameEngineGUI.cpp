@@ -91,3 +91,11 @@ void GameEngineGUI::GUIRenderEnd()
         ImGui::RenderPlatformWindowsDefault();
     }
 }
+
+GameEngineGUIWindow::GameEngineGUIWindow()
+{
+}
+
+GameEngineGUIWindow::~GameEngineGUIWindow()
+{
+}
