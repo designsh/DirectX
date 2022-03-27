@@ -232,6 +232,12 @@
     <Filter Include="Imgui\RenderWindow">
       <UniqueIdentifier>{a9d4bf32-4682-4fe8-b4e4-b3b8dd76419d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Renderer\Widget">
+      <UniqueIdentifier>{093654cb-dd07-4e99-8844-afba3974fab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Renderer\Widget\ProgressBar">
+      <UniqueIdentifier>{aecb155e-0962-4150-83e3-32cca8610c23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -425,6 +431,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineRenderWindow.cpp">
       <Filter>Imgui\RenderWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineProgressBarRenderer.cpp">
+      <Filter>Object\Component\Renderer\Widget\ProgressBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -631,6 +640,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineRenderWindow.h">
       <Filter>Imgui\RenderWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineProgressBarRenderer.h">
+      <Filter>Object\Component\Renderer\Widget\ProgressBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

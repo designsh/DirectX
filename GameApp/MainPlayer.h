@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
+#pragma region Player_Direct
 // 플레이어는 총 8방향의 애니메이션을 소유한다.
 // 그러므로 현재 플레이어의 위치와 마우스커서가 클릭한 위치의
 // 각도를 계산하여 플레이어의 포커스방향을 결정한다.
@@ -17,7 +18,9 @@ enum class TargetDirect
 	DIR_R,
 	DIR_MAX,
 };
+#pragma endregion
 
+#pragma region Player_State
 // 애니메이션은 총 16방향의 애니메이션을 가지나,
 // 게임내에서 8방향만 사용
 enum class PlayerState
@@ -38,7 +41,9 @@ enum class PlayerState
 	STAT_WL,					// x :   8, y : 16 => 필드_걷기모션
 	STAT_MAX,
 };
+#pragma endregion
 
+#pragma region Player_ItemEquipState
 // 아이템 착용상태
 enum class ItemEquipState
 {
@@ -46,7 +51,9 @@ enum class ItemEquipState
 	TP_HVY,
 	TP_MAX
 };
+#pragma endregion
 
+#pragma region Player_RenderPartType
 // 렌더러 부위별 타입
 enum class RendererPartType
 {
@@ -61,7 +68,9 @@ enum class RendererPartType
 	PART_TR,
 	PART_MAX,
 };
+#pragma endregion
 
+#pragma region Player_ItemEquipPart
 // 아이템 착용 부위
 enum class ItemEquipPart
 {
@@ -76,7 +85,9 @@ enum class ItemEquipPart
 	Inv_Shield,		// 방패
 	Inv_MAX
 };
+#pragma endregion
 
+#pragma region Player_PartRenderer
 // 현재 플레이어의 부위별 아이템착용상태 체크를 위해
 // 구조체로 렌더러를 관리한다.
 class GameEngineImageRenderer;
@@ -87,7 +98,9 @@ struct PlayerRendererPart
 	std::string													TextureName_;													// 현재 텍스쳐명
 	std::string													AnimationName_;													// 현재 애니메이션명
 };
+#pragma endregion
 
+#pragma region Player_RendererZOrder
 // 플레이어 방향별 렌더오더
 struct UnderChangeZOrder
 {
@@ -111,6 +124,7 @@ struct PlayerZOrderManagement
 	std::vector<UnderChangeZOrder>								UnderChangeZOrder_;		// 변경되는 렌더러 ZOrder(UnderChangeZOrderCnt_ 만큼 할당된다.)
 																						// 상태를 체크하여 해당 애니메이션 프레임이 되면 해당 ZOrder로 갱신
 };
+#pragma endregion
 
 // 분류 : 플레이어
 // 용도 : 
@@ -151,6 +165,13 @@ private: // 플레이어 아이템착용관련 Flag
 															// 방패 착용여부 Flag(true : 착용) - 인벤토리창의 방패부분에 장착시 활성화(HVY_상태가된다.) - 왼쪽무기
 #pragma endregion
 
+#pragma region GamePlay Player Basic Info
+private:
+	int CurHP_;												// 플레이어 현재 체력(100 기준)
+	int CurMP_;												// 플레이어 현재 마력(100 기준)
+
+#pragma endregion
+
 #pragma region PlayerFSMState
 private: // FSM
 	GameEngineFSM State_;
@@ -185,8 +206,8 @@ private: // 상태
 
 #pragma region PlayerUI
 private: // 플레이어 UI
-	BottomStateBar* BottomStateBar_;
-	StatView* StatView_;
+	BottomStateBar* BottomStateBar_;		// 하단 상태바
+	StatView* StatView_;					// 상태창
 
 private:
 
@@ -210,6 +231,51 @@ protected:		// delete constructer
 private:		//delete operator
 	MainPlayer& operator=(const MainPlayer& _other) = delete;
 	MainPlayer& operator=(const MainPlayer&& _other) = delete;
+#pragma endregion
+
+#pragma region State Get/Set Function
+public:
+	int GetCurrentHP() const
+	{
+		return CurHP_;
+	}
+
+	int GetCurrentMP() const
+	{
+		return CurMP_;
+	}
+
+public:
+	void SetCurrentHP(float _HP)
+	{
+		CurHP_ = _HP;
+	}
+
+	void DelCurrentHP(float _HP)
+	{
+		CurHP_ -= _HP;
+	}
+
+	void AddCurrentHP(float _HP)
+	{
+		CurHP_ += _HP;
+	}
+
+	void SetCurrentMP(float _MP)
+	{
+		CurMP_ = _MP;
+	}
+
+	void DelCurrentMP(float _MP)
+	{
+		CurMP_ -= _MP;
+	}
+
+	void AddCurrentMP(float _MP)
+	{
+		CurMP_ += _MP;
+	}
+
 #pragma endregion
 
 #pragma region InitPlayer
@@ -349,6 +415,13 @@ private: // 아이템 착용 / 아이템 해제
 public:
 	void CreatePlayerUIInfomation();
 	void StateViewEnabled(bool _Enabled);
+
+#pragma endregion
+
+#pragma region GamePlaye Update Function
+public:
+	void HPConsumption(float _Damage);			// 데미지를 받으면 해당 함수 호출
+	void MPConsumption(float _MPConsumption);	// 마법(스킬)을 사용하면 해당 함수 호출
 
 #pragma endregion
 

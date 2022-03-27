@@ -76,7 +76,7 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
-	void SetInfomationString();
+	void InitStatView();
 
 public:
 	void CloseButtonClick(GameEngineCollision* _Other);

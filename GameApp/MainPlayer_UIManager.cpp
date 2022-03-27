@@ -10,10 +10,10 @@
 void MainPlayer::CreatePlayerUIInfomation()
 {
 	// 하단상태바관련 정보 Setting
-	//BottomStateBar_
+	BottomStateBar_->InitBottomStateBar();
 
 	// 스탯창관련 정보 Setting
-	StatView_->SetInfomationString();
+	StatView_->InitStatView();
 
 	// 스킬창관련 정보 Setting
 

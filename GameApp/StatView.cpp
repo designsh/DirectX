@@ -239,7 +239,7 @@ void StatView::Update(float _DeltaTime)
 	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::CloseButtonClick, this, std::placeholders::_1));
 }
 
-void StatView::SetInfomationString()
+void StatView::InitStatView()
 {
 	// 메인플레이어 정보를 이용하여 String Setting
 	MainPlayerInfo PlayerInfo = MainPlayerInfomation::GetInst().GetMainPlayerInfoValue();

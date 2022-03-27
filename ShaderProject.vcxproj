@@ -21,6 +21,7 @@
   <ItemGroup>
     <FxCompile Include="EngineResources\Shader\CbufferHeader.fx" />
     <FxCompile Include="EngineResources\Shader\Color.fx" />
+    <FxCompile Include="EngineResources\Shader\ProgressBar.fx" />
     <FxCompile Include="EngineResources\Shader\TargetMerge.fx" />
     <FxCompile Include="EngineResources\Shader\Texture.fx" />
   </ItemGroup>

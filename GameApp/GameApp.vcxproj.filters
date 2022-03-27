@@ -203,6 +203,12 @@
     <ClCompile Include="MainPlayer_UIManager.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_CurrentHP.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentHPView</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_StateUpdater.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\StateUpdateFunction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -577,6 +583,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentMPView">
       <UniqueIdentifier>{19a1f5f3-2939-4ce4-8bb7-50915636d88d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\StateUpdateFunction">
+      <UniqueIdentifier>{efc88d3a-7765-4032-b8b5-fb2fe6bc95ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -749,6 +758,9 @@
     </ClInclude>
     <ClInclude Include="StatView.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\01.StateView</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_CurrentHP.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentHPView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

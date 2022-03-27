@@ -22,8 +22,10 @@ private:	// member Var
 	float4 FontPivot_;
 	float4 Color_;
 	unsigned int Flags_;
-
 	int MaxLen_;
+
+private:
+	float4 CuttingUV_;
 
 public:
 	GameEngineUIRenderer(); // default constructer 디폴트 생성자

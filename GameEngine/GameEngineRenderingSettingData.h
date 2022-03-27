@@ -18,12 +18,12 @@ enum class SettingMode
 class GameEngineConstantBufferSetting
 {
 public:
-	GameEngineShader*					Shader;						// 셰이더
-	GameEngineConstantBuffer*	Res_;							// 상수버퍼
-	SettingMode									Mode_;						// 상수버퍼 세팅타입
-	char*													SettingData_;			// 세팅한 데이터 복사본
-	size_t													SettingDataSize_;	// 세팅한 데이터의 크기(바이트크기)
-	int														SettingIndex_;			// Register No
+	GameEngineShader*							Shader;				// 셰이더
+	GameEngineConstantBuffer*					Res_;				// 상수버퍼
+	SettingMode									Mode_;				// 상수버퍼 세팅타입
+	char*										SettingData_;		// 세팅한 데이터 복사본
+	size_t										SettingDataSize_;	// 세팅한 데이터의 크기(바이트크기)
+	int											SettingIndex_;		// Register No
 
 public:
 	GameEngineConstantBufferSetting() : 

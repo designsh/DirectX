@@ -24,6 +24,8 @@ MainPlayer::MainPlayer() :
 	IsMove_(false),
 	IsDefaultZOrderChangeChk_(false),
 	IsFrameZOrderChangeChk_(false),
+	CurHP_(100),
+	CurMP_(100),
 	State_(),
 	RenderSize_(float4(256.f, 256.f)),
 	PrevMoveTargetPos_(float4::ZERO),

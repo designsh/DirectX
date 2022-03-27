@@ -6,6 +6,8 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+#include "MainPlayer_CurrentHP.h"
+
 BottomStateBar::BottomStateBar() :
 	Panel_(nullptr)
 {
@@ -28,10 +30,11 @@ void BottomStateBar::Start()
 	Panel_->SetImage("Player_BottomStatBar_UI.png", float4(WindowSize.x, ImageSize.y));
 	Panel_->GetTransform()->SetLocalPosition(float4(0.f, ImageHarfSize.y - WindowHarfSize.y));
 
+	// ====================================================== 관련 액터 생성 ====================================================== //
+
 	// HP Bar
-
-
-
+	HP_ = GetLevel()->CreateActor<MainPlayer_CurrentHP>();
+	
 	// MP Bar
 
 
@@ -45,7 +48,7 @@ void BottomStateBar::Start()
 
 
 
-
+	// 현재 경험치
 
 
 
@@ -70,4 +73,69 @@ void BottomStateBar::Start()
 
 void BottomStateBar::Update(float _DeltaTime)
 {
+}
+
+void BottomStateBar::InitBottomStateBar()
+{
+	// 현재 HP
+	
+
+	// 현재 MP
+	
+
+	// 현재 스테미나
+	
+
+	// 현재 활성화 왼쪽 스킬버튼
+	
+
+	// 현재 활성화 오른쪽 스킬버튼
+	
+
+	// 현재 물약장착 상태
+	
+
+	// 현재 경험치
+
+
+}
+
+void BottomStateBar::InitCurrentHP()
+{
+}
+
+void BottomStateBar::InitCurrentMP()
+{
+}
+
+void BottomStateBar::InitCurrentStamina()
+{
+}
+
+void BottomStateBar::InitLeftSkillBtn()
+{
+}
+
+void BottomStateBar::InitRightSkillBtn()
+{
+}
+
+void BottomStateBar::InitLiquidMedicine()
+{
+}
+
+void BottomStateBar::InitEXP()
+{
+}
+
+void BottomStateBar::ConsumptionHP(float _Damage)
+{
+	// 플레이어의 체력 감소
+	HP_->SetImageCutting(_Damage);
+}
+
+void BottomStateBar::ConsumptionMP(float _MP)
+{
+	// 플레이어의 마나 감소
+
 }
