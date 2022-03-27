@@ -6,6 +6,8 @@
 // 설명 : 플레이어의 하단상태바관리
 class GameEngineUIRenderer;
 class MainPlayer_CurrentHP;
+class MainPlayer_CurrentMP;
+class MainPlayer_LeftWeaponSkillButton;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
@@ -13,10 +15,10 @@ private:	// member Var
 
 private:
 	MainPlayer_CurrentHP* HP_;
+	MainPlayer_CurrentMP* MP_;
 
 private:
-
-
+	MainPlayer_LeftWeaponSkillButton* LWeaponSkill_;
 
 public:
 	BottomStateBar();
@@ -39,8 +41,8 @@ public:
 	void InitCurrentHP();				// 현재 HP
 	void InitCurrentMP();				// 현재 MP
 	void InitCurrentStamina();			// 현재 스테미나
-	void InitLeftSkillBtn();			// 현재 활성화 왼쪽 스킬버튼
-	void InitRightSkillBtn();			// 현재 활성화 오른쪽 스킬버튼
+	void InitLeftSkillBtn();			// 현재 활성화 왼쪽 스킬버튼(목록생성)
+	void InitRightSkillBtn();			// 현재 활성화 오른쪽 스킬버튼(목록생성)
 	void InitLiquidMedicine();			// 현재 물약장착 상태
 	void InitEXP();						// 현재 경험치
 	

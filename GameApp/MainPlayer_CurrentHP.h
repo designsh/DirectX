@@ -4,14 +4,14 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineUIRenderer;
+class GameEngineProgressBarRenderer;
 class MainPlayer_CurrentHP : public GameEngineActor
 {
 private:	// member Var
-	GameEngineUIRenderer* HPRenderer_;
+	GameEngineProgressBarRenderer* HPRenderer_;
 
 private:
-
+	float test = 1.0f;
 
 public:
 	MainPlayer_CurrentHP();
@@ -30,6 +30,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
-	void SetImageCutting(float _Damage);
+	void HPConsumption(float _Damage);
 };
 

@@ -133,6 +133,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainPlayer_CurrentMP.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MainPlayer_Init.cpp" />
     <ClCompile Include="LoadingAnimation.cpp">
       <SubType>
@@ -161,6 +165,10 @@
     <ClCompile Include="MainPlayer_CreateRenderOrderType.cpp" />
     <ClCompile Include="MainPlayer_FSMFunction.cpp" />
     <ClCompile Include="MainPlayer_ItemEqupFunction.cpp" />
+    <ClCompile Include="MainPlayer_LeftWeaponSkillButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MainPlayer_MoveDirectCheck.cpp" />
     <ClCompile Include="MainPlayer_StateUpdater.cpp" />
     <ClCompile Include="MainPlayer_UIManager.cpp" />
@@ -393,6 +401,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayer_CurrentHP.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_CurrentMP.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_LeftWeaponSkillButton.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -336,7 +336,5 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetPixelShader("ProgressBar_PS");
 		Pipe->SetOutputMergerBlend("EngineAlphaBlend");
 		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
-
-
 	}
 }

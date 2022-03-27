@@ -246,32 +246,32 @@ public:
 	}
 
 public:
-	void SetCurrentHP(float _HP)
+	void SetCurrentHP(int _HP)
 	{
 		CurHP_ = _HP;
 	}
 
-	void DelCurrentHP(float _HP)
+	void DelCurrentHP(int _HP)
 	{
 		CurHP_ -= _HP;
 	}
 
-	void AddCurrentHP(float _HP)
+	void AddCurrentHP(int _HP)
 	{
 		CurHP_ += _HP;
 	}
 
-	void SetCurrentMP(float _MP)
+	void SetCurrentMP(int _MP)
 	{
 		CurMP_ = _MP;
 	}
 
-	void DelCurrentMP(float _MP)
+	void DelCurrentMP(int _MP)
 	{
 		CurMP_ -= _MP;
 	}
 
-	void AddCurrentMP(float _MP)
+	void AddCurrentMP(int _MP)
 	{
 		CurMP_ += _MP;
 	}

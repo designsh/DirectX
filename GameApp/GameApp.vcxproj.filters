@@ -209,6 +209,12 @@
     <ClCompile Include="MainPlayer_StateUpdater.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.Function\StateUpdateFunction</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_CurrentMP.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentMPView</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_LeftWeaponSkillButton.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LeftWeaponSkill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -761,6 +767,12 @@
     </ClInclude>
     <ClInclude Include="MainPlayer_CurrentHP.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentHPView</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_CurrentMP.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentMPView</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_LeftWeaponSkillButton.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LeftWeaponSkill</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

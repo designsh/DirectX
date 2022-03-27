@@ -283,7 +283,7 @@ float4 GameEngineTexture::GetPixel(int _x, int _y)
 	DXGI_FORMAT Fmt = Image_.GetMetadata().format;
 	uint8_t* Color = Image_.GetImages()->pixels;
 
-	int Index = _y * Image_.GetMetadata().width + _x;
+	int Index = _y * static_cast<int>(Image_.GetMetadata().width) + _x;
 	Color = Color + (Index * 4);
 
 	unsigned char R = Color[0];

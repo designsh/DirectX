@@ -71,8 +71,12 @@ enum class DepthZOrder
 	MAX
 };
 
-// 플레이어 z값 오더
-enum class PlayerZOrder
+// UI ProgressBar Direct
+enum class ProgressBarDirect
 {
-
+	RightToLeft,		// Right -> Left
+	LeftToRight,		// Left -> Right
+	TopToBottom,		// Top -> Bottom
+	BottomToTop			// Bottom -> Top
 };
+
