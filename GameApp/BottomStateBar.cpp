@@ -10,12 +10,14 @@
 #include "MainPlayer_CurrentHP.h"
 #include "MainPlayer_CurrentMP.h"
 #include "MainPlayer_LeftWeaponSkillButton.h"
+#include "MainPlayer_RightWeaponSkillButton.h"
 
 BottomStateBar::BottomStateBar() :
 	Panel_(nullptr),
 	HP_(nullptr),
 	MP_(nullptr),
-	LWeaponSkill_(nullptr)
+	LWeaponSkill_(nullptr),
+	RWeaponSkill_(nullptr)
 {
 }
 
@@ -47,7 +49,8 @@ void BottomStateBar::Start()
 	// 왼쪽무기 활성화 스킬버튼(기본공격 제외 아무것도 안함)
 	LWeaponSkill_ = GetLevel()->CreateActor<MainPlayer_LeftWeaponSkillButton>();
 	
-	// 왼쪽무기 활성화 스킬버튼(메인플레이어의 스킬정보 공유하여 활성화된 스킬버튼 생성)
+	// 오른쪽무기 활성화 스킬버튼(메인플레이어의 스킬정보 공유하여 활성화된 스킬버튼 생성)
+	RWeaponSkill_ = GetLevel()->CreateActor<MainPlayer_RightWeaponSkillButton>();
 
 	// 현재 경험치
 
@@ -108,6 +111,7 @@ void BottomStateBar::InitLeftSkillBtn()
 
 void BottomStateBar::InitRightSkillBtn()
 {
+	RWeaponSkill_->InitRWeaponSkillList();
 }
 
 void BottomStateBar::InitLiquidMedicine()

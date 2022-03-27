@@ -215,6 +215,9 @@
     <ClCompile Include="MainPlayer_LeftWeaponSkillButton.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LeftWeaponSkill</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_RightWeaponSkillButton.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\RightWeaponSkill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -773,6 +776,9 @@
     </ClInclude>
     <ClInclude Include="MainPlayer_LeftWeaponSkillButton.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LeftWeaponSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_RightWeaponSkillButton.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\RightWeaponSkill</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

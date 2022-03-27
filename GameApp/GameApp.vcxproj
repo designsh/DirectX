@@ -170,6 +170,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainPlayer_MoveDirectCheck.cpp" />
+    <ClCompile Include="MainPlayer_RightWeaponSkillButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MainPlayer_StateUpdater.cpp" />
     <ClCompile Include="MainPlayer_UIManager.cpp" />
     <ClCompile Include="StatView.cpp">
@@ -409,6 +413,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayer_LeftWeaponSkillButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_RightWeaponSkillButton.h">
       <SubType>
       </SubType>
     </ClInclude>
