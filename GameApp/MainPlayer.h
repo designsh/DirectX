@@ -235,6 +235,11 @@ private:		//delete operator
 
 #pragma region State Get/Set Function
 public:
+	bool GetIsTown() const
+	{
+		return IsTown_;
+	}
+
 	int GetCurrentHP() const
 	{
 		return CurHP_;

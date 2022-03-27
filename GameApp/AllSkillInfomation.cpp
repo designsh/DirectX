@@ -213,7 +213,7 @@ void AllSkillInfomation::LoadSkillExcelFile()
 				ExcelFile->GetData(ColRowName, pSkillPageRow);
 				int SkillPageRow = 0;
 				sscanf_s(pSkillPageRow, "%d", &SkillPageRow);
-				NewSkillInfo.SkillPage = SkillPageRow;
+				NewSkillInfo.SkillRow = SkillPageRow;
 				++RowNo;
 
 				// 플레이어 스킬창의 속한 페이지의 Column
