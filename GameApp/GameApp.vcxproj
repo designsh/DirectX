@@ -158,6 +158,7 @@
     <ClCompile Include="MainPlayer_FSMFunction.cpp" />
     <ClCompile Include="MainPlayer_ItemEqupFunction.cpp" />
     <ClCompile Include="MainPlayer_MoveDirectCheck.cpp" />
+    <ClCompile Include="MainPlayer_UIManager.cpp" />
     <ClCompile Include="StatView.cpp">
       <SubType>
       </SubType>

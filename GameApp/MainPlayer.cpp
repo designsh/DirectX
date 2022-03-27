@@ -175,13 +175,11 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		// 이미 활성화 되어있다면 비활성화
 		if (true == IsStateView_)
 		{
-			IsStateView_ = false;
-			StatView_->Off();
+			StateViewEnabled(false);
 		}
 		else // 아니라면 활성화
 		{
-			IsStateView_ = true;
-			StatView_->On();
+			StateViewEnabled(true);
 		}
 	}
 

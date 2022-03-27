@@ -6,7 +6,8 @@
 MainPlayerInfomation* MainPlayerInfomation::Inst = new MainPlayerInfomation();
 
 MainPlayerInfomation::MainPlayerInfomation() :
-	MainPlayerInfo_{}
+	MainPlayerInfo_{},
+	IsMainPlayerInfo_(false)
 {
 }
 
@@ -14,9 +15,14 @@ MainPlayerInfomation::~MainPlayerInfomation()
 {
 }
 
-const MainPlayerInfo* MainPlayerInfomation::GetMainPlayerInfo()
+const MainPlayerInfo* MainPlayerInfomation::GetMainPlayerInfoRef()
 {
 	return &MainPlayerInfo_;
+}
+
+MainPlayerInfo MainPlayerInfomation::GetMainPlayerInfoValue() const
+{
+	return MainPlayerInfo_;
 }
 
 void MainPlayerInfomation::PlayerLevelUP()
@@ -95,6 +101,7 @@ void MainPlayerInfomation::PlayerSkillLevelUP(const std::string& _SkillName)
 void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType)
 {
 	// 캐릭터생성화면에서 메인플레이어 정보를 생성
+	IsMainPlayerInfo_ = true;
 
 	// 클래스(직업)별 고유 정보를 생성
 	MainPlayerInfo_ = InformationByClass(_JobType);

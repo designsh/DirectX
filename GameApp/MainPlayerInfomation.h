@@ -249,6 +249,9 @@ public:
 
 private:	// member Var
 	MainPlayerInfo MainPlayerInfo_;	// (플레이어 ID.txt 파일의 정보)
+	
+private:
+	bool IsMainPlayerInfo_;	// 생성 조건 일치시 생성하면서 Flag On
 
 private:
 	MainPlayerInfomation();
@@ -263,7 +266,14 @@ private:		//delete operator
 	MainPlayerInfomation& operator=(const MainPlayerInfomation&& _other) = delete;
 
 public:
-	const MainPlayerInfo* GetMainPlayerInfo();
+	bool IsMainPlayerInfo() const
+	{
+		return IsMainPlayerInfo_;
+	}
+
+public:
+	const MainPlayerInfo* GetMainPlayerInfoRef();
+	MainPlayerInfo GetMainPlayerInfoValue() const;
 
 public: // MainPlayerInfo Stat Infomation Update
 	void PlayerLevelUP();

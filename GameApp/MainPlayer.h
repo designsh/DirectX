@@ -345,5 +345,12 @@ private: // 아이템 착용 / 아이템 해제
 	void ItemPutOff(ItemEquipPart _ItemPart);
 #pragma endregion
 
+#pragma region PlayerUIFunction
+public:
+	void CreatePlayerUIInfomation();
+	void StateViewEnabled(bool _Enabled);
+
+#pragma endregion
+
 };
 

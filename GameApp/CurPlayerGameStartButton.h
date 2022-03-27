@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+#include "GlobalEnumClass.h"
+
 // 분류 : 위젯
 // 용도 : 캐릭터생성레벨 버튼
 // 설명 : 현재 생성한 플레이어로 게임시작하며, 초기 화면에 렌더링하지않다가 사용자가 직업을 선택하면 렌더링
@@ -16,6 +18,9 @@ public:
 	static void UserClassDeselect();
 
 private:	// member Var
+	Button_State ButtonState_;
+
+private:
 	GameEngineUIRenderer* CurPlayerGameStartBtn_;
 	GameEngineCollision* MainCollider_;
 

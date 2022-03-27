@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+#include "GlobalEnumClass.h"
+
 // 분류 : 위젯
 // 용도 : 캐릭터생성레벨 버튼
 // 설명 : 현재 생성한 플레이어로 게임시작
@@ -9,6 +11,9 @@ class GameEngineCollision;
 class TitleLevelMoveBtn : public GameEngineActor
 {
 private:	// member Var
+	Button_State ButtonState_;
+
+private:
 	GameEngineUIRenderer* PrevMenuBtn_;
 	GameEngineCollision* MainCollider_;
 

@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "GameStartButton.h"
 
-#include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
 #include <GameEngine/GameEngineUIRenderer.h>
@@ -10,6 +9,7 @@
 #include "UserGame.h"
 
 GameStartButton::GameStartButton() :
+	ButtonState_(Button_State::Normal),
 	StartButton_(nullptr),
 	MainCollision_(nullptr)
 {
@@ -43,27 +43,34 @@ void GameStartButton::Start()
 
 void GameStartButton::Update(float _DeltaTime)
 {
+	if (ButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			UserGame::LevelChange("CreateCharacterLevel");
+
+			ButtonState_ = Button_State::Normal;
+		}
+	}
+
 	// 디버깅용
 	DebugRender();
 
 	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&GameStartButton::GameStartButtonClick, this, std::placeholders::_1));
-
 }
 
 void GameStartButton::GameStartButtonClick(GameEngineCollision* _OtherCollision)
 {
-	// 마우스와 충돌시
-	if (true == GameEngineInput::GetInst().Free("MouseLButton"))
-	{
-		StartButton_->SetChangeAnimation("Default");
-	}
-
+	// Mouse LButton Flag Check
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		StartButton_->SetChangeAnimation("Click");
 
-		// 캐릭터 선택화면으로 이동
-		UserGame::LevelChange("CreateCharacterLevel");
+		ButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		StartButton_->SetChangeAnimation("Default");
 	}
 }
 

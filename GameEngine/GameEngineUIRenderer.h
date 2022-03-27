@@ -60,5 +60,6 @@ public: // Text ฐüทร
 	bool AddText(std::string _PrintText);
 	bool DelText();
 	void AllDelText();
+	void SetPrintText(const std::string& _PrintText);
 };
 

@@ -10,6 +10,7 @@
 #include "UserGame.h"
 
 GameEndButton::GameEndButton() :
+	ButtonState_(Button_State::Normal),
 	EndButton_(nullptr),
 	MainCollision_(nullptr)
 {
@@ -45,6 +46,17 @@ void GameEndButton::Start()
 
 void GameEndButton::Update(float _DeltaTime)
 {
+	if (ButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 게임 종료 => 윈도우 종료
+			GameEngineWindow::GetInst().CloseWindow();
+
+			ButtonState_ = Button_State::Normal;
+		}
+	}
+
 	// 디버그용
 	DebugRender();
 
@@ -53,24 +65,24 @@ void GameEndButton::Update(float _DeltaTime)
 
 void GameEndButton::GameEndButtonClick(GameEngineCollision* _OtherCollision)
 {
-	// 마우스와 충돌시
-	if (true == GameEngineInput::GetInst().Free("MouseLButton"))
-	{
-		EndButton_->SetChangeAnimation("Default");
-	}
-
+	// Mouse LButton Flag Check
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		EndButton_->SetChangeAnimation("Click");
 
-		// 게임 종료 => 윈도우 종료
-		GameEngineWindow::GetInst().CloseWindow();
+		ButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		EndButton_->SetChangeAnimation("Default");
 	}
 }
 
 void GameEndButton::ChangeStartReset()
 {
 	EndButton_->SetChangeAnimation("Default");
+
+	ButtonState_ = Button_State::Normal;
 }
 
 void GameEndButton::DebugRender()

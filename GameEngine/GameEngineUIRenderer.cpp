@@ -158,3 +158,8 @@ void GameEngineUIRenderer::AllDelText()
 		PrintText_.clear();
 	}
 }
+
+void GameEngineUIRenderer::SetPrintText(const std::string& _PrintText)
+{
+	PrintText_ = _PrintText;
+}

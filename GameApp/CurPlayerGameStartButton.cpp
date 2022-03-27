@@ -10,7 +10,6 @@
 #include <GameEngine/GameEngineCollision.h>
 
 #include "UserGame.h"
-#include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
 bool CurPlayerGameStartButton::ClassSelect_ = false;
@@ -26,6 +25,7 @@ void CurPlayerGameStartButton::UserClassDeselect()
 }
 
 CurPlayerGameStartButton::CurPlayerGameStartButton() :
+	ButtonState_(Button_State::Normal),
 	CurPlayerGameStartBtn_(nullptr),
 	MainCollider_(nullptr),
 	RenderFlag_(false)
@@ -65,6 +65,17 @@ void CurPlayerGameStartButton::Start()
 
 void CurPlayerGameStartButton::Update(float _DeltaTime)
 {
+	if (ButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 게임시작 조건 검사 후 조건일치시 게임 생성
+			GameStartConditionCheck();
+
+			ButtonState_ = Button_State::Normal;
+		}
+	}
+
 	DebugRender();
 
 	// 충돌체크
@@ -106,17 +117,16 @@ void CurPlayerGameStartButton::DebugRender()
 
 void CurPlayerGameStartButton::OKButtonClick(GameEngineCollision* _OtherCollision)
 {
-	// 마우스와 충돌시
-	if (true == GameEngineInput::GetInst().Free("MouseLButton"))
-	{
-		CurPlayerGameStartBtn_->SetChangeAnimation("Default");
-	}
-
+	// Mouse LButton Flag Check
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		CurPlayerGameStartBtn_->SetChangeAnimation("Click");
 
-		GameStartConditionCheck();
+		ButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		CurPlayerGameStartBtn_->SetChangeAnimation("Default");
 	}
 }
 

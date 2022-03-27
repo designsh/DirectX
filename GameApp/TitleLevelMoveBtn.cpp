@@ -4,11 +4,11 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
-#include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 #include "UserGame.h"
 
 TitleLevelMoveBtn::TitleLevelMoveBtn() :
+	ButtonState_(Button_State::Normal),
 	PrevMenuBtn_(nullptr),
 	MainCollider_(nullptr)
 {
@@ -48,6 +48,17 @@ void TitleLevelMoveBtn::Start()
 
 void TitleLevelMoveBtn::Update(float _DeltaTime)
 {
+	if (ButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 캐릭터 선택화면으로 이동
+			UserGame::LevelChange("TitleLevel");
+
+			ButtonState_ = Button_State::Normal;
+		}
+	}
+
 	DebugRender();
 
 	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&TitleLevelMoveBtn::PrevButtonClick, this, std::placeholders::_1));
@@ -56,21 +67,22 @@ void TitleLevelMoveBtn::Update(float _DeltaTime)
 void TitleLevelMoveBtn::ChangeStartReset()
 {
 	PrevMenuBtn_->SetChangeAnimation("Default");
+
+	ButtonState_ = Button_State::Normal;
 }
 
 void TitleLevelMoveBtn::PrevButtonClick(GameEngineCollision* _OtherCollision)
 {
-	if (true == GameEngineInput::GetInst().Free("MouseLButton"))
-	{
-		PrevMenuBtn_->SetChangeAnimation("Default");
-	}
-
+	// Mouse LButton Flag Check
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		PrevMenuBtn_->SetChangeAnimation("Click");
 
-		// 캐릭터 선택화면으로 이동
-		UserGame::LevelChange("TitleLevel");
+		ButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		PrevMenuBtn_->SetChangeAnimation("Default");
 	}
 }
 

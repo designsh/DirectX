@@ -200,22 +200,16 @@
     <ClCompile Include="StatView.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\01.StateView</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_UIManager.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
       <UniqueIdentifier>{d8e5ec8f-1109-4365-859c-d8f6aa87e43a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserCore">
-      <UniqueIdentifier>{85a145bd-65f4-422b-b8df-50ca38925ac6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CustomVertex">
       <UniqueIdentifier>{006bb727-3d97-4f7b-8768-542fbd7b0eb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserCore\Resource">
-      <UniqueIdentifier>{0727861e-3f49-4c74-a39e-94ce79f3b02c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserCore\ShaderResource">
-      <UniqueIdentifier>{cc396857-9423-46c5-98cf-7199c136812d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{2f7eb252-837a-4e19-b538-c9b29f112b71}</UniqueIdentifier>
@@ -567,6 +561,21 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\ZOrder">
       <UniqueIdentifier>{3c94dfdc-c56e-4875-841d-2d4cd23398c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserCore">
+      <UniqueIdentifier>{85a145bd-65f4-422b-b8df-50ca38925ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserCore\Resource">
+      <UniqueIdentifier>{0727861e-3f49-4c74-a39e-94ce79f3b02c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserCore\ShaderResource">
+      <UniqueIdentifier>{cc396857-9423-46c5-98cf-7199c136812d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentHPView">
+      <UniqueIdentifier>{cc2aa728-b5a5-429e-beb0-55140efffd4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentMPView">
+      <UniqueIdentifier>{19a1f5f3-2939-4ce4-8bb7-50915636d88d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
