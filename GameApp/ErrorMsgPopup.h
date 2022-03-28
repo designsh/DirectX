@@ -9,7 +9,6 @@ class ErrorMsgButton;
 class ErrorMsgPopup : public GameEngineActor
 {
 private:	// member Var
-	std::string ErrorMsgText_;
 
 private:
 	ErrorMsgPanel* ErrorMsgPanel_;

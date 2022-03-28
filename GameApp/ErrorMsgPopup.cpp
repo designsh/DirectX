@@ -35,7 +35,7 @@ void ErrorMsgPopup::Update(float _DeltaTime)
 
 void ErrorMsgPopup::ErrorMsgPopupActive(const std::string& _ErrorMsg)
 {
-	ErrorMsgText_ = _ErrorMsg;
+	ErrorMsgPanel_->SetErrorMsg(_ErrorMsg);
 
 	// 에러메세지창 활성화
 	ErrorMsgPanel_->On();
@@ -45,6 +45,6 @@ void ErrorMsgPopup::ErrorMsgPopupActive(const std::string& _ErrorMsg)
 void ErrorMsgPopup::ErrorMsgPopupDeactive()
 {
 	// 에러 메세지창 비활성화
-	ErrorMsgPanel_->Death();
-	ErrorMsgButton_->Death();
+	ErrorMsgPanel_->Off();
+	ErrorMsgButton_->Off();
 }

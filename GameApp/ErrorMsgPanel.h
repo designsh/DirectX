@@ -12,6 +12,9 @@ private:	// member Var
 	GameEngineUIRenderer* Panel_;
 
 private:
+	std::string ErrorMsgText_;
+
+private:
 	ErrorMsgPopup* Parent_;
 
 public:
@@ -32,5 +35,6 @@ private:
 
 public:
 	void SetParentPopup(ErrorMsgPopup* _Parent);
+	void SetErrorMsg(const std::string& _Text);
 };
 
