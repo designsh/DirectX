@@ -37,6 +37,5 @@ void ErrorMsgPanel::SetParentPopup(ErrorMsgPopup* _Parent)
 void ErrorMsgPanel::SetErrorMsg(const std::string& _Text)
 {
 	ErrorMsgText_ = _Text;
-
 	Panel_->SetPrintText(ErrorMsgText_);
 }

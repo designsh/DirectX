@@ -54,6 +54,7 @@ enum class UIRenderOrder
 	UI12_Collider,
 	UI12_Text,
 	ErrorPopup,
+	ErrorPopup_Button,
 	ErrorPopup_Collider,
 	ErrorPopup_Text,
 	Mouse = 9999,
