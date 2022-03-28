@@ -10,8 +10,7 @@
 #include "GameEngineRenderTarget.h"
 
 GameEngineProgressBarRenderer::GameEngineProgressBarRenderer() :
-	ProgressBarData_{},
-	ColorTint_(float4::WHITE)
+	ProgressBarData_{}
 {
 }
 
@@ -25,6 +24,8 @@ void GameEngineProgressBarRenderer::Start()
 
 	SetRenderingPipeLine("ProgressBarUI");
 	ShaderHelper.SettingConstantBufferLink("ProgressBarCBuffer", ProgressBarData_);
+	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData_);
+	ShaderHelper.SettingConstantBufferLink("ResultColor", CutData_);
 }
 
 void GameEngineProgressBarRenderer::Render()
@@ -41,15 +42,10 @@ void GameEngineProgressBarRenderer::SetRenderGroup(int _Order)
 
 void GameEngineProgressBarRenderer::SetProgressBarDirect(int _ProgressBarDir)
 {
-	ProgressBarData_.PregressDirect = _ProgressBarDir;
+	ProgressBarData_.PregressDirection = _ProgressBarDir;
 }
 
 void GameEngineProgressBarRenderer::SetPercent(float _Percent)
 {
 	ProgressBarData_.Percent = _Percent;
-}
-
-void GameEngineProgressBarRenderer::SetColor(float4 _Color)
-{
-	ColorTint_ = _Color;
 }

@@ -6,11 +6,12 @@
 struct ProgressBarCBuffer
 {
 	float Percent;
-	int PregressDirect;
+	// 0이면 Up // 1이면 down // 2 Left // 3 Right
+	int PregressDirection;
 	float Empty1;
 	float Empty2;
 
-	ProgressBarCBuffer() : Percent(1.f), PregressDirect(0), Empty1(0.f), Empty2(0.f)
+	ProgressBarCBuffer() : Percent(1.f), PregressDirection(0), Empty1(0.f), Empty2(0.f)
 	{
 	}
 };
@@ -27,9 +28,6 @@ class GameEngineProgressBarRenderer : public GameEngineImageRenderer
 {
 private:	// member Var
 	ProgressBarCBuffer ProgressBarData_;
-
-private:
-	float4 ColorTint_;
 
 public:
 	GameEngineProgressBarRenderer();
@@ -53,6 +51,5 @@ public:
 public:
 	void SetProgressBarDirect(int _ProgressBarDir);
 	void SetPercent(float _Percent);
-	void SetColor(float4 _Color);
 };
 
