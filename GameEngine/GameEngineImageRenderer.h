@@ -59,6 +59,9 @@ private:
 	std::map<std::string, Animation2D*>									AllAnimations_;			// 애니메이션 관리 목록
 	Animation2D*														CurAnimation_;			// 현재 애니메이션
 
+protected:
+	float4																CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
+	float4																ResultColor_;			// 알파 조절값
 
 // ==================================== Image 관련 ==================================== //
 private:
@@ -69,9 +72,6 @@ public:
 	~GameEngineImageRenderer(); // default destructer 디폴트 소멸자
 
 protected:		// delete constructer
-	float4																CutData_;				// UV(x위치값, y위치값, uv너비, uv높이)
-	float4																ResultColor_;			// 알파 조절값
-
 	GameEngineImageRenderer(const GameEngineImageRenderer& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	GameEngineImageRenderer(GameEngineImageRenderer&& _other) noexcept = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
 

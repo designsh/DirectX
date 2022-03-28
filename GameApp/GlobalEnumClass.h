@@ -77,9 +77,9 @@ enum class DepthZOrder
 // UI ProgressBar Direct
 enum class ProgressBarDirect
 {
-	RightToLeft,		// Right -> Left
-	LeftToRight,		// Left -> Right
+	BottomToTop,		// Bottom -> Top
 	TopToBottom,		// Top -> Bottom
-	BottomToTop			// Bottom -> Top
+	RightToLeft,		// Right -> Left
+	LeftToRight			// Left -> Right
 };
 

@@ -1,6 +1,5 @@
 #include "CbufferHeader.fx"
 
-
 cbuffer TextureCutData : register(b1)
 {
     // UV값으로 float4를 수신하며 x,y에 위치값, z,w에 크기값을 받아옴
@@ -55,19 +54,23 @@ SamplerState Smp : register(s0);
 // UI ProgressBar Shader Function(Pixel Shader)
 float4 ProgressBar_PS(VertexOut _in) : SV_Target0
 {
-    // 0
-    // 1
-    // up
+    //enum class ProgressBarDirect
+    //{
+    //    BottomToTop,		// Bottom -> Top
+    //    TopToBottom,		// Top -> Bottom
+    //    RightToLeft,		// Right -> Left
+    //    LeftToRight			// Left -> Right
+    //};
+
     if (PregressDirection == 0 && Percent < _in.Texcoord.y)
     {
         clip(-1);
     }
-    //                                 0.3
     else if (PregressDirection == 1 && 1.0f - Percent > _in.Texcoord.y)
     {
         clip(-1);
     }
-    else if (PregressDirection == 2 && 1.0f - Percent < _in.Texcoord.x)
+    else if (PregressDirection == 2 && Percent < _in.Texcoord.x)
     {
         clip(-1);
     }
@@ -76,7 +79,7 @@ float4 ProgressBar_PS(VertexOut _in) : SV_Target0
         clip(-1);
     }
     
-    float4 Color = Tex.Sample(Smp, _in.Texcoord.xy);
+    float4 Color = Tex.Sample(Smp, _in.Texcoord.xy) * vColor;
 
     return Color;
 }

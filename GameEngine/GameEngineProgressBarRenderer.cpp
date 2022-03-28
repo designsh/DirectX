@@ -25,14 +25,14 @@ void GameEngineProgressBarRenderer::Start()
 	SetRenderingPipeLine("ProgressBarUI");
 	ShaderHelper.SettingConstantBufferLink("ProgressBarCBuffer", ProgressBarData_);
 	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData_);
-	ShaderHelper.SettingConstantBufferLink("ResultColor", CutData_);
+
+	ResultColor_ = float4::ONE;
+	ShaderHelper.SettingConstantBufferLink("ResultColor", ResultColor_);
 }
 
 void GameEngineProgressBarRenderer::Render()
 {
 	GameEngineRenderer::Render();
-
-
 }
 
 void GameEngineProgressBarRenderer::SetRenderGroup(int _Order)

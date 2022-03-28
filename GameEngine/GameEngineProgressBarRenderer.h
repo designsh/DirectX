@@ -6,7 +6,6 @@
 struct ProgressBarCBuffer
 {
 	float Percent;
-	// 0이면 Up // 1이면 down // 2 Left // 3 Right
 	int PregressDirection;
 	float Empty1;
 	float Empty2;

@@ -24,7 +24,7 @@ void MainPlayer_CurrentHP::Start()
 
 	HPRenderer_ = CreateTransformComponent<GameEngineProgressBarRenderer>(static_cast<int>(UIRenderOrder::UI11));
 	HPRenderer_->SetImage("HP.png");
-	HPRenderer_->SetProgressBarDirect(static_cast<int>(ProgressBarDirect::TopToBottom));
+	HPRenderer_->SetProgressBarDirect(static_cast<int>(ProgressBarDirect::BottomToTop));
 	HPRenderer_->GetTransform()->SetLocalPosition(float4(68.f - ScreenHarfSize.x, 52.f - ScreenHarfSize.y));
 
 	if (false == GameEngineInput::GetInst().IsKey("TESTKEY"))
@@ -44,12 +44,20 @@ void MainPlayer_CurrentHP::Update(float _DeltaTime)
 	{
 		HPRenderer_->SetPercent(test);
 		test -= 0.1f;
+		if (test <= 0.0f)
+		{
+			test = 0.0f;
+		}
 	}
 
 	if (true == GameEngineInput::GetInst().Down("TESTKEY2"))
 	{
 		HPRenderer_->SetPercent(test);
 		test += 0.1f;
+		if (test >= 1.0f)
+		{
+			test = 1.0f;
+		}
 	}
 }
 
