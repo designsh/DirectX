@@ -213,10 +213,13 @@
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentMPView</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayer_LeftWeaponSkillButton.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LeftWeaponSkill</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn\LeftWeaponSkill</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayer_RightWeaponSkillButton.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\RightWeaponSkill</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn\RightWeaponSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_WeaponSkillButton.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -457,12 +460,6 @@
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function">
       <UniqueIdentifier>{f28554de-ba68-4138-99e7-7242899d69e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LeftWeaponSkill">
-      <UniqueIdentifier>{9dac6442-adab-459b-9d0e-8c205fddd14f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\RightWeaponSkill">
-      <UniqueIdentifier>{07178529-adf9-43b1-8e70-900c40380ab3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina">
       <UniqueIdentifier>{937ed26c-7b5c-449e-b605-49d5c5721220}</UniqueIdentifier>
     </Filter>
@@ -594,6 +591,15 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function\StateUpdateFunction">
       <UniqueIdentifier>{efc88d3a-7765-4032-b8b5-fb2fe6bc95ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn">
+      <UniqueIdentifier>{fdc41024-388c-4d37-b24a-56ab9fe5d8e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn\RightWeaponSkill">
+      <UniqueIdentifier>{07178529-adf9-43b1-8e70-900c40380ab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn\LeftWeaponSkill">
+      <UniqueIdentifier>{9dac6442-adab-459b-9d0e-8c205fddd14f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -775,10 +781,13 @@
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentMPView</Filter>
     </ClInclude>
     <ClInclude Include="MainPlayer_LeftWeaponSkillButton.h">
-      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LeftWeaponSkill</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn\LeftWeaponSkill</Filter>
     </ClInclude>
     <ClInclude Include="MainPlayer_RightWeaponSkillButton.h">
-      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\RightWeaponSkill</Filter>
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn\RightWeaponSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_WeaponSkillButton.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

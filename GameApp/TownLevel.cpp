@@ -53,14 +53,14 @@ void TownLevel::LevelChangeStartEvent()
 void TownLevel::LevelStart()
 {
 	// ============================================== 테스트용 ============================================== //
-	MainPlayerInfomation::GetInst().CreateMainPlayerInfo("test1", JobType::Necromancer);
-	if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
-	{
-		if (nullptr != GlobalValue::CurPlayer)
-		{
-			GlobalValue::CurPlayer->CreatePlayerUIInfomation();
-		}
-	}
+	//MainPlayerInfomation::GetInst().CreateMainPlayerInfo("test1", JobType::Necromancer);
+	//if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
+	//{
+	//	if (nullptr != GlobalValue::CurPlayer)
+	//	{
+	//		GlobalValue::CurPlayer->CreatePlayerUIInfomation();
+	//	}
+	//}
 	// ============================================== 테스트용 ============================================== //
 
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);

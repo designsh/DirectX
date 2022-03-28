@@ -19,7 +19,6 @@ MouseObject::~MouseObject()
 
 void MouseObject::Start()
 {
-	// 이미지 편집 후 적용예정
 	GameEngineTexture* MouseStay = GameEngineTextureManager::GetInst().Find("Mouse.png");
 	MouseStay->Cut(8, 1);
 
@@ -30,8 +29,11 @@ void MouseObject::Start()
 	Mouse_->SetRenderGroup(static_cast<int>(UIRenderOrder::Mouse));
 	Mouse_->SetChangeAnimation("StayState");
 
+	float4 PivotPos = Mouse_->GetTransform()->GetLocalPosition();
+
 	MouseCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Mouse));
-	MouseCollider_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
+	MouseCollider_->GetTransform()->SetLocalScaling(float4(5.f, 5.f, 1.f));
+	MouseCollider_->GetTransform()->SetLocalPosition(float4(PivotPos.x - 15.f, PivotPos.y + 13.f));
 
 	GameEngineInput::GetInst().HideCursor();
 }

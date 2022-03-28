@@ -47,6 +47,12 @@ private:
 		{
 			CurFrame_ = _Index;
 		}
+
+	public:
+		void ChangeAnimationTexture(GameEngineTexture* Texture) 
+		{
+			AnimationTexture_ = Texture;
+		}
 	};
 
 private:
@@ -128,6 +134,10 @@ public:
 protected:
 	void Update(float _DeltaTime) override;
 	void ImageRendererStart();
+
+public:
+	// 애니메이션 텍스쳐만 변경
+	void ChangeAnimationImage(const std::string _Name, const std::string& _TextureName);
 
 public:
 	// 프레임 자동 진행

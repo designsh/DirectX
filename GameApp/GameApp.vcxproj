@@ -176,6 +176,10 @@
     </ClCompile>
     <ClCompile Include="MainPlayer_StateUpdater.cpp" />
     <ClCompile Include="MainPlayer_UIManager.cpp" />
+    <ClCompile Include="MainPlayer_WeaponSkillButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="StatView.cpp">
       <SubType>
       </SubType>
@@ -417,6 +421,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayer_RightWeaponSkillButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_WeaponSkillButton.h">
       <SubType>
       </SubType>
     </ClInclude>

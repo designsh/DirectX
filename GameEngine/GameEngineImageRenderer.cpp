@@ -81,6 +81,27 @@ void GameEngineImageRenderer::ImageRendererStart()
 	ShaderHelper.SettingConstantBufferLink("ResultColor", ResultColor_);
 }
 
+void GameEngineImageRenderer::ChangeAnimationImage(const std::string _Name, const std::string& _TextureName)
+{
+	// 상태 찾기
+	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
+	if (AllAnimations_.end() == FindIter)
+	{
+		GameEngineDebug::MsgBoxError("존재하는 애니메이션이 아닙니다!!" + _Name);
+		return;
+	}
+
+	// 텍스쳐 찾기
+	GameEngineTexture* FindTexture = GameEngineTextureManager::GetInst().Find(_TextureName);
+	if (nullptr == FindTexture)
+	{
+		GameEngineDebug::MsgBoxError("존재하는 텍스쳐가 아닙니다!!" + _TextureName);
+		return;
+	}
+
+	FindIter->second->ChangeAnimationTexture(FindTexture);
+}
+
 void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop)
 {
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);

@@ -5,15 +5,19 @@
 #include <GameEngine/GameEngineCollision.h>
 
 #include "UserGame.h"
+#include "GlobalValue.h"
 
 #include "MainPlayerInfomation.h"
 #include "MainPlayer.h"
+
+#include "MainPlayer_WeaponSkillButton.h"
 
 MainPlayer_RightWeaponSkillButton::MainPlayer_RightWeaponSkillButton() :
 	IsActive_(false),
 	ButtonState_(Button_State::Normal),
 	CurSkillButton_(nullptr),
 	CurSkillButtonCollision_(nullptr),
+	CurSkillCode_(-1),
 	SkillListPushCount_{ 0, }
 {
 }
@@ -65,6 +69,9 @@ void MainPlayer_RightWeaponSkillButton::Start()
 	CurSkillButtonCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI11_Collider));
 	CurSkillButtonCollision_->GetTransform()->SetLocalScaling(float4(48.f, 48.f));
 	CurSkillButtonCollision_->GetTransform()->SetLocalPosition(CurSkillButton_->GetTransform()->GetLocalPosition());
+
+	// 현재 스킬 코드 저장(기본공격)
+	CurSkillCode_ = 0;
 }
 
 void MainPlayer_RightWeaponSkillButton::Update(float _DeltaTime)
@@ -105,77 +112,24 @@ void MainPlayer_RightWeaponSkillButton::UpdateWeaponSkillList(int _SkillID)
 	{
 		if (PlayerInfo.SkillInfo[i].SkillCode == _SkillID)
 		{
-			// 목록에 해당 스킬 추가
-			WeaponSkillBtn_List NewSkillButton = {};
+			// 필요 정보 Get
+			int PageNo = PlayerInfo.SkillInfo[i].SkillPage;
+			int SkillID = _SkillID;
+			int PushNo = SkillListPushCount_[PageNo];
 
-			// 스킬 페이지
-			NewSkillButton.SkillPage = PlayerInfo.SkillInfo[i].SkillPage;
+			// 위치 계산
+			float4 CalcPos = float4(ScreenHarfSize.x - 140.f, 80.f - ScreenHarfSize.y);
+			CalcPos.x -= (48.f * PushNo);
+			CalcPos.y += (48.f * PageNo);
 
-			// 스킬 Code
-			NewSkillButton.SkillID = PlayerInfo.SkillInfo[i].SkillCode;
+			// 스킬 버튼 생성
+			MainPlayer_WeaponSkillButton* NewSkillBtnActor = GetLevel()->CreateActor<MainPlayer_WeaponSkillButton>();
+			NewSkillBtnActor->SetWeaponDirType(DirectType::Left);
+			NewSkillBtnActor->CreateSkillButton(PageNo, CalcPos, SkillID);
 
-			// 목록삽입 번호
-			NewSkillButton.PushNo = SkillListPushCount_[NewSkillButton.SkillPage];
+			RWeaponSkillList_.push_back(NewSkillBtnActor);
 
-			// 렌더러 생성
-			NewSkillButton.SkillButton = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI11));
-
-			// 스킬 이름 저장
-			NewSkillButton.ButtonName = PlayerInfo.SkillInfo[i].SkillName;
-
-			// 스킬이름을 이용하여 텍스쳐명 편집
-
-			// 디폴트
-			std::string DefaultTex = NewSkillButton.ButtonName;
-			DefaultTex += "_Default";
-			DefaultTex += ".png";
-			GameEngineTexture* DefaultTexture = GameEngineTextureManager::GetInst().Find(DefaultTex);
-			if (nullptr != DefaultTexture)
-			{
-				DefaultTexture->Cut(1, 1);
-				NewSkillButton.SkillButton->CreateAnimation(DefaultTex, "Default", 0, 0, 0.1f, false);
-			}
-
-			// 클릭
-			std::string ClickTex = NewSkillButton.ButtonName;
-			ClickTex += "_Click";
-			ClickTex += ".png";
-			GameEngineTexture* ClickTexture = GameEngineTextureManager::GetInst().Find(ClickTex);
-			if (nullptr != ClickTexture)
-			{
-				ClickTexture->Cut(1, 1);
-				NewSkillButton.SkillButton->CreateAnimation(ClickTex, "Click", 0, 0, 0.1f, false);
-			}
-
-			// 마을-비활성
-			std::string DisabledTex = NewSkillButton.ButtonName;
-			DisabledTex += "_Disabled";
-			DisabledTex += ".png";
-			GameEngineTexture* DisabledTexture = GameEngineTextureManager::GetInst().Find(DisabledTex);
-			if (nullptr != DisabledTexture)
-			{
-				DisabledTexture->Cut(1, 1);
-				NewSkillButton.SkillButton->CreateAnimation(DisabledTex, "Disabled", 0, 0, 0.1f, false);
-
-				// 위치 계산
-				float4 CalcPos = float4(ScreenHarfSize.x - 140.f, 80.f - ScreenHarfSize.y);
-				CalcPos.x -= (48.f * NewSkillButton.PushNo);
-				CalcPos.y += (48.f * NewSkillButton.SkillPage);
-
-				// 위치값 저장
-				NewSkillButton.SkillBtnPos = CalcPos;
-
-				// 크기 및 위치 지정
-				NewSkillButton.SkillButton->GetTransform()->SetLocalScaling(float4(48.f, 48.f, 1.f));
-				NewSkillButton.SkillButton->GetTransform()->SetLocalPosition(CalcPos);
-				NewSkillButton.SkillButton->SetChangeAnimation("Default");
-				NewSkillButton.SkillButton->Off();
-
-				// 관리목록에 추가
-				RWeaponSkillList_.push_back(NewSkillButton);
-
-				++SkillListPushCount_[NewSkillButton.SkillPage];
-			}
+			++SkillListPushCount_[PageNo];
 
 			break;
 		}
@@ -184,7 +138,6 @@ void MainPlayer_RightWeaponSkillButton::UpdateWeaponSkillList(int _SkillID)
 
 void MainPlayer_RightWeaponSkillButton::InitRWeaponSkillList()
 {
-
 	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();
 
 	// 초기 활성화된 왼쪽무기 스킬목록을 생성한다.
@@ -193,84 +146,32 @@ void MainPlayer_RightWeaponSkillButton::InitRWeaponSkillList()
 	int SkillSize = static_cast<int>(PlayerInfo.SkillInfo.size());
 	for (int i = 0; i < SkillSize; ++i)
 	{
-		// 현재 활성화되어있으며 왼쪽스킬로 사용가능한 스킬
+		// 현재 활성화되어있는 스킬을 목록에 추가
 		if (true == PlayerInfo.SkillInfo[i].SkillActive)
 		{
-			int Row = PlayerInfo.SkillInfo[i].SkillRow;
-			int Column = PlayerInfo.SkillInfo[i].SkillColumn;
+			// 필요 정보 Get
+			int PageNo = PlayerInfo.SkillInfo[i].SkillPage;
+			int SkillID = PlayerInfo.SkillInfo[i].SkillCode;
+			int PushNo = SkillListPushCount_[PageNo];
 
-			WeaponSkillBtn_List NewSkillButton = {};
+			// 위치 계산
+			float4 CalcPos = float4(ScreenHarfSize.x - 140.f, 80.f - ScreenHarfSize.y);
+			CalcPos.x -= (48.f * PushNo);
+			CalcPos.y += (48.f * PageNo);
 
-			// 스킬 페이지
-			NewSkillButton.SkillPage = PlayerInfo.SkillInfo[i].SkillPage;
+			// 스킬 버튼 생성
+			MainPlayer_WeaponSkillButton* NewSkillBtnActor = GetLevel()->CreateActor<MainPlayer_WeaponSkillButton>();
+			NewSkillBtnActor->SetWeaponDirType(DirectType::Right);
+			NewSkillBtnActor->CreateSkillButton(PageNo, CalcPos, SkillID);
 
-			// 스킬 Code
-			NewSkillButton.SkillID = PlayerInfo.SkillInfo[i].SkillCode;
+			RWeaponSkillList_.push_back(NewSkillBtnActor);
 
-			// 목록삽입 번호
-			NewSkillButton.PushNo = SkillListPushCount_[NewSkillButton.SkillPage];
-
-			// 렌더러 생성
-			NewSkillButton.SkillButton = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI11));
-
-			// 스킬 이름 저장
-			NewSkillButton.ButtonName = PlayerInfo.SkillInfo[i].SkillName;
-
-			// 스킬이름을 이용하여 텍스쳐명 편집
-
-			// 디폴트
-			std::string DefaultTex = NewSkillButton.ButtonName;
-			DefaultTex += "_Default";
-			DefaultTex += ".png";
-			GameEngineTexture* DefaultTexture = GameEngineTextureManager::GetInst().Find(DefaultTex);
-			if (nullptr != DefaultTexture)
-			{
-				DefaultTexture->Cut(1, 1);
-				NewSkillButton.SkillButton->CreateAnimation(DefaultTex, "Default", 0, 0, 0.1f, false);
-			}
-
-			// 클릭
-			std::string ClickTex = NewSkillButton.ButtonName;
-			ClickTex += "_Click";
-			ClickTex += ".png";
-			GameEngineTexture* ClickTexture = GameEngineTextureManager::GetInst().Find(ClickTex);
-			if (nullptr != ClickTexture)
-			{
-				ClickTexture->Cut(1, 1);
-				NewSkillButton.SkillButton->CreateAnimation(ClickTex, "Click", 0, 0, 0.1f, false);
-			}
-
-			// 마을-비활성
-			std::string DisabledTex = NewSkillButton.ButtonName;
-			DisabledTex += "_Disabled";
-			DisabledTex += ".png";
-			GameEngineTexture* DisabledTexture = GameEngineTextureManager::GetInst().Find(DisabledTex);
-			if (nullptr != DisabledTexture)
-			{
-				DisabledTexture->Cut(1, 1);
-				NewSkillButton.SkillButton->CreateAnimation(DisabledTex, "Disabled", 0, 0, 0.1f, false);
-
-				// 위치 계산
-				float4 CalcPos = float4(ScreenHarfSize.x - 140.f, 80.f - ScreenHarfSize.y);
-				CalcPos.x -= (48.f * NewSkillButton.PushNo);
-				CalcPos.y += (48.f * NewSkillButton.SkillPage);
-
-				// 위치값 저장
-				NewSkillButton.SkillBtnPos = CalcPos;
-
-				// 크기 및 위치 지정
-				NewSkillButton.SkillButton->GetTransform()->SetLocalScaling(float4(48.f, 48.f, 1.f));
-				NewSkillButton.SkillButton->GetTransform()->SetLocalPosition(CalcPos);
-				NewSkillButton.SkillButton->SetChangeAnimation("Default");
-				NewSkillButton.SkillButton->Off();
-
-				// 관리목록에 추가
-				RWeaponSkillList_.push_back(NewSkillButton);
-
-				++SkillListPushCount_[NewSkillButton.SkillPage];
-			}
+			++SkillListPushCount_[PageNo];
 		}
 	}
+
+	// 전역 지정
+	GlobalValue::CurRightSkill = this;
 }
 
 void MainPlayer_RightWeaponSkillButton::CurRWeaponSkillBtnCol(GameEngineCollision* _Other)
@@ -299,7 +200,7 @@ void MainPlayer_RightWeaponSkillButton::RWeaponActiveSkillListView(bool _Flag)
 		int Count = static_cast<int>(RWeaponSkillList_.size());
 		for (int i = 0; i < Count; ++i)
 		{
-			RWeaponSkillList_[i].SkillButton->On();
+			RWeaponSkillList_[i]->On();
 		}
 	}
 	else
@@ -308,7 +209,43 @@ void MainPlayer_RightWeaponSkillButton::RWeaponActiveSkillListView(bool _Flag)
 		int Count = static_cast<int>(RWeaponSkillList_.size());
 		for (int i = 0; i < Count; ++i)
 		{
-			RWeaponSkillList_[i].SkillButton->Off();
+			RWeaponSkillList_[i]->Off();
 		}
 	}
+}
+
+void MainPlayer_RightWeaponSkillButton::CurSkillChange(int _SkillID, const std::string& _TextureName)
+{
+	// 현재 스킬 코드와 같다면 리턴
+	if (CurSkillCode_ == _SkillID)
+	{
+		return;
+	}
+
+	// 현재 선택된 스킬코드 저장
+	CurSkillCode_ = _SkillID;
+
+	// 텍스쳐 이름 편집
+	std::string DefaultTexture = _TextureName;
+	DefaultTexture += "_Default.png";
+
+	std::string ClickTexture = _TextureName;
+	ClickTexture += "_Click.png";
+
+	std::string DisabledTexture = _TextureName;
+	DisabledTexture += "_Disabled.png";
+
+	// 아니라면 현재 선택된 스킬 변경
+	CurSkillButton_->ChangeAnimationImage("Default", DefaultTexture);
+	CurSkillButton_->ChangeAnimationImage("Click", ClickTexture);
+	CurSkillButton_->ChangeAnimationImage("Disabled", DisabledTexture);
+	CurSkillButton_->SetChangeAnimation("Default", true);
+
+	// 스킬목록 Off
+	int Count = static_cast<int>(RWeaponSkillList_.size());
+	for (int i = 0; i < Count; ++i)
+	{
+		RWeaponSkillList_[i]->Off();
+	}
+	IsActive_ = false;
 }
