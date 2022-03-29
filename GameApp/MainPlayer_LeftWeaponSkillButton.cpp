@@ -217,8 +217,17 @@ void MainPlayer_LeftWeaponSkillButton::LWeaponActiveSkillListView(bool _Flag)
 void MainPlayer_LeftWeaponSkillButton::CurSkillChange(int _SkillID, const std::string& _TextureName)
 {
 	// 현재 스킬 코드와 같다면 리턴
+	// 단, 목록은 비활성화시킨다.
 	if (CurSkillCode_ == _SkillID)
 	{
+		// 스킬목록 Off
+		int Count = static_cast<int>(LWeaponSkillList_.size());
+		for (int i = 0; i < Count; ++i)
+		{
+			LWeaponSkillList_[i]->Off();
+		}
+		IsActive_ = false;
+
 		return;
 	}
 
@@ -240,12 +249,4 @@ void MainPlayer_LeftWeaponSkillButton::CurSkillChange(int _SkillID, const std::s
 	CurSkillButton_->ChangeAnimationImage("Click", ClickTexture);
 	CurSkillButton_->ChangeAnimationImage("Disabled", DisabledTexture);
 	CurSkillButton_->SetChangeAnimation("Default", true);
-
-	// 스킬목록 Off
-	int Count = static_cast<int>(LWeaponSkillList_.size());
-	for (int i = 0; i < Count; ++i)
-	{
-		LWeaponSkillList_[i]->Off();
-	}
-	IsActive_ = false;
 }
