@@ -13,6 +13,7 @@ class GameEngineUIRenderer : public GameEngineImageRenderer
 {
 private:
 	static GameEngineRenderTarget* FontTarget_;
+	static int UIRendererCount;
 
 private:	// member Var
 	bool IsText_;

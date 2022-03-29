@@ -1,18 +1,23 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+#include "GlobalEnumClass.h"
+
 // 분류 : 에러창
 // 용도 : 게임내 에러메세지 표시
 // 설명 : 
-class ErrorMsgPanel;
-class ErrorMsgButton;
+class GameEngineUIRenderer;
+class GameEngineCollision;
 class ErrorMsgPopup : public GameEngineActor
 {
 private:	// member Var
+	std::string ErrorMsgText_;
+	Button_State ButtonState_;
 
 private:
-	ErrorMsgPanel* ErrorMsgPanel_;
-	ErrorMsgButton* ErrorMsgButton_;
+	GameEngineUIRenderer* ErrorMsgPanel_;
+	GameEngineUIRenderer* ErrorMsgButton_;
+	GameEngineCollision* ErrorMsgBtnCollision_;
 
 public:
 	ErrorMsgPopup();
@@ -33,5 +38,8 @@ private:
 public:
 	void ErrorMsgPopupActive(const std::string& _ErrorMsg);
 	void ErrorMsgPopupDeactive();
+
+public:
+	void ErrorMsgDisabled(GameEngineCollision* _Other);
 };
 

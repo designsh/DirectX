@@ -12,6 +12,7 @@
 #include "GameEngineRenderTarget.h"
 
 GameEngineRenderTarget* GameEngineUIRenderer::FontTarget_ = nullptr;
+int GameEngineUIRenderer::UIRendererCount = 0;
 
 GameEngineUIRenderer::GameEngineUIRenderer() :
 	IsText_(false),
@@ -23,11 +24,13 @@ GameEngineUIRenderer::GameEngineUIRenderer() :
 	Flags_(FW1_CENTER | FW1_VCENTER),
 	MaxLen_(0)
 {
+	++UIRendererCount;
 }
 
 GameEngineUIRenderer::~GameEngineUIRenderer()
 {
-	if (nullptr != FontTarget_)
+	--UIRendererCount;
+	if (0 == UIRendererCount && nullptr != FontTarget_)
 	{
 		delete FontTarget_;
 		FontTarget_ = nullptr;
@@ -42,7 +45,7 @@ void GameEngineUIRenderer::Start()
 	ImageRendererStart();
 
 	// Global ·»´õÅ¸°Ù »ý¼º
-	if (nullptr == FontTarget_)
+	if (nullptr == FontTarget_ && UIRendererCount == 1)
 	{
 		FontTarget_ = new GameEngineRenderTarget();
 		FontTarget_->Create(GameEngineWindow::GetInst().GetSize(), float4::NONE);

@@ -2,6 +2,7 @@
 #include "CreateCharacterInputText.h"
 
 #include "ClassSelectObject.h"
+#include "ErrorMsgPopup.h"
 
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
@@ -109,10 +110,9 @@ void CreateCharacterInputText::AddText(const std::string& _Text)
 	// 문자열 추가 실패시 에러메세지팝업 생성
 	if (false == IDInput_->AddText(_Text))
 	{
-		std::string ErrMsg = "The number of characters that can be entered has been exceeded!!";
-
-		// 에러메세지창 생성
-
+		// 입력가능한 글자수 초과 에러창 생성
+		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
+		ErrorMsg->ErrorMsgPopupActive("Excess number of letters!!");
 
 		return;
 	}
@@ -144,6 +144,7 @@ void CreateCharacterInputText::DelText()
 
 		return;
 	}
+	InputText = IDInput_->GetPrintText();
 
 	// 캐럿 위치 이동
 	int CurTextLen = IDInput_->GetPrintTextLen();

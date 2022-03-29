@@ -100,14 +100,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ErrorMsgButton.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="ErrorMsgPanel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="ErrorMsgPopup.cpp">
       <SubType>
       </SubType>
@@ -356,14 +348,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EndingLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ErrorMsgButton.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ErrorMsgPanel.h">
       <SubType>
       </SubType>
     </ClInclude>

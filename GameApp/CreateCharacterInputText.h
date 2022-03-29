@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
-#define ID_MAX_LEN 15
+#define ID_MAX_LEN 10
 
 // 분류 : 위젯
 // 용도 : 캐릭터생성레벨 ID입력창

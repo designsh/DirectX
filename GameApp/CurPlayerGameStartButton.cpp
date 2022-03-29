@@ -133,19 +133,13 @@ void CurPlayerGameStartButton::OKButtonClick(GameEngineCollision* _OtherCollisio
 void CurPlayerGameStartButton::GameStartConditionCheck()
 {
 	// 현재 선택된 직업(클래스)가 있는지 검사
+	// 직업을 선택해야만 확인버튼 활성화
 	if (JobType::None != ClassSelectObject::GetSelectClass())
 	{
 		// 선택된 직업(클래스)가 있다면 생성 가능한 플레이어 ID인지 검사 후
 		// 정상적이라면 플레이어 정보 생성 및 정보파일 저장
 		// 비정상이라면 경고창이 화면에 표시되며, 정보 생성 및 레벨전환 불가
 		CheckSameID();
-	}
-	else
-	{
-		// 현재 선택된 직업이 없으면 경고장 표시
-		// 플레이하려는 클래스를 선택하십시오!!!!!
-		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
-		ErrorMsg->ErrorMsgPopupActive("Please select a Class(Job)!!!!");
 	}
 }
 
@@ -160,7 +154,7 @@ void CurPlayerGameStartButton::CheckSameID()
 	{
 		// ID를 입력하시오!!!! 경고창 표시
 		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
-		ErrorMsg->ErrorMsgPopupActive("Please enter your character ID!!!!");
+		ErrorMsg->ErrorMsgPopupActive("Please enter your character ID!!!");
 
 		return;
 	}
@@ -170,7 +164,7 @@ void CurPlayerGameStartButton::CheckSameID()
 	{
 		// 같은 ID의 플레이어가 이미 존재합니다!!!! 경고창 표시
 		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
-		ErrorMsg->ErrorMsgPopupActive("This ID already exists.Please enter a new ID");
+		ErrorMsg->ErrorMsgPopupActive("This ID already exists!!!");
 
 		return;
 	}
@@ -188,7 +182,6 @@ bool CurPlayerGameStartButton::DefaultPathFileNameCheck(const std::string& _Play
 	PlayerFileDir.MoveChild("SaveFile");
 	if (true == PlayerFileDir.CheckSameFileName(_PlayerID, ".dat"))
 	{
-		// 동일한 파일명을 찾음
 		return false;
 	}
 	
