@@ -71,6 +71,11 @@ public:
 		isUpdate_ = false;
 	}
 
+	void OnOffChange()
+	{
+		isUpdate_ = !isUpdate_;
+	}
+
 	void DebugOn()
 	{
 		isDebug_ = true;

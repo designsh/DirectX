@@ -53,6 +53,11 @@ public:
 		return ShaderResourcesViews_[_Index];
 	}
 
+	inline float4 GetTextureSize(size_t _Index)
+	{
+		return Textures_[_Index]->GetTextureSize();
+	}
+
 public:
 	void Clear();
 	void Setting(int _Index = -1);

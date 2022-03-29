@@ -7,6 +7,8 @@
 //            GameEngineLevel을 관리자의 역할도 수행
 class GameEngineCore : public GameEngineObjectBase
 {
+	friend class GameEngineLevelControlWindow;
+
 // ============================================= Level 관리자 관련 ============================================= //
 private:
 	static GameEngineLevel* NextLevel_;

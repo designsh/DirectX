@@ -589,6 +589,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn\LeftWeaponSkill">
       <UniqueIdentifier>{9dac6442-adab-459b-9d0e-8c205fddd14f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Level\99.EditorLevel">
+      <UniqueIdentifier>{ddcfa666-d62a-4cb5-85f0-39784c199896}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

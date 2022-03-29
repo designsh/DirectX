@@ -20,6 +20,9 @@
 #include "AllMonsterInfomation.h"
 #include "AllNPCInfomation.h"
 
+// IMGUI Window View
+#include <GameEngine/GameEngineLevelControlWindow.h>
+
 UserGame::UserGame()
 {
 }
@@ -44,6 +47,9 @@ UserGame::~UserGame()
 
 void UserGame::Initialize()
 {
+	// 조건없이 선택레벨로 이동하는 윈도우창 생성
+	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
+
 	// 씬구성 : 타이틀-캐릭터생성-캐릭터선택(보류)-로딩-마을-카타콤-카오스생츄어리
 	LevelCreate<TitleLevel>("TitleLevel");
 	LevelCreate<CreateCharacterLevel>("CreateCharacterLevel");
@@ -53,6 +59,9 @@ void UserGame::Initialize()
 	LevelCreate<CatacombsLevel>("CatacombsLevel");
 	LevelCreate<ChaosSanctuaryLevel>("ChaosSanctuaryLevel");
 	LevelCreate<EndingLevel>("EndingLevel");
+
+	// 그외 : 타일맵에디터
+	
 
 	LevelChange("TitleLevel");
 	//LevelChange("TownLevel");

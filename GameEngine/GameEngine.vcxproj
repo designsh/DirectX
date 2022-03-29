@@ -107,6 +107,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineImageShotWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineIndexBuffer.h">
       <SubType>
       </SubType>
@@ -117,6 +121,10 @@
     </ClInclude>
     <ClInclude Include="GameEngineInput.h" />
     <ClInclude Include="GameEngineLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevelControlWindow.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -333,6 +341,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineImageShotWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineIndexBuffer.cpp">
       <SubType>
       </SubType>
@@ -343,6 +355,10 @@
     </ClCompile>
     <ClCompile Include="GameEngineInput.cpp" />
     <ClCompile Include="GameEngineLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevelControlWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>

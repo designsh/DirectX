@@ -229,14 +229,23 @@
     <Filter Include="Imgui\Code">
       <UniqueIdentifier>{e8369a74-cdef-4295-8506-e9c950592ab8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Imgui\RenderWindow">
-      <UniqueIdentifier>{a9d4bf32-4682-4fe8-b4e4-b3b8dd76419d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Component\Renderer\Widget">
       <UniqueIdentifier>{093654cb-dd07-4e99-8844-afba3974fab1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Component\Renderer\Widget\ProgressBar">
       <UniqueIdentifier>{aecb155e-0962-4150-83e3-32cca8610c23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui\EngineWindow">
+      <UniqueIdentifier>{00a4efac-1f30-4d82-a87f-3ed2b2b1d534}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui\EngineWindow\RenderWindow">
+      <UniqueIdentifier>{a9d4bf32-4682-4fe8-b4e4-b3b8dd76419d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui\EngineWindow\ImageShot">
+      <UniqueIdentifier>{242b230f-7913-4c69-96f0-0009645df65b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui\EngineWindow\LevelControl">
+      <UniqueIdentifier>{702c54bb-1153-4b85-a419-7fc1d4604f0b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -430,10 +439,16 @@
       <Filter>Imgui</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderWindow.cpp">
-      <Filter>Imgui\RenderWindow</Filter>
+      <Filter>Imgui\EngineWindow\RenderWindow</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineProgressBarRenderer.cpp">
       <Filter>Object\Component\Renderer\Widget\ProgressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineImageShotWindow.cpp">
+      <Filter>Imgui\EngineWindow\ImageShot</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevelControlWindow.cpp">
+      <Filter>Imgui\EngineWindow\LevelControl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -639,10 +654,16 @@
       <Filter>Imgui</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRenderWindow.h">
-      <Filter>Imgui\RenderWindow</Filter>
+      <Filter>Imgui\EngineWindow\RenderWindow</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineProgressBarRenderer.h">
       <Filter>Object\Component\Renderer\Widget\ProgressBar</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineImageShotWindow.h">
+      <Filter>Imgui\EngineWindow\ImageShot</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevelControlWindow.h">
+      <Filter>Imgui\EngineWindow\LevelControl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

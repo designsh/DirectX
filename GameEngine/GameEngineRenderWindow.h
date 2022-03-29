@@ -18,6 +18,7 @@ class GameEngineRenderWindow : public GameEngineGUIWindow
 
 private:	// member Var
 	std::vector<RenderTargetDrawData> DrawRenderTarget_;
+	std::list<class GameEngineImageShotWindow*> ImageShot_;
 
 public:
 	GameEngineRenderWindow();
