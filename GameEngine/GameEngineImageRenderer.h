@@ -128,6 +128,9 @@ public:
 private:
 	void Start() override;
 
+public:
+	void SetResultColor(float4 _Color);
+
 	// ==================================== Image ฐüทร ==================================== //
 public:
 	void SetImage(const std::string& _ImageName, const float4& _RenderSize = float4::ZERO);

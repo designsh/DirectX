@@ -64,8 +64,8 @@ void UserGame::Initialize()
 	// 그외 : 타일맵에디터
 	LevelCreate<MapEditorLevel>("MapEditorLevel");
 	
-	LevelChange("TitleLevel");
-	//LevelChange("TownLevel");
+	//LevelChange("TitleLevel");
+	LevelChange("TownLevel");
 
 
 	// 테스트용 키생성

@@ -9,6 +9,7 @@ class MainPlayer_CurrentHP;
 class MainPlayer_CurrentMP;
 class MainPlayer_LeftWeaponSkillButton;
 class MainPlayer_RightWeaponSkillButton;
+class MainPlayer_StaminaProgressBar;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
@@ -21,6 +22,9 @@ private:
 private:
 	MainPlayer_LeftWeaponSkillButton* LWeaponSkill_;
 	MainPlayer_RightWeaponSkillButton* RWeaponSkill_;
+
+private:
+	MainPlayer_StaminaProgressBar* StaminaBar_;
 
 public:
 	BottomStateBar();

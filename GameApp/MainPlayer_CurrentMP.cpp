@@ -41,6 +41,6 @@ void MainPlayer_CurrentMP::MPConsumption(float _Damage)
 		GlobalValue::CurPlayer->DelCurrentMP(static_cast<int>(_Damage));
 
 		// 현재 MP Circle의 퍼센트를 계산
-
+		//MPRenderer_->SetParent();
 	}
 }

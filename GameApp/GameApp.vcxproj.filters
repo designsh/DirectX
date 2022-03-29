@@ -221,6 +221,9 @@
     <ClCompile Include="EditorControlWindow.cpp">
       <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_StaminaProgressBar.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina\ProgressBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -604,6 +607,12 @@
     <Filter Include="Object\Actor\99.Editor\00.EditorControlWindow">
       <UniqueIdentifier>{e527dff8-f3bb-4944-9544-da62a2992bbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina\ProgressBar">
+      <UniqueIdentifier>{9280245f-dab3-4acb-aa57-d54f32c6a3a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina\ActiveButton">
+      <UniqueIdentifier>{528dcd7c-80df-4b6f-924a-103a645d6924}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -791,6 +800,9 @@
     </ClInclude>
     <ClInclude Include="EditorControlWindow.h">
       <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_StaminaProgressBar.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina\ProgressBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

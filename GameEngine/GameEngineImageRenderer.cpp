@@ -27,6 +27,11 @@ GameEngineImageRenderer::~GameEngineImageRenderer()
 	}
 }
 
+void GameEngineImageRenderer::SetResultColor(float4 _Color)
+{
+	ResultColor_ = _Color;
+}
+
 void GameEngineImageRenderer::Start()
 {
 	GameEngineRenderer::Start();

@@ -240,6 +240,11 @@ public:
 		return IsTown_;
 	}
 
+	bool GetIsRun() const
+	{
+		return IsRun_;
+	}
+
 	int GetCurrentHP() const
 	{
 		return CurHP_;
