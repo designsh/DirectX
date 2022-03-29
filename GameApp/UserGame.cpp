@@ -12,6 +12,7 @@
 #include "CatacombsLevel.h"
 #include "ChaosSanctuaryLevel.h"
 #include "EndingLevel.h"
+#include "MapEditorLevel.h"
 
 // InGame Infomation
 #include "MainPlayerInfomation.h"
@@ -61,8 +62,8 @@ void UserGame::Initialize()
 	LevelCreate<EndingLevel>("EndingLevel");
 
 	// 그외 : 타일맵에디터
+	LevelCreate<MapEditorLevel>("MapEditorLevel");
 	
-
 	LevelChange("TitleLevel");
 	//LevelChange("TownLevel");
 

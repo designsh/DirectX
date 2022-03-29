@@ -96,6 +96,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EditorControlWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <SubType>
       </SubType>
@@ -169,6 +173,10 @@
     <ClCompile Include="MainPlayer_StateUpdater.cpp" />
     <ClCompile Include="MainPlayer_UIManager.cpp" />
     <ClCompile Include="MainPlayer_WeaponSkillButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MapEditorLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -347,6 +355,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EditorControlWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EndingLevel.h">
       <SubType>
       </SubType>
@@ -409,6 +421,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayer_WeaponSkillButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MapEditorLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

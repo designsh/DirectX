@@ -215,6 +215,12 @@
     <ClCompile Include="MainPlayer_WeaponSkillButton.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn</Filter>
     </ClCompile>
+    <ClCompile Include="MapEditorLevel.cpp">
+      <Filter>Object\Level\99.EditorLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorControlWindow.cpp">
+      <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -592,6 +598,12 @@
     <Filter Include="Object\Level\99.EditorLevel">
       <UniqueIdentifier>{ddcfa666-d62a-4cb5-85f0-39784c199896}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\99.Editor">
+      <UniqueIdentifier>{f828f566-6a0e-4bc1-b999-b8387e51ad84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\99.Editor\00.EditorControlWindow">
+      <UniqueIdentifier>{e527dff8-f3bb-4944-9544-da62a2992bbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -773,6 +785,12 @@
     </ClInclude>
     <ClInclude Include="MainPlayer_WeaponSkillButton.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorLevel.h">
+      <Filter>Object\Level\99.EditorLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorControlWindow.h">
+      <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

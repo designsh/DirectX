@@ -10,8 +10,7 @@
 #include "GlobalValue.h"
 #include "MainPlayer.h"
 
-EndingLevel::EndingLevel() :
-	MainPlayer_(nullptr)
+EndingLevel::EndingLevel()
 {
 }
 

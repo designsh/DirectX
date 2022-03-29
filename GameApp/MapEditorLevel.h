@@ -1,25 +1,24 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
 
-// 분류 : 엔딩 화면
+// 분류 : 맵에디터 레벨
 // 용도 : 
 // 설명 : 
-class MainPlayer;
-class EndingLevel : public GameEngineLevel
+class MapEditorLevel : public GameEngineLevel
 {
 private:	// member Var
 
 public:
-	EndingLevel();
-	~EndingLevel();
+	MapEditorLevel();
+	~MapEditorLevel();
 
 protected:		// delete constructer
-	EndingLevel(const EndingLevel& _other) = delete;
-	EndingLevel(EndingLevel&& _other) noexcept = delete;
+	MapEditorLevel(const MapEditorLevel& _other) = delete;
+	MapEditorLevel(MapEditorLevel&& _other) noexcept = delete;
 
 private:		//delete operator
-	EndingLevel& operator=(const EndingLevel& _other) = delete;
-	EndingLevel& operator=(const EndingLevel&& _other) = delete;
+	MapEditorLevel& operator=(const MapEditorLevel& _other) = delete;
+	MapEditorLevel& operator=(const MapEditorLevel&& _other) = delete;
 
 public:
 	virtual void LevelChangeEndEvent() override;
