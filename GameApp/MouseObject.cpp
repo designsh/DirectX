@@ -26,6 +26,7 @@ void MouseObject::Start()
 	Mouse_->CreateAnimation("Mouse.png", "StayState", 0, 7, 0.4f);
 	Mouse_->CreateAnimation("Mouse.png", "MoveState", 0, 0, 0.1f, false);
 	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
+	Mouse_->GetTransform()->SetLocalPosition(float4(15.5f, -11.5f));
 	Mouse_->SetRenderGroup(static_cast<int>(UIRenderOrder::Mouse));
 	Mouse_->SetChangeAnimation("StayState");
 
@@ -33,7 +34,6 @@ void MouseObject::Start()
 
 	MouseCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Mouse));
 	MouseCollider_->GetTransform()->SetLocalScaling(float4(5.f, 5.f, 1.f));
-	MouseCollider_->GetTransform()->SetLocalPosition(float4(PivotPos.x - 15.f, PivotPos.y + 13.f));
 
 	// 220329 SJH : 테스트로인한 임시주석
 	//GameEngineInput::GetInst().HideCursor();
