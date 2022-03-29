@@ -35,7 +35,8 @@ void MouseObject::Start()
 	MouseCollider_->GetTransform()->SetLocalScaling(float4(5.f, 5.f, 1.f));
 	MouseCollider_->GetTransform()->SetLocalPosition(float4(PivotPos.x - 15.f, PivotPos.y + 13.f));
 
-	GameEngineInput::GetInst().HideCursor();
+	// 220329 SJH : 테스트로인한 임시주석
+	//GameEngineInput::GetInst().HideCursor();
 }
 
 void MouseObject::Update(float _DeltaTime)
