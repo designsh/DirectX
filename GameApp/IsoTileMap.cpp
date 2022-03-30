@@ -60,6 +60,10 @@ TileIndex IsoTileMap::GetIndex(float4 _Pos)
 	//Yindex가 1 증가하면 x는 80감소 한다.
 	//Yindex가 1 증가하면 y는 40감가 한다
 	
+	// 좌상단 기준 좌하단쪽으로갈수록 y인덱스 증가 우하단쪽으로 갈수록 x인덱스증가
+	//        00
+	//     01    10
+	//   02        20
 	Index.X_ = static_cast<int>(((_Pos.x / TileSizeHalf.x) - (_Pos.y / TileSizeHalf.y)) / 2.0f);
 	Index.Y_ = static_cast<int>(((_Pos.y / TileSizeHalf.y) + (_Pos.x / TileSizeHalf.x)) / -2.0f);
 
