@@ -64,8 +64,8 @@ void BottomStateBar::Start()
 	// 레벨업 활성화버튼
 	// 1. 스탯창 오픈
 	// 2. 스킬창 오픈
-	AddStatPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
-	AddSkillPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
+	//AddStatPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
+	//AddSkillPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
 
 	// 스태미나
 	Stamina_ = GetLevel()->CreateActor<MainPlayer_Stamina>();
