@@ -13,6 +13,7 @@
 #include "MainPlayer_RightWeaponSkillButton.h"
 #include "MainPlayer_Stamina.h"
 #include "MainPlayer_MiniMenu.h"
+#include "MainPlayer_LevelUpActiveButton.h"
 
 BottomStateBar::BottomStateBar() :
 	Panel_(nullptr),
@@ -21,7 +22,9 @@ BottomStateBar::BottomStateBar() :
 	LWeaponSkill_(nullptr),
 	RWeaponSkill_(nullptr),
 	Stamina_(nullptr),
-	MiniMenu_(nullptr)
+	MiniMenu_(nullptr),
+	AddStatPointButton_(nullptr),
+	AddSkillPointButton_(nullptr)
 {
 }
 
@@ -58,6 +61,11 @@ void BottomStateBar::Start()
 
 	// 현재 경험치
 
+	// 레벨업 활성화버튼
+	// 1. 스탯창 오픈
+	// 2. 스킬창 오픈
+	AddStatPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
+	AddSkillPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
 
 	// 스태미나
 	Stamina_ = GetLevel()->CreateActor<MainPlayer_Stamina>();

@@ -11,6 +11,7 @@ class MainPlayer_LeftWeaponSkillButton;
 class MainPlayer_RightWeaponSkillButton;
 class MainPlayer_Stamina;
 class MainPlayer_MiniMenu;
+class MainPlayer_ActiveButton;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
@@ -29,6 +30,10 @@ private:
 
 private:
 	MainPlayer_MiniMenu* MiniMenu_;
+
+private: // 레벨업시 활성화되는 버튼
+	MainPlayer_LevelUpActiveButton* AddStatPointButton_;
+	MainPlayer_LevelUpActiveButton* AddSkillPointButton_;
 
 public:
 	BottomStateBar();

@@ -233,6 +233,9 @@
     <ClCompile Include="IsoTileMap.cpp">
       <Filter>Object\Actor\99.Editor</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_LevelUpActiveButton.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LevelUpButton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -619,6 +622,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu\MiniMenuButton">
       <UniqueIdentifier>{dd1ce502-8a06-4232-9d3c-e0285bc4bd0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LevelUpButton">
+      <UniqueIdentifier>{0cc0e7fb-3134-4969-9276-56b29b168bc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -818,6 +824,9 @@
     </ClInclude>
     <ClInclude Include="IsoTileMap.h">
       <Filter>Object\Actor\99.Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_LevelUpActiveButton.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LevelUpButton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
