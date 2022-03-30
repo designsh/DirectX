@@ -12,6 +12,7 @@
 #include "MainPlayer_LeftWeaponSkillButton.h"
 #include "MainPlayer_RightWeaponSkillButton.h"
 #include "MainPlayer_Stamina.h"
+#include "MainPlayer_MiniMenu.h"
 
 BottomStateBar::BottomStateBar() :
 	Panel_(nullptr),
@@ -19,7 +20,8 @@ BottomStateBar::BottomStateBar() :
 	MP_(nullptr),
 	LWeaponSkill_(nullptr),
 	RWeaponSkill_(nullptr),
-	Stamina_(nullptr)
+	Stamina_(nullptr),
+	MiniMenu_(nullptr)
 {
 }
 
@@ -57,16 +59,14 @@ void BottomStateBar::Start()
 	// 현재 경험치
 
 
-	// 스태미나 활성/비활성 버튼
-
-
-	// 스태미나 ProgressBar
+	// 스태미나
 	Stamina_ = GetLevel()->CreateActor<MainPlayer_Stamina>();
 
 	// 물약칸
 
 
 	// 미니메뉴관련
+	MiniMenu_ = GetLevel()->CreateActor<MainPlayer_MiniMenu>();
 
 }
 

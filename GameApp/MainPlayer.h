@@ -206,8 +206,8 @@ private: // 상태
 
 #pragma region PlayerUI
 private: // 플레이어 UI
-	BottomStateBar* BottomStateBar_;		// 하단 상태바
-	StatView* StatView_;					// 상태창
+	BottomStateBar* BottomStateBar_;						// 하단상태바
+	StatView* StatView_;									// 상태창
 
 private:
 
@@ -258,6 +258,17 @@ public:
 	int GetCurrentMP() const
 	{
 		return CurMP_;
+	}
+
+public:
+	inline BottomStateBar* GetBottomStateBar()
+	{
+		return BottomStateBar_;
+	}
+
+	inline StatView* GetStatView()
+	{
+		return StatView_;
 	}
 
 public:

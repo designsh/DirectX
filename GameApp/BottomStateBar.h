@@ -10,6 +10,7 @@ class MainPlayer_CurrentMP;
 class MainPlayer_LeftWeaponSkillButton;
 class MainPlayer_RightWeaponSkillButton;
 class MainPlayer_Stamina;
+class MainPlayer_MiniMenu;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
@@ -25,6 +26,9 @@ private:
 
 private:
 	MainPlayer_Stamina* Stamina_;
+
+private:
+	MainPlayer_MiniMenu* MiniMenu_;
 
 public:
 	BottomStateBar();
@@ -43,9 +47,34 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	inline MainPlayer_CurrentHP* GetHPControl()
+	{
+		return HP_;
+	}
+
+	inline MainPlayer_CurrentMP* GetMPControl()
+	{
+		return MP_;
+	}
+
+	inline MainPlayer_LeftWeaponSkillButton* GetLeftWeaponSkillControl()
+	{
+		return LWeaponSkill_;
+	}
+
+	inline MainPlayer_RightWeaponSkillButton* GetRightWeaponSkillControl()
+	{
+		return RWeaponSkill_;
+	}
+
 	inline MainPlayer_Stamina* GetStaminaControl()
 	{
 		return Stamina_;
+	}
+
+	inline MainPlayer_MiniMenu* GetMiniMenuControl()
+	{
+		return MiniMenu_;
 	}
 
 public:

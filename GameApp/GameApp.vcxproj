@@ -165,6 +165,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainPlayer_MiniMenu.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_MiniMenuButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MainPlayer_MoveDirectCheck.cpp" />
     <ClCompile Include="MainPlayer_RightWeaponSkillButton.cpp">
       <SubType>
@@ -417,6 +425,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayer_LeftWeaponSkillButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_MiniMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_MiniMenuButton.h">
       <SubType>
       </SubType>
     </ClInclude>

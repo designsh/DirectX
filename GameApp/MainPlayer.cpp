@@ -5,6 +5,7 @@
 #include "MouseObject.h"
 
 #include "BottomStateBar.h"
+#include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_Stamina.h"
 #include "StatView.h"
 
@@ -141,6 +142,9 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		{
 			StateViewEnabled(true);
 		}
+
+		// 
+		//BottomStateBar_->GetMiniMenuControl()
 	}
 
 	// 인벤토리 열기

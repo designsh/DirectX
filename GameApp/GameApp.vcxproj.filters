@@ -224,6 +224,12 @@
     <ClCompile Include="MainPlayer_Stamina.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_MiniMenu.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_MiniMenuButton.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu\MiniMenuButton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -607,6 +613,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina">
       <UniqueIdentifier>{937ed26c-7b5c-449e-b605-49d5c5721220}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu\MiniMenuButton">
+      <UniqueIdentifier>{dd1ce502-8a06-4232-9d3c-e0285bc4bd0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -797,6 +806,12 @@
     </ClInclude>
     <ClInclude Include="MainPlayer_Stamina.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_MiniMenu.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_MiniMenuButton.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu\MiniMenuButton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
