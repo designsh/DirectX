@@ -56,12 +56,12 @@ private:
 
 private:
 	void ShortcutsButtonClick(GameEngineCollision* _Other);
-	void ShortcutsProcess();
 
 public:
 	void CreateShortcutsButton(MainPlayer_MiniMenu* _Parent, const std::string& _Name, const float4& _Pos, ShortcutsType _Type);
 
 public:
+	void ShortcutsProcess();
 	void MoveButtonPosition();
 };
 

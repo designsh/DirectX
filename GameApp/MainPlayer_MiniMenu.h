@@ -56,5 +56,8 @@ public:
 
 public: // 외부에서 접근하여 미니메뉴버튼 활성/비활성
 	void SetMiniMenuActiveFlag(bool _Flag);
+
+public:
+	void KeyInputViewProcess();
 };
 

@@ -134,17 +134,7 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	if (true == GameEngineInput::GetInst().Down("StatViewActive"))
 	{
 		// 이미 활성화 되어있다면 비활성화
-		if (true == IsStateView_)
-		{
-			StateViewEnabled(false);
-		}
-		else // 아니라면 활성화
-		{
-			StateViewEnabled(true);
-		}
-
-		// 
-		//BottomStateBar_->GetMiniMenuControl()
+		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess();
 	}
 
 	// 인벤토리 열기

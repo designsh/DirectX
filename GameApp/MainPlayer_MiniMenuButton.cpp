@@ -164,15 +164,15 @@ void MainPlayer_MiniMenuButton::MoveButtonPosition()
 	{
 		// 스킬창 or 인벤토리창이 활성화상태라면
 		// 미니메뉴목록 왼쪽으로 이동
-
+		//float4 LeftMovePos = MoveButtonPos_;
 
 
 
 		// 아니라면 원래의 위치로 이동
-		float4 MovePos = MoveButtonPos_;
-		MovePos.x *= -1;
+		float4 BasicMovePos = MoveButtonPos_;
+		BasicMovePos.x *= -1;
 
-		Parent_->AllMoveMiniMenu(MovePos);
+		Parent_->AllMoveMiniMenu(BasicMovePos);
 	}
 
 	//// 스킬창이 활성화 상태라면

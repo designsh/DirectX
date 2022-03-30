@@ -4,6 +4,7 @@
 #include "MainPlayerInfomation.h"
 
 #include "BottomStateBar.h"
+#include "MainPlayer_MiniMenu.h"
 #include "StatView.h"
 
 // UI 정보 생성

@@ -235,3 +235,9 @@ void MainPlayer_MiniMenu::SetMiniMenuActiveFlag(bool _Flag)
 		MiniMenuActiveButton_->SetChangeAnimation("DisabledDefault");
 	}
 }
+
+void MainPlayer_MiniMenu::KeyInputViewProcess()
+{
+	// 키입력에 의한 플레이어 UI 창 활성화/비활성화처리
+	MiniMenuList_[0]->ShortcutsProcess();
+}
