@@ -106,7 +106,7 @@ void UserGame::Release()
 
 float4 UserGame::StartWindowPos()
 {
-	return float4(0.f, 0.f, 0.f);
+	return float4(2000.f, 0.f, 0.f);
 }
 
 float4 UserGame::StartWindowSize()

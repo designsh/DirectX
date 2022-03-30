@@ -230,6 +230,9 @@
     <ClCompile Include="MainPlayer_MiniMenuButton.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu\MiniMenuButton</Filter>
     </ClCompile>
+    <ClCompile Include="IsoTileMap.cpp">
+      <Filter>Object\Actor\99.Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -812,6 +815,9 @@
     </ClInclude>
     <ClInclude Include="MainPlayer_MiniMenuButton.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu\MiniMenuButton</Filter>
+    </ClInclude>
+    <ClInclude Include="IsoTileMap.h">
+      <Filter>Object\Actor\99.Editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
