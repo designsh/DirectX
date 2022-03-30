@@ -221,8 +221,8 @@
     <ClCompile Include="EditorControlWindow.cpp">
       <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
     </ClCompile>
-    <ClCompile Include="MainPlayer_StaminaProgressBar.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina\ProgressBar</Filter>
+    <ClCompile Include="MainPlayer_Stamina.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,9 +463,6 @@
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function">
       <UniqueIdentifier>{f28554de-ba68-4138-99e7-7242899d69e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina">
-      <UniqueIdentifier>{937ed26c-7b5c-449e-b605-49d5c5721220}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu">
       <UniqueIdentifier>{be378c1f-efe8-4620-bcfd-a8d4d74b1d17}</UniqueIdentifier>
     </Filter>
@@ -607,11 +604,8 @@
     <Filter Include="Object\Actor\99.Editor\00.EditorControlWindow">
       <UniqueIdentifier>{e527dff8-f3bb-4944-9544-da62a2992bbb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina\ProgressBar">
-      <UniqueIdentifier>{9280245f-dab3-4acb-aa57-d54f32c6a3a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina\ActiveButton">
-      <UniqueIdentifier>{528dcd7c-80df-4b6f-924a-103a645d6924}</UniqueIdentifier>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina">
+      <UniqueIdentifier>{937ed26c-7b5c-449e-b605-49d5c5721220}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -801,8 +795,8 @@
     <ClInclude Include="EditorControlWindow.h">
       <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
     </ClInclude>
-    <ClInclude Include="MainPlayer_StaminaProgressBar.h">
-      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamaina\ProgressBar</Filter>
+    <ClInclude Include="MainPlayer_Stamina.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

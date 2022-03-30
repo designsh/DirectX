@@ -9,7 +9,7 @@ class MainPlayer_CurrentHP;
 class MainPlayer_CurrentMP;
 class MainPlayer_LeftWeaponSkillButton;
 class MainPlayer_RightWeaponSkillButton;
-class MainPlayer_StaminaProgressBar;
+class MainPlayer_Stamina;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
@@ -24,7 +24,7 @@ private:
 	MainPlayer_RightWeaponSkillButton* RWeaponSkill_;
 
 private:
-	MainPlayer_StaminaProgressBar* StaminaBar_;
+	MainPlayer_Stamina* Stamina_;
 
 public:
 	BottomStateBar();
@@ -41,6 +41,12 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+public:
+	inline MainPlayer_Stamina* GetStaminaControl()
+	{
+		return Stamina_;
+	}
 
 public:
 	void InitBottomStateBar();			// ÃÑ°ý ÃÊ±âÈ­

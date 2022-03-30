@@ -5,6 +5,7 @@
 #include "MouseObject.h"
 
 #include "BottomStateBar.h"
+#include "MainPlayer_Stamina.h"
 #include "StatView.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
@@ -97,27 +98,6 @@ void MainPlayer::Start()
 	{
 		GameEngineInput::GetInst().CreateKey("StaminaActive", 'R');
 	}
-
-	// TEST 용
-	if (false == GameEngineInput::GetInst().IsKey("NextDirect"))
-	{
-		GameEngineInput::GetInst().CreateKey("NextDirect", '1');
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("PrevDirect"))
-	{
-		GameEngineInput::GetInst().CreateKey("PrevDirect", '2');
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("NextState"))
-	{
-		GameEngineInput::GetInst().CreateKey("NextState", '3');
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("PrevState"))
-	{
-		GameEngineInput::GetInst().CreateKey("PrevState", '4');
-	}
 }
 
 void MainPlayer::Update(float _DeltaTime)
@@ -131,29 +111,6 @@ void MainPlayer::Update(float _DeltaTime)
 	// 상태별 행동패턴 처리
 	State_.Update();
 
-	// TEST
-	if (true == GameEngineInput::GetInst().Down("NextDirect"))
-	{
-
-	}
-
-	if (true == GameEngineInput::GetInst().Down("PrevDirect"))
-	{
-
-		int a = 0;
-	}
-
-	if (true == GameEngineInput::GetInst().Down("NextState"))
-	{
-
-		int a = 0;
-	}
-
-	if (true == GameEngineInput::GetInst().Down("PrevState"))
-	{
-
-		int a = 0;
-	}
 }
 
 void MainPlayer::PlayerUIActiveKeyCheck()
@@ -207,10 +164,36 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		if (true == IsRun_)
 		{
 			IsRun_ = false;
+
+			// 하단상태바의 스태미나 활성/비활성버튼 셋팅
+			BottomStateBar_->GetStaminaControl()->SetStaminaActive(IsRun_);
+
+			// 플레이어가 이동중이라면 상태전환
+			if (true == IsMove_)
+			{
+				// 마을인지 아닌지 판단
+				if (true == IsTown_)
+				{
+					ChangeFSMState("Walk_Town");
+				}
+				else
+				{
+					ChangeFSMState("Walk_Field");
+				}
+			}
 		}
 		else // 아니라면 활성화
 		{
 			IsRun_ = true;
+
+			// 하단상태바의 스태미나 활성/비활성버튼 셋팅
+			BottomStateBar_->GetStaminaControl()->SetStaminaActive(IsRun_);
+
+			// 플레이어가 이동중이라면 상태전환
+			if (true == IsMove_)
+			{
+				ChangeFSMState("Run");
+			}
 		}
 	}
 

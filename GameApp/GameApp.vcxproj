@@ -170,7 +170,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MainPlayer_StaminaProgressBar.cpp">
+    <ClCompile Include="MainPlayer_Stamina.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -424,7 +424,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MainPlayer_StaminaProgressBar.h">
+    <ClInclude Include="MainPlayer_Stamina.h">
       <SubType>
       </SubType>
     </ClInclude>

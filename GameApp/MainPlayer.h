@@ -245,6 +245,11 @@ public:
 		return IsRun_;
 	}
 
+	bool GetIsMove() const
+	{
+		return IsMove_;
+	}
+
 	int GetCurrentHP() const
 	{
 		return CurHP_;
@@ -284,6 +289,11 @@ public:
 	void AddCurrentMP(int _MP)
 	{
 		CurMP_ += _MP;
+	}
+
+	void SetIsRun(bool _Flag)
+	{
+		IsRun_ = _Flag;
 	}
 
 #pragma endregion
@@ -355,8 +365,11 @@ private: // ZOrder 변경처리 관련
 	
 private: // FSM 처리관련
 	void ChangeCheckProcess();						// 상태 변경전 체크사항 처리
+
+public:
 	void ChangeFSMState(std::string _StateName);	// 상태 변경
 
+private:
 	// ========================== 마을 관련 ========================== //
 	void StartTownNatural();
 	void UpdateTownNatural();
