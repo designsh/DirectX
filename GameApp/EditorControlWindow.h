@@ -6,7 +6,8 @@
 // Ό³Έν : 
 class EditorControlWindow : public GameEngineGUIWindow
 {
-private:	// member Var
+public:	// member Var
+	class IsoTileMap* Map;
 
 public:
 	EditorControlWindow();

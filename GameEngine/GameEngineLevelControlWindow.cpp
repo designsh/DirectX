@@ -26,7 +26,7 @@ void GameEngineLevelControlWindow::OnGUI()
 	}
 	ImGui::Text(FrameText.c_str());
 
-	int Count = GameEngineCore::AllLevel_.size();
+	int Count = static_cast<int>(GameEngineCore::AllLevel_.size());
 	int SameLineIndex = 0;
 
 	for (auto& Level : GameEngineCore::AllLevel_)

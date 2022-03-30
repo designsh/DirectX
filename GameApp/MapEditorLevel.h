@@ -7,6 +7,7 @@
 class MapEditorLevel : public GameEngineLevel
 {
 private:	// member Var
+	class IsoTileMap* Map;
 
 public:
 	MapEditorLevel();

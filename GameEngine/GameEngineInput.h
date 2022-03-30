@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
+#include <string>
 
 // 분류 : Category Base
 // 용도 : Management
@@ -105,6 +106,7 @@ public: // member func
     }
 
     void Update();
+
 
 private:
     float4 MousePos_;

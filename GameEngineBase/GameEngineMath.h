@@ -227,6 +227,11 @@ public:
 		return *(reinterpret_cast<unsigned int*>(Color255));
 	}
 
+	std::string ToString()
+	{
+		return " x : " + std::to_string(x) + " y : " + std::to_string(y) + " z : " + std::to_string(z);
+	}
+
 public:
 	int ix() const
 	{
