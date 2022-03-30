@@ -3,7 +3,6 @@
 
 #include "EditorControlWindow.h"
 #include "IsoTileMap.h"
-#include <GameEngine\GameEngineInput.h>
 
 MapEditorLevel::MapEditorLevel()
 {

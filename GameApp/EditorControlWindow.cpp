@@ -1,8 +1,6 @@
 #include "PreCompile.h"
 #include "EditorControlWindow.h"
-#include <GameEngine\GameEngineInput.h>
 #include "IsoTileMap.h"
-#include <string>
 
 EditorControlWindow::EditorControlWindow()
 {

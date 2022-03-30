@@ -33,40 +33,35 @@ void IsoTileMap::SetTile(float4 _Pos)
 {
 	TileIndex Index = GetIndex(_Pos);
 
-	//Xindex가 1 증가하면 x는 80증가 한다.
-	//Xindex가 1 증가하면 y는 40감소 한다.
-
-	//Yindex가 1 증가하면 x는 80감소 한다.
-	//Yindex가 1 증가하면 y는 40감가 한다
 	if (Tiles_.end() != Tiles_.find(Index.Index_))
 	{
 		return;
 	}
 
 	float4 Pos;
+
 	Pos.x = (Index.X_ - Index.Y_) * TileSizeHalf.x;
 	Pos.y = (Index.X_ + Index.Y_) * -TileSizeHalf.y;
 
 	GameEngineImageRenderer* Renderer = CreateTransformComponent<GameEngineImageRenderer>();
 	Renderer->SetImage("TileLine.png");
-	Renderer->GetTransform()->SetLocalPosition(Pos + IndexPivotPos);
+	Renderer->GetTransform()->SetLocalPosition(IndexPivotPos + Pos);
 
 	Tiles_.insert(std::make_pair(Index.Index_, Renderer));
 }
 
 TileIndex IsoTileMap::GetIndex(float4 _Pos) 
 {
-	TileIndex Index;
+	TileIndex Index = {};
 
 	//Xindex가 1 증가하면 x는 80증가 한다.
 	//Xindex가 1 증가하면 y는 40감소 한다.
 
 	//Yindex가 1 증가하면 x는 80감소 한다.
 	//Yindex가 1 증가하면 y는 40감가 한다
-
-	Index.X_ = (_Pos.y / TileSizeHalf.y - (_Pos.x / TileSizeHalf.x)) / -2.0f;
-	Index.Y_ = (_Pos.x / TileSizeHalf.x + (_Pos.y / TileSizeHalf.y)) / -2.0f;
-
+	
+	Index.X_ = static_cast<int>(((_Pos.x / TileSizeHalf.x) - (_Pos.y / TileSizeHalf.y)) / 2.0f);
+	Index.Y_ = static_cast<int>(((_Pos.y / TileSizeHalf.y) + (_Pos.x / TileSizeHalf.x)) / -2.0f);
 
 	return Index;
 }

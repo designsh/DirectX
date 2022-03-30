@@ -45,8 +45,6 @@ void GameEngineFont::DrawFont(const std::string& _Text, float _Size, const float
 		float4 DrawPos = _Pos;
 		DrawPos += _PivotPos;
 
-		IDWriteTextLayout;
-
 		std::wstring wText = GameEngineString::StringToWStringReturn(_Text);
 		FontWrapper_->DrawString(GameEngineDevice::GetContext(), wText.c_str(), _Size, DrawPos.x, DrawPos.y, _Color.ColorToUint(), _Flags);
 	}
