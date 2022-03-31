@@ -640,6 +640,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\04. GetSetFunction">
       <UniqueIdentifier>{0894aee3-3316-47c5-be08-4e635b1ba5ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\02.SkillView\SkillPage">
+      <UniqueIdentifier>{07782edf-80f7-4fef-8112-4bd244c074cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

@@ -9,6 +9,10 @@
 #include "MainPlayerInfomation.h"
 #include "MainPlayer.h"
 
+#include "BottomStateBar.h"
+#include "MainPlayer_MiniMenu.h"
+#include "MainPlayer_MiniMenuButton.h"
+
 SkillView::SkillView() :
 	PanelRenderer_(nullptr),
 	CloseButton_(nullptr),
@@ -45,12 +49,12 @@ void SkillView::Start()
 	CloseButton_->CreateAnimation("CloseButton_Default.png", "Default", 0, 0, 0.1f, false);
 	CloseButton_->CreateAnimation("CloseButton_Click.png", "Click", 0, 0, 0.1f, false);
 	CloseButton_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.f));
-	CloseButton_->GetTransform()->SetLocalPosition(float4(-176.f, -166.f));
+	CloseButton_->GetTransform()->SetLocalPosition(float4(30.f, -166.f));
 	CloseButton_->SetChangeAnimation("Default");
 
 	// Create Button Collision
 	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	MainCollider_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
+	MainCollider_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
 
 	Off();
@@ -65,7 +69,11 @@ void SkillView::Update(float _DeltaTime)
 			// MainPlayer Flag Off
 			if (nullptr != GlobalValue::CurPlayer)
 			{
-				GlobalValue::CurPlayer->SkillViewEnabled(false);
+				// 미니메뉴 원래자리 복귀
+				GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(true);
+
+				// 스탯창 비활성화
+				GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->KeyInputViewProcess(2);
 			}
 
 			ButtonState_ = Button_State::Normal;

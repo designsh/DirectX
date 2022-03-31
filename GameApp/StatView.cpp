@@ -9,6 +9,10 @@
 #include "MainPlayerInfomation.h"
 #include "MainPlayer.h"
 
+#include "BottomStateBar.h"
+#include "MainPlayer_MiniMenu.h"
+#include "MainPlayer_MiniMenuButton.h"
+
 StatView::StatView() :
 	PanelRenderer_(nullptr),
 	IDRenderer_(nullptr),
@@ -214,7 +218,7 @@ void StatView::Start()
 	CloseButton_->SetChangeAnimation("Default");
 
 	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	MainCollider_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
+	MainCollider_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
 
 	Off();
@@ -229,7 +233,11 @@ void StatView::Update(float _DeltaTime)
 			// MainPlayer Flag Off
 			if (nullptr != GlobalValue::CurPlayer)
 			{
-				GlobalValue::CurPlayer->StateViewEnabled(false);
+				// 미니메뉴 원래자리 복귀
+				GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(true);
+
+				// 스탯창 비활성화
+				GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->KeyInputViewProcess(0);
 			}
 
 			ButtonState_ = Button_State::Normal;

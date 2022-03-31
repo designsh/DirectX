@@ -20,6 +20,9 @@ private:
 private:
 	Button_State ButtonState_;									// 버튼 상태
 
+private: // 스킬페이지 관련
+
+
 public:
 	SkillView();
 	~SkillView();
