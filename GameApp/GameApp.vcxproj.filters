@@ -245,6 +245,9 @@
     <ClCompile Include="MainPlayer_GetOrSetFunction.cpp">
       <Filter>Object\Actor\00.Global\00.Player\04. GetSetFunction</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_SkillPage.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\02.SkillView\SkillPage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -851,6 +854,9 @@
     </ClInclude>
     <ClInclude Include="SkillView.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\02.SkillView</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_SkillPage.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\02.SkillView\SkillPage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

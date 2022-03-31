@@ -8,8 +8,16 @@
 // ¼³¸í : 
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class MainPlayer_SkillPage;
 class SkillView : public GameEngineActor
 {
+private:
+	static SkillPageNo CurSkillPage;
+
+public:
+	static SkillPageNo GetCurSkillPage();
+	static void SetCurSkillPage(SkillPageNo _SkillPageNo);
+
 private:	// member Var
 	GameEngineUIRenderer* PanelRenderer_;						// ½ºÅ³Ã¢ ÆÇ³Ú ·»´õ·¯
 

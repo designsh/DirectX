@@ -84,3 +84,13 @@ enum class ProgressBarDirect
 	LeftToRight			// Left -> Right
 };
 
+// UI SkillPageNo : SkillInfomation°ú µ¿ÀÏ
+enum class SkillPageNo
+{
+	NONE = -1,
+	CurseSpell,			// Page1
+	PoisonandBoneSpells,// Page2
+	SummonSpell,		// Page3
+	MAX
+};
+

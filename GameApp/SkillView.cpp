@@ -6,12 +6,26 @@
 
 #include "GlobalValue.h"
 
+#include "MainPlayer_SkillPage.h"
+
 #include "MainPlayerInfomation.h"
 #include "MainPlayer.h"
 
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_MiniMenuButton.h"
+
+SkillPageNo SkillView::CurSkillPage = SkillPageNo::CurseSpell;
+
+SkillPageNo SkillView::GetCurSkillPage()
+{
+	return CurSkillPage;
+}
+
+void SkillView::SetCurSkillPage(SkillPageNo _SkillPageNo)
+{
+	CurSkillPage = _SkillPageNo;
+}
 
 SkillView::SkillView() :
 	PanelRenderer_(nullptr),
@@ -88,6 +102,7 @@ void SkillView::InitSkillView()
 	// 메인플레이어 정보를 이용하여 String Setting
 	MainPlayerInfo PlayerInfo = MainPlayerInfomation::GetInst().GetMainPlayerInfoValue();
 
+	// 스킬페이지별 스킬목록 생성
 
 
 
