@@ -61,11 +61,14 @@ void BottomStateBar::Start()
 
 	// 현재 경험치
 
-	// 레벨업 활성화버튼
-	// 1. 스탯창 오픈
-	// 2. 스킬창 오픈
-	//AddStatPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
-	//AddSkillPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
+
+	// 레벨업 활성화버튼(스탯포인트)
+	AddStatPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
+	AddStatPointButton_->SetLevelUpActiveButtonInfo(LevelUpPointType::STAT, float4(220.f - WindowHarfSize.x, 24.f - WindowHarfSize.y));
+
+	// 레벨업 활성화버튼(스킬포인트)
+	AddSkillPointButton_ = GetLevel()->CreateActor<MainPlayer_LevelUpActiveButton>();
+	AddSkillPointButton_->SetLevelUpActiveButtonInfo(LevelUpPointType::SKILL, float4(WindowHarfSize.x - 223.f, 24.f - WindowHarfSize.y));
 
 	// 스태미나
 	Stamina_ = GetLevel()->CreateActor<MainPlayer_Stamina>();

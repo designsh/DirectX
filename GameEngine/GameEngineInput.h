@@ -24,16 +24,7 @@ private:
     public:
         void PushKey(int _CurKey)
         {
-            //if ('a'<= _CurKey && 'z' >= _CurKey)
-            //{
-            //    _CurKey = toupper(_CurKey);
-            //}
-
             CheckKey_.push_back(_CurKey);
-        }
-
-        void PushKey()
-        {
         }
 
     private:
@@ -121,6 +112,4 @@ public: // Mouse
     static float4 GetMouse3DPos(); // 중앙을 0,0 으로보고 위로올라갈수록 y 증가하는 3d용 스크린 좌표(현재)
     static float4 GetPrevMouse3DPos(); // 중앙을 0,0 으로보고 위로올라갈수록 y 증가하는 3d용 스크린 좌표(이전)
     static float4 GetMouse3DDir(); // 그때 마우스가 움직인 마우스 좌표의 변화량 
-
 };
-

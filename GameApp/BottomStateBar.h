@@ -11,29 +11,32 @@ class MainPlayer_LeftWeaponSkillButton;
 class MainPlayer_RightWeaponSkillButton;
 class MainPlayer_Stamina;
 class MainPlayer_MiniMenu;
-class MainPlayer_ActiveButton;
+class MainPlayer_LevelUpActiveButton;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
 	GameEngineUIRenderer* Panel_;
 
-private:
+private: // HP/MP
 	MainPlayer_CurrentHP* HP_;
 	MainPlayer_CurrentMP* MP_;
 
-private:
+private: // 활성화스킬버튼(좌/우)
 	MainPlayer_LeftWeaponSkillButton* LWeaponSkill_;
 	MainPlayer_RightWeaponSkillButton* RWeaponSkill_;
 
-private:
+private: // 스태미나
 	MainPlayer_Stamina* Stamina_;
 
-private:
+private: // 미니메뉴
 	MainPlayer_MiniMenu* MiniMenu_;
 
 private: // 레벨업시 활성화되는 버튼
 	MainPlayer_LevelUpActiveButton* AddStatPointButton_;
 	MainPlayer_LevelUpActiveButton* AddSkillPointButton_;
+
+private: // 현재 경험치
+
 
 public:
 	BottomStateBar();
@@ -80,6 +83,16 @@ public:
 	inline MainPlayer_MiniMenu* GetMiniMenuControl()
 	{
 		return MiniMenu_;
+	}
+
+	inline MainPlayer_LevelUpActiveButton* GetStatPointControl()
+	{
+		return AddStatPointButton_;
+	}
+
+	inline MainPlayer_LevelUpActiveButton* GetSkillPointControl()
+	{
+		return AddSkillPointButton_;
 	}
 
 public:

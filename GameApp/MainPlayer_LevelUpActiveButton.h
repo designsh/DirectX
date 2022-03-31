@@ -3,11 +3,11 @@
 
 #include "GlobalEnumClass.h"
 
-enum class ActiveButtonType
+enum class LevelUpPointType
 {
 	NONE = -1,
-	STATVIEW,
-	SKILLVIEW,
+	STAT,
+	SKILL,
 	MAX
 };
 
@@ -19,12 +19,13 @@ class GameEngineCollision;
 class MainPlayer_LevelUpActiveButton : public GameEngineActor
 {
 private:	// member Var
-	ActiveButtonType ButtonType_;
-	Button_State ButtonState_;
+	bool IsPointExhaust_;						// 포인트 소진시 False, 레벨업시 true
+	LevelUpPointType LevelUpPointType_;			// 스탯/스킬 포인트 판단 타입
+	Button_State ButtonState_;					// 버튼 상태
 
 private:
-	GameEngineUIRenderer* Button_;
-	GameEngineCollision* ButtonCollision_;
+	GameEngineUIRenderer* Button_;				// 
+	GameEngineCollision* ButtonCollision_;		// 
 
 public:
 	MainPlayer_LevelUpActiveButton();
@@ -43,5 +44,14 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void SetLevelUpActiveButtonInfo(LevelUpPointType _Type, const float4& _Pos);
+
+public:
+	void ButtonClick(GameEngineCollision* _Other);
+	void ButtonTypeProcess();
+	
+public:
+	void LevelUpPointButtonActive();
+	void LevelUpPointExhaust();
 };
 

@@ -271,6 +271,11 @@ public:
 		return StatView_;
 	}
 
+	inline bool IsStatViewActive()
+	{
+		return IsStateView_;
+	}
+
 public:
 	void SetCurrentHP(int _HP)
 	{

@@ -236,6 +236,9 @@
     <ClCompile Include="MainPlayer_LevelUpActiveButton.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LevelUpButton</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_CurExpProgressBar.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurEXP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -625,6 +628,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LevelUpButton">
       <UniqueIdentifier>{0cc0e7fb-3134-4969-9276-56b29b168bc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurEXP">
+      <UniqueIdentifier>{2ae8146b-4572-45fc-826f-7e7e8db4c948}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -827,6 +833,9 @@
     </ClInclude>
     <ClInclude Include="MainPlayer_LevelUpActiveButton.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LevelUpButton</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPlayer_CurExpProgressBar.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurEXP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
