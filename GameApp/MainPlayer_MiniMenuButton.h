@@ -58,6 +58,12 @@ private:
 	void ShortcutsButtonClick(GameEngineCollision* _Other);
 
 public:
+	float4 GetBasicPos() const
+	{
+		return BasicButtonPos_;
+	}
+
+public:
 	void CreateShortcutsButton(MainPlayer_MiniMenu* _Parent, const std::string& _Name, const float4& _Pos, ShortcutsType _Type);
 
 public:

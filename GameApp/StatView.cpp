@@ -322,7 +322,7 @@ void StatView::InitStatView()
 }
 
 void StatView::CloseButtonClick(GameEngineCollision* _Other)
-{	
+{
 	// Mouse LButton Flag Check
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{

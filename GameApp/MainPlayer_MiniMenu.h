@@ -18,6 +18,7 @@ public:
 	static bool MiniMenuActive();
 
 private:	// member Var
+	float4 MiniMenuListPanelBasicPos_;
 	Button_State ButtonState_;
 
 private:
@@ -52,12 +53,15 @@ private:
 	void MiniMenuButtonClick(GameEngineCollision* _Other);
 
 public:
-	void AllMoveMiniMenu(const float4& _MovePos);
+	void AllMoveMiniMenu(bool _BasicPosMove, const float4& _MovePos = float4::ZERO);
 
 public: // 외부에서 접근하여 미니메뉴버튼 활성/비활성
 	void SetMiniMenuActiveFlag(bool _Flag);
 
 public:
-	void KeyInputViewProcess();
+	void KeyInputViewProcess(int _Index);
+
+public:
+	MainPlayer_MiniMenuButton* GetMenuButton(int _Index);
 };
 

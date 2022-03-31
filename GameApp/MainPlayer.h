@@ -449,6 +449,7 @@ public:
 
 public:
 	void StateViewEnabled(bool _Enabled);
+	void SkillViewEnabled(bool _Enabled);
 
 #pragma endregion
 

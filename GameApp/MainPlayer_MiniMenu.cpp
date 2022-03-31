@@ -18,6 +18,7 @@ bool MainPlayer_MiniMenu::MiniMenuActive()
 }
 
 MainPlayer_MiniMenu::MainPlayer_MiniMenu() :
+	MiniMenuListPanelBasicPos_(float4::ZERO),
 	ButtonState_(Button_State::Normal),
 	MiniMenuActiveButton_(nullptr),
 	MiniMenuActiveButtonCollision_(nullptr),
@@ -66,6 +67,8 @@ void MainPlayer_MiniMenu::Start()
 	MiniMenuListPanel_->SetImage("Player_MiniMenuPanel_UI.png");
 	MiniMenuListPanel_->GetTransform()->SetLocalPosition(float4(0.f, 58.f - ScreenHarfSize.y));
 
+	MiniMenuListPanelBasicPos_ = MiniMenuListPanel_->GetTransform()->GetLocalPosition();
+
 	// Create MiniMenu List
 	CreateMiniMenuList();
 }
@@ -109,6 +112,11 @@ void MainPlayer_MiniMenu::CreateMiniMenuList()
 
 	// PLAYER GAMEENDMENU VIEW(게임종료 메뉴 - 화면전체창)
 	MiniMenuList_[3]->CreateShortcutsButton(this, "Menu_Button", float4(32.f, 58.f - ScreenHarfSize.y), ShortcutsType::GAMEENDMENU);
+}
+
+MainPlayer_MiniMenuButton* MainPlayer_MiniMenu::GetMenuButton(int _Index)
+{
+	return MiniMenuList_[_Index];
 }
 
 void MainPlayer_MiniMenu::MiniMenuEnabledOrDisabled()
@@ -175,21 +183,36 @@ void MainPlayer_MiniMenu::MiniMenuButtonClick(GameEngineCollision* _Other)
 	}
 }
 
-void MainPlayer_MiniMenu::AllMoveMiniMenu(const float4& _MovePos)
+void MainPlayer_MiniMenu::AllMoveMiniMenu(bool _BasicPosMove, const float4& _MovePos)
 {
-	// 판넬 무브
-	float4 PanelMovePos = MiniMenuListPanel_->GetTransform()->GetLocalPosition();
-	PanelMovePos.x += _MovePos.x;
-	MiniMenuListPanel_->GetTransform()->SetLocalPosition(PanelMovePos);
-
-	// 미니메뉴목록 무브
-	int MenuCnt = static_cast<int>(MiniMenuList_.size());
-	for (int i = 0; i < MenuCnt; ++i)
+	// 제자리 복귀 Flag On 이라면
+	if (true == _BasicPosMove)
 	{
-		float4 CalcMovePos = MiniMenuList_[i]->GetTransform()->GetLocalPosition();
-		CalcMovePos.x += _MovePos.x;
+		MiniMenuListPanel_->GetTransform()->SetLocalPosition(MiniMenuListPanelBasicPos_);
 
-		MiniMenuList_[i]->GetTransform()->SetLocalPosition(CalcMovePos);
+		// 미니메뉴목록 무브
+		int MenuCnt = static_cast<int>(MiniMenuList_.size());
+		for (int i = 0; i < MenuCnt; ++i)
+		{
+			MiniMenuList_[i]->GetTransform()->SetLocalPosition(float4::ZERO);
+		}
+	}
+	else // 아니라면
+	{
+		// 판넬 무브
+		float4 PanelMovePos = MiniMenuListPanel_->GetTransform()->GetLocalPosition();
+		PanelMovePos.x += _MovePos.x;
+		MiniMenuListPanel_->GetTransform()->SetLocalPosition(PanelMovePos);
+
+		// 미니메뉴목록 무브
+		int MenuCnt = static_cast<int>(MiniMenuList_.size());
+		for (int i = 0; i < MenuCnt; ++i)
+		{
+			float4 CalcMovePos = MiniMenuList_[i]->GetTransform()->GetLocalPosition();
+			CalcMovePos.x += _MovePos.x;
+
+			MiniMenuList_[i]->GetTransform()->SetLocalPosition(CalcMovePos);
+		}
 	}
 }
 
@@ -236,8 +259,8 @@ void MainPlayer_MiniMenu::SetMiniMenuActiveFlag(bool _Flag)
 	}
 }
 
-void MainPlayer_MiniMenu::KeyInputViewProcess()
+void MainPlayer_MiniMenu::KeyInputViewProcess(int _Index)
 {
 	// 키입력에 의한 플레이어 UI 창 활성화/비활성화처리
-	MiniMenuList_[0]->ShortcutsProcess();
+	MiniMenuList_[_Index]->ShortcutsProcess();
 }

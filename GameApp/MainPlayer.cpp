@@ -126,36 +126,19 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	// 스킬창 열기
 	if (true == GameEngineInput::GetInst().Down("SkillViewActive"))
 	{
-		// 이미 활성화 되어있다면 비활성화
-		if (true == IsSkillView_)
-		{
-			IsSkillView_ = false;
-		}
-		else // 아니라면 활성화
-		{
-			IsSkillView_ = true;
-		}
+		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(2);
 	}
 	
 	// 스탯창 열기
 	if (true == GameEngineInput::GetInst().Down("StatViewActive"))
 	{
-		// 이미 활성화 되어있다면 비활성화
-		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess();
+		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(0);
 	}
 
 	// 인벤토리 열기
 	if (true == GameEngineInput::GetInst().Down("InventoryActive"))
 	{
-		// 이미 활성화 되어있다면 비활성화
-		if (true == IsInventory_)
-		{
-			IsInventory_ = false;
-		}
-		else // 아니라면 활성화
-		{
-			IsInventory_ = true;
-		}
+		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(1);
 	}
 
 	// 스태미나 활성/비활성

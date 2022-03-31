@@ -10,6 +10,7 @@
 #include "MainPlayer.h"
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
+#include "MainPlayer_MiniMenuButton.h"
 #include "StatView.h"
 
 MainPlayer_LevelUpActiveButton::MainPlayer_LevelUpActiveButton() :
@@ -106,10 +107,10 @@ void MainPlayer_LevelUpActiveButton::ButtonTypeProcess()
 			// 상태창 활성화
 			if (nullptr != GlobalValue::CurPlayer)
 			{
-				if (false == GlobalValue::CurPlayer->GetIsSkillView())
+				if (false == GlobalValue::CurPlayer->GetIsStateView())
 				{
 					// 미니메뉴 이동
-					GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(float4(100.f, 0.f, 0.f));
+					GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(false, float4(100.f, 0.f, 0.f));
 
 					// 스탯창 활성화
 					GlobalValue::CurPlayer->StateViewEnabled(true);
@@ -117,7 +118,7 @@ void MainPlayer_LevelUpActiveButton::ButtonTypeProcess()
 				else
 				{
 					// 미니메뉴 원래자리 복귀
-					GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(float4(-100.f, 0.f, 0.f));
+					GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(true);
 
 					// 스탯창 비활성화
 					GlobalValue::CurPlayer->StateViewEnabled(false);
@@ -130,11 +131,22 @@ void MainPlayer_LevelUpActiveButton::ButtonTypeProcess()
 			// 스킬창 활성화
 			if (nullptr != GlobalValue::CurPlayer)
 			{
-				// 미니메뉴 이동
+				if (false == GlobalValue::CurPlayer->GetIsSkillView())
+				{
+					// 미니메뉴 이동
+					GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(false, float4(-100.f, 0.f, 0.f));
 
+					// 스탯창 활성화
+					GlobalValue::CurPlayer->SkillViewEnabled(true);
+				}
+				else
+				{
+					// 미니메뉴 원래자리 복귀
+					GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(true);
 
-				// 스킬창 활성화
-				//GlobalValue::CurPlayer->SkillViewEnabled(true);
+					// 스탯창 비활성화
+					GlobalValue::CurPlayer->SkillViewEnabled(false);
+				}
 			}
 			break;
 		}

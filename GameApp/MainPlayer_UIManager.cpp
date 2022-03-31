@@ -51,7 +51,19 @@ void MainPlayer::StateViewEnabled(bool _Enabled)
 #pragma region 플레이어 스킬창
 
 // 플레이어 스킬창 On/Off 관련
-
+void MainPlayer::SkillViewEnabled(bool _Enabled)
+{
+	if (true == _Enabled)
+	{
+		IsSkillView_ = true;
+		SkillView_->On();
+	}
+	else
+	{
+		IsSkillView_ = false;
+		SkillView_->Off();
+	}
+}
 
 
 #pragma endregion

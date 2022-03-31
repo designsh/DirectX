@@ -9,6 +9,7 @@
 #include "MainPlayer.h"
 
 #include "StatView.h"
+#include "SkillView.h"
 
 #include "MainPlayer_MiniMenu.h"
 
@@ -103,7 +104,7 @@ void MainPlayer_MiniMenuButton::ShortcutsProcess()
 		case ShortcutsType::SKILLVIEW:
 		{
 			// 스킬창 활성화
-			//GlobalValue::CurPlayer->SkillViewEnabled(Active_);
+			GlobalValue::CurPlayer->SkillViewEnabled(Active_);
 			break;
 		}
 	}
@@ -150,49 +151,54 @@ void MainPlayer_MiniMenuButton::MoveButtonPosition()
 {
 	// 활성화된 창에따라 이동위치 조정
 
-	// 상태창이 활성화 상태라면
-	if (true == GlobalValue::CurPlayer->GetStatView()->IsUpdate())
+	// 모든 창이 비활성화 상태일때 : 미니메뉴는 원래의 위치에 존재
+	if (false == GlobalValue::CurPlayer->GetIsStateView() &&
+		false == GlobalValue::CurPlayer->GetIsSkillView() &&
+		false == GlobalValue::CurPlayer->GetIsInventory())
 	{
-		// 스킬창 or 인벤토리창이 같이 활성화 되어있다면
-		// 미니메뉴목록 Off
+		// 미니메뉴가 비활성 상태였다면 활성화
+		if (false == MainPlayer_MiniMenu::MiniMenuActive())
+		{
+			Parent_->SetMiniMenuActiveFlag(true);
+		}
 
-
-		// 아니라면 화면의 오른쪽으로 이동
-		Parent_->AllMoveMiniMenu(MoveButtonPos_);
+		Parent_->AllMoveMiniMenu(true);
 	}
-	else
+	// 상태창만 활성화 상태일때 : 미니메뉴는 화면의 오른쪽으로 이동
+	else if (true == GlobalValue::CurPlayer->GetIsStateView() &&
+			false == GlobalValue::CurPlayer->GetIsSkillView() &&
+			false == GlobalValue::CurPlayer->GetIsInventory())
 	{
-		// 스킬창 or 인벤토리창이 활성화상태라면
-		// 미니메뉴목록 왼쪽으로 이동
-		//float4 LeftMovePos = MoveButtonPos_;
-
-
-
-		// 아니라면 원래의 위치로 이동
-		float4 BasicMovePos = MoveButtonPos_;
-		BasicMovePos.x *= -1;
-
-		Parent_->AllMoveMiniMenu(BasicMovePos);
+		float4 RightMovePos = MoveButtonPos_;
+		Parent_->AllMoveMiniMenu(false, RightMovePos);
+	}
+	// 스킬창만 활성화 상태일때 : 미니메뉴는 화면의 왼쪽으로 이동
+	else if ( false == GlobalValue::CurPlayer->GetIsStateView() &&
+			true == GlobalValue::CurPlayer->GetIsSkillView() &&
+			false == GlobalValue::CurPlayer->GetIsInventory() )
+	{
+		float4 LeftMovePos = MoveButtonPos_;
+		LeftMovePos.x *= -1.0f;
+		Parent_->AllMoveMiniMenu(false, LeftMovePos);
+	}
+	// 인벤토리창만 활성화 상태일때 : 미니메뉴는 화면의 왼쪽으로 이동
+	else if ( false == GlobalValue::CurPlayer->GetIsStateView() &&
+			false == GlobalValue::CurPlayer->GetIsSkillView() &&
+			true == GlobalValue::CurPlayer->GetIsInventory() )
+	{
+		float4 LeftMovePos = MoveButtonPos_;
+		LeftMovePos.x *= -1.0f;
+		Parent_->AllMoveMiniMenu(false, LeftMovePos);
+	}
+	// 상태창과 스킬창 또는 인벤토리창이 같이 활성화 상태일때 : 미니메뉴는 비활성상태로 전환
+	else if ((true == GlobalValue::CurPlayer->GetIsStateView()) &&
+		(true == GlobalValue::CurPlayer->GetIsSkillView() ||
+		true == GlobalValue::CurPlayer->GetIsInventory()) )
+	{
+		// 혹시 모르니 본래의 위치로 보내고 Off상태로 전환
+		Parent_->AllMoveMiniMenu(true);
+		Parent_->SetMiniMenuActiveFlag(false);
 	}
 
-	//// 스킬창이 활성화 상태라면
-	//if (true == GlobalValue::CurPlayer->GetSkillView()->IsUpdate())
-	//{
-
-	//}
-	//else
-	//{
-
-	//}
-
-	//// 인벤토리창이 활성화 상태라면
-	//if (true == GlobalValue::CurPlayer->GetInventoryView()->IsUpdate())
-	//{
-
-	//}
-	//else
-	//{
-
-	//}
-
+	// 
 }

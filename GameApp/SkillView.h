@@ -38,5 +38,8 @@ private:
 
 public:
 	void InitSkillView();
+
+public:
+	void CloseButtonClick(GameEngineCollision* _Other);
 };
 
