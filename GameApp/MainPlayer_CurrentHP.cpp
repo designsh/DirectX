@@ -41,6 +41,7 @@ void MainPlayer_CurrentHP::HPConsumption(float _Damage)
 		GlobalValue::CurPlayer->DelCurrentHP(static_cast<int>(_Damage));
 
 		// 현재 HP Circle의 퍼센트를 계산
+		
 		//HPRenderer_->SetParent();
 	}
 }

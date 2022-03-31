@@ -131,6 +131,7 @@ struct PlayerZOrderManagement
 // 설명 : 직업에 따라 정보가 다름
 class BottomStateBar;
 class StatView;
+class SkillView;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
@@ -170,6 +171,12 @@ private:
 	int CurHP_;												// 플레이어 현재 체력(100 기준)
 	int CurMP_;												// 플레이어 현재 마력(100 기준)
 
+	int PrevEXP_;											// 플레이어 이전 경험치
+	int CurEXP_;											// 플레이어 현재 경험치
+
+	int PrevLevel_;											// 플레이어 이전 레벨
+	int CurLevel_;											// 플레이어 현재 레벨
+
 #pragma endregion
 
 #pragma region PlayerFSMState
@@ -208,8 +215,7 @@ private: // 상태
 private: // 플레이어 UI
 	BottomStateBar* BottomStateBar_;						// 하단상태바
 	StatView* StatView_;									// 상태창
-
-private:
+	SkillView* SkillView_;									// 스킬트리창
 
 #pragma endregion
 
@@ -233,84 +239,71 @@ private:		//delete operator
 	MainPlayer& operator=(const MainPlayer&& _other) = delete;
 #pragma endregion
 
-#pragma region State Get/Set Function
-public:
-	bool GetIsTown() const
-	{
-		return IsTown_;
-	}
+#pragma region GetFunction
+public: // 상태 Flag 관련
+	bool GetIsTown() const;
+	bool GetIsRun() const;
+	bool GetIsMove() const;
+	bool GetIsDefaultZOrderChangeChk() const;
+	bool GetIsFrameZOrderChangeChk() const;
 
-	bool GetIsRun() const
-	{
-		return IsRun_;
-	}
+public: // 상태관련
+	int GetCurrentHP() const;
+	int GetCurrentMP() const;
+	int GetPrevEXP() const;
+	int GetCurrentEXP() const;
+	int GetPrevLevel() const;
+	int GetCurrentLevel() const;
 
-	bool GetIsMove() const
-	{
-		return IsMove_;
-	}
+public: // UI Flag관련 
+	bool GetIsInventory() const;
+	bool GetIsStateView() const;
+	bool GetIsSkillView() const;
+	bool GetIsRightSkillList() const;
+	bool GetIsLeftSkillList() const;
+	bool GetIsIsStorehouse() const;
 
-	int GetCurrentHP() const
-	{
-		return CurHP_;
-	}
+public: // UI 객체관련
+	BottomStateBar* GetBottomStateBar() const;
+	StatView* GetStatView() const;
+	SkillView* GetSkillView() const;
 
-	int GetCurrentMP() const
-	{
-		return CurMP_;
-	}
+#pragma endregion
 
-public:
-	inline BottomStateBar* GetBottomStateBar()
-	{
-		return BottomStateBar_;
-	}
+#pragma region SetFunction
+public: // 상태 Flag 관련
+	void SetIsTown(bool _Flag);
+	void SetIsRun(bool _Flag);
+	void SetIsMove(bool _Flag);
+	void SetIsDefaultZOrderChangeChk(bool _Flag);
+	void SetIsFrameZOrderChangeChk(bool _Flag);
 
-	inline StatView* GetStatView()
-	{
-		return StatView_;
-	}
+public: // 상태관련
+	// HP
+	void SetCurrentHP(int _HP);
+	void DelCurrentHP(int _HP);
+	void AddCurrentHP(int _HP);
 
-	inline bool IsStatViewActive()
-	{
-		return IsStateView_;
-	}
+	// MP
+	void SetCurrentMP(int _MP);
+	void DelCurrentMP(int _MP);
+	void AddCurrentMP(int _MP);
 
-public:
-	void SetCurrentHP(int _HP)
-	{
-		CurHP_ = _HP;
-	}
+	// EXP
+	void SetPrevEXP(int _EXP);
+	void SetCurrentEXP(int _EXP);
 
-	void DelCurrentHP(int _HP)
-	{
-		CurHP_ -= _HP;
-	}
+	// LEVEL
+	void SetPrevLevel(int _LEVEL);
+	void SetCurrentLevel(int _LEVEL);
 
-	void AddCurrentHP(int _HP)
-	{
-		CurHP_ += _HP;
-	}
-
-	void SetCurrentMP(int _MP)
-	{
-		CurMP_ = _MP;
-	}
-
-	void DelCurrentMP(int _MP)
-	{
-		CurMP_ -= _MP;
-	}
-
-	void AddCurrentMP(int _MP)
-	{
-		CurMP_ += _MP;
-	}
-
-	void SetIsRun(bool _Flag)
-	{
-		IsRun_ = _Flag;
-	}
+public: // UI Flag관련 
+	void SetIsInventory(bool _Flag);
+	void SetIsStateView(bool _Flag);
+	void SetIsSkillView(bool _Flag);
+	void SetIsRightSkillList(bool _Flag);
+	void SetIsLeftSkillList(bool _Flag);
+	void SetIsIsStorehouse(bool _Flag);
 
 #pragma endregion
 
@@ -450,9 +443,11 @@ private: // 아이템 착용 / 아이템 해제
 	void ItemPutOff(ItemEquipPart _ItemPart);
 #pragma endregion
 
-#pragma region PlayerUIFunction
+#pragma region UI Process Function
 public:
 	void CreatePlayerUIInfomation();
+
+public:
 	void StateViewEnabled(bool _Enabled);
 
 #pragma endregion

@@ -106,7 +106,7 @@ void MainPlayer_LevelUpActiveButton::ButtonTypeProcess()
 			// 상태창 활성화
 			if (nullptr != GlobalValue::CurPlayer)
 			{
-				if (false == GlobalValue::CurPlayer->IsStatViewActive())
+				if (false == GlobalValue::CurPlayer->GetIsSkillView())
 				{
 					// 미니메뉴 이동
 					GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(float4(100.f, 0.f, 0.f));

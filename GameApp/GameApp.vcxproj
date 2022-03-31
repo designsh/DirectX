@@ -141,6 +141,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainPlayer_GetOrSetFunction.cpp" />
     <ClCompile Include="MainPlayer_Init.cpp" />
     <ClCompile Include="LoadingAnimation.cpp">
       <SubType>
@@ -201,6 +202,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MapEditorLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SkillView.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -473,6 +478,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MapEditorLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SkillView.h">
       <SubType>
       </SubType>
     </ClInclude>

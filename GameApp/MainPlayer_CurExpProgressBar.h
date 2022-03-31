@@ -10,6 +10,11 @@ class MainPlayer_CurExpProgressBar : public GameEngineActor
 private:	// member Var
 	GameEngineProgressBarRenderer* ExpRenderer_;
 
+private:
+	bool Reflection_;								// 경험치 업데이트 완료시 true
+													// 플레이어의 현재 경험치가 변경되면 false
+	int CurEXP_;									// 플레이어의 현재 경험치
+
 public:
 	MainPlayer_CurExpProgressBar();
 	~MainPlayer_CurExpProgressBar();

@@ -12,6 +12,7 @@ class MainPlayer_RightWeaponSkillButton;
 class MainPlayer_Stamina;
 class MainPlayer_MiniMenu;
 class MainPlayer_LevelUpActiveButton;
+class MainPlayer_CurExpProgressBar;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
@@ -36,7 +37,7 @@ private: // 레벨업시 활성화되는 버튼
 	MainPlayer_LevelUpActiveButton* AddSkillPointButton_;
 
 private: // 현재 경험치
-
+	MainPlayer_CurExpProgressBar* CurExpProgressBar_;
 
 public:
 	BottomStateBar();

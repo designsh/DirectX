@@ -239,6 +239,12 @@
     <ClCompile Include="MainPlayer_CurExpProgressBar.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurEXP</Filter>
     </ClCompile>
+    <ClCompile Include="SkillView.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\02.SkillView</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPlayer_GetOrSetFunction.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\04. GetSetFunction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -631,6 +637,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurEXP">
       <UniqueIdentifier>{2ae8146b-4572-45fc-826f-7e7e8db4c948}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\04. GetSetFunction">
+      <UniqueIdentifier>{0894aee3-3316-47c5-be08-4e635b1ba5ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -836,6 +845,9 @@
     </ClInclude>
     <ClInclude Include="MainPlayer_CurExpProgressBar.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurEXP</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillView.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\02.SkillView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

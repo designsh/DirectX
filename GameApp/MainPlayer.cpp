@@ -29,6 +29,10 @@ MainPlayer::MainPlayer() :
 	IsFrameZOrderChangeChk_(false),
 	CurHP_(100),
 	CurMP_(100),
+	PrevEXP_(0),
+	CurEXP_(0),
+	PrevLevel_(1),
+	CurLevel_(1),
 	State_(),
 	RenderSize_(float4(256.f, 256.f)),
 	PrevMoveTargetPos_(float4::ZERO),
@@ -38,7 +42,8 @@ MainPlayer::MainPlayer() :
 	PrevState_(PlayerState::STAT_TN),
 	CurState_(PlayerState::STAT_TN),
 	BottomStateBar_(nullptr),
-	StatView_(nullptr)
+	StatView_(nullptr),
+	SkillView_(nullptr)
 {
 	IsItemEquipState_.clear();
 	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
@@ -69,6 +74,7 @@ void MainPlayer::Start()
 	BottomStateBar_ = GetLevel()->CreateActor<BottomStateBar>();
 
 	// 스킬창
+	SkillView_ = GetLevel()->CreateActor<SkillView>();
 
 	// 스탯창
 	StatView_ = GetLevel()->CreateActor<StatView>();
