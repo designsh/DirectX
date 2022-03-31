@@ -33,6 +33,8 @@ public:
 
 	TileIndex GetIndex(float4 _Pos);
 
+	float4 GetIsoPos(float4 _Pos);
+
 
 private:
 	void Start() override;

@@ -64,8 +64,27 @@ TileIndex IsoTileMap::GetIndex(float4 _Pos)
 	//        00
 	//     01    10
 	//   02        20
-	Index.X_ = static_cast<int>(((_Pos.x / TileSizeHalf.x) - (_Pos.y / TileSizeHalf.y)) / 2.0f);
-	Index.Y_ = static_cast<int>(((_Pos.y / TileSizeHalf.y) + (_Pos.x / TileSizeHalf.x)) / -2.0f);
+
+	float RatioX = ((_Pos.x / TileSizeHalf.x) - (_Pos.y / TileSizeHalf.y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSizeHalf.y) + (_Pos.x / TileSizeHalf.x)) / -2.0f;
+
+	if (0 > RatioX)
+	{
+		RatioX += -1;
+	}
+
+	if (0 > RatioY)
+	{
+		RatioY += -1;
+	}
+
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
 
 	return Index;
+}
+
+float4 IsoTileMap::GetIsoPos(float4 _Pos)
+{
+	return { ((_Pos.x / TileSizeHalf.x) - (_Pos.y / TileSizeHalf.y)) / 2.0f ,((_Pos.y / TileSizeHalf.y) + (_Pos.x / TileSizeHalf.x)) / -2.0f };
 }
