@@ -114,13 +114,13 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst().Down("CameraZoomIn"))
 	{
-		// 카메라가 비추는 화면 비율 조정한 뒤 투영행렬 계산
+		// 카메라가 비추는 화면 비율 조정
 		GetMainCamera()->CameraZoomIn();
 	}
 
 	if (true == GameEngineInput::GetInst().Down("CameraZoomOut"))
 	{
-		// 카메라가 비추는 화면 비율 조정한 뒤 투영행렬 계산
+		// 카메라가 비추는 화면 비율 조정
 		GetMainCamera()->CameraZoomOut();
 	}
 }
