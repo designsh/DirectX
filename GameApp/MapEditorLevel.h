@@ -9,6 +9,9 @@ class MapEditorLevel : public GameEngineLevel
 private:	// member Var
 	class IsoTileMap* Map;
 
+private:
+	float MoveSpeed_;
+
 public:
 	MapEditorLevel();
 	~MapEditorLevel();

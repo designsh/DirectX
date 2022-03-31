@@ -4,10 +4,14 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class CameraComponent;
 class EditorControlWindow : public GameEngineGUIWindow
 {
 public:	// member Var
 	class IsoTileMap* Map;
+
+private:
+	CameraComponent* MainCamera_;
 
 public:
 	EditorControlWindow();
@@ -26,5 +30,6 @@ protected:
 
 public:
 	void GUIWindowOff();
+	void SetMainCamera(CameraComponent* _Camera);
 };
 

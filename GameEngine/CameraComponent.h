@@ -62,6 +62,11 @@ public:
 	}
 
 public:
+	void CameraZoomReset();
+	void CameraZoomIn();
+	void CameraZoomOut();
+
+public:
 	void SetProjectionMode(ProjectionMode _ProjectionMode);
 	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
 

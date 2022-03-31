@@ -42,16 +42,16 @@ void CameraComponent::CameraTransformUpdate()
 
 	switch (ProjectionMode_)
 	{
-	case ProjectionMode::Perspective:
-	{
-		GetTransform()->GetTransformData().Projection_.PerspectiveFovLH(FovAngleY_, CamSize_.x, CamSize_.y, NearZ_, FarZ_);
-		break;
-	}
-	case ProjectionMode::Orthographic:
-	{
-		GetTransform()->GetTransformData().Projection_.OrthographicLH(CamSize_.x, CamSize_.y, NearZ_, FarZ_);
-		break;
-	}
+		case ProjectionMode::Perspective:
+		{
+			GetTransform()->GetTransformData().Projection_.PerspectiveFovLH(FovAngleY_, CamSize_.x, CamSize_.y, NearZ_, FarZ_);
+			break;
+		}
+		case ProjectionMode::Orthographic:
+		{
+			GetTransform()->GetTransformData().Projection_.OrthographicLH(CamSize_.x, CamSize_.y, NearZ_, FarZ_);
+			break;
+		}
 	}
 }
 
@@ -154,6 +154,23 @@ void CameraComponent::ReleaseRenderer()
 
 		}
 	}
+}
+
+void CameraComponent::CameraZoomReset()
+{
+	CamSize_ = GameEngineWindow::GetInst().GetSize();
+}
+
+void CameraComponent::CameraZoomIn()
+{
+	// 카메라가 비추는 화면 비율 조정
+	CamSize_ /= 2;
+}
+
+void CameraComponent::CameraZoomOut()
+{
+	// 카메라가 비추는 화면 비율 조정
+	CamSize_ *= 2;
 }
 
 void CameraComponent::SetProjectionMode(ProjectionMode _ProjectionMode)

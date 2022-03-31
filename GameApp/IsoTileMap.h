@@ -29,9 +29,9 @@ public:
 	IsoTileMap& operator=(const IsoTileMap& _Other) = delete;
 	IsoTileMap& operator=(IsoTileMap&& _Other) noexcept = delete;
 
-	void SetTile(float4 _Pos);
+	void SetTile(float4 _Pos, float4 _CamPos);
 
-	TileIndex GetIndex(float4 _Pos);
+	TileIndex GetIndex(float4 _Pos, float4 _CamPos);
 
 	float4 GetIsoPos(float4 _Pos);
 

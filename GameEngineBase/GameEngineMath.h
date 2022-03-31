@@ -19,6 +19,8 @@ public:
 	static const float4 RIGHT;
 	static const float4 UP;
 	static const float4 DOWN;
+	static const float4 FRONT;
+	static const float4 BACK;
 
 	static const float4 RED;
 	static const float4 BLUE;
@@ -190,10 +192,16 @@ public:
 		return *this;
 	}
 
-
 	float4& operator/=(const float4& _Value)
 	{
 		DirectVector = DirectX::XMVectorDivide(DirectVector, _Value.DirectVector);
+		return *this;
+	}
+
+	float4& operator/=(const float _Value)
+	{
+		float4 Value = float4(_Value, _Value, _Value, 1.0f);
+		DirectVector = DirectX::XMVectorDivide(DirectVector, Value.DirectVector);
 		return *this;
 	}
 
