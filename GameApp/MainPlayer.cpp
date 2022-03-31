@@ -8,6 +8,7 @@
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_Stamina.h"
 #include "StatView.h"
+#include "SkillView.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
