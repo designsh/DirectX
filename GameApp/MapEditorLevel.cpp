@@ -30,6 +30,7 @@ void MapEditorLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
+	GetMainCamera()->CameraSettingPos(float4(0.f, 0.f, -100.f));
 
 	// MapEditor Control Window
 	EditorControlWindow* Ptr = GameEngineGUI::GetInst()->CreateGUIWindow<EditorControlWindow>("EditorControlWindow");

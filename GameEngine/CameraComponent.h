@@ -27,6 +27,9 @@ private:	// member Var
 	float						FarZ_;						// 
 
 private:
+	float4 CamSettingPos_;
+
+private:
 	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
 
 private:
@@ -63,8 +66,9 @@ public:
 
 public:
 	void CameraZoomReset();
-	void CameraZoomIn();
-	void CameraZoomOut();
+	void CameraZoomIn(float _CameraZMove = 0.f);
+	void CameraZoomOut(float _CameraZMove = 0.f);
+	void CameraSettingPos(float4 _SetPos);
 
 public:
 	void SetProjectionMode(ProjectionMode _ProjectionMode);

@@ -17,6 +17,7 @@ CameraComponent::CameraComponent() :
 	CamSize_(GameEngineWindow::GetInst().GetSize()),
 	NearZ_(0.1f),
 	FarZ_(1000.0f),
+	CamSettingPos_(float4::ZERO),
 	DebugRenderCount_(0),
 	CameraBufferTarget_(nullptr)
 {
@@ -158,19 +159,45 @@ void CameraComponent::ReleaseRenderer()
 
 void CameraComponent::CameraZoomReset()
 {
-	CamSize_ = GameEngineWindow::GetInst().GetSize();
+	if (ProjectionMode_ == ProjectionMode::Perspective) // 직교투영일때
+	{
+		CamSize_ = GameEngineWindow::GetInst().GetSize();
+	}
+	else // 원근투영일때
+	{
+		// CamSettingPos_으로 돌려놓음
+	}
 }
 
-void CameraComponent::CameraZoomIn()
+void CameraComponent::CameraZoomIn(float _CameraZMove)
 {
 	// 카메라가 비추는 화면 비율 조정
-	CamSize_ /= 2;
+	if (ProjectionMode_ == ProjectionMode::Perspective) // 직교투영일때
+	{
+		CamSize_ /= 2;
+	}
+	else // 원근투영일때
+	{
+		// 카메라 z위치를 바꾸면 될거같긴함
+	}
 }
 
-void CameraComponent::CameraZoomOut()
+void CameraComponent::CameraZoomOut(float _CameraZMove)
 {
 	// 카메라가 비추는 화면 비율 조정
-	CamSize_ *= 2;
+	if (ProjectionMode_ == ProjectionMode::Perspective) // 직교투영일때
+	{
+		CamSize_ *= 2;
+	}
+	else // 원근투영일때
+	{
+		// 카메라 z위치를 바꾸면 될거같긴함
+	}
+}
+
+void CameraComponent::CameraSettingPos(float4 _SetPos)
+{
+	CamSettingPos_ = _SetPos;
 }
 
 void CameraComponent::SetProjectionMode(ProjectionMode _ProjectionMode)
