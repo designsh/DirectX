@@ -97,13 +97,6 @@ void MapEditorLevel::LevelStart()
 
 void MapEditorLevel::LevelUpdate(float _DeltaTime)
 {
-	if (true == GameEngineInput::GetInst().Press("MouseLButton"))
-	{
-		// 카메라 이동을 더한다.
-		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
-		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
-		Map->SetTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
-	}
 
 	// 카메라이동
 	if (true == GameEngineInput::GetInst().Press("CameraUp"))
@@ -131,6 +124,37 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 	{
 		// 카메라가 비추는 화면 비율 = 현재 윈도우 크기로 셋팅
 		GetMainCamera()->CameraZoomReset();
+	}
+
+
+	if (true == GameEngineInput::GetInst().Press("MouseLButton"))
+	{
+		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
+
+		if (0 > WindowPos.x)
+		{
+			return;
+		}
+
+		if (0 > WindowPos.y)
+		{
+			return;
+		}
+
+		if (WindowPos.x > GameEngineWindow::GetInst().GetSize().x)
+		{
+			return;
+		}
+
+		if (WindowPos.y > GameEngineWindow::GetInst().GetSize().y)
+		{
+			return;
+		}
+
+		// 카메라 이동을 더한다.
+		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
+		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
+		Map->SetTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 	}
 
 }
