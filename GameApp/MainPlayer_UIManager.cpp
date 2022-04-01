@@ -57,11 +57,13 @@ void MainPlayer::SkillViewEnabled(bool _Enabled)
 	{
 		IsSkillView_ = true;
 		SkillView_->On();
+		SkillView_->SkillIconEnabled(true);
 	}
 	else
 	{
 		IsSkillView_ = false;
 		SkillView_->Off();
+		SkillView_->SkillIconEnabled(false);
 	}
 }
 

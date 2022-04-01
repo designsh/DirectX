@@ -60,5 +60,8 @@ public:
 	void SkillPage2ChangeClick(GameEngineCollision* _Other);
 	void SkillPage3ChangeClick(GameEngineCollision* _Other);
 	void SkillPageTabChange(SkillPageNo _SkillPageNo);
+
+public:
+	void SkillIconEnabled(bool _Flag);
 };
 

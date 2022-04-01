@@ -20,7 +20,8 @@ MainPlayer_SkillIcon::MainPlayer_SkillIcon() :
 	CurSkillLevel_(0),
 	IconRenderer_(nullptr),
 	IconCollision_(nullptr),
-	CurLevelRenderer_(nullptr)
+	CurLevelRenderer_(nullptr),
+	ButtonState_(Button_State::Normal)
 {
 }
 
@@ -34,7 +35,64 @@ void MainPlayer_SkillIcon::Start()
 
 void MainPlayer_SkillIcon::Update(float _DeltaTime)
 {
+	// 스킬아이콘 클릭 체크
+	if (ButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 해당 스킬 레벨업
+			SkillLevelUp();
 
+			ButtonState_ = Button_State::Normal;
+		}
+	}
+
+	// 해당 스킬이 활성화 되어있지않다면 충돌체크 안함
+	if (true == SkillActive_ && nullptr != IconCollision_)
+	{
+		IconCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_SkillIcon::SkillIconClick, this, std::placeholders::_1));
+	}
+}
+
+void MainPlayer_SkillIcon::SkillIconClick(GameEngineCollision* _Other)
+{
+	// Mouse LButton Flag Check
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		IconRenderer_->SetChangeAnimation("Click");
+
+		ButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		IconRenderer_->SetChangeAnimation("Default");
+	}
+}
+
+void MainPlayer_SkillIcon::SkillLevelUp()
+{
+	// 최초 레벨업일때
+	if (0 == CurSkillLevel_)
+	{
+		// 오른쪽스킬목록에 해당 스킬버튼 추가
+
+
+
+
+		// 왼쪽스킬로 사용가능여부 판단하여 사용가능하다면 왼쪽스킬목록에 해당 스킬버튼 추가
+
+
+
+	}
+
+	// 해당 스킬레벨업
+	CurSkillLevel_ += 1;
+
+	// 플레이어 스킬정보에 레벨 갱신
+	
+
+	// 스킬 현재레벨 텍스트 갱신
+	CurLevelRenderer_->SetPrintText(std::to_string(CurSkillLevel_));
 }
 
 void MainPlayer_SkillIcon::CreateSkillIcon(SkillPageNo _PageNo, const std::string& _SkillName, int _SkillCode, bool _SkillActiveFlag, int _Row, int _Column, int _CurSkillLevel)
@@ -52,17 +110,66 @@ void MainPlayer_SkillIcon::CreateSkillIcon(SkillPageNo _PageNo, const std::strin
 	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();
 
 	// Create SkillIcon Renderer
+	IconRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
+	IconRenderer_->GetTransform()->SetLocalScaling(float4(48.f, 48.f, 1.f));
 
+	// 활성화
+	std::string DefaultTexName = SkillName_;
+	DefaultTexName += "_Default";
+	DefaultTexName += ".png";
+	GameEngineTexture* DefaultTexture = GameEngineTextureManager::GetInst().Find(DefaultTexName);
+	if (nullptr != DefaultTexture)
+	{
+		DefaultTexture->Cut(1, 1);
+		IconRenderer_->CreateAnimation(DefaultTexName, "Default", 0, 0, 0.1f, false);
+	}
 
+	// 클릭
+	std::string ClickTexName = SkillName_;
+	ClickTexName += "_Click";
+	ClickTexName += ".png";
+	GameEngineTexture* ClickTexture = GameEngineTextureManager::GetInst().Find(ClickTexName);
+	if (nullptr != ClickTexture)
+	{
+		ClickTexture->Cut(1, 1);
+		IconRenderer_->CreateAnimation(ClickTexName, "Click", 0, 0, 0.1f, false);
+	}
+
+	// 비활성화
+	std::string InactiveTexName = SkillName_;
+	InactiveTexName += "_Inactive";
+	InactiveTexName += ".png";
+	GameEngineTexture* InactiveTexture = GameEngineTextureManager::GetInst().Find(InactiveTexName);
+	if (nullptr != InactiveTexture)
+	{
+		InactiveTexture->Cut(1, 1);
+		IconRenderer_->CreateAnimation(InactiveTexName, "Inactive", 0, 0, 0.1f, false);
+	}
+
+	// Renderer Pos Calc
+	float4 CalcPos = float4::ZERO;
+	CalcPos.x = 40.f + (68.f * (SkillPageColumn_ - 1));
+	CalcPos.y = 202.f - (68.f * (SkillPageRow_ - 1));
+	IconRenderer_->GetTransform()->SetLocalPosition(CalcPos);
+
+	// 비활성 상태(기본)
+	IconRenderer_->SetChangeAnimation("Inactive");
 
 	// Create SkillIcon Collsion
-
-
+	IconCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+	IconCollision_->GetTransform()->SetLocalScaling(IconRenderer_->GetTransform()->GetLocalScaling());
+	IconCollision_->GetTransform()->SetLocalPosition(IconRenderer_->GetTransform()->GetLocalPosition());
 
 	// Create Skill CurLevel Text Renderer
+	CurLevelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 
+	// Calc TextPos
+	float4 TextCalcPos = float4::ZERO;
+	TextCalcPos = IconRenderer_->GetTransform()->GetLocalPosition();
+	TextCalcPos.x += 28.f;
+	TextCalcPos.y -= 28.f;
+	CurLevelRenderer_->GetTransform()->SetLocalPosition(TextCalcPos);
+	CurLevelRenderer_->TextSetting("diablo", std::to_string(CurSkillLevel_), 15, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-
-
-
+	Off();
 }

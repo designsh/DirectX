@@ -29,6 +29,9 @@ private:
 	GameEngineCollision*	IconCollision_;			// 스킬 아이콘 충돌체
 	GameEngineUIRenderer*	CurLevelRenderer_;		// 스킬 현재 레벨 렌더러
 
+private:
+	Button_State ButtonState_;
+
 public:
 	MainPlayer_SkillIcon();
 	~MainPlayer_SkillIcon();
@@ -44,6 +47,10 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+private:
+	void SkillIconClick(GameEngineCollision* _Other);
+	void SkillLevelUp();
 
 public:
 	void CreateSkillIcon(SkillPageNo _PageNo, const std::string& _SkillName, int _SkillCode, bool _SkillActiveFlag, int _Row, int _Column, int _CurSkillLevel);

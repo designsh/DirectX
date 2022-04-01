@@ -16,8 +16,8 @@
 #include "GlobalValue.h"
 
 MainPlayer::MainPlayer() :
-	IsTown_(true),
-	//IsTown_(false),
+	//IsTown_(true),
+	IsTown_(false),
 	IsRun_(false),
 	IsInventory_(false),
 	IsStateView_(false),

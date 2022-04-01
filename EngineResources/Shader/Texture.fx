@@ -45,12 +45,6 @@ cbuffer ResultColor : register(b0)
 float4 Texture_PS(VertexOut _in) : SV_Target0
 {
     float4 Color = Tex.Sample(Smp, _in.Texcoord.xy) * vColor;
-    
-    if (Color.a == 0)
-    {
-        clip(-1);
-    }
-    
     return Color;
 }
 

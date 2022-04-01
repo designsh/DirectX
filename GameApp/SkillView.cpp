@@ -91,8 +91,8 @@ void SkillView::Start()
 		SkillPageCollider_[i] = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 		SkillPageCollider_[i]->GetTransform()->SetLocalScaling(float4(75.f, 95.f, 1.0f));
 
-		float4 CalcColliderPos = float4(272.5f, 80.f);
-		CalcColliderPos.y -= ((i * 95.f) + (i * 13));
+		float4 CalcColliderPos = float4(272.5f, -136.f);
+		CalcColliderPos.y += ((i * 95.f) + (i * 13));
 		SkillPageCollider_[i]->GetTransform()->SetLocalPosition(CalcColliderPos);
 	}
 
@@ -115,7 +115,7 @@ void SkillView::Update(float _DeltaTime)
 				// 미니메뉴 원래자리 복귀
 				GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->AllMoveMiniMenu(true);
 
-				// 스탯창 비활성화
+				// 스킬창 비활성화
 				GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->KeyInputViewProcess(2);
 			}
 
@@ -168,14 +168,8 @@ void SkillView::InitSkillView()
 		// 신규 스킬 아이콘 생성
 		MainPlayer_SkillIcon* NewSkillIcon = GetLevel()->CreateActor<MainPlayer_SkillIcon>();
 		NewSkillIcon->CreateSkillIcon(PageNo, SkillName, SkillCode, SkillActive, SkillRow, SkillColumn, SkillLevel);
+		NewSkillIcon->Off();
 		SkillPageToIcon[static_cast<int>(PageNo)].push_back(NewSkillIcon);
-	}
-
-	// 현재 선택된 페이지의 스킬아이콘 목록만 On상태
-	int PageIconCnt = static_cast<int>(SkillPageToIcon[static_cast<int>(CurSkillPage)].size());
-	for (int i = 0; i < PageIconCnt; ++i)
-	{
-		SkillPageToIcon[static_cast<int>(CurSkillPage)][i]->On();
 	}
 }
 
@@ -263,5 +257,25 @@ void SkillView::SkillPageTabChange(SkillPageNo _SkillPageNo)
 	{
 		CloseButton_->GetTransform()->SetLocalPosition(float4(31.f, -161.f));
 		CloseButtonCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
+	}
+}
+
+void SkillView::SkillIconEnabled(bool _Flag)
+{
+	if (true == _Flag)
+	{
+		int PageIconCnt = static_cast<int>(SkillPageToIcon[static_cast<int>(CurSkillPage)].size());
+		for (int i = 0; i < PageIconCnt; ++i)
+		{
+			SkillPageToIcon[static_cast<int>(CurSkillPage)][i]->On();
+		}
+	}
+	else
+	{
+		int PageIconCnt = static_cast<int>(SkillPageToIcon[static_cast<int>(CurSkillPage)].size());
+		for (int i = 0; i < PageIconCnt; ++i)
+		{
+			SkillPageToIcon[static_cast<int>(CurSkillPage)][i]->Off();
+		}
 	}
 }
