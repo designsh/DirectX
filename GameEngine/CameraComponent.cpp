@@ -169,7 +169,7 @@ void CameraComponent::CameraZoomReset()
 	}
 }
 
-void CameraComponent::CameraZoomIn(float _CameraZMove)
+void CameraComponent::CameraZoomIn(float4 _CameraMove)
 {
 	// 카메라가 비추는 화면 비율 조정
 	if (ProjectionMode_ == ProjectionMode::Perspective) // 직교투영일때
@@ -182,7 +182,7 @@ void CameraComponent::CameraZoomIn(float _CameraZMove)
 	}
 }
 
-void CameraComponent::CameraZoomOut(float _CameraZMove)
+void CameraComponent::CameraZoomOut(float4 _CameraMove)
 {
 	// 카메라가 비추는 화면 비율 조정
 	if (ProjectionMode_ == ProjectionMode::Perspective) // 직교투영일때

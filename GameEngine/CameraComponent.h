@@ -66,8 +66,8 @@ public:
 
 public:
 	void CameraZoomReset();
-	void CameraZoomIn(float _CameraZMove = 0.f);
-	void CameraZoomOut(float _CameraZMove = 0.f);
+	void CameraZoomIn(float4 _CameraZMove = float4::ZERO);
+	void CameraZoomOut(float4 _CameraZMove = float4::ZERO);
 	void CameraSettingPos(float4 _SetPos);
 
 public:
