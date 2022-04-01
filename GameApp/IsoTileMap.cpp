@@ -40,6 +40,7 @@ void IsoTileMap::SetTile(float4 _Pos)
 	GameEngineImageRenderer* Renderer = CreateTransformComponent<GameEngineImageRenderer>();
 	Renderer->SetImage(FloorTile_);
 	Renderer->SetIndex(0);
+	Renderer->GetTransform()->SetLocalScaling(TileSize);
 	Renderer->GetTransform()->SetLocalPosition(IndexPivotPos + Pos);
 
 	Tiles_.insert(std::make_pair(Index.Index_, Renderer));
