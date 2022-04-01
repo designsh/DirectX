@@ -54,7 +54,9 @@ void MainPlayer_SkillIcon::CreateSkillIcon(SkillPageNo _PageNo, const std::strin
 	// Create SkillIcon Renderer
 
 
+
 	// Create SkillIcon Collsion
+
 
 
 	// Create Skill CurLevel Text Renderer

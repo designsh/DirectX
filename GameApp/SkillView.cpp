@@ -154,7 +154,7 @@ void SkillView::InitSkillView()
 		}
 
 		// 스킬아이콘 생성에 필요정보 Get
-		SkillPageNo PageNo = static_cast<SkillPageNo>(PlayerInfo.SkillInfo[i].SkillPage - 1);	// 기본스킬이 0번페이지 No를 가지므로 페이지번호를 -1하여 0번부터 설정되도록 설정
+		SkillPageNo PageNo = static_cast<SkillPageNo>(PlayerInfo.SkillInfo[i].SkillPage - 1);	// 스킬이 1번페이지부터시작이므로 페이지번호를 -1하여 0번부터 설정되도록 설정
 		std::string SkillName = PlayerInfo.SkillInfo[i].SkillName;
 		int SkillCode = PlayerInfo.SkillInfo[i].SkillCode;
 		bool SkillActive = PlayerInfo.SkillInfo[i].SkillActive;
