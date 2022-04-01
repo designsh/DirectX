@@ -191,7 +191,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MainPlayer_SkillPage.cpp">
+    <ClCompile Include="MainPlayer_SkillIcon.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -473,7 +473,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MainPlayer_SkillPage.h">
+    <ClInclude Include="MainPlayer_SkillIcon.h">
       <SubType>
       </SubType>
     </ClInclude>

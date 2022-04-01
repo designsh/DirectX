@@ -6,7 +6,7 @@
 
 #include "GlobalValue.h"
 
-#include "MainPlayer_SkillPage.h"
+#include "MainPlayer_SkillIcon.h"
 
 #include "MainPlayerInfomation.h"
 #include "MainPlayer.h"

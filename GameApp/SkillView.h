@@ -3,6 +3,11 @@
 
 #include "GlobalEnumClass.h"
 
+struct SkillPage
+{
+
+};
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -20,6 +25,13 @@ public:
 
 private:	// member Var
 	GameEngineUIRenderer* PanelRenderer_;						// 스킬창 판넬 렌더러
+
+private: // 스킬페이지
+
+
+private: // 스킬페이지에 속하는 스킬 아이콘 정보
+
+
 
 private:
 	GameEngineUIRenderer* CloseButton_;							// 스킬창 종료버튼 렌더러
