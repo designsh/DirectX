@@ -5,7 +5,6 @@
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
 #include <GameEngine/GameEngineCore.h>
-#include <GameEngine\GameEngineCore.h>
 
 // 0 50
 // 49
@@ -14,7 +13,7 @@
 // 
 
 EditorControlWindow::EditorControlWindow() :
-	MainCamera_(nullptr),
+	Map(nullptr),
 	Zoom(1.0f),
 	ZoomMin(0.1f),
 	ZoomMax(5.0f)
@@ -38,22 +37,11 @@ void EditorControlWindow::OnGUI()
 	IsoPosText += Pos.ToString();
 	ImGui::Text(IsoPosText.c_str());
 
-	if (nullptr != MainCamera_)
-	{
-		float4 CameraPos = MainCamera_->GetTransform()->GetWorldPosition();
-		std::string CameraPosText = "Camera Pos : ";
-		CameraPosText += CameraPos.ToString();
-		ImGui::Text(CameraPosText.c_str());
-	}
+	std::string CameraPosText = "Camera Pos : ";
+	CameraPosText += CameraPos.ToString();
+	ImGui::Text(CameraPosText.c_str());
 
 	ImGui::SliderFloat("Zoom", &Zoom, ZoomMin, ZoomMax, "%f", 1.0f);
 
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom);
-	
-
-}
-
-void EditorControlWindow::SetMainCamera(CameraComponent* _Camera)
-{
-	MainCamera_ = _Camera;
 }

@@ -13,9 +13,6 @@ public:	// member Var
 	float ZoomMin;
 	float ZoomMax;
 
-private:
-	CameraComponent* MainCamera_;
-
 public:
 	EditorControlWindow();
 	~EditorControlWindow();
@@ -33,6 +30,5 @@ protected:
 
 public:
 	void GUIWindowOff();
-	void SetMainCamera(CameraComponent* _Camera);
 };
 

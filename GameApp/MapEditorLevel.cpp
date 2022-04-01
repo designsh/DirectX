@@ -7,6 +7,9 @@
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
 
+#include <GameEngine/GameEngineTextureManager.h>
+#include <GameEngine/GameEngineTexture.h>
+
 MapEditorLevel::MapEditorLevel() :
 	Map(nullptr),
 	MoveSpeed_(100.f)
@@ -40,9 +43,12 @@ void MapEditorLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
 
+	// Image Cutting
+	GameEngineTexture* FloorTile = GameEngineTextureManager::GetInst().Find("Town_Floor.png");
+	FloorTile->Cut(5, 37);
+
 	// MapEditor Control Window
 	EditorControlWindow* Ptr = GameEngineGUI::GetInst()->CreateGUIWindow<EditorControlWindow>("EditorControlWindow");
-	Ptr->SetMainCamera(GetMainCamera());
 	Map = CreateActor<IsoTileMap>();
 	Ptr->Map = Map;
 	Map->SetFloorTileTexture("Town_Floor.png");

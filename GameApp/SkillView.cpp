@@ -96,6 +96,9 @@ void SkillView::Start()
 		SkillPageCollider_[i]->GetTransform()->SetLocalPosition(CalcColliderPos);
 	}
 
+	// 현재 선택된 페이지 판넬 렌더러만 On상태
+	SkillPagePanel_[static_cast<int>(CurSkillPage)]->On();
+
 	Off();
 }
 
@@ -167,9 +170,6 @@ void SkillView::InitSkillView()
 		NewSkillIcon->CreateSkillIcon(PageNo, SkillName, SkillCode, SkillActive, SkillRow, SkillColumn, SkillLevel);
 		SkillPageToIcon[static_cast<int>(PageNo)].push_back(NewSkillIcon);
 	}
-
-	// 현재 선택된 페이지 판넬 렌더러만 On상태
-	SkillPagePanel_[static_cast<int>(CurSkillPage)]->On();
 
 	// 현재 선택된 페이지의 스킬아이콘 목록만 On상태
 	int PageIconCnt = static_cast<int>(SkillPageToIcon[static_cast<int>(CurSkillPage)].size());
