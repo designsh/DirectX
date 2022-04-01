@@ -29,9 +29,11 @@ void SkillView::SetCurSkillPage(SkillPageNo _SkillPageNo)
 
 SkillView::SkillView() :
 	PanelRenderer_(nullptr),
+	SkillPagePanel_{nullptr, },
+	SkillPageCollider_{ nullptr, },
 	CloseButton_(nullptr),
-	MainCollider_(nullptr),
-	ButtonState_(Button_State::Normal)
+	CloseButtonCollider_(nullptr),
+	CloseButtonState_(Button_State::Normal)
 {
 }
 
@@ -63,20 +65,44 @@ void SkillView::Start()
 	CloseButton_->CreateAnimation("CloseButton_Default.png", "Default", 0, 0, 0.1f, false);
 	CloseButton_->CreateAnimation("CloseButton_Click.png", "Click", 0, 0, 0.1f, false);
 	CloseButton_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.f));
-	CloseButton_->GetTransform()->SetLocalPosition(float4(30.f, -166.f));
+	CloseButton_->GetTransform()->SetLocalPosition(float4(31.f, -161.f));
 	CloseButton_->SetChangeAnimation("Default");
 
 	// Create Button Collision
-	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
-	MainCollider_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.0f));
-	MainCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
+	CloseButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	CloseButtonCollider_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.0f));
+	CloseButtonCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
+
+	// ============================================ Skill Page ============================================ //
+	
+	for (int i = 0; i < static_cast<int>(SkillPageNo::MAX); ++i)
+	{
+		// Create Skill Page Panel Renderer
+		std::string SkillPageName = "SkillPage";
+		SkillPageName += std::to_string(i + 1);
+		SkillPageName += ".png";
+
+		SkillPagePanel_[i] = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Tab));
+		SkillPagePanel_[i]->SetImage(SkillPageName);
+		SkillPagePanel_[i]->GetTransform()->SetLocalPosition(float4(ImageHarfSize.x, 24.f));
+		SkillPagePanel_[i]->Off();
+
+		// Create Skill Page Panel Collider
+		SkillPageCollider_[i] = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+		SkillPageCollider_[i]->GetTransform()->SetLocalScaling(float4(75.f, 95.f, 1.0f));
+
+		float4 CalcColliderPos = float4(272.5f, 80.f);
+		CalcColliderPos.y -= ((i * 95.f) + (i * 13));
+		SkillPageCollider_[i]->GetTransform()->SetLocalPosition(CalcColliderPos);
+	}
 
 	Off();
 }
 
 void SkillView::Update(float _DeltaTime)
 {
-	if (ButtonState_ == Button_State::Click)
+	// 스킬창 종료버튼 체크
+	if (CloseButtonState_ == Button_State::Click)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
@@ -90,22 +116,67 @@ void SkillView::Update(float _DeltaTime)
 				GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->KeyInputViewProcess(2);
 			}
 
-			ButtonState_ = Button_State::Normal;
+			CloseButtonState_ = Button_State::Normal;
 		}
 	}
 
-	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::CloseButtonClick, this, std::placeholders::_1));
+	// 창종료 버튼 충돌체크
+	CloseButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::CloseButtonClick, this, std::placeholders::_1));
+
+	// 스킬페이지 전환 버튼 충돌체크
+	SkillPageCollider_[0]->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage1ChangeClick, this, std::placeholders::_1));
+	SkillPageCollider_[1]->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage2ChangeClick, this, std::placeholders::_1));
+	SkillPageCollider_[2]->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage3ChangeClick, this, std::placeholders::_1));
+
+	//// 확인용
+	//for (int i = 0; i < 3; ++i)
+	//{
+	//	GetLevel()->PushDebugRender(SkillPageCollider_[i]->GetTransform(), CollisionType::Rect);
+	//}
 }
 
 void SkillView::InitSkillView()
 {
 	// 메인플레이어 정보를 이용하여 String Setting
 	MainPlayerInfo PlayerInfo = MainPlayerInfomation::GetInst().GetMainPlayerInfoValue();
+	
+	// 스킬페이지별 스킬목록 생성(기본스킬 제외)
 
-	// 스킬페이지별 스킬목록 생성
+	// 해당 메인플레이어가 가지고있는 스킬정보만큼 반복
+	int AllSkillCount = static_cast<int>(PlayerInfo.SkillInfo.size());
+	for (int i = 0; i < AllSkillCount; ++i)
+	{
+		// 해당 스킬의 페이지 No Get
+		if (0 == PlayerInfo.SkillInfo[i].SkillPage)
+		{
+			// 기본스킬들은 아이콘 생성하지않는다.
+			continue;
+		}
 
+		// 스킬아이콘 생성에 필요정보 Get
+		SkillPageNo PageNo = static_cast<SkillPageNo>(PlayerInfo.SkillInfo[i].SkillPage - 1);	// 기본스킬이 0번페이지 No를 가지므로 페이지번호를 -1하여 0번부터 설정되도록 설정
+		std::string SkillName = PlayerInfo.SkillInfo[i].SkillName;
+		int SkillCode = PlayerInfo.SkillInfo[i].SkillCode;
+		bool SkillActive = PlayerInfo.SkillInfo[i].SkillActive;
+		int SkillRow = PlayerInfo.SkillInfo[i].SkillRow;
+		int SkillColumn = PlayerInfo.SkillInfo[i].SkillColumn;
+		int SkillLevel = PlayerInfo.SkillInfo[i].CurSkillLevel;
 
+		// 신규 스킬 아이콘 생성
+		MainPlayer_SkillIcon* NewSkillIcon = GetLevel()->CreateActor<MainPlayer_SkillIcon>();
+		NewSkillIcon->CreateSkillIcon(PageNo, SkillName, SkillCode, SkillActive, SkillRow, SkillColumn, SkillLevel);
+		SkillPageToIcon[static_cast<int>(PageNo)].push_back(NewSkillIcon);
+	}
 
+	// 현재 선택된 페이지 판넬 렌더러만 On상태
+	SkillPagePanel_[static_cast<int>(CurSkillPage)]->On();
+
+	// 현재 선택된 페이지의 스킬아이콘 목록만 On상태
+	int PageIconCnt = static_cast<int>(SkillPageToIcon[static_cast<int>(CurSkillPage)].size());
+	for (int i = 0; i < PageIconCnt; ++i)
+	{
+		SkillPageToIcon[static_cast<int>(CurSkillPage)][i]->On();
+	}
 }
 
 void SkillView::CloseButtonClick(GameEngineCollision* _Other)
@@ -115,10 +186,82 @@ void SkillView::CloseButtonClick(GameEngineCollision* _Other)
 	{
 		CloseButton_->SetChangeAnimation("Click");
 
-		ButtonState_ = Button_State::Click;
+		CloseButtonState_ = Button_State::Click;
 	}
 	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 	{
 		CloseButton_->SetChangeAnimation("Default");
+	}
+}
+
+void SkillView::SkillPage1ChangeClick(GameEngineCollision* _Other)
+{
+	// Page1 선택(CurseSpell(저주스펠))
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		SkillPageTabChange(SkillPageNo::CurseSpell);
+	}
+}
+
+void SkillView::SkillPage2ChangeClick(GameEngineCollision* _Other)
+{
+	// Page2 선택(PoisonandBoneSpells(포이즌&본스펠))
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		SkillPageTabChange(SkillPageNo::PoisonandBoneSpells);
+	}
+}
+
+void SkillView::SkillPage3ChangeClick(GameEngineCollision* _Other)
+{
+	// Page3 선택(SummonSpell(소환스펠))
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		SkillPageTabChange(SkillPageNo::SummonSpell);
+	}
+}
+
+void SkillView::SkillPageTabChange(SkillPageNo _SkillPageNo)
+{
+	// 현재 선택된 스킬페이지와 현재 선택된 스킬페이지가 같다면 리턴
+	if (CurSkillPage == _SkillPageNo)
+	{
+		return;
+	}
+
+	// 아니라면 CurSkillPage의 판넬과 아이콘목록을 모두 Off시키고,
+	// 현재 선택된 페이지를 변경
+	SkillPagePanel_[static_cast<int>(CurSkillPage)]->Off();
+
+	// 해당 스킬아이콘 목록 모두 On
+	int CurSkillIconCnt = static_cast<int>(SkillPageToIcon[static_cast<int>(CurSkillPage)].size());
+	for (int i = 0; i < CurSkillIconCnt; ++i)
+	{
+		SkillPageToIcon[static_cast<int>(CurSkillPage)][i]->Off();
+	}
+	CurSkillPage = _SkillPageNo;
+
+	// 현재 선택된 페이지 관련 렌더러를 모두 On상태로 전환
+
+	// 스킬페이지 판넬 On
+	SkillPagePanel_[static_cast<int>(CurSkillPage)]->On();
+
+	// 해당 스킬아이콘 목록 모두 On
+	int ChangeSkillIconCnt = static_cast<int>(SkillPageToIcon[static_cast<int>(CurSkillPage)].size());
+	for (int i = 0; i < ChangeSkillIconCnt; ++i)
+	{
+		SkillPageToIcon[static_cast<int>(CurSkillPage)][i]->On();
+	}
+
+	// 스킬창 종료버튼 이동(2번페이지일때만 위치가 다름)
+	if (SkillPageNo::PoisonandBoneSpells == CurSkillPage)
+	{
+		CloseButton_->GetTransform()->SetLocalPosition(float4(187.f, -161.f));
+		CloseButtonCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
+	}
+	else
+	{
+		CloseButton_->GetTransform()->SetLocalPosition(float4(31.f, -161.f));
+		CloseButtonCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
 	}
 }

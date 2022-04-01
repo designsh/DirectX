@@ -3,17 +3,12 @@
 
 #include "GlobalEnumClass.h"
 
-struct SkillPage
-{
-
-};
-
-// 분류 : 
-// 용도 : 
-// 설명 : 
+// 분류 : 플레이어 UI
+// 용도 : 스킬창
+// 설명 : 스킬레벨업
 class GameEngineUIRenderer;
 class GameEngineCollision;
-class MainPlayer_SkillPage;
+class MainPlayer_SkillIcon;
 class SkillView : public GameEngineActor
 {
 private:
@@ -27,21 +22,16 @@ private:	// member Var
 	GameEngineUIRenderer* PanelRenderer_;						// 스킬창 판넬 렌더러
 
 private: // 스킬페이지
-
+	GameEngineUIRenderer* SkillPagePanel_[static_cast<int>(SkillPageNo::MAX)];
+	GameEngineCollision* SkillPageCollider_[static_cast<int>(SkillPageNo::MAX)];
 
 private: // 스킬페이지에 속하는 스킬 아이콘 정보
-
-
+	std::vector<MainPlayer_SkillIcon*> SkillPageToIcon[static_cast<int>(SkillPageNo::MAX)];
 
 private:
 	GameEngineUIRenderer* CloseButton_;							// 스킬창 종료버튼 렌더러
-	GameEngineCollision* MainCollider_;							// 스킬창 종료버튼 충돌체
-
-private:
-	Button_State ButtonState_;									// 버튼 상태
-
-private: // 스킬페이지 관련
-
+	GameEngineCollision* CloseButtonCollider_;					// 스킬창 종료버튼 충돌체
+	Button_State CloseButtonState_;								// 버튼 상태
 
 public:
 	SkillView();
@@ -64,5 +54,11 @@ public:
 
 public:
 	void CloseButtonClick(GameEngineCollision* _Other);
+
+public:
+	void SkillPage1ChangeClick(GameEngineCollision* _Other);
+	void SkillPage2ChangeClick(GameEngineCollision* _Other);
+	void SkillPage3ChangeClick(GameEngineCollision* _Other);
+	void SkillPageTabChange(SkillPageNo _SkillPageNo);
 };
 
