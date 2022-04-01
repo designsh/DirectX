@@ -9,6 +9,9 @@ class EditorControlWindow : public GameEngineGUIWindow
 {
 public:	// member Var
 	class IsoTileMap* Map;
+	float Zoom;
+	float ZoomMin;
+	float ZoomMax;
 
 private:
 	CameraComponent* MainCamera_;

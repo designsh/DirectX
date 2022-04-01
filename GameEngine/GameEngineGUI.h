@@ -71,6 +71,13 @@ class GameEngineGUIWindow : public GameEngineObjectNameBase
 	friend class GameEngineGUI;
 
 private:	// member Var
+	GameEngineLevel* Level_;
+
+public:
+	inline void SetLevel(GameEngineLevel* _Level) 
+	{
+		Level_ = _Level;
+	}
 
 protected:
 	int Style_;

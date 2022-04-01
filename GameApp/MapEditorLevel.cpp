@@ -19,24 +19,35 @@ MapEditorLevel::~MapEditorLevel()
 
 void MapEditorLevel::LevelChangeEndEvent()
 {
+	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("EditorControlWindow");
+	if (nullptr != Ptr)
+	{
+		Ptr->Off();
+	}
 }
 
 void MapEditorLevel::LevelChangeStartEvent()
 {
-
+	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("EditorControlWindow");
+	if (nullptr != Ptr)
+	{
+		Ptr->On();
+	}
 }
 
 void MapEditorLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
-	GetMainCamera()->CameraSettingPos(float4(0.f, 0.f, -100.f));
 
 	// MapEditor Control Window
 	EditorControlWindow* Ptr = GameEngineGUI::GetInst()->CreateGUIWindow<EditorControlWindow>("EditorControlWindow");
 	Ptr->SetMainCamera(GetMainCamera());
 	Map = CreateActor<IsoTileMap>();
 	Ptr->Map = Map;
+	Map->SetFloorTileTexture("Town_Floor.png");
+
+	Ptr->Off();
 
 	// 프리카메라 키생성
 	if (false == GameEngineInput::GetInst().IsKey("CameraUp"))
@@ -77,12 +88,12 @@ void MapEditorLevel::LevelStart()
 
 void MapEditorLevel::LevelUpdate(float _DeltaTime)
 {
-	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	if (true == GameEngineInput::GetInst().Press("MouseLButton"))
 	{
 		// 카메라 이동을 더한다.
 		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
 		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
-		Map->SetTile(TilePos, CameraPos);
+		Map->SetTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 	}
 
 	// 카메라이동
@@ -113,15 +124,4 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		GetMainCamera()->CameraZoomReset();
 	}
 
-	if (true == GameEngineInput::GetInst().Down("CameraZoomIn"))
-	{
-		// 카메라가 비추는 화면 비율 조정
-		GetMainCamera()->CameraZoomIn();
-	}
-
-	if (true == GameEngineInput::GetInst().Down("CameraZoomOut"))
-	{
-		// 카메라가 비추는 화면 비율 조정
-		GetMainCamera()->CameraZoomOut();
-	}
 }

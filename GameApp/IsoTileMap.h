@@ -29,11 +29,16 @@ public:
 	IsoTileMap& operator=(const IsoTileMap& _Other) = delete;
 	IsoTileMap& operator=(IsoTileMap&& _Other) noexcept = delete;
 
-	void SetTile(float4 _Pos, float4 _CamPos);
+	void SetTile(float4 _Pos);
 
-	TileIndex GetIndex(float4 _Pos, float4 _CamPos);
+	TileIndex GetIndex(float4 _Pos);
 
 	float4 GetIsoPos(float4 _Pos);
+
+	void SetFloorTileTexture(const std::string& _FloorTile)
+	{
+		FloorTile_ = _FloorTile;
+	}
 
 
 private:
@@ -45,6 +50,7 @@ private:
 	// 8 πŸ¿Ã∆Æ
 	std::unordered_map<__int64, class GameEngineImageRenderer*> Tiles_;
 
+	std::string FloorTile_;
 
 private:
 

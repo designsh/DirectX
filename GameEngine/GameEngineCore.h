@@ -30,6 +30,11 @@ public:
 		AllLevel_[_Level]->LevelStart();
 	}
 
+	static GameEngineLevel* CurrentLevel() 
+	{
+		return CurrentLevel_;
+	}
+
 public:
 	static void LevelChange(const std::string& _Level);
 	static GameEngineLevel* LevelFind(const std::string& _Level);

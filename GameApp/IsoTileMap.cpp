@@ -24,9 +24,9 @@ void IsoTileMap::Start()
 	Renderer->GetTransform()->SetLocalPosition(IndexPivotPos);
 }
 
-void IsoTileMap::SetTile(float4 _Pos, float4 _CamPos)
+void IsoTileMap::SetTile(float4 _Pos)
 {
-	TileIndex Index = GetIndex(_Pos, _CamPos);
+	TileIndex Index = GetIndex(_Pos);
 
 	if (Tiles_.end() != Tiles_.find(Index.Index_))
 	{
@@ -38,13 +38,14 @@ void IsoTileMap::SetTile(float4 _Pos, float4 _CamPos)
 	Pos.y = (Index.X_ + Index.Y_) * -TileSizeHalf.y;
 
 	GameEngineImageRenderer* Renderer = CreateTransformComponent<GameEngineImageRenderer>();
-	Renderer->SetImage("TileLine.png");
+	Renderer->SetImage(FloorTile_);
+	Renderer->SetIndex(0);
 	Renderer->GetTransform()->SetLocalPosition(IndexPivotPos + Pos);
 
 	Tiles_.insert(std::make_pair(Index.Index_, Renderer));
 }
 
-TileIndex IsoTileMap::GetIndex(float4 _Pos, float4 _CamPos)
+TileIndex IsoTileMap::GetIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
@@ -59,10 +60,6 @@ TileIndex IsoTileMap::GetIndex(float4 _Pos, float4 _CamPos)
 	//     01    10
 	//   02        20
 	// 카메라위치 더하기
-	float4 CamPos = _CamPos;
-	CamPos.z = 0.f;
-	_Pos += CamPos;
-
 	float RatioX = ((_Pos.x / TileSizeHalf.x) - (_Pos.y / TileSizeHalf.y)) / 2.0f;
 	float RatioY = ((_Pos.y / TileSizeHalf.y) + (_Pos.x / TileSizeHalf.x)) / -2.0f;
 

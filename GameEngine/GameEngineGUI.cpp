@@ -114,8 +114,6 @@ GameEngineGUIWindow* GameEngineGUI::FindGUIWindow(const std::string& _Name)
         {
             return FindIter;
         }
-
-        return FindIter;
     }
 
     return nullptr;
