@@ -49,11 +49,14 @@ void MapEditorLevel::LevelStart()
 
 	// MapEditor Control Window
 	EditorControlWindow* Ptr = GameEngineGUI::GetInst()->CreateGUIWindow<EditorControlWindow>("EditorControlWindow");
+	Ptr->Off();
+
+
 	Map = CreateActor<IsoTileMap>();
 	Ptr->Map = Map;
 	Map->SetFloorTileTexture("Town_Floor.png");
 
-	Ptr->Off();
+	
 
 	// 프리카메라 키생성
 	if (false == GameEngineInput::GetInst().IsKey("CameraUp"))
