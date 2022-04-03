@@ -9,6 +9,7 @@
 // 관련 액터
 #include "MainPlayer_CurrentHP.h"
 #include "MainPlayer_CurrentMP.h"
+#include "MainPlayer_WeaponSkillButton.h"
 #include "MainPlayer_LeftWeaponSkillButton.h"
 #include "MainPlayer_RightWeaponSkillButton.h"
 #include "MainPlayer_Stamina.h"

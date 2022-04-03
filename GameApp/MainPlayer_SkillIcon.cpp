@@ -9,6 +9,12 @@
 #include "MainPlayerInfomation.h"
 #include "MainPlayer.h"
 
+#include "BottomStateBar.h"
+#include "MainPlayer_LeftWeaponSkillButton.h"
+#include "MainPlayer_RightWeaponSkillButton.h"
+
+#include "SkillView.h"
+
 MainPlayer_SkillIcon::MainPlayer_SkillIcon() :
 	PageNo_(SkillPageNo::NONE),
 	SkillName_{},
@@ -74,25 +80,33 @@ void MainPlayer_SkillIcon::SkillLevelUp()
 	// 최초 레벨업일때
 	if (0 == CurSkillLevel_)
 	{
-		// 오른쪽스킬목록에 해당 스킬버튼 추가
+		if (nullptr != GlobalValue::CurPlayer)
+		{
+			// 오른쪽스킬목록에 해당 스킬버튼 추가
+			GlobalValue::CurPlayer->GetBottomStateBar()->GetRightWeaponSkillControl()->UpdateWeaponSkillList(SkillCode_);
 
-
-
-
-		// 왼쪽스킬로 사용가능여부 판단하여 사용가능하다면 왼쪽스킬목록에 해당 스킬버튼 추가
-
-
-
+			// 왼쪽스킬로 사용가능여부 판단하여 사용가능하다면 왼쪽스킬목록에 해당 스킬버튼 추가
+			if (true == MainPlayerInfomation::GetInst().PlayerLeftSkillUseCheck(SkillCode_))
+			{
+				GlobalValue::CurPlayer->GetBottomStateBar()->GetLeftWeaponSkillControl()->UpdateWeaponSkillList(SkillCode_);
+			}
+		}
 	}
 
 	// 해당 스킬레벨업
 	CurSkillLevel_ += 1;
 
 	// 플레이어 스킬정보에 레벨 갱신
-	
+	MainPlayerInfomation::GetInst().PlayerSkillLevelUp(SkillCode_);
 
 	// 스킬 현재레벨 텍스트 갱신
 	CurLevelRenderer_->SetPrintText(std::to_string(CurSkillLevel_));
+
+	// 부여된 스킬포인트 차감
+	if (nullptr != GlobalValue::CurPlayer)
+	{
+		GlobalValue::CurPlayer->GetSkillView()->SkillPointDeduction();
+	}
 }
 
 void MainPlayer_SkillIcon::CreateSkillIcon(SkillPageNo _PageNo, const std::string& _SkillName, int _SkillCode, bool _SkillActiveFlag, int _Row, int _Column, int _CurSkillLevel)
@@ -172,4 +186,18 @@ void MainPlayer_SkillIcon::CreateSkillIcon(SkillPageNo _PageNo, const std::strin
 	CurLevelRenderer_->TextSetting("diablo", std::to_string(CurSkillLevel_), 15, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
 	Off();
+}
+
+void MainPlayer_SkillIcon::SetSkillIconActive()
+{
+	// 해당 스킬아이콘 활성화
+	SkillActive_ = true;
+	IconRenderer_->SetChangeAnimation("Default");
+}
+
+void MainPlayer_SkillIcon::SetSkillIconInactvie()
+{
+	// 해당 스킬아이콘 비활성화
+	SkillActive_ = false;
+	IconRenderer_->SetChangeAnimation("Inactive");
 }

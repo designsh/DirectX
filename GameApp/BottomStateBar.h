@@ -95,6 +95,11 @@ public:
 	{
 		return AddSkillPointButton_;
 	}
+	
+	inline MainPlayer_CurExpProgressBar* GetEXPProgressBarControl()
+	{
+		return CurExpProgressBar_;
+	}
 
 public:
 	void InitBottomStateBar();			// ÃÑ°ý ÃÊ±âÈ­

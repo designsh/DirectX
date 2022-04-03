@@ -248,6 +248,9 @@
     <ClCompile Include="MainPlayer_SkillIcon.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\02.SkillView\SkillIcon</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryView.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -857,6 +860,9 @@
     </ClInclude>
     <ClInclude Include="MainPlayer_SkillIcon.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\02.SkillView\SkillIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryView.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

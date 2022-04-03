@@ -3,6 +3,16 @@
 
 #include "GlobalEnumClass.h"
 
+enum class StatPointType
+{
+	NONE = -1,
+	STR,
+	DEX,
+	VIT,
+	ENR,
+	MAX
+};
+
 // 분류 : 상태창
 // 용도 : 플레이어 정보 표시
 // 설명 : 
@@ -10,6 +20,9 @@ class GameEngineUIRenderer;
 class GameEngineCollision;
 class StatView : public GameEngineActor
 {
+private:
+	static int StatPoint;
+
 private:	// member Var
 	GameEngineUIRenderer* PanelRenderer_;						// 상태창(판넬)
 	GameEngineUIRenderer* IDRenderer_;							// 상태창 ID
@@ -59,6 +72,21 @@ private:
 private:
 	Button_State ButtonState_;
 
+private: // 플레이어 레벨업시 활성화되어 스탯을 증가시키는 버튼
+	GameEngineUIRenderer* STRPointUpButton_;					// 힘 증가버튼 렌더러
+	GameEngineCollision* STRPointUpButtonCollider_;				// 힘 증가버튼 충돌체
+	GameEngineUIRenderer* DEXPointUpButton_;					// 민첩 증가버튼 렌더러
+	GameEngineCollision* DEXPointUpButtonCollider_;				// 민첩 증가버튼 충돌체
+	GameEngineUIRenderer* VITPointUpButton_;					// 생명력 증가버튼 렌더러
+	GameEngineCollision* VITPointUpButtonCollider_;				// 생명력 증가버튼 충돌체
+	GameEngineUIRenderer* ENRPointUpButton_;					// 에너지 증가버튼 렌더러
+	GameEngineCollision* ENRPointUpButtonCollider_;				// 에너지 증가버튼 충돌체
+
+	Button_State STRButtonState_;								// 힘 증가버튼 상태
+	Button_State DEXButtonState_;								// 민첩 증가버튼 상태
+	Button_State VITButtonState_;								// 생명력 증가버튼 상태
+	Button_State ENRButtonState_;								// 에너지 증가버튼 상태
+
 public:
 	StatView();
 	~StatView();
@@ -80,5 +108,18 @@ public:
 
 public:
 	void CloseButtonClick(GameEngineCollision* _Other);
+	void STRButtonClick(GameEngineCollision* _Other);
+	void DEXButtonClick(GameEngineCollision* _Other);
+	void VITButtonClick(GameEngineCollision* _Other);
+	void ENRButtonClick(GameEngineCollision* _Other);
+
+public:
+	void StatPointUP(StatPointType _Type);
+
+public:
+	void CurEXPUpdate(float _EXP);
+
+public: // 레벨업으로인한 스탯포인트 부여
+	void LevelUpStatPointGrant();
 };
 

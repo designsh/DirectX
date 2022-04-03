@@ -55,6 +55,39 @@ void MainPlayerInfomation::PlayerEnergyStatUP()
 	MainPlayerInfo_.Energy += 1;
 }
 
+void MainPlayerInfomation::PlayerSkillLevelUp(int _SkillCode)
+{
+	int SkillCnt = static_cast<int>(MainPlayerInfo_.SkillInfo.size());
+	for (int i = 0; i < SkillCnt; ++i)
+	{
+		if (MainPlayerInfo_.SkillInfo[i].SkillCode == _SkillCode)
+		{
+			MainPlayerInfo_.SkillInfo[i].CurSkillLevel += 1;
+			break;
+		}
+	}
+}
+
+void MainPlayerInfomation::StrengthPointUP()
+{
+	MainPlayerInfo_.Strength += 1;
+}
+
+void MainPlayerInfomation::DexterityPointUP()
+{
+	MainPlayerInfo_.Dexterity += 1;
+}
+
+void MainPlayerInfomation::VitalityPointUP()
+{
+	MainPlayerInfo_.Vitality += 1;
+}
+
+void MainPlayerInfomation::EnergyPointUP()
+{
+	MainPlayerInfo_.Energy += 1;
+}
+
 void MainPlayerInfomation::PlayerItemAdd(ItemList _ItemInfo)
 {
 	// 동일한 아이템이 이미 있다면 정보만 교체
@@ -96,6 +129,22 @@ void MainPlayerInfomation::PlayerSkillLevelUP(const std::string& _SkillName)
 			(*StartIter).CurSkillLevel += 1;
 		}
 	}
+}
+
+bool MainPlayerInfomation::PlayerLeftSkillUseCheck(int _SkillCode)
+{
+	bool UseFlag = false;
+	int SkillCnt = static_cast<int>(MainPlayerInfo_.SkillInfo.size());
+	for (int i = 0; i < SkillCnt; ++i)
+	{
+		if (_SkillCode == MainPlayerInfo_.SkillInfo[i].SkillCode)
+		{
+			UseFlag = MainPlayerInfo_.SkillInfo[i].LeftSkillUse;
+			break;
+		}
+	}
+
+	return UseFlag;
 }
 
 void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType)
@@ -370,6 +419,11 @@ std::vector<SkillList> MainPlayerInfomation::SkillInfoLoad(JobType _JobType)
 	}
 
 	return SkillInfoList;
+}
+
+void MainPlayerInfomation::LevelChangeUpdatePlayerInfo(MainPlayerInfo _MainPlayerInfo)
+{
+	MainPlayerInfo_ = _MainPlayerInfo;
 }
 
 void MainPlayerInfomation::SaveMainPlayerInfo(const std::string& _PlayerID)

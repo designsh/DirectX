@@ -14,18 +14,10 @@
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_MiniMenuButton.h"
+#include "MainPlayer_LevelUpActiveButton.h"
 
 SkillPageNo SkillView::CurSkillPage = SkillPageNo::CurseSpell;
-
-SkillPageNo SkillView::GetCurSkillPage()
-{
-	return CurSkillPage;
-}
-
-void SkillView::SetCurSkillPage(SkillPageNo _SkillPageNo)
-{
-	CurSkillPage = _SkillPageNo;
-}
+int SkillView::SkillPoint = 0;
 
 SkillView::SkillView() :
 	PanelRenderer_(nullptr),
@@ -33,7 +25,12 @@ SkillView::SkillView() :
 	SkillPageCollider_{ nullptr, },
 	CloseButton_(nullptr),
 	CloseButtonCollider_(nullptr),
-	CloseButtonState_(Button_State::Normal)
+	CloseButtonState_(Button_State::Normal),
+	SkillPointTitle_(nullptr),
+	CurSkillPoint_(nullptr),
+	Page1Name_(nullptr),
+	Page2Name_(nullptr),
+	Page3Name_(nullptr)
 {
 }
 
@@ -98,6 +95,27 @@ void SkillView::Start()
 
 	// 현재 선택된 페이지 판넬 렌더러만 On상태
 	SkillPagePanel_[static_cast<int>(CurSkillPage)]->On();
+
+	// 스킬창 관련 텍스트
+	SkillPointTitle_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	SkillPointTitle_->GetTransform()->SetLocalPosition(float4(ScreenHarfSzie.x - 122.f, 194.f));
+	SkillPointTitle_->TextSetting("diablo", "POINT", 14, FW1_VCENTER | FW1_CENTER, float4::WHITE);
+
+	CurSkillPoint_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	CurSkillPoint_->GetTransform()->SetLocalPosition(float4(ScreenHarfSzie.x - 122.f, 166.f));
+	CurSkillPoint_->TextSetting("diablo", std::to_string(SkillPoint), 14, FW1_VCENTER | FW1_CENTER, float4::WHITE);
+
+	Page3Name_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	Page3Name_->GetTransform()->SetLocalPosition(float4(ScreenHarfSzie.x - 124.f, 80.f));
+	Page3Name_->TextSetting("diablo", "소환 스펠", 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
+
+	Page2Name_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	Page2Name_->GetTransform()->SetLocalPosition(float4(ScreenHarfSzie.x - 124.f, -30.f));
+	Page2Name_->TextSetting("diablo", "포이즌&본스펠", 11, FW1_VCENTER | FW1_CENTER, float4::WHITE);
+
+	Page1Name_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	Page1Name_->GetTransform()->SetLocalPosition(float4(ScreenHarfSzie.x - 124.f, -136.f));
+	Page1Name_->TextSetting("diablo", "저주 스펠", 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
 	Off();
 }
@@ -277,5 +295,55 @@ void SkillView::SkillIconEnabled(bool _Flag)
 		{
 			SkillPageToIcon[static_cast<int>(CurSkillPage)][i]->Off();
 		}
+	}
+}
+
+void SkillView::LevelUpSkillPointGrant()
+{
+	// 3포인트 부여
+	SkillPoint += 3;
+
+	// 스킬창 포인트 텍스트 셋팅
+	CurSkillPoint_->SetPrintText(std::to_string(SkillPoint));
+
+	// 외부에서 호출하며, 플레이어 레벨업시 스킬포인트가 부여되며 스킬아이콘 레벨업을 위해
+	// 스킬아이콘이 모두 활성화 상태가 된다.
+	for (int i = 0; i < static_cast<int>(SkillPageNo::MAX); ++i)
+	{
+		int SkillIconListCnt = static_cast<int>(SkillPageToIcon[i].size());
+		for (int j = 0; j < SkillIconListCnt; ++j)
+		{
+			SkillPageToIcon[i][j]->SetSkillIconActive();
+		}
+	}
+
+	// 하단상태바의 스킬포인트 활성화포인트 활성화
+	GlobalValue::CurPlayer->GetBottomStateBar()->GetSkillPointControl()->LevelUpPointButtonActive();
+}
+
+void SkillView::SkillPointDeduction()
+{
+	if (0 != SkillPoint)
+	{
+		SkillPoint -= 1;
+	}
+
+	CurSkillPoint_->SetPrintText(std::to_string(SkillPoint));
+
+	// 외부에서 호출하며, 부여된 스킬포인트가 모두 소진하여
+	// 스킬아이콘이 모두 비활성화 상태가 된다.
+	if (0 == SkillPoint)
+	{
+		for (int i = 0; i < static_cast<int>(SkillPageNo::MAX); ++i)
+		{
+			int SkillIconListCnt = static_cast<int>(SkillPageToIcon[i].size());
+			for (int j = 0; j < SkillIconListCnt; ++j)
+			{
+				SkillPageToIcon[i][j]->SetSkillIconInactvie();
+			}
+		}
+
+		// 하단상태바의 스킬포인트 활성화포인트 비활성화
+		GlobalValue::CurPlayer->GetBottomStateBar()->GetSkillPointControl()->LevelUpPointExhaust();
 	}
 }

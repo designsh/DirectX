@@ -12,6 +12,9 @@
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_MiniMenuButton.h"
+#include "MainPlayer_LevelUpActiveButton.h"
+
+int StatView::StatPoint = 0;
 
 StatView::StatView() :
 	PanelRenderer_(nullptr),
@@ -35,7 +38,19 @@ StatView::StatView() :
 	PoisonResistanceRenderer_(nullptr),
 	CloseButton_(nullptr),
 	MainCollider_(nullptr),
-	ButtonState_(Button_State::Normal)
+	ButtonState_(Button_State::Normal),
+	STRPointUpButton_(nullptr),
+	STRPointUpButtonCollider_(nullptr),
+	DEXPointUpButton_(nullptr),
+	DEXPointUpButtonCollider_(nullptr),
+	VITPointUpButton_(nullptr),
+	VITPointUpButtonCollider_(nullptr),
+	ENRPointUpButton_(nullptr),
+	ENRPointUpButtonCollider_(nullptr),
+	STRButtonState_(Button_State::Normal),
+	DEXButtonState_(Button_State::Normal),
+	VITButtonState_(Button_State::Normal),
+	ENRButtonState_(Button_State::Normal)
 {
 }
 
@@ -221,11 +236,78 @@ void StatView::Start()
 	MainCollider_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
 
+	// 레벨업시 활성화 되는 버튼(힘,민첩,생명력,에너지)
+	
+	// Button Image Cutting
+	GameEngineTexture* PointBtnDefault = GameEngineTextureManager::GetInst().Find("LevelUpButton_Default.png");
+	ButtonDefault->Cut(1, 1);
+	GameEngineTexture* PointBtnClick = GameEngineTextureManager::GetInst().Find("LevelUpButton_Click.png");
+	ButtonClick->Cut(1, 1);
+	GameEngineTexture* PointBtnDisabled = GameEngineTextureManager::GetInst().Find("LevelUpButton_Disabled.png");
+	PointBtnDisabled->Cut(1, 1);
+
+	// 힘
+	STRPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	STRPointUpButton_->CreateAnimation("LevelUpButton_Default.png", "Default", 0, 0, 0.1f, false);
+	STRPointUpButton_->CreateAnimation("LevelUpButton_Click.png", "Click", 0, 0, 0.1f, false);
+	STRPointUpButton_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.f));
+	STRPointUpButton_->GetTransform()->SetLocalPosition(float4(-178.f, 148.f));
+	STRPointUpButton_->SetChangeAnimation("Default");
+	STRPointUpButton_->Off();
+
+	STRPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	STRPointUpButtonCollider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.0f));
+	STRPointUpButtonCollider_->GetTransform()->SetLocalPosition(STRPointUpButton_->GetTransform()->GetLocalPosition());
+	STRPointUpButtonCollider_->Off();
+
+	// 민첩
+	DEXPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	DEXPointUpButton_->CreateAnimation("LevelUpButton_Default.png", "Default", 0, 0, 0.1f, false);
+	DEXPointUpButton_->CreateAnimation("LevelUpButton_Click.png", "Click", 0, 0, 0.1f, false);
+	DEXPointUpButton_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.f));
+	DEXPointUpButton_->GetTransform()->SetLocalPosition(float4(-178.f, 86.f));
+	DEXPointUpButton_->SetChangeAnimation("Default");
+	DEXPointUpButton_->Off();
+
+	DEXPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	DEXPointUpButtonCollider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.0f));
+	DEXPointUpButtonCollider_->GetTransform()->SetLocalPosition(DEXPointUpButton_->GetTransform()->GetLocalPosition());
+	DEXPointUpButtonCollider_->Off();
+
+	// 생명력
+	VITPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	VITPointUpButton_->CreateAnimation("LevelUpButton_Default.png", "Default", 0, 0, 0.1f, false);
+	VITPointUpButton_->CreateAnimation("LevelUpButton_Click.png", "Click", 0, 0, 0.1f, false);
+	VITPointUpButton_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.f));
+	VITPointUpButton_->GetTransform()->SetLocalPosition(float4(-178.f, 0.f));
+	VITPointUpButton_->SetChangeAnimation("Default");
+	VITPointUpButton_->Off();
+
+	VITPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	VITPointUpButtonCollider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.0f));
+	VITPointUpButtonCollider_->GetTransform()->SetLocalPosition(VITPointUpButton_->GetTransform()->GetLocalPosition());
+	VITPointUpButtonCollider_->Off();
+
+	// 에너지
+	ENRPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	ENRPointUpButton_->CreateAnimation("LevelUpButton_Default.png", "Default", 0, 0, 0.1f, false);
+	ENRPointUpButton_->CreateAnimation("LevelUpButton_Click.png", "Click", 0, 0, 0.1f, false);
+	ENRPointUpButton_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.f));
+	ENRPointUpButton_->GetTransform()->SetLocalPosition(float4(-178.f, -62.f));
+	ENRPointUpButton_->SetChangeAnimation("Default");
+	ENRPointUpButton_->Off();
+
+	ENRPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	ENRPointUpButtonCollider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.0f));
+	ENRPointUpButtonCollider_->GetTransform()->SetLocalPosition(ENRPointUpButton_->GetTransform()->GetLocalPosition());
+	ENRPointUpButtonCollider_->Off();
+
 	Off();
 }
 
 void StatView::Update(float _DeltaTime)
 {
+	// 종료버튼 클릭체크
 	if (ButtonState_ == Button_State::Click)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
@@ -244,6 +326,65 @@ void StatView::Update(float _DeltaTime)
 		}
 	}
 
+	// 포인트증가버튼 클릭체크
+	// 힘
+	if (STRButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 상태별 포인트 증가 및 관련 스탯 증가
+			StatPointUP(StatPointType::STR);
+			STRButtonState_ = Button_State::Normal;
+			STRPointUpButton_->SetChangeAnimation("Default");
+		}
+	}
+
+	// 민첩
+	if (DEXButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 상태별 포인트 증가 및 관련 스탯 증가
+			StatPointUP(StatPointType::DEX);
+			DEXButtonState_ = Button_State::Normal;
+			DEXPointUpButton_->SetChangeAnimation("Default");
+		}
+	}
+
+	// 생명력
+	if (VITButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 상태별 포인트 증가 및 관련 스탯 증가
+			StatPointUP(StatPointType::VIT);
+			VITButtonState_ = Button_State::Normal;
+			VITPointUpButton_->SetChangeAnimation("Default");
+		}
+	}
+
+	// 에너지
+	if (ENRButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 상태별 포인트 증가 및 관련 스탯 증가
+			StatPointUP(StatPointType::ENR);
+			ENRButtonState_ = Button_State::Normal;
+			ENRPointUpButton_->SetChangeAnimation("Default");
+		}
+	}
+
+	// 포인트증가버튼 충돌체크
+	if (0 != StatPoint)
+	{
+		STRPointUpButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::STRButtonClick, this, std::placeholders::_1));
+		DEXPointUpButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::DEXButtonClick, this, std::placeholders::_1));
+		VITPointUpButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::VITButtonClick, this, std::placeholders::_1));
+		ENRPointUpButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::ENRButtonClick, this, std::placeholders::_1));
+	}
+
+	// 종료버튼 충돌 체크
 	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::CloseButtonClick, this, std::placeholders::_1));
 }
 
@@ -342,4 +483,174 @@ void StatView::CloseButtonClick(GameEngineCollision* _Other)
 	{
 		CloseButton_->SetChangeAnimation("Default");
 	}
+}
+
+void StatView::STRButtonClick(GameEngineCollision* _Other)
+{
+	// Mouse LButton Flag Check
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		STRPointUpButton_->SetChangeAnimation("Click");
+
+		STRButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		STRPointUpButton_->SetChangeAnimation("Default");
+	}
+}
+
+void StatView::DEXButtonClick(GameEngineCollision* _Other)
+{
+	// Mouse LButton Flag Check
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		DEXPointUpButton_->SetChangeAnimation("Click");
+
+		DEXButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		DEXPointUpButton_->SetChangeAnimation("Default");
+	}
+}
+
+void StatView::VITButtonClick(GameEngineCollision* _Other)
+{
+	// Mouse LButton Flag Check
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		VITPointUpButton_->SetChangeAnimation("Click");
+
+		VITButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		VITPointUpButton_->SetChangeAnimation("Default");
+	}
+}
+
+void StatView::ENRButtonClick(GameEngineCollision* _Other)
+{
+	// Mouse LButton Flag Check
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		ENRPointUpButton_->SetChangeAnimation("Click");
+
+		ENRButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		ENRPointUpButton_->SetChangeAnimation("Default");
+	}
+}
+
+void StatView::StatPointUP(StatPointType _Type)
+{
+	// 스탯포인트 감소 후 스탯증가
+	StatPoint -= 1;
+
+	switch (_Type)
+	{
+		case StatPointType::STR:
+		{
+			// 플레이어 정보 갱신
+			MainPlayerInfomation::GetInst().StrengthPointUP();
+			
+			// 상태창 힘 텍스트 갱신
+			int STR = std::stoi(StrengthString_);
+			STR += 1;
+			StrengthString_ = std::to_string(STR);
+			StrengthRenderer_->SetPrintText(StrengthString_);
+
+			break;
+		}
+		case StatPointType::DEX:
+		{
+			// 플레이어 정보 갱신
+			MainPlayerInfomation::GetInst().DexterityPointUP();
+
+			// 상태창 민첩 텍스트 갱신
+			int DEX = std::stoi(DexterityString_);
+			DEX += 1;
+			DexterityString_ = std::to_string(DEX);
+			DexterityRenderer_->SetPrintText(DexterityString_);
+
+			break;
+		}
+		case StatPointType::VIT:
+		{
+			// 플레이어 정보 갱신
+			MainPlayerInfomation::GetInst().VitalityPointUP();
+
+			// 상태창 생명력 텍스트 갱신
+			int VIT = std::stoi(VitalityString_);
+			VIT += 1;
+			VitalityString_ = std::to_string(VIT);
+			VitalityRenderer_->SetPrintText(VitalityString_);
+
+			break;
+		}
+		case StatPointType::ENR:
+		{
+			// 플레이어 정보 갱신
+			MainPlayerInfomation::GetInst().EnergyPointUP();
+
+			// 상태창 에너지 텍스트 갱신
+			int ENR = std::stoi(EnergyString_);
+			ENR += 1;
+			EnergyString_ = std::to_string(ENR);
+			EnergyRenderer_->SetPrintText(EnergyString_);
+
+			break;
+		}
+	}
+
+	// 스탯포인트 모두 소멸시 포인트버튼 비활성처리
+	if (0 == StatPoint)
+	{
+		STRPointUpButton_->Off();
+		STRPointUpButtonCollider_->Off();
+		DEXPointUpButton_->Off();
+		DEXPointUpButtonCollider_->Off();
+		VITPointUpButton_->Off();
+		VITPointUpButtonCollider_->Off();
+		ENRPointUpButton_->Off();
+		ENRPointUpButtonCollider_->Off();
+
+		// 하단상태바 스탯포인트버튼 비활성화
+		GlobalValue::CurPlayer->GetBottomStateBar()->GetStatPointControl()->LevelUpPointExhaust();
+	}
+}
+
+void StatView::CurEXPUpdate(float _EXP)
+{
+	// 현재 경험치 갱신
+	float CurExp = _EXP;
+	CurExp *= 100.f;
+	int ConvertEXP = static_cast<int>(CurExp);
+	CurExpString_ = std::to_string(ConvertEXP);
+	CurExpRenderer_->SetPrintText(CurExpString_);
+}
+
+void StatView::LevelUpStatPointGrant()
+{
+	// 5포인트 부여
+	StatPoint += 5;
+
+	// 스탯창 현재레벨 갱신
+	CurLevelRenderer_->SetPrintText(std::to_string(GlobalValue::CurPlayer->GetCurrentLevel()));
+
+	// 스탯 레벨업 버튼 활성화
+	STRPointUpButton_->On();
+	STRPointUpButtonCollider_->On();
+	DEXPointUpButton_->On();
+	DEXPointUpButtonCollider_->On();
+	VITPointUpButton_->On();
+	VITPointUpButtonCollider_->On();
+	ENRPointUpButton_->On();
+	ENRPointUpButtonCollider_->On();
+
+	// 하단상태바 스탯포인트버튼 활성화
+	GlobalValue::CurPlayer->GetBottomStateBar()->GetStatPointControl()->LevelUpPointButtonActive();
 }

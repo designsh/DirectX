@@ -54,5 +54,9 @@ private:
 
 public:
 	void CreateSkillIcon(SkillPageNo _PageNo, const std::string& _SkillName, int _SkillCode, bool _SkillActiveFlag, int _Row, int _Column, int _CurSkillLevel);
+
+public:
+	void SetSkillIconActive();
+	void SetSkillIconInactvie();
 };
 

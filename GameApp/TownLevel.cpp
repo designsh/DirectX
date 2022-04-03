@@ -26,6 +26,7 @@ TownLevel::~TownLevel()
 void TownLevel::LevelChangeEndEvent()
 {
 	// πË∞Ê¿Ωæ« Off
+
 }
 
 void TownLevel::LevelChangeStartEvent()

@@ -7,6 +7,7 @@
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_Stamina.h"
+#include "MainPlayer_CurExpProgressBar.h"
 #include "StatView.h"
 #include "SkillView.h"
 
@@ -82,6 +83,7 @@ void MainPlayer::Start()
 
 	// 인벤토리창
 
+
 	// ================================== 키생성 ================================== //
 	// 스킬창 열기
 	if (false == GameEngineInput::GetInst().IsKey("SkillViewActive"))
@@ -106,6 +108,13 @@ void MainPlayer::Start()
 	{
 		GameEngineInput::GetInst().CreateKey("StaminaActive", 'R');
 	}
+
+
+	// 테스트용
+	if (false == GameEngineInput::GetInst().IsKey("TESTLEVELUP"))
+	{
+		GameEngineInput::GetInst().CreateKey("TESTLEVELUP", 'P');
+	}
 }
 
 void MainPlayer::Update(float _DeltaTime)
@@ -119,6 +128,12 @@ void MainPlayer::Update(float _DeltaTime)
 	// 상태별 행동패턴 처리
 	State_.Update();
 
+	if (true == GameEngineInput::GetInst().Down("TESTLEVELUP"))
+	{
+		// 테스트 경험치 증가
+		int TextEXP = 10;
+		BottomStateBar_->GetEXPProgressBarControl()->AddEXP(TextEXP);
+	}
 }
 
 void MainPlayer::PlayerUIActiveKeyCheck()

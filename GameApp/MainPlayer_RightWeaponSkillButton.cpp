@@ -124,7 +124,7 @@ void MainPlayer_RightWeaponSkillButton::UpdateWeaponSkillList(int _SkillID)
 
 			// 스킬 버튼 생성
 			MainPlayer_WeaponSkillButton* NewSkillBtnActor = GetLevel()->CreateActor<MainPlayer_WeaponSkillButton>();
-			NewSkillBtnActor->SetWeaponDirType(DirectType::Left);
+			NewSkillBtnActor->SetWeaponDirType(DirectType::Right);
 			NewSkillBtnActor->CreateSkillButton(PageNo, CalcPos, SkillID);
 
 			RWeaponSkillList_.push_back(NewSkillBtnActor);

@@ -9,10 +9,12 @@
 #include "MainPlayerInfomation.h"
 #include "MainPlayer.h"
 
+#include "SkillView.h"
+#include "StatView.h"
+
 MainPlayer_CurExpProgressBar::MainPlayer_CurExpProgressBar() :
 	ExpRenderer_(nullptr),
-	Reflection_(false),
-	CurEXP_(0)
+	CurEXP_(0.f)
 {
 }
 
@@ -24,30 +26,43 @@ void MainPlayer_CurExpProgressBar::Start()
 {
 	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();
 
+	CurEXP_ = 0.0f;
+
 	ExpRenderer_ = CreateTransformComponent<GameEngineProgressBarRenderer>(static_cast<int>(UIRenderOrder::UI11));
 	ExpRenderer_->SetImage("MainPlayer_CurEXP.png");
 	ExpRenderer_->SetProgressBarDirect(static_cast<int>(ProgressBarDirect::RightToLeft));
 	ExpRenderer_->GetTransform()->SetLocalPosition(float4(-85.f, 38.f - ScreenHarfSize.y));
-	ExpRenderer_->SetPercent(0.0f);
+	ExpRenderer_->SetPercent(CurEXP_);
 }
 
 void MainPlayer_CurExpProgressBar::Update(float _DeltaTime)
 {
-	// 현재 플레이어가 존재할때 현재 플레이어의 경험치를 반영
-	if (nullptr != GlobalValue::CurPlayer)
-	{
-		if (false == Reflection_)
-		{
-			// 갱신이 아직되지않았을때 플레이어의 현재경험치와 이전경험치가 다르다면 경험치바를 갱신하고,
-			// 갱신 Flag On
-			if (GlobalValue::CurPlayer->GetCurrentEXP() != GlobalValue::CurPlayer->GetPrevEXP())
-			{
-				float ExpBarPercent = static_cast<float>(GlobalValue::CurPlayer->GetCurrentEXP());
-				ExpBarPercent *= 0.01f;
-				ExpRenderer_->SetPercent(ExpBarPercent);
+}
 
-				Reflection_ = true;
-			}
-		}
+void MainPlayer_CurExpProgressBar::AddEXP(int _EXP)
+{
+	float EXP = static_cast<float>(_EXP);
+	EXP *= 0.01f;
+	CurEXP_ += EXP;
+
+	// 스탯창의 현재 경험치 셋팅
+	GlobalValue::CurPlayer->GetStatView()->CurEXPUpdate(CurEXP_);
+
+	// 경험치 100%일때 플레이어는 레벨업하며, 아니면 경험치만 증가
+	if (1.0f <= CurEXP_)
+	{
+		// 경험치 초기화
+		CurEXP_ = 0.0f;
+		GlobalValue::CurPlayer->GetStatView()->CurEXPUpdate(CurEXP_);
+
+		// 현재 플레이어 레벨업
+		GlobalValue::CurPlayer->SetLevelUP();
+
+		// 스탯포인트 부여 및 상태창의 현재레벨 변경, 스탯 포인트업 버튼 활성화
+		GlobalValue::CurPlayer->GetStatView()->LevelUpStatPointGrant();
+
+		// 스킬포인트 부여 및 스킬창의 스킬아이콘 활성화
+		GlobalValue::CurPlayer->GetSkillView()->LevelUpSkillPointGrant();
 	}
+	ExpRenderer_->SetPercent(CurEXP_);
 }

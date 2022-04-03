@@ -2,6 +2,8 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
+#include "MainPlayerInfomation.h"
+
 #pragma region Player_Direct
 // 플레이어는 총 8방향의 애니메이션을 소유한다.
 // 그러므로 현재 플레이어의 위치와 마우스커서가 클릭한 위치의
@@ -296,6 +298,7 @@ public: // 상태관련
 	// LEVEL
 	void SetPrevLevel(int _LEVEL);
 	void SetCurrentLevel(int _LEVEL);
+	void SetLevelUP();
 
 public: // UI Flag관련 
 	void SetIsInventory(bool _Flag);

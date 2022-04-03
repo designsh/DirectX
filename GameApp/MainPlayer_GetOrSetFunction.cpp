@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MainPlayer.h"
 
+#include "MainPlayerInfomation.h"
+
 // ======================================================= GET FUNCTION ======================================================= //
 
 #pragma region 상태 Flag관련(GET)
@@ -204,6 +206,15 @@ void MainPlayer::SetPrevLevel(int _LEVEL)
 void MainPlayer::SetCurrentLevel(int _LEVEL)
 {
 	CurLevel_ = _LEVEL;
+}
+
+void MainPlayer::SetLevelUP()
+{
+	PrevLevel_ = CurLevel_;
+	CurLevel_ += 1;
+
+	// 플레이어 정보 갱신
+	MainPlayerInfomation::GetInst().PlayerLevelUP();
 }
 
 #pragma endregion

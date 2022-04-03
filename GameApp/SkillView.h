@@ -13,10 +13,7 @@ class SkillView : public GameEngineActor
 {
 private:
 	static SkillPageNo CurSkillPage;
-
-public:
-	static SkillPageNo GetCurSkillPage();
-	static void SetCurSkillPage(SkillPageNo _SkillPageNo);
+	static int SkillPoint;
 
 private:	// member Var
 	GameEngineUIRenderer* PanelRenderer_;						// 스킬창 판넬 렌더러
@@ -32,6 +29,13 @@ private:
 	GameEngineUIRenderer* CloseButton_;							// 스킬창 종료버튼 렌더러
 	GameEngineCollision* CloseButtonCollider_;					// 스킬창 종료버튼 충돌체
 	Button_State CloseButtonState_;								// 버튼 상태
+
+private:
+	GameEngineUIRenderer* SkillPointTitle_;
+	GameEngineUIRenderer* CurSkillPoint_;
+	GameEngineUIRenderer* Page1Name_;
+	GameEngineUIRenderer* Page2Name_;
+	GameEngineUIRenderer* Page3Name_;
 
 public:
 	SkillView();
@@ -63,5 +67,9 @@ public:
 
 public:
 	void SkillIconEnabled(bool _Flag);
+	
+public:
+	void LevelUpSkillPointGrant();
+	void SkillPointDeduction();
 };
 

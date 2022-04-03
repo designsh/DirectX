@@ -249,4 +249,12 @@ void MainPlayer_LeftWeaponSkillButton::CurSkillChange(int _SkillID, const std::s
 	CurSkillButton_->ChangeAnimationImage("Click", ClickTexture);
 	CurSkillButton_->ChangeAnimationImage("Disabled", DisabledTexture);
 	CurSkillButton_->SetChangeAnimation("Default", true);
+
+	// 스킬목록 Off
+	int Count = static_cast<int>(LWeaponSkillList_.size());
+	for (int i = 0; i < Count; ++i)
+	{
+		LWeaponSkillList_[i]->Off();
+	}
+	IsActive_ = false;
 }

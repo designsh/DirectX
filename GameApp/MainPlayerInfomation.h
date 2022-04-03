@@ -282,6 +282,13 @@ public: // MainPlayerInfo Stat Infomation Update
 	void PlayerDexterityStatUP();
 	void PlayerVitalityStatUP();
 	void PlayerEnergyStatUP();
+	void PlayerSkillLevelUp(int _SkillCode);
+
+public: // 스탯 포인트 증가
+	void StrengthPointUP();
+	void DexterityPointUP();
+	void VitalityPointUP();
+	void EnergyPointUP();
 
 public: // MainPlayer ItemInfo Update
 	void PlayerItemAdd(ItemList _ItemInfo);
@@ -290,10 +297,19 @@ public: // MainPlayer ItemInfo Update
 public:
 	void PlayerSkillLevelUP(const std::string& _SkillName);
 
+public:
+	bool PlayerLeftSkillUseCheck(int _SkillCode);
+
 public: // CreateMainPlayerInfo : 캐릭터생성화면에서 생성하여 해당 정보 파일로 저장한 후 생성
-	void CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType);					// 메인플레이어 정보 초기생성
+	void CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType);										// 메인플레이어 정보 초기생성
 	MainPlayerInfo InformationByClass(JobType _JobType);															// 클래스별 스탯정보 생성
 	std::vector<SkillList> SkillInfoLoad(JobType _JobType);															// 해당 클래스의 스킬정보 로드
+
+public:
+	void LevelChangeUpdatePlayerInfo(MainPlayerInfo _MainPlayerInfo);												// 레벨마다 플레이어가 다르므로
+																													// 레벨체인지시작시 메인플레이어가 변경된다는 점을 생각하여
+																													// 레벨체인지종료시점에 이전 레벨의 플레이어정보를 이용하여 
+																													// 전역메인플레이어 정보를 갱신
 
 public: // MainPlayerInfo Save & Load
 	void SaveMainPlayerInfo(const std::string& _PlayerID);
