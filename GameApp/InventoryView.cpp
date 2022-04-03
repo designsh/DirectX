@@ -108,7 +108,12 @@ void InventoryView::InitInventoryView()
 
 	// 현재 플레이어 초기에 가지고있는 아이템을 인벤토리 목록에 배치
 	MainPlayerInfo CurPlayerInfo = MainPlayerInfomation::GetInst().GetMainPlayerInfoValue();
-	//int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
+	int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
+	for (int i = 0; i < ItemCnt; ++i)
+	{
+		//if(CurPlayerInfo.ItemInfo[0].ItemLocType)
+	}
+
 	//CurPlayerInfo.ItemInfo[0].StartPosition
 
 

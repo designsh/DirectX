@@ -54,7 +54,7 @@ void InventoryTileBox::Update(float _DeltaTime)
 		TileBoxCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryTileBox::BoxTileClick, this, std::placeholders::_1));
 
 		// 테스트용
-		GetLevel()->PushDebugRender(TileBoxCollider_->GetTransform(), CollisionType::Rect);
+		//GetLevel()->PushDebugRender(TileBoxCollider_->GetTransform(), CollisionType::Rect);
 	}
 }
 
