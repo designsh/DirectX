@@ -30,7 +30,7 @@ private:
 	GameEngineUIRenderer* TileBoxItemEquipRenderer_;		// 아이템용 렌더러(아이템배치시 생성)??
 
 private:
-	std::vector<std::string> TextImage_;
+	std::string TextImage_;
 
 public:
 	InventoryTileBox();

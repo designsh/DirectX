@@ -19,7 +19,8 @@ InventoryTileBox::InventoryTileBox() :
 	TileBoxRenderer_(nullptr),
 	TileBoxCollider_(nullptr),
 	TileBoxButtonState_(Button_State::Normal),
-	TileBoxItemEquipRenderer_(nullptr)
+	TileBoxItemEquipRenderer_(nullptr),
+	TextImage_{}
 {
 }
 
@@ -29,9 +30,7 @@ InventoryTileBox::~InventoryTileBox()
 
 void InventoryTileBox::Start()
 {
-	TextImage_.resize(2);
-	TextImage_[0] = "InvTestTileImage1.png";
-	TextImage_[1] = "InvTestTileImage2.png";
+	TextImage_ = "InvTestTileImage.png";
 }
 
 void InventoryTileBox::Update(float _DeltaTime)
@@ -122,17 +121,6 @@ void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _B
 	IndexY_ = _Y;
 	Index_ = _Index;
 
-	// TEST Image Setting
-	std::string TextureName = "";
-	if (Index_ % 2 == 0)
-	{
-		TextureName = TextImage_[0];
-	}
-	else
-	{
-		TextureName = TextImage_[1];
-	}
-
 	// Rendering Pos Calc & Scale Save
 	Pos_ = float4::ZERO;
 	Pos_.x = 33.f + (IndexX_ * 28.f) + (IndexX_ * 1.f);
@@ -142,7 +130,8 @@ void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _B
 
 	// 타일박스 렌더러 생성
 	TileBoxRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
-	TileBoxRenderer_->SetImage(TextureName);
+	TileBoxRenderer_->SetImage(TextImage_);
+	TileBoxRenderer_->TextSetting("diablo", std::to_string(Index_), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 	TileBoxRenderer_->GetTransform()->SetLocalPosition(Pos_);
 	TileBoxRenderer_->GetTransform()->SetLocalScaling(Scale_);
 	TileBoxRenderer_->Off();
