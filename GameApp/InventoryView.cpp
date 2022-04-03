@@ -196,12 +196,13 @@ void InventoryView::InitInventoryItemSetting(const std::string& _ItemName, ItemL
 	{
 		case ItemLocType::Inven_Weapon:
 		{
-
+			// 인벤창에 아이템 배치
+			PlayerEquipInvTile_[8]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_Shield:
 		{
-
+			PlayerEquipInvTile_[9]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_Helm:
@@ -211,42 +212,42 @@ void InventoryView::InitInventoryItemSetting(const std::string& _ItemName, ItemL
 		}
 		case ItemLocType::Inven_Armor:
 		{
-
+			PlayerEquipInvTile_[1]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_Gloves:
 		{
-
+			PlayerEquipInvTile_[5]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_Belt:
 		{
-
+			PlayerEquipInvTile_[7]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_Boots:
 		{
-
+			PlayerEquipInvTile_[6]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_LRing:
 		{
-
+			PlayerEquipInvTile_[2]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_RRing:
 		{
-
+			PlayerEquipInvTile_[3]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_Amulet:
 		{
-
+			PlayerEquipInvTile_[4]->ItemBatch(_ItemName);
 			break;
 		}
 		case ItemLocType::Inven_Bottom:
 		{
-
+			NormalInventoryTile_[_StartIndex]->ItemBatch(_ItemName);
 			break;
 		}
 	}

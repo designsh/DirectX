@@ -80,7 +80,11 @@ void InventoryTileBox::ItemEquipCheck(ItemLocType _BoxTileType)
 
 void InventoryTileBox::ItemBatch(const std::string _ItemName)
 {
+	// 정보 생성시 호출되며 해당 이미지렌더러의 텍스쳐를 변경하고,
+	// 장착 Flag를 On
 
+
+	
 }
 
 void InventoryTileBox::TileBoxActive()
