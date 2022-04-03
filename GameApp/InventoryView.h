@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+#include "GlobalEnumClass.h"
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -14,6 +16,7 @@ private:	// member Var
 private:
 	GameEngineUIRenderer* CloseButton_;
 	GameEngineCollision* CloseButtonCollider_;
+	Button_State CloseButtonState_;
 
 public:
 	InventoryView();
