@@ -251,6 +251,9 @@
     <ClCompile Include="InventoryView.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryTileBox.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryTile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -649,6 +652,12 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\02.SkillView\SkillIcon">
       <UniqueIdentifier>{07782edf-80f7-4fef-8112-4bd244c074cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\04.GameEndMenuView">
+      <UniqueIdentifier>{c5c8c347-528d-4ded-a56a-9c908ad156bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryTile">
+      <UniqueIdentifier>{52abbae4-6ffb-49c3-b2fc-1733edc6a77b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -863,6 +872,9 @@
     </ClInclude>
     <ClInclude Include="InventoryView.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryTileBox.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryTile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

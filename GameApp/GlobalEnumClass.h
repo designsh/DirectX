@@ -19,6 +19,7 @@ enum class UIRenderOrder
 	UI0_Collider,
 	UI0_Text,
 	UI1,
+	UI1_Tab,
 	UI1_Collider,
 	UI1_Text,
 	UI2,

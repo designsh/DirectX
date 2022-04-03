@@ -10,6 +10,7 @@
 #include "MainPlayer_CurExpProgressBar.h"
 #include "StatView.h"
 #include "SkillView.h"
+#include "InventoryView.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
@@ -20,7 +21,7 @@ MainPlayer::MainPlayer() :
 	//IsTown_(true),
 	IsTown_(false),
 	IsRun_(false),
-	IsInventory_(false),
+	IsInventoryView_(false),
 	IsStateView_(false),
 	IsSkillView_(false),
 	IsRightSkillList_(false),
@@ -45,7 +46,8 @@ MainPlayer::MainPlayer() :
 	CurState_(PlayerState::STAT_TN),
 	BottomStateBar_(nullptr),
 	StatView_(nullptr),
-	SkillView_(nullptr)
+	SkillView_(nullptr),
+	InventoryView_(nullptr)
 {
 	IsItemEquipState_.clear();
 	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
@@ -82,6 +84,9 @@ void MainPlayer::Start()
 	StatView_ = GetLevel()->CreateActor<StatView>();
 
 	// 인벤토리창
+	InventoryView_ = GetLevel()->CreateActor<InventoryView>();
+
+	// 게임종료메뉴 창
 
 
 	// ================================== 키생성 ================================== //
@@ -103,14 +108,19 @@ void MainPlayer::Start()
 		GameEngineInput::GetInst().CreateKey("InventoryActive", 'I');
 	}
 
+	// 게임종료메뉴 열기
+	if (false == GameEngineInput::GetInst().IsKey("GameEndMenuActive"))
+	{
+		GameEngineInput::GetInst().CreateKey("GameEndMenuActive", VK_ESCAPE);
+	}
+
 	// 스태미나 활성/비활성
 	if (false == GameEngineInput::GetInst().IsKey("StaminaActive"))
 	{
 		GameEngineInput::GetInst().CreateKey("StaminaActive", 'R');
 	}
 
-
-	// 테스트용
+	// ============================================ 테스트용 ============================================ //
 	if (false == GameEngineInput::GetInst().IsKey("TESTLEVELUP"))
 	{
 		GameEngineInput::GetInst().CreateKey("TESTLEVELUP", 'P');
@@ -154,6 +164,12 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	if (true == GameEngineInput::GetInst().Down("InventoryActive"))
 	{
 		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(1);
+	}
+
+	// 게임종료메뉴 열기
+	if (true == GameEngineInput::GetInst().Down("GameEndMenuActive"))
+	{
+		
 	}
 
 	// 스태미나 활성/비활성

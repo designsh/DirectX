@@ -134,6 +134,7 @@ struct PlayerZOrderManagement
 class BottomStateBar;
 class StatView;
 class SkillView;
+class InventoryView;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
@@ -141,7 +142,7 @@ class MainPlayer : public GameEngineActor
 private: // 플레이어상태관련 Flag
 	bool IsTown_;											// 마을/필드 존재 여부(true : 마을)
 	bool IsRun_;											// 뛰기/걷기 상태 여부(true : 뛰기상태(스태미나 소모))
-	bool IsInventory_;										// 인벤토리 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
+	bool IsInventoryView_;										// 인벤토리 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
 	bool IsStateView_;										// 스탯창 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화 - 활성화시 화면크기절반의 왼쪽은 이동방향으로 설정 불가
 	bool IsSkillView_;										// 스킬창 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
 	bool IsRightSkillList_;									// 오른쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 오른쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
@@ -218,6 +219,8 @@ private: // 플레이어 UI
 	BottomStateBar* BottomStateBar_;						// 하단상태바
 	StatView* StatView_;									// 상태창
 	SkillView* SkillView_;									// 스킬트리창
+	InventoryView* InventoryView_;							// 인벤토리창
+	//GameEndMenuView* GameEndMenuView_;						// 게임종료메뉴창
 
 #pragma endregion
 
@@ -453,6 +456,7 @@ public:
 public:
 	void StateViewEnabled(bool _Enabled);
 	void SkillViewEnabled(bool _Enabled);
+	void InventoryViewEnabled(bool _Enabled);
 
 #pragma endregion
 

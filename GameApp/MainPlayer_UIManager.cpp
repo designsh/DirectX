@@ -7,6 +7,7 @@
 #include "MainPlayer_MiniMenu.h"
 #include "StatView.h"
 #include "SkillView.h"
+#include "InventoryView.h"
 
 #pragma region 플레이어 UI 초기셋팅
 
@@ -23,8 +24,10 @@ void MainPlayer::CreatePlayerUIInfomation()
 	SkillView_->InitSkillView();
 
 	// 인벤토리창관련 정보 Setting
+	InventoryView_->InitInventoryView();
 
-	
+	// 게임종료메뉴창관련 정보 Setting
+
 }
 
 #pragma endregion
@@ -67,12 +70,37 @@ void MainPlayer::SkillViewEnabled(bool _Enabled)
 	}
 }
 
+#pragma endregion
+
+#pragma region 플레이어 인벤토리창
+
+// 플레이어 인벤토리창 On/Off 관련
+void MainPlayer::InventoryViewEnabled(bool _Enabled)
+{
+	if (true == _Enabled)
+	{
+		IsInventoryView_ = true;
+		InventoryView_->On();
+		InventoryView_->SetInventoryBoxTileActvie();
+		
+	}
+	else
+	{
+		IsInventoryView_ = false;
+		InventoryView_->Off();
+		InventoryView_->SetInentroyBoxTileInactive();
+	}
+}
 
 #pragma endregion
 
-// 플레이어 인벤토리창 On/Off 관련
+#pragma region 플레이어 종료메뉴창
 
+
+#pragma endregion
+
+#pragma region 플레이어 창고창
 
 // 플레이어 창고창 On/Off 관련
 
-
+#pragma endregion

@@ -98,12 +98,30 @@ void MainPlayer_MiniMenuButton::ShortcutsProcess()
 		case ShortcutsType::INVENTORY:
 		{
 			// 인벤토리 활성화
-			//GlobalValue::CurPlayer->InventoryViewEnabled(Active_);
+			// 단, 스킬창이 활성화 상태라면 스킬창 비활성화 후 인벤창 활성화
+			if (true == GlobalValue::CurPlayer->GetIsSkillView())
+			{
+				GlobalValue::CurPlayer->SkillViewEnabled(false);
+
+				// 미니메뉴 이동처리
+				MoveButtonPosition();
+			}
+
+			GlobalValue::CurPlayer->InventoryViewEnabled(Active_);
 			break;
 		}
 		case ShortcutsType::SKILLVIEW:
 		{
 			// 스킬창 활성화
+			// 단, 인벤창이 활성화 상태라면 인벤창 비활성화 후 스킬창 활성화
+			if (true == GlobalValue::CurPlayer->GetIsInventory())
+			{
+				GlobalValue::CurPlayer->InventoryViewEnabled(false);
+
+				// 미니메뉴 이동처리
+				MoveButtonPosition();
+			}
+
 			GlobalValue::CurPlayer->SkillViewEnabled(Active_);
 			break;
 		}
@@ -192,13 +210,11 @@ void MainPlayer_MiniMenuButton::MoveButtonPosition()
 	}
 	// 상태창과 스킬창 또는 인벤토리창이 같이 활성화 상태일때 : 미니메뉴는 비활성상태로 전환
 	else if ((true == GlobalValue::CurPlayer->GetIsStateView()) &&
-		(true == GlobalValue::CurPlayer->GetIsSkillView() ||
-		true == GlobalValue::CurPlayer->GetIsInventory()) )
+			(true == GlobalValue::CurPlayer->GetIsSkillView() ||
+			true == GlobalValue::CurPlayer->GetIsInventory()))
 	{
 		// 혹시 모르니 본래의 위치로 보내고 Off상태로 전환
 		Parent_->AllMoveMiniMenu(true);
 		Parent_->SetMiniMenuActiveFlag(false);
 	}
-
-	// 
 }

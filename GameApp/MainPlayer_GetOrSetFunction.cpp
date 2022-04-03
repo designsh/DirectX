@@ -72,7 +72,7 @@ int MainPlayer::GetCurrentLevel() const
 
 bool MainPlayer::GetIsInventory() const
 {
-	return IsInventory_;
+	return IsInventoryView_;
 }
 
 bool MainPlayer::GetIsStateView() const
@@ -223,7 +223,7 @@ void MainPlayer::SetLevelUP()
 
 void MainPlayer::SetIsInventory(bool _Flag)
 {
-	IsInventory_ = _Flag;
+	IsInventoryView_ = _Flag;
 }
 
 void MainPlayer::SetIsStateView(bool _Flag)
