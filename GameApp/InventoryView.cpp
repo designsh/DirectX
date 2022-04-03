@@ -8,7 +8,6 @@
 #include "GlobalValue.h"
 
 #include "MainPlayer.h"
-#include "MainPlayerInfomation.h"
 
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
@@ -111,15 +110,13 @@ void InventoryView::InitInventoryView()
 	int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
 	for (int i = 0; i < ItemCnt; ++i)
 	{
-		// 
-
-
-		//if(CurPlayerInfo.ItemInfo[0].ItemLocType)
+		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_Eng;
+		ItemLocType ItemLocType = CurPlayerInfo.ItemInfo[i].ItemLocType;
+		int StartIndex = CurPlayerInfo.ItemInfo[i].StartPosition;
+		int WidthSize = CurPlayerInfo.ItemInfo[i].WidthSize;
+		int HeightSize = CurPlayerInfo.ItemInfo[i].HeightSize;
+		InitInventoryItemSetting(ItemName, ItemLocType, StartIndex, WidthSize, HeightSize);
 	}
-
-	//CurPlayerInfo.ItemInfo[0].StartPosition
-
-
 }
 
 void InventoryView::CreateInventoryTile()
@@ -134,63 +131,125 @@ void InventoryView::CreateInventoryTile()
 		for (int x = 0; x < 10; ++x)
 		{
 			InventoryTileBox* NewTileBox =  GetLevel()->CreateActor<InventoryTileBox>();
-			NewTileBox->CreateNormalTileBox(false, InvenTileBoxType::NORMAL, x, y, ((x * 1) + (y * 10)));
+			NewTileBox->CreateNormalTileBox(false, ItemLocType::Inven_Bottom, x, y, ((x * 1) + (y * 10)));
 			NormalInventoryTile_[(x * 1) + (y * 10)] = NewTileBox;
 		}
 	}
 
 	// 플레이어 아이템 장착용 박스 생성
-	PlayerEquipInvTile_.resize(static_cast<size_t>(InvenTileBoxType::MAX) - 1);
+	PlayerEquipInvTile_.resize(static_cast<size_t>(10));
 
 	// HELM(투구)
 	InventoryTileBox* NewHelmTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewHelmTileBox->CreatePlayerEquipTileBox("Helm.png", false, InvenTileBoxType::HELM, 0, float4(164.f, 208.f), float4(57.f, 57.f));
+	NewHelmTileBox->CreatePlayerEquipTileBox("Helm.png", false, ItemLocType::Inven_Helm, 0, float4(164.f, 208.f), float4(57.f, 57.f));
 	PlayerEquipInvTile_[0] = NewHelmTileBox;
 
 	// ARMOR(갑옷)
 	InventoryTileBox* NewArmorTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewArmorTileBox->CreatePlayerEquipTileBox("Armor.png", false, InvenTileBoxType::ARMOR, 1, float4(164.f, 123.f), float4(57.f, 86.f));
+	NewArmorTileBox->CreatePlayerEquipTileBox("Armor.png", false, ItemLocType::Inven_Armor, 1, float4(164.f, 123.f), float4(57.f, 86.f));
 	PlayerEquipInvTile_[1] = NewArmorTileBox;
 
 	// LRING(왼쪽링)
 	InventoryTileBox* NewLRingTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewLRingTileBox->CreatePlayerEquipTileBox("Ring.png", false, InvenTileBoxType::LRING, 2, float4(108.f, 50.f), float4(27.f, 28.f));
+	NewLRingTileBox->CreatePlayerEquipTileBox("Ring.png", false, ItemLocType::Inven_LRing, 2, float4(108.f, 50.f), float4(27.f, 28.f));
 	PlayerEquipInvTile_[2] = NewLRingTileBox;
 
 	// RRING(오른쪽링)
 	InventoryTileBox* NewRRingTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewRRingTileBox->CreatePlayerEquipTileBox("Ring.png", false, InvenTileBoxType::RRING, 3, float4(222.f, 50.f), float4(27.f, 28.f));
+	NewRRingTileBox->CreatePlayerEquipTileBox("Ring.png", false, ItemLocType::Inven_RRing, 3, float4(222.f, 50.f), float4(27.f, 28.f));
 	PlayerEquipInvTile_[3] = NewRRingTileBox;
 
 	// AMULET(목걸이)
 	InventoryTileBox* NewAmuletTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewAmuletTileBox->CreatePlayerEquipTileBox("Amulet.png", false, InvenTileBoxType::AMULET, 4, float4(222.f, 194.f), float4(27.f, 28.f));
+	NewAmuletTileBox->CreatePlayerEquipTileBox("Amulet.png", false, ItemLocType::Inven_Amulet, 4, float4(222.f, 194.f), float4(27.f, 28.f));
 	PlayerEquipInvTile_[4] = NewAmuletTileBox;
 
 	// GLOVES(장갑)
 	InventoryTileBox* NewGlovesTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewGlovesTileBox->CreatePlayerEquipTileBox("Gloves.png", false, InvenTileBoxType::GLOVES, 5, float4(48.f, 36.f), float4(57.f, 58.f));
+	NewGlovesTileBox->CreatePlayerEquipTileBox("Gloves.png", false, ItemLocType::Inven_Gloves, 5, float4(48.f, 36.f), float4(57.f, 58.f));
 	PlayerEquipInvTile_[5] = NewGlovesTileBox;
 
 	// BOOTS(부츠)
 	InventoryTileBox* NewBootsTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewBootsTileBox->CreatePlayerEquipTileBox("Boots.png", false, InvenTileBoxType::BOOTS, 6, float4(280.f, 36.f), float4(57.f, 58.f));
+	NewBootsTileBox->CreatePlayerEquipTileBox("Boots.png", false, ItemLocType::Inven_Boots, 6, float4(280.f, 36.f), float4(57.f, 58.f));
 	PlayerEquipInvTile_[6] = NewBootsTileBox;
 
 	// BELT(벨트)
 	InventoryTileBox* NewBeltTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewBeltTileBox->CreatePlayerEquipTileBox("Belt.png", false, InvenTileBoxType::BELT, 7, float4(164.f, 50.f), float4(57.f, 25.f));
+	NewBeltTileBox->CreatePlayerEquipTileBox("Belt.png", false, ItemLocType::Inven_Belt, 7, float4(164.f, 50.f), float4(57.f, 25.f));
 	PlayerEquipInvTile_[7] = NewBeltTileBox;
 
 	// WEAPON(무기)
 	InventoryTileBox* NewWeaponTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewWeaponTileBox->CreatePlayerEquipTileBox("Weapon.png", false, InvenTileBoxType::WEAPON, 8, float4(49.f, 136.f), float4(57.f, 113.f));
+	NewWeaponTileBox->CreatePlayerEquipTileBox("Weapon.png", false, ItemLocType::Inven_Weapon, 8, float4(49.f, 136.f), float4(57.f, 113.f));
 	PlayerEquipInvTile_[8] = NewWeaponTileBox;
 
 	// SHIELD(방패)
 	InventoryTileBox* NewShieldTileBox = GetLevel()->CreateActor<InventoryTileBox>();
-	NewShieldTileBox->CreatePlayerEquipTileBox("Weapon.png", false, InvenTileBoxType::SHIELD, 9, float4(280.f, 137.f), float4(57.f, 114.f));
+	NewShieldTileBox->CreatePlayerEquipTileBox("Weapon.png", false, ItemLocType::Inven_Shield, 9, float4(280.f, 137.f), float4(57.f, 114.f));
 	PlayerEquipInvTile_[9] = NewShieldTileBox;
+}
+
+void InventoryView::InitInventoryItemSetting(const std::string& _ItemName, ItemLocType _ItemLocType, int _StartIndex, int _WidthSize, int _HeightSize)
+{
+	switch (_ItemLocType)
+	{
+		case ItemLocType::Inven_Weapon:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_Shield:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_Helm:
+		{
+			PlayerEquipInvTile_[0]->ItemBatch(_ItemName);
+			break;
+		}
+		case ItemLocType::Inven_Armor:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_Gloves:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_Belt:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_Boots:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_LRing:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_RRing:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_Amulet:
+		{
+
+			break;
+		}
+		case ItemLocType::Inven_Bottom:
+		{
+
+			break;
+		}
+	}
 }
 
 void InventoryView::SetInventoryBoxTileActvie()

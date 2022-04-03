@@ -7,11 +7,10 @@
 #include "GlobalValue.h"
 
 #include "MainPlayer.h"
-#include "MainPlayerInfomation.h"
 
 InventoryTileBox::InventoryTileBox() :
 	ArrangementFlag_(false),
-	BoxTileType_(InvenTileBoxType::NORMAL),
+	BoxTileType_(ItemLocType::Inven_Bottom),
 	Index_(-1),
 	IndexX_(-1),
 	IndexY_(-1),
@@ -71,68 +70,17 @@ void InventoryTileBox::BoxTileClick(GameEngineCollision* _Other)
 	}
 }
 
-void InventoryTileBox::ItemEquipCheck(InvenTileBoxType _BoxTileType)
+void InventoryTileBox::ItemEquipCheck(ItemLocType _BoxTileType)
 {
 	// 현재 커서가 아이템을 들고있는지 체크하여 들고있다면 해당 아이템 타일에 배치
 
 
 	// 아니라면 리턴
+}
 
+void InventoryTileBox::ItemBatch(const std::string _ItemName)
+{
 
-
-	switch (_BoxTileType)
-	{
-		case InvenTileBoxType::NORMAL:	// 일반타일
-		{
-
-			break;
-		}
-		case InvenTileBoxType::HELM:	// 투구
-		{
-
-			break;
-		}
-		case InvenTileBoxType::ARMOR:	// 갑옷
-		{
-
-			break;
-		}
-		case InvenTileBoxType::LRING:	// 왼쪽 링
-		{
-
-			break;
-		}
-		case InvenTileBoxType::RRING:	// 오른쪽 링
-		{
-
-			break;
-		}
-		case InvenTileBoxType::AMULET:	// 목걸이
-		{
-
-			break;
-		}
-		case InvenTileBoxType::GLOVES:	// 장갑
-		{
-
-			break;
-		}
-		case InvenTileBoxType::BOOTS:	// 부츠
-		{
-
-			break;
-		}
-		case InvenTileBoxType::WEAPON:	// 무기(왼)
-		{
-
-			break;
-		}
-		case InvenTileBoxType::SHIELD:	// 실드(오)
-		{
-
-			break;
-		}
-	}
 }
 
 void InventoryTileBox::TileBoxActive()
@@ -161,7 +109,7 @@ void InventoryTileBox::TileBoxInactive()
 	}
 }
 
-void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, InvenTileBoxType _BoxTileType, int _X, int _Y, int _Index)
+void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _BoxTileType, int _X, int _Y, int _Index)
 {
 	// 타일박스 정보 셋팅
 	ArrangementFlag_ = _ArrangementFlag;
@@ -208,7 +156,7 @@ void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, InvenTileBoxTy
 	TileBoxCollider_->Off();
 }
 
-void InventoryTileBox::CreatePlayerEquipTileBox(const std::string& _TextureName, bool _ArrangementFlag, InvenTileBoxType _BoxTileType, int _Index, float4 _Pos, float4 _Scale)
+void InventoryTileBox::CreatePlayerEquipTileBox(const std::string& _TextureName, bool _ArrangementFlag, ItemLocType _BoxTileType, int _Index, float4 _Pos, float4 _Scale)
 {
 	// 타일박스 정보 셋팅
 	ArrangementFlag_ = _ArrangementFlag;

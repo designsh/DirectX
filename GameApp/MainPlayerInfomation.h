@@ -15,72 +15,72 @@ enum class JobType
 // 아이템타입
 enum class ItemType
 {
-	Weapon,						// 무기
-	Shield,							// 방패 
-	Helm,								// 투구
-	Armor,							// 갑옷
-	Gloves,							// 장갑
-	Belt,								// 벨트
-	Boots,							// 신발
-	Ring,								// 반지
-	Amulet,							// 목걸이
-	Portion,							// 포션
-	Scroll,								// 스크롤
-	Etc,									// 기타
+	Weapon,					// 무기
+	Shield,					// 방패 
+	Helm,					// 투구
+	Armor,					// 갑옷
+	Gloves,					// 장갑
+	Belt,					// 벨트
+	Boots,					// 신발
+	Ring,					// 반지
+	Amulet,					// 목걸이
+	Portion,				// 포션
+	Scroll,					// 스크롤
+	Etc,					// 기타
 };
 
 // 아이템 위치타입
 enum class ItemLocType
 {
 	Inven_Weapon,			// 인벤토리 - 무기칸
-	Inven_Shield,				// 인벤토리 - 방패칸
-	Inven_Helm,					// 인벤토리 - 투구칸
-	Inven_Armor,				// 인벤토리 - 갑옷칸
-	Inven_Gloves,				// 인벤토리 - 장갑칸
-	Inven_Belt,					// 인벤토리 - 벨트칸
-	Inven_Boots,				// 인벤토리 - 신발칸
-	Inven_LRing,				// 인벤토리 - 왼쪽 반지칸
-	Inven_RRing,				// 인벤토리 - 오른쪽 반지칸
-	Inven_Amulet,				// 인벤토리 - 목걸이칸
+	Inven_Shield,			// 인벤토리 - 방패칸
+	Inven_Helm,				// 인벤토리 - 투구칸
+	Inven_Armor,			// 인벤토리 - 갑옷칸
+	Inven_Gloves,			// 인벤토리 - 장갑칸
+	Inven_Belt,				// 인벤토리 - 벨트칸
+	Inven_Boots,			// 인벤토리 - 신발칸
+	Inven_LRing,			// 인벤토리 - 왼쪽 반지칸
+	Inven_RRing,			// 인벤토리 - 오른쪽 반지칸
+	Inven_Amulet,			// 인벤토리 - 목걸이칸
 	Inven_Bottom,			// 인벤토리 - 하단칸
 	BotStat_Portion1,		// 하단상태바 포션 첫번째칸
 	BotStat_Portion2,		// 하단상태바 포션 두번째칸
 	BotStat_Portion3,		// 하단상태바 포션 세번째칸
 	BotStat_Portion4,		// 하단상태바 포션 네번째칸
-	Storehouse_Bottom,	// 창고 - 하단칸
-	BuySell_Weapon,		// 판매창 - 무기탭
+	Storehouse_Bottom,		// 창고 - 하단칸
+	BuySell_Weapon,			// 판매창 - 무기탭
 	BuySell_Armor,			// 판매창 - 방어구탭
-	BuySell_Etc,					// 판매창 - 기타탭
+	BuySell_Etc,			// 판매창 - 기타탭
 };
 
 // 스킬타입
 enum class SkillType
 {
-	None,								// 제한없음((Ex) FireBall))
-	Range,							// 원거리만
-	H2H,								// 근접공격만
-	Both								// 근접 or 원거리
+	None,					// 제한없음((Ex) FireBall))
+	Range,					// 원거리만
+	H2H,					// 근접공격만
+	Both					// 근접 or 원거리
 };
 
 // 디버프 타입(저주스킬 or 소환수스킬)
 enum class SkillDebuffType
 {
-	Poisoned,						// 중독 : 회복량 50% 감소
-	Burning,						// 화상 : 초당 n데미지
-	Bleeding,						// 출혈 : 초당 n데미지
-	BlurredVision,				// 시야감소 : 일정시야반경 감소
-	SpeedReduction,		// 속력감소 : 이동속도 감소
-	Damage,						// 데미지감소
-	BounceOffDamage,	// 데미지반환 : 적에게 입힌피해 반환
-	Terror,							// 공포 : 공포에 떨며 도망
-	Confusion,					// 혼란 : 공격대상이 플레이어에서 무작위로 변경(가장가까운위치에 존재한 물체)
-	LowerResist,					// 저항력감소 : 모든 저항력을 감소
+	Poisoned,				// 중독 : 회복량 50% 감소
+	Burning,				// 화상 : 초당 n데미지
+	Bleeding,				// 출혈 : 초당 n데미지
+	BlurredVision,			// 시야감소 : 일정시야반경 감소
+	SpeedReduction,			// 속력감소 : 이동속도 감소
+	Damage,					// 데미지감소
+	BounceOffDamage,		// 데미지반환 : 적에게 입힌피해 반환
+	Terror,					// 공포 : 공포에 떨며 도망
+	Confusion,				// 혼란 : 공격대상이 플레이어에서 무작위로 변경(가장가까운위치에 존재한 물체)
+	LowerResist,			// 저항력감소 : 모든 저항력을 감소
 };
 
 enum class SkillBuffType
 {
 	AmplifyDamage,			// 데미지 증폭
-	LifeTap,							// 적에게 받은 데미지 생명력으로 전환하여 회복
+	LifeTap,				// 적에게 받은 데미지 생명력으로 전환하여 회복
 };
 
 // 패시브 타입(소환수스킬)

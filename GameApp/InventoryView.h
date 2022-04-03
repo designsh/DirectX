@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 #include "GlobalEnumClass.h"
+#include "MainPlayerInfomation.h"
 
 // 분류 : 
 // 용도 : 
@@ -45,9 +46,11 @@ private:
 public:
 	void InitInventoryView();
 	void CreateInventoryTile();
+	void InitInventoryItemSetting(const std::string& _ItemName, ItemLocType _ItemLocType, int _StartIndex, int _WidthSize, int _HeightSize);
 
 public:
 	void SetInventoryBoxTileActvie();
 	void SetInentroyBoxTileInactive();
+
 };
 
