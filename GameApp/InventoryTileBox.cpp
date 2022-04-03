@@ -97,6 +97,15 @@ void InventoryTileBox::TileBoxActive()
 	{
 		TileBoxCollider_->On();
 	}
+
+	// 아이템 장착중이라면 아이템 렌더러 On
+	if (true == ArrangementFlag_)
+	{
+		if (nullptr != TileBoxItemEquipRenderer_)
+		{
+			TileBoxItemEquipRenderer_->On();
+		}
+	}
 }
 
 void InventoryTileBox::TileBoxInactive()
@@ -109,6 +118,15 @@ void InventoryTileBox::TileBoxInactive()
 	if (nullptr != TileBoxCollider_)
 	{
 		TileBoxCollider_->Off();
+	}
+
+	// 아이템 장착중이라면 아이템 렌더러 Off
+	if (true == ArrangementFlag_)
+	{
+		if (nullptr != TileBoxItemEquipRenderer_)
+		{
+			TileBoxItemEquipRenderer_->Off();
+		}
 	}
 }
 
