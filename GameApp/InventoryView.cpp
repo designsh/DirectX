@@ -111,6 +111,9 @@ void InventoryView::InitInventoryView()
 	int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
 	for (int i = 0; i < ItemCnt; ++i)
 	{
+		// 
+
+
 		//if(CurPlayerInfo.ItemInfo[0].ItemLocType)
 	}
 
