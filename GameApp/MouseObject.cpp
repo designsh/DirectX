@@ -107,7 +107,6 @@ void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize
 	float4 ItemRenderPos = float4(ItemRenderSize.x * 0.5f, ItemRenderSize.y * -0.5f);
 	ItemRenderer_->GetTransform()->SetLocalPosition(ItemRenderPos);
 	ItemRenderer_->GetTransform()->SetLocalScaling(ItemRenderSize);
-
 	ItemRenderer_->On();
 }
 
@@ -121,5 +120,4 @@ void MouseObject::ItemPutDown()
 
 	// 아이템렌더러 Off
 	ItemRenderer_->Off();
-
 }
