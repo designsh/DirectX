@@ -109,6 +109,10 @@ void InventoryTileBox::ItemEquipCheck()
 				// 현재 마우스의 아이템 렌더러 제거
 				GlobalValue::CurMouse->ItemPutDown();
 
+				// 해당 타일에 배치된 아이템 렌더러 크기 저장
+				GameEngineTexture* CurItemTexture = GameEngineTextureManager::GetInst().Find(CurBatchItemName_);
+				BatchItemScale_ = CurItemTexture->GetTextureSize();
+
 				// 해당 타일에 아이템 렌더러 배치
 				TileBoxItemEquipRenderer_->SetImage(CurBatchItemName_);
 				TileBoxItemEquipRenderer_->On();
