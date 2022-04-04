@@ -114,7 +114,7 @@ void InventoryView::InitInventoryView()
 	int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
 	for (int i = 0; i < ItemCnt; ++i)
 	{
-		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_abbreviation;
+		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_abbreviation_Inven;
 		ItemLocType ItemLocType = CurPlayerInfo.ItemInfo[i].ItemLocType;
 		int StartIndex = CurPlayerInfo.ItemInfo[i].StartPosition;
 		int WidthSize = CurPlayerInfo.ItemInfo[i].WidthSize;

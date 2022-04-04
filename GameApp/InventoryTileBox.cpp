@@ -97,19 +97,9 @@ void InventoryTileBox::GameStartItemBatch(const std::string& _ItemName, int _Ite
 
 	float4 RenderSize = float4::ZERO;
 	std::string ItemTextureName = _ItemName;
-
-
-
-
-	
-
-	
-
-	TileBoxItemEquipRenderer_->SetImage("invbsc.png");
-	
-
+	ItemTextureName += ".png";
+	TileBoxItemEquipRenderer_->SetImage(ItemTextureName);
 	TileBoxItemEquipRenderer_->Off();
-	
 }
 
 void InventoryTileBox::TileBoxActive()
