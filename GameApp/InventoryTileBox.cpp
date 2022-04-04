@@ -74,6 +74,15 @@ void InventoryTileBox::BoxTileClick(GameEngineCollision* _Other)
 
 void InventoryTileBox::ItemEquipCheck()
 {
+	// 특별한 타일이면(플레이어 애니메이션 변경에 영향을끼치는 타일) : 무기, 방패, 투구, ....
+	// 플레이어 LIT_ <-> HVY_ 변경이 필요할때
+
+
+
+
+
+
+
 	// 현재 커서가 아이템을 들고있는지 체크하여 들고있다면 해당 아이템 타일에 배치
 	if(true == ArrangementFlag_)	// 이미 아이템이 배치되어있는 타일
 	{
