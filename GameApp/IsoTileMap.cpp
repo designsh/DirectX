@@ -5,7 +5,8 @@
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
 
-IsoTileMap::IsoTileMap() 
+IsoTileMap::IsoTileMap() :
+	CurTileIndex_(0)
 {
 }
 
@@ -39,7 +40,7 @@ void IsoTileMap::SetTile(float4 _Pos)
 
 	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 	Renderer->SetImage(FloorTile_);
-	Renderer->SetIndex(0);
+	Renderer->SetIndex(CurTileIndex_);
 	Renderer->GetTransform()->SetLocalScaling(TileSize);
 	Renderer->GetTransform()->SetLocalPosition(IndexPivotPos + Pos);
 

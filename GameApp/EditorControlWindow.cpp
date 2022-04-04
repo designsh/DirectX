@@ -57,7 +57,8 @@ void EditorControlWindow::OnGUI()
 		ImGui::PushID(reinterpret_cast<int>(Id) + i);
 		if (true == ImGui::ImageButton(Id, { Size.x, Size.y }, { CutData.x, CutData.y }, { CutData.x + CutData.z, CutData.y + CutData.w }))
 		{
-			int a = 0;
+			// 현재 선택된 타일의 인덱스로 변경
+			Map->SetSelectTileIndex(i);
 		}
 		ImGui::PopID();
 

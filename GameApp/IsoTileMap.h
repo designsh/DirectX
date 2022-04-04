@@ -46,7 +46,10 @@ public:
 		return GameEngineTextureManager::GetInst().Find(FloorTile_);
 	}
 
-
+	void SetSelectTileIndex(int _Index)
+	{
+		CurTileIndex_ = _Index;
+	}
 
 private:
 	void Start() override;
@@ -58,6 +61,7 @@ private:
 	std::unordered_map<__int64, class GameEngineImageRenderer*> Tiles_;
 
 	std::string FloorTile_;
+	int CurTileIndex_;
 
 private:
 
