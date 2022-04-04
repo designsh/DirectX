@@ -324,6 +324,18 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
 	}
 
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TileMap");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("TileMap_VS");
+		Pipe->SetVertexShader("TileMap_VS");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("TileMap_PS");
+		Pipe->SetOutputMergerBlend("EngineAlphaBlend");
+	}
+
 	// ============================================= 특수기능 UI 관련 ============================================= //
 	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("ProgressBarUI");

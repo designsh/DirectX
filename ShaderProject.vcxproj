@@ -24,6 +24,7 @@
     <FxCompile Include="EngineResources\Shader\ProgressBar.fx" />
     <FxCompile Include="EngineResources\Shader\TargetMerge.fx" />
     <FxCompile Include="EngineResources\Shader\Texture.fx" />
+    <FxCompile Include="EngineResources\Shader\TileMap.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

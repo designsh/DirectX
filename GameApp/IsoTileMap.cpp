@@ -1,6 +1,6 @@
 ﻿#include "PreCompile.h"
 #include "IsoTileMap.h"
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineTileMapRenderer.h>
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
@@ -19,7 +19,7 @@ void IsoTileMap::Start()
 	TileSizeHalf = TileSize.halffloat4();
 	IndexPivotPos = { 0.0f, -TileSizeHalf.y  };
 
-	GameEngineImageRenderer* Renderer = CreateTransformComponent<GameEngineImageRenderer>();
+	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 	Renderer->SetImage("TileLine.png");
 	Renderer->GetTransform()->SetLocalPosition(IndexPivotPos);
 }
@@ -37,7 +37,7 @@ void IsoTileMap::SetTile(float4 _Pos)
 	Pos.x = (Index.X_ - Index.Y_) * TileSizeHalf.x;
 	Pos.y = (Index.X_ + Index.Y_) * -TileSizeHalf.y;
 
-	GameEngineImageRenderer* Renderer = CreateTransformComponent<GameEngineImageRenderer>();
+	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 	Renderer->SetImage(FloorTile_);
 	Renderer->SetIndex(0);
 	Renderer->GetTransform()->SetLocalScaling(TileSize);

@@ -247,6 +247,9 @@
     <Filter Include="Imgui\EngineWindow\LevelControl">
       <UniqueIdentifier>{702c54bb-1153-4b85-a419-7fc1d4604f0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Renderer\TileMap">
+      <UniqueIdentifier>{9b97d414-146e-46bd-96c6-18f9540a2ff7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -449,6 +452,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineLevelControlWindow.cpp">
       <Filter>Imgui\EngineWindow\LevelControl</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTileMapRenderer.cpp">
+      <Filter>Object\Component\Renderer\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -664,6 +670,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineLevelControlWindow.h">
       <Filter>Imgui\EngineWindow\LevelControl</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTileMapRenderer.h">
+      <Filter>Object\Component\Renderer\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
