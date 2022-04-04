@@ -103,10 +103,10 @@ void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize
 	ItemRenderer_->SetImage(_ItemName);
 
 	// ·»´õ·¯ ÇÇ¹þÀ§Ä¡ °è»ê
-	float4 ItemRenderPos = _ItemSize;
-
-
+	float4 ItemRenderSize = _ItemSize;
+	float4 ItemRenderPos = float4(ItemRenderSize.x * 0.5f, ItemRenderSize.y * -0.5f);
 	ItemRenderer_->GetTransform()->SetLocalPosition(ItemRenderPos);
+	ItemRenderer_->GetTransform()->SetLocalScaling(ItemRenderSize);
 
 	ItemRenderer_->On();
 }
