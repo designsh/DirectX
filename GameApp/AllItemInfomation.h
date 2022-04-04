@@ -2,7 +2,7 @@
 #include "MainPlayerInfomation.h"
 #include <GameEngineBase/ExcelControl.h>
 
-#define ALL_ITEM_CNT 11
+#define ALL_ITEM_CNT 18
 
 // 분류 : 정보
 // 용도 : 아이템정보 관리용

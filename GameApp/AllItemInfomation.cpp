@@ -17,7 +17,7 @@ bool AllItemInfomation::ItemInfoFind(const std::string& _ItemName, ItemList& _It
 	int ItemListSize = static_cast<int>(AllItemList_.size());
 	for (int i = 0; i < ItemListSize; ++i)
 	{
-		if (AllItemList_[i].ItemName_Eng == _ItemName)
+		if (AllItemList_[i].ItemName_abbreviation == _ItemName)
 		{
 			_ItemInfo = AllItemList_[i];
 			return true;
@@ -91,7 +91,7 @@ void AllItemInfomation::LoadItemExcelFile()
 
 			// ============================== 플레이어 아이템정보 ============================== //
 
-			// 아이템 영어명
+			// 아이템이름 약어
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
 			if (ExcelZFlag_)
@@ -102,10 +102,10 @@ void AllItemInfomation::LoadItemExcelFile()
 
 			char pItemNameEng[MAX_PATH] = {};
 			ExcelFile->GetData(ColRowName, pItemNameEng);
-			NewItemInfo.ItemName_Eng = pItemNameEng;
+			NewItemInfo.ItemName_abbreviation = pItemNameEng;
 			++RowNo;
 
-			// 아이템 한글명(저장안함)
+			// 아이템이름 약어(인벤토리용)
 			memset(RowNumber, 0, sizeof(RowNumber));
 			strcpy_s(RowNumber, std::to_string(RowNo).c_str());
 			if (ExcelZFlag_)
@@ -114,12 +114,10 @@ void AllItemInfomation::LoadItemExcelFile()
 				memset(&ColRowName[1], 0, sizeof(ColRowName) - 1);
 			strcat_s(ColRowName, RowNumber);
 
-			char pSItemNameKor[MAX_PATH] = {};
-			ExcelFile->GetData(ColRowName, pSItemNameKor);
-			std::string sSItemName_Kor = pSItemNameKor;
-			std::wstring wSItemName_Kor;
-			wSItemName_Kor.append(sSItemName_Kor.begin(), sSItemName_Kor.end());
-			//NewItemInfo.ItemName_Kor = wSItemName_Kor;
+			char pSItemNameInven[MAX_PATH] = {};
+			ExcelFile->GetData(ColRowName, pSItemNameInven);
+			std::string sSItemNameInven = pSItemNameInven;
+			NewItemInfo.ItemName_abbreviation_Inven = sSItemNameInven;
 			++RowNo;
 
 			// 아이템코드
@@ -429,15 +427,15 @@ void AllItemInfomation::LoadItemBinaryFile()
 	for (int i = 0; i < ItemCnt; ++i)
 	{
 		// ============================== 플레이어 아이템정보 ============================== //
-		// 아이템 영어명
+		// 아이템명(약어)
 		std::string ReadItemName_Eng = "";
 		pFile.Read(ReadItemName_Eng);
-		AllItemList_[i].ItemName_Eng = ReadItemName_Eng;
+		AllItemList_[i].ItemName_abbreviation = ReadItemName_Eng;
 
-		// 아이템 한글명
-		std::wstring ReadItemName_Kor = L"";
-		pFile.Read(ReadItemName_Kor);
-		AllItemList_[i].ItemName_Kor = ReadItemName_Kor;
+		// 아이템명(약어)-인벤토리용
+		std::string ReadItemNameInven = "";
+		pFile.Read(ReadItemNameInven);
+		AllItemList_[i].ItemName_abbreviation_Inven = ReadItemNameInven;
 
 		// 아이템코드
 		int ReadItemCode = 0;
@@ -553,11 +551,11 @@ void AllItemInfomation::SaveItemBinaryFile()
 		for (int i = 0; i < AllItemCnt; ++i)
 		{
 			// ============================== 플레이어 아이템정보 ============================== //
-			// 아이템 영어명
-			pFile.Write(AllItemList_[i].ItemName_Eng);
+			// 아이템명(약어)
+			pFile.Write(AllItemList_[i].ItemName_abbreviation);
 
-			// 아이템 한글명
-			pFile.Write(AllItemList_[i].ItemName_Kor);
+			// 아이템명(약어)-인벤용
+			pFile.Write(AllItemList_[i].ItemName_abbreviation_Inven);
 
 			// 아이템코드
 			pFile.Write(AllItemList_[i].ItemCode);

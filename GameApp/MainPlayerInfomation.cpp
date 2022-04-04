@@ -93,7 +93,7 @@ void MainPlayerInfomation::PlayerItemAdd(ItemList _ItemInfo)
 	// 동일한 아이템이 이미 있다면 정보만 교체
 	for (auto& ItemList : MainPlayerInfo_.ItemInfo)
 	{
-		if (ItemList.ItemName_Eng == _ItemInfo.ItemName_Eng)
+		if (ItemList.ItemName_abbreviation == _ItemInfo.ItemName_abbreviation)
 		{
 			ItemList = _ItemInfo;
 			return;
@@ -110,7 +110,7 @@ void MainPlayerInfomation::PlayerItemDel(const std::string& _ItemName)
 	std::vector<ItemList>::iterator EndIter = MainPlayerInfo_.ItemInfo.end();
 	for (; StartIter != EndIter; ++StartIter)
 	{
-		if ((*StartIter).ItemName_Eng == _ItemName)
+		if ((*StartIter).ItemName_abbreviation == _ItemName)
 		{
 			MainPlayerInfo_.ItemInfo.erase(StartIter);
 			break;
@@ -178,8 +178,8 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	
 	// 완드 : 인벤토리 - 무기칸 장착
 	ItemList BasicWeaponItem = {};
-	BasicWeaponItem.ItemName_Eng = "Wand";
-	BasicWeaponItem.ItemName_Kor = L"완드";
+	BasicWeaponItem.ItemName_abbreviation = "wnd";
+	BasicWeaponItem.ItemName_abbreviation_Inven = "invwnd";
 	BasicWeaponItem.ItemCode = 1;
 	BasicWeaponItem.ItemType = ItemType::Weapon;
 
@@ -202,15 +202,15 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 
 	MainPlayerInfo_.ItemInfo.push_back(BasicWeaponItem);
 
-	// 포탈스크롤 : 인벤토리 - 하단칸(10x4)의 29번째 인덱스 칸
+	// 포탈스크롤 : 인벤토리 - 하단칸(10x4)의 9번째 인덱스 칸
 	ItemList BasicPortalScroll = {};
-	BasicPortalScroll.ItemName_Eng = "PortalScroll";
-	BasicPortalScroll.ItemName_Kor = L"포탈 스크롤";
-	BasicPortalScroll.ItemCode = 7;
+	BasicPortalScroll.ItemName_abbreviation = "bsc";
+	BasicPortalScroll.ItemName_abbreviation_Inven = "invbsc";
+	BasicPortalScroll.ItemCode = 16;
 	BasicPortalScroll.ItemType = ItemType::Scroll;
 
 	BasicPortalScroll.ItemLocType = ItemLocType::Inven_Bottom;
-	BasicPortalScroll.StartPosition = 29;
+	BasicPortalScroll.StartPosition = 9;
 	BasicPortalScroll.WidthSize = 1;
 	BasicPortalScroll.HeightSize = 1;
 
@@ -228,15 +228,15 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 
 	MainPlayerInfo_.ItemInfo.push_back(BasicPortalScroll);
 	
-	// 아이템감정스크롤 : 인벤토리 - 하단칸(10x4)의 39번째 인덱스 칸
+	// 아이템감정스크롤 : 인벤토리 - 하단칸(10x4)의 19번째 인덱스 칸
 	ItemList BasicIdentifyScroll = {};
-	BasicIdentifyScroll.ItemName_Eng = "IdentifyScoll";
-	BasicIdentifyScroll.ItemName_Kor = L"감정 스크롤";
-	BasicIdentifyScroll.ItemCode = 8;
+	BasicIdentifyScroll.ItemName_abbreviation = "chm";
+	BasicIdentifyScroll.ItemName_abbreviation_Inven = "invchm";
+	BasicIdentifyScroll.ItemCode = 17;
 	BasicIdentifyScroll.ItemType = ItemType::Scroll;
 
 	BasicIdentifyScroll.ItemLocType = ItemLocType::Inven_Bottom;
-	BasicIdentifyScroll.StartPosition = 39;
+	BasicIdentifyScroll.StartPosition = 19;
 	BasicIdentifyScroll.WidthSize = 1;
 	BasicIdentifyScroll.HeightSize = 1;
 
@@ -740,11 +740,11 @@ void MainPlayerInfomation::SaveMainPlayerInfo(const std::string& _PlayerID)
 	{
 		// 아이템 기본정보
 
-		// 아이템 영어명
-		pFile.Write(MainPlayerInfo_.ItemInfo[i].ItemName_Eng);
+		// 아이템명(약어)
+		pFile.Write(MainPlayerInfo_.ItemInfo[i].ItemName_abbreviation);
 
-		// 아이템 한글명
-		pFile.Write(MainPlayerInfo_.ItemInfo[i].ItemName_Kor);
+		// 아이템명(약어) - 인벤용
+		pFile.Write(MainPlayerInfo_.ItemInfo[i].ItemName_abbreviation_Inven);
 
 		// 아이템코드
 		pFile.Write(MainPlayerInfo_.ItemInfo[i].ItemCode);

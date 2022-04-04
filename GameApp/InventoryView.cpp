@@ -62,7 +62,8 @@ void InventoryView::Start()
 
 void InventoryView::Update(float _DeltaTime)
 {
-	// 스킬창 종료버튼 체크
+#pragma region 종료버튼충돌 및 클릭체크
+	// 인벤창 종료버튼 체크
 	if (CloseButtonState_ == Button_State::Click)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
@@ -81,8 +82,11 @@ void InventoryView::Update(float _DeltaTime)
 		}
 	}
 
-	// 
+	// 이벤창 종료버튼 충돌체크
 	CloseButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::CloseButtonClick, this, std::placeholders::_1));
+#pragma endregion
+
+
 }
 
 void InventoryView::CloseButtonClick(GameEngineCollision* _Other)
@@ -110,7 +114,7 @@ void InventoryView::InitInventoryView()
 	int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
 	for (int i = 0; i < ItemCnt; ++i)
 	{
-		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_Eng;
+		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_abbreviation;
 		ItemLocType ItemLocType = CurPlayerInfo.ItemInfo[i].ItemLocType;
 		int StartIndex = CurPlayerInfo.ItemInfo[i].StartPosition;
 		int WidthSize = CurPlayerInfo.ItemInfo[i].WidthSize;

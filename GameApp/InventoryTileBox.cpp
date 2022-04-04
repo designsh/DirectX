@@ -105,10 +105,10 @@ void InventoryTileBox::GameStartItemBatch(const std::string& _ItemName, int _Ite
 
 	
 
-	//TileBoxItemEquipRenderer_->SetImage("invbsc.png");
+	TileBoxItemEquipRenderer_->SetImage("invbsc.png");
 	
 
-	//TileBoxItemEquipRenderer_->Off();
+	TileBoxItemEquipRenderer_->Off();
 	
 }
 
