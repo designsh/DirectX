@@ -114,6 +114,7 @@ void MouseObject::ItemPutDown()
 {
 	// 아이템을 떨군다
 	IsItemHold_ = false;
+	HoldItemName_ = "";
 
 	// 마우스 커서렌더러 On
 	Mouse_->On();
