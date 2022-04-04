@@ -222,7 +222,9 @@ void InventoryTileBox::CreatePlayerEquipTileBox(const std::string& _TextureName,
 	Pos_ = _Pos;
 
 	// 텍스쳐의 크기 저장
-	Scale_ = _Scale;
+	GameEngineTexture* FindTexture =  GameEngineTextureManager::GetInst().Find(_TextureName);
+	float4 TextureSize = FindTexture->GetTextureSize();
+	Scale_ = TextureSize;
 
 	// Create TileBox Renderer
 	TileBoxRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
