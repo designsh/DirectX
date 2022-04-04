@@ -41,8 +41,8 @@ void MouseObject::Start()
 	// 아이템 들기 렌더러
 	ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::MouseHoldItem));
 	//ItemRenderer_->SetImage("");
-	ItemRenderer_->GetTransform()->SetLocalPosition(Mouse_->GetTransform()->GetLocalPosition());
-	ItemRenderer_->GetTransform()->SetLocalScaling(Mouse_->GetTransform()->GetLocalScaling());
+	//ItemRenderer_->GetTransform()->SetLocalPosition(Mouse_->GetTransform()->GetLocalPosition());
+	//ItemRenderer_->GetTransform()->SetLocalScaling(Mouse_->GetTransform()->GetLocalScaling());
 	ItemRenderer_->Off();
 
 	// 220329 SJH : 테스트로인한 임시주석
@@ -103,10 +103,7 @@ void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize
 	ItemRenderer_->SetImage(HoldItemName_);
 
 	// 렌더러 피벗위치 계산
-	float4 ItemRenderSize = _ItemSize;
-	float4 ItemRenderPos = float4(ItemRenderSize.x * 0.5f, ItemRenderSize.y * -0.5f);
-	ItemRenderer_->GetTransform()->SetLocalPosition(ItemRenderPos);
-	ItemRenderer_->GetTransform()->SetLocalScaling(ItemRenderSize);
+	ItemRenderer_->GetTransform()->SetLocalScaling(_ItemSize);
 	ItemRenderer_->On();
 }
 
