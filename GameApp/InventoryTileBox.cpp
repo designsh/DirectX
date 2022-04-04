@@ -220,17 +220,13 @@ void InventoryTileBox::CreatePlayerEquipTileBox(const std::string& _TextureName,
 	IndexY_ = -1;
 	Index_ = _Index;
 	Pos_ = _Pos;
-
-	// 텍스쳐의 크기 저장
-	GameEngineTexture* FindTexture =  GameEngineTextureManager::GetInst().Find(_TextureName);
-	float4 TextureSize = FindTexture->GetTextureSize();
-	Scale_ = TextureSize;
+	Scale_ = _Scale;
 
 	// Create TileBox Renderer
 	TileBoxRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
 	TileBoxRenderer_->SetImage(_TextureName);
 	TileBoxRenderer_->GetTransform()->SetLocalPosition(Pos_);
-	TileBoxRenderer_->GetTransform()->SetLocalScaling(_Scale);
+	TileBoxRenderer_->GetTransform()->SetLocalScaling(Scale_);
 	TileBoxRenderer_->Off();
 
 	// Create Item용 Renderer 생성(기본 Off) - 아이템장착시 이미지가 셋팅되며 On상태로 전환
