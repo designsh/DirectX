@@ -40,9 +40,6 @@ void MouseObject::Start()
 
 	// 아이템 들기 렌더러
 	ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::MouseHoldItem));
-	//ItemRenderer_->SetImage("");
-	//ItemRenderer_->GetTransform()->SetLocalPosition(Mouse_->GetTransform()->GetLocalPosition());
-	//ItemRenderer_->GetTransform()->SetLocalScaling(Mouse_->GetTransform()->GetLocalScaling());
 	ItemRenderer_->Off();
 
 	// 220329 SJH : 테스트로인한 임시주석
