@@ -51,10 +51,12 @@ void EditorControlWindow::OnGUI()
 
 	int LineCount = 5;
 
-	for (size_t i = 0; i < TileImage->GetCutCount(); i++)
+	for (int i = 0; i < static_cast<int>(TileImage->GetCutCount()); i++)
 	{
 		float4 CutData = TileImage->GetCutData(i);
-		ImGui::PushID(reinterpret_cast<int>(Id) + i);
+		__int64 ImageBtnID = reinterpret_cast<__int64>(Id);
+		ImageBtnID += i;
+		ImGui::PushID(static_cast<int>(ImageBtnID));
 		if (true == ImGui::ImageButton(Id, { Size.x, Size.y }, { CutData.x, CutData.y }, { CutData.x + CutData.z, CutData.y + CutData.w }))
 		{
 			// 현재 선택된 타일의 인덱스로 변경
