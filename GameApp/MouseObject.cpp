@@ -100,7 +100,7 @@ void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize
 	Mouse_->Off();
 
 	// 아이템 렌더러 On
-	ItemRenderer_->SetImage(_ItemName);
+	ItemRenderer_->SetImage(HoldItemName_);
 
 	// 렌더러 피벗위치 계산
 	float4 ItemRenderSize = _ItemSize;
