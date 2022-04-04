@@ -46,7 +46,7 @@ private:
 public:
 	void InitInventoryView();
 	void CreateInventoryTile();
-	void InitInventoryItemSetting(const std::string& _ItemName, ItemLocType _ItemLocType, int _StartIndex, int _WidthSize, int _HeightSize);
+	void InitInventoryItemSetting(const std::string& _ItemName, int _ItemCode, ItemLocType _ItemLocType, int _StartIndex, int _WidthSize, int _HeightSize);
 
 public:
 	void SetInventoryBoxTileActvie();

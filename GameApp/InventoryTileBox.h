@@ -27,7 +27,7 @@ private:
 	Button_State TileBoxButtonState_;						// 타일박스 충돌체 클릭 상태
 
 private:
-	GameEngineUIRenderer* TileBoxItemEquipRenderer_;		// 아이템용 렌더러(아이템배치시 생성)??
+	GameEngineUIRenderer* TileBoxItemEquipRenderer_;		// 아이템용 렌더러(아이템배치시 아이템텍스쳐 셋팅)
 
 private:
 	std::string TextImage_;
@@ -52,10 +52,10 @@ private:
 	void BoxTileClick(GameEngineCollision* _Other);
 
 public:
-	void ItemEquipCheck(ItemLocType _BoxTileType);
+	void ItemEquipCheck();
 
 public:
-	void ItemBatch(const std::string _ItemName);
+	void GameStartItemBatch(const std::string& _ItemName, int _ItemCode, int _WidthSize, int _HeightSize);
 
 public:
 	void TileBoxActive();

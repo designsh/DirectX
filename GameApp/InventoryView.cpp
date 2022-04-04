@@ -115,7 +115,8 @@ void InventoryView::InitInventoryView()
 		int StartIndex = CurPlayerInfo.ItemInfo[i].StartPosition;
 		int WidthSize = CurPlayerInfo.ItemInfo[i].WidthSize;
 		int HeightSize = CurPlayerInfo.ItemInfo[i].HeightSize;
-		InitInventoryItemSetting(ItemName, ItemLocType, StartIndex, WidthSize, HeightSize);
+		int ItemCode = CurPlayerInfo.ItemInfo[i].ItemCode;
+		InitInventoryItemSetting(ItemName, ItemCode, ItemLocType, StartIndex, WidthSize, HeightSize);
 	}
 }
 
@@ -190,64 +191,63 @@ void InventoryView::CreateInventoryTile()
 	PlayerEquipInvTile_[9] = NewShieldTileBox;
 }
 
-void InventoryView::InitInventoryItemSetting(const std::string& _ItemName, ItemLocType _ItemLocType, int _StartIndex, int _WidthSize, int _HeightSize)
+void InventoryView::InitInventoryItemSetting(const std::string& _ItemName, int _ItemCode, ItemLocType _ItemLocType, int _StartIndex, int _WidthSize, int _HeightSize)
 {
 	switch (_ItemLocType)
 	{
 		case ItemLocType::Inven_Weapon:
 		{
-			// 인벤창에 아이템 배치
-			PlayerEquipInvTile_[8]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[8]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_Shield:
 		{
-			PlayerEquipInvTile_[9]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[9]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_Helm:
 		{
-			PlayerEquipInvTile_[0]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[0]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_Armor:
 		{
-			PlayerEquipInvTile_[1]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[1]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_Gloves:
 		{
-			PlayerEquipInvTile_[5]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[5]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_Belt:
 		{
-			PlayerEquipInvTile_[7]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[7]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_Boots:
 		{
-			PlayerEquipInvTile_[6]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[6]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_LRing:
 		{
-			PlayerEquipInvTile_[2]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[2]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_RRing:
 		{
-			PlayerEquipInvTile_[3]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[3]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_Amulet:
 		{
-			PlayerEquipInvTile_[4]->ItemBatch(_ItemName);
+			PlayerEquipInvTile_[4]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 		case ItemLocType::Inven_Bottom:
 		{
-			NormalInventoryTile_[_StartIndex]->ItemBatch(_ItemName);
+			NormalInventoryTile_[_StartIndex]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 	}

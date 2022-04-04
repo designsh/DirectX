@@ -41,7 +41,7 @@ void InventoryTileBox::Update(float _DeltaTime)
 		{
 			// 아이템을 들고있는 상태에서 충돌했다면
 			// 해당 아이템 해당 타일에 배치
-			ItemEquipCheck(BoxTileType_);
+			ItemEquipCheck();
 
 			TileBoxButtonState_ = Button_State::Normal;
 		}
@@ -69,20 +69,46 @@ void InventoryTileBox::BoxTileClick(GameEngineCollision* _Other)
 	}
 }
 
-void InventoryTileBox::ItemEquipCheck(ItemLocType _BoxTileType)
+void InventoryTileBox::ItemEquipCheck()
 {
 	// 현재 커서가 아이템을 들고있는지 체크하여 들고있다면 해당 아이템 타일에 배치
 
+	if(true == ArrangementFlag_)	// 이미 아이템이 배치되어있는 타일
+	{
+		// 마우스가 아이템을 들고있는 상태라면 리턴
+		
 
-	// 아니라면 리턴
+
+
+	}
+	else // 아무런 아이템이 배치되어있지않은 타일
+	{
+		// 마우스가 아이템을 들고있는 상태라면 해당 아이템의 크기를
+		// 비교????
+
+	}
 }
 
-void InventoryTileBox::ItemBatch(const std::string _ItemName)
+void InventoryTileBox::GameStartItemBatch(const std::string& _ItemName, int _ItemCode, int _WidthSize, int _HeightSize)
 {
 	// 정보 생성시 호출되며 해당 이미지렌더러의 텍스쳐를 변경하고,
 	// 장착 Flag를 On
+	ArrangementFlag_ = true;
+
+	float4 RenderSize = float4::ZERO;
+	std::string ItemTextureName = _ItemName;
 
 
+
+
+	
+
+	
+
+	//TileBoxItemEquipRenderer_->SetImage("invbsc.png");
+	
+
+	//TileBoxItemEquipRenderer_->Off();
 	
 }
 
