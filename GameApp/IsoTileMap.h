@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine\GameEngineTextureManager.h>
 
 union TileIndex
 {
@@ -39,6 +40,12 @@ public:
 	{
 		FloorTile_ = _FloorTile;
 	}
+
+	GameEngineTexture* GetFloorTileTexture()
+	{
+		return GameEngineTextureManager::GetInst().Find(FloorTile_);
+	}
+
 
 
 private:

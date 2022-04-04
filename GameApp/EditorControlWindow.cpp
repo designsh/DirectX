@@ -44,4 +44,33 @@ void EditorControlWindow::OnGUI()
 	ImGui::SliderFloat("Zoom", &Zoom, ZoomMin, ZoomMax, "%f", 1.0f);
 
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom);
+
+	GameEngineTexture* TileImage = Map->GetFloorTileTexture();
+	ImTextureID Id = reinterpret_cast<ImTextureID>(*TileImage->GetShaderResourcesView());
+	float4 Size = {80, 40};
+
+	int LineCount = 5;
+
+	for (size_t i = 0; i < TileImage->GetCutCount(); i++)
+	{
+		float4 CutData = TileImage->GetCutData(i);
+		ImGui::PushID(reinterpret_cast<int>(Id) + i);
+		if (true == ImGui::ImageButton(Id, { Size.x, Size.y }, { CutData.x, CutData.y }, { CutData.x + CutData.z, CutData.y + CutData.w }))
+		{
+			int a = 0;
+		}
+		ImGui::PopID();
+
+		--LineCount;
+
+		if (0 != LineCount)
+		{
+			ImGui::SameLine();
+		}
+
+		if (0 == LineCount)
+		{
+			LineCount = 5;
+		}
+	}
 }
