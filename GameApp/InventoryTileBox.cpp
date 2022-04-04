@@ -87,6 +87,7 @@ void InventoryTileBox::ItemEquipCheck()
 
 			// 아니라면 해당 아이템 마우스에 할당 후
 			GlobalValue::CurMouse->ItemHold(CurBatchItemName_, BatchItemScale_);
+			CurBatchItemName_ = "";
 
 			// 해당타일의 아이템 렌더러 Off
 			TileBoxItemEquipRenderer_->Off();
