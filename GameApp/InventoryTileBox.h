@@ -29,6 +29,7 @@ private:
 private:
 	GameEngineUIRenderer* TileBoxItemEquipRenderer_;		// 아이템용 렌더러(아이템배치시 아이템텍스쳐 셋팅)
 	std::string CurBatchItemName_;							// 현재 타일에 배치되어있는 아이템명
+	float4 BatchItemScale_;									// 배치된 아이템의 실제 렌더러 크기
 
 private:
 	std::string TextImage_;

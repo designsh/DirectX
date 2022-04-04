@@ -21,6 +21,8 @@ InventoryTileBox::InventoryTileBox() :
 	TileBoxCollider_(nullptr),
 	TileBoxButtonState_(Button_State::Normal),
 	TileBoxItemEquipRenderer_(nullptr),
+	CurBatchItemName_(),
+	BatchItemScale_(float4::ZERO),
 	TextImage_{}
 {
 }
@@ -84,7 +86,7 @@ void InventoryTileBox::ItemEquipCheck()
 			}
 
 			// 아니라면 해당 아이템 마우스에 할당 후
-			GlobalValue::CurMouse->ItemHold(CurBatchItemName_, Scale_);
+			GlobalValue::CurMouse->ItemHold(CurBatchItemName_, BatchItemScale_);
 
 			// 해당타일의 아이템 렌더러 Off
 			TileBoxItemEquipRenderer_->Off();
@@ -127,6 +129,11 @@ void InventoryTileBox::GameStartItemBatch(const std::string& _ItemName, int _Ite
 	CurBatchItemName_ = _ItemName;
 	CurBatchItemName_ += ".png";
 	TileBoxItemEquipRenderer_->SetImage(CurBatchItemName_);
+
+	// Texture Size Save
+	GameEngineTexture* CurItemTexture = GameEngineTextureManager::GetInst().Find(CurBatchItemName_);
+	BatchItemScale_ = CurItemTexture->GetTextureSize();
+
 	TileBoxItemEquipRenderer_->Off();
 }
 
