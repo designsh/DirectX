@@ -42,8 +42,8 @@ void MouseObject::Start()
 	ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::MouseHoldItem));
 	ItemRenderer_->Off();
 
-	// 220329 SJH : 테스트로인한 임시주석
-	//GameEngineInput::GetInst().HideCursor();
+	// 커서 Off : 220404 SJH 테스트를 위한 임시주석
+	//GameEngineInput::GetInst().CursorHide();
 }
 
 void MouseObject::Update(float _DeltaTime)
