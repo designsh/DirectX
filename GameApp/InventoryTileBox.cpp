@@ -7,6 +7,7 @@
 #include "GlobalValue.h"
 
 #include "MainPlayer.h"
+#include "MouseObject.h"
 
 InventoryTileBox::InventoryTileBox() :
 	ArrangementFlag_(false),
@@ -72,20 +73,47 @@ void InventoryTileBox::BoxTileClick(GameEngineCollision* _Other)
 void InventoryTileBox::ItemEquipCheck()
 {
 	// 현재 커서가 아이템을 들고있는지 체크하여 들고있다면 해당 아이템 타일에 배치
-
 	if(true == ArrangementFlag_)	// 이미 아이템이 배치되어있는 타일
 	{
-		// 마우스가 아이템을 들고있는 상태라면 리턴
-		
+		if (nullptr != GlobalValue::CurMouse)
+		{
+			// 마우스가 아이템을 들고있는 상태라면 리턴
+			if (true == GlobalValue::CurMouse->IsItemHold())
+			{
+				return;
+			}
 
+			// 아니라면 해당 아이템 마우스에 할당 후
+			GlobalValue::CurMouse->ItemHold(CurBatchItemName_, Scale_);
 
+			// 해당타일의 아이템 렌더러 Off
+			TileBoxItemEquipRenderer_->Off();
 
+			// 아이템 배치 Flag Off
+			ArrangementFlag_ = false;
+		}
 	}
 	else // 아무런 아이템이 배치되어있지않은 타일
 	{
-		// 마우스가 아이템을 들고있는 상태라면 해당 아이템의 크기를
-		// 비교????
+		if (nullptr != GlobalValue::CurMouse)
+		{
+			// 마우스가 아이템을 들고있는 상태이면
+			if (true == GlobalValue::CurMouse->IsItemHold())
+			{
+				// 마우스가 현재 들고있는 아이템명 Get
+				CurBatchItemName_ = GlobalValue::CurMouse->GetHoldItemName();
 
+				// 현재 마우스의 아이템 렌더러 제거
+				GlobalValue::CurMouse->ItemPutDown();
+
+				// 해당 타일에 아이템 렌더러 배치
+				TileBoxItemEquipRenderer_->SetImage(CurBatchItemName_);
+				TileBoxItemEquipRenderer_->On();
+
+				// 아이템 배치 Flag On
+				ArrangementFlag_ = true;
+			}
+		}
 	}
 }
 
@@ -96,9 +124,9 @@ void InventoryTileBox::GameStartItemBatch(const std::string& _ItemName, int _Ite
 	ArrangementFlag_ = true;
 
 	float4 RenderSize = float4::ZERO;
-	std::string ItemTextureName = _ItemName;
-	ItemTextureName += ".png";
-	TileBoxItemEquipRenderer_->SetImage(ItemTextureName);
+	CurBatchItemName_ = _ItemName;
+	CurBatchItemName_ += ".png";
+	TileBoxItemEquipRenderer_->SetImage(CurBatchItemName_);
 	TileBoxItemEquipRenderer_->Off();
 }
 

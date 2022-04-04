@@ -15,6 +15,13 @@ class GameEngineCollision;
 class MouseObject : public GameEngineActor
 {
 private:	// member Var
+	bool IsItemHold_;
+	std::string HoldItemName_;
+
+private:
+	GameEngineUIRenderer* ItemRenderer_;
+
+private:
 	GameEngineUIRenderer* Mouse_;
 	GameEngineCollision* MouseCollider_;
 
@@ -38,5 +45,24 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	bool IsItemHold() const	// 아이템을 들고있는지 체크하는 Flag
+	{
+		return IsItemHold_;
+	}
+
+	std::string GetHoldItemName() const
+	{
+		// 아이템을 들고있어야지만 아이템이름을 넘겨줄수 있다.
+		if (true == IsItemHold_)
+		{
+			return HoldItemName_;
+		}
+
+		return "";
+	}
+
+public:
+	void ItemHold(const std::string& _ItemName, const float4& _ItemSize);
+	void ItemPutDown();
 };
 

@@ -7,6 +7,9 @@
 #include <GameEngine/GameEngineCollision.h>
 
 MouseObject::MouseObject() :
+	IsItemHold_(false),
+	HoldItemName_(),
+	ItemRenderer_(nullptr),
 	Mouse_(nullptr),
 	MouseCollider_(nullptr),
 	State_(MouseState::Stay)
@@ -35,13 +38,22 @@ void MouseObject::Start()
 	MouseCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Mouse));
 	MouseCollider_->GetTransform()->SetLocalScaling(float4(5.f, 5.f, 1.f));
 
+	// 아이템 들기 렌더러
+	ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::MouseHoldItem));
+	//ItemRenderer_->SetImage("");
+	ItemRenderer_->GetTransform()->SetLocalPosition(Mouse_->GetTransform()->GetLocalPosition());
+	ItemRenderer_->GetTransform()->SetLocalScaling(Mouse_->GetTransform()->GetLocalScaling());
+	ItemRenderer_->Off();
+
 	// 220329 SJH : 테스트로인한 임시주석
 	//GameEngineInput::GetInst().HideCursor();
 }
 
 void MouseObject::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
 	GetLevel()->PushDebugRender(MouseCollider_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
 
 	float4 PrevPos = GameEngineInput::GetInst().GetPrevMouse3DPos();
 	float4 CurPos = GameEngineInput::GetInst().GetMouse3DPos();
@@ -74,4 +86,40 @@ void MouseObject::Update(float _DeltaTime)
 			State_ = MouseState::Move;
 		}
 	}
+}
+
+void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize)
+{
+	// 아이템을 들고있음
+	IsItemHold_ = true;
+
+	// 인벤토리창 or 창고 or 판매창에서 마우스 클릭으로 아이템을 들었을때 호출
+	HoldItemName_ = _ItemName;
+
+	// 마우스 커서렌더러 Off
+	Mouse_->Off();
+
+	// 아이템 렌더러 On
+	ItemRenderer_->SetImage(_ItemName);
+
+	// 렌더러 피벗위치 계산
+	float4 ItemRenderPos = _ItemSize;
+
+
+	ItemRenderer_->GetTransform()->SetLocalPosition(ItemRenderPos);
+
+	ItemRenderer_->On();
+}
+
+void MouseObject::ItemPutDown()
+{
+	// 아이템을 떨군다
+	IsItemHold_ = false;
+
+	// 마우스 커서렌더러 On
+	Mouse_->On();
+
+	// 아이템렌더러 Off
+	ItemRenderer_->Off();
+
 }

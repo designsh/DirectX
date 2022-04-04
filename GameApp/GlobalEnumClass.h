@@ -60,6 +60,7 @@ enum class UIRenderOrder
 	ErrorPopup_Collider,
 	ErrorPopup_Text,
 	Mouse = 9999,
+	MouseHoldItem,
 	MAX
 };
 

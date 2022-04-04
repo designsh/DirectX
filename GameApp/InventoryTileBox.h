@@ -28,6 +28,7 @@ private:
 
 private:
 	GameEngineUIRenderer* TileBoxItemEquipRenderer_;		// 아이템용 렌더러(아이템배치시 아이템텍스쳐 셋팅)
+	std::string CurBatchItemName_;							// 현재 타일에 배치되어있는 아이템명
 
 private:
 	std::string TextImage_;
