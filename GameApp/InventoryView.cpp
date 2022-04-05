@@ -478,9 +478,19 @@ void InventoryView::PlayerItemListArrangement()
 			}
 			else // 아니라면 포함하는 타일 인덱스목록 셋팅후 정보생성
 			{
+				if (true == NewItemInfo->CreateItemInfo(i, LocType, ItemName))
+				{
+					//// 할당
+					//std::vector<int> NewTileIndexList;
 
 
+					//// 목록추가
+					//NewItemInfo->SetItemArrIndexs(NewTileIndexList);
 
+
+					//// 제거
+					//NewTileIndexList.clear();
+				}
 			}
 		}
 		else // 장착탭이므로 타일 인덱스 목록은 없음
