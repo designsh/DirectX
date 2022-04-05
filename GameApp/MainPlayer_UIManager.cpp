@@ -24,7 +24,7 @@ void MainPlayer::CreatePlayerUIInfomation()
 	SkillView_->InitSkillView();
 
 	// 인벤토리창관련 정보 Setting
-	InventoryView_->InitInventoryView();
+	//InventoryView_->InitInventoryView();
 
 	// 게임종료메뉴창관련 정보 Setting
 
@@ -81,14 +81,14 @@ void MainPlayer::InventoryViewEnabled(bool _Enabled)
 	{
 		IsInventoryView_ = true;
 		InventoryView_->On();
-		InventoryView_->SetInventoryBoxTileActvie();
+		//InventoryView_->SetInventoryBoxTileActvie();
 		
 	}
 	else
 	{
 		IsInventoryView_ = false;
 		InventoryView_->Off();
-		InventoryView_->SetInentroyBoxTileInactive();
+		//InventoryView_->SetInentroyBoxTileInactive();
 	}
 }
 

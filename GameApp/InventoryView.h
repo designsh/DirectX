@@ -4,17 +4,6 @@
 #include "GlobalEnumClass.h"
 #include "MainPlayerInfomation.h"
 
-union InvBoxIndex
-{
-	struct
-	{
-		int X_;
-		int Y_;
-	};
-
-	__int64 Index_;
-};
-
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -30,10 +19,6 @@ private:
 	GameEngineUIRenderer* CloseButton_;
 	GameEngineCollision* CloseButtonCollider_;
 	Button_State CloseButtonState_;
-
-private: // 인벤토리 정보
-	std::vector<InventoryTileBox*> NormalInventoryTile_;		// 인벤토리창 하단 박스(보유아이템목록타일박스목록)
-	std::vector<InventoryTileBox*> PlayerEquipInvTile_;			// 인벤토리창 상단 박스(플레이어 장착용 타일박스목록)
 
 public:
 	InventoryView();
@@ -53,15 +38,6 @@ private:
 
 private:
 	void CloseButtonClick(GameEngineCollision* _Other);
-
-public:
-	void InitInventoryView();
-	void CreateInventoryTile();
-	void InitInventoryItemSetting(const std::string& _ItemName, int _ItemCode, ItemLocType _ItemLocType, int _StartIndex, int _WidthSize, int _HeightSize);
-
-public:
-	void SetInventoryBoxTileActvie();
-	void SetInentroyBoxTileInactive();
 
 };
 
