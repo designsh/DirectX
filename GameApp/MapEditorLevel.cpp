@@ -40,22 +40,34 @@ void MapEditorLevel::LevelChangeStartEvent()
 
 void MapEditorLevel::LevelStart()
 {
+#pragma region SetMainCamera
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
+#pragma endregion
 
-	// Image Cutting
+#pragma region TileTexture Cutting
 	GameEngineTexture* FloorTile = GameEngineTextureManager::GetInst().Find("Town_Floor.png");
 	FloorTile->Cut(5, 37);
+	GameEngineTexture* WallTile = GameEngineTextureManager::GetInst().Find("Town_Wall.png");
+	WallTile->Cut(31, 1);
+#pragma endregion
 
+#pragma region Editor Window
 	// MapEditor Control Window
 	EditorControlWindow* Ptr = GameEngineGUI::GetInst()->CreateGUIWindow<EditorControlWindow>("EditorControlWindow");
 	Ptr->Off();
 
+
+#pragma endregion
+
+#pragma region IsoTileMap Create & Setting
 	Map = CreateActor<IsoTileMap>();
 	Ptr->Map = Map;
 	Map->SetFloorTileTexture("Town_Floor.png");
+	Map->SetWallTileTexture("Town_Wall.png");
+#pragma endregion
 
-	// 프리카메라 키생성
+#pragma region CreateKey
 	if (false == GameEngineInput::GetInst().IsKey("CameraUp"))
 	{
 		GameEngineInput::GetInst().CreateKey("CameraUp", VK_UP);
@@ -80,22 +92,14 @@ void MapEditorLevel::LevelStart()
 	{
 		GameEngineInput::GetInst().CreateKey("CameraZoomClear", 'Z');
 	}
+#pragma endregion
 
-	if (false == GameEngineInput::GetInst().IsKey("CameraZoomIn"))
-	{
-		GameEngineInput::GetInst().CreateKey("CameraZoomIn", 'X');
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("CameraZoomOut"))
-	{
-		GameEngineInput::GetInst().CreateKey("CameraZoomOut", 'C');
-	}
 }
 
 void MapEditorLevel::LevelUpdate(float _DeltaTime)
 {
-
-	// 카메라이동
+#pragma region 카메라이동 키체크
+	
 	if (true == GameEngineInput::GetInst().Press("CameraUp"))
 	{
 		GetMainCamera()->GetTransform()->SetWorldMove(float4::UP * MoveSpeed_ * _DeltaTime);
@@ -116,14 +120,20 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		GetMainCamera()->GetTransform()->SetWorldMove(float4::RIGHT * MoveSpeed_ * _DeltaTime);
 	}
 
-	// 카메라 줌 인/아웃/해제
+#pragma endregion
+
+#pragma region 카메라 줌리셋 키체크
+
 	if (true == GameEngineInput::GetInst().Down("CameraZoomClear"))
 	{
 		// 카메라가 비추는 화면 비율 = 현재 윈도우 크기로 셋팅
 		GetMainCamera()->CameraZoomReset();
 	}
 
+#pragma endregion
 
+#pragma region 타일관련
+	// 타일생성
 	if (true == GameEngineInput::GetInst().Press("MouseLButton"))
 	{
 		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
@@ -154,6 +164,7 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		Map->SetTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 	}
 
+	// 타일제거
 	if (true == GameEngineInput::GetInst().Press("MouseRButton"))
 	{
 		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
@@ -178,9 +189,12 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 			return;
 		}
 
-		// 
+		// 해당 위치의 인덱스 타일 목록에서 제거
 		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
 		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
 		Map->DelTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 	}
+
+#pragma endregion
+
 }

@@ -26,6 +26,7 @@ EditorControlWindow::~EditorControlWindow()
 
 void EditorControlWindow::OnGUI()
 {
+#pragma region BasicInfo
 	ImGui::Text(GameEngineInput::GetInst().GetMouse3DPos().ToString().c_str());
 
 	float4 CameraPos = GameEngineCore::CurrentLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
@@ -40,34 +41,52 @@ void EditorControlWindow::OnGUI()
 	std::string CameraPosText = "Camera Pos : ";
 	CameraPosText += CameraPos.ToString();
 	ImGui::Text(CameraPosText.c_str());
+#pragma endregion
 
+#pragma region CameraZomm
 	ImGui::SliderFloat("Zoom", &Zoom, ZoomMin, ZoomMax, "%f", 1.0f);
-
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom);
+#pragma endregion
 
-	if (true == ImGui::Button("RandomTest"))
+#pragma region RandomMapButton
+	if (true == ImGui::Button("RandomRoad"))
 	{
 		GameEngineRandom Random;
 
 		Map->RandomRoad(Random.RandomInt(3, 10));
 	}
+#pragma endregion
 
-	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("GroundTile")), { 500, 1000 });
+	ImGui::SameLine();
 
-	GameEngineTexture* TileImage = Map->GetFloorTileTexture();
-	ImTextureID Id = reinterpret_cast<ImTextureID>(*TileImage->GetShaderResourcesView());
-	float4 Size = {80, 40};
+#pragma region TileMapClear
+	if (true == ImGui::Button("MapAllClear"))
+	{
+		// 현재 생성된 모든 맵 클리어
+		Map->AllTileClear();
+	}
+#pragma endregion
+
+#pragma region FloorTile
+	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("FloorTile")), { 500, 500 });
+
+	// 바닥
+	GameEngineTexture* FloorTileImage = Map->GetFloorTileTexture();
+	ImTextureID FloorTileId = reinterpret_cast<ImTextureID>(*FloorTileImage->GetShaderResourcesView());
+	float4 FloorTileSize = {80.f, 40.f};
 
 	int LineCount = 5;
-
-	for (int i = 0; i < static_cast<int>(TileImage->GetCutCount()); i++)
+	for (int i = 0; i < static_cast<int>(FloorTileImage->GetCutCount()); i++)
 	{
-		float4 CutData = TileImage->GetCutData(i);
-		__int64 ImageBtnID = reinterpret_cast<__int64>(Id);
-		ImageBtnID += i;
-		ImGui::PushID(static_cast<int>(ImageBtnID));
-		if (true == ImGui::ImageButton(Id, { Size.x, Size.y }, { CutData.x, CutData.y }, { CutData.x + CutData.z, CutData.y + CutData.w }))
+		float4 FloorTileCutData = FloorTileImage->GetCutData(i);
+		__int64 FloorImageBtnID = reinterpret_cast<__int64>(FloorTileId);
+		FloorImageBtnID += i;
+		ImGui::PushID(static_cast<int>(FloorImageBtnID));
+		if (true == ImGui::ImageButton(FloorTileId, { FloorTileSize.x, FloorTileSize.y }, { FloorTileCutData.x, FloorTileCutData.y }, { FloorTileCutData.x + FloorTileCutData.z, FloorTileCutData.y + FloorTileCutData.w }))
 		{
+			// 현재 선택된 타일이 바닥 텍스쳐이므로 텍스쳐 변경
+			Map->SetTileType(TileType::FLOOR);
+
 			// 현재 선택된 타일의 인덱스로 변경
 			Map->SetSelectTileIndex(i);
 		}
@@ -87,11 +106,49 @@ void EditorControlWindow::OnGUI()
 	}
 
 	ImGui::EndChildFrame();
+#pragma endregion
 
 	ImGui::SameLine();
-	  
-	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("WallTile")), { 500, 1000 });
+
+#pragma region WallTile
+	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("WallTile")), { 500, 500 });
+
+	// 벽
+	GameEngineTexture* WallTileImage = Map->GetWallTileTexture();
+	ImTextureID WallTileId = reinterpret_cast<ImTextureID>(*WallTileImage->GetShaderResourcesView());
+	float4 WallTileSize = { 80.f, 160.f };
+
+	int WallTileLineCount = 5;
+	for (int i = 0; i < static_cast<int>(WallTileImage->GetCutCount()); i++)
+	{
+		float4 WallCutData = WallTileImage->GetCutData(i);
+		__int64 WallImageBtnID = reinterpret_cast<__int64>(WallTileId);
+		WallImageBtnID += i;
+		ImGui::PushID(static_cast<int>(WallImageBtnID));
+		if (true == ImGui::ImageButton(WallTileId, { WallTileSize.x, WallTileSize.y }, { WallCutData.x, WallCutData.y }, { WallCutData.x + WallCutData.z, WallCutData.y + WallCutData.w }))
+		{
+			// 현재 선택된 타일이 벽 텍스쳐이므로 텍스쳐 변경
+			Map->SetTileType(TileType::WALL);
+
+			// 현재 선택된 타일의 인덱스로 변경
+			Map->SetSelectTileIndex(i);
+		}
+		ImGui::PopID();
+
+		--WallTileLineCount;
+
+		if (0 != WallTileLineCount)
+		{
+			ImGui::SameLine();
+		}
+
+		if (0 == WallTileLineCount)
+		{
+			WallTileLineCount = 5;
+		}
+	}
+
 
 	ImGui::EndChildFrame();
-
+#pragma endregion
 }

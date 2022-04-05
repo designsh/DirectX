@@ -27,8 +27,5 @@ private:		//delete operator
 
 protected:
 	virtual void OnGUI() override;
-
-public:
-	void GUIWindowOff();
 };
 

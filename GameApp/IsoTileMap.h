@@ -27,69 +27,103 @@ public:
 	}
 };
 
+enum class TileType
+{
+	FLOOR,
+	WALL
+};
+
 // 분류 : 애니메이션
 // 용도 : 타이틀레벨 로고
 // 설명 : 
-class GameEngineUIRenderer;
+class GameEngineTileMapRenderer;
 class IsoTileMap : public GameEngineActor
 {
+private: // 생성된 타일정보
+	std::unordered_map<__int64, class GameEngineTileMapRenderer*> Tiles_;
+
+private: // 바닥타일정보
+	float4 FloorTileSize_;
+	float4 FloorTileSizeHalf_;
+	float4 FloorTileIndexPivotPos_;
+
+private: // 벽타일정보
+	float4 WallTileSize_;
+	float4 WallTileSizeHalf_;
+	float4 WallTileIndexPivotPos_;
+
+private: // 현재 선택된 타일인덱스
+	int CurTileIndex_;
+	TileType CurTileType_;
+
+private: // 각각의 텍스쳐명
+	std::string FloorTileTextureName_;
+	std::string WallTileTextureName_;
+
+private:
+	GameEngineRandom Random_;
+	float4 RandomStartPos_;
+
 public:
-	// constrcuter destructer
 	IsoTileMap();
 	~IsoTileMap();
 
-	// delete Function
+protected:		// delete constructer
 	IsoTileMap(const IsoTileMap& _Other) = delete;
 	IsoTileMap(IsoTileMap&& _Other) noexcept = delete;
+
+private:		//delete operator
 	IsoTileMap& operator=(const IsoTileMap& _Other) = delete;
 	IsoTileMap& operator=(IsoTileMap&& _Other) noexcept = delete;
 
-	void SetTile(float4 _Pos);
-	void SetTile(TileIndex _Index);
-
-	void DelTile(float4 _Pos);
-
-	TileIndex GetIndex(float4 _Pos);
-
-	float4 GetIsoPos(float4 _Pos);
-
-	void SetFloorTileTexture(const std::string& _FloorTile)
+public:
+	inline void SetFloorTileTexture(const std::string& _FloorTileTextureName)
 	{
-		FloorTile_ = _FloorTile;
+		FloorTileTextureName_ = _FloorTileTextureName;
 	}
 
-	GameEngineTexture* GetFloorTileTexture()
+	inline void SetWallTileTexture(const std::string& _WallTileTextureName)
 	{
-		return GameEngineTextureManager::GetInst().Find(FloorTile_);
+		WallTileTextureName_ = _WallTileTextureName;
 	}
 
-	void SetSelectTileIndex(int _Index)
+	inline void SetSelectTileIndex(int _Index)
 	{
 		CurTileIndex_ = _Index;
 	}
 
+	inline void SetTileType(TileType _TileType)
+	{
+		CurTileType_ = _TileType;
+	}
+
+	inline GameEngineTexture* GetFloorTileTexture()
+	{
+		return GameEngineTextureManager::GetInst().Find(FloorTileTextureName_);
+	}
+
+	inline GameEngineTexture* GetWallTileTexture()
+	{
+		return GameEngineTextureManager::GetInst().Find(WallTileTextureName_);
+	}
+
+public:
+	void SetTile(float4 _Pos);
+	void SetTile(TileIndex _Index);
+	void DelTile(float4 _Pos);
+	void AllTileClear();
+
+public:
+	TileIndex GetIndex(float4 _Pos);
+	float4 GetIsoPos(float4 _Pos);
+
 private:
 	void Start() override;
 
-	float4 TileSize;
-	float4 TileSizeHalf;
-	float4 IndexPivotPos;
-	// 8 바이트
-	std::unordered_map<__int64, class GameEngineImageRenderer*> Tiles_;
-
-	std::string FloorTile_;
-	int CurTileIndex_;
-
-private:
-
-	GameEngineRandom Random;
-	float4 RandomStart;
-
-public:
+public: // Random TileMap
 	void RandomRoad(int Count);
 
-	void RandomRoad();
-
+public: // 
 
 };
 
