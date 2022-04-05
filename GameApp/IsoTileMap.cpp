@@ -19,10 +19,6 @@ void IsoTileMap::Start()
 	TileSize = { 160.0f, 80 };
 	TileSizeHalf = TileSize.halffloat4();
 	IndexPivotPos = { 0.0f, -TileSizeHalf.y  };
-
-	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
-	Renderer->SetImage("TileLine.png");
-	Renderer->GetTransform()->SetLocalPosition(IndexPivotPos);
 }
 
 void IsoTileMap::SetTile(float4 _Pos)
