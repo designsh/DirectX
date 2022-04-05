@@ -45,6 +45,8 @@ void EditorControlWindow::OnGUI()
 
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom);
 
+	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("GroundTile")), { 500, 1000 });
+
 	GameEngineTexture* TileImage = Map->GetFloorTileTexture();
 	ImTextureID Id = reinterpret_cast<ImTextureID>(*TileImage->GetShaderResourcesView());
 	float4 Size = {80, 40};
@@ -76,4 +78,13 @@ void EditorControlWindow::OnGUI()
 			LineCount = 5;
 		}
 	}
+
+	ImGui::EndChildFrame();
+
+	ImGui::SameLine();
+	  
+	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("WallTile")), { 500, 1000 });
+
+	ImGui::EndChildFrame();
+
 }
