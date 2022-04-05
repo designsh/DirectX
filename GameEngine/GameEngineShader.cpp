@@ -138,8 +138,9 @@ void GameEngineShader::ResCheck()
 				//Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;	// 색뭉개기
 				//Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT;		// 색도트화
 
-				// 색라인화(기본)
-				Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+				// 색도트화(기본)
+				Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+				//Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 
 				Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
 				Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
