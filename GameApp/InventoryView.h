@@ -32,13 +32,6 @@ private:
 	Button_State CloseButtonState_;
 
 private: // 인벤토리 정보
-	// 수정중
-	std::vector<GameEngineCollision*> InventoryColTiles_;					// 인벤토리창 충돌체 배치목록
-	std::map<InvBoxIndex, GameEngineUIRenderer*> InventoryItemRenderers_;	// 인벤토리창에 배치중인 아이템목록
-
-
-
-	// 수정전
 	std::vector<InventoryTileBox*> NormalInventoryTile_;		// 인벤토리창 하단 박스(보유아이템목록타일박스목록)
 	std::vector<InventoryTileBox*> PlayerEquipInvTile_;			// 인벤토리창 상단 박스(플레이어 장착용 타일박스목록)
 

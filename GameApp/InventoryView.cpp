@@ -86,16 +86,7 @@ void InventoryView::Update(float _DeltaTime)
 	CloseButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::CloseButtonClick, this, std::placeholders::_1));
 #pragma endregion
 
-#pragma region 인벤창 배치박스타일 충돌
 
-
-
-
-
-
-
-
-#pragma endregion
 }
 
 void InventoryView::CloseButtonClick(GameEngineCollision* _Other)
@@ -138,28 +129,25 @@ void InventoryView::CreateInventoryTile()
 	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();
 
 	// 인벤창 하단 배치타일박스목록 생성
-	// 하단 배치타일은 인벤창에서 관리한다.
 	// x : 10, y : 4 => NORMAL
-	NormalInventoryTile_.resize(10 * 4);
+	// 충돌체만을 가지고있어야하나???
+
+
+	NormalInventoryTile_.resize(10 * 4);	// 미리 할당
 	for (int y = 0; y < 4; ++y)
 	{
 		for (int x = 0; x < 10; ++x)
 		{
-
-
-
-
-			//int Index = (x * 1) + (y * 10);
-			//InventoryTileBox* NewTileBox =  GetLevel()->CreateActor<InventoryTileBox>();
-			//NewTileBox->CreateNormalTileBox(false, ItemLocType::Inven_Bottom, x, y, Index);
-			//NormalInventoryTile_[Index] = NewTileBox;
+			int Index = (x * 1) + (y * 10);
+			InventoryTileBox* NewTileBox =  GetLevel()->CreateActor<InventoryTileBox>();
+			NewTileBox->CreateNormalTileBox(false, ItemLocType::Inven_Bottom, x, y, Index);
+			NormalInventoryTile_[Index] = NewTileBox;
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// 플레이어 아이템 장착용 박스 생성
-	// 장착용 박스는 각각 관리한다.
 	PlayerEquipInvTile_.resize(static_cast<size_t>(10));
 
 	// HELM(투구)
@@ -274,7 +262,7 @@ void InventoryView::InitInventoryItemSetting(const std::string& _ItemName, int _
 			// 아이템크기(인덱스)에 영향을 받아서 이미지렌더러를 배치해야함!!!
 
 
-			//NormalInventoryTile_[_StartIndex]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
+			NormalInventoryTile_[_StartIndex]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
 	}
@@ -283,11 +271,11 @@ void InventoryView::InitInventoryItemSetting(const std::string& _ItemName, int _
 void InventoryView::SetInventoryBoxTileActvie()
 {
 	// 인벤창 활성화시 호출
-	//int NormalTileCnt = static_cast<int>(NormalInventoryTile_.size());
-	//for (int i = 0; i < NormalTileCnt; ++i)
-	//{
-		//NormalInventoryTile_[i]->TileBoxActive();
-	//}
+	int NormalTileCnt = static_cast<int>(NormalInventoryTile_.size());
+	for (int i = 0; i < NormalTileCnt; ++i)
+	{
+		NormalInventoryTile_[i]->TileBoxActive();
+	}
 
 	int EquipTileCnt = static_cast<int>(PlayerEquipInvTile_.size());
 	for (int i = 0; i < EquipTileCnt; ++i)
@@ -299,11 +287,11 @@ void InventoryView::SetInventoryBoxTileActvie()
 void InventoryView::SetInentroyBoxTileInactive()
 {
 	// 이벤창 비활성화시 호출
-	//int NormalTileCnt = static_cast<int>(NormalInventoryTile_.size());
-	//for (int i = 0; i < NormalTileCnt; ++i)
-	//{
-		//NormalInventoryTile_[i]->TileBoxInactive();
-	//}
+	int NormalTileCnt = static_cast<int>(NormalInventoryTile_.size());
+	for (int i = 0; i < NormalTileCnt; ++i)
+	{
+		NormalInventoryTile_[i]->TileBoxInactive();
+	}
 
 	int EquipTileCnt = static_cast<int>(PlayerEquipInvTile_.size());
 	for (int i = 0; i < EquipTileCnt; ++i)
