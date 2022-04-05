@@ -100,6 +100,9 @@ void InventoryTileBox::ItemEquipCheck()
 			GlobalValue::CurMouse->ItemHold(CurBatchItemName_, BatchItemScale_);
 			CurBatchItemName_ = "";
 
+			// 테스트용
+			TileBoxRenderer_->SetPrintText(std::to_string(Index_));
+
 			// 해당타일의 아이템 렌더러 Off
 			TileBoxItemEquipRenderer_->Off();
 
@@ -125,7 +128,7 @@ void InventoryTileBox::ItemEquipCheck()
 				if (true == AllItemInfomation::GetInst().ItemInfoFindInvName(ItemName, ItemLists))
 				{
 					// 정보를 받아왔다면
-					int a = 0;
+					
 
 				}
 
@@ -135,6 +138,9 @@ void InventoryTileBox::ItemEquipCheck()
 				// 해당 타일에 배치된 아이템 렌더러 크기 저장
 				GameEngineTexture* CurItemTexture = GameEngineTextureManager::GetInst().Find(CurBatchItemName_);
 				BatchItemScale_ = CurItemTexture->GetTextureSize();
+
+				// 테스트용
+				TileBoxRenderer_->SetPrintText("");
 
 				// 해당 타일에 아이템 렌더러 배치
 				TileBoxItemEquipRenderer_->SetImage(CurBatchItemName_);
