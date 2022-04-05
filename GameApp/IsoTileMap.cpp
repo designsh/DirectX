@@ -66,6 +66,8 @@ void IsoTileMap::DelTile(float4 _Pos)
 		{
 			// 세컨드 데스처리
 			(*StartIter).second->Death();
+
+			// 맵에서 제거
 			Tiles_.erase(StartIter++);
 			EndIter = Tiles_.end();
 		}
