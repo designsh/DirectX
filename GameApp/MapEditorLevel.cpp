@@ -154,4 +154,33 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		Map->SetTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 	}
 
+	if (true == GameEngineInput::GetInst().Press("MouseRButton"))
+	{
+		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
+
+		if (0 > WindowPos.x)
+		{
+			return;
+		}
+
+		if (0 > WindowPos.y)
+		{
+			return;
+		}
+
+		if (WindowPos.x > GameEngineWindow::GetInst().GetSize().x)
+		{
+			return;
+		}
+
+		if (WindowPos.y > GameEngineWindow::GetInst().GetSize().y)
+		{
+			return;
+		}
+
+		// 
+		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
+		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
+		Map->DelTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+	}
 }

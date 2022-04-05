@@ -31,6 +31,7 @@ public:
 	IsoTileMap& operator=(IsoTileMap&& _Other) noexcept = delete;
 
 	void SetTile(float4 _Pos);
+	void DelTile(float4 _Pos);
 
 	TileIndex GetIndex(float4 _Pos);
 

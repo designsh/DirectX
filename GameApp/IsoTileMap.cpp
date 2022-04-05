@@ -47,6 +47,35 @@ void IsoTileMap::SetTile(float4 _Pos)
 	Tiles_.insert(std::make_pair(Index.Index_, Renderer));
 }
 
+void IsoTileMap::DelTile(float4 _Pos)
+{
+	TileIndex Index = GetIndex(_Pos);
+
+	// 타일이 존재하지않다면 리턴
+	if (Tiles_.end() == Tiles_.find(Index.Index_))
+	{
+		return;
+	}
+
+	// 존재한다면 해당 타일 삭제
+	std::unordered_map<__int64, class GameEngineImageRenderer*>::iterator StartIter = Tiles_.begin();
+	std::unordered_map<__int64, class GameEngineImageRenderer*>::iterator EndIter = Tiles_.end();
+	for (; StartIter != EndIter;)
+	{
+		if ((*StartIter).first == Index.Index_)
+		{
+			// 세컨드 데스처리
+			(*StartIter).second->Death();
+			Tiles_.erase(StartIter++);
+			EndIter = Tiles_.end();
+		}
+		else
+		{
+			++StartIter;
+		}
+	}
+}
+
 TileIndex IsoTileMap::GetIndex(float4 _Pos)
 {
 	TileIndex Index = {};
