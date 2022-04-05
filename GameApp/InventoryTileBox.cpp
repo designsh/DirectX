@@ -9,6 +9,8 @@
 #include "MainPlayer.h"
 #include "MouseObject.h"
 
+#include "AllItemInfomation.h"
+
 InventoryTileBox::InventoryTileBox() :
 	ArrangementFlag_(false),
 	BoxTileType_(ItemLocType::Inven_Bottom),
@@ -22,8 +24,7 @@ InventoryTileBox::InventoryTileBox() :
 	TileBoxButtonState_(Button_State::Normal),
 	TileBoxItemEquipRenderer_(nullptr),
 	CurBatchItemName_(),
-	BatchItemScale_(float4::ZERO),
-	TextImage_{}
+	BatchItemScale_(float4::ZERO)
 {
 }
 
@@ -33,7 +34,6 @@ InventoryTileBox::~InventoryTileBox()
 
 void InventoryTileBox::Start()
 {
-	TextImage_ = "InvTestTileImage.png";
 }
 
 void InventoryTileBox::Update(float _DeltaTime)
@@ -80,7 +80,7 @@ void InventoryTileBox::ItemEquipCheck()
 
 
 
-
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	// 현재 커서가 아이템을 들고있는지 체크하여 들고있다면 해당 아이템 타일에 배치
@@ -91,6 +91,8 @@ void InventoryTileBox::ItemEquipCheck()
 			// 마우스가 아이템을 들고있는 상태라면 리턴
 			if (true == GlobalValue::CurMouse->IsItemHold())
 			{
+				// 사운드 실행('~할 수 없다.' 목소리 재생)
+
 				return;
 			}
 
@@ -114,6 +116,18 @@ void InventoryTileBox::ItemEquipCheck()
 			{
 				// 마우스가 현재 들고있는 아이템명 Get
 				CurBatchItemName_ = GlobalValue::CurMouse->GetHoldItemName();
+
+				// 아이템명 편집 & 아이템명을 이용하여 해당 아이템의 정보 Get
+				ItemList ItemLists = {};
+				std::string ItemName = CurBatchItemName_;
+				size_t DotSize = ItemName.find('.');
+				ItemName = ItemName.substr(0, DotSize);
+				if (true == AllItemInfomation::GetInst().ItemInfoFindInvName(ItemName, ItemLists))
+				{
+					// 정보를 받아왔다면
+					int a = 0;
+
+				}
 
 				// 현재 마우스의 아이템 렌더러 제거
 				GlobalValue::CurMouse->ItemPutDown();
@@ -213,7 +227,7 @@ void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _B
 
 	// 타일박스 렌더러 생성
 	TileBoxRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
-	TileBoxRenderer_->SetImage(TextImage_);
+	TileBoxRenderer_->SetImage("InvTestTileImage.png");
 	TileBoxRenderer_->TextSetting("diablo", std::to_string(Index_), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 	TileBoxRenderer_->GetTransform()->SetLocalPosition(Pos_);
 	TileBoxRenderer_->GetTransform()->SetLocalScaling(Scale_);

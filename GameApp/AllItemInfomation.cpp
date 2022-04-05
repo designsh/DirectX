@@ -12,12 +12,27 @@ AllItemInfomation::~AllItemInfomation()
 {
 }
 
-bool AllItemInfomation::ItemInfoFind(const std::string& _ItemName, ItemList& _ItemInfo)
+bool AllItemInfomation::ItemInfoFindName(const std::string& _ItemName, ItemList& _ItemInfo)
 {
 	int ItemListSize = static_cast<int>(AllItemList_.size());
 	for (int i = 0; i < ItemListSize; ++i)
 	{
 		if (AllItemList_[i].ItemName_abbreviation == _ItemName)
+		{
+			_ItemInfo = AllItemList_[i];
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool AllItemInfomation::ItemInfoFindInvName(const std::string& _InvItemName, ItemList& _ItemInfo)
+{
+	int ItemListSize = static_cast<int>(AllItemList_.size());
+	for (int i = 0; i < ItemListSize; ++i)
+	{
+		if (AllItemList_[i].ItemName_abbreviation_Inven == _InvItemName)
 		{
 			_ItemInfo = AllItemList_[i];
 			return true;

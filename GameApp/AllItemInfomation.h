@@ -46,8 +46,9 @@ private:		//delete operator
 	AllItemInfomation& operator=(const AllItemInfomation&& _other) = delete;
 
 public:
-	bool ItemInfoFind(const std::string& _ItemName, ItemList& _ItemInfo);
-
+	bool ItemInfoFindName(const std::string& _ItemName, ItemList& _ItemInfo);
+	bool ItemInfoFindInvName(const std::string& _InvItemName, ItemList& _ItemInfo);
+	
 public:
 	void CreateAllItemInfomation(bool _ExcelFile = false);
 	void LoadItemExcelFile();

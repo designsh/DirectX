@@ -31,9 +31,6 @@ private:
 	std::string CurBatchItemName_;							// 현재 타일에 배치되어있는 아이템명
 	float4 BatchItemScale_;									// 배치된 아이템의 실제 렌더러 크기
 
-private:
-	std::string TextImage_;
-
 public:
 	InventoryTileBox();
 	~InventoryTileBox();

@@ -130,6 +130,9 @@ void InventoryView::CreateInventoryTile()
 
 	// 인벤창 하단 배치타일박스목록 생성
 	// x : 10, y : 4 => NORMAL
+	// 충돌체만을 가지고있어야하나???
+
+
 	NormalInventoryTile_.resize(10 * 4);	// 미리 할당
 	for (int y = 0; y < 4; ++y)
 	{
@@ -141,6 +144,8 @@ void InventoryView::CreateInventoryTile()
 			NormalInventoryTile_[Index] = NewTileBox;
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// 플레이어 아이템 장착용 박스 생성
 	PlayerEquipInvTile_.resize(static_cast<size_t>(10));
@@ -252,6 +257,11 @@ void InventoryView::InitInventoryItemSetting(const std::string& _ItemName, int _
 		}
 		case ItemLocType::Inven_Bottom:
 		{
+			// 여기가 문제임!!!!
+			// 이미지렌더를 한곳에 셋팅할수가 없음.....
+			// 아이템크기(인덱스)에 영향을 받아서 이미지렌더러를 배치해야함!!!
+
+
 			NormalInventoryTile_[_StartIndex]->GameStartItemBatch(_ItemName, _ItemCode, _WidthSize, _HeightSize);
 			break;
 		}
