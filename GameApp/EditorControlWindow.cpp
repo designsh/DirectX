@@ -45,6 +45,13 @@ void EditorControlWindow::OnGUI()
 
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom);
 
+	if (true == ImGui::Button("RandomTest"))
+	{
+		GameEngineRandom Random;
+
+		Map->RandomRoad(Random.RandomInt(3, 10));
+	}
+
 	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("GroundTile")), { 500, 1000 });
 
 	GameEngineTexture* TileImage = Map->GetFloorTileTexture();

@@ -12,7 +12,7 @@
 
 MapEditorLevel::MapEditorLevel() :
 	Map(nullptr),
-	MoveSpeed_(100.f)
+	MoveSpeed_(1000.f)
 {
 }
 
