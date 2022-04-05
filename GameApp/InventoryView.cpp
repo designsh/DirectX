@@ -458,9 +458,6 @@ void InventoryView::PlayerItemListArrangement()
 		int Height = CurPlayerInfo.ItemInfo[i].HeightSize;
 		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_abbreviation_Inven;
 
-		// 생성 Flag Check
-		bool SuccessFlag = false;
-
 		ItemInfo* NewItemInfo = new ItemInfo();
 		if (ItemLocType::Inven_Bottom == LocType)
 		{
@@ -469,8 +466,14 @@ void InventoryView::PlayerItemListArrangement()
 			{
 				if (true == NewItemInfo->CreateItemInfo(i, LocType, ItemName))
 				{
-					SuccessFlag = true;
+					// 아이템정보 생성 후 목록에 추가
 					InvArrItemList_.push_back(NewItemInfo);
+
+					// 해당 타일에 아이템 배치 Flag On
+
+
+
+
 				}
 			}
 			else // 아니라면 포함하는 타일 인덱스목록 셋팅후 정보생성
@@ -484,20 +487,9 @@ void InventoryView::PlayerItemListArrangement()
 		{
 			if (true == NewItemInfo->CreateItemInfo(i, LocType, ItemName))
 			{
-				SuccessFlag = true;
+				// 아이템정보 생성 후 목록에 추가
 				InvArrItemList_.push_back(NewItemInfo);
 			}
-		}
-
-		// 정보 생성 성공시
-		if (true == SuccessFlag)
-		{
-			// 해당 타일에 아이템 배치 Flag On
-
-
-
-			// 아이템정보 생성 후 목록에 추가
-
 		}
 	}
 }
@@ -555,6 +547,11 @@ bool InventoryView::ItemInfo::CreateItemInfo(int _Index, ItemLocType _LocType, c
 
 
 	return true;
+}
+
+void InventoryView::ItemInfo::SetItemArrIndexs(std::vector<int> _TileIndex)
+{
+	ItemArrIndexs_ = _TileIndex;
 }
 
 

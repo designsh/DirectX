@@ -39,7 +39,13 @@ class InventoryView : public GameEngineActor
 		GameEngineCollision* ItemCollision_;	// 아이템 충돌체
 
 	public:
+		// 아이템 정보 생성
 		bool CreateItemInfo(int _Index, ItemLocType _LocType, const std::string& _ItemName_);
+
+	public:	
+		// 하단 보관탭에 배치되는 아이템이며, 아이템이 차지하는 타일의 인덱스가 1이 아닌 아이템은 
+		// 본인이 차지하는 타일의 인덱스를 모두 알고있는다.
+		void SetItemArrIndexs(std::vector<int> _TileIndex);
 	};
 
 #pragma endregion
