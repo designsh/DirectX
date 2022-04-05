@@ -20,8 +20,13 @@ private:
 	GameEngineCollision* CloseButtonCollider_;
 	Button_State CloseButtonState_;
 
-private: // 인벤토리 정보
+private: // 인벤토리 정보(인덱스칸정보)
 	std::vector<InventoryTileBox*> NormalInventoryTile_;		// 인벤토리창 하단 박스(보유아이템목록타일박스목록)
+
+
+
+
+
 	std::vector<InventoryTileBox*> PlayerEquipInvTile_;			// 인벤토리창 상단 박스(플레이어 장착용 타일박스목록)
 	
 public:
