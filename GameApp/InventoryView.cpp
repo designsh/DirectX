@@ -135,9 +135,10 @@ void InventoryView::CreateInventoryTile()
 	{
 		for (int x = 0; x < 10; ++x)
 		{
+			int Index = (x * 1) + (y * 10);
 			InventoryTileBox* NewTileBox =  GetLevel()->CreateActor<InventoryTileBox>();
-			NewTileBox->CreateNormalTileBox(false, ItemLocType::Inven_Bottom, x, y, ((x * 1) + (y * 10)));
-			NormalInventoryTile_[(x * 1) + (y * 10)] = NewTileBox;
+			NewTileBox->CreateNormalTileBox(false, ItemLocType::Inven_Bottom, x, y, Index);
+			NormalInventoryTile_[Index] = NewTileBox;
 		}
 	}
 
