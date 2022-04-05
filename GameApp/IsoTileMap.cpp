@@ -58,8 +58,8 @@ void IsoTileMap::DelTile(float4 _Pos)
 	}
 
 	// 존재한다면 해당 타일 삭제
-	std::unordered_map<__int64, class GameEngineImageRenderer*>::iterator StartIter = Tiles_.begin();
-	std::unordered_map<__int64, class GameEngineImageRenderer*>::iterator EndIter = Tiles_.end();
+	std::unordered_map<__int64, GameEngineImageRenderer*>::iterator StartIter = Tiles_.begin();
+	std::unordered_map<__int64, GameEngineImageRenderer*>::iterator EndIter = Tiles_.end();
 	for (; StartIter != EndIter;)
 	{
 		if ((*StartIter).first == Index.Index_)
