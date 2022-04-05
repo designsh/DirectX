@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 #include "GlobalEnumClass.h"
+#include "MainPlayerInfomation.h"
 
 enum class InvTabType
 {
@@ -9,21 +10,6 @@ enum class InvTabType
 	EQUIP,		// 상단 장착탭
 	NORMAL,		// 하단 보관탭
 	MAX
-};
-
-class GameEngineUIRenderer;
-struct ItemInfo
-{
-	float4 Pos_;
-	float4 RenderScale_;
-
-	GameEngineUIRenderer* ItemRenderer_;
-
-
-	int Index_;
-	int StartIndex_;
-	int WidthIndex_;
-	int HeightIndex_;
 };
 
 // 분류 : 
@@ -34,6 +20,30 @@ class GameEngineCollision;
 class InventoryTileBox;
 class InventoryView : public GameEngineActor
 {
+#pragma region 인벤창 아이템정보
+	class ItemInfo
+	{
+	private:
+		int Index_;								// 아이템정보목록에서의 인덱스
+		ItemLocType CurItemLoc_;				// 해당 아이템의 배치 위치
+		std::vector<int> ItemArrIndexs_;		// 배치위치가 NORMAL이라면 아이템이 차지하는 타일인덱스목록
+		
+	private:
+		std::string ItemTextureName_;			// 아이템 텍스쳐명 
+		std::string ItemName_;					// 아이템명
+		int ItemCode_;							// 아이템코드
+		float4 ItemScale_;						// 아이템렌더러 크기
+
+	private:
+		GameEngineUIRenderer* ItemRenderer_;	// 아이템 렌더러
+		GameEngineCollision* ItemCollision_;	// 아이템 충돌체
+
+	public:
+		bool CreateItemInfo(int _Index, ItemLocType _LocType, const std::string& _ItemName_);
+	};
+
+#pragma endregion
+
 #pragma region 인벤창 기본정보
 private:	// member Var
 	GameEngineUIRenderer* InventoryPanel_;
@@ -56,7 +66,7 @@ private:
 	std::vector<GameEngineCollision*> InvStoreCol_;		// 보관탭 충돌체 목록
 
 private:
-	std::vector<ItemInfo> InvBatchItemList_;			// 인벤창에 배치되어있는 아이템정보 목록
+	std::vector<ItemInfo*> InvArrItemList_;				// 인벤창에 배치되어있는 아이템정보 목록
 #pragma endregion
 
 #pragma region 인벤창 상단/하단 배치된 아이템
@@ -95,11 +105,11 @@ public: // 인벤창 초기셋팅
 	void CreateInvTile();
 	void CreateInvTileInfo();
 	void CreateInvTileCol();
-	void PlayerItemListBatch();
+	void PlayerItemListArrangement();
 	
 public: // 인벤창 아이템 배치/해제/이동
-	void ItemBatchOn(int _TileIndex, InvTabType _InvTabType);
-	void ItemBatchOff(int _TileIndex, InvTabType _InvTabType);
+	void ItemArrangementOn(int _TileIndex, InvTabType _InvTabType);
+	void ItemArrangementOff(int _TileIndex, InvTabType _InvTabType);
 
 
 public: // 

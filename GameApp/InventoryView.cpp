@@ -25,6 +25,16 @@ InventoryView::InventoryView() :
 
 InventoryView::~InventoryView()
 {
+	// 아이템 목록 제거
+	if (false == InvArrItemList_.empty())
+	{
+		for (int i = 0; i < static_cast<int>(InvArrItemList_.size()); ++i)
+		{
+			delete InvArrItemList_[i];
+			InvArrItemList_[i] = nullptr;
+		}
+		InvArrItemList_.clear();
+	}
 }
 
 void InventoryView::CloseButtonClick(GameEngineCollision* _Other)
@@ -52,12 +62,12 @@ void InventoryView::EquipTileBoxClick(GameEngineCollision* _Other, int _Index)
 		// 해당 타일이 아이템을 가지고있고, 마우스가 아이템을 들고있지않다면
 		if (true == InvEquipInfo_[_Index]->GetIsItemBatch() && false == GlobalValue::CurMouse->IsItemHold())
 		{
-			ItemBatchOff(_Index, InvTabType_);
+			ItemArrangementOff(_Index, InvTabType_);
 		}
 		// 해당 타일이 아이템을 가지고있지않고, 마우스가 아이템을 들고있다면
 		else if (false == InvEquipInfo_[_Index]->GetIsItemBatch() && true == GlobalValue::CurMouse->IsItemHold())
 		{
-			ItemBatchOn(_Index, InvTabType_);
+			ItemArrangementOn(_Index, InvTabType_);
 		}
 		else
 		{
@@ -77,12 +87,12 @@ void InventoryView::StoreTileBoxClick(GameEngineCollision* _Other, int _Index)
 		// 해당 타일이 아이템을 가지고있고, 마우스가 아이템을 들고있지않다면
 		if (true == InvStoreInfo_[_Index]->GetIsItemBatch() && false == GlobalValue::CurMouse->IsItemHold())
 		{
-			ItemBatchOff(_Index, InvTabType_);
+			ItemArrangementOff(_Index, InvTabType_);
 		}
 		// 해당 타일이 아이템을 가지고있지않고, 마우스가 아이템을 들고있다면
 		else if (false == InvStoreInfo_[_Index]->GetIsItemBatch() && true == GlobalValue::CurMouse->IsItemHold())
 		{
-			ItemBatchOn(_Index, InvTabType_);
+			ItemArrangementOn(_Index, InvTabType_);
 		}
 		else
 		{
@@ -249,7 +259,7 @@ void InventoryView::InitInventoryView()
 
 	// 2. 현재 생성되는 게임의 메인플레이어정보를 이용하여
 	//    소유하고있는 아이템 목록을 인벤창에 배치
-	PlayerItemListBatch();
+	PlayerItemListArrangement();
 }
 
 void InventoryView::CreateInvTile()
@@ -434,14 +444,65 @@ void InventoryView::CreateInvTileCol()
 	InvEquipCol_[static_cast<int>(ItemLocType::Inven_Amulet)] = NewAmuletTileBox;
 }
 
-void InventoryView::PlayerItemListBatch()
+void InventoryView::PlayerItemListArrangement()
 {
 	// 현재 생성되는 게임의 메인플레이어정보를 이용하여 소유하고있는 아이템 목록을 인벤창에 배치
+	MainPlayerInfo CurPlayerInfo = MainPlayerInfomation::GetInst().GetMainPlayerInfoValue();
+	int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
+	for (int i = 0; i < ItemCnt; ++i)
+	{
+		// 아이템정보 생성에 필요한 정보 Get
+		ItemLocType LocType = CurPlayerInfo.ItemInfo[i].ItemLocType;
+		int TileIndex = CurPlayerInfo.ItemInfo[i].StartPosition;
+		int Width = CurPlayerInfo.ItemInfo[i].WidthSize;
+		int Height = CurPlayerInfo.ItemInfo[i].HeightSize;
+		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_abbreviation_Inven;
+
+		// 생성 Flag Check
+		bool SuccessFlag = false;
+
+		ItemInfo* NewItemInfo = new ItemInfo();
+		if (ItemLocType::Inven_Bottom == LocType)
+		{
+			// 아이템이 차지하는 타일갯수(인덱스)가 가로/세로 1칸이면 목록없음
+			if (1 == Width && 1 == Height)
+			{
+				if (true == NewItemInfo->CreateItemInfo(i, LocType, ItemName))
+				{
+					SuccessFlag = true;
+					InvArrItemList_.push_back(NewItemInfo);
+				}
+			}
+			else // 아니라면 포함하는 타일 인덱스목록 셋팅후 정보생성
+			{
 
 
+
+			}
+		}
+		else // 장착탭이므로 타일 인덱스 목록은 없음
+		{
+			if (true == NewItemInfo->CreateItemInfo(i, LocType, ItemName))
+			{
+				SuccessFlag = true;
+				InvArrItemList_.push_back(NewItemInfo);
+			}
+		}
+
+		// 정보 생성 성공시
+		if (true == SuccessFlag)
+		{
+			// 해당 타일에 아이템 배치 Flag On
+
+
+
+			// 아이템정보 생성 후 목록에 추가
+
+		}
+	}
 }
 
-void InventoryView::ItemBatchOn(int _TileIndex, InvTabType _InvTabType)
+void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 {
 	if (InvTabType::EQUIP == _InvTabType) // 상단 장착탭
 	{
@@ -463,7 +524,7 @@ void InventoryView::ItemBatchOn(int _TileIndex, InvTabType _InvTabType)
 	}
 }
 
-void InventoryView::ItemBatchOff(int _TileIndex, InvTabType _InvTabType)
+void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 {
 	if (InvTabType::EQUIP == _InvTabType) // 상단 장착탭
 	{
@@ -482,3 +543,19 @@ void InventoryView::ItemBatchOff(int _TileIndex, InvTabType _InvTabType)
 
 	}
 }
+
+#pragma region 아이템정보관련
+bool InventoryView::ItemInfo::CreateItemInfo(int _Index, ItemLocType _LocType, const std::string& _ItemName_)
+{
+	// 정보 저장
+
+
+
+
+
+
+	return true;
+}
+
+
+#pragma endregion
