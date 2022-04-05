@@ -110,13 +110,12 @@ float4 IsoTileMap::GetIsoPos(float4 _Pos)
 
 void IsoTileMap::RandomRoad(int _Count) 
 {
-
 	static int IgnoreRange = 0;
 	static std::vector<float4> Range = { float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN };
 	static std::vector<int> ReversRange = { 1, 0, 3, 2 };
 	static std::vector<int> NextRange;
 
-	for (size_t i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		if (i == IgnoreRange)
 		{
@@ -137,8 +136,5 @@ void IsoTileMap::RandomRoad(int _Count)
 	}
 
 	IgnoreRange = ReversRange[DirIndex];
-	// 왼쪽으로 간다고 결정남.
-
-
 	NextRange.clear();
 }

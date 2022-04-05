@@ -25,6 +25,21 @@ InventoryView::~InventoryView()
 {
 }
 
+void InventoryView::CloseButtonClick(GameEngineCollision* _Other)
+{
+	// Mouse LButton Flag Check
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		CloseButton_->SetChangeAnimation("Click");
+
+		CloseButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		CloseButton_->SetChangeAnimation("Default");
+	}
+}
+
 void InventoryView::Start()
 {
 	// GetScreen Harf Size
@@ -89,17 +104,19 @@ void InventoryView::Update(float _DeltaTime)
 
 }
 
-void InventoryView::CloseButtonClick(GameEngineCollision* _Other)
+void InventoryView::InitInventoryView()
 {
-	// Mouse LButton Flag Check
-	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
-	{
-		CloseButton_->SetChangeAnimation("Click");
+	// 인벤창 초기 셋팅
 
-		CloseButtonState_ = Button_State::Click;
-	}
-	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
-	{
-		CloseButton_->SetChangeAnimation("Default");
-	}
+	// 1. 인벤창 충돌체 및 렌더러 생성
+
+
+
+
+
+	// 2. 현재 생성되는 게임의 메인플레이어정보를 이용하여
+	//    소유하고있는 아이템 목록을 인벤창에 배치
+
+
+
 }
