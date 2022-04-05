@@ -81,12 +81,13 @@ void MainPlayer::InventoryViewEnabled(bool _Enabled)
 	{
 		IsInventoryView_ = true;
 		InventoryView_->On();
-		
+		InventoryView_->SetInventoryBoxTileActvie();
 	}
 	else
 	{
 		IsInventoryView_ = false;
 		InventoryView_->Off();
+		InventoryView_->SetInentroyBoxTileInactive();
 	}
 }
 
