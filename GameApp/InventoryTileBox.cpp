@@ -19,9 +19,7 @@ InventoryTileBox::InventoryTileBox() :
 	IndexY_(-1),
 	Pos_(float4::ZERO),
 	Scale_(float4::ZERO),
-	TileBoxRenderer_(nullptr),
-	CurArrangementItemName_(),
-	ArrangementItemScale_(float4::ZERO)
+	TileBoxRenderer_(nullptr)
 {
 }
 

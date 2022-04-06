@@ -254,6 +254,9 @@
     <ClCompile Include="InventoryTileBox.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryTile</Filter>
     </ClCompile>
+    <ClCompile Include="InvArrangementItemInfo.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryArrangementItem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -658,6 +661,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryTile">
       <UniqueIdentifier>{52abbae4-6ffb-49c3-b2fc-1733edc6a77b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryArrangementItem">
+      <UniqueIdentifier>{67b341ac-e3f4-49d1-95c1-9fe68ea06bb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -875,6 +881,9 @@
     </ClInclude>
     <ClInclude Include="InventoryTileBox.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryTile</Filter>
+    </ClInclude>
+    <ClInclude Include="InvArrangementItemInfo.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryArrangementItem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

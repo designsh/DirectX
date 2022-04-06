@@ -6,6 +6,9 @@
 #include <GameEngine/GameEngineCollision.h>
 
 #include "AllItemInfomation.h"
+#include "InventoryTileBox.h"
+#include "InvArrangementItemInfo.h"
+
 #include "GlobalValue.h"
 
 #include "MouseObject.h"
@@ -26,16 +29,7 @@ InventoryView::InventoryView() :
 
 InventoryView::~InventoryView()
 {
-	// 아이템 목록 제거
-	//if (false == InvArrItemList_.empty())
-	//{
-	//	for (int i = 0; i < static_cast<int>(InvArrItemList_.size()); ++i)
-	//	{
-	//		delete InvArrItemList_[i];
-	//		InvArrItemList_[i] = nullptr;
-	//	}
-	//	InvArrItemList_.clear();
-	//}
+
 }
 
 void InventoryView::CloseButtonClick(GameEngineCollision* _Other)
@@ -174,6 +168,7 @@ void InventoryView::Update(float _DeltaTime)
 
 	// 이벤창 종료버튼 충돌체크
 	CloseButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::CloseButtonClick, this, std::placeholders::_1));
+
 #pragma endregion
 
 #pragma region 인벤창 상단/하단 타일박스 충돌체크
@@ -220,7 +215,11 @@ void InventoryView::SetInventoryBoxTileActvie()
 	}
 
 	// 3. 배치된 아이템 목록
-
+	int ArrItemListCnt = static_cast<int>(InvArrItemList_.size());
+	for (int i = 0; i < ArrItemListCnt; ++i)
+	{
+		InvArrItemList_[i]->On();
+	}
 }
 
 void InventoryView::SetInentroyBoxTileInactive()
@@ -254,7 +253,11 @@ void InventoryView::SetInentroyBoxTileInactive()
 	}
 
 	// 3. 배치된 아이템 목록
-
+	int ArrItemListCnt = static_cast<int>(InvArrItemList_.size());
+	for (int i = 0; i < ArrItemListCnt; ++i)
+	{
+		InvArrItemList_[i]->Off();
+	}
 }
 
 void InventoryView::InitInventoryView()
@@ -454,12 +457,47 @@ void InventoryView::CreateInvTileCol()
 void InventoryView::PlayerItemListArrangement()
 {
 	// 현재 시작되는 게임의 플레이어가 들고있는 아이템 배치
+	MainPlayerInfo CurPlayerInfo = MainPlayerInfomation::GetInst().GetMainPlayerInfoValue();
+	int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
+	for (int i = 0; i < ItemCnt; ++i)
+	{
+		// 아이템정보 생성을 위한 정보 Get
+		int TileIndex = CurPlayerInfo.ItemInfo[i].StartPosition;
+		ItemLocType LocType = CurPlayerInfo.ItemInfo[i].ItemLocType;
+		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_abbreviation;
 
+		// 하단 보관탭이면
+		if (ItemLocType::Inven_Bottom == LocType)
+		{
+			// 해당 타일의 렌더링하기 위해 타일박스 위치 Get
+			float4 RenderPos = InvStoreInfo_[TileIndex]->GetTilePos();
 
+			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
+			if (true == NewItemInfo->CreateItemInfo(i, TileIndex, LocType, ItemName, RenderPos))
+			{
+				InvArrItemList_.push_back(NewItemInfo);
+			}
+			else // 생성 실패시 바로 죽임
+			{
+				NewItemInfo->Death();
+			}
+		}
+		else // 상단 장착탭이면
+		{
+			// 해당 타일의 렌더링하기 위해 타일박스 위치 Get
+			float4 RenderPos = InvEquipInfo_[static_cast<int>(LocType)]->GetTilePos();
 
-
-
-
+			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
+			if (true == NewItemInfo->CreateItemInfo(i, -1, LocType, ItemName, RenderPos))
+			{
+				InvArrItemList_.push_back(NewItemInfo);
+			}
+			else // 생성 실패시 바로 죽임
+			{
+				NewItemInfo->Death();
+			}
+		}
+	}
 }
 
 void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)

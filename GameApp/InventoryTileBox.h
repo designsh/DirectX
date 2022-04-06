@@ -26,10 +26,6 @@ private:
 	float4 Pos_;											// 위치
 	float4 Scale_;											// 크기
 
-private:
-	float4 ArrangementItemScale_;							// 배치된 아이템의 실제 렌더러 크기
-	std::string CurArrangementItemName_;					// 현재 타일에 배치되어있는 아이템명
-
 public:
 	InventoryTileBox();
 	~InventoryTileBox();

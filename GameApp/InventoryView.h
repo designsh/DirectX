@@ -18,6 +18,7 @@ enum class InvTabType
 class GameEngineUIRenderer;
 class GameEngineCollision;
 class InventoryTileBox;
+class InvArrangementItemInfo;
 class InventoryView : public GameEngineActor
 {
 #pragma region 인벤창 기본정보
@@ -33,22 +34,16 @@ private:
 	InvTabType InvTabType_;
 #pragma endregion
 
-#pragma region 인벤창 상단/하단 타일박스정보
+#pragma region 인벤창 상단/하단 타일박스정보 & 배치된 아이템목록
 private:
-	std::vector<InventoryTileBox*> InvEquipInfo_;		// 장착탭(무기, 방어구, ...) 정보목록
-	std::vector<GameEngineCollision*> InvEquipCol_;		// 장착탭(무기, 방어구, ...) 충돌체목록
+	std::vector<InventoryTileBox*> InvEquipInfo_;				// 장착탭(무기, 방어구, ...) 정보목록
+	std::vector<GameEngineCollision*> InvEquipCol_;				// 장착탭(무기, 방어구, ...) 충돌체목록
 	
-	std::vector<InventoryTileBox*> InvStoreInfo_;		// 보관탭 정보목록
-	std::vector<GameEngineCollision*> InvStoreCol_;		// 보관탭 충돌체 목록
+	std::vector<InventoryTileBox*> InvStoreInfo_;				// 보관탭 정보목록
+	std::vector<GameEngineCollision*> InvStoreCol_;				// 보관탭 충돌체 목록
 
-private: // 렌더러, 
-	//std::vector<ItemInfo*> InvArrItemList_;				// 인벤창에 배치되어있는 아이템정보 목록
-#pragma endregion
-
-#pragma region 인벤창 상단/하단 배치된 아이템
 private:
-
-
+	std::vector<InvArrangementItemInfo*> InvArrItemList_;		// 인벤창에 배치되어있는 아이템정보 목록
 #pragma endregion
 
 public:
@@ -83,10 +78,9 @@ public: // 인벤창 초기셋팅
 	void CreateInvTileCol();
 	void PlayerItemListArrangement();
 	
-public: // 인벤창 아이템 배치/해제/이동
+public: // 인벤창 마우스와 연동하여 아이템 배치/해제
 	void ItemArrangementOn(int _TileIndex, InvTabType _InvTabType);
 	void ItemArrangementOff(int _TileIndex, InvTabType _InvTabType);
-
 
 public: // 
 	
