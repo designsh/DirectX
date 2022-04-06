@@ -594,7 +594,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 			{
 				// 아이템이 차지하는 칸수가 가로 1개, 세로 1개가 아니라면
 				// 충돌한 타일인덱스 기준 좌,우,상,하의 타일의 장착상태를 체크
-				// 만약 아이템이 위치하려는 타일이 없다면 리턴
+				// 만약 아이템이 위치하려는 타일이 부족하거나 존재하지않다면 리턴
 
 
 
