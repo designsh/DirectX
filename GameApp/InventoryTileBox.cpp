@@ -12,7 +12,7 @@
 #include "AllItemInfomation.h"
 
 InventoryTileBox::InventoryTileBox() :
-	ItemBatchFlag_(false),
+	ItemArrangementFlag_(false),
 	BoxTileType_(ItemLocType::Inven_Bottom),
 	Index_(-1),
 	IndexX_(-1),
@@ -20,8 +20,8 @@ InventoryTileBox::InventoryTileBox() :
 	Pos_(float4::ZERO),
 	Scale_(float4::ZERO),
 	TileBoxRenderer_(nullptr),
-	CurBatchItemName_(),
-	BatchItemScale_(float4::ZERO)
+	CurArrangementItemName_(),
+	ArrangementItemScale_(float4::ZERO)
 {
 }
 
@@ -56,7 +56,7 @@ void InventoryTileBox::TileBoxInactive()
 void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _BoxTileType, int _X, int _Y, int _Index)
 {
 	// 타일박스 정보 셋팅
-	ItemBatchFlag_ = _ArrangementFlag;
+	ItemArrangementFlag_ = _ArrangementFlag;
 	BoxTileType_ = _BoxTileType;
 	IndexX_ = _X;
 	IndexY_ = _Y;
@@ -81,7 +81,7 @@ void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _B
 void InventoryTileBox::CreatePlayerEquipTileBox(const std::string& _TextureName, bool _ArrangementFlag, ItemLocType _BoxTileType, int _Index, float4 _Pos, float4 _Scale)
 {
 	// 타일박스 정보 셋팅
-	ItemBatchFlag_ = _ArrangementFlag;
+	ItemArrangementFlag_ = _ArrangementFlag;
 	BoxTileType_ = _BoxTileType;
 	IndexX_ = -1;
 	IndexY_ = -1;

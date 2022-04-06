@@ -13,7 +13,7 @@ class GameEngineCollision;
 class InventoryTileBox : public GameEngineActor
 {
 private:	// member Var
-	bool ItemBatchFlag_;									// 배치 Flag(해당 박스에 아이템이 존재하면(배치되어있다면) true)
+	bool ItemArrangementFlag_;								// 배치 Flag(해당 박스에 아이템이 존재하면(배치되어있다면) true)
 	ItemLocType BoxTileType_;								// 타일박스 타입(NORMAL : 플레이어의 장착상태와 무관)
 
 private:
@@ -27,8 +27,8 @@ private:
 	float4 Scale_;											// 크기
 
 private:
-	float4 BatchItemScale_;									// 배치된 아이템의 실제 렌더러 크기
-	std::string CurBatchItemName_;							// 현재 타일에 배치되어있는 아이템명
+	float4 ArrangementItemScale_;							// 배치된 아이템의 실제 렌더러 크기
+	std::string CurArrangementItemName_;					// 현재 타일에 배치되어있는 아이템명
 
 public:
 	InventoryTileBox();
@@ -47,9 +47,14 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	inline float4 GetTilePos()
+	{
+		return Pos_;
+	}
+
 	inline bool GetIsItemBatch()
 	{
-		return ItemBatchFlag_;
+		return ItemArrangementFlag_;
 	}
 
 public:
@@ -59,5 +64,7 @@ public:
 public:
 	void CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _BoxTileType, int _X, int _Y, int _Index);
 	void CreatePlayerEquipTileBox(const std::string& _TextureName, bool _ArrangementFlag, ItemLocType _BoxTileType, int _Index, float4 _Pos, float4 _Scale);
+
+public:
 };
 

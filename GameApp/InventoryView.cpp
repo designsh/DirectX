@@ -5,6 +5,7 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
+#include "AllItemInfomation.h"
 #include "GlobalValue.h"
 
 #include "MouseObject.h"
@@ -26,15 +27,15 @@ InventoryView::InventoryView() :
 InventoryView::~InventoryView()
 {
 	// 아이템 목록 제거
-	if (false == InvArrItemList_.empty())
-	{
-		for (int i = 0; i < static_cast<int>(InvArrItemList_.size()); ++i)
-		{
-			delete InvArrItemList_[i];
-			InvArrItemList_[i] = nullptr;
-		}
-		InvArrItemList_.clear();
-	}
+	//if (false == InvArrItemList_.empty())
+	//{
+	//	for (int i = 0; i < static_cast<int>(InvArrItemList_.size()); ++i)
+	//	{
+	//		delete InvArrItemList_[i];
+	//		InvArrItemList_[i] = nullptr;
+	//	}
+	//	InvArrItemList_.clear();
+	//}
 }
 
 void InventoryView::CloseButtonClick(GameEngineCollision* _Other)
@@ -217,6 +218,9 @@ void InventoryView::SetInventoryBoxTileActvie()
 	{
 		InvEquipCol_[i]->On();
 	}
+
+	// 3. 배치된 아이템 목록
+
 }
 
 void InventoryView::SetInentroyBoxTileInactive()
@@ -248,6 +252,9 @@ void InventoryView::SetInentroyBoxTileInactive()
 	{
 		InvEquipCol_[i]->Off();
 	}
+
+	// 3. 배치된 아이템 목록
+
 }
 
 void InventoryView::InitInventoryView()
@@ -446,123 +453,30 @@ void InventoryView::CreateInvTileCol()
 
 void InventoryView::PlayerItemListArrangement()
 {
-	// 현재 생성되는 게임의 메인플레이어정보를 이용하여 소유하고있는 아이템 목록을 인벤창에 배치
-	MainPlayerInfo CurPlayerInfo = MainPlayerInfomation::GetInst().GetMainPlayerInfoValue();
-	int ItemCnt = static_cast<int>(CurPlayerInfo.ItemInfo.size());
-	for (int i = 0; i < ItemCnt; ++i)
-	{
-		// 아이템정보 생성에 필요한 정보 Get
-		ItemLocType LocType = CurPlayerInfo.ItemInfo[i].ItemLocType;
-		int TileIndex = CurPlayerInfo.ItemInfo[i].StartPosition;
-		int Width = CurPlayerInfo.ItemInfo[i].WidthSize;
-		int Height = CurPlayerInfo.ItemInfo[i].HeightSize;
-		std::string ItemName = CurPlayerInfo.ItemInfo[i].ItemName_abbreviation_Inven;
-
-		ItemInfo* NewItemInfo = new ItemInfo();
-		if (ItemLocType::Inven_Bottom == LocType)
-		{
-			// 아이템이 차지하는 타일갯수(인덱스)가 가로/세로 1칸이면 목록없음
-			if (1 == Width && 1 == Height)
-			{
-				if (true == NewItemInfo->CreateItemInfo(i, LocType, ItemName))
-				{
-					// 아이템정보 생성 후 목록에 추가
-					InvArrItemList_.push_back(NewItemInfo);
-
-					// 해당 타일에 아이템 배치 Flag On
+	// 현재 시작되는 게임의 플레이어가 들고있는 아이템 배치
 
 
 
 
-				}
-			}
-			else // 아니라면 포함하는 타일 인덱스목록 셋팅후 정보생성
-			{
-				if (true == NewItemInfo->CreateItemInfo(i, LocType, ItemName))
-				{
-					//// 할당
-					//std::vector<int> NewTileIndexList;
 
 
-					//// 목록추가
-					//NewItemInfo->SetItemArrIndexs(NewTileIndexList);
-
-
-					//// 제거
-					//NewTileIndexList.clear();
-				}
-			}
-		}
-		else // 장착탭이므로 타일 인덱스 목록은 없음
-		{
-			if (true == NewItemInfo->CreateItemInfo(i, LocType, ItemName))
-			{
-				// 아이템정보 생성 후 목록에 추가
-				InvArrItemList_.push_back(NewItemInfo);
-			}
-		}
-	}
 }
 
 void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 {
-	if (InvTabType::EQUIP == _InvTabType) // 상단 장착탭
-	{
-		// 1. 마우스가 들고있는 아이템을 전달받는다.
-
-
-		// 2. 해당 아이템의 정보를 로드하여 차지하는 칸수(가로, 세로)를 알아낸다.
-
-
-		// 3. 차지하는 칸수에 맞게 설정이 가능하다면 해당 아이템을 아이템목록에 추가하고,
-		//    차지하는 타일의 Item Batch Flag On
+	// 마우스와 연동되어 아이템렌더러 생성 및 위치에 장착
 
 
 
-	}
-	else // 하단 보관탭
-	{
 
-	}
+
 }
 
 void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 {
-	if (InvTabType::EQUIP == _InvTabType) // 상단 장착탭
-	{
-		// 1. 해당 아이템을 아이템 목록에서 찾아낸다.
+	// 마우스와 연동되어 아이템렌더러 제거 및 위치에서 장착해제
 
 
-		// 2. 해당 아이템을 마우스에 전달하여 마우스가 아이템을 들도록 설정
 
 
-		// 3. 해당 아이템을 아이템 목록에서 제거하고, 해당 아이템이 차지하고있던 타일의 Item Batch Flag Off
-
-
-	}
-	else // 하단 보관탭
-	{
-
-	}
 }
-
-#pragma region 아이템정보관련
-bool InventoryView::ItemInfo::CreateItemInfo(int _Index, ItemLocType _LocType, const std::string& _ItemName_)
-{
-	// 정보 저장
-
-
-
-
-
-
-	return true;
-}
-
-void InventoryView::ItemInfo::SetItemArrIndexs(std::vector<int> _TileIndex)
-{
-	ItemArrIndexs_ = _TileIndex;
-}
-
-
-#pragma endregion
