@@ -598,6 +598,9 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 				}
 				else
 				{
+					// 해당 아이템이 여러칸을 차지하고있다가 해제되는것이므로,
+					// 차지하고있던 모든 칸의 배치 Flag Off 전환
+
 
 				}
 				break;
