@@ -523,38 +523,60 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 	// 마우스와 연동되어 아이템렌더러 생성 및 위치에 장착
 
 	// 1. 현재 마우스가 들고있는 아이템의 텍스쳐명을 가져온다.
-	std::string ItemName = GlobalValue::CurMouse->GetHoldItemName();
-	size_t DotFindIndex = ItemName.find('.');
-	ItemName = ItemName.substr(0, DotFindIndex);
+	std::string InvItemName = GlobalValue::CurMouse->GetHoldItemName();
+	size_t DotFindIndex = InvItemName.find('.');
+	InvItemName = InvItemName.substr(0, DotFindIndex);
 
 	// 2. 모든 아이템 정보에서 해당 아이템정보를 찾아낸다.
 	ItemList CurItemInfo = {};
-	if (true == AllItemInfomation::GetInst().ItemInfoFindInvName(ItemName, CurItemInfo))
+	if (true == AllItemInfomation::GetInst().ItemInfoFindInvName(InvItemName, CurItemInfo))
 	{
 		// 3. 찾았다면 다음 아이템을 장착할 탭에 따라 처리진행
 		if (InvTabType::EQUIP == _InvTabType)
 		{
-			int a = 0;
-
 			// 배치하려는 아이템이 인벤 상단 장착탭 구간이라면
+			int Cnt = static_cast<int>(InvArrItemList_.size());
 
 			// 1) 배치하려는 아이템정보 생성 후 관리목록에 추가
+			// 단, 아이템이 장착가능한 탭과 다르면 "~할 수 없다" 사운드 재생 후 리턴
+			//   Ex) 무기 아이템인데 투구창에 장착하려고하면 장착이 되지않아야함
+			ItemLocType LocType = static_cast<ItemLocType>(_TileIndex);
+			if (LocType != CurItemInfo.ItemLocType)
+			{
+				// 사운드 재생 - 
 
 
 
-			// 2) 마우스 Put Down(아이템내려놓기)
-			//GlobalValue::CurMouse->ItemPutDown();
+				return;
+			}
+
+			std::string ItemName = CurItemInfo.ItemName_abbreviation;
+			float4 RenderPos = InvEquipInfo_[static_cast<int>(LocType)]->GetTilePos();
+
+			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
+			if (true == NewItemInfo->CreateItemInfo(Cnt, static_cast<int>(LocType), LocType, ItemName, RenderPos))
+			{
+				InvArrItemList_.push_back(NewItemInfo);
+
+				// 2) 마우스 Put Down(아이템내려놓기)
+				GlobalValue::CurMouse->ItemPutDown();
+
+				// 3) 배치하려는 칸(타일)의 Flag On
+				InvEquipInfo_[static_cast<int>(LocType)]->SetItemArrangeFlagOn();
+
+				NewItemInfo->On();
+
+				// 4) 무기(wnd)를 제외하고 각 탭별 아이템장착상태에 따라 플레이어 애니메이션 상태 전환
+				//    Ex) -. 방패탭에 방패 장착시 플레이어의 애니메이션 SH 파트는 HVY_ 상태가 된다.
+				//        -. 무기탭에 기본적으로 wnd 무기가 장착되어있으나, crs 무기로 변경되어 장착되는 순간
+				//           플레이어의 애니메이션 RH 파트는 HVY_ 상태가 된다.
 
 
-			// 3) 배치하려는 칸(타일)의 Flag On
-
-
-
-			// 4) 무기(wnd)를 제외하고 각 탭별 아이템장착상태에 따라 플레이어 애니메이션 상태 전환
-			//    Ex) -. 방패탭에 방패 장착시 플레이어의 애니메이션 SH 파트는 HVY_ 상태가 된다.
-			//        -. 무기탭에 기본적으로 wnd 무기가 장착되어있으나, crs 무기로 변경되어 장착되는 순간
-			//           플레이어의 애니메이션 RH 파트는 HVY_ 상태가 된다.
-
+			}
+			else
+			{
+				NewItemInfo->Death();
+			}
 		}
 		else
 		{
