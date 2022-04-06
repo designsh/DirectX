@@ -29,7 +29,6 @@ private: // 마우스와 연동을 위한 정보
 
 private: // 
 	GameEngineUIRenderer* InvItemRenderer_;			// 해당 아이템 이벤창에서의 렌더러
-	GameEngineCollision* InvItemCollision_;			// 해당 아이템 이벤창에서의 충돌체
 
 public:
 	InvArrangementItemInfo();
@@ -46,9 +45,6 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-
-public: // 외부에서 충돌체크해서 호출
-	void ItemSelectClick(GameEngineCollision* _Other, int _Index);
 
 public:
 	void SetTileIndexList(std::vector<int> _TileIndexList);

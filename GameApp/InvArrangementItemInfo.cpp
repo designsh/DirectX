@@ -21,8 +21,7 @@ InvArrangementItemInfo::InvArrangementItemInfo() :
 	ItemCode_(-1),
 	RenderPos_(float4::ZERO),
 	RenderScale_(float4::ZERO),
-	InvItemRenderer_(nullptr),
-	InvItemCollision_(nullptr)
+	InvItemRenderer_(nullptr)
 {
 }
 
@@ -36,22 +35,6 @@ void InvArrangementItemInfo::Start()
 
 void InvArrangementItemInfo::Update(float _DeltaTime)
 {
-}
-
-void InvArrangementItemInfo::ItemSelectClick(GameEngineCollision* _Other, int _Index)
-{
-	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
-	{
-		//// 현재 마우스가 이미 아이템을 들고있다면 
-		//if (true == GlobalValue::CurMouse->IsItemHold())
-		//{
-		//	return;
-		//}
-		//else // 아니라면
-		//{
-
-		//}
-	}
 }
 
 void InvArrangementItemInfo::SetTileIndexList(std::vector<int> _TileIndexList)
@@ -95,10 +78,10 @@ bool InvArrangementItemInfo::CreateItemInfo(int _ListIndex, int _TileIndex, Item
 		InvItemRenderer_->GetTransform()->SetLocalPosition(RenderPos_);
 		InvItemRenderer_->GetTransform()->SetLocalScaling(RenderScale_);
 
-		// 충돌체 생성 및 배치
-		InvItemCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI2_Collider));
-		InvItemCollision_->GetTransform()->SetLocalPosition(InvItemRenderer_->GetTransform()->GetLocalPosition());
-		InvItemCollision_->GetTransform()->SetLocalScaling(InvItemRenderer_->GetTransform()->GetLocalScaling());
+		//// 충돌체 생성 및 배치  - 220406 SJH 제거
+		//InvItemCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI2_Collider));
+		//InvItemCollision_->GetTransform()->SetLocalPosition(InvItemRenderer_->GetTransform()->GetLocalPosition());
+		//InvItemCollision_->GetTransform()->SetLocalScaling(InvItemRenderer_->GetTransform()->GetLocalScaling());
 
 		Off();
 
