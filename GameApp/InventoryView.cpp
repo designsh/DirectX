@@ -543,7 +543,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 			ItemLocType LocType = static_cast<ItemLocType>(_TileIndex);
 			if (LocType != CurItemInfo.ItemLocType)
 			{
-				// 사운드 재생 - 
+				// 사운드 재생 - "~할 수 없다"
 
 
 
@@ -584,7 +584,27 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 		else
 		{
 			// 배치하려는 아이템이 인벤 하단 보관탭 구간이라면
-			int a = 0;
+			int Cnt = static_cast<int>(InvArrItemList_.size());
+
+			// 해당 아이템이 차지하는 칸수(타일 인덱스(가로/세로))를 체크한다.
+			int StartIndex = _TileIndex;
+			int WidthSize = CurItemInfo.WidthSize;
+			int HeightSize = CurItemInfo.HeightSize;
+			if (1 != WidthSize || 1 != HeightSize)
+			{
+				// 아이템이 차지하는 칸수가 가로 1개, 세로 1개가 아니라면
+				// 충돌한 타일인덱스 기준 좌,우,상,하의 타일의 장착상태를 체크
+				// 만약 아이템이 위치하려는 타일이 없다면 리턴
+
+
+
+
+
+
+
+			}
+
+			// 위치가능하다면 해당 아이템 정보를 생성
 
 
 
@@ -622,9 +642,14 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 			{
 				FindItemIndex = i;
 
-				// 장착탭은 해당 칸만 Flag해제
+				// 장착탭은 해당 칸만 Flag 해제
 				int Index = InvArrItemList_[i]->GetLocTypeInt();
 				InvEquipInfo_[Index]->SetItemArrangeFlagOff();
+
+				// 만약 플레이어의 애니메이션이 LIT_ 상태의 아이템 장착상황이 아니라면
+				// 해당 장착파트의 플레이어 애니메이션이 HVY_ -> LIT_ 상태로 전환
+
+
 				break;
 			}
 		}
