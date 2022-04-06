@@ -491,11 +491,11 @@ void AllItemInfomation::LoadItemBinaryFile()
 		pFile.Read(ReadIsDurability);
 		if (1 == ReadIsDurability)
 		{
-			AllItemList_[i].HeightSize = true;
+			AllItemList_[i].IsDurability = true;
 		}
 		else
 		{
-			AllItemList_[i].HeightSize = false;
+			AllItemList_[i].IsDurability = false;
 		}
 
 		// 최대 내구도
