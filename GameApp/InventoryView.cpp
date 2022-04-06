@@ -472,6 +472,7 @@ void InventoryView::PlayerItemListArrangement()
 			// 해당 타일의 렌더링하기 위해 타일박스 위치 Get
 			float4 RenderPos = InvStoreInfo_[TileIndex]->GetTilePos();
 
+			// 타일인덱스는 말그대로 위치값을 변환한 타일인덱스로 셋팅
 			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
 			if (true == NewItemInfo->CreateItemInfo(i, TileIndex, LocType, ItemName, RenderPos))
 			{
@@ -500,8 +501,9 @@ void InventoryView::PlayerItemListArrangement()
 			// 해당 타일의 렌더링하기 위해 타일박스 위치 Get
 			float4 RenderPos = InvEquipInfo_[static_cast<int>(LocType)]->GetTilePos();
 
+			// 타일인덱스가 장착칸의 위치 정보로 셋팅
 			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
-			if (true == NewItemInfo->CreateItemInfo(i, 0, LocType, ItemName, RenderPos))
+			if (true == NewItemInfo->CreateItemInfo(i, static_cast<int>(LocType), LocType, ItemName, RenderPos))
 			{
 				InvArrItemList_.push_back(NewItemInfo);
 
@@ -568,7 +570,7 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 	{
 		if (InvTabType::EQUIP == _InvTabType)
 		{
-			// 장착탭은 장착칸별 위치인덱스로 찾아냄
+			// 장착탭은 장착칸별 위치(ItemLocType)인덱스로 찾아냄
 			if (_TileIndex == InvArrItemList_[i]->GetLocTypeInt())
 			{
 				FindItemIndex = i;
@@ -603,7 +605,8 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 		}
 	}
 
-	// 해당 아이템을 찾아냄
+	// 해당 아이템을 찾았다면 인벤창이 관리하는 아이템목록에서 제거되고,
+	// 현재 메인마우스가 아이템을 가져간다.
 	if (-1 != FindItemIndex)
 	{
 		std::string TextureName = InvArrItemList_[FindItemIndex]->GetTextureName();
