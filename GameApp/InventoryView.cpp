@@ -522,41 +522,52 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 {
 	// 마우스와 연동되어 아이템렌더러 생성 및 위치에 장착
 
-	// 
-	
+	// 1. 현재 마우스가 들고있는 아이템의 텍스쳐명을 가져온다.
+	std::string TextureName = GlobalValue::CurMouse->GetHoldItemName();
 
-
-
-
-
-
-
-
-
-
-
-
-	// 인벤 상단 장착탭
+	// 2. 다음 아이템을 장착할 탭에 따라 처리진행
 	if (InvTabType::EQUIP == _InvTabType)
 	{
+		// 배치하려는 아이템이 인벤 상단 장착탭 구간이라면
+
+		// 1) 배치하려는 아이템정보 생성 후 관리목록에 추가
+
+
+
+		// 2) 마우스 Hold Off
+
+
+
+		// 3) 배치하려는 칸(타일)의 Flag On
+
+
+
+		// 4) 무기(wnd)를 제외하고 각 탭별 아이템장착상태에 따라 플레이어 애니메이션 상태 전환
+		//    Ex) -. 방패탭에 방패 장착시 플레이어의 애니메이션 SH 파트는 HVY_ 상태가 된다.
+		//        -. 무기탭에 기본적으로 wnd 무기가 장착되어있으나, crs 무기로 변경되어 장착되는 순간
+		//           플레이어의 애니메이션 RH 파트는 HVY_ 상태가 된다.
 
 	}
-	else // 인벤 하단 보관탭
+	else
 	{
+		// 배치하려는 아이템이 인벤 하단 보관탭 구간이라면
+
+		// 1) 배치하려는 아이템정보 생성 후 관리목록에 추가
+
+
+		// 2) 해당 아이템의 렌더러크기(차지하는타일칸수)를 얻어온다.
+
+
+		// 3) 마우스 Hold Off
+
+
+		// 4) 해당 아이템의 렌더러크기(차지하는타일칸수)에 따라 해당하는 모든 타일(칸)의 Flag On
+
+
+
+
 
 	}
-
-
-
-
-	// 현재 마우스가 들고있는 아이템이름을 가져와 아이템을 생성하고,
-
-	// 배치아이템목록에 해당 아이템을 추가하며,
-
-	// 현재 마우스는 들고있는 아이템을 떨구고
-
-	// 해당 아이템이 차지하려는 칸의 Flag를 모두 On상태로 전환한다.
-
 }
 
 void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
