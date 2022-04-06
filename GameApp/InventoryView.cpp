@@ -572,15 +572,24 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				//           플레이어의 애니메이션 RH 파트는 HVY_ 상태가 된다.
 
 
+
+
 			}
 			else
 			{
+				// 정보 생성 실패시 바로 죽인다.
 				NewItemInfo->Death();
 			}
 		}
 		else
 		{
 			// 배치하려는 아이템이 인벤 하단 보관탭 구간이라면
+			int a = 0;
+
+
+
+
+
 
 			// 1) 배치하려는 아이템정보 생성 후 관리목록에 추가
 
