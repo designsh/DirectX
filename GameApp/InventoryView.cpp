@@ -476,14 +476,24 @@ void InventoryView::PlayerItemListArrangement()
 			if (true == NewItemInfo->CreateItemInfo(i, TileIndex, LocType, ItemName, RenderPos))
 			{
 				InvArrItemList_.push_back(NewItemInfo);
+
+				// 아이템 렌더러의 크기에 따라 인벤 하단 보관탭의 칸(타일)의 Flag On
+				float4 ArrangeSize = NewItemInfo->GetArrangeTileSize();
+				if (1 == ArrangeSize.x && 1 == ArrangeSize.y)
+				{
+					// 1칸만 차지하므로 해당 타일인덱스만 Flag On
+					InvStoreInfo_[TileIndex]->SetItemArrangeFlagOn();
+				}
+				else
+				{
+					// 칸수에 따라 타일인덱스에서 시작해서 계산한 타일갯수만큼 모두 Flag On처리
+
+				}
 			}
 			else // 생성 실패시 바로 죽임
 			{
 				NewItemInfo->Death();
 			}
-
-			// 아이템 렌더러의 크기에 따라 인벤 하단 보관탭의 칸(타일)의 Flag On
-			
 		}
 		else // 상단 장착탭이면
 		{
@@ -494,14 +504,14 @@ void InventoryView::PlayerItemListArrangement()
 			if (true == NewItemInfo->CreateItemInfo(i, 0, LocType, ItemName, RenderPos))
 			{
 				InvArrItemList_.push_back(NewItemInfo);
+
+				// 인벤 상단 보관탭의 칸(타일)의 Flag On
+				InvEquipInfo_[static_cast<int>(LocType)]->SetItemArrangeFlagOn();
 			}
 			else // 생성 실패시 바로 죽임
 			{
 				NewItemInfo->Death();
 			}
-
-			// 인벤 상단 보관탭의 칸(타일)의 Flag On
-			InvEquipInfo_[static_cast<int>(LocType)]->SetItemArrangeFlagOn();
 		}
 	}
 }
@@ -568,7 +578,18 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 		else // 인벤 하단 보관탭
 		{
 			// 보관탭은 아이템렌더러 크기에 따라 다름
+			float4 ArrangeSize = InvArrItemList_[FindItemIndex]->GetArrangeTileSize();
+			int TileIndex = InvArrItemList_[FindItemIndex]->GetLocTypeInt();
+			if (1 == ArrangeSize.x && 1 == ArrangeSize.y)
+			{
+				// 1칸만 차지하므로 해당 타일인덱스만 Flag On
+				InvStoreInfo_[TileIndex]->SetItemArrangeFlagOff();
+			}
+			else
+			{
+				// 칸수에 따라 타일인덱스에서 시작해서 계산한 타일갯수만큼 모두 Flag On처리
 
+			}
 
 			ItemHoldFlag = true;
 		}
