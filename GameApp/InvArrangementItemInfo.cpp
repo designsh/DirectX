@@ -36,27 +36,21 @@ void InvArrangementItemInfo::Start()
 
 void InvArrangementItemInfo::Update(float _DeltaTime)
 {
-	// 아이템충돌 체크
-	if (nullptr != InvItemCollision_)
-	{
-		InvItemCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InvArrangementItemInfo::ItemSelectClick, this, std::placeholders::_1));
-	}
 }
 
-void InvArrangementItemInfo::ItemSelectClick(GameEngineCollision* _Other)
+void InvArrangementItemInfo::ItemSelectClick(GameEngineCollision* _Other, int _Index)
 {
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
-		// 현재 마우스가 이미 아이템을 들고있다면 
-		if (true == GlobalValue::CurMouse->IsItemHold())
-		{
-			return;
-		}
-		else // 아니라면
-		{
-			// 해당 아이템이름과 렌더러크기를 마우스에전달
-			GlobalValue::CurMouse->ItemHold(ItemTexutreName_, RenderScale_);
-		}
+		//// 현재 마우스가 이미 아이템을 들고있다면 
+		//if (true == GlobalValue::CurMouse->IsItemHold())
+		//{
+		//	return;
+		//}
+		//else // 아니라면
+		//{
+
+		//}
 	}
 }
 

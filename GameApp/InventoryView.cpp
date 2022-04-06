@@ -504,9 +504,13 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 {
 	// 마우스와 연동되어 아이템렌더러 생성 및 위치에 장착
 
+	// 현재 마우스가 들고있는 아이템이름을 가져와 아이템을 생성하고,
 
+	// 배치아이템목록에 해당 아이템을 추가하며,
 
+	// 현재 마우스는 들고있는 아이템을 떨구고
 
+	// 해당 아이템이 차지하려는 칸의 Flag를 모두 On상태로 전환한다.
 
 }
 
@@ -514,7 +518,15 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 {
 	// 마우스와 연동되어 아이템렌더러 제거 및 위치에서 장착해제
 
+	// 해당 아이템이름과 렌더러크기를 마우스에전달 후
+	//GlobalValue::CurMouse->ItemHold(ItemTexutreName_, RenderScale_);
 
 
+	// 배치아이템목록에서 해당 아이템을 죽이고,
 
+
+	// 배치아이템목록에서 해당 아이템을 삭제하고,
+
+
+	// 해당 아이템이 차지하고있던 칸의 Flag를 해제시킨다.
 }

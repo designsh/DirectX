@@ -47,8 +47,8 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-private:
-	void ItemSelectClick(GameEngineCollision* _Other);
+public: // 외부에서 충돌체크해서 호출
+	void ItemSelectClick(GameEngineCollision* _Other, int _Index);
 
 public:
 	void SetTileIndexList(std::vector<int> _TileIndexList);
