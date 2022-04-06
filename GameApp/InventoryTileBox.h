@@ -54,6 +54,17 @@ public:
 	}
 
 public:
+	inline void SetItemArrangeFlagOn()
+	{
+		ItemArrangementFlag_ = true;
+	}
+
+	inline void SetItemArrangeFlagOff()
+	{
+		ItemArrangementFlag_ = false;
+	}
+
+public:
 	void TileBoxActive();
 	void TileBoxInactive();
 

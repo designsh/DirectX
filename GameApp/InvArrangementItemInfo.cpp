@@ -73,7 +73,7 @@ bool InvArrangementItemInfo::CreateItemInfo(int _ListIndex, int _TileIndex, Item
 		ItemCode_ = CurItemInfo.ItemCode;
 
 		// 렌더러 생성 및 배치
-		InvItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI2));
+		InvItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Render));
 		InvItemRenderer_->SetImage(ItemTexutreName_);
 		InvItemRenderer_->GetTransform()->SetLocalPosition(RenderPos_);
 		InvItemRenderer_->GetTransform()->SetLocalScaling(RenderScale_);

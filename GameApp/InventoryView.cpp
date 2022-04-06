@@ -481,6 +481,9 @@ void InventoryView::PlayerItemListArrangement()
 			{
 				NewItemInfo->Death();
 			}
+
+			// 아이템 렌더러의 크기에 따라 인벤 하단 보관탭의 칸(타일)의 Flag On
+			
 		}
 		else // 상단 장착탭이면
 		{
@@ -488,7 +491,7 @@ void InventoryView::PlayerItemListArrangement()
 			float4 RenderPos = InvEquipInfo_[static_cast<int>(LocType)]->GetTilePos();
 
 			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
-			if (true == NewItemInfo->CreateItemInfo(i, -1, LocType, ItemName, RenderPos))
+			if (true == NewItemInfo->CreateItemInfo(i, 0, LocType, ItemName, RenderPos))
 			{
 				InvArrItemList_.push_back(NewItemInfo);
 			}
@@ -496,6 +499,9 @@ void InventoryView::PlayerItemListArrangement()
 			{
 				NewItemInfo->Death();
 			}
+
+			// 인벤 상단 보관탭의 칸(타일)의 Flag On
+			InvEquipInfo_[static_cast<int>(LocType)]->SetItemArrangeFlagOn();
 		}
 	}
 }
@@ -504,7 +510,15 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 {
 	// 마우스와 연동되어 아이템렌더러 생성 및 위치에 장착
 
+	// 인벤 상단 장착탭
+	if (InvTabType::EQUIP == _InvTabType)
+	{
 
+	}
+	else // 인벤 하단 보관탭
+	{
+
+	}
 
 
 
@@ -522,24 +536,59 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 {
 	// 마우스와 연동되어 아이템렌더러 제거 및 위치에서 장착해제
-
+	
 	// 1. 아이템목록에서 해당 아이템을 찾아낸다.
+	int FindItemIndex = -1;
+	int ItemListCnt = static_cast<int>(InvArrItemList_.size());
+	for (int i = 0; i < ItemListCnt; ++i)
+	{
+		if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+		{
+			FindItemIndex = i;
+			break;
+		}
+	}
+
+	// 해당 아이템 찾음
+	if (-1 != FindItemIndex)
+	{
+		// 해당 아이템 텍스쳐 명칭과 렌더러크기를 마우스에 전달
+		bool ItemHoldFlag = false;
+
+		// 해당 아이템이 차지하던 타일(칸) 목록 Flag 해제
+		// 인벤 상단 장착탭
+		if (InvTabType::EQUIP == _InvTabType)
+		{
+			// 장착탭은 해당 칸만 Flag해제
+			int Index = InvArrItemList_[FindItemIndex]->GetLocTypeInt();
+			InvEquipInfo_[Index]->SetItemArrangeFlagOff();
+
+			ItemHoldFlag = true;
+		}
+		else // 인벤 하단 보관탭
+		{
+			// 보관탭은 아이템렌더러 크기에 따라 다름
 
 
+			ItemHoldFlag = true;
+		}
 
+		// 계산완료가 되어야만 실행가능
+		if (true == ItemHoldFlag)
+		{
+			std::string TextureName = InvArrItemList_[FindItemIndex]->GetTextureName();
+			float4 RenderScale = InvArrItemList_[FindItemIndex]->GetRenderScale();
+			GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
 
+			// 해당 아이템 Death 처리
+			InvArrItemList_[FindItemIndex]->Death();
 
-
-
-	// 해당 아이템이름과 렌더러크기를 마우스에전달 후
-	//GlobalValue::CurMouse->ItemHold(ItemTexutreName_, RenderScale_);
-
-
-	// 배치아이템목록에서 해당 아이템을 죽이고,
-
-
-	// 배치아이템목록에서 해당 아이템을 삭제하고,
-
-
-	// 해당 아이템이 차지하고있던 칸의 Flag를 해제시킨다.
+			// 배치아이템목록에서 해당 아이템 삭제
+			std::vector<InvArrangementItemInfo*>::iterator DelIter = InvArrItemList_.begin() + FindItemIndex;
+			if (InvArrItemList_.end() != DelIter)
+			{
+				InvArrItemList_.erase(DelIter);
+			}
+		}
+	}
 }

@@ -47,6 +47,32 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	inline int GetStartTileIndex()
+	{
+		return TileIndex_;
+	}
+
+	inline std::string GetTextureName()
+	{
+		return ItemTexutreName_;
+	}
+
+	inline float4 GetRenderScale()
+	{
+		return RenderScale_;
+	}
+
+	inline ItemLocType GetLocType()
+	{
+		return TileLocType_;
+	}
+
+	inline int GetLocTypeInt()
+	{
+		return static_cast<int>(TileLocType_);
+	}
+
+public:
 	void SetTileIndexList(std::vector<int> _TileIndexList);
 	bool CreateItemInfo(int _ListIndex, int _TileIndex, ItemLocType _TileLocType, const std::string& _ItemName, const float4& _RenderPos);
 };
