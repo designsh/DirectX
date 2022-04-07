@@ -106,18 +106,7 @@ std::list<GameEngineGUIWindow*> GameEngineGUI::FindGUIWindowForList(const std::s
     return NewList;
 }
 
-GameEngineGUIWindow* GameEngineGUI::FindGUIWindow(const std::string& _Name)
-{
-    for (auto FindIter : Windows_)
-    {
-        if (FindIter->GetName() == _Name)
-        {
-            return FindIter;
-        }
-    }
 
-    return nullptr;
-}
 
 GameEngineGUIWindow::GameEngineGUIWindow() :
     Style_(0)

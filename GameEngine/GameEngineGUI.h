@@ -50,7 +50,25 @@ public:
 
 public:
 	std::list<GameEngineGUIWindow*> FindGUIWindowForList(const std::string& _Name);
-	GameEngineGUIWindow* FindGUIWindow(const std::string& _Name);
+
+	GameEngineGUIWindow* FindGUIWindow(const std::string& _Name)
+	{
+		return FindGUIWindow<GameEngineGUIWindow>(_Name);
+	}
+
+	template<typename Convert>
+	Convert* FindGUIWindow(const std::string& _Name)
+	{
+		for (auto FindIter : Windows_)
+		{
+			if (FindIter->GetName() == _Name)
+			{
+				return dynamic_cast<Convert*>(FindIter);
+			}
+		}
+
+		return nullptr;
+	}
 
 public:
 	template<typename WindowType>

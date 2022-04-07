@@ -97,11 +97,11 @@ void EditorControlWindow::OnGUI()
 		ImGui::PushID(static_cast<int>(FloorImageBtnID));
 		if (true == ImGui::ImageButton(FloorTileId, { FloorTileSize.x, FloorTileSize.y }, { FloorTileCutData.x, FloorTileCutData.y }, { FloorTileCutData.x + FloorTileCutData.z, FloorTileCutData.y + FloorTileCutData.w }))
 		{
-			// 현재 선택된 타일이 바닥 텍스쳐이므로 텍스쳐 변경
-			Map->SetTileType(TileType::FLOOR);
+			// 현재 선택된 타일이 벽 텍스쳐이므로 텍스쳐 변경
+			SelectMode = TileType::FLOOR;
 
 			// 현재 선택된 타일의 인덱스로 변경
-			Map->SetSelectTileIndex(i);
+			SelectTileIndex_ = i;
 		}
 		ImGui::PopID();
 
@@ -141,10 +141,10 @@ void EditorControlWindow::OnGUI()
 		if (true == ImGui::ImageButton(WallTileId, { WallTileSize.x, WallTileSize.y }, { WallCutData.x, WallCutData.y }, { WallCutData.x + WallCutData.z, WallCutData.y + WallCutData.w }))
 		{
 			// 현재 선택된 타일이 벽 텍스쳐이므로 텍스쳐 변경
-			Map->SetTileType(TileType::WALL);
+			SelectMode = TileType::WALL;
 
 			// 현재 선택된 타일의 인덱스로 변경
-			Map->SetSelectTileIndex(i);
+			SelectTileIndex_ = i;
 		}
 		ImGui::PopID();
 

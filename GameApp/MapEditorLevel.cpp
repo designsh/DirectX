@@ -122,6 +122,8 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 	// 타일생성
 	if (true == GameEngineInput::GetInst().Press("MouseLButton"))
 	{
+		EditorControlWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow<EditorControlWindow>("EditorControlWindow");
+
 		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
 
 		if (0 > WindowPos.x)
@@ -147,12 +149,23 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		// 카메라 이동을 더한다.
 		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
 		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
-		Map->SetTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+		switch (Ptr->SelectMode)
+		{
+		case TileType::FLOOR:
+			Map->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+			break;
+		case TileType::WALL:
+			Map->SetWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+			break;
+		default:
+			break;
+		}
 	}
 
 	// 타일제거
 	if (true == GameEngineInput::GetInst().Press("MouseRButton"))
 	{
+		EditorControlWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow<EditorControlWindow>("EditorControlWindow");
 		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
 
 		if (0 > WindowPos.x)
@@ -178,7 +191,17 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		// 해당 위치의 인덱스 타일 목록에서 제거
 		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
 		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
-		Map->DelTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+		switch (Ptr->SelectMode)
+		{
+		case TileType::FLOOR:
+			Map->DelFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+			break;
+		case TileType::WALL:
+			Map->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+			break;
+		default:
+			break;
+		}
 	}
 
 #pragma endregion

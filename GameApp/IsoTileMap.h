@@ -27,11 +27,7 @@ public:
 	}
 };
 
-enum class TileType
-{
-	FLOOR,
-	WALL
-};
+
 
 // 분류 : 애니메이션
 // 용도 : 타이틀레벨 로고
@@ -46,22 +42,26 @@ private:
 	static std::vector<std::vector<int>> RandomReversRange;
 	static std::vector<std::vector<int>> RandomNextRange;
 
-private: // 생성된 타일정보
-	std::unordered_map<__int64, class GameEngineTileMapRenderer*> Tiles_;
+private: 
+	// 생성된 
+	std::unordered_map<__int64, class GameEngineTileMapRenderer*> FloorTiles_;
+
+	// 규칙이 다른거기 때문에
+	std::unordered_map<__int64, class GameEngineTileMapRenderer*> WallTiles_;
+
 
 private: // 바닥타일정보
 	float4 FloorTileSize_;
 	float4 FloorTileSizeHalf_;
+	float4 FloorTileImageSize_;
 	float4 FloorTileIndexPivotPos_;
 
 private: // 벽타일정보
 	float4 WallTileSize_;
 	float4 WallTileSizeHalf_;
+	float4 WallTileImageSize_;
 	float4 WallTileIndexPivotPos_;
 
-private: // 현재 선택된 타일인덱스
-	int CurTileIndex_;
-	TileType CurTileType_;
 
 private: // 각각의 텍스쳐명
 	std::string FloorTileTextureName_;
@@ -94,16 +94,6 @@ public:
 		WallTileTextureName_ = _WallTileTextureName;
 	}
 
-	inline void SetSelectTileIndex(int _Index)
-	{
-		CurTileIndex_ = _Index;
-	}
-
-	inline void SetTileType(TileType _TileType)
-	{
-		CurTileType_ = _TileType;
-	}
-
 	inline GameEngineTexture* GetFloorTileTexture()
 	{
 		return GameEngineTextureManager::GetInst().Find(FloorTileTextureName_);
@@ -115,9 +105,14 @@ public:
 	}
 
 public:
-	void SetTile(float4 _Pos);
-	void SetTile(TileIndex _Index);
-	void DelTile(float4 _Pos);
+	void SetFloorTile(float4 _Pos, int CurTileIndex_);
+	void SetFloorTile(TileIndex _Index, int CurTileIndex_);
+
+	void SetWallTile(float4 _Pos, int CurTileIndex_);
+	void SetWallTile(TileIndex _Index, int CurTileIndex_);
+
+	void DelFloorTile(float4 _Pos);
+	void DelWallTile(float4 _Pos);
 	void AllTileClear();
 
 public:

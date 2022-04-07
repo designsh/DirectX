@@ -11,9 +11,7 @@ std::vector<std::vector<float4>> IsoTileMap::RandomRange;
 std::vector<std::vector<int>> IsoTileMap::RandomReversRange;
 std::vector<std::vector<int>> IsoTileMap::RandomNextRange;
 
-IsoTileMap::IsoTileMap() :
-	CurTileIndex_(0),
-	CurTileType_(TileType::FLOOR)
+IsoTileMap::IsoTileMap()
 {
 }
 
@@ -25,13 +23,16 @@ void IsoTileMap::Start()
 {
 	// 바닥타일
 	FloorTileSize_ = { 160.0f, 80.f };
-	FloorTileSizeHalf_ = FloorTileSize_.halffloat4();
+	FloorTileImageSize_ = { 160.0f, 80.f };
+
+	FloorTileSizeHalf_ = FloorTileImageSize_.halffloat4();
 	FloorTileIndexPivotPos_ = { 0.0f, -FloorTileSizeHalf_.y  };
 
 	// 벽타일
-	WallTileSize_ = { 160.0f, 320.f };
-	WallTileSizeHalf_ = WallTileSize_.halffloat4();
-	//WallTileIndexPivotPos_ = { 0.0f, -WallTileSizeHalf_.y };
+	WallTileSize_ = { 160.0f, 80.f };
+	WallTileSizeHalf_ = WallTileImageSize_.halffloat4();
+
+	WallTileImageSize_ = { 160.0f, 320.f };
 	WallTileIndexPivotPos_ = { 0.0f, 0.0f };
 
 #pragma region RandomLoad 관련
@@ -52,15 +53,16 @@ void IsoTileMap::Start()
 #pragma endregion
 }
 
-void IsoTileMap::SetTile(float4 _Pos)
+void IsoTileMap::SetFloorTile(float4 _Pos, int CurTileIndex_)
 {
-	SetTile(GetIndex(_Pos));
+	SetFloorTile(GetIndex(_Pos), CurTileIndex_);
 }
 
-void IsoTileMap::SetTile(TileIndex Index)
+void IsoTileMap::SetFloorTile(TileIndex Index, int CurTileIndex_)
 {
-	if (Tiles_.end() != Tiles_.find(Index.Index_))
+	if (FloorTiles_.end() != FloorTiles_.find(Index.Index_))
 	{
+		FloorTiles_.find(Index.Index_)->second->SetIndex(CurTileIndex_);
 		return;
 	}
 
@@ -70,68 +72,94 @@ void IsoTileMap::SetTile(TileIndex Index)
 
 	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 	
-	// 선택된 텍스쳐 구분(0: Floor, 1: Wall)
-	if (TileType::FLOOR == CurTileType_)
-	{
-		Renderer->SetImage(FloorTileTextureName_);
-		Renderer->GetTransform()->SetLocalScaling(FloorTileSize_);
-		Renderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-	}
-	else
-	{
-		Renderer->SetImage(WallTileTextureName_);
-		Renderer->GetTransform()->SetLocalScaling(WallTileSize_);
-		Renderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-	}
+	Renderer->SetImage(FloorTileTextureName_);
+	Renderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+	Renderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
 	Renderer->SetIndex(CurTileIndex_);
-	Tiles_.insert(std::make_pair(Index.Index_, Renderer));
+	FloorTiles_.insert(std::make_pair(Index.Index_, Renderer));
 }
 
-void IsoTileMap::DelTile(float4 _Pos)
+void IsoTileMap::SetWallTile(float4 _Pos, int CurTileIndex_)
+{
+	SetWallTile(GetIndex(_Pos), CurTileIndex_);
+}
+
+void IsoTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
+{
+	if (WallTiles_.end() != WallTiles_.find(_Index.Index_))
+	{
+		WallTiles_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
+		return;
+	}
+
+	float4 Pos;
+	Pos.x = (_Index.X_ - _Index.Y_) * FloorTileSizeHalf_.x;
+	Pos.y = (_Index.X_ + _Index.Y_) * -FloorTileSizeHalf_.y;
+
+	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+	Renderer->SetImage(WallTileTextureName_);
+	Renderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
+	Renderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+	Renderer->SetIndex(CurTileIndex_);
+	WallTiles_.insert(std::make_pair(_Index.Index_, Renderer));
+}
+
+void IsoTileMap::DelWallTile(float4 _Pos) 
 {
 	TileIndex Index = GetIndex(_Pos);
 
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator FindIter = WallTiles_.find(Index.Index_);
+
 	// 타일이 존재하지않다면 리턴
-	if (Tiles_.end() == Tiles_.find(Index.Index_))
+	if (WallTiles_.end() == FindIter)
 	{
 		return;
 	}
 
-	// 존재한다면 해당 타일 삭제
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = Tiles_.begin();
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = Tiles_.end();
-	for (; StartIter != EndIter;)
-	{
-		if ((*StartIter).first == Index.Index_)
-		{
-			// 세컨드 데스처리
-			(*StartIter).second->Death();
+	FindIter->second->Death();
+	WallTiles_.erase(FindIter);
+}
 
-			// 맵에서 제거
-			Tiles_.erase(StartIter++);
-			EndIter = Tiles_.end();
-		}
-		else
-		{
-			++StartIter;
-		}
+void IsoTileMap::DelFloorTile(float4 _Pos)
+{
+	TileIndex Index = GetIndex(_Pos);
+
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator FindIter = FloorTiles_.find(Index.Index_);
+
+	// 타일이 존재하지않다면 리턴
+	if (FloorTiles_.end() == FindIter)
+	{
+		return;
 	}
+
+	FindIter->second->Death();
+	FloorTiles_.erase(FindIter);
 }
 
 void IsoTileMap::AllTileClear()
 {
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = Tiles_.begin();
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = Tiles_.end();
-	for (; StartIter != EndIter;)
 	{
-		// 세컨드 데스처리
-		(*StartIter).second->Death();
-
-		// 맵에서 제거
-		Tiles_.erase(StartIter++);
-		EndIter = Tiles_.end();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallTiles_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallTiles_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			// 세컨드 데스처리
+			(*StartIter).second->Death();
+		}
+		WallTiles_.clear();
 	}
-	Tiles_.clear();
+
+	{
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = FloorTiles_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = FloorTiles_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			// 세컨드 데스처리
+			(*StartIter).second->Death();
+		}
+		FloorTiles_.clear();
+	}
 
 	// 랜덤맵 시작점 초기화
 	RandomStartPos_.clear();
@@ -191,7 +219,7 @@ void IsoTileMap::RandomRoad(int _Count, bool _Multidirectional)
 
 		for (size_t i = 0; i < _Count; i++)
 		{
-			SetTile(TileIndex{ RandomStartPos_[0].ix(), RandomStartPos_[0].iy()});
+			SetFloorTile(TileIndex{ RandomStartPos_[0].ix(), RandomStartPos_[0].iy()}, 0);
 			RandomStartPos_[0] += Dir;
 		}
 
@@ -218,7 +246,7 @@ void IsoTileMap::RandomRoad(int _Count, bool _Multidirectional)
 			{
 				DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
 				Dir[i] = RandomRange[i][DirIndex[i]];
-				SetTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy()});
+				SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy()}, 0);
 				RandomStartPos_[i] += Dir[i];
 			}
 
@@ -256,7 +284,7 @@ void IsoTileMap::RandomRoad(int _Count, bool _Multidirectional)
 			{
 				DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
 				Dir[i] = RandomRange[i][DirIndex[i]];
-				SetTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy()});
+				SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy()}, 0);
 				RandomStartPos_[i] += Dir[i];
 
 				IgnoreRange[i] = RandomReversRange[i][DirIndex[i]];

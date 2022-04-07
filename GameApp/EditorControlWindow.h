@@ -4,6 +4,13 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+
+enum class TileType
+{
+	FLOOR,
+	WALL
+};
+
 class CameraComponent;
 class EditorControlWindow : public GameEngineGUIWindow
 {
@@ -12,6 +19,9 @@ public:	// member Var
 	float Zoom;
 	float ZoomMin;
 	float ZoomMax;
+
+	TileType SelectMode;
+	int SelectTileIndex_;
 
 public:
 	EditorControlWindow();
