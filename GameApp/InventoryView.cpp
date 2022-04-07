@@ -708,19 +708,39 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 너비가 존재한다면 시작타일 기준 좌/우측 타일 순서대로 유효카운트만큼 배치인덱스를 계산
 
 					// 좌측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 왼쪽으로 배치
+					// 3x1 아이템이 존재할때 ... L L S
 					if (LChkTileCnt != 0 && LChkTileCnt >= WidthSize - 1)
 					{
 						
+						int a = 0;
 					}
+					// 우측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 오른쪽으로 배치
+					// 시작타일이 좌측첫번째가되며, 우측으로 인덱스저장
+					// 3x1 아이템이 존재할때 S R R ...
 					else if (RChkTileCnt != 0 && RChkTileCnt >= WidthSize - 1)
 					{
 
+						int a = 0;
 					}
+					// 좌측,우측 유효카운트 모두 체크 : 시작타일을 가운데 두고 양쪽으로 인덱스가 
 					else
 					{
-						// 아니라면 배치 실패
-						// 사운드 재생("~할 수 없다") 후 리턴
-						return;
+
+						int a = 0;
+
+						// 시작타일이 중앙이되며, 좌측/우측으로 인덱스 저장
+						// 3x1 아이템이 존재할때 ... L S R ...
+						if ((LChkTileCnt != 0 && LChkTileCnt >= WidthSize - 2) || (RChkTileCnt != 0 && RChkTileCnt >= WidthSize - 2))
+						{
+
+						}
+						else
+						{
+							// 이 조건도 만족하지않다면 처리불가
+							// 사운드 재생("~할 수 없다") 후 리턴
+
+							return;
+						}
 					}
 				}
 
@@ -733,18 +753,41 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				{
 					// 높이가 존재한다면 시작타일 기준 상/하측 타일 순서대로 유효카운트만큼 배치인덱스를 계산
 
+					// 좌측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 왼쪽으로 배치
+					// 3x1 아이템이 존재할때 ... L L S
+					if (BChkTileCnt != 0 && BChkTileCnt >= HeightSize - 1)
+					{
 
+						int a = 0;
+					}
+					// 우측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 오른쪽으로 배치
+					// 시작타일이 좌측첫번째가되며, 우측으로 인덱스저장
+					// 3x1 아이템이 존재할때 S R R ...
+					else if (TChkTileCnt != 0 && TChkTileCnt >= HeightSize - 1)
+					{
 
+						int a = 0;
+					}
+					// 좌측,우측 유효카운트 모두 체크 : 시작타일을 가운데 두고 양쪽으로 인덱스가 
+					else
+					{
 
-					// 하측 유효카운트 체크
+						int a = 0;
 
+						// 시작타일이 중앙이되며, 좌측/우측으로 인덱스 저장
+						// 3x1 아이템이 존재할때 ... L S R ...
+						if ((BChkTileCnt != 0 && BChkTileCnt >= HeightSize - 2) && (TChkTileCnt != 0 && TChkTileCnt >= HeightSize - 2))
+						{
 
+						}
+						else
+						{
+							// 이 조건도 만족하지않다면 처리불가
+							// 사운드 재생("~할 수 없다") 후 리턴
 
-
-					// 상측 유효카운트 체크
-
-
-
+							return;
+						}
+					}
 				}
 
 				// 아이템 배치 인덱스목록 아이템정보에 저장
@@ -853,8 +896,12 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 				{
 					// 해당 아이템이 여러칸을 차지하고있다가 해제되는것이므로,
 					// 차지하고있던 모든 칸의 배치 Flag Off 전환
-
-
+					std::vector<int> IndexList = InvArrItemList_[i]->GetItemArrIndexList();
+					int ListCnt = static_cast<int>(IndexList.size());
+					for (int i = 0; i < ListCnt; ++i)
+					{
+						InvStoreInfo_[IndexList[i]]->SetItemArrangeFlagOff();
+					}
 				}
 				break;
 			}
