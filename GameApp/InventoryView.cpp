@@ -711,28 +711,32 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 3x1 아이템이 존재할때 ... L L S
 					if (LChkTileCnt != 0 && LChkTileCnt >= WidthSize - 1)
 					{
-						
-						int a = 0;
+						for (int i = StartIndex - LChkTileCnt; i <= StartIndex; ++i)
+						{
+							TileArrIndexList.push_back(i);
+						}
 					}
 					// 우측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 오른쪽으로 배치
 					// 시작타일이 좌측첫번째가되며, 우측으로 인덱스저장
 					// 3x1 아이템이 존재할때 S R R ...
 					else if (RChkTileCnt != 0 && RChkTileCnt >= WidthSize - 1)
 					{
-
-						int a = 0;
+						for (int i = StartIndex; i <= StartIndex + RChkTileCnt; ++i)
+						{
+							TileArrIndexList.push_back(i);
+						}
 					}
 					// 좌측,우측 유효카운트 모두 체크 : 시작타일을 가운데 두고 양쪽으로 인덱스가 
 					else
 					{
-
-						int a = 0;
-
 						// 시작타일이 중앙이되며, 좌측/우측으로 인덱스 저장
 						// 3x1 아이템이 존재할때 ... L S R ...
 						if ((LChkTileCnt != 0 && LChkTileCnt >= WidthSize - 2) || (RChkTileCnt != 0 && RChkTileCnt >= WidthSize - 2))
 						{
-
+							for (int i = StartIndex - LChkTileCnt; i <= StartIndex + RChkTileCnt; ++i)
+							{
+								TileArrIndexList.push_back(i);
+							}
 						}
 						else
 						{
@@ -757,8 +761,10 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 3x1 아이템이 존재할때 ... L L S
 					if (BChkTileCnt != 0 && BChkTileCnt >= HeightSize - 1)
 					{
-
-						int a = 0;
+						for (int i = StartIndex - BChkTileCnt; i <= StartIndex; ++i)
+						{
+							TileArrIndexList.push_back(i);
+						}
 					}
 					// 우측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 오른쪽으로 배치
 					// 시작타일이 좌측첫번째가되며, 우측으로 인덱스저장
@@ -879,51 +885,66 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 		}
 		else
 		{
-			// 보관탭은 보관칸별 타일인덱스로 찾아냄
-			if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex() && ItemLocType::Inven_Bottom == InvArrItemList_[i]->GetLocType())
+			// 인벤창 하단 보관탭일때
+			// 타일인덱스
+			if (false == InvArrItemList_[i]->GetItemIndexListEmpty())
 			{
-				FindItemIndex = i;
-
-				// 보관탭은 아이템렌더러 크기에 따라 다름
-				float4 ArrangeSize = InvArrItemList_[i]->GetArrangeTileSize();
-				int TileIndex = InvArrItemList_[i]->GetStartTileIndex();
-				if (1 == ArrangeSize.x && 1 == ArrangeSize.y)
+				// 인덱스 목록이 존재할 경우 : 해당 아이템의 인덱스 목록을 검사 true이고, 해당 아이템 위치가 인벤 하단 보관탭에 있었을때
+				if (true == InvArrItemList_[i]->ItemArrngeListFind(_TileIndex) && ItemLocType::Inven_Bottom == InvArrItemList_[i]->GetLocType())
 				{
-					// 1칸만 차지하므로 해당 타일인덱스만 Flag On
-					InvStoreInfo_[TileIndex]->SetItemArrangeFlagOff();
-				}
-				else
-				{
-					// 해당 아이템이 여러칸을 차지하고있다가 해제되는것이므로,
-					// 차지하고있던 모든 칸의 배치 Flag Off 전환
+					// 존재한다면 해당 아이템이 관여하는 모든 타일(칸)의 Flag Off 처리
 					std::vector<int> IndexList = InvArrItemList_[i]->GetItemArrIndexList();
 					int ListCnt = static_cast<int>(IndexList.size());
 					for (int i = 0; i < ListCnt; ++i)
 					{
 						InvStoreInfo_[IndexList[i]]->SetItemArrangeFlagOff();
 					}
+
+					// 해당 아이템을 찾았다면 인벤창이 관리하는 아이템목록에서 제거되고,
+					// 현재 메인마우스가 아이템을 가져간다.
+					std::string TextureName = InvArrItemList_[i]->GetTextureName();
+					float4 RenderScale = InvArrItemList_[i]->GetRenderScale();
+
+					// 마우스가 해당 아이템을 들기
+					GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
+
+					// 배치아이템목록에서 해당 아이템 삭제
+					std::vector<InvArrangementItemInfo*>::iterator DelIter = InvArrItemList_.begin() + i;
+					if (InvArrItemList_.end() != DelIter)
+					{
+						InvArrItemList_.erase(DelIter);
+					}
 				}
-				break;
 			}
-		}
-	}
+			else
+			{
+				// 인덱스 목록이 존재하지않을 경우 : 해당 타일인덱스만 Flag 해제 후 마우스 전달
+				if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex() && ItemLocType::Inven_Bottom == InvArrItemList_[i]->GetLocType())
+				{
+					// 보관탭은 아이템렌더러 크기에 따라 다름
+					float4 ArrangeSize = InvArrItemList_[i]->GetArrangeTileSize();
+					int TileIndex = InvArrItemList_[i]->GetStartTileIndex();
+					InvStoreInfo_[TileIndex]->SetItemArrangeFlagOff();
 
-	// 해당 아이템을 찾았다면 인벤창이 관리하는 아이템목록에서 제거되고,
-	// 현재 메인마우스가 아이템을 가져간다.
-	if (-1 != FindItemIndex)
-	{
-		std::string TextureName = InvArrItemList_[FindItemIndex]->GetTextureName();
-		float4 RenderScale = InvArrItemList_[FindItemIndex]->GetRenderScale();
-		GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
+					// 해당 아이템을 찾았다면 인벤창이 관리하는 아이템목록에서 제거되고,
+					// 현재 메인마우스가 아이템을 가져간다.
+					std::string TextureName = InvArrItemList_[i]->GetTextureName();
+					float4 RenderScale = InvArrItemList_[i]->GetRenderScale();
 
-		// 해당 아이템 Death 처리
-		InvArrItemList_[FindItemIndex]->Death();
+					// 마우스가 해당 아이템을 들기
+					GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
 
-		// 배치아이템목록에서 해당 아이템 삭제
-		std::vector<InvArrangementItemInfo*>::iterator DelIter = InvArrItemList_.begin() + FindItemIndex;
-		if (InvArrItemList_.end() != DelIter)
-		{
-			InvArrItemList_.erase(DelIter);
+					// 해당 아이템 Death 처리
+					InvArrItemList_[i]->Death();
+
+					// 배치아이템목록에서 해당 아이템 삭제
+					std::vector<InvArrangementItemInfo*>::iterator DelIter = InvArrItemList_.begin() + i;
+					if (InvArrItemList_.end() != DelIter)
+					{
+						InvArrItemList_.erase(DelIter);
+					}
+				}
+			}
 		}
 	}
 }

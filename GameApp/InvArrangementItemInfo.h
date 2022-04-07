@@ -101,5 +101,8 @@ public:
 public:
 	void SetTileIndexList(std::vector<int> _TileIndexList);
 	bool CreateItemInfo(int _ListIndex, int _TileIndex, ItemLocType _TileLocType, const std::string& _ItemName, const float4& _RenderPos);
+
+public:
+	bool ItemArrngeListFind(int _Index);
 };
 

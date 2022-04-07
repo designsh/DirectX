@@ -85,3 +85,17 @@ bool InvArrangementItemInfo::CreateItemInfo(int _ListIndex, int _TileIndex, Item
 
 	return false;
 }
+
+bool InvArrangementItemInfo::ItemArrngeListFind(int _Index)
+{
+	// 목록 검색해서 동일한 인덱스가 존재한다면 true 리턴
+	for (int i = 0; i < static_cast<int>(ArrangementTileIdxList_.size()); ++i)
+	{
+		if (ArrangementTileIdxList_[i] == _Index)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
