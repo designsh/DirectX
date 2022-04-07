@@ -624,7 +624,30 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				// 충돌한 타일인덱스 기준 좌,우,상,하의 타일의 장착상태를 체크
 				// 만약 아이템이 위치하려는 타일이 부족하거나 존재하지않다면 리턴
 
+				//int TopCheckIndex = StartIndex - ;
+				int BotCheckIndex = -1;
+				// WidthSize;
+				// HeightSize;
 
+				// 1. 좌 검사
+				int LeftCheckIndex = StartIndex - WidthSize;
+				
+
+				// 2. 우 검사
+				int RightCheckIndex = StartIndex + WidthSize;
+
+
+				// 3. 상 검사
+				
+
+
+				// 4. 하 검사
+
+
+
+
+
+				
 
 			}
 		}
@@ -661,7 +684,7 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 		else
 		{
 			// 보관탭은 보관칸별 타일인덱스로 찾아냄
-			if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+			if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex() && ItemLocType::Inven_Bottom == InvArrItemList_[i]->GetLocType())
 			{
 				FindItemIndex = i;
 
