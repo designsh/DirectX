@@ -567,7 +567,10 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 
 				NewItemInfo->On();
 
-				// 4) 무기(wnd)를 제외하고 각 탭별 아이템장착상태에 따라 플레이어 애니메이션 상태 전환
+				// 4) 해당 장착탭의 따라 플레이어의 파트별 렌더러 상태 갱신
+				// 무기탭을 제외한 인벤 상단 장착탭의 모든 파트는 아이템이 장착되면
+				// 플레이어의 파트별 렌더러를 각각 HVY_상태로 전환한다.
+				// 이때 무기는 WND가 LIT_상태이고, CRS가 HVY_상태이다.
 				//    Ex) -. 방패탭에 방패 장착시 플레이어의 애니메이션 SH 파트는 HVY_ 상태가 된다.
 				//        -. 무기탭에 기본적으로 wnd 무기가 장착되어있으나, crs 무기로 변경되어 장착되는 순간
 				//           플레이어의 애니메이션 RH 파트는 HVY_ 상태가 된다.
@@ -919,6 +922,18 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 					InvArrItemList_.erase(DelIter);
 					break;
 				}
+
+				// 해당 장착탭의 따라 플레이어의 파트별 렌더러 상태 갱신
+				// 무기탭을 제외한 인벤 상단 장착탭의 모든 파트는 아이템이 빠져나가면
+				// 플레이어의 파트별 렌더러를 LIT_상태로 전환한다.
+				// 이때 무기탭은 wnd 아이템착용을 LIT_상태로 정하고, crs 아이템착용을 HVY_상태로 정한다.
+
+
+
+
+
+
+
 
 				break;
 			}
