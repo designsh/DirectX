@@ -88,10 +88,6 @@ void MapEditorLevel::LevelStart()
 		GameEngineInput::GetInst().CreateKey("CameraRight", VK_RIGHT);
 	}
 
-	if (false == GameEngineInput::GetInst().IsKey("CameraZoomClear"))
-	{
-		GameEngineInput::GetInst().CreateKey("CameraZoomClear", 'Z');
-	}
 #pragma endregion
 
 }
@@ -118,16 +114,6 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 	if (true == GameEngineInput::GetInst().Press("CameraRight"))
 	{
 		GetMainCamera()->GetTransform()->SetWorldMove(float4::RIGHT * MoveSpeed_ * _DeltaTime);
-	}
-
-#pragma endregion
-
-#pragma region 카메라 줌리셋 키체크
-
-	if (true == GameEngineInput::GetInst().Down("CameraZoomClear"))
-	{
-		// 카메라가 비추는 화면 비율 = 현재 윈도우 크기로 셋팅
-		GetMainCamera()->CameraZoomReset();
 	}
 
 #pragma endregion

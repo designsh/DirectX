@@ -43,13 +43,16 @@ void EditorControlWindow::OnGUI()
 	ImGui::Text(CameraPosText.c_str());
 #pragma endregion
 
-#pragma region CameraZomm
+#pragma region CameraZoo
+	ImGui::PushItemWidth(308.f); // 크기 고정
 	ImGui::SliderFloat("Zoom", &Zoom, ZoomMin, ZoomMax, "%f", 1.0f);
+	ImGui::PopItemWidth();
+	
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom);
 #pragma endregion
 
 #pragma region RandomMapButton
-	if (true == ImGui::Button("RandomRoad"))
+	if (true == ImGui::Button("RandomRoad", ImVec2(150.f, 50.f)))
 	{
 		GameEngineRandom Random;
 
@@ -60,7 +63,7 @@ void EditorControlWindow::OnGUI()
 	ImGui::SameLine();
 
 #pragma region TileMapClear
-	if (true == ImGui::Button("MapAllClear"))
+	if (true == ImGui::Button("AllClear", ImVec2(150.f, 50.f)))
 	{
 		// 현재 생성된 모든 맵 클리어
 		Map->AllTileClear();
@@ -150,5 +153,31 @@ void EditorControlWindow::OnGUI()
 
 
 	ImGui::EndChildFrame();
+#pragma endregion
+
+#pragma region Map Save&Load
+	if (true == ImGui::Button("SAVE", ImVec2(200.f, 50.f)))
+	{
+		// 현재 생성한 맵정보 파일로 저장
+
+		// 파일대화상자 로드
+
+
+		//Map->MapSave();
+	}
+
+	ImGui::SameLine();
+
+	if (true == ImGui::Button("LOAD", ImVec2(200.f, 50.f)))
+	{
+		// 지정된 경로의 맵파일 로드
+
+
+		// 파일대화상자 로드
+
+
+		//Map->MapLoad();
+	}
+
 #pragma endregion
 }

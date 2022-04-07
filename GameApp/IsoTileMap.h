@@ -123,7 +123,8 @@ private:
 public: // Random TileMap
 	void RandomRoad(int Count);
 
-public: // 
-
+public: // Save & Load
+	void MapSave();
+	void MapLoad();
 };
 

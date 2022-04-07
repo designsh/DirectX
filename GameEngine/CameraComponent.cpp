@@ -160,6 +160,7 @@ void CameraComponent::CameraZoomReset()
 {
 	if (ProjectionMode_ == ProjectionMode::Orthographic) // 직교투영일때
 	{
+		ZoomValue_ = 0.0f;
 		CamSize_ = GameEngineWindow::GetInst().GetSize();
 	}
 }

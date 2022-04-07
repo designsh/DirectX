@@ -28,7 +28,8 @@ void IsoTileMap::Start()
 	// 벽타일
 	WallTileSize_ = { 160.0f, 320.f };
 	WallTileSizeHalf_ = WallTileSize_.halffloat4();
-	WallTileIndexPivotPos_ = { 0.0f, -WallTileSizeHalf_.y };
+	//WallTileIndexPivotPos_ = { 0.0f, -WallTileSizeHalf_.y };
+	WallTileIndexPivotPos_ = { 0.0f, 0.0f };
 }
 
 void IsoTileMap::SetTile(float4 _Pos)
@@ -173,4 +174,12 @@ void IsoTileMap::RandomRoad(int _Count)
 
 	IgnoreRange = ReversRange[DirIndex];
 	NextRange.clear();
+}
+
+void IsoTileMap::MapSave()
+{
+}
+
+void IsoTileMap::MapLoad()
+{
 }
