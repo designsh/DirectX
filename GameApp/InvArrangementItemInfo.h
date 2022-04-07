@@ -93,10 +93,7 @@ public:
 	}
 
 public:
-	void SetItemRenderPos(const float4& _RenderPos)
-	{
-		RenderPos_ = _RenderPos;
-	}
+	void SetItemRenderPos(const float4& _RenderPos);
 
 public:
 	void SetTileIndexList(std::vector<int> _TileIndexList);

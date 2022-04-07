@@ -35,6 +35,33 @@ void InventoryTileBox::Update(float _DeltaTime)
 {
 }
 
+void InventoryTileBox::SetItemArrangeFlagOn()
+{
+	ItemArrangementFlag_ = true;
+
+	if (nullptr != TileBoxRenderer_)
+	{
+		TileBoxRenderer_->SetResultColor(float4(0.f, 0.f, 1.f, 0.5f));
+	}
+}
+
+void InventoryTileBox::SetItemArrangeFlagOff()
+{
+	ItemArrangementFlag_ = false;
+
+	if (nullptr != TileBoxRenderer_)
+	{
+		if (ItemLocType::Inven_Bottom == BoxTileType_)
+		{
+			TileBoxRenderer_->SetResultColor(float4(1.f, 1.f, 1.f, 0.f));
+		}
+		else
+		{
+			TileBoxRenderer_->SetResultColor(float4(1.f, 1.f, 1.f, 1.f));
+		}
+	}
+}
+
 void InventoryTileBox::TileBoxActive()
 {
 	if (nullptr != TileBoxRenderer_)
@@ -63,13 +90,14 @@ void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _B
 	// Rendering Pos Calc & Scale Save
 	Pos_ = float4::ZERO;
 	Pos_.x = 33.f + (IndexX_ * 28.f) + (IndexX_ * 1.f);
-	Pos_.y = -116.f + (IndexY_ * 28.f) + (IndexY_ * 1.f);;
+	Pos_.y = -116.f + (IndexY_ * 28.f) + (IndexY_ * 1.f);
 
 	Scale_ = float4(28.f, 28.f, 1.f);
 
 	// 타일박스 렌더러 생성
 	TileBoxRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
 	TileBoxRenderer_->SetImage("InvTestTileImage.png");
+	TileBoxRenderer_->SetResultColor(float4(1.f, 1.f, 1.f, 0.f));
 	TileBoxRenderer_->TextSetting("diablo", std::to_string(Index_), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 	TileBoxRenderer_->GetTransform()->SetLocalPosition(Pos_);
 	TileBoxRenderer_->GetTransform()->SetLocalScaling(Scale_);

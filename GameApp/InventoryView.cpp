@@ -627,9 +627,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				int RChkTileCnt = 0;
 				int BChkTileCnt = 0;
 				int TChkTileCnt = 0;
-				bool ArrangeWidthDir = false;		// (true : Left, false : Right => 기본은 시작타일기준 오른쪽으로 배치)
-				bool ArrangeHeightDir = false;		// (true : Top, false : Bottom => 기본은 시작타일기준 아래쪽으로 배치)
-
+				
 				// 1. 시작타일기준 좌측 타일 검사 : 유효 타일수 계산
 				for (int i = WidthSize - 1; i > 0; --i)
 				{
@@ -686,6 +684,22 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					}
 				}
 
+				// 단, 해당 아이템 배치 유효타일이 존재하지않다면 배치 실패로 판단하여 리턴
+				if (1 != WidthSize && LChkTileCnt == 0 && RChkTileCnt == 0)
+				{
+					// 사운드 재생("~할 수 없다")
+					// 배치 실패!!!!!!
+
+					return;
+				}
+				else if (1 != HeightSize && BChkTileCnt == 0 && TChkTileCnt == 0)
+				{
+					// 사운드 재생("~할 수 없다")
+					// 배치 실패!!!!!!
+
+					return;
+				}
+
 				// 5. 체크할때 시작타일(현재 클릭된 타일)을 제외하고 체크한다.
 				//    이때 상/하/좌/우 유효 타일수를 이용하여 아이템 배치 시작
 				//    단, 아이템이 차지하는 타일수 보다 유효타일수가 적다면 리턴
@@ -711,9 +725,14 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 3x1 아이템이 존재할때 ... L L S
 					if (LChkTileCnt != 0 && LChkTileCnt >= WidthSize - 1)
 					{
-						for (int i = StartIndex - LChkTileCnt; i <= StartIndex; ++i)
+						// 시작타일 추가 후
+						TileArrIndexList.push_back(StartIndex);
+
+						// 카운트만큼 반복
+						for (int i = 0; i < LChkTileCnt; ++i)
 						{
-							TileArrIndexList.push_back(i);
+							int Index = StartIndex - (i + 1);
+							TileArrIndexList.push_back(Index);
 						}
 					}
 					// 우측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 오른쪽으로 배치
@@ -721,34 +740,24 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 3x1 아이템이 존재할때 S R R ...
 					else if (RChkTileCnt != 0 && RChkTileCnt >= WidthSize - 1)
 					{
-						for (int i = StartIndex; i <= StartIndex + RChkTileCnt; ++i)
+						// 시작타일 추가 후
+						TileArrIndexList.push_back(StartIndex);
+
+						// 카운트만큼 반복
+						for (int i = 0; i < RChkTileCnt; ++i)
 						{
-							TileArrIndexList.push_back(i);
+							int Index = StartIndex + (i + 1);
+							TileArrIndexList.push_back(Index);
 						}
 					}
 					// 좌측,우측 유효카운트 모두 체크 : 시작타일을 가운데 두고 양쪽으로 인덱스가 
 					else
 					{
-						// 시작타일이 중앙이되며, 좌측/우측으로 인덱스 저장
-						// 3x1 아이템이 존재할때 ... L S R ...
-						if ((LChkTileCnt != 0 && LChkTileCnt >= WidthSize - 2) || (RChkTileCnt != 0 && RChkTileCnt >= WidthSize - 2))
-						{
-							for (int i = StartIndex - LChkTileCnt; i <= StartIndex + RChkTileCnt; ++i)
-							{
-								TileArrIndexList.push_back(i);
-							}
-						}
-						else
-						{
-							// 이 조건도 만족하지않다면 처리불가
-							// 사운드 재생("~할 수 없다") 후 리턴
-
-							return;
-						}
+						// 일단 염두만 해두고, 처리해보자!!
 					}
 				}
 
-				if (1 == HeightSize)
+				if (1 != WidthSize && 1 == HeightSize)
 				{
 					// 시작타일만 아이템배치 인덱스목록에 추가
 					TileArrIndexList.push_back(StartIndex);
@@ -757,44 +766,37 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				{
 					// 높이가 존재한다면 시작타일 기준 상/하측 타일 순서대로 유효카운트만큼 배치인덱스를 계산
 
-					// 좌측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 왼쪽으로 배치
-					// 3x1 아이템이 존재할때 ... L L S
+					// 하단측 유효카운트 체크 : 유효카운트가 존재하고 높이 - 1 보다 크거나 같다면 시작타일에서 아래쪽으로 배치
+					// 시작타일이 상단측 첫번째가되면, 하단측으로 인덱스저장
 					if (BChkTileCnt != 0 && BChkTileCnt >= HeightSize - 1)
 					{
-						for (int i = StartIndex - BChkTileCnt; i <= StartIndex; ++i)
+						// 카운트만큼 반복
+						for (int i = 0; i < BChkTileCnt; ++i)
 						{
-							TileArrIndexList.push_back(i);
+							int Index = StartIndex - ((i + 1) * 10);
+							TileArrIndexList.push_back(Index);
 						}
 					}
-					// 우측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 오른쪽으로 배치
-					// 시작타일이 좌측첫번째가되며, 우측으로 인덱스저장
-					// 3x1 아이템이 존재할때 S R R ...
+					// 상측 유효카운트 체크 : 유효카운트가 존재하고 높이 - 1 보다 크거나 같다면 시작타일에서 위쪽으로 배치
+					// 시작타일이 하단측 첫번째가되며, 상단측으로 인덱스저장
 					else if (TChkTileCnt != 0 && TChkTileCnt >= HeightSize - 1)
 					{
-
-						int a = 0;
+						// 카운트만큼 반복
+						for (int i = 0; i < TChkTileCnt; ++i)
+						{
+							int Index = StartIndex + ((i + 1) * 10);
+							TileArrIndexList.push_back(Index);
+						}
 					}
-					// 좌측,우측 유효카운트 모두 체크 : 시작타일을 가운데 두고 양쪽으로 인덱스가 
+					// 상단,하단 유효카운트 모두 체크 : 시작타일을 가운데 두고 양쪽으로 인덱스가 
 					else
 					{
-
-						int a = 0;
-
-						// 시작타일이 중앙이되며, 좌측/우측으로 인덱스 저장
-						// 3x1 아이템이 존재할때 ... L S R ...
-						if ((BChkTileCnt != 0 && BChkTileCnt >= HeightSize - 2) && (TChkTileCnt != 0 && TChkTileCnt >= HeightSize - 2))
-						{
-
-						}
-						else
-						{
-							// 이 조건도 만족하지않다면 처리불가
-							// 사운드 재생("~할 수 없다") 후 리턴
-
-							return;
-						}
+						// 일단 염두만 해두고, 처리해보자!!
 					}
 				}
+
+				// 배치목록 정렬
+				std::sort(TileArrIndexList.begin(), TileArrIndexList.end());
 
 				// 아이템 배치 인덱스목록 아이템정보에 저장
 				NewItemInfo->SetTileIndexList(TileArrIndexList);
@@ -820,7 +822,34 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 						}
 
 						// 아이템 배치 위치 재계산 및 재조정
-						float4 ReRenderPos = float4::ZERO;
+						float4 ReRenderPos = float4(33.f, -116.f);	// 초기값 셋팅(0번인덱스인경우)
+
+						// 차지하고있는 칸의 중앙 위치를 계산한다.
+						// 첫번째 타일의 위치와 마지막번째 타일의 위치를 Get
+						float4 BeginTilePos = InvStoreInfo_[CurItemIdxList[0]]->GetTilePos();
+						float4 EndTilePos = InvStoreInfo_[CurItemIdxList[IndexCnt - 1]]->GetTilePos();
+
+						// 두 타일 위치를 비교
+						if (BeginTilePos.x == EndTilePos.x) // 해당 아이템의 너비 1
+						{
+							ReRenderPos.x = BeginTilePos.x;
+						}
+						else
+						{
+							BeginTilePos.x += ((EndTilePos.x - BeginTilePos.x) * 0.5f);
+							ReRenderPos.x = BeginTilePos.x;
+						}
+
+						if (BeginTilePos.y == EndTilePos.y) // 해당 아이템의 높이 1
+						{
+							ReRenderPos.y = BeginTilePos.y;
+						}
+						else
+						{
+							// 
+							BeginTilePos.y -= ((BeginTilePos.y - EndTilePos.y) * 0.5f);
+							ReRenderPos.y = BeginTilePos.y;
+						}
 
 						NewItemInfo->SetItemRenderPos(ReRenderPos);
 					}
@@ -861,7 +890,6 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 	// 마우스와 연동되어 아이템렌더러 제거 및 위치에서 장착해제
 
 	// 1. 아이템목록에서 해당 아이템을 찾아낸다.
-	int FindItemIndex = -1;
 	int ItemListCnt = static_cast<int>(InvArrItemList_.size());
 	for (int i = 0; i < ItemListCnt; ++i)
 	{
@@ -870,8 +898,6 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 			// 장착탭은 장착칸별 위치(ItemLocType)인덱스로 찾아냄
 			if (_TileIndex == InvArrItemList_[i]->GetLocTypeInt())
 			{
-				FindItemIndex = i;
-
 				// 장착탭은 해당 칸만 Flag 해제
 				int Index = InvArrItemList_[i]->GetLocTypeInt();
 				InvEquipInfo_[Index]->SetItemArrangeFlagOff();
@@ -879,6 +905,20 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 				// 만약 플레이어의 애니메이션이 LIT_ 상태의 아이템 장착상황이 아니라면
 				// 해당 장착파트의 플레이어 애니메이션이 HVY_ -> LIT_ 상태로 전환
 
+				std::string TextureName = InvArrItemList_[i]->GetTextureName();
+				float4 RenderScale = InvArrItemList_[i]->GetRenderScale();
+				GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
+
+				// 해당 아이템 Death 처리
+				InvArrItemList_[i]->Death();
+
+				// 배치아이템목록에서 해당 아이템 삭제
+				std::vector<InvArrangementItemInfo*>::iterator DelIter = InvArrItemList_.begin() + i;
+				if (InvArrItemList_.end() != DelIter)
+				{
+					InvArrItemList_.erase(DelIter);
+					break;
+				}
 
 				break;
 			}
@@ -908,11 +948,15 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 					// 마우스가 해당 아이템을 들기
 					GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
 
+					// 해당 아이템 Death 처리
+					InvArrItemList_[i]->Death();
+
 					// 배치아이템목록에서 해당 아이템 삭제
 					std::vector<InvArrangementItemInfo*>::iterator DelIter = InvArrItemList_.begin() + i;
 					if (InvArrItemList_.end() != DelIter)
 					{
 						InvArrItemList_.erase(DelIter);
+						break;
 					}
 				}
 			}
@@ -942,6 +986,7 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 					if (InvArrItemList_.end() != DelIter)
 					{
 						InvArrItemList_.erase(DelIter);
+						break;
 					}
 				}
 			}

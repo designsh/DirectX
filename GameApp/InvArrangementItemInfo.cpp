@@ -37,6 +37,16 @@ void InvArrangementItemInfo::Update(float _DeltaTime)
 {
 }
 
+void InvArrangementItemInfo::SetItemRenderPos(const float4& _RenderPos)
+{
+	if (nullptr != InvItemRenderer_)
+	{
+		RenderPos_ = _RenderPos;
+		InvItemRenderer_->GetTransform()->SetLocalPosition(RenderPos_);
+	}
+
+}
+
 void InvArrangementItemInfo::SetTileIndexList(std::vector<int> _TileIndexList)
 {
 	// 해당 아이템 렌더러크기(Width, Height 크기)가 1x1 보다 크다면 해당 목록을 셋팅
