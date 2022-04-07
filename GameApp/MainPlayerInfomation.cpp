@@ -254,6 +254,35 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 
 	MainPlayerInfo_.ItemInfo.push_back(BasicIdentifyScroll);
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//// 테스트용 아이템
+	//ItemList TestItem = {};
+	//TestItem.ItemName_abbreviation = "chn";
+	//TestItem.ItemName_abbreviation_Inven = "invchn";
+	//TestItem.ItemCode = 7;
+	//TestItem.ItemType = ItemType::Armor;
+
+	//TestItem.ItemLocType = ItemLocType::Inven_Bottom;
+	//TestItem.StartPosition = 0;
+	//TestItem.WidthSize = 3;
+	//TestItem.HeightSize = 3;
+
+	//TestItem.IsDurability = false;
+	//TestItem.MaxDurability = 0;
+	//TestItem.CurDurability = 0;
+
+	//TestItem.Block = 0;
+	//TestItem.Weight = 0;
+	//TestItem.Price = 10;
+	//TestItem.PullDamage = 0;
+	//TestItem.PullArmor = 0;
+
+	//TestItem.Recovery = 0;
+
+	//MainPlayerInfo_.ItemInfo.push_back(TestItem);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
 	MainPlayerInfo_.ItemInfoCnt = static_cast<int>(MainPlayerInfo_.ItemInfo.size());
 
 	// 메인플레이어 정보 저장파일 최초 생성
