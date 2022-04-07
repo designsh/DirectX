@@ -47,6 +47,16 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	inline int GetItemIndexListSize()
+	{
+		return static_cast<int>(ArrangementTileIdxList_.size());
+	}
+
+	inline bool GetItemIndexListEmpty()
+	{
+		return ArrangementTileIdxList_.empty();
+	}
+
 	inline int GetStartTileIndex()
 	{
 		return TileIndex_;
@@ -75,6 +85,17 @@ public:
 	inline float4 GetArrangeTileSize()
 	{
 		return float4(static_cast<float>(WidthSize_), static_cast<float>(HeightSize_));
+	}
+
+	inline std::vector<int>& GetItemArrIndexList()
+	{
+		return ArrangementTileIdxList_;
+	}
+
+public:
+	void SetItemRenderPos(const float4& _RenderPos)
+	{
+		RenderPos_ = _RenderPos;
 	}
 
 public:

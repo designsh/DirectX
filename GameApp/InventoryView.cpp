@@ -55,12 +55,12 @@ void InventoryView::EquipTileBoxClick(GameEngineCollision* _Other, int _Index)
 		InvTabType_ = InvTabType::EQUIP;
 
 		// 해당 타일이 아이템을 가지고있고, 마우스가 아이템을 들고있지않다면
-		if (true == InvEquipInfo_[_Index]->GetIsItemBatch() && false == GlobalValue::CurMouse->IsItemHold())
+		if (true == InvEquipInfo_[_Index]->GetIsItemArrangeFlag() && false == GlobalValue::CurMouse->IsItemHold())
 		{
 			ItemArrangementOff(_Index, InvTabType_);
 		}
 		// 해당 타일이 아이템을 가지고있지않고, 마우스가 아이템을 들고있다면
-		else if (false == InvEquipInfo_[_Index]->GetIsItemBatch() && true == GlobalValue::CurMouse->IsItemHold())
+		else if (false == InvEquipInfo_[_Index]->GetIsItemArrangeFlag() && true == GlobalValue::CurMouse->IsItemHold())
 		{
 			ItemArrangementOn(_Index, InvTabType_);
 		}
@@ -80,12 +80,12 @@ void InventoryView::StoreTileBoxClick(GameEngineCollision* _Other, int _Index)
 		InvTabType_ = InvTabType::NORMAL;
 
 		// 해당 타일이 아이템을 가지고있고, 마우스가 아이템을 들고있지않다면
-		if (true == InvStoreInfo_[_Index]->GetIsItemBatch() && false == GlobalValue::CurMouse->IsItemHold())
+		if (true == InvStoreInfo_[_Index]->GetIsItemArrangeFlag() && false == GlobalValue::CurMouse->IsItemHold())
 		{
 			ItemArrangementOff(_Index, InvTabType_);
 		}
 		// 해당 타일이 아이템을 가지고있지않고, 마우스가 아이템을 들고있다면
-		else if (false == InvStoreInfo_[_Index]->GetIsItemBatch() && true == GlobalValue::CurMouse->IsItemHold())
+		else if (false == InvStoreInfo_[_Index]->GetIsItemArrangeFlag() && true == GlobalValue::CurMouse->IsItemHold())
 		{
 			ItemArrangementOn(_Index, InvTabType_);
 		}
@@ -623,32 +623,185 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				// 아이템이 차지하는 칸수가 가로 1개, 세로 1개가 아니라면
 				// 충돌한 타일인덱스 기준 좌,우,상,하의 타일의 장착상태를 체크
 				// 만약 아이템이 위치하려는 타일이 부족하거나 존재하지않다면 리턴
+				int LChkTileCnt = 0;
+				int RChkTileCnt = 0;
+				int BChkTileCnt = 0;
+				int TChkTileCnt = 0;
+				bool ArrangeWidthDir = false;		// (true : Left, false : Right => 기본은 시작타일기준 오른쪽으로 배치)
+				bool ArrangeHeightDir = false;		// (true : Top, false : Bottom => 기본은 시작타일기준 아래쪽으로 배치)
 
-				//int TopCheckIndex = StartIndex - ;
-				int BotCheckIndex = -1;
-				// WidthSize;
-				// HeightSize;
+				// 1. 시작타일기준 좌측 타일 검사 : 유효 타일수 계산
+				for (int i = WidthSize - 1; i > 0; --i)
+				{
+					int LeftCheckIndex = StartIndex - (WidthSize - i);
 
-				// 1. 좌 검사
-				int LeftCheckIndex = StartIndex - WidthSize;
+					// 현재 아이템 배치하는 타일의 왼쪽 타일 아이템 장착여부 체크(장착되어있지않다면 유효타일카운트 증가)
+					// 단, 시작타일(현재 클릭된 타일인덱스)를 제외한다.
+					if ((0 <= LeftCheckIndex && LeftCheckIndex < 40) && false == InvStoreInfo_[LeftCheckIndex]->GetIsItemArrangeFlag())
+					{
+						// 좌측 유효 타일수 증가
+						++LChkTileCnt;
+					}
+				}
+
+				// 2. 시작타일기준 우측 타일 검사 : 유효 타일수 계산
+				for (int i = WidthSize - 1; i > 0; --i)
+				{
+					int RightCheckIndex = StartIndex + (WidthSize - i);
+
+					// 현재 아이템 배치하는 타일의 오른쪽 타일 아이템 장착여부 체크(장착되어있지않다면 유효타일카운트 증가)
+					// 단, 시작타일(현재 클릭된 타일인덱스)를 제외한다.
+					if ((0 <= RightCheckIndex && RightCheckIndex < 40) && false == InvStoreInfo_[RightCheckIndex]->GetIsItemArrangeFlag())
+					{
+						// 우측 유효 타일수 증가
+						++RChkTileCnt;
+					}
+				}
 				
+				// 3. 시작타일기준 하단 타일 검사 : 유효 타일수 계산
+				for (int i = HeightSize - 1; i > 0; --i)
+				{
+					int BotCheckIndex = StartIndex - ((HeightSize - i) * 10);
 
-				// 2. 우 검사
-				int RightCheckIndex = StartIndex + WidthSize;
+					// 현재 아이템 배치하는 타일의 아래쪽 타일 아이템 장착여부 체크(장착되어있지않다면 유효타일카운트 증가)
+					// 단, 시작타일(현재 클릭된 타일인덱스)를 제외한다.
+					if ((0 <= BotCheckIndex && BotCheckIndex < 40) && false == InvStoreInfo_[BotCheckIndex]->GetIsItemArrangeFlag())
+					{
+						// 하단 유효 타일수 증가
+						++BChkTileCnt;
+					}
+				}
 
+				// 4. 시작타일기준 상단 타일검사 : 유효 타일수 계산
+				for (int i = HeightSize - 1; i > 0; --i)
+				{
+					int TopCheckIndex = StartIndex + ((HeightSize - i) * 10);
 
-				// 3. 상 검사
+					// 현재 아이템 배치하는 타일의 위쪽 타일 아이템 장착여부 체크(장착되어있지않다면 유효타일카운트 증가)
+					// 단, 시작타일(현재 클릭된 타일인덱스)를 제외한다.
+					if ((0 <= TopCheckIndex && TopCheckIndex < 40) && false == InvStoreInfo_[TopCheckIndex]->GetIsItemArrangeFlag())
+					{
+						// 상단 유효 타일수 증가
+						++TChkTileCnt;
+					}
+				}
+
+				// 5. 체크할때 시작타일(현재 클릭된 타일)을 제외하고 체크한다.
+				//    이때 상/하/좌/우 유효 타일수를 이용하여 아이템 배치 시작
+				//    단, 아이템이 차지하는 타일수 보다 유효타일수가 적다면 리턴
+				// Ex) 1x2 아이템이 있고, 해당 아이템배치하는 곳 주위에 아이템이 존재하지않다고 가정할때
+				//     시작타일을 제외한 유효타일 좌:0, 우:0, 상:1, 하:1 으로 체크된다.
 				
+				// 아이템정보액터 생성
+				InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
+
+				// 유효카운트를 이용하여 아이템배치 인덱스목록 생성
+				std::vector<int> TileArrIndexList;
+				TileArrIndexList.clear();
+				if (1 == WidthSize)
+				{
+					// 시작타일만 아이템배치 인덱스목록에 추가
+					TileArrIndexList.push_back(StartIndex);
+				}
+				else
+				{
+					// 너비가 존재한다면 시작타일 기준 좌/우측 타일 순서대로 유효카운트만큼 배치인덱스를 계산
+
+					// 좌측 유효카운트 체크 : 유효카운트가 존재하고 너비 - 1 보다 크거나 같다면 시작타일에서 왼쪽으로 배치
+					if (LChkTileCnt != 0 && LChkTileCnt >= WidthSize - 1)
+					{
+						
+					}
+					else if (RChkTileCnt != 0 && RChkTileCnt >= WidthSize - 1)
+					{
+
+					}
+					else
+					{
+						// 아니라면 배치 실패
+						// 사운드 재생("~할 수 없다") 후 리턴
+						return;
+					}
+				}
+
+				if (1 == HeightSize)
+				{
+					// 시작타일만 아이템배치 인덱스목록에 추가
+					TileArrIndexList.push_back(StartIndex);
+				}
+				else
+				{
+					// 높이가 존재한다면 시작타일 기준 상/하측 타일 순서대로 유효카운트만큼 배치인덱스를 계산
 
 
-				// 4. 하 검사
+
+
+					// 하측 유효카운트 체크
 
 
 
 
+					// 상측 유효카운트 체크
 
-				
 
+
+				}
+
+				// 아이템 배치 인덱스목록 아이템정보에 저장
+				NewItemInfo->SetTileIndexList(TileArrIndexList);
+
+				// 실질적인 아이템 정보 생성
+				std::string ItemName = CurItemInfo.ItemName_abbreviation;
+				ItemLocType LocType = ItemLocType::Inven_Bottom;
+				float4 RenderPos = InvStoreInfo_[_TileIndex]->GetTilePos();
+
+				if (true == NewItemInfo->CreateItemInfo(Cnt, _TileIndex, LocType, ItemName, RenderPos))
+				{
+					// 정보 생성 성공시 
+
+					// 해당 아이템의 렌더러크기(차지하는타일칸수)에 따라 해당하는 모든 타일(칸)의 Flag On
+					if (false == NewItemInfo->GetItemIndexListEmpty())
+					{
+						// 인덱스 목록이 존재한다면 해당 목록만큼 타일(칸)의 Flag On
+						std::vector<int> CurItemIdxList = NewItemInfo->GetItemArrIndexList();
+						int IndexCnt = static_cast<int>(CurItemIdxList.size());
+						for (int i = 0; i < IndexCnt; ++i)
+						{
+							InvStoreInfo_[CurItemIdxList[i]]->SetItemArrangeFlagOn();
+						}
+
+						// 아이템 배치 위치 재계산 및 재조정
+						float4 ReRenderPos = float4::ZERO;
+
+						NewItemInfo->SetItemRenderPos(ReRenderPos);
+					}
+					else
+					{
+						// 아이템정보 즉시 삭제 후 정보 생성 실패처리
+						NewItemInfo->Death();
+
+						return;
+					}
+
+					// 모든 정보 생성 성공시 관리목록에 해당 아이템정보 추가
+					InvArrItemList_.push_back(NewItemInfo);
+
+					// 마우스 Put Down(아이템내려놓기)
+					GlobalValue::CurMouse->ItemPutDown();
+
+					NewItemInfo->On();
+				}
+				else
+				{
+					// 정보 생성 실패시 바로 죽인다.
+					NewItemInfo->Death();
+				}
+
+				// 정보전달이 끝났으므로 벡터 소멸
+				if (false == TileArrIndexList.empty())
+				{
+					TileArrIndexList.clear();
+				}
 			}
 		}
 	}

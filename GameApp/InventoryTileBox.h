@@ -48,7 +48,7 @@ public:
 		return Pos_;
 	}
 
-	inline bool GetIsItemBatch()
+	inline bool GetIsItemArrangeFlag()
 	{
 		return ItemArrangementFlag_;
 	}
