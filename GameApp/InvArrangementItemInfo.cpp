@@ -78,11 +78,6 @@ bool InvArrangementItemInfo::CreateItemInfo(int _ListIndex, int _TileIndex, Item
 		InvItemRenderer_->GetTransform()->SetLocalPosition(RenderPos_);
 		InvItemRenderer_->GetTransform()->SetLocalScaling(RenderScale_);
 
-		//// 충돌체 생성 및 배치  - 220406 SJH 제거
-		//InvItemCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI2_Collider));
-		//InvItemCollision_->GetTransform()->SetLocalPosition(InvItemRenderer_->GetTransform()->GetLocalPosition());
-		//InvItemCollision_->GetTransform()->SetLocalScaling(InvItemRenderer_->GetTransform()->GetLocalScaling());
-
 		Off();
 
 		return true;

@@ -556,6 +556,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
 			if (true == NewItemInfo->CreateItemInfo(Cnt, static_cast<int>(LocType), LocType, ItemName, RenderPos))
 			{
+				// 관리목록에 해당 아이템 추가
 				InvArrItemList_.push_back(NewItemInfo);
 
 				// 2) 마우스 Put Down(아이템내려놓기)
@@ -590,7 +591,34 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 			int StartIndex = _TileIndex;
 			int WidthSize = CurItemInfo.WidthSize;
 			int HeightSize = CurItemInfo.HeightSize;
-			if (1 != WidthSize || 1 != HeightSize)
+			if (1 == WidthSize && 1 == HeightSize)
+			{
+				std::string ItemName = CurItemInfo.ItemName_abbreviation;
+				ItemLocType LocType = CurItemInfo.ItemLocType;
+				float4 RenderPos = InvStoreInfo_[_TileIndex]->GetTilePos();
+				InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
+				if (true == NewItemInfo->CreateItemInfo(Cnt, _TileIndex, LocType, ItemName, RenderPos))
+				{
+					// 정보 생성 성공시 
+
+					// 관리목록에 해당 아이템정보 추가
+					InvArrItemList_.push_back(NewItemInfo);
+
+					// 마우스 Put Down(아이템내려놓기)
+					GlobalValue::CurMouse->ItemPutDown();
+
+					// 해당 아이템의 렌더러크기(차지하는타일칸수)에 따라 해당하는 모든 타일(칸)의 Flag On
+					InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOn();
+
+					NewItemInfo->On();
+				}
+				else
+				{
+					// 정보 생성 실패시 바로 죽인다.
+					NewItemInfo->Death();
+				}
+			}
+			else
 			{
 				// 아이템이 차지하는 칸수가 가로 1개, 세로 1개가 아니라면
 				// 충돌한 타일인덱스 기준 좌,우,상,하의 타일의 장착상태를 체크
@@ -598,30 +626,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 
 
 
-
-
-
-
 			}
-
-			// 위치가능하다면 해당 아이템 정보를 생성
-
-
-
-
-
-
-			// 1) 배치하려는 아이템정보 생성 후 관리목록에 추가
-
-
-			// 2) 해당 아이템의 렌더러크기(차지하는타일칸수)를 얻어온다.
-
-
-			// 3) 마우스 Put Down(아이템내려놓기)
-			//GlobalValue::CurMouse->ItemPutDown();
-
-
-			// 4) 해당 아이템의 렌더러크기(차지하는타일칸수)에 따라 해당하는 모든 타일(칸)의 Flag On
 		}
 	}
 }

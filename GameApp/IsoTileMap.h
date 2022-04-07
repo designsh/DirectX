@@ -39,6 +39,13 @@ enum class TileType
 class GameEngineTileMapRenderer;
 class IsoTileMap : public GameEngineActor
 {
+private:
+	static bool FirstRandomLoad_;
+	static std::vector<int> IgnoreRange;
+	static std::vector<std::vector<float4>> RandomRange;
+	static std::vector<std::vector<int>> RandomReversRange;
+	static std::vector<std::vector<int>> RandomNextRange;
+
 private: // 생성된 타일정보
 	std::unordered_map<__int64, class GameEngineTileMapRenderer*> Tiles_;
 
@@ -62,7 +69,7 @@ private: // 각각의 텍스쳐명
 
 private:
 	GameEngineRandom Random_;
-	float4 RandomStartPos_;
+	std::vector<float4> RandomStartPos_;
 
 public:
 	IsoTileMap();
@@ -121,7 +128,7 @@ private:
 	void Start() override;
 
 public: // Random TileMap
-	void RandomRoad(int Count);
+	void RandomRoad(int _Count, bool _Multidirectional = false);
 
 public: // Save & Load
 	void MapSave();

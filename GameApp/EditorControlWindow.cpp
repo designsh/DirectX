@@ -52,12 +52,22 @@ void EditorControlWindow::OnGUI()
 #pragma endregion
 
 #pragma region RandomMapButton
-	if (true == ImGui::Button("RandomRoad", ImVec2(150.f, 50.f)))
+	if (true == ImGui::Button("Random_OneRoad", ImVec2(150.f, 50.f)))
 	{
 		GameEngineRandom Random;
 
 		Map->RandomRoad(Random.RandomInt(3, 10));
 	}
+
+	ImGui::SameLine();
+
+	if (true == ImGui::Button("Random_MultiRoad", ImVec2(150.f, 50.f)))
+	{
+		GameEngineRandom Random;
+
+		Map->RandomRoad(Random.RandomInt(3, 10), true);
+	}
+
 #pragma endregion
 
 	ImGui::SameLine();
