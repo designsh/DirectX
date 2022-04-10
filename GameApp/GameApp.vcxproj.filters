@@ -257,6 +257,9 @@
     <ClCompile Include="InvArrangementItemInfo.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryArrangementItem</Filter>
     </ClCompile>
+    <ClCompile Include="GameEndMenuView.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\04.GameEndMenuView</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -884,6 +887,9 @@
     </ClInclude>
     <ClInclude Include="InvArrangementItemInfo.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryArrangementItem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEndMenuView.h">
+      <Filter>Object\Actor\00.Global\00.Player\03.UI\04.GameEndMenuView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

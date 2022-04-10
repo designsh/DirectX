@@ -731,6 +731,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				// 단, 배치가능한 타일이 존재하지않다면 해당 아이템을 배치시킬수 없다.
 
 				// 유효카운트를 이용하여 아이템배치 인덱스목록 생성
+				// 단, 생성 실패시 아이템 배치불가
 				std::vector<int> TileArrIndexList;
 				TileArrIndexList.clear();
 
@@ -746,24 +747,36 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 가장 좌측이면서 상단 타일인경우
 					if (30 <= StartIndex && StartIndex <= 39)
 					{
-						// StartIndex기준 우하단 타일검사
-						if ((0 <= StartIndex + (WidthSize - 1) && InvTileCnt > StartIndex + (WidthSize - 1)) &&															// 우측으로
-							(0 <= StartIndex - ((HeightSize - 1) * 10) && InvTileCnt > StartIndex - ((HeightSize - 1) * 10)) &&											// 아래로
-							(0 <= StartIndex + ((WidthSize - 1) - ((HeightSize - 1) * 10)) && InvTileCnt > StartIndex + ((WidthSize - 1) - ((HeightSize - 1) * 10))))	// 우하단 대각선으로
+						// 계산된 인덱스 모두 검사
+						bool ChkFlag = false;
+						for (int k = 0; k < HeightSize; ++k)
 						{
-							if ((false == InvStoreInfo_[StartIndex + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex - ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) - ((HeightSize - 1) * 10))]->GetIsItemArrangeFlag()))
+							for (int l = 0; l < WidthSize; ++l)
 							{
-								// 인덱스 목록 추가
-								for (int k = 0; k < HeightSize; ++k)
+								int CalcIndex = StartIndex + l - (k * 10);
+								if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
 								{
-									for (int l = 0; l < WidthSize; ++l)
-									{
-										int CalcIndex = StartIndex + l - (k * 10);
+									// 타일검사해서 한개라도 true이면 배치불가능 판단
+									ChkFlag = true;
+									break;
+								}
+							}
 
-										TileArrIndexList.push_back(CalcIndex);
-									}
+							if (true == ChkFlag)
+							{
+								break;
+							}
+						}
+
+						// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+						if (false == ChkFlag)
+						{
+							for (int k = 0; k < HeightSize; ++k)
+							{
+								for (int l = 0; l < WidthSize; ++l)
+								{
+									int CalcIndex = StartIndex + l - (k * 10);
+									TileArrIndexList.push_back(CalcIndex);
 								}
 							}
 						}
@@ -771,24 +784,36 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 가장 좌측이면서 하단 타일인경우
 					else if (0 <= StartIndex && StartIndex <= 9)
 					{
-						// StartIndex기준 우상단 타일검사
-						if ((0 <= StartIndex + (WidthSize - 1) && InvTileCnt > StartIndex + (WidthSize - 1)) &&															// 우측으로
-							(0 <= StartIndex + ((HeightSize - 1) * 10) && InvTileCnt > StartIndex + ((HeightSize - 1) * 10)) &&											// 위로
-							(0 <= StartIndex + ((WidthSize - 1) + ((HeightSize - 1) * 10)) && InvTileCnt > StartIndex + ((WidthSize - 1) + ((HeightSize - 1) * 10))))	// 우상단 대각선으로
+						// 계산된 인덱스 모두 검사
+						bool ChkFlag = false;
+						for (int k = 0; k < HeightSize; ++k)
 						{
-							if ((false == InvStoreInfo_[StartIndex + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) + ((HeightSize - 1) * 10))]->GetIsItemArrangeFlag()))
+							for (int l = 0; l < WidthSize; ++l)
 							{
-								// 인덱스 목록 추가
-								for (int k = 0; k < HeightSize; ++k)
+								int CalcIndex = StartIndex + l + (k * 10);
+								if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
 								{
-									for (int l = 0; l < WidthSize; ++l)
-									{
-										int CalcIndex = StartIndex + l + (k * 10);
+									// 타일검사해서 한개라도 true이면 배치불가능 판단
+									ChkFlag = true;
+									break;
+								}
+							}
 
-										TileArrIndexList.push_back(CalcIndex);
-									}
+							if (true == ChkFlag)
+							{
+								break;
+							}
+						}
+
+						// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+						if (false == ChkFlag)
+						{
+							for (int k = 0; k < HeightSize; ++k)
+							{
+								for (int l = 0; l < WidthSize; ++l)
+								{
+									int CalcIndex = StartIndex + l + (k * 10);
+									TileArrIndexList.push_back(CalcIndex);
 								}
 							}
 						}
@@ -797,29 +822,36 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 가장 좌측일때 우단 타일검사
 					else
 					{
-						// 시작타일이 가장좌측이면서, 높이로 센터인경우
-						// 오른쪽, 오른쪽하단, 오른쪽상단, 위, 아래 검사
-						if ((0 <= StartIndex + (WidthSize - 1) && InvTileCnt > StartIndex + (WidthSize - 1)) &&																		// 우측으로
-							(0 <= StartIndex + (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10)) &&											// 상단측으로
-							(0 <= StartIndex - (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10)) &&											// 하단측으로
-							(0 <= StartIndex + ((WidthSize - 1) + (((HeightSize - 1) / 2) * 10)) && InvTileCnt > StartIndex + ((WidthSize - 1) + (((HeightSize - 1) / 2) * 10))) && // 우상단측으로
-							(0 <= (StartIndex + (WidthSize - 1)) - (((HeightSize - 1) / 2) * 10) && InvTileCnt > (StartIndex + (WidthSize - 1)) - (((HeightSize - 1) / 2) * 10)))	// 우하단측으로
+						// 계산된 인덱스 모두 검사
+						bool ChkFlag = false;
+						for (int k = -1; k < HeightSize - 1; ++k)
 						{
-							if ((false == InvStoreInfo_[StartIndex + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) + (((HeightSize - 1) / 2) * 10))]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[(StartIndex + (WidthSize - 1)) - (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) )
+							for (int l = 0; l < WidthSize; ++l)
 							{
-								// 인덱스 목록 추가
-								for (int k = -1; k < HeightSize - 1; ++k)
+								int CalcIndex = StartIndex + l + (k * 10);
+								if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
 								{
-									for (int l = 0; l < WidthSize; ++l)
-									{
-										int CalcIndex = StartIndex + l + (k * 10);
+									// 타일검사해서 한개라도 true이면 배치불가능 판단
+									ChkFlag = true;
+									break;
+								}
+							}
 
-										TileArrIndexList.push_back(CalcIndex);
-									}
+							if (true == ChkFlag)
+							{
+								break;
+							}
+						}
+
+						// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+						if (false == ChkFlag)
+						{
+							for (int k = -1; k < HeightSize - 1; ++k)
+							{
+								for (int l = 0; l < WidthSize; ++l)
+								{
+									int CalcIndex = StartIndex + l + (k * 10);
+									TileArrIndexList.push_back(CalcIndex);
 								}
 							}
 						}
@@ -831,24 +863,36 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 가장 우측이면서 상단 타일인경우
 					if (30 <= StartIndex && StartIndex <= 39)
 					{
-						// StartIndex기준 좌하단 타일검사
-						if ( (0 <= StartIndex - (WidthSize - 1) && InvTileCnt > StartIndex - (WidthSize - 1)) &&															// 좌측으로
-							 (0 <= StartIndex - ((HeightSize - 1) * 10) && InvTileCnt > StartIndex - ((HeightSize - 1) * 10)) &&											// 아래로
-							 (0 <= StartIndex - ((WidthSize - 1) + ((HeightSize - 1) * 10)) && InvTileCnt > StartIndex - ((WidthSize - 1) + ((HeightSize - 1) * 10))))		// 좌하단 대각선으로
+						// 계산된 인덱스 모두 검사
+						bool ChkFlag = false;
+						for (int k = 0; k < HeightSize; ++k)
 						{
-							if ((false == InvStoreInfo_[StartIndex - (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex - ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex - ((WidthSize - 1) + ((HeightSize - 1) * 10))]->GetIsItemArrangeFlag()))
+							for (int l = 0; l < WidthSize; ++l)
 							{
-								// 인덱스 목록 추가
-								for (int k = 0; k < HeightSize; ++k)
+								int CalcIndex = StartIndex - l - (k * 10);
+								if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
 								{
-									for (int l = 0; l < WidthSize; ++l)
-									{
-										int CalcIndex = StartIndex - l - (k * 10);
+									// 타일검사해서 한개라도 true이면 배치불가능 판단
+									ChkFlag = true;
+									break;
+								}
+							}
 
-										TileArrIndexList.push_back(CalcIndex);
-									}
+							if (true == ChkFlag)
+							{
+								break;
+							}
+						}
+
+						// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+						if (false == ChkFlag)
+						{
+							for (int k = 0; k < HeightSize; ++k)
+							{
+								for (int l = 0; l < WidthSize; ++l)
+								{
+									int CalcIndex = StartIndex - l - (k * 10);
+									TileArrIndexList.push_back(CalcIndex);
 								}
 							}
 						}
@@ -856,55 +900,73 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 가장 우측이면서 하단 타일인경우
 					else if (0 <= StartIndex && StartIndex <= 9)
 					{
-						// StartIndex기준 좌상단 타일검사
-						if ((0 <= StartIndex - (WidthSize - 1) && InvTileCnt > StartIndex - (WidthSize - 1)) &&																// 좌측으로
-							(0 <= StartIndex + ((HeightSize - 1) * 10) && InvTileCnt > StartIndex + ((HeightSize - 1) * 10)) &&												// 위로
-							(0 <= (StartIndex - (WidthSize - 1)) + ((HeightSize - 1) * 10) && InvTileCnt > (StartIndex - (WidthSize - 1)) + ((HeightSize - 1) * 10)))		// 좌상단 대각선으로
+						// 계산된 인덱스 모두 검사
+						bool ChkFlag = false;
+						for (int k = 0; k < HeightSize; ++k)
 						{
-							if ((false == InvStoreInfo_[StartIndex - (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[(StartIndex - (WidthSize - 1)) + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()))
+							for (int l = 0; l < WidthSize; ++l)
 							{
-								// 인덱스 목록 추가
-								for (int k = 0; k < HeightSize; ++k)
+								int CalcIndex = StartIndex - l + (k * 10);
+								if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
 								{
-									for (int l = 0; l < WidthSize; ++l)
-									{
-										int CalcIndex = StartIndex - l + (k * 10);
-
-										TileArrIndexList.push_back(CalcIndex);
-									}
+									// 타일검사해서 한개라도 true이면 배치불가능 판단
+									ChkFlag = true;
+									break;
 								}
+							}
+
+							if (true == ChkFlag)
+							{
+								break;
 							}
 						}
 
+						// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+						if (false == ChkFlag)
+						{
+							for (int k = 0; k < HeightSize; ++k)
+							{
+								for (int l = 0; l < WidthSize; ++l)
+								{
+									int CalcIndex = StartIndex - l + (k * 10);
+									TileArrIndexList.push_back(CalcIndex);
+								}
+							}
+						}
 					}
 					// 가장 우측일때 좌단 타일검사
 					else
 					{
-						// 시작타일이 가장우측이면서, 높이로 센터인경우
-						// 왼쪽, 왼쪽하단, 왼쪽상단, 위, 아래 검사
-						if ((0 <= StartIndex - (WidthSize - 1) && InvTileCnt > StartIndex - (WidthSize - 1)) &&																			// 좌측으로
-							(0 <= StartIndex + (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10)) &&												// 상단측으로
-							(0 <= StartIndex - (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10)) &&												// 하단측으로
-							(0 <= (StartIndex + (WidthSize - 1)) - (((HeightSize - 1) / 2) * 10) && InvTileCnt > (StartIndex + (WidthSize - 1)) - (((HeightSize - 1) / 2) * 10)) &&		// 좌하단 대각선으로
-							(0 <= (StartIndex - (WidthSize - 1)) + (((HeightSize - 1) / 2) * 10) && InvTileCnt > (StartIndex - (WidthSize - 1)) + (((HeightSize - 1) / 2) * 10)))		// 좌상단 대각선으로
+						// 계산된 인덱스 모두 검사
+						bool ChkFlag = false;
+						for (int k = -1; k < HeightSize - 1; ++k)
 						{
-							if ((false == InvStoreInfo_[StartIndex + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[(StartIndex + (WidthSize - 1)) - (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-								(false == InvStoreInfo_[(StartIndex - (WidthSize - 1)) + (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()))
+							for (int l = 0; l < WidthSize; ++l)
 							{
-								// 인덱스 목록 추가
-								for (int k = -1; k < HeightSize - 1; ++k)
+								int CalcIndex = StartIndex - l + (k * 10);
+								if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
 								{
-									for (int l = 0; l < WidthSize; ++l)
-									{
-										int CalcIndex = StartIndex - l + (k * 10);
+									// 타일검사해서 한개라도 true이면 배치불가능 판단
+									ChkFlag = true;
+									break;
+								}
+							}
 
-										TileArrIndexList.push_back(CalcIndex);
-									}
+							if (true == ChkFlag)
+							{
+								break;
+							}
+						}
+
+						// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+						if (false == ChkFlag)
+						{
+							for (int k = -1; k < HeightSize - 1; ++k)
+							{
+								for (int l = 0; l < WidthSize; ++l)
+								{
+									int CalcIndex = StartIndex - l + (k * 10);
+									TileArrIndexList.push_back(CalcIndex);
 								}
 							}
 						}
@@ -915,224 +977,402 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				{
 					// 좌상단 검사
 					// StartIndex가 가장 우하단 타일인덱스가 된다.
-					if ((0 <= StartIndex - (WidthSize - 1) && InvTileCnt > StartIndex - (WidthSize - 1)) &&																// 좌측으로
-						(0 <= StartIndex + ((HeightSize - 1) * 10) && InvTileCnt > StartIndex + ((HeightSize - 1) * 10)) &&												// 위로
-						(0 <= (StartIndex - (WidthSize - 1)) + ((HeightSize - 1) * 10) && InvTileCnt > (StartIndex - (WidthSize - 1)) + ((HeightSize - 1) * 10)))		// 좌상단 대각선으로
+					bool LeftTop = false;
+					for (int k = 0; k < HeightSize; ++k)
 					{
-						if ((false == InvStoreInfo_[StartIndex - (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[(StartIndex - (WidthSize - 1)) + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()))
+						for (int l = 0; l < WidthSize; ++l)
 						{
-							// 인덱스 목록 추가
-							for (int k = 0; k < HeightSize; ++k)
+							int CalcIndex = StartIndex - l + (k * 10);
+							if (0 <= CalcIndex && CalcIndex < 40)
 							{
-								for (int l = 0; l < WidthSize; ++l)
+								if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
 								{
-									int CalcIndex = StartIndex - l + (k * 10);
-
-									TileArrIndexList.push_back(CalcIndex);
+									// 타일검사해서 한개라도 true이면 배치불가능 판단
+									LeftTop = true;
+									break;
 								}
+							}
+							else
+							{
+								LeftTop = true;
+								break;
+							}
+						}
+
+						if (true == LeftTop)
+						{
+							break;
+						}
+					}
+
+					// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+					if (false == LeftTop)
+					{
+						for (int k = 0; k < HeightSize; ++k)
+						{
+							for (int l = 0; l < WidthSize; ++l)
+							{
+								int CalcIndex = StartIndex - l + (k * 10);
+								TileArrIndexList.push_back(CalcIndex);
 							}
 						}
 					}
-					// 상단 검사
-					// StartIndex가 중앙하단 타일인덱스가 된다.
-					else if ((0 <= StartIndex - ((WidthSize - 1) / 2) && InvTileCnt > StartIndex - ((WidthSize - 1) / 2)) &&														// 좌측으로
-						(0 <= StartIndex + ((WidthSize - 1) / 2) && InvTileCnt > StartIndex + ((WidthSize - 1) / 2)) &&																// 우측으로
-						(0 <= StartIndex - ((WidthSize - 1) / 2) + ((HeightSize - 1) * 10) && InvTileCnt > StartIndex - ((WidthSize - 1) / 2) + ((HeightSize - 1) * 10)) &&			// 좌상단측으로
-						(0 <= StartIndex + ((WidthSize - 1) / 2) + ((HeightSize - 1) * 10) && InvTileCnt > StartIndex + ((WidthSize - 1) / 2) + ((HeightSize - 1) * 10)) &&			// 우상단측으로
-						(0 <= StartIndex + ((HeightSize - 1) * 10) && InvTileCnt > StartIndex + ((HeightSize - 1) * 10)))															// 상단측으로
+					else // 좌상단 실패시
 					{
-						if ((false == InvStoreInfo_[StartIndex - ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - ((WidthSize - 1) / 2) + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) / 2) + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((HeightSize - 1) * 10) && InvTileCnt > StartIndex + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()))
+						// 상단 검사
+						// StartIndex가 중앙하단 타일인덱스가 된다.
+						bool Top = false;
+						for (int k = 0; k < HeightSize; ++k)
 						{
-							// 인덱스 목록 추가
-							for (int k = 0; k < HeightSize; ++k)
+							for (int l = -1; l < WidthSize - 1; ++l)
 							{
-								for (int l = -1; l < WidthSize - 1; ++l)
+								int CalcIndex = StartIndex + l + (k * 10);
+								if (0 <= CalcIndex && CalcIndex < 40)
 								{
-									int CalcIndex = StartIndex + l + (k * 10);
-
-									TileArrIndexList.push_back(CalcIndex);
+									if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
+									{
+										// 타일검사해서 한개라도 true이면 배치불가능 판단
+										Top = true;
+										break;
+									}
+								}
+								else
+								{
+									Top = true;
+									break;
 								}
 							}
-						}
-					}
-					// 우상단 검사
-					// StartIndex가 가장 좌하단 타일인덱스가 된다.
-					else if ((0 <= StartIndex + (WidthSize - 1) && InvTileCnt > StartIndex + (WidthSize - 1)) &&													// 우측으로
-						(0 <= StartIndex + ((HeightSize - 1) * 10) && InvTileCnt > StartIndex + ((HeightSize - 1) * 10)) &&											// 위로
-						(0 <= StartIndex + ((WidthSize - 1) + ((HeightSize - 1) * 10)) && InvTileCnt > StartIndex + ((WidthSize - 1) + ((HeightSize - 1) * 10))))	// 우상단 대각선으로
-					{
-						if ((false == InvStoreInfo_[StartIndex + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) + ((HeightSize - 1) * 10))]->GetIsItemArrangeFlag()))
-						{
-							// 인덱스 목록 추가
-							for (int k = 0; k < HeightSize; ++k)
-							{
-								for (int l = 0; l < WidthSize; ++l)
-								{
-									int CalcIndex = StartIndex + l + (k * 10);
 
-									TileArrIndexList.push_back(CalcIndex);
-								}
+							if (true == Top)
+							{
+								break;
 							}
 						}
-					}
-					// 우단 검사
-					// StartIndex가 센터좌단 타일인덱스가 된다.
-					else if ((0 <= StartIndex - (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10)) &&										// 하단측으로
-							 (0 <= StartIndex + (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10)) &&										// 상단측으로
-							 (0 <= StartIndex - (((HeightSize - 1) / 2) * 10) + (WidthSize - 1) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10) + (WidthSize - 1)) &&	// 우하단측으로
-							 (0 <= StartIndex + (((HeightSize - 1) / 2) * 10) + (WidthSize - 1) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10) + (WidthSize - 1)) &&	// 우상단측으로
-							 (0 <= StartIndex + (WidthSize - 1) && InvTileCnt > StartIndex + (WidthSize - 1)))																		// 우단측으로
-					{
-						if ((false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10) + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10) + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + (WidthSize - 1)]->GetIsItemArrangeFlag()))
-						{
-							// 인덱스 목록 추가
-							for (int k = -1; k < HeightSize - 1; ++k)
-							{
-								for (int l = 0; l < WidthSize; ++l)
-								{
-									int CalcIndex = StartIndex + l + (k * 10);
 
-									TileArrIndexList.push_back(CalcIndex);
-								}
-							}
-						}
-					}
-					// 우하단 검사
-					// StartIndex가 가장 좌상단 타일인덱스가 된다.
-					else if ((0 <= StartIndex + (WidthSize - 1) && InvTileCnt > StartIndex + (WidthSize - 1)) &&													// 우측으로
-						(0 <= StartIndex - ((HeightSize - 1) * 10) && InvTileCnt > StartIndex - ((HeightSize - 1) * 10)) &&											// 하단측으로
-						(0 <= StartIndex + ((WidthSize - 1) - ((HeightSize - 1) * 10)) && InvTileCnt > StartIndex + ((WidthSize - 1) - ((HeightSize - 1) * 10))))	// 우하단측으로
-					{
-						if ((false == InvStoreInfo_[StartIndex + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) - ((HeightSize - 1) * 10))]->GetIsItemArrangeFlag()))
+						// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+						if (false == Top)
 						{
-							// 인덱스 목록 추가
-							for (int k = 0; k < HeightSize; ++k)
-							{
-								for (int l = 0; l < WidthSize; ++l)
-								{
-									int CalcIndex = StartIndex + l - (k * 10);
-
-									TileArrIndexList.push_back(CalcIndex);
-								}
-							}
-						}
-					}
-					// 하단 검사
-					// StartIndex가 가장 센터상단 타일인덱스가 된다.
-					else if ((0 <= StartIndex - ((WidthSize - 1) / 2) && InvTileCnt > StartIndex - ((WidthSize - 1) / 2)) &&														// 좌측으로
-							(0 <= StartIndex + ((WidthSize - 1) / 2) && InvTileCnt > StartIndex + ((WidthSize - 1) / 2)) &&															// 우측으로
-							(0 <= StartIndex - ((WidthSize - 1) / 2) - ((HeightSize - 1) * 10) && InvTileCnt > StartIndex - ((WidthSize - 1) / 2) - ((HeightSize - 1) * 10)) &&		// 좌하단측으로
-							(0 <= StartIndex + ((WidthSize - 1) / 2) - ((HeightSize - 1) * 10) && InvTileCnt > StartIndex + ((WidthSize - 1) / 2) - ((HeightSize - 1) * 10)) &&		// 우하단측으로
-							(0 <= StartIndex - ((HeightSize - 1) * 10) && InvTileCnt > StartIndex - ((HeightSize - 1) * 10)))														// 하단측으로
-					{
-						if ((false == InvStoreInfo_[StartIndex - ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - ((WidthSize - 1) / 2) - ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) / 2) - ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - ((HeightSize - 1) * 10) && InvTileCnt > StartIndex - ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()))
-						{
-							// 인덱스 목록 추가
 							for (int k = 0; k < HeightSize; ++k)
 							{
 								for (int l = -1; l < WidthSize - 1; ++l)
 								{
-									int CalcIndex = StartIndex + l - (k * 10);
-
+									int CalcIndex = StartIndex + l + (k * 10);
 									TileArrIndexList.push_back(CalcIndex);
 								}
 							}
 						}
-					}
-					// 좌하단 검사
-					// StartIndex가 가장 우상단 타일인덱스가 된다.
-					else if ((0 <= StartIndex - (WidthSize - 1) && InvTileCnt > StartIndex - (WidthSize - 1)) &&													// 좌측으로
-						(0 <= StartIndex - ((HeightSize - 1) * 10) && InvTileCnt > StartIndex - ((HeightSize - 1) * 10)) &&											// 아래로
-						(0 <= StartIndex - ((WidthSize - 1) + ((HeightSize - 1) * 10)) && InvTileCnt > StartIndex - ((WidthSize - 1) + ((HeightSize - 1) * 10))))	// 좌하단 대각선으로
-					{
-						if ((false == InvStoreInfo_[StartIndex - (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - ((WidthSize - 1) + ((HeightSize - 1) * 10))]->GetIsItemArrangeFlag()))
+						else // 상단배치 실패시
 						{
-							// 인덱스 목록 추가
+							// 우상단 검사
+							// StartIndex가 가장 좌하단 타일인덱스가 된다.
+							bool RightTop = false;
 							for (int k = 0; k < HeightSize; ++k)
 							{
 								for (int l = 0; l < WidthSize; ++l)
-								{
-									int CalcIndex = StartIndex - l - (k * 10);
-
-									TileArrIndexList.push_back(CalcIndex);
-								}
-							}
-						}
-					}
-					// 좌단 검사
-					// StartIndex가 가장 센터우단 타일인덱스가 된다.
-					else if ((0 <= StartIndex - (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10)) &&										// 하단측으로
-							 (0 <= StartIndex + (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10)) &&										// 상단측으로
-							 (0 <= StartIndex - (((HeightSize - 1) / 2) * 10) - (WidthSize - 1) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10) - (WidthSize - 1)) &&	// 좌하단측으로
-							 (0 <= StartIndex + (((HeightSize - 1) / 2) * 10) - (WidthSize - 1) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10) - (WidthSize - 1)) &&	// 좌상단측으로
-							 (0 <= StartIndex - (WidthSize - 1) && InvTileCnt > StartIndex - (WidthSize - 1)))																		// 좌단측으로
-					{
-						if ((false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10) - (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10) - (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - (WidthSize - 1)]->GetIsItemArrangeFlag()))
-						{
-							// 인덱스 목록 추가
-							for (int k = 0; k < HeightSize; ++k)
-							{
-								for (int l = 0; l < WidthSize; ++l)
-								{
-									int CalcIndex = StartIndex - l - (k * 10);
-
-									TileArrIndexList.push_back(CalcIndex);
-								}
-							}
-						}
-					}
-					// 센터
-					// StartIndex가 센터 타일인덱스가 된다.
-					else if ((0 <= StartIndex - (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10)) &&												// 하단측으로
-						(0 <= StartIndex + (((HeightSize - 1) / 2) * 10) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10)) &&														// 상단측으로
-						(0 <= StartIndex - ((WidthSize - 1) / 2) && InvTileCnt > StartIndex - ((WidthSize - 1) / 2)) &&																		// 좌측으로
-						(0 <= StartIndex + ((WidthSize - 1) / 2) && InvTileCnt > StartIndex + ((WidthSize - 1) / 2)) &&																		// 우측으로
-						(0 <= StartIndex + (((HeightSize - 1) / 2) * 10) - ((WidthSize - 1) / 2) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10) - ((WidthSize - 1) / 2)) &&		// 좌상단측으로
-						(0 <= StartIndex + (((HeightSize - 1) / 2) * 10) + ((WidthSize - 1) / 2) && InvTileCnt > StartIndex + (((HeightSize - 1) / 2) * 10) + ((WidthSize - 1) / 2)) &&		// 우상단측으로
-						(0 <= StartIndex - (((HeightSize - 1) / 2) * 10) - ((WidthSize - 1) / 2) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10) - ((WidthSize - 1) / 2)) &&		// 좌하단측으로
-						(0 <= StartIndex - (((HeightSize - 1) / 2) * 10) + ((WidthSize - 1) / 2) && InvTileCnt > StartIndex - (((HeightSize - 1) / 2) * 10) + ((WidthSize - 1) / 2)))		// 우하단측으로
-					{
-						if ((false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10) - ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex + (((HeightSize - 1) / 2) * 10) + ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10) - ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()) &&
-							(false == InvStoreInfo_[StartIndex - (((HeightSize - 1) / 2) * 10) + ((WidthSize - 1) / 2)]->GetIsItemArrangeFlag()))
-						{
-							// 인덱스 목록 추가
-							for (int k = -1; k < HeightSize - 1; ++k)
-							{
-								for (int l = -1; l < WidthSize - 1; ++l)
 								{
 									int CalcIndex = StartIndex + l + (k * 10);
+									if (0 <= CalcIndex && CalcIndex < 40)
+									{
+										if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
+										{
+											// 타일검사해서 한개라도 true이면 배치불가능 판단
+											RightTop = true;
+											break;
+										}
+									}
+									else
+									{
+										RightTop = true;
+										break;
+									}
+								}
 
-									TileArrIndexList.push_back(CalcIndex);
+								if (true == RightTop)
+								{
+									break;
+								}
+							}
+
+							// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+							if (false == RightTop)
+							{
+								for (int k = 0; k < HeightSize; ++k)
+								{
+									for (int l = 0; l < WidthSize; ++l)
+									{
+										int CalcIndex = StartIndex + l + (k * 10);
+										TileArrIndexList.push_back(CalcIndex);
+									}
+								}
+							}
+							else // 우상단 실패시
+							{
+								// 우단 검사
+								// StartIndex가 센터좌단 타일인덱스가 된다.
+								bool Right = false;
+								for (int k = -1; k < HeightSize - 1; ++k)
+								{
+									for (int l = 0; l < WidthSize; ++l)
+									{
+										int CalcIndex = StartIndex + l + (k * 10);
+										if (0 <= CalcIndex && CalcIndex < 40)
+										{
+											if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
+											{
+												// 타일검사해서 한개라도 true이면 배치불가능 판단
+												Right = true;
+												break;
+											}
+										}
+										else
+										{
+											Right = true;
+											break;
+										}
+									}
+
+									if (true == Right)
+									{
+										break;
+									}
+								}
+
+								// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+								if (false == Right)
+								{
+									for (int k = -1; k < HeightSize - 1; ++k)
+									{
+										for (int l = 0; l < WidthSize; ++l)
+										{
+											int CalcIndex = StartIndex + l + (k * 10);
+											TileArrIndexList.push_back(CalcIndex);
+										}
+									}
+								}
+								else // 우단 실패시
+								{
+									// 우하단 검사
+									// StartIndex가 가장 좌상단 타일인덱스가 된다.
+									bool RightBot = false;
+									for (int k = 0; k < HeightSize; ++k)
+									{
+										for (int l = 0; l < WidthSize; ++l)
+										{
+											int CalcIndex = StartIndex + l - (k * 10);
+											if (0 <= CalcIndex && CalcIndex < 40)
+											{
+												if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
+												{
+													// 타일검사해서 한개라도 true이면 배치불가능 판단
+													RightBot = true;
+													break;
+												}
+											}
+											else
+											{
+												RightBot = true;
+												break;
+											}
+										}
+
+										if (true == RightBot)
+										{
+											break;
+										}
+									}
+
+									// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+									if (false == RightBot)
+									{
+										for (int k = 0; k < HeightSize; ++k)
+										{
+											for (int l = 0; l < WidthSize; ++l)
+											{
+												int CalcIndex = StartIndex + l - (k * 10);
+												TileArrIndexList.push_back(CalcIndex);
+											}
+										}
+									}
+									else // 우하단 실패시
+									{
+										// 하단 검사
+										// StartIndex가 가장 센터상단 타일인덱스가 된다.
+										bool Bot = false;
+										for (int k = 0; k < HeightSize; ++k)
+										{
+											for (int l = -1; l < WidthSize - 1; ++l)
+											{
+												int CalcIndex = StartIndex + l - (k * 10);
+												if (0 <= CalcIndex && CalcIndex < 40)
+												{
+													if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
+													{
+														// 타일검사해서 한개라도 true이면 배치불가능 판단
+														Bot = true;
+														break;
+													}
+												}
+												else
+												{
+													Bot = true;
+													break;
+												}
+											}
+
+											if (true == Bot)
+											{
+												break;
+											}
+										}
+
+										// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+										if (false == Bot)
+										{
+											for (int k = 0; k < HeightSize; ++k)
+											{
+												for (int l = -1; l < WidthSize - 1; ++l)
+												{
+													int CalcIndex = StartIndex + l - (k * 10);
+													TileArrIndexList.push_back(CalcIndex);
+												}
+											}
+										}
+										else // 하단실패시
+										{
+											// 좌하단 검사
+											// StartIndex가 가장 우상단 타일인덱스가 된다.
+											bool LeftBot = false;
+											for (int k = 0; k < HeightSize; ++k)
+											{
+												for (int l = 0; l < WidthSize; ++l)
+												{
+													int CalcIndex = StartIndex - l - (k * 10);
+													if (0 <= CalcIndex && CalcIndex < 40)
+													{
+														if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
+														{
+															// 타일검사해서 한개라도 true이면 배치불가능 판단
+															LeftBot = true;
+															break;
+														}
+													}
+													else
+													{
+														LeftBot = true;
+														break;
+													}
+												}
+
+												if (true == LeftBot)
+												{
+													break;
+												}
+											}
+
+											// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+											if (false == LeftBot)
+											{
+												for (int k = 0; k < HeightSize; ++k)
+												{
+													for (int l = 0; l < WidthSize; ++l)
+													{
+														int CalcIndex = StartIndex - l - (k * 10);
+														TileArrIndexList.push_back(CalcIndex);
+													}
+												}
+											}
+											else // 좌하단실패시
+											{
+												// 좌단 검사
+												// StartIndex가 가장 센터우단 타일인덱스가 된다.
+												bool Left = false;
+												for (int k = 0; k < HeightSize; ++k)
+												{
+													for (int l = 0; l < WidthSize; ++l)
+													{
+														int CalcIndex = StartIndex - l - (k * 10);
+														if (0 <= CalcIndex && CalcIndex < 40)
+														{
+															if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
+															{
+																// 타일검사해서 한개라도 true이면 배치불가능 판단
+																Left = true;
+																break;
+															}
+														}
+														else
+														{
+															Left = true;
+															break;
+														}
+													}
+
+													if (true == Left)
+													{
+														break;
+													}
+												}
+
+												// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+												if (false == Left)
+												{
+													for (int k = 0; k < HeightSize; ++k)
+													{
+														for (int l = 0; l < WidthSize; ++l)
+														{
+															int CalcIndex = StartIndex - l - (k * 10);
+															TileArrIndexList.push_back(CalcIndex);
+														}
+													}
+												}
+												else // 좌단실패시
+												{
+													// 센터
+													// StartIndex가 센터 타일인덱스가 된다.
+													bool Center = false;
+													for (int k = -1; k < HeightSize - 1; ++k)
+													{
+														for (int l = -1; l < WidthSize - 1; ++l)
+														{
+															int CalcIndex = StartIndex + l + (k * 10);
+															if (0 <= CalcIndex && CalcIndex < 40)
+															{
+																if (true == InvStoreInfo_[CalcIndex]->GetIsItemArrangeFlag())
+																{
+																	// 타일검사해서 한개라도 true이면 배치불가능 판단
+																	Center = true;
+																	break;
+																}
+															}
+															else
+															{
+																Center = true;
+																break;
+															}
+														}
+
+														if (true == Center)
+														{
+															break;
+														}
+													}
+
+													// 모든 인덱스 검사해서 배치가능하다면 인덱스목록 작성
+													if (false == Center)
+													{
+														for (int k = -1; k < HeightSize - 1; ++k)
+														{
+															for (int l = -1; l < WidthSize - 1; ++l)
+															{
+																int CalcIndex = StartIndex + l + (k * 10);
+																TileArrIndexList.push_back(CalcIndex);
+															}
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -1154,6 +1394,9 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 실질적인 아이템 정보 생성
 					std::string ItemName = CurItemInfo.ItemName_abbreviation;
 					ItemLocType LocType = ItemLocType::Inven_Bottom;
+
+					// 장착가능한 타일정보를 이용하여 아이템 생성
+
 					float4 RenderPos = InvStoreInfo_[_TileIndex]->GetTilePos();
 					if (true == NewItemInfo->CreateItemInfo(Cnt, _TileIndex, LocType, ItemName, RenderPos))
 					{

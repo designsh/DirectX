@@ -8,6 +8,7 @@
 #include "StatView.h"
 #include "SkillView.h"
 #include "InventoryView.h"
+#include "GameEndMenuView.h"
 
 #pragma region 플레이어 UI 초기셋팅
 
@@ -27,7 +28,7 @@ void MainPlayer::CreatePlayerUIInfomation()
 	InventoryView_->InitInventoryView();
 
 	// 게임종료메뉴창관련 정보 Setting
-
+	GameEndMenuView_->InitGameEndMenuView();
 }
 
 #pragma endregion
@@ -95,6 +96,19 @@ void MainPlayer::InventoryViewEnabled(bool _Enabled)
 
 #pragma region 플레이어 종료메뉴창
 
+void MainPlayer::GameEndMenuViewEnabled(bool _Enabled)
+{
+	if (true == _Enabled)
+	{
+		IsGameEndMenu_ = true;
+		GameEndMenuView_->On();
+	}
+	else
+	{
+		IsGameEndMenu_ = false;
+		GameEndMenuView_->Off();
+	}
+}
 
 #pragma endregion
 

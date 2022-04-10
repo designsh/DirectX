@@ -135,6 +135,7 @@ class BottomStateBar;
 class StatView;
 class SkillView;
 class InventoryView;
+class GameEndMenuView;
 class GameEngineImageRenderer;
 class MainPlayer : public GameEngineActor
 {
@@ -142,12 +143,13 @@ class MainPlayer : public GameEngineActor
 private: // 플레이어상태관련 Flag
 	bool IsTown_;											// 마을/필드 존재 여부(true : 마을)
 	bool IsRun_;											// 뛰기/걷기 상태 여부(true : 뛰기상태(스태미나 소모))
-	bool IsInventoryView_;										// 인벤토리 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
+	bool IsInventoryView_;									// 인벤토리 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
 	bool IsStateView_;										// 스탯창 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화 - 활성화시 화면크기절반의 왼쪽은 이동방향으로 설정 불가
 	bool IsSkillView_;										// 스킬창 활성화 여부(true : 활성화) - 화면 오른쪽에 활성화 - 활성화시 화면크기절반의 오른쪽은 이동방향으로 설정 불가
 	bool IsRightSkillList_;									// 오른쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 오른쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
 	bool IsLeftSkillList_;									// 왼쪽 스킬버튼 목록 활성화 여부(true : 활성화) - 화면 하단 왼쪽에 활성화 - 활성화시 활성화된 목록버튼과 마우스 충돌시 이동방향으로 설정불가
 	bool IsStorehouse_;										// 창고 활성화 여부(true : 활성화) - 화면 왼쪽에 활성화되며, 동시에 인벤토리 활성화 - 화면 전체를 이동방향으로 설정 불가
+	bool IsGameEndMenu_;									// 게임종료메뉴 활성화 여부(true : 활성화) - 화면전체에 활성화되며, 플레이어는 모든 동작 불가
 
 private: // 플레이어 이동관련 Flag
 	bool IsMove_;											// 현재 플레이어 목표지점 이동 중
@@ -220,7 +222,7 @@ private: // 플레이어 UI
 	StatView* StatView_;									// 상태창
 	SkillView* SkillView_;									// 스킬트리창
 	InventoryView* InventoryView_;							// 인벤토리창
-	//GameEndMenuView* GameEndMenuView_;						// 게임종료메뉴창
+	GameEndMenuView* GameEndMenuView_;						// 게임종료메뉴창
 
 #pragma endregion
 
@@ -266,12 +268,14 @@ public: // UI Flag관련
 	bool GetIsSkillView() const;
 	bool GetIsRightSkillList() const;
 	bool GetIsLeftSkillList() const;
-	bool GetIsIsStorehouse() const;
+	bool GetIsStorehouse() const;
+	bool GetIsGameEndMenu() const;
 
 public: // UI 객체관련
 	BottomStateBar* GetBottomStateBar() const;
 	StatView* GetStatView() const;
 	SkillView* GetSkillView() const;
+	GameEndMenuView* GetGameEndMenuView() const;
 
 #pragma endregion
 
@@ -457,6 +461,7 @@ public:
 	void StateViewEnabled(bool _Enabled);
 	void SkillViewEnabled(bool _Enabled);
 	void InventoryViewEnabled(bool _Enabled);
+	void GameEndMenuViewEnabled(bool _Enabled);
 
 #pragma endregion
 

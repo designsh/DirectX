@@ -95,9 +95,14 @@ bool MainPlayer::GetIsLeftSkillList() const
 	return IsLeftSkillList_;
 }
 
-bool MainPlayer::GetIsIsStorehouse() const
+bool MainPlayer::GetIsStorehouse() const
 {
 	return IsStorehouse_;
+}
+
+bool MainPlayer::GetIsGameEndMenu() const
+{
+	return IsGameEndMenu_;
 }
 
 #pragma endregion
@@ -117,6 +122,11 @@ StatView* MainPlayer::GetStatView() const
 SkillView* MainPlayer::GetSkillView() const
 {
 	return SkillView_;
+}
+
+GameEndMenuView* MainPlayer::GetGameEndMenuView() const
+{
+	return GameEndMenuView_;
 }
 
 #pragma endregion

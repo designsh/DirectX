@@ -125,6 +125,11 @@ void MainPlayer_MiniMenuButton::ShortcutsProcess()
 			GlobalValue::CurPlayer->SkillViewEnabled(Active_);
 			break;
 		}
+		case ShortcutsType::GAMEENDMENU:
+		{
+			GlobalValue::CurPlayer->GameEndMenuViewEnabled(Active_);
+			break;
+		}
 	}
 
 	// 미니메뉴 이동처리

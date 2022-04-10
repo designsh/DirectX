@@ -11,6 +11,7 @@
 #include "StatView.h"
 #include "SkillView.h"
 #include "InventoryView.h"
+#include "GameEndMenuView.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
@@ -27,6 +28,7 @@ MainPlayer::MainPlayer() :
 	IsRightSkillList_(false),
 	IsLeftSkillList_(false),
 	IsStorehouse_(false),
+	IsGameEndMenu_(false),
 	IsMove_(false),
 	IsDefaultZOrderChangeChk_(false),
 	IsFrameZOrderChangeChk_(false),
@@ -47,7 +49,8 @@ MainPlayer::MainPlayer() :
 	BottomStateBar_(nullptr),
 	StatView_(nullptr),
 	SkillView_(nullptr),
-	InventoryView_(nullptr)
+	InventoryView_(nullptr),
+	GameEndMenuView_(nullptr)
 {
 	IsItemEquipState_.clear();
 	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
@@ -87,7 +90,7 @@ void MainPlayer::Start()
 	InventoryView_ = GetLevel()->CreateActor<InventoryView>();
 
 	// 게임종료메뉴 창
-
+	GameEndMenuView_ = GetLevel()->CreateActor<GameEndMenuView>();
 
 	// ================================== 키생성 ================================== //
 	// 스킬창 열기
@@ -166,10 +169,10 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(1);
 	}
 
-	// 게임종료메뉴 열기
+	// 게임종료메뉴 열기(임시보류)
 	if (true == GameEngineInput::GetInst().Down("GameEndMenuActive"))
 	{
-		
+		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(3);
 	}
 
 	// 스태미나 활성/비활성
@@ -215,6 +218,10 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	// 마우스 왼쪽버튼(추후 충돌시 호출로 변경예정)
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
+		// UI 충돌과 동시에 클릭일시 리턴처리(이동불가처리)
+
+
+
 		// 이동인지 체크후 이동이라면 방향계산후 상태 변경
 		MouseObject* MainMouse = GlobalValue::CurMouse;
 		if (nullptr == MainMouse)

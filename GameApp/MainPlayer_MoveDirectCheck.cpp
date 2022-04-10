@@ -8,10 +8,6 @@
 
 bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 {
-	// UI 활성화 여부 체크
-
-
-
 	// 플레이어 현재 위치 Get
 	float4 MyPos = GetTransform()->GetLocalPosition();
 
