@@ -82,7 +82,7 @@ public: // 인벤창 마우스와 연동하여 아이템 배치/해제
 	void ItemArrangementOn(int _TileIndex, InvTabType _InvTabType);
 	void ItemArrangementOff(int _TileIndex, InvTabType _InvTabType);
 
-public: // 
-	
+public: // 인벤창 상단 장착탭의 무기 장착상태에 따라 플레이어 상태 변경
+	void EquipItemCheck(ItemLocType _ItemLocType, const std::string& _ItemName, bool _OnAndOff);
 };
 

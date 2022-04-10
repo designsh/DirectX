@@ -92,6 +92,11 @@ public:
 		return ArrangementTileIdxList_;
 	}
 
+	inline std::string GetItemName()
+	{
+		return ItemName_;
+	}
+
 public:
 	void SetItemRenderPos(const float4& _RenderPos);
 

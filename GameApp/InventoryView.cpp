@@ -660,7 +660,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
 			if (true == NewItemInfo->CreateItemInfo(Cnt, static_cast<int>(LocType), LocType, ItemName, RenderPos))
 			{
-				// 관리목록에 해당 아이템 추가
+				// 관리목록 추가
 				InvArrItemList_.push_back(NewItemInfo);
 
 				// 2) 마우스 Put Down(아이템내려놓기)
@@ -668,20 +668,10 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 
 				// 3) 배치하려는 칸(타일)의 Flag On
 				InvEquipInfo_[static_cast<int>(LocType)]->SetItemArrangeFlagOn();
-
 				NewItemInfo->On();
 
-				// 4) 해당 장착탭의 따라 플레이어의 파트별 렌더러 상태 갱신
-				// 무기탭을 제외한 인벤 상단 장착탭의 모든 파트는 아이템이 장착되면
-				// 플레이어의 파트별 렌더러를 각각 HVY_상태로 전환한다.
-				// 이때 무기는 WND가 LIT_상태이고, CRS가 HVY_상태이다.
-				//    Ex) -. 방패탭에 방패 장착시 플레이어의 애니메이션 SH 파트는 HVY_ 상태가 된다.
-				//        -. 무기탭에 기본적으로 wnd 무기가 장착되어있으나, crs 무기로 변경되어 장착되는 순간
-				//           플레이어의 애니메이션 RH 파트는 HVY_ 상태가 된다.
-
-
-
-
+				// 4) 아이템 장착상태에 따른 플레이어 파트별 렌더러 갱신
+				EquipItemCheck(LocType, ItemName, true);
 			}
 			else
 			{
@@ -1243,7 +1233,11 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 
 				// 만약 플레이어의 애니메이션이 LIT_ 상태의 아이템 장착상황이 아니라면
 				// 해당 장착파트의 플레이어 애니메이션이 HVY_ -> LIT_ 상태로 전환
+				std::string ItemName = InvArrItemList_[i]->GetItemName();
+				ItemLocType LocType = InvArrItemList_[i]->GetLocType();
+				EquipItemCheck(LocType, ItemName, false);
 
+				// 마우스 전달
 				std::string TextureName = InvArrItemList_[i]->GetTextureName();
 				float4 RenderScale = InvArrItemList_[i]->GetRenderScale();
 				GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
@@ -1258,19 +1252,6 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 					InvArrItemList_.erase(DelIter);
 					break;
 				}
-
-				// 해당 장착탭의 따라 플레이어의 파트별 렌더러 상태 갱신
-				// 무기탭을 제외한 인벤 상단 장착탭의 모든 파트는 아이템이 빠져나가면
-				// 플레이어의 파트별 렌더러를 LIT_상태로 전환한다.
-				// 이때 무기탭은 wnd 아이템착용을 LIT_상태로 정하고, crs 아이템착용을 HVY_상태로 정한다.
-
-
-
-
-
-
-
-
 				break;
 			}
 		}
@@ -1342,5 +1323,118 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 				}
 			}
 		}
+	}
+}
+
+void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& _ItemName, bool _OnAndOff)
+{
+	// 장착한 아이템명에 따라 처리됨
+	if (true == _OnAndOff) // 장착
+	{
+		// 장착시 해당 아이템명에 따라 플레이어의 파트별렌더러가 변경된다.
+		// LIT_ -> HVY_
+		switch (_ItemLocType)
+		{
+			case ItemLocType::Inven_Weapon:
+			{
+				// 장착한 아이템명이 crs이면 HVY_ 상태전환
+				if ("crs" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOn(ItemEquipPart::Inv_Weapon);
+				}
+				// 장착한 아이템명이 wnd이면 LIT_ 상태전환
+				else if ("wnd" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Weapon);
+				}
+				break;
+			}
+			case ItemLocType::Inven_Shield:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Helm:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Armor:
+			{
+				// 장착한 아이템명이 chn이면 HVY_ 상태전환
+				if ("chn" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOn(ItemEquipPart::Inv_Armor);
+				}
+				break;
+			}
+			case ItemLocType::Inven_Gloves:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Belt:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Boots:
+			{
+
+				break;
+			}
+		}
+	}
+	else // 장착해제
+	{
+		// 장착해제시 해당 아이템명에 따라 플레이어의 파트별렌더러가 변경된다.
+		// HVY_ -> LIT_
+		switch (_ItemLocType)
+		{
+			case ItemLocType::Inven_Weapon:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Shield:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Helm:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Armor:
+			{
+				// 장착해제한 아이템명이 chn이면 HVY_ 상태전환
+				if ("chn" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Armor);
+				}
+				break;
+			}
+			case ItemLocType::Inven_Gloves:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Belt:
+			{
+
+				break;
+			}
+			case ItemLocType::Inven_Boots:
+			{
+
+				break;
+			}
+		}
+
+
+
+
+		int a = 0;
 	}
 }
