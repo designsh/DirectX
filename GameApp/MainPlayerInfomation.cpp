@@ -255,31 +255,31 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	MainPlayerInfo_.ItemInfo.push_back(BasicIdentifyScroll);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// 테스트용 아이템
-	//ItemList TestItem = {};
-	//TestItem.ItemName_abbreviation = "bsh";
-	//TestItem.ItemName_abbreviation_Inven = "invbsh";
-	//TestItem.ItemCode = 5;
-	//TestItem.ItemType = ItemType::Shield;
+	// 테스트용 아이템
+	ItemList TestItem = {};
+	TestItem.ItemName_abbreviation = "bsh";
+	TestItem.ItemName_abbreviation_Inven = "invbsh";
+	TestItem.ItemCode = 5;
+	TestItem.ItemType = ItemType::Shield;
 
-	//TestItem.ItemLocType = ItemLocType::Inven_Bottom;
-	//TestItem.StartPosition = 0;
-	//TestItem.WidthSize = 3;
-	//TestItem.HeightSize = 3;
+	TestItem.ItemLocType = ItemLocType::Inven_Bottom;
+	TestItem.StartPosition = 0;
+	TestItem.WidthSize = 3;
+	TestItem.HeightSize = 3;
 
-	//TestItem.IsDurability = false;
-	//TestItem.MaxDurability = 0;
-	//TestItem.CurDurability = 0;
+	TestItem.IsDurability = false;
+	TestItem.MaxDurability = 0;
+	TestItem.CurDurability = 0;
 
-	//TestItem.Block = 0;
-	//TestItem.Weight = 0;
-	//TestItem.Price = 10;
-	//TestItem.PullDamage = 0;
-	//TestItem.PullArmor = 0;
+	TestItem.Block = 0;
+	TestItem.Weight = 0;
+	TestItem.Price = 10;
+	TestItem.PullDamage = 0;
+	TestItem.PullArmor = 0;
 
-	//TestItem.Recovery = 0;
+	TestItem.Recovery = 0;
 
-	//MainPlayerInfo_.ItemInfo.push_back(TestItem);
+	MainPlayerInfo_.ItemInfo.push_back(TestItem);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
