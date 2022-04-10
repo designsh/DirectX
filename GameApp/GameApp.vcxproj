@@ -225,6 +225,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="NPC_BuySellView.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="NPC_MessageView.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SkillView.cpp">
       <SubType>
       </SubType>
@@ -524,6 +532,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MapEditorLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NPC_BuySellView.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NPC_MessageView.h">
       <SubType>
       </SubType>
     </ClInclude>

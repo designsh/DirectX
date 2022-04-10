@@ -269,6 +269,12 @@
     <ClCompile Include="WeaponNPC_FSMState.cpp">
       <Filter>Object\Actor\00.Global\02.NPC\02.WeaponNPC</Filter>
     </ClCompile>
+    <ClCompile Include="NPC_MessageView.cpp">
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC_BuySellView.cpp">
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.BuySellView</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -685,6 +691,9 @@
     <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView">
       <UniqueIdentifier>{9bbb1536-4194-422e-bcf2-5e8fbd7c5fa9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\02.TopMenuBar">
+      <UniqueIdentifier>{7d769fff-fe3c-487b-aa07-380b54995199}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -911,6 +920,12 @@
     </ClInclude>
     <ClInclude Include="WeaponNPC.h">
       <Filter>Object\Actor\00.Global\02.NPC\02.WeaponNPC</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC_MessageView.h">
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC_BuySellView.h">
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.BuySellView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,9 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+#include "MainPlayer.h"
+#include "NPC_MessageView.h"
+
 bool WeaponNPC::FirstInteraction = false;
 bool WeaponNPC::InteractionFlag = false;
 
@@ -24,7 +27,9 @@ WeaponNPC::WeaponNPC() :
 	CurState_(WeaponNPC_FSMState::ST_IDLE),
 	MoveDelayTime_(3.f),
 	InteractionDistance_(80.f),
-	TargetMovePos_(float4(100.f, 0.f))
+	MoveSpeed_(100.f),
+	TargetMovePos_(float4(100.f, 0.f)),
+	MessageView_(nullptr)
 {
 }
 
@@ -59,13 +64,19 @@ void WeaponNPC::Update(float _DeltaTime)
 		if (CurState_ == WeaponNPC_FSMState::ST_IDLE || CurState_ == WeaponNPC_FSMState::ST_WALK)
 		{
 			// 거리체크
+			if (nullptr != GlobalValue::CurPlayer)
+			{
+				//float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition();
+				//float4 MyPos = GetTransform()->GetLocalPosition();
 
+				// 일정사정거리에 진입시 플레이어 방향으로 현재방향전환 후
+				
+				// 상호작용으로 상태전환
+				//State_.ChangeState("WeaponNPC_CONVERSATION");
 
-			// 일정사정거리에 진입시 플레이어 방향으로 현재방향전환 후
-
-
-			// 상호작용으로 상태전환
-			//State_.ChangeState("WeaponNPC_CONVERSATION");
+				// 상호작용 유효거리 체크 Flag 해제
+				InteractionFlag = false;
+			}
 		}
 	}
 

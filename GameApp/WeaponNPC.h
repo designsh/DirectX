@@ -27,6 +27,7 @@ enum class WeaponNPC_FSMState
 // 설명 : 
 class GameEngineImageRenderer;
 class GameEngineCollision;
+class NPC_MessageView;
 class WeaponNPC : public GameEngineActor
 {
 private:
@@ -52,7 +53,11 @@ private: // FSM
 private: // 자동화용
 	float MoveDelayTime_;		// 이동딜레이시간
 	float InteractionDistance_;	// 최소 상호자용거리(플레이어와의 거리)
+	float MoveSpeed_;			// 이동속도
 	float4 TargetMovePos_;		// 이동위치
+
+private: // UI관련
+	NPC_MessageView* MessageView_;
 
 public:
 	WeaponNPC();
