@@ -233,6 +233,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="NPC_TopMenuBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SkillView.cpp">
       <SubType>
       </SubType>
@@ -540,6 +544,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="NPC_MessageView.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NPC_TopMenuBar.h">
       <SubType>
       </SubType>
     </ClInclude>

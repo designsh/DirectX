@@ -275,6 +275,9 @@
     <ClCompile Include="NPC_BuySellView.cpp">
       <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.BuySellView</Filter>
     </ClCompile>
+    <ClCompile Include="NPC_TopMenuBar.cpp">
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\02.TopMenuBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -926,6 +929,9 @@
     </ClInclude>
     <ClInclude Include="NPC_BuySellView.h">
       <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.BuySellView</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC_TopMenuBar.h">
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\02.TopMenuBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
