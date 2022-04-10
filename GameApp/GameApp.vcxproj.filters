@@ -150,7 +150,7 @@
       <Filter>Object\Actor\00.Global\01.Monster\00.MonsterInfo</Filter>
     </ClCompile>
     <ClCompile Include="AllNPCInfomation.cpp">
-      <Filter>Object\Actor\00.Global\02.NPC\00.NPCInfo</Filter>
+      <Filter>Object\Actor\00.Global\02.NPC\00.NPC_Info</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevelMoveBtn.cpp">
       <Filter>Object\Actor\02.CreateCharacter\04.TitleLevelMoveButton</Filter>
@@ -259,6 +259,15 @@
     </ClCompile>
     <ClCompile Include="GameEndMenuView.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\04.GameEndMenuView</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponNPC.cpp">
+      <Filter>Object\Actor\00.Global\02.NPC\02.WeaponNPC</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponNPC_Create.cpp">
+      <Filter>Object\Actor\00.Global\02.NPC\02.WeaponNPC</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponNPC_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\02.NPC\02.WeaponNPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,15 +547,6 @@
     <Filter Include="Object\Actor\00.Global\01.Monster\02.Boss\01.Diablo">
       <UniqueIdentifier>{3eef5d4b-22a7-4ba0-85c4-9527ef88d602}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\02.NPC\00.NPCInfo">
-      <UniqueIdentifier>{e2825ff5-8512-4eac-b165-060487aaffa6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\02.NPC\01.WeaponNPC">
-      <UniqueIdentifier>{2e7dafa2-e99d-4476-810f-15b3ae6ef5e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\02.NPC\02.ChandleryNPC">
-      <UniqueIdentifier>{f08ec3e2-3ae4-4688-b167-fe51c322ace4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\99.ErrorMsgPopup">
       <UniqueIdentifier>{09236cc2-ed37-4122-8fa3-d27524e1e815}</UniqueIdentifier>
     </Filter>
@@ -666,6 +666,24 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\03.InventoryView\InventoryArrangementItem">
       <UniqueIdentifier>{67b341ac-e3f4-49d1-95c1-9fe68ea06bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\02.WeaponNPC">
+      <UniqueIdentifier>{2e7dafa2-e99d-4476-810f-15b3ae6ef5e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\03.ChandleryNPC">
+      <UniqueIdentifier>{f08ec3e2-3ae4-4688-b167-fe51c322ace4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI">
+      <UniqueIdentifier>{12e14e75-9662-4ce6-9e27-5b8ec6270caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\00.NPC_Info">
+      <UniqueIdentifier>{e2825ff5-8512-4eac-b165-060487aaffa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\00.BuySellView">
+      <UniqueIdentifier>{cc1ab6d6-fc2d-4840-9289-8ea41a5fb882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView">
+      <UniqueIdentifier>{9bbb1536-4194-422e-bcf2-5e8fbd7c5fa9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -817,7 +835,7 @@
       <Filter>Object\Actor\00.Global\01.Monster\00.MonsterInfo</Filter>
     </ClInclude>
     <ClInclude Include="AllNPCInfomation.h">
-      <Filter>Object\Actor\00.Global\02.NPC\00.NPCInfo</Filter>
+      <Filter>Object\Actor\00.Global\02.NPC\00.NPC_Info</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevelMoveBtn.h">
       <Filter>Object\Actor\02.CreateCharacter\04.TitleLevelMoveButton</Filter>
@@ -890,6 +908,9 @@
     </ClInclude>
     <ClInclude Include="GameEndMenuView.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\04.GameEndMenuView</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponNPC.h">
+      <Filter>Object\Actor\00.Global\02.NPC\02.WeaponNPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

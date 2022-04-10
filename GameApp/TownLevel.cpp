@@ -4,6 +4,8 @@
 #include "MainPlayer.h"
 #include "MouseObject.h"
 
+#include "WeaponNPC.h"
+
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
@@ -15,7 +17,8 @@
 
 TownLevel::TownLevel() :
 	MainPlayer_(nullptr),
-	MainMouse_(nullptr)
+	MainMouse_(nullptr),
+	WeaponNPC_(nullptr)
 {
 }
 
@@ -73,7 +76,9 @@ void TownLevel::LevelStart()
 	MainPlayer_ = CreateActor<MainPlayer>();
 	GetMainCameraActor()->GetTransform()->SetWorldPosition(MainPlayer_->GetTransform()->GetLocalPosition());
 
-	// NPC 생성(무기상인)
+	// NPC 생성(무기상인) - 테스트 위치
+	WeaponNPC_ = CreateActor<WeaponNPC>();
+	WeaponNPC_->GetTransform()->SetLocalPosition(float4(200.f, 200.f, 10.f));
 
 	// NPC 생성(잡화상인)
 

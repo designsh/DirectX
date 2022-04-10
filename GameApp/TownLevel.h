@@ -6,11 +6,15 @@
 // Ό³Έν : 
 class MainPlayer;
 class MouseObject;
+class WeaponNPC;
 class TownLevel : public GameEngineLevel
 {
 private:	// member Var
 	MainPlayer* MainPlayer_;
 	MouseObject* MainMouse_;
+
+private:
+	WeaponNPC* WeaponNPC_;
 
 public:
 	TownLevel();
