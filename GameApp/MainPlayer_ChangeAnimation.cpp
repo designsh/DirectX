@@ -48,7 +48,6 @@ void MainPlayer::ChangeAnimation(const std::string& _CurStateName)
 		else if (CurPartItemEquipState == ItemEquipState::TP_HVY && static_cast<RendererPartType>(i) == RendererPartType::PART_SH)
 		{
 			PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->On();
-			continue;
 		}
 
 		// DD / DT 의 TR렌더러를 제외하고 모두 Off상태로 변경하고 애니메이션 변경을 하지않는다.

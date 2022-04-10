@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MainPlayer.h"
 
+#include <GameEngine/GameEngineImageRenderer.h>
+
 ItemEquipState MainPlayer::CheckItemEquip(RendererPartType _PlayerPart)
 {
 	// Flag On 상태면 아이템을 착용중인것이다.
@@ -38,28 +40,28 @@ void MainPlayer::ItemPutOn(ItemEquipPart _ItemPart)
 		}
 		case ItemEquipPart::Inv_Gloves:	// LA, RA 활성화
 		{
-			std::map<RendererPartType, bool>::iterator LA = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator LA = IsItemEquipState_.find(RendererPartType::PART_LA);
 			(*LA).second = true;
 
-			std::map<RendererPartType, bool>::iterator RA = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator RA = IsItemEquipState_.find(RendererPartType::PART_RA);
 			(*RA).second = true;
 			break;
 		}
 		case ItemEquipPart::Inv_Boots:	// LG 활성화
 		{
-			std::map<RendererPartType, bool>::iterator LG = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator LG = IsItemEquipState_.find(RendererPartType::PART_LG);
 			(*LG).second = true;
 			break;
 		}
 		case ItemEquipPart::Inv_Weapon:	// RH 활성화
 		{
-			std::map<RendererPartType, bool>::iterator RH = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator RH = IsItemEquipState_.find(RendererPartType::PART_RH);
 			(*RH).second = true;
 			break;
 		}
 		case ItemEquipPart::Inv_Shield:	// SH 활성화
 		{
-			std::map<RendererPartType, bool>::iterator SH = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator SH = IsItemEquipState_.find(RendererPartType::PART_SH);
 			(*SH).second = true;
 			break;
 		}
@@ -95,28 +97,28 @@ void MainPlayer::ItemPutOff(ItemEquipPart _ItemPart)
 		}
 		case ItemEquipPart::Inv_Gloves:	// LA, RA 비활성화
 		{
-			std::map<RendererPartType, bool>::iterator LA = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator LA = IsItemEquipState_.find(RendererPartType::PART_LA);
 			(*LA).second = false;
 
-			std::map<RendererPartType, bool>::iterator RA = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator RA = IsItemEquipState_.find(RendererPartType::PART_RA);
 			(*RA).second = false;
 			break;
 		}
 		case ItemEquipPart::Inv_Boots:	// LG 비활성화
 		{
-			std::map<RendererPartType, bool>::iterator LG = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator LG = IsItemEquipState_.find(RendererPartType::PART_LG);
 			(*LG).second = false;
 			break;
 		}
 		case ItemEquipPart::Inv_Weapon:	// RH 비활성화
 		{
-			std::map<RendererPartType, bool>::iterator RH = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator RH = IsItemEquipState_.find(RendererPartType::PART_RH);
 			(*RH).second = false;
 			break;
 		}
 		case ItemEquipPart::Inv_Shield:	// SH 비활성화
 		{
-			std::map<RendererPartType, bool>::iterator SH = IsItemEquipState_.find(RendererPartType::PART_HD);
+			std::map<RendererPartType, bool>::iterator SH = IsItemEquipState_.find(RendererPartType::PART_SH);
 			(*SH).second = false;
 			break;
 		}
