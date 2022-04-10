@@ -1351,12 +1351,18 @@ void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& 
 			}
 			case ItemLocType::Inven_Shield:
 			{
-
+				if ("bsh" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOn(ItemEquipPart::Inv_Shield);
+				}
 				break;
 			}
 			case ItemLocType::Inven_Helm:
 			{
-
+				if ("bhm" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOn(ItemEquipPart::Inv_Helm);
+				}
 				break;
 			}
 			case ItemLocType::Inven_Armor:
@@ -1370,17 +1376,18 @@ void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& 
 			}
 			case ItemLocType::Inven_Gloves:
 			{
-
-				break;
-			}
-			case ItemLocType::Inven_Belt:
-			{
-
+				if ("tgl" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOn(ItemEquipPart::Inv_Gloves);
+				}
 				break;
 			}
 			case ItemLocType::Inven_Boots:
 			{
-
+				if ("hbt" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOn(ItemEquipPart::Inv_Boots);
+				}
 				break;
 			}
 		}
@@ -1393,17 +1400,27 @@ void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& 
 		{
 			case ItemLocType::Inven_Weapon:
 			{
-
+				// crs 해제시 LIT_타입으로 돌아간다.
+				if ("crs" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Weapon);
+				}
 				break;
 			}
 			case ItemLocType::Inven_Shield:
 			{
-
+				if ("bsh" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Shield);
+				}
 				break;
 			}
 			case ItemLocType::Inven_Helm:
 			{
-
+				if ("bhm" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Helm);
+				}
 				break;
 			}
 			case ItemLocType::Inven_Armor:
@@ -1417,17 +1434,18 @@ void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& 
 			}
 			case ItemLocType::Inven_Gloves:
 			{
-
-				break;
-			}
-			case ItemLocType::Inven_Belt:
-			{
-
+				if ("tgl" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Gloves);
+				}
 				break;
 			}
 			case ItemLocType::Inven_Boots:
 			{
-
+				if ("hbt" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Boots);
+				}
 				break;
 			}
 		}

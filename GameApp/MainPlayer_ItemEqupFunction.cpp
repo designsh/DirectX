@@ -65,7 +65,7 @@ void MainPlayer::ItemPutOn(ItemEquipPart _ItemPart)
 		}
 	}
 
-	// 아이템 장착시 업데이트
+	// 아이템 장착시 렌더러 업데이트 및 ZOrder업데이트
 	ChangeCheckProcess();
 	StateAndDirectChangeZOrder();
 }
@@ -122,7 +122,7 @@ void MainPlayer::ItemPutOff(ItemEquipPart _ItemPart)
 		}
 	}
 
-	// 아이템 장착해제시 업데이트
+	// 아이템 장착해제시 렌더러 업데이트 및 ZOrder업데이트
 	ChangeCheckProcess();
 	StateAndDirectChangeZOrder();
 }
