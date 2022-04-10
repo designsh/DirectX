@@ -280,6 +280,56 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	TestItem.Recovery = 0;
 
 	MainPlayerInfo_.ItemInfo.push_back(TestItem);
+
+	ItemList TestItem2 = {};
+	TestItem2.ItemName_abbreviation = "bhm";
+	TestItem2.ItemName_abbreviation_Inven = "invbhm";
+	TestItem2.ItemCode = 5;
+	TestItem2.ItemType = ItemType::Helm;
+
+	TestItem2.ItemLocType = ItemLocType::Inven_Bottom;
+	TestItem2.StartPosition = 3;
+	TestItem2.WidthSize = 2;
+	TestItem2.HeightSize = 2;
+
+	TestItem2.IsDurability = false;
+	TestItem2.MaxDurability = 0;
+	TestItem2.CurDurability = 0;
+
+	TestItem2.Block = 0;
+	TestItem2.Weight = 0;
+	TestItem2.Price = 10;
+	TestItem2.PullDamage = 0;
+	TestItem2.PullArmor = 0;
+
+	TestItem2.Recovery = 0;
+
+	MainPlayerInfo_.ItemInfo.push_back(TestItem2);
+
+	ItemList TestItem3 = {};
+	TestItem3.ItemName_abbreviation = "chn";
+	TestItem3.ItemName_abbreviation_Inven = "invchn";
+	TestItem3.ItemCode = 5;
+	TestItem3.ItemType = ItemType::Armor;
+
+	TestItem3.ItemLocType = ItemLocType::Inven_Bottom;
+	TestItem3.StartPosition = 5;
+	TestItem3.WidthSize = 3;
+	TestItem3.HeightSize = 3;
+
+	TestItem3.IsDurability = false;
+	TestItem3.MaxDurability = 0;
+	TestItem3.CurDurability = 0;
+
+	TestItem3.Block = 0;
+	TestItem3.Weight = 0;
+	TestItem3.Price = 10;
+	TestItem3.PullDamage = 0;
+	TestItem3.PullArmor = 0;
+
+	TestItem3.Recovery = 0;
+
+	MainPlayerInfo_.ItemInfo.push_back(TestItem3);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 

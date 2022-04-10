@@ -497,109 +497,69 @@ void InventoryView::PlayerItemListArrangement()
 				{
 					// 칸수에 따라 타일인덱스에서 시작해서 계산한 타일갯수만큼 모두 Flag On처리
 
-					// 비어있는 시작타일을 탐색
-					int StartIndex = -1;
-					bool ArrangeItemFlag = false;
-					int Cnt = static_cast<int>(InvStoreInfo_.size());
-					for (int j = 0; j < Cnt; ++j)
+					// 시작타일기준 아이템배치
+					int WidthSize = CurPlayerInfo.ItemInfo[i].WidthSize;
+					int HeightSize = CurPlayerInfo.ItemInfo[i].HeightSize;
+
+					std::vector<int> TileArrIndexList;
+					TileArrIndexList.clear();
+
+					for (int k = 0; k < HeightSize; ++k)
 					{
-						if (false == InvStoreInfo_[j]->GetIsItemArrangeFlag())
+						for (int l = 0; l < WidthSize; ++l)
 						{
-							StartIndex = j;
-
-							// 해당 아이템의 너비x높이를 알아낸다.
-							int WidthSize = CurPlayerInfo.ItemInfo[i].WidthSize;
-							int HeightSize = CurPlayerInfo.ItemInfo[i].HeightSize;
-
-							// 여러칸을 차지하므로 인덱스목록 생성
-							std::vector<int> TileArrIndexList;
-							TileArrIndexList.clear();
-
-							// 시작타일 + (너비 - 1)의 위치한 타일이 유효한지 검사
-							// 시작타일 + ((높이 - 1) * 10)의 위치한 타일이 유효한지 검사
-							// 시작타일 + ((너비 - 1) + ((높이 - 1) * 10)의 위치한 타일이 유효한지검사
-							if ((0 <= StartIndex + (WidthSize - 1) && Cnt > StartIndex + (WidthSize - 1)) &&
-								(0 <= StartIndex + ((HeightSize - 1) * 10) && Cnt > StartIndex + ((HeightSize - 1) * 10)) &&
-								(0 <= StartIndex + (WidthSize - 1) + ((HeightSize - 1) * 10) && Cnt > StartIndex + (WidthSize - 1) + ((HeightSize - 1) * 10)))
+							int CalcIndex = TileIndex + l + (k * 10);
+							if (0 <= CalcIndex && CalcIndex < 40)
 							{
-								if ((false == InvStoreInfo_[StartIndex + (WidthSize - 1)]->GetIsItemArrangeFlag()) &&
-									(false == InvStoreInfo_[StartIndex + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()) &&
-									(false == InvStoreInfo_[StartIndex + (WidthSize - 1) + ((HeightSize - 1) * 10)]->GetIsItemArrangeFlag()))
-								{
-									// 아이템 배치가 가능하다면 배치목록 삽입
-									int NextHeight = 0;
-									for (int k = StartIndex + HeightSize; k > StartIndex; --k)
-									{
-										for (int l = StartIndex + WidthSize; l > StartIndex; --l)
-										{
-											int CalcIndex = StartIndex + (WidthSize - l) + (HeightSize - k) * 10;
-
-											TileArrIndexList.push_back(CalcIndex);
-										}
-									}
-
-									// 배치목록 정렬
-									std::sort(TileArrIndexList.begin(), TileArrIndexList.end());
-
-									// 아이템 배치 인덱스목록 아이템정보에 저장
-									NewItemInfo->SetTileIndexList(TileArrIndexList);
-
-									// 아이템 배치 위치 재계산 및 재조정
-									float4 ReRenderPos = float4(33.f, -116.f);	// 초기값 셋팅(0번인덱스인경우)
-
-									// 차지하고있는 칸의 중앙 위치를 계산한다.
-									// 첫번째 타일의 위치와 마지막번째 타일의 위치를 Get
-									int IndexCnt = static_cast<int>(TileArrIndexList.size());
-									float4 BeginTilePos = InvStoreInfo_[TileArrIndexList[0]]->GetTilePos();
-									float4 EndTilePos = InvStoreInfo_[TileArrIndexList[IndexCnt - 1]]->GetTilePos();
-
-									// 두 타일 위치를 비교
-									if (BeginTilePos.x == EndTilePos.x) // 해당 아이템의 너비 1
-									{
-										ReRenderPos.x = BeginTilePos.x;
-									}
-									else
-									{
-										BeginTilePos.x += ((EndTilePos.x - BeginTilePos.x) * 0.5f);
-										ReRenderPos.x = BeginTilePos.x;
-									}
-
-									if (BeginTilePos.y == EndTilePos.y) // 해당 아이템의 높이 1
-									{
-										ReRenderPos.y = BeginTilePos.y;
-									}
-									else
-									{
-										BeginTilePos.y -= ((BeginTilePos.y - EndTilePos.y) * 0.5f);
-										ReRenderPos.y = BeginTilePos.y;
-									}
-
-									NewItemInfo->SetItemRenderPos(ReRenderPos);
-
-									// 아이템 장착 Flag On
-									for (int l = 0; l < IndexCnt; ++l)
-									{
-										InvStoreInfo_[TileArrIndexList[l]]->SetItemArrangeFlagOn();
-									}
-
-									// 목록에 해당 아이템 추가
-									InvArrItemList_.push_back(NewItemInfo);
-
-									ArrangeItemFlag = true;
-									break;
-								}
-								else
-								{
-									// 아이템 배치가 불가능하다면 재탐색
-								}
+								TileArrIndexList.push_back(CalcIndex);
 							}
 						}
-						if (false == ArrangeItemFlag)
-						{
-							// 배치하려는 타일이부족함!!!!
-							NewItemInfo->Death();
-						}
 					}
+
+					// 배치목록 정렬
+					std::sort(TileArrIndexList.begin(), TileArrIndexList.end());
+
+					// 아이템 배치 위치 재계산 및 재조정
+					float4 ReRenderPos = float4(33.f, -116.f);	// 초기값 셋팅(0번인덱스인경우)
+
+					// 차지하고있는 칸의 중앙 위치를 계산한다.
+					// 첫번째 타일의 위치와 마지막번째 타일의 위치를 Get
+					int IndexCnt = static_cast<int>(TileArrIndexList.size());
+					float4 BeginTilePos = InvStoreInfo_[TileArrIndexList[0]]->GetTilePos();
+					float4 EndTilePos = InvStoreInfo_[TileArrIndexList[IndexCnt - 1]]->GetTilePos();
+
+					// 두 타일 위치를 비교
+					if (BeginTilePos.x == EndTilePos.x) // 해당 아이템의 너비 1
+					{
+						ReRenderPos.x = BeginTilePos.x;
+					}
+					else
+					{
+						BeginTilePos.x += ((EndTilePos.x - BeginTilePos.x) * 0.5f);
+						ReRenderPos.x = BeginTilePos.x;
+					}
+
+					if (BeginTilePos.y == EndTilePos.y) // 해당 아이템의 높이 1
+					{
+						ReRenderPos.y = BeginTilePos.y;
+					}
+					else
+					{
+						BeginTilePos.y -= ((BeginTilePos.y - EndTilePos.y) * 0.5f);
+						ReRenderPos.y = BeginTilePos.y;
+					}
+
+					NewItemInfo->SetItemRenderPos(ReRenderPos);
+
+					// 아이템 장착 Flag On
+					for (int l = 0; l < IndexCnt; ++l)
+					{
+						InvStoreInfo_[TileArrIndexList[l]]->SetItemArrangeFlagOn();
+					}
+					NewItemInfo->SetTileIndexList(TileArrIndexList);
+					
+					// 목록에 해당 아이템 추가
+					InvArrItemList_.push_back(NewItemInfo);
 				}
 			}
 			else // 생성 실패시 바로 죽임
