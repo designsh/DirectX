@@ -257,10 +257,10 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 테스트용 아이템
 	ItemList TestItem = {};
-	TestItem.ItemName_abbreviation = "bsh";
-	TestItem.ItemName_abbreviation_Inven = "invbsh";
+	TestItem.ItemName_abbreviation = "crs";
+	TestItem.ItemName_abbreviation_Inven = "invcrs";
 	TestItem.ItemCode = 5;
-	TestItem.ItemType = ItemType::Shield;
+	TestItem.ItemType = ItemType::Weapon;
 
 	TestItem.ItemLocType = ItemLocType::Inven_Bottom;
 	TestItem.StartPosition = 0;

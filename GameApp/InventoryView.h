@@ -68,6 +68,9 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	bool GetInvenCurEquipState(ItemLocType _LocType = ItemLocType::Inven_Weapon);
+
+public:
 	void SetInventoryBoxTileActvie();
 	void SetInentroyBoxTileInactive();
 

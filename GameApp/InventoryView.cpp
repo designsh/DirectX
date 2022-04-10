@@ -184,6 +184,13 @@ void InventoryView::Update(float _DeltaTime)
 #pragma endregion
 }
 
+bool InventoryView::GetInvenCurEquipState(ItemLocType _LocType)
+{
+	// 현재 인벤창 무기탭에 장착된 아이템이 없으면 false
+	// 그반대의 경우라면 true
+	return InvEquipInfo_[static_cast<int>(_LocType)]->GetIsItemArrangeFlag();
+}
+
 void InventoryView::SetInventoryBoxTileActvie()
 {
 	// 인벤창 활성화시 호출

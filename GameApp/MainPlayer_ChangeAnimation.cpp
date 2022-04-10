@@ -3,6 +3,9 @@
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
+#include "InventoryView.h"
+#include "InventoryTileBox.h"
+
 void MainPlayer::ChangeAnimation(const std::string& _CurStateName)
 {
 	bool ChangeFlag = false;
@@ -58,7 +61,21 @@ void MainPlayer::ChangeAnimation(const std::string& _CurStateName)
 		}
 		else
 		{
-			PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->On();
+			// LIT_ 타입일때 무기가 빠져있으면 둘다(LIT/HVY) Off상태로 전환
+			// 인벤창에서 wnd / crs 무기 장착시 각 상태별 On으로 전환됨
+			if (CurPartItemEquipState == ItemEquipState::TP_LIT && static_cast<RendererPartType>(i) == RendererPartType::PART_RH)
+			{
+				// 인벤창의 무기탭 장착상태를 체크
+				if (false == InventoryView_->GetInvenCurEquipState(ItemLocType::Inven_Weapon))
+				{
+					// 무기탭에 어떠한 무기도 미장착상태일때
+					PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->Off();
+				}
+			}
+			else
+			{
+				PartRenderer_[i].Renderer_[static_cast<int>(CurPartItemEquipState)]->On();
+			}
 		}
 
 		// 애니메이션 변경
