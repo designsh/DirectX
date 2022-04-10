@@ -55,7 +55,7 @@ void MainPlayer::StateAndDirectChangeZOrder()
 			else // 아이템 착용
 			{
 				float ZOrder = static_cast<float>(DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].DefaultZOrder_[i]);
-				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetZOrder(ZOrder);
+				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetZOrder(ZOrder);
 			}
 		}
 	}

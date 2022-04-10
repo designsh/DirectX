@@ -1431,10 +1431,5 @@ void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& 
 				break;
 			}
 		}
-
-
-
-
-		int a = 0;
 	}
 }

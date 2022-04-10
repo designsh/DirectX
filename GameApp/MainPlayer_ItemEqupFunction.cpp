@@ -64,6 +64,10 @@ void MainPlayer::ItemPutOn(ItemEquipPart _ItemPart)
 			break;
 		}
 	}
+
+	// 아이템 장착시 업데이트
+	ChangeCheckProcess();
+	StateAndDirectChangeZOrder();
 }
 
 void MainPlayer::ItemPutOff(ItemEquipPart _ItemPart)
@@ -117,4 +121,8 @@ void MainPlayer::ItemPutOff(ItemEquipPart _ItemPart)
 			break;
 		}
 	}
+
+	// 아이템 장착해제시 업데이트
+	ChangeCheckProcess();
+	StateAndDirectChangeZOrder();
 }
