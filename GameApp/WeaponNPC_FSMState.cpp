@@ -84,77 +84,18 @@ void WeaponNPC::UpdateIdle()
 		// 이전방향을 체크하여 현재방향이 결정된다.
 		// 즉, 아래로 이동한뒤 다시 대기상태가 되었다면 위로 이동한다.
 		// 원래자리로 복귀후 방향이 전환되며, 위와같은 동작을 반복처리하게된다.
+		
+		// 이전방향과 현재방향이 반대방향이면 랜덤으로 방향 재결정
+		srand((unsigned int)time(0));
+		int RandomDir = rand() % static_cast<int>(WeaponNPC_MoveDir::MAX);
 
+		// 이전방향과 다를때 현재이동방향을 결정하고, 이동상태로 변경
+		if (PrevMoveDir_ != static_cast<WeaponNPC_MoveDir>(RandomDir))
+		{
+			CurMoveDir_ = static_cast<WeaponNPC_MoveDir>(RandomDir);
 
-
-
-
-		//if (static_cast<int>(PrevMoveDir_) == static_cast<int>(CurMoveDir_) + 4)
-		//{
-		//	// 이전방향과 현재방향이 반대방향이면 랜덤으로 방향 재결정
-		//	srand((unsigned int)time(0));
-		//	int RandomDir = rand() % static_cast<int>(WeaponNPC_MoveDir::MAX);
-
-		//	// 이전방향과 다를때 현재이동방향을 결정하고,
-		//	// 이동상태로 변경
-		//	if (PrevMoveDir_ != static_cast<WeaponNPC_MoveDir>(RandomDir))
-		//	{
-		//		CurMoveDir_ = static_cast<WeaponNPC_MoveDir>(RandomDir);
-
-		//		State_.ChangeState("WeaponNPC_WALK");
-		//	}
-
-		//	MoveDelayTime_ = 3.f;
-		//}
-		//else
-		//{
-			switch (PrevMoveDir_)
-			{
-				case WeaponNPC_MoveDir::DIR_B:
-				{
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_T;
-					break;
-				}
-				case WeaponNPC_MoveDir::DIR_LB:
-				{
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_RT;
-					break;
-				}
-				case WeaponNPC_MoveDir::DIR_L:
-				{
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_R;
-					break;
-				}
-				case WeaponNPC_MoveDir::DIR_LT:
-				{
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_RB;
-					break;
-				}
-				case WeaponNPC_MoveDir::DIR_T:
-				{
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_B;
-					break;
-				}
-				case WeaponNPC_MoveDir::DIR_RT:
-				{
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_LB;
-					break;
-				}
-				case WeaponNPC_MoveDir::DIR_R:
-				{
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_L;
-					break;
-				}
-				case WeaponNPC_MoveDir::DIR_RB:
-				{
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_LT;
-					break;
-				}
-			}
-		//}
-
-		// 상태전환
-		State_.ChangeState("WeaponNPC_WALK");
+			State_.ChangeState("WeaponNPC_WALK");
+		}
 
 		MoveDelayTime_ = 3.f;
 	}
@@ -162,7 +103,6 @@ void WeaponNPC::UpdateIdle()
 
 void WeaponNPC::EndIdle()
 {
-	MoveDelayTime_ = 3.f;
 }
 
 // 이동상태
@@ -177,10 +117,23 @@ void WeaponNPC::StartWalk()
 
 	// 이동전 위치 저장
 	MoveStartPos_ = GetTransform()->GetLocalPosition();
+	MoveCurPos_ = GetTransform()->GetLocalPosition();
 }
 
 void WeaponNPC::UpdateWalk()
 {
+	// 이동처리중 최대이동범위를 넘어가면 현재이동방향을 저장하고 바로 상태전환
+	if ((MoveCurPos_.x < MoveMinRange_.x && MoveCurPos_.y < MoveMinRange_.y) ||
+		(MoveCurPos_.x > MoveMaxRange_.x && MoveCurPos_.y > MoveMaxRange_.y))
+	{
+		// 현재이동방향 저장
+		PrevMoveDir_ = CurMoveDir_;
+
+		// 상태 전환
+		State_.ChangeState("WeaponNPC_IDLE");
+		return;
+	}
+
 	// 플레이어와 상호작용상태가 아닐때 자동이동
 	// 최대 이동거리 이동완료시 대기상태로 돌입
 	switch (CurMoveDir_)

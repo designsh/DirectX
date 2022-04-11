@@ -57,6 +57,8 @@ private: // 자동화용
 	float MoveSpeed_;			// 이동속도
 	float4 MoveStartPos_;		// 이동전위치
 	float4 MoveCurPos_;			// 이동중위치
+	float4 MoveMinRange_;		// 최소이동범위
+	float4 MoveMaxRange_;		// 최대이동범위
 
 private: // UI관련
 	NPC_MessageView* MessageView_;
@@ -113,5 +115,8 @@ private:
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+public:
+	void SetMoveRange();
 };
 

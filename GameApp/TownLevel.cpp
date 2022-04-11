@@ -79,6 +79,7 @@ void TownLevel::LevelStart()
 	// NPC 생성(무기상인) - 테스트 위치
 	WeaponNPC_ = CreateActor<WeaponNPC>();
 	WeaponNPC_->GetTransform()->SetLocalPosition(float4(200.f, 200.f, 10.f));
+	WeaponNPC_->SetMoveRange();
 
 	// NPC 생성(잡화상인)
 

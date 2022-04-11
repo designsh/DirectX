@@ -30,6 +30,8 @@ WeaponNPC::WeaponNPC() :
 	MoveSpeed_(100.f),
 	MoveStartPos_(float4::ZERO),
 	MoveCurPos_(float4::ZERO),
+	MoveMinRange_(float4::ZERO),
+	MoveMaxRange_(float4::ZERO),
 	MessageView_(nullptr)
 {
 }
@@ -169,4 +171,18 @@ void WeaponNPC::InteractionDistanceCheck()
 			State_.ChangeState("WeaponNPC_CONVERSATION");
 		}
 	}
+}
+
+void WeaponNPC::SetMoveRange()
+{
+	// 최초생성 위치 기준으로 해당 NPC의 이동가능범위가 정해진다.
+	float4 MyPos = GetTransform()->GetLocalPosition();
+
+	// 최소이동위치
+	MoveMinRange_.x = MyPos.x - 200.f;
+	MoveMinRange_.y = MyPos.y - 200.f;
+
+	// 최대이동위치
+	MoveMaxRange_.x = MyPos.x + 200.f;
+	MoveMaxRange_.y = MyPos.y + 200.f;
 }
