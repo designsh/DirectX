@@ -9,6 +9,7 @@
 
 #include "MainPlayer.h"
 #include "NPC_MessageView.h"
+#include "NPC_TopMenuBar.h"
 
 bool WeaponNPC::FirstInteraction = false;
 bool WeaponNPC::InteractionFlag = false;
@@ -32,7 +33,8 @@ WeaponNPC::WeaponNPC() :
 	MoveCurPos_(float4::ZERO),
 	MoveMinRange_(float4::ZERO),
 	MoveMaxRange_(float4::ZERO),
-	MessageView_(nullptr)
+	MessageView_(nullptr),
+	TopMenuBar_(nullptr)
 {
 }
 
@@ -47,6 +49,14 @@ void WeaponNPC::Start()
 
 	// 무기상인 관련 UI 생성
 
+	// 1. 메세지창(화면중앙상단에 표시)
+	MessageView_ = GetLevel()->CreateActor<NPC_MessageView>();
+	MessageView_->Off();
+
+	// 2. 상단메뉴(NPC 상단에 표시)
+	TopMenuBar_ = GetLevel()->CreateActor<NPC_TopMenuBar>();
+	TopMenuBar_->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+	TopMenuBar_->Off();
 }
 
 void WeaponNPC::Update(float _DeltaTime)
@@ -185,4 +195,12 @@ void WeaponNPC::SetMoveRange()
 	// 최대이동위치
 	MoveMaxRange_.x = MyPos.x + 200.f;
 	MoveMaxRange_.y = MyPos.y + 200.f;
+}
+
+void WeaponNPC::SetMessageBoxText(const std::string& _Text)
+{
+	if (nullptr != MessageView_)
+	{
+		MessageView_->SetNPCMessage(_Text);
+	}
 }

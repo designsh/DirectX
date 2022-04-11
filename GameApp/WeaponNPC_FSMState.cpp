@@ -4,6 +4,12 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
+#include "GlobalValue.h"
+#include "MainPlayer.h"
+
+#include "NPC_MessageView.h"
+#include "NPC_TopMenuBar.h"
+
 #pragma region 방향/상태 체크하여 애니메이션 변경
 void WeaponNPC::ChangeAnimationCheck(const std::string& _StateName)
 {
@@ -312,8 +318,16 @@ void WeaponNPC::UpdateConversation()
 {
 	// 플레이어와 상호작용가능범위 체크
 	// 상호작용가능범위 진입시 상태전환
-
-
+	float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition();
+	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 InteactionDist = MyPos - PlayerPos;
+	InteactionDist = float4(std::abs(InteactionDist.x), std::abs(InteactionDist.y));
+	//if (InteractionDistance_ >= InteactionDist.x || InteractionDistance_ >= InteactionDist.y)
+	if (500.f >= InteactionDist.x || 500.f >= InteactionDist.y)
+	{
+		// 진입성공으로 인한 상태전환
+		State_.ChangeState("WeaponNPC_INTERACTION");
+	}
 }
 
 void WeaponNPC::EndConversation()
@@ -334,26 +348,48 @@ void WeaponNPC::StartInteraction()
 	// 최초 대화시도시 메세지뷰 로드
 	if (false == FirstInteraction)
 	{
-		// 상호작용 Flag On
-		FirstInteraction = true;
-
 		// 메세지뷰 로드
-
+		MessageView_->FirstInteractionActive();
 	}
 	// 두번째 대화시도시 메뉴 도출
 	else
 	{
 		// 상단메뉴 도출
-
+		TopMenuBar_->On();
 	}
 }
 
 void WeaponNPC::UpdateInteraction()
 {
-	// 플레이어에 의해 상호작용 종료시 대기상태로 전환
+	// 상단메뉴종료 or 판매창종료 or 대화종료시 npc는 대기상태로 전환
+
+	// 1. 대화창 메세지 종료체크
+	if (false == FirstInteraction)
+	{
+		// 지정된 내용의 텍스트 출력 종료시
+		if (true == MessageView_->GetMessageLoadEnd())
+		{
+			// 최초상호작용 Flag On
+			FirstInteraction = true;
+
+			// 메세지창 종료 후
+			MessageView_->Off();
+
+			// 상단메뉴 도출
+			TopMenuBar_->On();
+		}
+	}
+
+	// 2. 상단메뉴 종료버튼 클릭체크
 
 
 
+	// 3. 해당 NPC 판매창 종료버튼 클릭체크
+
+
+
+	// 종료시 상태 전환
+	//State_.ChangeState("WeaponNPC_IDLE");
 }
 
 void WeaponNPC::EndInteraction()

@@ -29,6 +29,7 @@ enum class WeaponNPC_FSMState
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class NPC_MessageView;
+class NPC_TopMenuBar;
 class WeaponNPC : public GameEngineActor
 {
 private:
@@ -62,6 +63,7 @@ private: // 자동화용
 
 private: // UI관련
 	NPC_MessageView* MessageView_;
+	NPC_TopMenuBar* TopMenuBar_;
 
 public:
 	WeaponNPC();
@@ -118,5 +120,6 @@ private:
 
 public:
 	void SetMoveRange();
+	void SetMessageBoxText(const std::string& _Text);
 };
 

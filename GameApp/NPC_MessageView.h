@@ -11,7 +11,11 @@ private:	// member Var
 	GameEngineUIRenderer* MsgPanel_;
 
 private:
-	std::string MsgText_;
+	std::string SaveMsgText_;
+	int CurPrintTextIndex_;
+	bool MessageLoadStart_;
+	bool MessageLoadEnd_;
+	float MessagePrintDelayTime_;
 
 public:
 	NPC_MessageView();
@@ -28,6 +32,12 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+public:
+	inline bool GetMessageLoadEnd()
+	{
+		return MessageLoadEnd_;
+	}
 
 public:
 	void SetNPCMessage(const std::string& _Text);

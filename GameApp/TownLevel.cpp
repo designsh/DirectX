@@ -80,8 +80,10 @@ void TownLevel::LevelStart()
 	WeaponNPC_ = CreateActor<WeaponNPC>();
 	WeaponNPC_->GetTransform()->SetLocalPosition(float4(200.f, 200.f, 10.f));
 	WeaponNPC_->SetMoveRange();
+	WeaponNPC_->SetMessageBoxText("Testing is currently underway!");
 
 	// NPC 생성(잡화상인)
+
 
 	// 창고오브젝트(이미지)
 

@@ -273,10 +273,10 @@
       <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView</Filter>
     </ClCompile>
     <ClCompile Include="NPC_BuySellView.cpp">
-      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.BuySellView</Filter>
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.TopMenuBar\00.BuySellView</Filter>
     </ClCompile>
     <ClCompile Include="NPC_TopMenuBar.cpp">
-      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\02.TopMenuBar</Filter>
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.TopMenuBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -688,14 +688,14 @@
     <Filter Include="Object\Actor\00.Global\02.NPC\00.NPC_Info">
       <UniqueIdentifier>{e2825ff5-8512-4eac-b165-060487aaffa6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\00.BuySellView">
+    <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\00.TopMenuBar">
+      <UniqueIdentifier>{7d769fff-fe3c-487b-aa07-380b54995199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\00.TopMenuBar\00.BuySellView">
       <UniqueIdentifier>{cc1ab6d6-fc2d-4840-9289-8ea41a5fb882}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView">
       <UniqueIdentifier>{9bbb1536-4194-422e-bcf2-5e8fbd7c5fa9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\02.TopMenuBar">
-      <UniqueIdentifier>{7d769fff-fe3c-487b-aa07-380b54995199}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -928,10 +928,10 @@
       <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView</Filter>
     </ClInclude>
     <ClInclude Include="NPC_BuySellView.h">
-      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.BuySellView</Filter>
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.TopMenuBar\00.BuySellView</Filter>
     </ClInclude>
     <ClInclude Include="NPC_TopMenuBar.h">
-      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\02.TopMenuBar</Filter>
+      <Filter>Object\Actor\00.Global\02.NPC\01.NPC_UI\00.TopMenuBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
