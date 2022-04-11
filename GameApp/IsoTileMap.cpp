@@ -21,19 +21,21 @@ IsoTileMap::~IsoTileMap()
 
 void IsoTileMap::Start()
 {
+	// 타일
+	TileSize_ = float4(160.f, 80.f);			// Floor Tile Index 계산기준값
+	TileSizeHalf_ = TileSize_.halffloat4();		// Wall Tile Index 계산기준값
+
 	// 바닥타일
-	FloorTileSize_ = { 160.0f, 80.f };
 	FloorTileImageSize_ = { 160.0f, 80.f };
 
-	FloorTileSizeHalf_ = FloorTileImageSize_.halffloat4();
-	FloorTileIndexPivotPos_ = { 0.0f, -FloorTileSizeHalf_.y  };
+	FloorTileImageSizeHalf_ = FloorTileImageSize_.halffloat4();
+	FloorTileIndexPivotPos_ = { 0.0f, -FloorTileImageSizeHalf_.y  };
 
 	// 벽타일
-	WallTileSize_ = { 160.0f, 80.f };
-	WallTileSizeHalf_ = WallTileImageSize_.halffloat4();
-
 	WallTileImageSize_ = { 160.0f, 320.f };
-	WallTileIndexPivotPos_ = { 0.0f, 0.0f };
+
+	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
+	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y};
 
 #pragma region RandomLoad 관련
 	RandomStartPos_.clear();
@@ -55,7 +57,7 @@ void IsoTileMap::Start()
 
 void IsoTileMap::SetFloorTile(float4 _Pos, int CurTileIndex_)
 {
-	SetFloorTile(GetIndex(_Pos), CurTileIndex_);
+	SetFloorTile(GetFloorTileIndex(_Pos), CurTileIndex_);
 }
 
 void IsoTileMap::SetFloorTile(TileIndex Index, int CurTileIndex_)
@@ -67,8 +69,8 @@ void IsoTileMap::SetFloorTile(TileIndex Index, int CurTileIndex_)
 	}
 
 	float4 Pos;
-	Pos.x = (Index.X_ - Index.Y_) * FloorTileSizeHalf_.x;
-	Pos.y = (Index.X_ + Index.Y_) * -FloorTileSizeHalf_.y;
+	Pos.x = (Index.X_ - Index.Y_) * TileSizeHalf_.x;
+	Pos.y = (Index.X_ + Index.Y_) * -TileSizeHalf_.y;
 
 	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 	
@@ -81,7 +83,7 @@ void IsoTileMap::SetFloorTile(TileIndex Index, int CurTileIndex_)
 
 void IsoTileMap::SetWallTile(float4 _Pos, int CurTileIndex_)
 {
-	SetWallTile(GetIndex(_Pos), CurTileIndex_);
+	SetWallTile(GetWallTileIndex(_Pos), CurTileIndex_);
 }
 
 void IsoTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
@@ -93,8 +95,9 @@ void IsoTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	}
 
 	float4 Pos;
-	Pos.x = (_Index.X_ - _Index.Y_) * FloorTileSizeHalf_.x;
-	Pos.y = (_Index.X_ + _Index.Y_) * -FloorTileSizeHalf_.y;
+	float4 HarfSize = TileSizeHalf_.halffloat4();
+	Pos.x = (_Index.X_ - _Index.Y_) * HarfSize.x;
+	Pos.y = (_Index.X_ + _Index.Y_) * -HarfSize.y;
 
 	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
@@ -107,7 +110,7 @@ void IsoTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 
 void IsoTileMap::DelWallTile(float4 _Pos) 
 {
-	TileIndex Index = GetIndex(_Pos);
+	TileIndex Index = GetWallTileIndex(_Pos);
 
 	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator FindIter = WallTiles_.find(Index.Index_);
 
@@ -123,7 +126,7 @@ void IsoTileMap::DelWallTile(float4 _Pos)
 
 void IsoTileMap::DelFloorTile(float4 _Pos)
 {
-	TileIndex Index = GetIndex(_Pos);
+	TileIndex Index = GetFloorTileIndex(_Pos);
 
 	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator FindIter = FloorTiles_.find(Index.Index_);
 
@@ -169,12 +172,12 @@ void IsoTileMap::AllTileClear()
 	FirstRandomLoad_ = false;
 }
 
-TileIndex IsoTileMap::GetIndex(float4 _Pos)
+TileIndex IsoTileMap::GetFloorTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
-	float RatioX = ((_Pos.x / FloorTileSizeHalf_.x) - (_Pos.y / FloorTileSizeHalf_.y)) / 2.0f;
-	float RatioY = ((_Pos.y / FloorTileSizeHalf_.y) + (_Pos.x / FloorTileSizeHalf_.x)) / -2.0f;
+	float RatioX = ((_Pos.x / TileSizeHalf_.x) - (_Pos.y / TileSizeHalf_.y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSizeHalf_.y) + (_Pos.x / TileSizeHalf_.x)) / -2.0f;
 
 	if (0 > RatioX)
 	{
@@ -192,10 +195,40 @@ TileIndex IsoTileMap::GetIndex(float4 _Pos)
 	return Index;
 }
 
-float4 IsoTileMap::GetIsoPos(float4 _Pos)
+TileIndex IsoTileMap::GetWallTileIndex(float4 _Pos)
 {
-	return { ((_Pos.x / FloorTileSizeHalf_.x) - (_Pos.y / FloorTileSizeHalf_.y)) / 2.0f ,((_Pos.y / FloorTileSizeHalf_.y) + (_Pos.x / FloorTileSizeHalf_.x)) / -2.0f };
-}	
+	TileIndex Index = {};
+
+	float4 HarfSize = TileSizeHalf_.halffloat4();
+	float RatioX = ((_Pos.x / HarfSize.x) - (_Pos.y / HarfSize.y)) / 2.0f;
+	float RatioY = ((_Pos.y / HarfSize.y) + (_Pos.x / HarfSize.x)) / -2.0f;
+
+	if (0 > RatioX)
+	{
+		RatioX += -1;
+	}
+
+	if (0 > RatioY)
+	{
+		RatioY += -1;
+	}
+
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
+
+	return Index;
+}
+
+float4 IsoTileMap::GetFloorIsoPos(float4 _Pos)
+{
+	return { ((_Pos.x / TileSizeHalf_.x) - (_Pos.y / TileSizeHalf_.y)) / 2.0f ,((_Pos.y / TileSizeHalf_.y) + (_Pos.x / TileSizeHalf_.x)) / -2.0f };
+}
+
+float4 IsoTileMap::GetWallIsoPos(float4 _Pos)
+{
+	float TileHHSize = TileSizeHalf_.x * 0.5f;
+	return { ((_Pos.x / TileHHSize) - (_Pos.y / TileSizeHalf_.y)) / 2.0f ,((_Pos.y / TileSizeHalf_.y) + (_Pos.x / TileHHSize)) / -2.0f };
+}
 
 // _Multidirectional = true 이면 _DirCnt에 따라 방향수를 결정
 // 최초진행시 최대 4방향 진행, 진행중 최대 3방향진행

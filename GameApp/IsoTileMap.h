@@ -49,16 +49,17 @@ private:
 	// 규칙이 다른거기 때문에
 	std::unordered_map<__int64, class GameEngineTileMapRenderer*> WallTiles_;
 
+private: // 타일정보
+	float4 TileSize_;
+	float4 TileSizeHalf_;
 
 private: // 바닥타일정보
-	float4 FloorTileSize_;
-	float4 FloorTileSizeHalf_;
+	float4 FloorTileImageSizeHalf_;
 	float4 FloorTileImageSize_;
 	float4 FloorTileIndexPivotPos_;
 
 private: // 벽타일정보
-	float4 WallTileSize_;
-	float4 WallTileSizeHalf_;
+	float4 WallTileImageSizeHalf_;
 	float4 WallTileImageSize_;
 	float4 WallTileIndexPivotPos_;
 
@@ -116,8 +117,12 @@ public:
 	void AllTileClear();
 
 public:
-	TileIndex GetIndex(float4 _Pos);
-	float4 GetIsoPos(float4 _Pos);
+	TileIndex GetFloorTileIndex(float4 _Pos);
+	TileIndex GetWallTileIndex(float4 _Pos);
+
+public:
+	float4 GetFloorIsoPos(float4 _Pos);
+	float4 GetWallIsoPos(float4 _Pos);
 
 private:
 	void Start() override;

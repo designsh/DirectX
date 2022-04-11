@@ -26,24 +26,48 @@ EditorControlWindow::~EditorControlWindow()
 
 void EditorControlWindow::OnGUI()
 {
-#pragma region BasicInfo
+	ImGui::Text("<<< Mouse Pos >>>");
 	ImGui::Text(GameEngineInput::GetInst().GetMouse3DPos().ToString().c_str());
 
+	ImGui::Text("");
+
+#pragma region BasicInfo
 	float4 CameraPos = GameEngineCore::CurrentLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
-	TileIndex Index = Map->GetIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
-	ImGui::Text( ("XIndex : " + std::to_string(Index.X_) + "YIndex : " + std::to_string(Index.Y_)).c_str() );
+	{
+		// Floor Tile Info
+		TileIndex Index = Map->GetFloorTileIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
+		ImGui::Text("<<< FLOOR TILE INFOMATION >>>");
+		ImGui::Text(("XIndex : " + std::to_string(Index.X_) + "YIndex : " + std::to_string(Index.Y_)).c_str());
 
-	float4 Pos = Map->GetIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
-	std::string IsoPosText = "Iso Pos : ";
-	IsoPosText += Pos.ToString();
-	ImGui::Text(IsoPosText.c_str());
+		float4 Pos = Map->GetFloorIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
+		std::string IsoPosText = "Floor Iso Pos : ";
+		IsoPosText += Pos.ToString();
+		ImGui::Text(IsoPosText.c_str());
+	}
 
+	ImGui::Text("");
+
+	{
+		// Wall Tile Info
+		TileIndex Index = Map->GetWallTileIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
+		ImGui::Text("<<< WALL TILE INFOMATION >>>");
+		ImGui::Text(("XIndex : " + std::to_string(Index.X_) + "YIndex : " + std::to_string(Index.Y_)).c_str());
+
+		float4 Pos = Map->GetWallIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
+		std::string IsoPosText = "Wall Iso Pos : ";
+		IsoPosText += Pos.ToString();
+		ImGui::Text(IsoPosText.c_str());
+	}
+#pragma endregion
+
+	ImGui::Text("");
+
+#pragma region CameraZoom
+	ImGui::Text("<<< Camera Pos >>>");
 	std::string CameraPosText = "Camera Pos : ";
 	CameraPosText += CameraPos.ToString();
 	ImGui::Text(CameraPosText.c_str());
-#pragma endregion
 
-#pragma region CameraZoo
 	ImGui::PushItemWidth(308.f); // 크기 고정
 	ImGui::SliderFloat("Zoom", &Zoom, ZoomMin, ZoomMax, "%f", 1.0f);
 	ImGui::PopItemWidth();
