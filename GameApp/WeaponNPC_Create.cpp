@@ -67,8 +67,11 @@ void WeaponNPC::CreateFSMState()
 	// 이동상태
 	State_.CreateState("WeaponNPC_WALK", std::bind(&WeaponNPC::UpdateWalk, this), std::bind(&WeaponNPC::StartWalk, this), std::bind(&WeaponNPC::EndWalk, this));
 
-	// 대화상태
+	// 상호작용대기상태
 	State_.CreateState("WeaponNPC_CONVERSATION", std::bind(&WeaponNPC::UpdateConversation, this), std::bind(&WeaponNPC::StartConversation, this), std::bind(&WeaponNPC::EndConversation, this));
+
+	// 상호작용중상태
+	State_.CreateState("WeaponNPC_INTERACTION", std::bind(&WeaponNPC::UpdateInteraction, this), std::bind(&WeaponNPC::StartInteraction, this), std::bind(&WeaponNPC::EndInteraction, this));
 
 	// 초기상태 IDLE
 	State_.ChangeState("WeaponNPC_IDLE");
@@ -78,5 +81,7 @@ void WeaponNPC::CreateCollision()
 {
 	WeaponNPCCollision_ = CreateTransformComponent<GameEngineCollision>();
 	WeaponNPCCollision_->GetTransform()->SetLocalScaling(float4(32.f, 75.f));
-	WeaponNPCCollision_->GetTransform()->SetLocalPosition(WeaponNPCRenderer_->GetTransform()->GetLocalPosition());
+
+	float4 Pos = GetTransform()->GetLocalPosition();
+	WeaponNPCCollision_->GetTransform()->SetLocalPosition(float4(Pos.x, Pos.y, -10.f));
 }

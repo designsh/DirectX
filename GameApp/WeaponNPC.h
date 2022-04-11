@@ -19,7 +19,8 @@ enum class WeaponNPC_FSMState
 {
 	ST_IDLE,	// 대기상태
 	ST_WALK,	// 걷기상태
-	ST_CONV,	// 플레이어와 상호작용상태
+	ST_CONV,	// 플레이어와 상호작용대기 상태
+	ST_INTER,	// 플레이어와 상호작용중 상태
 };
 
 // 분류 : 
@@ -52,9 +53,10 @@ private: // FSM
 
 private: // 자동화용
 	float MoveDelayTime_;		// 이동딜레이시간
-	float InteractionDistance_;	// 최소 상호자용거리(플레이어와의 거리)
+	float InteractionDistance_;	// 최소 상호작용 활성화거리(플레이어와의 거리)
 	float MoveSpeed_;			// 이동속도
-	float4 TargetMovePos_;		// 이동위치
+	float4 MoveStartPos_;		// 이동전위치
+	float4 MoveCurPos_;			// 이동중위치
 
 private: // UI관련
 	NPC_MessageView* MessageView_;
@@ -92,18 +94,24 @@ private:
 	void UpdateWalk();
 	void EndWalk();
 
-	// 대화상태
+	// 상호작용대기 상태
 	void StartConversation();
 	void UpdateConversation();
 	void EndConversation();
 
+	// 상호작용중 상태
+	void StartInteraction();
+	void UpdateInteraction();
+	void EndInteraction();
+
 private:
-	void InteractionCheck(GameEngineCollision* _Other);
+	void MouseLButtonClick(GameEngineCollision* _Other);
+	
+private:
+	void InteractionDistanceCheck();
 
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-
-public:
 };
 
