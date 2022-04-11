@@ -97,7 +97,7 @@ void WeaponNPC::UpdateIdle()
 			State_.ChangeState("WeaponNPC_WALK");
 		}
 
-		MoveDelayTime_ = 3.f;
+		MoveDelayTime_ = 5.f;
 	}
 }
 
@@ -122,18 +122,6 @@ void WeaponNPC::StartWalk()
 
 void WeaponNPC::UpdateWalk()
 {
-	// 이동처리중 최대이동범위를 넘어가면 현재이동방향을 저장하고 바로 상태전환
-	if ((MoveCurPos_.x < MoveMinRange_.x && MoveCurPos_.y < MoveMinRange_.y) ||
-		(MoveCurPos_.x > MoveMaxRange_.x && MoveCurPos_.y > MoveMaxRange_.y))
-	{
-		// 현재이동방향 저장
-		PrevMoveDir_ = CurMoveDir_;
-
-		// 상태 전환
-		State_.ChangeState("WeaponNPC_IDLE");
-		return;
-	}
-
 	// 플레이어와 상호작용상태가 아닐때 자동이동
 	// 최대 이동거리 이동완료시 대기상태로 돌입
 	switch (CurMoveDir_)
@@ -147,7 +135,7 @@ void WeaponNPC::UpdateWalk()
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-			if (150.f <= MoveDist.y)
+			if (100.0f <= MoveDist.y)
 			{
 				// 현재이동방향 저장
 				PrevMoveDir_ = CurMoveDir_;
@@ -166,7 +154,7 @@ void WeaponNPC::UpdateWalk()
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-			if (150.0f <= MoveDist.y && 150.0f <= MoveDist.x)
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
 			{
 				// 현재이동방향 저장
 				PrevMoveDir_ = CurMoveDir_;
@@ -185,7 +173,7 @@ void WeaponNPC::UpdateWalk()
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-			if (150.0f <= MoveDist.x)
+			if (100.0f <= MoveDist.x)
 			{
 				// 현재이동방향 저장
 				PrevMoveDir_ = CurMoveDir_;
@@ -204,7 +192,7 @@ void WeaponNPC::UpdateWalk()
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-			if (150.0f <= MoveDist.y && 150.0f <= MoveDist.x)
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
 			{
 				// 현재이동방향 저장
 				PrevMoveDir_ = CurMoveDir_;
@@ -223,7 +211,7 @@ void WeaponNPC::UpdateWalk()
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-			if (150.0f <= MoveDist.y)
+			if (100.0f <= MoveDist.y)
 			{
 				// 현재이동방향 저장
 				PrevMoveDir_ = CurMoveDir_;
@@ -242,7 +230,7 @@ void WeaponNPC::UpdateWalk()
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-			if (150.0f <= MoveDist.y && 150.0f <= MoveDist.x)
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
 			{
 				// 현재이동방향 저장
 				PrevMoveDir_ = CurMoveDir_;
@@ -261,7 +249,7 @@ void WeaponNPC::UpdateWalk()
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-			if (150.0f <= MoveDist.x)
+			if (100.0f <= MoveDist.x)
 			{
 				// 현재이동방향 저장
 				PrevMoveDir_ = CurMoveDir_;
@@ -280,7 +268,7 @@ void WeaponNPC::UpdateWalk()
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-			if (150.0f <= MoveDist.x && 150.f <= MoveDist.y)
+			if (100.0f <= MoveDist.x && 100.0f <= MoveDist.y)
 			{
 				// 현재이동방향 저장
 				PrevMoveDir_ = CurMoveDir_;
@@ -290,6 +278,17 @@ void WeaponNPC::UpdateWalk()
 			}
 			break;
 		}
+	}
+
+	// 이동처리중 최대이동범위를 넘어가면 현재이동방향을 저장하고 바로 상태전환
+	if (!((MoveMinRange_.x <= MoveCurPos_.x && MoveMinRange_.y <= MoveCurPos_.y) && (MoveMaxRange_.x >= MoveCurPos_.x && MoveMaxRange_.y >= MoveCurPos_.y)))
+	{
+		// 현재이동방향 저장
+		PrevMoveDir_ = CurMoveDir_;
+
+		// 상태 전환
+		State_.ChangeState("WeaponNPC_IDLE");
+		return;
 	}
 }
 

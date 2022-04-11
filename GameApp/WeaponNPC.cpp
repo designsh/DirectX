@@ -25,7 +25,7 @@ WeaponNPC::WeaponNPC() :
 	CurMoveDir_(WeaponNPC_MoveDir::DIR_L),
 	PrevState_(WeaponNPC_FSMState::ST_IDLE),
 	CurState_(WeaponNPC_FSMState::ST_IDLE),
-	MoveDelayTime_(3.f),
+	MoveDelayTime_(5.f),
 	InteractionDistance_(80.f),
 	MoveSpeed_(100.f),
 	MoveStartPos_(float4::ZERO),
