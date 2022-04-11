@@ -43,15 +43,17 @@ private:
 	static std::vector<std::vector<int>> RandomNextRange;
 
 private: 
-	// 생성된 
 	std::unordered_map<__int64, class GameEngineTileMapRenderer*> FloorTiles_;
-
-	// 규칙이 다른거기 때문에
 	std::unordered_map<__int64, class GameEngineTileMapRenderer*> WallTiles_;
+
+private:
+	std::unordered_map<__int64, class GameEngineTileMapRenderer*> FloorGrides_;
+	std::unordered_map<__int64, class GameEngineTileMapRenderer*> WallGrides_;
 
 private: // 타일정보
 	float4 TileSize_;
 	float4 TileSizeHalf_;
+	float4 TileSizeHHarf_;
 
 private: // 바닥타일정보
 	float4 FloorTileImageSizeHalf_;
@@ -129,6 +131,12 @@ private:
 
 public: // Random TileMap
 	void RandomRoad(int _Count, bool _Multidirectional = false);
+
+public: // 테스트용 타일 타입별 그리드 생성
+	void CreateFloorGrid(int _X, int _Y);
+	void ClearFloorGrid();
+	void CreateWallGrid(int _X, int _Y);
+	void ClearWallGrid();
 
 public: // Save & Load
 	void MapSave();

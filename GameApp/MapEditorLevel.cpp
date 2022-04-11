@@ -52,6 +52,11 @@ void MapEditorLevel::LevelStart()
 	WallTile->Cut(31, 1);
 #pragma endregion
 
+	GameEngineTexture* FloorGrid = GameEngineTextureManager::GetInst().Find("FloorGrid.png");
+	FloorGrid->Cut(1, 1);
+	GameEngineTexture* WallGrid = GameEngineTextureManager::GetInst().Find("WallGrid.png");
+	WallGrid->Cut(1, 1);
+
 #pragma region Editor Window
 	// MapEditor Control Window
 	EditorControlWindow* Ptr = GameEngineGUI::GetInst()->CreateGUIWindow<EditorControlWindow>("EditorControlWindow");

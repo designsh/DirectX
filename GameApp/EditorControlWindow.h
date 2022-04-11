@@ -23,6 +23,12 @@ public:	// member Var
 	TileType SelectMode;
 	int SelectTileIndex_;
 
+private:
+	int FloorXCount_;
+	int FloorYCount_;
+	int WallXCount_;
+	int WallYCount_;
+
 public:
 	EditorControlWindow();
 	~EditorControlWindow();

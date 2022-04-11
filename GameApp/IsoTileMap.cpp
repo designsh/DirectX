@@ -5,6 +5,8 @@
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
 
+#include "GlobalEnumClass.h"
+
 bool IsoTileMap::FirstRandomLoad_ = false;
 std::vector<int> IsoTileMap::IgnoreRange;
 std::vector<std::vector<float4>> IsoTileMap::RandomRange;
@@ -24,18 +26,19 @@ void IsoTileMap::Start()
 	// 타일
 	TileSize_ = float4(160.f, 80.f);			// Floor Tile Index 계산기준값
 	TileSizeHalf_ = TileSize_.halffloat4();		// Wall Tile Index 계산기준값
+	TileSizeHHarf_ = TileSizeHalf_.halffloat4();
 
 	// 바닥타일
 	FloorTileImageSize_ = { 160.0f, 80.f };
 
 	FloorTileImageSizeHalf_ = FloorTileImageSize_.halffloat4();
-	FloorTileIndexPivotPos_ = { 0.0f, -FloorTileImageSizeHalf_.y  };
+	FloorTileIndexPivotPos_ = { 0.0f, -TileSizeHalf_.y  };
 
 	// 벽타일
 	WallTileImageSize_ = { 160.0f, 320.f };
 
 	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
-	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y};
+	WallTileIndexPivotPos_ = { 0.0f, 0.0f };
 
 #pragma region RandomLoad 관련
 	RandomStartPos_.clear();
@@ -95,13 +98,14 @@ void IsoTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	}
 
 	float4 Pos;
-	float4 HarfSize = TileSizeHalf_.halffloat4();
-	Pos.x = (_Index.X_ - _Index.Y_) * HarfSize.x;
-	Pos.y = (_Index.X_ + _Index.Y_) * -HarfSize.y;
+	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHarf_.x;
+	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHarf_.y;
 
 	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
+	//Renderer->SetImage("WallGrid.png"); // 테스트용
 	Renderer->SetImage(WallTileTextureName_);
+	//Renderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
 	Renderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
 	Renderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
 	Renderer->SetIndex(CurTileIndex_);
@@ -181,12 +185,12 @@ TileIndex IsoTileMap::GetFloorTileIndex(float4 _Pos)
 
 	if (0 > RatioX)
 	{
-		RatioX += -1;
+		RatioX += -1.f;
 	}
 
 	if (0 > RatioY)
 	{
-		RatioY += -1;
+		RatioY += -1.f;
 	}
 
 	Index.X_ = static_cast<int>(RatioX);
@@ -199,18 +203,25 @@ TileIndex IsoTileMap::GetWallTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
-	float4 HarfSize = TileSizeHalf_.halffloat4();
-	float RatioX = ((_Pos.x / HarfSize.x) - (_Pos.y / HarfSize.y)) / 2.0f;
-	float RatioY = ((_Pos.y / HarfSize.y) + (_Pos.x / HarfSize.x)) / -2.0f;
+	float RatioX = ((_Pos.x / TileSizeHHarf_.x) - (_Pos.y / TileSizeHHarf_.y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSizeHHarf_.y) + (_Pos.x / TileSizeHHarf_.x)) / -2.0f;
 
 	if (0 > RatioX)
 	{
-		RatioX += -1;
+		RatioX += -0.5f;
+	}
+	else
+	{
+		RatioX += 0.5f;
 	}
 
 	if (0 > RatioY)
 	{
-		RatioY += -1;
+		RatioY += -0.5f;
+	}
+	else
+	{
+		RatioY += 0.5f;
 	}
 
 	Index.X_ = static_cast<int>(RatioX);
@@ -226,8 +237,7 @@ float4 IsoTileMap::GetFloorIsoPos(float4 _Pos)
 
 float4 IsoTileMap::GetWallIsoPos(float4 _Pos)
 {
-	float TileHHSize = TileSizeHalf_.x * 0.5f;
-	return { ((_Pos.x / TileHHSize) - (_Pos.y / TileSizeHalf_.y)) / 2.0f ,((_Pos.y / TileSizeHalf_.y) + (_Pos.x / TileHHSize)) / -2.0f };
+	return { ((_Pos.x / TileSizeHHarf_.x) - (_Pos.y / TileSizeHHarf_.y)) / 2.0f, ((_Pos.y / TileSizeHHarf_.y) + (_Pos.x / TileSizeHHarf_.x)) / -2.0f };
 }
 
 // _Multidirectional = true 이면 _DirCnt에 따라 방향수를 결정
@@ -311,8 +321,6 @@ void IsoTileMap::RandomRoad(int _Count, bool _Multidirectional)
 			std::vector<int> DirIndex = { {-1}, {-1}, {-1}, {-1}, };
 			std::vector<float4> Dir = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
 
-			int a = 0;
-
 			for (int i = 0; i < 4; ++i)
 			{
 				DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
@@ -330,10 +338,99 @@ void IsoTileMap::RandomRoad(int _Count, bool _Multidirectional)
 	}
 }
 
+#pragma region 테스트용 그리드 생성 및 제거
+
+void IsoTileMap::CreateFloorGrid(int _X, int _Y)
+{
+	// 바닥 타일 그리드 생성
+	for (int y = 0; y < _Y; ++y)
+	{
+		for (int x = 0; x < _X; ++x)
+		{
+			TileIndex Index = {};
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (x - y) * TileSizeHalf_.x;
+			Pos.y = (x + y) * -TileSizeHalf_.y;
+
+
+			float4 CameraPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+			Index = GetFloorTileIndex((Pos * GetLevel()->GetMainCamera()->GetZoomValue()) + CameraPos);
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			Renderer->SetImage("FloorGrid.png");
+			Renderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+			Renderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+			FloorGrides_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
+}
+
+void IsoTileMap::ClearFloorGrid()
+{
+	// 생성된 바닥타일 그리드 모두 제거
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = FloorGrides_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = FloorGrides_.end();
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		// 세컨드 데스처리
+		(*StartIter).second->Death();
+	}
+	FloorGrides_.clear();
+}
+
+void IsoTileMap::CreateWallGrid(int _X, int _Y)
+{
+	// 벽 타일 그리드 생성
+	for (int y = 0; y < _Y; ++y)
+	{
+		for (int x = 0; x < _X; ++x)
+		{
+			TileIndex Index = {};
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (x - y) * TileSizeHHarf_.x;
+			Pos.y = (x + y) * -TileSizeHHarf_.y;
+
+
+			float4 CameraPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+			Index = GetWallTileIndex((Pos * GetLevel()->GetMainCamera()->GetZoomValue()) + CameraPos);
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			Renderer->SetImage("WallGrid.png");
+			Renderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+			Renderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+			Renderer->GetTransform()->SetZOrder(-1.f);
+			WallGrides_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
+}
+
+void IsoTileMap::ClearWallGrid()
+{
+	// 생성된 벽타일 그리드 모두 제거
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallGrides_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallGrides_.end();
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		// 세컨드 데스처리
+		(*StartIter).second->Death();
+	}
+	WallGrides_.clear();
+}
+
+#pragma endregion
+
+#pragma region 맵 저장 및 로드
 void IsoTileMap::MapSave()
 {
+
 }
 
 void IsoTileMap::MapLoad()
 {
+
 }
+#pragma endregion
