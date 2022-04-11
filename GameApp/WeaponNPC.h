@@ -121,5 +121,6 @@ private:
 public:
 	void SetMoveRange();
 	void SetMessageBoxText(const std::string& _Text);
+	void SetUIPosition();
 };
 

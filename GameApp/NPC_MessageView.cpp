@@ -22,15 +22,13 @@ NPC_MessageView::~NPC_MessageView()
 
 void NPC_MessageView::Start()
 {
-	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();
-
 	// ¸Þ¼¼Áö ÆÇ³Ú ·»´õ·¯ »ý¼º
 	MsgPanel_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	MsgPanel_->SetImage("MessageView_Panel.png");
 	MsgPanel_->SetAlpha(0.5f);
-	MsgPanel_->TextSetting("diablo", "", 15.f, FW1_LEFT | FW1_VCENTER, float4::WHITE, float4(-132.f, -38.f), 100);
+	MsgPanel_->TextSetting("diablo", "", 13.f, FW1_LEFT | FW1_VCENTER, float4::WHITE, float4(-132.f, -38.f), 35);
 	MsgPanel_->GetTransform()->SetLocalScaling(float4(272.f, 93.f));
-	MsgPanel_->GetTransform()->SetLocalPosition(float4(0.f, ScreenHarfSize.y - 46.5f));
+	MsgPanel_->GetTransform()->SetLocalPosition(float4(0.f, 96.f));
 }
 
 void NPC_MessageView::Update(float _DeltaTime)

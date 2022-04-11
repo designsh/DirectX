@@ -55,7 +55,6 @@ void WeaponNPC::Start()
 
 	// 2. 상단메뉴(NPC 상단에 표시)
 	TopMenuBar_ = GetLevel()->CreateActor<NPC_TopMenuBar>();
-	TopMenuBar_->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 	TopMenuBar_->Off();
 }
 
@@ -203,4 +202,10 @@ void WeaponNPC::SetMessageBoxText(const std::string& _Text)
 	{
 		MessageView_->SetNPCMessage(_Text);
 	}
+}
+
+void WeaponNPC::SetUIPosition()
+{
+	MessageView_->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+	TopMenuBar_->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 }
