@@ -78,22 +78,34 @@ void NPC_MessageView::Update(float _DeltaTime)
 
 void NPC_MessageView::SetNPCMessage(const std::string& _Text)
 {
+	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();
+
 	// 출력되는 메세지 등록
 	SaveMsgText_ = _Text;
 
 	// 메세지의 글자수를 이용하여 텍스트목록 생성 갯수 결정(한줄당 최대글자수 35)
 	int CurTextTotSize = static_cast<int>(SaveMsgText_.size());
-	int TextLineCnt = CurTextTotSize % 35;
-
-	int a = 0;
+	int TextLineCnt = (CurTextTotSize / 35) %  35;
 
 	// 기존목록제거 후 생성
 	PrintTextList_.clear();
+	int Index = 0;
+	for (int i = 0; i < TextLineCnt + 1; ++i)
+	{
+		GameEngineUIRenderer* NewTextRenderer = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+		NewTextRenderer->SetImage("MessageView_Panel.png");
+		NewTextRenderer->SetAlpha(0.f);
+		NewTextRenderer->GetTransform()->SetLocalScaling(float4(272.f, 93.f));
+		NewTextRenderer->GetTransform()->SetLocalPosition(MsgPanel_->GetTransform()->GetLocalPosition());
+
+		// Text 저장
+		std::string PrintText = "";
 
 
+		NewTextRenderer->TextSetting("diablo", PrintText, 12.f, FW1_LEFT | FW1_VCENTER, float4::WHITE, float4(-132.f, -38.f), 35);
 
-	// 메세지텍스트목록 생성
-	//MsgPanel_->TextSetting("diablo", "", 12.f, FW1_LEFT | FW1_VCENTER, float4::WHITE, float4(-132.f, -38.f), 35);
+		++Index;
+	}
 }
 
 void NPC_MessageView::FirstInteractionActive()
