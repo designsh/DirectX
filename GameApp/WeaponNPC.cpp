@@ -214,3 +214,20 @@ void WeaponNPC::SetTopMenu()
 
 	TopMenuBar_->CreateNPCTopMenu(NPCClassType::Charsi, NPCType::WeaponShop);
 }
+
+void WeaponNPC::InteractionEnd()
+{
+	// 외부에서 해당 NPC 상호작용 종료시 호출되며,
+	// 상호작용이 종료되었으므로 해당 NPC는 대기상태로 돌입한다.
+	State_.ChangeState("WeaponNPC_IDLE");
+}
+
+void WeaponNPC::SelectConversationMenu()
+{
+	// 상호작용상태에서 화면에 표시되는 NPC상단메뉴에서 대화메뉴 선택시 호출
+	FirstInteraction = false;
+	MessageView_->InteractionActive();
+
+	// 상단메뉴 닫기
+	TopMenuBar_->Off();
+}

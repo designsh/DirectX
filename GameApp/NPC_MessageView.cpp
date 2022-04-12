@@ -142,7 +142,7 @@ void NPC_MessageView::CreateNPCMessageTextList(const std::string& _Text)
 	}
 }
 
-void NPC_MessageView::FirstInteractionActive()
+void NPC_MessageView::InteractionActive()
 {
 	// 메세지목록이 존재할때
 	if (false == PrintTextList_.empty())

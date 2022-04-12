@@ -49,6 +49,6 @@ public:
 	void CreateNPCMessageTextList(const std::string& _Text);
 
 public:
-	void FirstInteractionActive();
+	void InteractionActive();
 };
 

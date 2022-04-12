@@ -349,13 +349,16 @@ void WeaponNPC::StartInteraction()
 	if (false == FirstInteraction)
 	{
 		// 메세지뷰 로드
-		MessageView_->FirstInteractionActive();
+		MessageView_->InteractionActive();
 	}
 	// 두번째 대화시도시 메뉴 도출
 	else
 	{
-		// 상단메뉴 도출
-		TopMenuBar_->On();
+		if (false == TopMenuBar_->IsUpdate())
+		{
+			// 상단메뉴 도출
+			TopMenuBar_->NPCTopMenuActive();
+		}
 	}
 }
 
@@ -379,20 +382,6 @@ void WeaponNPC::UpdateInteraction()
 			TopMenuBar_->NPCTopMenuActive();
 		}
 	}
-	else // 2. NPC와 상호작용(디폴트)
-	{
-		if (false == TopMenuBar_->IsUpdate())
-		{
-			// 상단메뉴 도출
-			TopMenuBar_->NPCTopMenuActive();
-		}
-	}
-
-
-	// 1) 상단메뉴 종료버튼 클릭체크
-	// 2). 해당 NPC 판매창 종료버튼 클릭체크
-	// 종료시 상태 전환
-	//State_.ChangeState("WeaponNPC_IDLE");
 }
 
 void WeaponNPC::EndInteraction()

@@ -65,16 +65,29 @@ void NPC_TopMenuBar::SelectConversationMenu(GameEngineCollision* _Other)
 	// 대화선택
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
-		int a = 0;
+		switch (NPCClassType_)
+		{
+			case NPCClassType::Akara:
+			{
+				//GlobalValue::WeaponNPC->InteractionEnd();
+				break;
+			}
+			case NPCClassType::Charsi:
+			{
+				GlobalValue::WeaponNPC->SelectConversationMenu();
+				break;
+			}
+		}
 	}
 }
 
 void NPC_TopMenuBar::SelectBuySellMenu(GameEngineCollision* _Other)
 {
-	// 판매/구입창 선택
+	// 판매창 선택
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
-		int a = 0;
+		// 판매창 Active
+
 	}
 }
 
@@ -86,7 +99,19 @@ void NPC_TopMenuBar::SelectCloseMenu(GameEngineCollision* _Other)
 		Off();
 
 		// 해당 NPC 대기상태로 전환
-
+		switch (NPCClassType_)
+		{
+			case NPCClassType::Akara:
+			{
+				//GlobalValue::WeaponNPC->InteractionEnd();
+				break;
+			}
+			case NPCClassType::Charsi:
+			{
+				GlobalValue::WeaponNPC->InteractionEnd();
+				break;
+			}
+		}
 	}
 }
 
@@ -134,7 +159,7 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 			ConversationMenuRenderer_->SetAlpha(0.f);
 			ConversationMenuRenderer_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 18.f));
 			ConversationMenuRenderer_->GetTransform()->SetLocalScaling(float4(78.f, 20.f));
-			ConversationMenuRenderer_->TextSetting("HMKMRHD", "대화", 12.f, FW1_CENTER | FW1_VCENTER, float4(0.8f, 0.8f, 0.4f));
+			ConversationMenuRenderer_->TextSetting("HMKMRHD", "대화", 12.f, FW1_CENTER | FW1_VCENTER, float4::WHITE);
 
 			ConversationMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
 
