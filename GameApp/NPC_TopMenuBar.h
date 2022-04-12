@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+#include "AllNPCInfomation.h"
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -14,6 +16,10 @@ private:	// member Var
 private:
 	GameEngineUIRenderer* BuySellMenuRenderer_;
 	GameEngineCollision* ButSellMenuCol_;
+
+private:
+	NPCClassType NPCClassType_;
+	NPCType NPCType_;
 
 public:
 	NPC_TopMenuBar();
@@ -32,5 +38,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	void CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCType);
 };
 

@@ -11,24 +11,24 @@ enum class NPCClassType
 
 enum class NPCType
 {
-	Normal,					// 일반 NPC
+	Normal,				// 일반 NPC
 	PotionShop,			// 물약상점 NPC
-	WeaponShop,		// 무기상점 NPC
-	Employer				// 용병상인 NPC
+	WeaponShop,			// 무기상점 NPC
+	Employer			// 용병상인 NPC
 };
 
 struct AllNPCInfo
 {
 	// ============================ NPC 기본정보 ============================ //
-	std::string						Name;				// NPC 명
-	NPCClassType				ClassType;			// NPC 클래스 타입
-	NPCType						Type;					// NPC 타입
+	std::string			Name;		// NPC 명
+	NPCClassType		ClassType;	// NPC 클래스 타입
+	NPCType				Type;		// NPC 타입
 
-	int									BuyMult;			// NPC가 플레이어로부터 물건구매시 할인가격((가격/1024*값))
-	int									SellMult;			// NPC가 플레이어에게 물건판매시 할인가격((가격/1024*값))
-	int									RepMult;			// NPC가 아이템 수리시 가격(floor(price/1024*value)) 
-																		// -> 아이템의 내구도의 영향을 받는다.
-	int									MaxBuy;			// NPC가 플레이어로부터 물건구매시 최대가격
+	int					BuyMult;	// NPC가 플레이어로부터 물건구매시 할인가격((가격/1024*값))
+	int					SellMult;	// NPC가 플레이어에게 물건판매시 할인가격((가격/1024*값))
+	int					RepMult;	// NPC가 아이템 수리시 가격(floor(price/1024*value)) 
+									// -> 아이템의 내구도의 영향을 받는다.
+	int					MaxBuy;		// NPC가 플레이어로부터 물건구매시 최대가격
 };
 
 // 분류 : 정보
