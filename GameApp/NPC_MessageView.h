@@ -11,11 +11,13 @@ private:	// member Var
 	GameEngineUIRenderer* MsgPanel_;
 
 private:
+	float TextMoveSpeed_;
+
+private:
 	std::string SaveMsgText_;
 	int CurTextLineIdx_;
 	bool MessageLoadStart_;
 	bool MessageLoadEnd_;
-	float MessagePrintDelayTime_;
 	float4 TextMoveEndPos_;
 
 private: // 메세지텍스트 목록
@@ -36,9 +38,6 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-
-private: // 텍스트 무브 종료시점처리
-	void TextEndPosArrive();
 
 public:
 	inline bool GetMessageLoadEnd()
