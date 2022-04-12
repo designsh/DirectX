@@ -9,10 +9,11 @@
 NPC_MessageView::NPC_MessageView() :
 	MsgPanel_(nullptr),
 	SaveMsgText_{},
-	CurPrintTextIndex_(0),
+	CurTextLineIdx_(0),
 	MessageLoadStart_(false),
 	MessageLoadEnd_(false),
-	MessagePrintDelayTime_(0.f)
+	MessagePrintDelayTime_(0.f),
+	TextMoveEndPos_(float4::ZERO)
 {
 }
 
@@ -41,39 +42,50 @@ void NPC_MessageView::Update(float _DeltaTime)
 		MessagePrintDelayTime_ -= GameEngineTime::GetInst().GetDeltaTime();
 		if (0.0f >= MessagePrintDelayTime_)
 		{
-			// 수정중....
+			// 메세지목록이 존재할때
+			if (false == PrintTextList_.empty())
+			{
+				// 현재 출력해야하는 라인수가 최대치를 넘어가면
+				if (static_cast<int>(PrintTextList_.size()) <= CurTextLineIdx_)
+				{
+					MessagePrintDelayTime_ = 1.f;
+
+					// 해당 메세지 출력종료 Flag On / 출력시작 Flag Off
+					MessageLoadStart_ = false;
+					MessageLoadEnd_ = true;
+				}
+
+				// 아니라면 CurTextLineIdx_ - 1
+
+
+
+				// 이전인덱스까지의 텍스트가 모두 On상태이고, 현재인덱스가 On이되면서 
+				// 이전인덱스까지의 텍스트들은 목표지점이아니면 상단쪽으로 이동을 하고, 
+				// 목표지점에 도달하면 Off 상태로 전환과 동시에 초기위치로 위치를 재셋팅한다.
 
 
 
 
 
 
-			//// 딜레이 시간 초기화
-			//MessagePrintDelayTime_ = 1.f;
 
-			//// 저장된 메세지 최대길이 Get
-			//int SaveTextLen = static_cast<int>(SaveMsgText_.size());
 
-			//// 현재 출력인덱스를 이용하여 Text 추가하여 출력
-			//char CurText = SaveMsgText_[CurPrintTextIndex_];
-			//std::string CurString = "";
-			//CurString += CurText;
-			//MsgPanel_->AddText(CurString);
-			//
-			//// 현재 출력하는 인덱스와 메세지의 최대길이와 같을때 
-			//// 저장된 텍스트 출력 종료
-			//if (CurPrintTextIndex_ == SaveTextLen)
-			//{
-			//	// 종료 Flag On
-			//	MessageLoadEnd_ = true;
+				// TextEndPosArrive();
 
-			//	// 시작가능 Flag Off
-			//	MessageLoadStart_ = false;
-			//}
 
-			//++CurPrintTextIndex_;
+			}
+
+			// 딜레이 시간 초기화
+			MessagePrintDelayTime_ = 1.f;
+
+			// 현재 라인 인덱스 증가
+			++CurTextLineIdx_;
 		}
 	}
+}
+
+void NPC_MessageView::TextEndPosArrive()
+{
 }
 
 void NPC_MessageView::SetNPCMessage(const std::string& _Text)
@@ -88,8 +100,8 @@ void NPC_MessageView::SetNPCMessage(const std::string& _Text)
 	int TextLineCnt = (CurTextTotSize / 35) %  35;
 
 	// 기존목록제거 후 생성
-	PrintTextList_.clear();
 	int Index = 0;
+	PrintTextList_.clear();
 	for (int i = 0; i < TextLineCnt + 1; ++i)
 	{
 		GameEngineUIRenderer* NewTextRenderer = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
@@ -98,11 +110,20 @@ void NPC_MessageView::SetNPCMessage(const std::string& _Text)
 		NewTextRenderer->GetTransform()->SetLocalScaling(float4(272.f, 93.f));
 		NewTextRenderer->GetTransform()->SetLocalPosition(MsgPanel_->GetTransform()->GetLocalPosition());
 
-		// Text 저장
+		// 전체문자열에서 특정부분 Text 잘라서 텍스트 셋팅
 		std::string PrintText = "";
+		int StartIdx = Index * 35;
 
-
+		int EndIdx = (Index + 1) * 35;
+		if (CurTextTotSize <= EndIdx)
+		{
+			EndIdx = CurTextTotSize;
+		}
+		PrintText = SaveMsgText_.substr(StartIdx, EndIdx);
 		NewTextRenderer->TextSetting("diablo", PrintText, 12.f, FW1_LEFT | FW1_VCENTER, float4::WHITE, float4(-132.f, -38.f), 35);
+		NewTextRenderer->Off();
+
+		PrintTextList_.push_back(NewTextRenderer);
 
 		++Index;
 	}

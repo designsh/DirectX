@@ -12,14 +12,15 @@ private:	// member Var
 
 private:
 	std::string SaveMsgText_;
-	int CurPrintTextIndex_;
+	int CurTextLineIdx_;
 	bool MessageLoadStart_;
 	bool MessageLoadEnd_;
 	float MessagePrintDelayTime_;
+	float4 TextMoveEndPos_;
 
 private: // 메세지텍스트 목록
 	std::vector<GameEngineUIRenderer*> PrintTextList_;
-
+	
 public:
 	NPC_MessageView();
 	~NPC_MessageView();
@@ -35,6 +36,9 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+private: // 텍스트 무브 종료시점처리
+	void TextEndPosArrive();
 
 public:
 	inline bool GetMessageLoadEnd()
