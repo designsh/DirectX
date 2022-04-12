@@ -26,7 +26,7 @@ void IsoTileMap::Start()
 	// 타일
 	TileSize_ = float4(160.f, 80.f);			// Floor Tile Index 계산기준값
 	TileSizeHalf_ = TileSize_.halffloat4();		// Wall Tile Index 계산기준값
-	TileSizeHHarf_ = TileSizeHalf_.halffloat4();
+	TileSizeHHalf_ = TileSizeHalf_.halffloat4();
 
 	// 바닥타일
 	FloorTileImageSize_ = { 160.0f, 80.f };
@@ -98,8 +98,8 @@ void IsoTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	}
 
 	float4 Pos;
-	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHarf_.x;
-	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHarf_.y;
+	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
+	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
 
 	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
@@ -204,8 +204,8 @@ TileIndex IsoTileMap::GetWallTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
-	float RatioX = ((_Pos.x / TileSizeHHarf_.x) - (_Pos.y / TileSizeHHarf_.y)) / 2.0f;
-	float RatioY = ((_Pos.y / TileSizeHHarf_.y) + (_Pos.x / TileSizeHHarf_.x)) / -2.0f;
+	float RatioX = ((_Pos.x / TileSizeHHalf_.x) - (_Pos.y / TileSizeHHalf_.y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSizeHHalf_.y) + (_Pos.x / TileSizeHHalf_.x)) / -2.0f;
 
 	if (0 > RatioX)
 	{
@@ -238,7 +238,7 @@ float4 IsoTileMap::GetFloorIsoPos(float4 _Pos)
 
 float4 IsoTileMap::GetWallIsoPos(float4 _Pos)
 {
-	return { ((_Pos.x / TileSizeHHarf_.x) - (_Pos.y / TileSizeHHarf_.y)) / 2.0f, ((_Pos.y / TileSizeHHarf_.y) + (_Pos.x / TileSizeHHarf_.x)) / -2.0f };
+	return { ((_Pos.x / TileSizeHHalf_.x) - (_Pos.y / TileSizeHHalf_.y)) / 2.0f, ((_Pos.y / TileSizeHHalf_.y) + (_Pos.x / TileSizeHHalf_.x)) / -2.0f };
 }
 
 // _Multidirectional = true 이면 _DirCnt에 따라 방향수를 결정
@@ -391,8 +391,8 @@ void IsoTileMap::CreateWallGrid(int _X, int _Y)
 			TileIndex Index = {};
 
 			float4 Pos = float4::ZERO;
-			Pos.x = (x - y) * TileSizeHHarf_.x;
-			Pos.y = (x + y) * -TileSizeHHarf_.y;
+			Pos.x = (x - y) * TileSizeHHalf_.x;
+			Pos.y = (x + y) * -TileSizeHHalf_.y;
 
 
 			float4 CameraPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();

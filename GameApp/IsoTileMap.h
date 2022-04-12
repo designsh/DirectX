@@ -53,7 +53,7 @@ private:
 private: // 타일정보
 	float4 TileSize_;
 	float4 TileSizeHalf_;
-	float4 TileSizeHHarf_;
+	float4 TileSizeHHalf_;
 
 private: // 바닥타일정보
 	float4 FloorTileImageSizeHalf_;

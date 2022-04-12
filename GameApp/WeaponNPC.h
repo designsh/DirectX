@@ -122,5 +122,6 @@ public:
 	void SetMoveRange();
 	void SetMessageBoxText(const std::string& _Text);
 	void SetUIPosition();
+	void SetTopMenu();
 };
 

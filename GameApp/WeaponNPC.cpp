@@ -208,3 +208,9 @@ void WeaponNPC::SetUIPosition()
 {
 	TopMenuBar_->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 }
+
+void WeaponNPC::SetTopMenu()
+{
+
+	TopMenuBar_->CreateNPCTopMenu(NPCClassType::Charsi, NPCType::WeaponShop);
+}

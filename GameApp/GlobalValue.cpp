@@ -16,3 +16,7 @@ MouseObject* GlobalValue::CurMouse = nullptr;
 // 현재 생성된 게임의 플레이어의 왼쪽스킬/오른쪽스킬
 MainPlayer_LeftWeaponSkillButton* GlobalValue::CurLeftSkill = nullptr;
 MainPlayer_RightWeaponSkillButton* GlobalValue::CurRightSkill = nullptr;
+
+// 현재 생성된 게임의 NPC
+WeaponNPC* GlobalValue::WeaponNPC = nullptr;
+//ChandleryNPC* GlobalValue::ChandleryNPC = nullptr;

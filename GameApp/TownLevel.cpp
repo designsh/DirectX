@@ -70,7 +70,7 @@ void TownLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
-	// 맵로딩(타일맵 - 마름모)
+	// 맵로딩(타일맵 - 고정맵)
 
 	// 플레이어 생성
 	MainPlayer_ = CreateActor<MainPlayer>();
@@ -78,16 +78,19 @@ void TownLevel::LevelStart()
 
 	// NPC 생성(무기상인) - 테스트 위치
 	WeaponNPC_ = CreateActor<WeaponNPC>();
-	WeaponNPC_->GetTransform()->SetLocalPosition(float4(200.f, 200.f, 10.f));
+	WeaponNPC_->GetTransform()->SetLocalPosition(float4(100.f, 100.f, 10.f));
 	WeaponNPC_->SetMoveRange();
 	WeaponNPC_->SetMessageBoxText("Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); // 임시
 	WeaponNPC_->SetUIPosition();
+	WeaponNPC_->SetTopMenu();
+	GlobalValue::WeaponNPC = WeaponNPC_;
 
 	// NPC 생성(잡화상인)
 
 
 
-	// 창고오브젝트(이미지)
+	// 창고오브젝트
+
 
 	// ....
 

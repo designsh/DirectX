@@ -363,7 +363,7 @@ void WeaponNPC::UpdateInteraction()
 {
 	// 상단메뉴종료 or 판매창종료 or 대화종료시 npc는 대기상태로 전환
 
-	// 1. 대화창 메세지 종료체크
+	// 1. NPC와 상호작용(최초)
 	if (false == FirstInteraction)
 	{
 		// 지정된 내용의 텍스트 출력 종료시
@@ -376,18 +376,21 @@ void WeaponNPC::UpdateInteraction()
 			MessageView_->Off();
 
 			// 상단메뉴 도출
-			TopMenuBar_->On();
+			TopMenuBar_->NPCTopMenuActive();
+		}
+	}
+	else // 2. NPC와 상호작용(디폴트)
+	{
+		if (false == TopMenuBar_->IsUpdate())
+		{
+			// 상단메뉴 도출
+			TopMenuBar_->NPCTopMenuActive();
 		}
 	}
 
-	// 2. 상단메뉴 종료버튼 클릭체크
 
-
-
-	// 3. 해당 NPC 판매창 종료버튼 클릭체크
-
-
-
+	// 1) 상단메뉴 종료버튼 클릭체크
+	// 2). 해당 NPC 판매창 종료버튼 클릭체크
 	// 종료시 상태 전환
 	//State_.ChangeState("WeaponNPC_IDLE");
 }
