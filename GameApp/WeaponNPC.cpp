@@ -200,7 +200,7 @@ void WeaponNPC::SetMessageBoxText(const std::string& _Text)
 {
 	if (nullptr != MessageView_)
 	{
-		MessageView_->SetNPCMessage(_Text);
+		MessageView_->CreateNPCMessageTextList(_Text);
 	}
 }
 

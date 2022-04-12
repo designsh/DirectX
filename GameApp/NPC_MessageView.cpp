@@ -8,7 +8,7 @@
 
 NPC_MessageView::NPC_MessageView() :
 	MsgPanel_(nullptr),
-	TextMoveSpeed_(50.f),
+	TextMoveSpeed_(20.f),
 	SaveMsgText_{},
 	CurTextLineIdx_(0),
 	MessageLoadStart_(false),
@@ -38,76 +38,73 @@ void NPC_MessageView::Update(float _DeltaTime)
 	// 저장된 메세지 출력시작
 	if (true == MessageLoadStart_)
 	{
-		// 메세지목록이 존재할때
-		if (false == PrintTextList_.empty())
+		// CurTextLineIdx_까지의 라인들을 위로 이동시킨다.
+		// 단, 목표위치에 도달한 텍스트라인은 초기위치로 재셋팅하고, Off 상태로 전환한다.
+		for (int i = 0; i < CurTextLineIdx_; ++i)
 		{
-			// CurTextLineIdx_까지의 라인들을 위로 이동시킨다.
-			// 단, 목표위치에 도달한 텍스트라인은 초기위치로 재셋팅하고, Off 상태로 전환한다.
-			for (int i = 0; i < CurTextLineIdx_; ++i)
+			if (true == PrintTextList_[i]->IsUpdate())
 			{
-				if (true == PrintTextList_[i]->IsUpdate())
+				// 위로 이동하므로 y값 비교하여 목표지점을 넘어가면 해당 텍스트라인은 초기셋팅하고 Off
+				if (TextMoveEndPos_.y <= PrintTextList_[i]->GetTransform()->GetLocalPosition().y)
 				{
-					// 위로 이동하므로 y값 비교하여 목표지점을 넘어가면 해당 텍스트라인은 초기셋팅하고 Off
-					if (TextMoveEndPos_.y <= PrintTextList_[i]->GetTransform()->GetLocalPosition().y)
-					{
-						// 초기 위치로 셋팅 후 
-						float4 ParentPos = MsgPanel_->GetTransform()->GetLocalPosition();
-						PrintTextList_[i]->GetTransform()->SetLocalPosition(float4(ParentPos.x, ParentPos.y - 38.f));
+					// 초기 위치로 셋팅 후 
+					float4 ParentPos = MsgPanel_->GetTransform()->GetLocalPosition();
+					PrintTextList_[i]->GetTransform()->SetLocalPosition(float4(ParentPos.x, ParentPos.y - 38.f));
 
-						// Off 상태 전환
-						PrintTextList_[i]->Off();
+					// Off 상태 전환
+					PrintTextList_[i]->Off();
 
-						// 마지막인덱스의 텍스트라인이 표시완료되었다면 해당 메세지창 Off
-						if (i + 1 == CurTextLineIdx_)
-						{
-							CurTextLineIdx_ = 0;
-							MessageLoadStart_ = false;
-							MessageLoadEnd_ = true;
-							return;
-						}
-					}
-					else // 아니라면 이동
+					// 마지막인덱스의 텍스트라인이 표시 및 이동완료시 해당 메세지창 Off 처리
+					if (i + 1 == CurTextLineIdx_)
 					{
-						float4 CurPos = PrintTextList_[i]->GetTransform()->GetLocalPosition();
-						CurPos += (float4::UP * TextMoveSpeed_ * _DeltaTime);
-						PrintTextList_[i]->GetTransform()->SetLocalPosition(CurPos);
+						CurTextLineIdx_ = 0;
+						MessageLoadStart_ = false;
+						MessageLoadEnd_ = true;
+						return;
 					}
 				}
-			}
-
-			// 단, 이전라인과 현재라인의 위치를 비교하여 일정거리가 넘어가면 On
-			if (0 < CurTextLineIdx_ && CurTextLineIdx_ < static_cast<int>(PrintTextList_.size()))
-			{
-				float4 PrevPos = PrintTextList_[CurTextLineIdx_ - 1]->GetTransform()->GetLocalPosition();
-				float4 CurPos = PrintTextList_[CurTextLineIdx_]->GetTransform()->GetLocalPosition();
-				if (CurPos.y + 10.f <= PrevPos.y)
+				else // 아니라면 이동
 				{
-					// 이전라인들이 모두 이동했다면 현재 라인을 On
-					PrintTextList_[CurTextLineIdx_]->On();
-
-					// 현재 라인 인덱스 증가
-					++CurTextLineIdx_;
+					float4 CurPos = PrintTextList_[i]->GetTransform()->GetLocalPosition();
+					CurPos += (float4::UP * TextMoveSpeed_ * _DeltaTime);
+					PrintTextList_[i]->GetTransform()->SetLocalPosition(CurPos);
 				}
 			}
-			else if(0 == CurTextLineIdx_)
+		}
+
+		// 단, 이전라인과 현재라인의 위치를 비교하여 일정거리가 넘어가면 On
+		if (0 < CurTextLineIdx_ && CurTextLineIdx_ < static_cast<int>(PrintTextList_.size()))
+		{
+			float4 PrevPos = PrintTextList_[CurTextLineIdx_ - 1]->GetTransform()->GetLocalPosition();
+			float4 CurPos = PrintTextList_[CurTextLineIdx_]->GetTransform()->GetLocalPosition();
+			if (CurPos.y + 10.f <= PrevPos.y)
 			{
-				PrintTextList_[0]->On();
+				// 이전라인들이 모두 이동했다면 현재 라인을 On
+				PrintTextList_[CurTextLineIdx_]->On();
 
 				// 현재 라인 인덱스 증가
 				++CurTextLineIdx_;
 			}
 		}
+
+		if(0 == CurTextLineIdx_)
+		{
+			PrintTextList_[0]->On();
+
+			// 현재 라인 인덱스 증가
+			++CurTextLineIdx_;
+		}
 	}
 }
 
-void NPC_MessageView::SetNPCMessage(const std::string& _Text)
+void NPC_MessageView::CreateNPCMessageTextList(const std::string& _Text)
 {
 	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();
 
 	// 출력되는 메세지 등록
 	SaveMsgText_ = _Text;
 
-	// 메세지의 글자수를 이용하여 텍스트목록 생성 갯수 결정(한줄당 최대글자수 35)
+	// 메세지의 글자수를 이용하여 텍스트목록 생성 갯수 결정(한줄당 최대글자수 30)
 	int CurTextTotSize = static_cast<int>(SaveMsgText_.size());
 	int TextLineCnt = (CurTextTotSize / 30) %  30;
 
@@ -147,9 +144,20 @@ void NPC_MessageView::SetNPCMessage(const std::string& _Text)
 
 void NPC_MessageView::FirstInteractionActive()
 {
-	// NPC 최초 상호작용시 호출되어 메세지 출력
-	On();
+	// 메세지목록이 존재할때
+	if (false == PrintTextList_.empty())
+	{
+		// NPC 최초 상호작용시 호출되어 메세지 출력
+		On();
 
-	// 입력된 메세지 출력 시작 Flag On
-	MessageLoadStart_ = true;
+		// 입력된 메세지 출력 시작 Flag On / 출력 종료 Flag Off
+		MessageLoadStart_ = true;
+		MessageLoadEnd_ = false;
+	}
+	else // 텍스트목록이 존재하지않다면
+	{
+		// 바로 출력 시작 Flag Off / 출력 종료 Flag On
+		MessageLoadStart_ = false;
+		MessageLoadEnd_ = true;
+	}
 }

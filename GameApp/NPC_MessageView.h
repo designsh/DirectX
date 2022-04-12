@@ -46,7 +46,7 @@ public:
 	}
 
 public:
-	void SetNPCMessage(const std::string& _Text);
+	void CreateNPCMessageTextList(const std::string& _Text);
 
 public:
 	void FirstInteractionActive();
