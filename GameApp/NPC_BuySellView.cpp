@@ -7,6 +7,11 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+#include "MainPlayer.h"
+
+#include "WeaponNPC.h"
+#include "NPC_TopMenuBar.h"
+
 NPC_BuySellView::NPC_BuySellView() :
 	ViewPanel_(nullptr),
 	BuyButtonRenderer_(nullptr),
@@ -150,11 +155,10 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 
 void NPC_BuySellView::NPCBuySellViewActive()
 {
+	//On();
+
 	// 판매창 활성화시 플레이어의 인벤토리창도 활성화되며,
-
-
-
-
+	
 
 	// 플레이어의 하단상태바의 미니메뉴를 비활성화 시킨다.
 
@@ -170,11 +174,10 @@ void NPC_BuySellView::NPCBuySellViewActive()
 
 void NPC_BuySellView::NPCBuySellViewInactive()
 {
+	//Off();
+
 	// 판매창 비활성화시 플레이어의 인벤토리창도 비활성화되며,
-
-
-
-
+	
 
 	// 플레이어의 하단상태바의 미니메뉴를 활성화 시킨다.
 
