@@ -104,8 +104,9 @@ void IsoTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
 	//Renderer->SetImage("WallGrid.png"); // 테스트용
-	Renderer->SetImage(WallTileTextureName_);
 	//Renderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+
+	Renderer->SetImage(WallTileTextureName_);
 	Renderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
 	Renderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
 	Renderer->SetIndex(CurTileIndex_);
