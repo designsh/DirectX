@@ -216,7 +216,7 @@ void GameEngineTransform::SetWorldScaling(const float4& _Value)
 	TransformUpdate();
 }
 
-void GameEngineTransform::SetLocalRotation(const float4& _Value)
+void GameEngineTransform::SetLocalRotationDegree(const float4& _Value)
 {
 	// 로컬회전 벡터를 수신했을 경우
 
@@ -249,7 +249,7 @@ void GameEngineTransform::SetLocalRotation(const float4& _Value)
 	TransformUpdate();
 }
 
-void GameEngineTransform::SetWorldRotation(const float4& _Value)
+void GameEngineTransform::SetWorldRotationDegree(const float4& _Value)
 {
 	// 월드회전 벡터를 수신했을 경우
 
@@ -348,14 +348,14 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 	TransformUpdate();
 }
 
-void GameEngineTransform::SetLocalDeltaTimeRotation(const float4& _Value)
+void GameEngineTransform::AddLocalDeltaTimeRotation(const float4& _Value)
 {
-	SetLocalRotation(TransformData_.vLocalRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	SetLocalRotationDegree(TransformData_.vLocalRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 }
 
-void GameEngineTransform::SetWorldDeltaTimeRotation(const float4& _Value)
+void GameEngineTransform::AddWorldDeltaTimeRotation(const float4& _Value)
 {
-	SetWorldRotation(TransformData_.vWorldRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	SetWorldRotationDegree(TransformData_.vWorldRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 }
 
 void GameEngineTransform::SetLocalDeltaTimeMove(const float4& _Value)
@@ -368,6 +368,46 @@ void GameEngineTransform::SetWorldDeltaTimeMove(const float4& _Value)
 	SetWorldPosition(TransformData_.vWorldPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 }
 
+void GameEngineTransform::AddLocalRotationDegreeX(const float _Value)
+{
+	float4 Local = TransformData_.vLocalRotation_;
+	Local.x += _Value;
+	SetLocalRotationDegree(Local);
+}
+void GameEngineTransform::AddWorldRotationDegreeX(const float _Value)
+{
+	float4 Local = TransformData_.vLocalRotation_;
+	Local.x += _Value;
+	SetWorldRotationDegree(Local);
+}
+
+void GameEngineTransform::AddLocalRotationDegreeY(const float _Value)
+{
+	float4 Local = TransformData_.vLocalRotation_;
+	Local.y += _Value;
+	SetLocalRotationDegree(Local);
+}
+
+void GameEngineTransform::AddWorldRotationDegreeY(const float _Value)
+{
+	float4 Local = TransformData_.vLocalRotation_;
+	Local.y += _Value;
+	SetWorldRotationDegree(Local);
+}
+
+void GameEngineTransform::AddLocalRotationDegreeZ(const float _Value)
+{
+	float4 Local = TransformData_.vLocalRotation_;
+	Local.z += _Value;
+	SetLocalRotationDegree(Local);
+}
+void GameEngineTransform::AddWorldRotationDegreeZ(const float _Value)
+{
+	float4 Local = TransformData_.vLocalRotation_;
+	Local.z += _Value;
+	SetWorldRotationDegree(Local);
+}
+
 void GameEngineTransform::SetLocalMove(const float4& _Value)
 {
 	SetLocalPosition(TransformData_.vLocalPosition_ + _Value);
@@ -378,10 +418,24 @@ void GameEngineTransform::SetWorldMove(const float4& _Value)
 	SetWorldPosition(TransformData_.vWorldPosition_ + _Value);
 }
 
-void GameEngineTransform::SetZOrder(float _Value)
+void GameEngineTransform::SetLocalZOrder(float _Value)
 {
 	TransformData_.vLocalPosition_.z = _Value;
 	SetLocalPosition(TransformData_.vLocalPosition_);
+}
+
+void GameEngineTransform::SetWorldZOrder(float _Value)
+{
+	TransformData_.vWorldPosition_.z = _Value;
+	SetWorldPosition(TransformData_.vWorldPosition_);
+}
+
+void GameEngineTransform::Copy(const GameEngineTransform& _Other)
+{
+	TransformData_ = _Other.TransformData_;
+	ColData_ = _Other.ColData_;
+	Parent_ = _Other.Parent_;
+	Childs_ = _Other.Childs_;
 }
 
 float4 GameEngineTransform::GetLocalScaling() const
@@ -442,6 +496,36 @@ float4 GameEngineTransform::GetWorldUpVector() const
 float4 GameEngineTransform::GetLocalUpVector() const
 {
 	return TransformData_.LocalWorld_.vy.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetWorldBackVector() const
+{
+	return -TransformData_.WorldWorld_.vz.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetLocalBackVector() const
+{
+	return -TransformData_.LocalWorld_.vz.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetWorldLeftVector() const
+{
+	return -TransformData_.WorldWorld_.vx.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetLocalLeftVector() const
+{
+	return -TransformData_.LocalWorld_.vx.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetWorldDownVector() const
+{
+	return -TransformData_.WorldWorld_.vy.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetLocalDownVector() const
+{
+	return -TransformData_.LocalWorld_.vy.NormalizeReturn3D();
 }
 
 void GameEngineTransform::TransformUpdate()

@@ -168,7 +168,7 @@ void GameEngineLevel::Init()
 	// UI Camera 액터를 생성하며 투영타입을 직교투영으로 고정한다.
 	UICameraActor_ = CreateActor<CameraActor>();
 	UICameraActor_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+	UICameraActor_->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void GameEngineLevel::Release(float _DeltaTime)

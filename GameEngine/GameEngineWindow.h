@@ -1,13 +1,14 @@
 #pragma once
 
 // 분류 : 엔진
-// 용도 : winapi의 윈도우 창을 제어하는 기능들에 대한 
-//       랩핑(다른 api의 기능을 내 입맛에 맞는 클래스로 한번 감쌌다.)을하고
-//       편의 함수들을 제공한다.
-// 설명 : 
+// 용도 : 윈도우
+// 설명 : 윈도우관련 편의기능제공
 class GameEngineWindow : public GameEngineObjectNameBase
 {
-	friend LRESULT CALLBACK WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue);
+	//friend LRESULT CALLBACK WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue);
+
+public:
+	static __int64 WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue);
 
 private:
 	static bool WindowLoopFlag;
@@ -58,7 +59,7 @@ public:
 	void Loop(void(*_loopFunc)());
 
 public:
-	static __int64 WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue);
+	bool IsWindowRangeOut(const float4& _Pos);
 
 public:
 	HWND  GetWindowHWND()

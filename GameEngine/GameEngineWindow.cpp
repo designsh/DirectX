@@ -192,6 +192,31 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
 	}
 }
 
+bool GameEngineWindow::IsWindowRangeOut(const float4& _Pos)
+{
+	if (0 > _Pos.x)
+	{
+		return true;
+	}
+
+	if (0 > _Pos.y)
+	{
+		return true;
+	}
+
+	if (_Pos.x > GetSize().x)
+	{
+		return true;
+	}
+
+	if (_Pos.y > GetSize().y)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 __int64 GameEngineWindow::WindowEvent(HWND _hWnd, unsigned int _EventType, unsigned __int64 _LValue, __int64 _SubValue)
 {
 	// IMGUI Message Proc

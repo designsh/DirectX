@@ -8,8 +8,8 @@ union CollisionData
 {
 public:
 	DirectX::BoundingSphere				Sphere;		// 구
-	DirectX::BoundingBox						AABB;		// 회전이 고려하면 안되는 박스
-	DirectX::BoundingOrientedBox		OBB;			// 회전한 박스
+	DirectX::BoundingBox				AABB;		// 회전이 고려하면 안되는 박스
+	DirectX::BoundingOrientedBox		OBB;		// 회전한 박스
 
 	CollisionData() : OBB()
 	{
@@ -116,10 +116,6 @@ public:
 	GameEngineTransform();
 	~GameEngineTransform();
 
-protected:		// delete constructer
-	//GameEngineTransform(const GameEngineTransform& _other) = delete;
-	//GameEngineTransform(GameEngineTransform&& _other) noexcept = delete;
-
 private:		//delete operator
 	GameEngineTransform& operator=(const GameEngineTransform& _other) = delete;
 	GameEngineTransform& operator=(const GameEngineTransform&& _other) = delete;
@@ -132,63 +128,75 @@ public:
 	TransformData& GetTransformData();
 
 public: // 충돌체 관련
-	const CollisionData& GetCollisionData()
+	inline const CollisionData& GetCollisionData()
 	{
 		return ColData_;
 	}
 
-	const DirectX::BoundingSphere& GetSphere()
+	inline const DirectX::BoundingSphere& GetSphere()
 	{
 		return ColData_.Sphere;
 	}
 
-	const DirectX::BoundingOrientedBox& GetOBB()
+	inline const DirectX::BoundingOrientedBox& GetOBB()
 	{
 		return ColData_.OBB;
 	}
 
-	const DirectX::BoundingBox& GetAABB()
+	inline const DirectX::BoundingBox& GetAABB()
 	{
 		return ColData_.AABB;
 	}
 
 private: // 내부처리
-	void AllChildCalculationScaling();									// 모든 자식의 크기변화를 계산(부모가 존재한다면 부모행렬의 영향을 받음)
-	void AllChildCalculationRotation();								// 모든 자식의 회전변화를 계산(부모가 존재한다면 부모행렬의 영향을 받음)
-	void AllChildCalculationPosition();								// 모든 자식의 위치변화를 계산(부모가 존재한다면 부모행렬의 영향을 받음)
+	void AllChildCalculationScaling();						// 모든 자식의 크기변화를 계산(부모가 존재한다면 부모행렬의 영향을 받음)
+	void AllChildCalculationRotation();						// 모든 자식의 회전변화를 계산(부모가 존재한다면 부모행렬의 영향을 받음)
+	void AllChildCalculationPosition();						// 모든 자식의 위치변화를 계산(부모가 존재한다면 부모행렬의 영향을 받음)
 
 	// 크기행렬
-	void CalculationLocalScaling();										// 자신의 로컬 크기행렬을 계산
-	void CalculationWorldScaling();										// 자신의 월드 크기행렬을 계산
+	void CalculationLocalScaling();							// 자신의 로컬 크기행렬을 계산
+	void CalculationWorldScaling();							// 자신의 월드 크기행렬을 계산
 
 	// 회전행렬
-	void CalculationLocalRotation();									// 자신의 로컬 회전행렬을 계산
-	void CalculationWorldRotation();									// 자신의 월드 회전행렬을 계산
+	void CalculationLocalRotation();						// 자신의 로컬 회전행렬을 계산
+	void CalculationWorldRotation();						// 자신의 월드 회전행렬을 계산
 
 	// 이동행렬
-	void CalculationLocalPosition();										// 자신의 로컬 위치행렬을 계산
-	void CalculationWorldPosition();									// 자신의 월드 위치행렬을 계산
+	void CalculationLocalPosition();						// 자신의 로컬 위치행렬을 계산
+	void CalculationWorldPosition();						// 자신의 월드 위치행렬을 계산
 
 public:
 	void SetLocalScaling(const float4& _Value);				// 자신의 로컬크기를 Set
 	void SetWorldScaling(const float4& _Value);				// 자신의 월드크기를 Set
-	void SetLocalRotation(const float4& _Value);			// 자신의 로컬회전을 Set
-	void SetWorldRotation(const float4& _Value);			// 자신의 월드회전을 Set
-	void SetLocalPosition(const float4& _Value);				// 자신의 로컬위치를 Set
+	void SetLocalRotationDegree(const float4& _Value);		// 자신의 로컬회전을 Set
+	void SetWorldRotationDegree(const float4& _Value);		// 자신의 월드회전을 Set
+	void SetLocalPosition(const float4& _Value);			// 자신의 로컬위치를 Set
 	void SetWorldPosition(const float4& _Value);			// 자신의 월드위치를 Set
 
 public:
-	void SetLocalDeltaTimeRotation(const float4& _Value);	// DeltaTime 영향을 받아 로컬회전
-	void SetWorldDeltaTimeRotation(const float4& _Value);	// DeltaTime 영향을 받아 월드회전
-	void SetLocalDeltaTimeMove(const float4& _Value);			// DeltaTime 영향을 받아 로컬이동
+	void AddLocalDeltaTimeRotation(const float4& _Value);	// DeltaTime 영향을 받아 로컬회전
+	void AddWorldDeltaTimeRotation(const float4& _Value);	// DeltaTime 영향을 받아 월드회전
+	void SetLocalDeltaTimeMove(const float4& _Value);		// DeltaTime 영향을 받아 로컬이동
 	void SetWorldDeltaTimeMove(const float4& _Value);		// DeltaTime 영향을 받아 월드이동
 
+public:
+	void AddLocalRotationDegreeX(const float _Value);		// 
+	void AddWorldRotationDegreeX(const float _Value);		// 
+	void AddLocalRotationDegreeY(const float _Value);		// 
+	void AddWorldRotationDegreeY(const float _Value);		// 
+	void AddLocalRotationDegreeZ(const float _Value);		// 
+	void AddWorldRotationDegreeZ(const float _Value);		// 
+
 public: // Normal Update 관련
-	void SetLocalMove(const float4& _Value);								// _Value만큼 로컬이동
-	void SetWorldMove(const float4& _Value);							// _Value만큼 월드이동
+	void SetLocalMove(const float4& _Value);				// _Value만큼 로컬이동
+	void SetWorldMove(const float4& _Value);				// _Value만큼 월드이동
 
 public:
-	void SetZOrder(float _Value);
+	void SetLocalZOrder(float _Value);						// ZOrder 셋팅(로컬)
+	void SetWorldZOrder(float _Value);						// ZOrder 셋팅(월드)
+
+public:
+	void Copy(const GameEngineTransform& _Other);			// 프리카메라 사용전 트랜스폼데이터로 되돌리기
 
 public: // 기본 상수버퍼 관련
 	float4 GetLocalScaling() const;
@@ -205,8 +213,14 @@ public: // 카메라 관련
 	float4 GetLocalRightVector() const;
 	float4 GetWorldUpVector() const;
 	float4 GetLocalUpVector() const;
+	float4 GetWorldBackVector() const;
+	float4 GetLocalBackVector() const;
+	float4 GetWorldLeftVector() const;
+	float4 GetLocalLeftVector() const;
+	float4 GetWorldDownVector() const;
+	float4 GetLocalDownVector() const;
 
 public:
-	void TransformUpdate();													// 정보 갱신 및 셰이더에 전달하는 물체의 정보 갱신
+	void TransformUpdate();									// 정보 갱신 및 셰이더에 전달하는 물체의 정보 갱신
 };
 

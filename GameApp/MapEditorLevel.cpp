@@ -42,7 +42,7 @@ void MapEditorLevel::LevelStart()
 {
 #pragma region SetMainCamera
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
+	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
 #pragma endregion
 
 #pragma region TileTexture Cutting
@@ -92,9 +92,15 @@ void MapEditorLevel::LevelStart()
 	{
 		GameEngineInput::GetInst().CreateKey("CameraRight", VK_RIGHT);
 	}
-
 #pragma endregion
 
+#pragma region 테스트키
+	// 테스트키 생성
+	if (false == GameEngineInput::GetInst().IsKey("FreeCamera"))
+	{
+		GameEngineInput::GetInst().CreateKey("FreeCamera", 'o');
+	}
+#pragma endregion
 }
 
 void MapEditorLevel::LevelUpdate(float _DeltaTime)
@@ -211,4 +217,10 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 
 #pragma endregion
 
+#pragma region 테스트키
+	if (true == GameEngineInput::GetInst().Down("FreeCamera"))
+	{
+		GetMainCameraActor()->FreeCameraModeSwitch();
+	}
+#pragma endregion
 }

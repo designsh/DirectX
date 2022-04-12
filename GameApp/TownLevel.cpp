@@ -97,13 +97,27 @@ void TownLevel::LevelStart()
 	// 마우스
 	MainMouse_ = CreateActor<MouseObject>();
 	MainMouse_->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
+
+#pragma region 테스트키
+	// 테스트키 생성
+	if (false == GameEngineInput::GetInst().IsKey("FreeCamera"))
+	{
+		GameEngineInput::GetInst().CreateKey("FreeCamera", 'o');
+	}
+#pragma endregion
 }
 
 void TownLevel::LevelUpdate(float _DeltaTime)
 {
-	// 테스트용
+#pragma region 테스트키
 	if (true == GameEngineInput::GetInst().Down("NextScene"))
 	{
 		UserGame::LevelChange("CatacombsLevel");
 	}
+
+	if (true == GameEngineInput::GetInst().Down("FreeCamera"))
+	{
+		GetMainCameraActor()->FreeCameraModeSwitch();
+	}
+#pragma endregion
 }

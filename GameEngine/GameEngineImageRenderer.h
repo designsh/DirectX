@@ -65,7 +65,7 @@ protected:
 
 // ==================================== Image 관련 ==================================== //
 private:
-	GameEngineTexture* CurTexture_;		// SetImage()호출할때 지정(관리용)
+	GameEngineTexture*													CurTexture_;		// SetImage()호출할때 지정(관리용)
 
 public:
 	GameEngineImageRenderer(); // default constructer 디폴트 생성자

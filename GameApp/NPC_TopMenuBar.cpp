@@ -164,7 +164,7 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 			ConversationMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
 
 			ConversationMenuCol_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 18.f));
-			ConversationMenuCol_->GetTransform()->SetZOrder(-1.f);
+			ConversationMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
 			ConversationMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
 
 			// 판매창
@@ -176,7 +176,7 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 
 			ButSellMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
 			ButSellMenuCol_->GetTransform()->SetLocalPosition(BuySellMenuRenderer_->GetTransform()->GetLocalPosition());
-			ButSellMenuCol_->GetTransform()->SetZOrder(-1.f);
+			ButSellMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
 			ButSellMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
 
 			// 취소
@@ -188,7 +188,7 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 
 			CloseMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
 			CloseMenuCol_->GetTransform()->SetLocalPosition(CloseMenuRenderer_->GetTransform()->GetLocalPosition());
-			CloseMenuCol_->GetTransform()->SetZOrder(-1.f);
+			CloseMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
 			CloseMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
 
 			break;

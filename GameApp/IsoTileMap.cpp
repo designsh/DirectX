@@ -403,7 +403,7 @@ void IsoTileMap::CreateWallGrid(int _X, int _Y)
 			Renderer->SetImage("WallGrid.png");
 			Renderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
 			Renderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-			Renderer->GetTransform()->SetZOrder(-1.f);
+			Renderer->GetTransform()->SetLocalZOrder(-1.f);
 			WallGrides_.insert(std::make_pair(Index.Index_, Renderer));
 		}
 	}
