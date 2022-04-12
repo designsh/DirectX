@@ -38,7 +38,7 @@ void NPC_TopMenuBar::Update(float _DeltaTime)
 		GetLevel()->PushDebugRender(ConversationMenuCol_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
-		ConversationMenuCol_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectConversationMenu, this, std::placeholders::_1));
+		ConversationMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectConversationMenu, this, std::placeholders::_1));
 	}
 
 	if (nullptr != ButSellMenuCol_)
@@ -47,7 +47,7 @@ void NPC_TopMenuBar::Update(float _DeltaTime)
 		GetLevel()->PushDebugRender(ButSellMenuCol_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
-		ButSellMenuCol_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectBuySellMenu, this, std::placeholders::_1));
+		ButSellMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectBuySellMenu, this, std::placeholders::_1));
 	}
 
 	if (nullptr != CloseMenuCol_)
@@ -56,7 +56,7 @@ void NPC_TopMenuBar::Update(float _DeltaTime)
 		GetLevel()->PushDebugRender(CloseMenuCol_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
-		CloseMenuCol_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectCloseMenu, this, std::placeholders::_1));
+		CloseMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectCloseMenu, this, std::placeholders::_1));
 	}
 }
 
@@ -138,7 +138,7 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 
 			ConversationMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
 
-			ConversationMenuCol_->GetTransform()->SetLocalPosition(ConversationMenuRenderer_->GetTransform()->GetLocalPosition());
+			ConversationMenuCol_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 18.f));
 			ConversationMenuCol_->GetTransform()->SetZOrder(-1.f);
 			ConversationMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
 

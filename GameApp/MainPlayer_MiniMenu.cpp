@@ -86,7 +86,7 @@ void MainPlayer_MiniMenu::Update(float _DeltaTime)
 		}
 	}
 
-	MiniMenuActiveButtonCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_MiniMenu::MiniMenuButtonClick, this, std::placeholders::_1));
+	MiniMenuActiveButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_MiniMenu::MiniMenuButtonClick, this, std::placeholders::_1));
 }
 
 void MainPlayer_MiniMenu::CreateMiniMenuList()

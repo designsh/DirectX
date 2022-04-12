@@ -61,7 +61,7 @@ void TitleLevelMoveBtn::Update(float _DeltaTime)
 
 	DebugRender();
 
-	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&TitleLevelMoveBtn::PrevButtonClick, this, std::placeholders::_1));
+	MainCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&TitleLevelMoveBtn::PrevButtonClick, this, std::placeholders::_1));
 }
 
 void TitleLevelMoveBtn::ChangeStartReset()

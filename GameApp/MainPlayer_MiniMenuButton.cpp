@@ -52,7 +52,7 @@ void MainPlayer_MiniMenuButton::Update(float _DeltaTime)
 
 	if (nullptr != ButtonCollision_)
 	{
-		ButtonCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_MiniMenuButton::ShortcutsButtonClick, this, std::placeholders::_1));
+		ButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_MiniMenuButton::ShortcutsButtonClick, this, std::placeholders::_1));
 	}
 }
 

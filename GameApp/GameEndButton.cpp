@@ -60,7 +60,7 @@ void GameEndButton::Update(float _DeltaTime)
 	// 디버그용
 	DebugRender();
 
-	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&GameEndButton::GameEndButtonClick, this, std::placeholders::_1));
+	MainCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&GameEndButton::GameEndButtonClick, this, std::placeholders::_1));
 }
 
 void GameEndButton::GameEndButtonClick(GameEngineCollision* _OtherCollision)

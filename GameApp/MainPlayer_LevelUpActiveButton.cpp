@@ -67,7 +67,7 @@ void MainPlayer_LevelUpActiveButton::Update(float _DeltaTime)
 	// 충돌체가 존재하고 플레이어 레벨업시 충돌체크
 	if (nullptr != ButtonCollision_ && true == IsPointExhaust_)
 	{
-		ButtonCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_LevelUpActiveButton::ButtonClick, this, std::placeholders::_1));
+		ButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_LevelUpActiveButton::ButtonClick, this, std::placeholders::_1));
 	}
 }
 

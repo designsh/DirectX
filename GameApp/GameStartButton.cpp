@@ -56,7 +56,7 @@ void GameStartButton::Update(float _DeltaTime)
 	// µð¹ö±ë¿ë
 	DebugRender();
 
-	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&GameStartButton::GameStartButtonClick, this, std::placeholders::_1));
+	MainCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&GameStartButton::GameStartButtonClick, this, std::placeholders::_1));
 }
 
 void GameStartButton::GameStartButtonClick(GameEngineCollision* _OtherCollision)

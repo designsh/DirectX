@@ -44,7 +44,7 @@ void ClassSelectObject::Update(float _DeltaTime)
 	DebugRender();
 
 	// 마우스와 충돌중이며, 마우스 왼쪽버튼 클릭시 해당 직업으로 선택 or 선택해제
-	MainCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&ClassSelectObject::ClassSelOrDesel, this, std::placeholders::_1));
+	MainCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&ClassSelectObject::ClassSelOrDesel, this, std::placeholders::_1));
 }
 
 void ClassSelectObject::ChangeStartReset()

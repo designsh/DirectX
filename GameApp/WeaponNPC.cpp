@@ -74,7 +74,7 @@ void WeaponNPC::Update(float _DeltaTime)
 	}
 
 	// 付快胶客 面倒眉农
-	WeaponNPCCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&WeaponNPC::MouseLButtonClick, this, std::placeholders::_1));
+	WeaponNPCCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&WeaponNPC::MouseLButtonClick, this, std::placeholders::_1));
 }
 
 void WeaponNPC::MouseLButtonClick(GameEngineCollision* _Other)
@@ -206,7 +206,7 @@ void WeaponNPC::SetMessageBoxText(const std::string& _Text)
 
 void WeaponNPC::SetUIPosition()
 {
-	TopMenuBar_->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
 }
 
 void WeaponNPC::SetTopMenu()

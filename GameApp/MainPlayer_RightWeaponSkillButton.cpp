@@ -97,7 +97,7 @@ void MainPlayer_RightWeaponSkillButton::Update(float _DeltaTime)
 		}
 	}
 
-	CurSkillButtonCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_RightWeaponSkillButton::CurRWeaponSkillBtnCol, this, std::placeholders::_1));
+	CurSkillButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_RightWeaponSkillButton::CurRWeaponSkillBtnCol, this, std::placeholders::_1));
 }
 
 void MainPlayer_RightWeaponSkillButton::UpdateWeaponSkillList(int _SkillID)

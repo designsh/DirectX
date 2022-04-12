@@ -167,19 +167,19 @@ void InventoryView::Update(float _DeltaTime)
 	}
 
 	// 이벤창 종료버튼 충돌체크
-	CloseButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::CloseButtonClick, this, std::placeholders::_1));
+	CloseButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::CloseButtonClick, this, std::placeholders::_1));
 
 #pragma endregion
 
 #pragma region 인벤창 상단/하단 타일박스 충돌체크
 	for (int i = 0; i < static_cast<int>(InvEquipCol_.size()); ++i)
 	{
-		InvEquipCol_[i]->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::EquipTileBoxClick, this, std::placeholders::_1, i));
+		InvEquipCol_[i]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::EquipTileBoxClick, this, std::placeholders::_1, i));
 	}
 
 	for (int i = 0; i < static_cast<int>(InvStoreCol_.size()); ++i)
 	{
-		InvStoreCol_[i]->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::StoreTileBoxClick, this, std::placeholders::_1, i));
+		InvStoreCol_[i]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::StoreTileBoxClick, this, std::placeholders::_1, i));
 	}
 #pragma endregion
 }

@@ -56,7 +56,7 @@ void MainPlayer_SkillIcon::Update(float _DeltaTime)
 	// 해당 스킬이 활성화 되어있지않다면 충돌체크 안함
 	if (true == SkillActive_ && nullptr != IconCollision_)
 	{
-		IconCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_SkillIcon::SkillIconClick, this, std::placeholders::_1));
+		IconCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_SkillIcon::SkillIconClick, this, std::placeholders::_1));
 	}
 }
 

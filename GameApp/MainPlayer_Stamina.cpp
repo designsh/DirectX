@@ -86,7 +86,7 @@ void MainPlayer_Stamina::Update(float _DeltaTime)
 	CalculationStaminaConsumption(_DeltaTime);
 
 	// 스태미나 활성화버튼 충돌체크
-	StaminaButtonCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_Stamina::StaminaActiveButtonClick, this, std::placeholders::_1));
+	StaminaButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_Stamina::StaminaActiveButtonClick, this, std::placeholders::_1));
 }
 
 void MainPlayer_Stamina::InitStaminaDrain()

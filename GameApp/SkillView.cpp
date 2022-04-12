@@ -142,12 +142,12 @@ void SkillView::Update(float _DeltaTime)
 	}
 
 	// 창종료 버튼 충돌체크
-	CloseButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::CloseButtonClick, this, std::placeholders::_1));
+	CloseButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::CloseButtonClick, this, std::placeholders::_1));
 
 	// 스킬페이지 전환 버튼 충돌체크
-	SkillPageCollider_[0]->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage1ChangeClick, this, std::placeholders::_1));
-	SkillPageCollider_[1]->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage2ChangeClick, this, std::placeholders::_1));
-	SkillPageCollider_[2]->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage3ChangeClick, this, std::placeholders::_1));
+	SkillPageCollider_[0]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage1ChangeClick, this, std::placeholders::_1));
+	SkillPageCollider_[1]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage2ChangeClick, this, std::placeholders::_1));
+	SkillPageCollider_[2]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage3ChangeClick, this, std::placeholders::_1));
 
 	//// 확인용
 	//for (int i = 0; i < 3; ++i)

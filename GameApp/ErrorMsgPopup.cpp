@@ -63,7 +63,7 @@ void ErrorMsgPopup::Update(float _DeltaTime)
 	}
 
 	// 버튼 충돌체크
-	ErrorMsgBtnCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&ErrorMsgPopup::ErrorMsgDisabled, this, std::placeholders::_1));
+	ErrorMsgBtnCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&ErrorMsgPopup::ErrorMsgDisabled, this, std::placeholders::_1));
 }
 
 void ErrorMsgPopup::ErrorMsgPopupActive(const std::string& _ErrorMsg)

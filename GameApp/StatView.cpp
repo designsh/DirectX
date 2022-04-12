@@ -378,14 +378,14 @@ void StatView::Update(float _DeltaTime)
 	// 포인트증가버튼 충돌체크
 	if (0 != StatPoint)
 	{
-		STRPointUpButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::STRButtonClick, this, std::placeholders::_1));
-		DEXPointUpButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::DEXButtonClick, this, std::placeholders::_1));
-		VITPointUpButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::VITButtonClick, this, std::placeholders::_1));
-		ENRPointUpButtonCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::ENRButtonClick, this, std::placeholders::_1));
+		STRPointUpButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::STRButtonClick, this, std::placeholders::_1));
+		DEXPointUpButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::DEXButtonClick, this, std::placeholders::_1));
+		VITPointUpButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::VITButtonClick, this, std::placeholders::_1));
+		ENRPointUpButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::ENRButtonClick, this, std::placeholders::_1));
 	}
 
 	// 종료버튼 충돌 체크
-	MainCollider_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::CloseButtonClick, this, std::placeholders::_1));
+	MainCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::CloseButtonClick, this, std::placeholders::_1));
 }
 
 void StatView::InitStatView()

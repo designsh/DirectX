@@ -52,7 +52,7 @@ void MainPlayer_WeaponSkillButton::Update(float _DeltaTime)
 	if (nullptr != SkillButtonCollision_)
 	{
 		//GetLevel()->PushDebugRender(SkillButtonCollision_->GetTransform(), CollisionType::Rect);
-		SkillButtonCollision_->Collision(CollisionType::AABBBox3D, CollisionType::Sphere3D, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_WeaponSkillButton::SelectCurrentSkill, this, std::placeholders::_1));
+		SkillButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_WeaponSkillButton::SelectCurrentSkill, this, std::placeholders::_1));
 	}
 }
 
