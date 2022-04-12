@@ -323,7 +323,7 @@ void WeaponNPC::UpdateConversation()
 	float4 InteactionDist = MyPos - PlayerPos;
 	InteactionDist = float4(std::abs(InteactionDist.x), std::abs(InteactionDist.y));
 	//if (InteractionDistance_ >= InteactionDist.x || InteractionDistance_ >= InteactionDist.y) // 임시주석
-	if (500.f >= InteactionDist.x || 500.f >= InteactionDist.y)
+	if (500.f >= InteactionDist.x || 500.f >= InteactionDist.y) // 테스트용
 	{
 		// 진입성공으로 인한 상태전환
 		State_.ChangeState("WeaponNPC_INTERACTION");

@@ -17,6 +17,9 @@ private:
 	bool MessageLoadEnd_;
 	float MessagePrintDelayTime_;
 
+private: // 메세지텍스트 목록
+	std::vector<GameEngineUIRenderer*> PrintTextList_;
+
 public:
 	NPC_MessageView();
 	~NPC_MessageView();

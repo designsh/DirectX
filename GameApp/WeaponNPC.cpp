@@ -206,6 +206,5 @@ void WeaponNPC::SetMessageBoxText(const std::string& _Text)
 
 void WeaponNPC::SetUIPosition()
 {
-	MessageView_->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 	TopMenuBar_->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 }
