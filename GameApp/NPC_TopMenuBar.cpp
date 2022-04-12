@@ -8,6 +8,7 @@
 #include "GlobalValue.h"
 
 #include "WeaponNPC.h"
+#include "NPC_BuySellView.h"
 
 NPC_TopMenuBar::NPC_TopMenuBar() :
 	TopMenuPanel_(nullptr),
@@ -18,7 +19,8 @@ NPC_TopMenuBar::NPC_TopMenuBar() :
 	CloseMenuRenderer_(nullptr),
 	CloseMenuCol_(nullptr),
 	NPCClassType_(NPCClassType::MAX),
-	NPCType_(NPCType::Normal)
+	NPCType_(NPCType::Normal),
+	BuySellView_(nullptr)
 {
 }
 
@@ -87,7 +89,7 @@ void NPC_TopMenuBar::SelectBuySellMenu(GameEngineCollision* _Other)
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		// 판매창 Active
-
+		BuySellView_->NPCBuySellViewActive();
 	}
 }
 
@@ -190,6 +192,12 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 			CloseMenuCol_->GetTransform()->SetLocalPosition(CloseMenuRenderer_->GetTransform()->GetLocalPosition());
 			CloseMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
 			CloseMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
+
+			#pragma region 판매창생성
+			BuySellView_ = GetLevel()->CreateActor<NPC_BuySellView>();
+			BuySellView_->CreateBuySellView(NPCType_, NPCClassType_);
+			BuySellView_->Off();
+			#pragma endregion
 
 			break;
 		}

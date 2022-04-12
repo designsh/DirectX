@@ -8,6 +8,7 @@
 // Ό³Έν : 
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class NPC_BuySellView;
 class NPC_TopMenuBar : public GameEngineActor
 {
 private:	// member Var
@@ -29,6 +30,9 @@ private:
 private:
 	NPCClassType NPCClassType_;
 	NPCType NPCType_;
+
+private:
+	NPC_BuySellView* BuySellView_;
 
 public:
 	NPC_TopMenuBar();
