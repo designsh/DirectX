@@ -38,7 +38,7 @@ void IsoTileMap::Start()
 	WallTileImageSize_ = { 160.0f, 320.f };
 
 	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
-	WallTileIndexPivotPos_ = { 0.0f, 0.0f };
+	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y };
 
 #pragma region RandomLoad 관련
 	RandomStartPos_.clear();
