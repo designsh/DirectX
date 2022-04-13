@@ -25,9 +25,22 @@ void MouseObject::Start()
 	GameEngineTexture* MouseStay = GameEngineTextureManager::GetInst().Find("Mouse.png");
 	MouseStay->Cut(8, 1);
 
+	//GameEngineTexture* MouseBuy = GameEngineTextureManager::GetInst().Find("Mouse.png");
+	//MouseBuy->Cut(1, 1);
+	//GameEngineTexture* MouseSell = GameEngineTextureManager::GetInst().Find("Mouse.png");
+	//MouseSell->Cut(1, 1);
+	//GameEngineTexture* MouseRepair = GameEngineTextureManager::GetInst().Find("Mouse.png");
+	//MouseRepair->Cut(1, 1);
+
 	Mouse_ = CreateTransformComponent<GameEngineUIRenderer>();
 	Mouse_->CreateAnimation("Mouse.png", "StayState", 0, 7, 0.4f);
 	Mouse_->CreateAnimation("Mouse.png", "MoveState", 0, 0, 0.1f, false);
+
+	// 특수기능에서의 커서 애니메이션
+	//Mouse_->CreateAnimation("Mouse.png", "BuyState", 0, 0, 0.1f, false);		// 구매버튼클릭시 활성화
+	//Mouse_->CreateAnimation("Mouse.png", "SellState", 0, 0, 0.1f, false);		// 판매버튼클릭시 활성화
+	//Mouse_->CreateAnimation("Mouse.png", "RepairState", 0, 0, 0.1f, false);	// 수리버튼클릭시 활성화
+
 	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
 	Mouse_->GetTransform()->SetLocalPosition(float4(15.5f, -11.5f));
 	Mouse_->SetRenderGroup(static_cast<int>(UIRenderOrder::Mouse));
@@ -115,4 +128,58 @@ void MouseObject::ItemPutDown()
 
 	// 아이템렌더러 Off
 	ItemRenderer_->Off();
+}
+
+void MouseObject::BuyCursorActive()
+{
+	// 커서 애니메이션 변경
+	//Mouse_->SetChangeAnimation("BuyState");
+
+	// 현재 마우스상태 변경
+	//State_ = MouseState::Buy;
+}
+
+void MouseObject::BuyCursorInActive()
+{
+	// 커서 애니메이션 변경
+	//Mouse_->SetChangeAnimation("StayState");
+
+	// 현재 마우스상태 변경
+	//State_ = MouseState::Stay;
+}
+
+void MouseObject::SellCursorActive()
+{
+	// 커서 애니메이션 변경
+	// Mouse_->SetChangeAnimation("SellState");
+
+	// 현재 마우스상태 변경
+	//State_ = MouseState::Sell;
+}
+
+void MouseObject::SellCursorInactive()
+{
+	// 커서 애니메이션 변경
+	//Mouse_->SetChangeAnimation("StayState");
+
+	// 현재 마우스상태 변경
+	//State_ = MouseState::Stay;
+}
+
+void MouseObject::RepairCursorActive()
+{
+	// 커서 애니메이션 변경
+	// Mouse_->SetChangeAnimation("RepairState");
+
+	// 현재 마우스상태 변경
+	//State_ = MouseState::Repair;
+}
+
+void MouseObject::RepairCursorInactive()
+{
+	// 커서 애니메이션 변경
+	//Mouse_->SetChangeAnimation("StayState");
+
+	// 현재 마우스상태 변경
+	//State_ = MouseState::Stay;
 }

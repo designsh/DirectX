@@ -4,10 +4,10 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
-#include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
 #include "MainPlayer.h"
+#include "MouseObject.h"
 
 #include "WeaponNPC.h"
 #include "NPC_TopMenuBar.h"
@@ -23,7 +23,13 @@ NPC_BuySellView::NPC_BuySellView() :
 	AllRepairButtonRenderer_(nullptr),
 	AllRepairButtonCollider_(nullptr),
 	NPCClassType_(NPCClassType::Akara),
-	BuySellViewType_(NPCType::PotionShop)
+	BuySellViewType_(NPCType::PotionShop),
+	BuyActive_(false),
+	SellActive_(false),
+	RepairActive_(false),
+	BuyBtnState_(Button_State::Normal),
+	SellBtnState_(Button_State::Normal),
+	RepairBtnState_(Button_State::Normal)
 {
 }
 
@@ -37,7 +43,7 @@ void NPC_BuySellView::Start()
 
 void NPC_BuySellView::Update(float _DeltaTime)
 {
-	// 각 버튼 충돌체크
+#pragma region 버튼충돌체크
 	if (nullptr != BuyButtonCollider_)	// 구매버튼
 	{
 #ifdef _DEBUG
@@ -73,32 +79,134 @@ void NPC_BuySellView::Update(float _DeltaTime)
 
 		AllRepairButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::AllRepairButtonClick, this, std::placeholders::_1));
 	}
+#pragma endregion
+
+#pragma region 버튼상태갱신
+	if (BuyBtnState_ == Button_State::Click)	// 구매버튼상태
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 버튼 애니메이션 변경
+			//BuyButtonRenderer_->SetChangeAnimation("Default");
+
+			BuyBtnState_ = Button_State::Normal;
+		}
+	}
+
+	if (SellBtnState_ == Button_State::Click)	// 판매버튼상태
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 버튼 애니메이션 변경
+			//SellButtonRenderer_->SetChangeAnimation("Default");
+
+			SellBtnState_ = Button_State::Normal;
+		}
+	}
+
+	if (RepairBtnState_ == Button_State::Click)	// 수리버튼상태
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 버튼 애니메이션 변경
+			//RepairButtonRenderer_->SetChangeAnimation("Default");
+
+			RepairBtnState_ = Button_State::Normal;
+		}
+	}
+#pragma endregion
 }
 
 void NPC_BuySellView::BuyButtonClick(GameEngineCollision* _Other)
 {
-	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	if (BuyBtnState_ != Button_State::Disabled)
 	{
-		// 마우스 커서 이미지 변경
+		// 구매버튼 클릭
+		if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+		{
+			// 버튼애니메이션 변경
+			//BuyButtonRenderer_->SetChangeAnimation("Click");
+			
+			// 마우스커서 애니메이션 변경
+			if (false == BuyActive_)
+			{
+				BuyActive_ = true;
+				GlobalValue::CurMouse->BuyCursorActive();
+			}
+			else
+			{
+				BuyActive_ = false;
+				GlobalValue::CurMouse->BuyCursorInActive();
+			}
 
+			BuyBtnState_ = Button_State::Click;
+		}
+		else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			//BuyButtonRenderer_->SetChangeAnimation("Default");
+		}
 	}
 }
 
 void NPC_BuySellView::SellButtonClick(GameEngineCollision* _Other)
 {
-	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	if (SellBtnState_ != Button_State::Disabled)
 	{
-		// 마우스 커서 이미지 변경
+		// 구매버튼 클릭
+		if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+		{
+			// 버튼애니메이션 변경
+			//SellButtonRenderer_->SetChangeAnimation("Click");
 
+			// 마우스커서 애니메이션 변경
+			if (false == SellActive_)
+			{
+				SellActive_ = true;
+				GlobalValue::CurMouse->SellCursorActive();
+			}
+			else
+			{
+				SellActive_ = false;
+				GlobalValue::CurMouse->SellCursorInactive();
+			}
+
+			SellBtnState_ = Button_State::Click;
+		}
+		else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			//SellButtonRenderer_->SetChangeAnimation("Default");
+		}
 	}
 }
 
 void NPC_BuySellView::RepairButtonClick(GameEngineCollision* _Other)
 {
-	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	if (RepairBtnState_ != Button_State::Disabled)
 	{
-		// 마우스 커서 이미지 변경
+		// 구매버튼 클릭
+		if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+		{
+			// 버튼애니메이션 변경
+			//RepairButtonRenderer_->SetChangeAnimation("Click");
 
+			// 마우스커서 애니메이션 변경
+			if (false == RepairActive_)
+			{
+				RepairActive_ = true;
+				GlobalValue::CurMouse->RepairCursorActive();
+			}
+			else
+			{
+				RepairActive_ = false;
+				GlobalValue::CurMouse->RepairCursorInactive();
+			}
+
+			RepairBtnState_ = Button_State::Click;
+		}
+		else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			//RepairButtonRenderer_->SetChangeAnimation("Default");
+		}
 	}
 }
 

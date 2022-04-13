@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include "AllNPCInfomation.h"
+#include "GlobalEnumClass.h"
 
 // 분류 : 
 // 용도 : 
@@ -26,6 +27,14 @@ private:
 	NPCClassType NPCClassType_;							// NPC 클래스 타입
 	NPCType BuySellViewType_;							// 판매창타입
 
+private:
+	bool BuyActive_;									// 구매 활성화 Flag
+	bool SellActive_;									// 판매 활성화 Flag
+	bool RepairActive_;									// 수리 활성화 Flag
+	Button_State BuyBtnState_;							// 구매버튼 상태
+	Button_State SellBtnState_;							// 판매버튼 상태
+	Button_State RepairBtnState_;						// 수리버튼 상태
+	
 public:
 	NPC_BuySellView();
 	~NPC_BuySellView();
