@@ -47,6 +47,37 @@ NPC_BuySellView::~NPC_BuySellView()
 
 void NPC_BuySellView::Start()
 {
+	// Button Image Cutting
+	GameEngineTexture* BuyBtnClick = GameEngineTextureManager::GetInst().Find("BuySellBtn_Buy_Click.png");
+	BuyBtnClick->Cut(1, 1);
+	GameEngineTexture* BuyBtnDefault = GameEngineTextureManager::GetInst().Find("BuySellBtn_Buy_Default.png");
+	BuyBtnDefault->Cut(1, 1);
+
+	GameEngineTexture* SellBtnClick = GameEngineTextureManager::GetInst().Find("BuySellBtn_Sell_Click.png");
+	SellBtnClick->Cut(1, 1);
+	GameEngineTexture* SellBtnDefault = GameEngineTextureManager::GetInst().Find("BuySellBtn_Sell_Default.png");
+	SellBtnDefault->Cut(1, 1);
+
+	GameEngineTexture* RepairBtnClick = GameEngineTextureManager::GetInst().Find("BuySellBtn_Repair_Click.png");
+	RepairBtnClick->Cut(1, 1);
+	GameEngineTexture* RepairBtnDefault = GameEngineTextureManager::GetInst().Find("BuySellBtn_Repair_Default.png");
+	RepairBtnDefault->Cut(1, 1);
+
+	GameEngineTexture* AllRepairBtnClick = GameEngineTextureManager::GetInst().Find("BuySellBtn_AllRepair_Click.png");
+	AllRepairBtnClick->Cut(1, 1);
+	GameEngineTexture* AllRepairBtnDefault = GameEngineTextureManager::GetInst().Find("BuySellBtn_AllRepair_Default.png");
+	AllRepairBtnDefault->Cut(1, 1);
+
+	GameEngineTexture* NoneBtnClick = GameEngineTextureManager::GetInst().Find("BuySellBtn_None_Click.png");
+	NoneBtnClick->Cut(1, 1);
+	GameEngineTexture* NoneBtnDefault = GameEngineTextureManager::GetInst().Find("BuySellBtn_None_Default.png");
+	NoneBtnDefault->Cut(1, 1);
+
+	// Tab Image Cutting
+	GameEngineTexture* TabSel = GameEngineTextureManager::GetInst().Find("BuySellTab_Sel.png");
+	TabSel->Cut(1, 1);
+	GameEngineTexture* TabDesel = GameEngineTextureManager::GetInst().Find("BuySellTab_DeSel.png");
+	TabDesel->Cut(1, 1);
 }
 
 void NPC_BuySellView::Update(float _DeltaTime)
