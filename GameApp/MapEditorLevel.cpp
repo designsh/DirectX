@@ -67,7 +67,7 @@ void MapEditorLevel::LevelStart()
 
 #pragma region IsoTileMap Create & Setting
 	Map = CreateActor<IsoTileMap>();
-	Ptr->Map = Map;
+	Ptr->Map_ = Map;
 	Map->SetFloorTileTexture("Town_Floor.png");
 	Map->SetWallTileTexture("Town_Wall.png");
 #pragma endregion
@@ -160,7 +160,7 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		// 카메라 이동을 더한다.
 		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
 		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
-		switch (Ptr->SelectMode)
+		switch (Ptr->SelectMode_)
 		{
 		case TileType::FLOOR:
 			Map->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
@@ -202,7 +202,7 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		// 해당 위치의 인덱스 타일 목록에서 제거
 		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
 		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
-		switch (Ptr->SelectMode)
+		switch (Ptr->SelectMode_)
 		{
 		case TileType::FLOOR:
 			Map->DelFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);

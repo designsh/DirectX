@@ -15,12 +15,12 @@ class CameraComponent;
 class EditorControlWindow : public GameEngineGUIWindow
 {
 public:	// member Var
-	class IsoTileMap* Map;
-	float Zoom;
-	float ZoomMin;
-	float ZoomMax;
+	class IsoTileMap* Map_;
+	float Zoom_;
+	float ZoomMin_;
+	float ZoomMax_;
 
-	TileType SelectMode;
+	TileType SelectMode_;
 	int SelectTileIndex_;
 
 private:

@@ -54,6 +54,7 @@ private: // 타일정보
 	float4 TileSize_;
 	float4 TileSizeHalf_;
 	float4 TileSizeHHalf_;
+	float4 TileSizeHHHalf_;
 
 private: // 바닥타일정보
 	float4 FloorTileImageSizeHalf_;
@@ -64,7 +65,7 @@ private: // 벽타일정보
 	float4 WallTileImageSizeHalf_;
 	float4 WallTileImageSize_;
 	float4 WallTileIndexPivotPos_;
-
+	float4 WallGridTileIndexPivotPos_;
 
 private: // 각각의 텍스쳐명
 	std::string FloorTileTextureName_;
@@ -73,6 +74,12 @@ private: // 각각의 텍스쳐명
 private:
 	GameEngineRandom Random_;
 	std::vector<float4> RandomStartPos_;
+
+private:
+	bool FloorGridMode_;
+	bool WallGridMode_;
+	bool FloorAllMode_;
+	bool WallAllMode_;
 
 public:
 	IsoTileMap();
@@ -107,6 +114,26 @@ public:
 		return GameEngineTextureManager::GetInst().Find(WallTileTextureName_);
 	}
 
+	inline bool GetFloorGrideMode()
+	{
+		return FloorGridMode_;
+	}
+
+	inline bool GetWallGrideMode()
+	{
+		return WallGridMode_;
+	}
+
+	inline bool GetFloorAllMode()
+	{
+		return FloorAllMode_;
+	}
+
+	inline bool GetWallAllMode()
+	{
+		return WallAllMode_;
+	}
+
 public:
 	void SetFloorTile(float4 _Pos, int CurTileIndex_);
 	void SetFloorTile(TileIndex _Index, int CurTileIndex_);
@@ -137,6 +164,13 @@ public: // 테스트용 타일 타입별 그리드 생성
 	void ClearFloorGrid();
 	void CreateWallGrid(int _X, int _Y);
 	void ClearWallGrid();
+
+public: // 그리드모드 선택
+	void FloorGridModeSwitching();
+	void WallGridModeSwitching();
+
+	void FloorAllModeSwitching();
+	void WallAllModeSwitching();
 
 public: // Save & Load
 	void MapSave();

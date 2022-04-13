@@ -13,10 +13,10 @@
 // 
 
 EditorControlWindow::EditorControlWindow() :
-	Map(nullptr),
-	Zoom(1.0f),
-	ZoomMin(0.1f),
-	ZoomMax(5.0f),
+	Map_(nullptr),
+	Zoom_(1.0f),
+	ZoomMin_(0.1f),
+	ZoomMax_(5.0f),
 	FloorXCount_(0),
 	FloorYCount_(0),
 	WallXCount_(0),
@@ -39,11 +39,11 @@ void EditorControlWindow::OnGUI()
 	float4 CameraPos = GameEngineCore::CurrentLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
 	{
 		// Floor Tile Info
-		TileIndex Index = Map->GetFloorTileIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
+		TileIndex Index = Map_->GetFloorTileIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
 		ImGui::Text("<<< FLOOR TILE INFOMATION >>>");
 		ImGui::Text(("XIndex : " + std::to_string(Index.X_) + "YIndex : " + std::to_string(Index.Y_)).c_str());
 
-		float4 Pos = Map->GetFloorIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
+		float4 Pos = Map_->GetFloorIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
 		std::string IsoPosText = "Floor Iso Pos : ";
 		IsoPosText += Pos.ToString();
 		ImGui::Text(IsoPosText.c_str());
@@ -53,11 +53,11 @@ void EditorControlWindow::OnGUI()
 
 	{
 		// Wall Tile Info
-		TileIndex Index = Map->GetWallTileIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
+		TileIndex Index = Map_->GetWallTileIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
 		ImGui::Text("<<< WALL TILE INFOMATION >>>");
 		ImGui::Text(("XIndex : " + std::to_string(Index.X_) + "YIndex : " + std::to_string(Index.Y_)).c_str());
 
-		float4 Pos = Map->GetWallIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
+		float4 Pos = Map_->GetWallIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
 		std::string IsoPosText = "Wall Iso Pos : ";
 		IsoPosText += Pos.ToString();
 		ImGui::Text(IsoPosText.c_str());
@@ -73,38 +73,70 @@ void EditorControlWindow::OnGUI()
 	ImGui::Text(CameraPosText.c_str());
 
 	ImGui::PushItemWidth(308.f); // 크기 고정
-	ImGui::SliderFloat("Zoom", &Zoom, ZoomMin, ZoomMax, "%f", 1.0f);
+	ImGui::SliderFloat("Zoom", &Zoom_, ZoomMin_, ZoomMax_, "%f", 1.0f);
 	ImGui::PopItemWidth();
 	
-	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom);
+	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom_);
 #pragma endregion
 
-#pragma region RandomMapButton
-	if (true == ImGui::Button("Random_OneRoad", ImVec2(140.f, 30.f)))
+#pragma region GridMode
+	if (true == ImGui::Button("FloorGridMode", ImVec2(140.f, 30.f)))
 	{
-		GameEngineRandom Random;
+		SelectMode_ = TileType::FLOOR;
 
-		Map->RandomRoad(Random.RandomInt(3, 10));
+		Map_->FloorGridModeSwitching();
 	}
 
 	ImGui::SameLine();
 
-	if (true == ImGui::Button("Random_MultiRoad", ImVec2(140.f, 30.f)))
+	if (true == ImGui::Button("FloorAllMode", ImVec2(140.f, 30.f)))
 	{
-		GameEngineRandom Random;
+		SelectMode_ = TileType::FLOOR;
 
-		Map->RandomRoad(Random.RandomInt(3, 10), true);
+		Map_->FloorAllModeSwitching();
 	}
 
-#pragma endregion
+	if (true == Map_->GetFloorGrideMode())
+	{
+		ImGui::SameLine();
+
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Floor Grid mode in use!!!!!");
+	}
+	else if (true == Map_->GetFloorAllMode())
+	{
+		ImGui::SameLine();
+
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Floor All mode in use!!!!!");
+	}
+
+
+	if (true == ImGui::Button("WallGridMode", ImVec2(140.f, 30.f)))
+	{
+		SelectMode_ = TileType::WALL;
+
+		Map_->WallGridModeSwitching();
+	}
 
 	ImGui::SameLine();
 
-#pragma region TileMapClear
-	if (true == ImGui::Button("AllClear", ImVec2(140.f, 30.f)))
+	if (true == ImGui::Button("WallAllMode", ImVec2(140.f, 30.f)))
 	{
-		// 현재 생성된 모든 맵 클리어
-		Map->AllTileClear();
+		SelectMode_ = TileType::WALL;
+
+		Map_->WallAllModeSwitching();
+	}
+
+	if (true == Map_->GetWallGrideMode())
+	{
+		ImGui::SameLine();
+
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Wall Grid mode in use!!!!!");
+	}
+	else if (true == Map_->GetWallAllMode())
+	{
+		ImGui::SameLine();
+
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Wall All mode in use!!!!!");
 	}
 #pragma endregion
 
@@ -112,7 +144,7 @@ void EditorControlWindow::OnGUI()
 	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("FloorTile")), { 500, 500 });
 
 	// 바닥
-	GameEngineTexture* FloorTileImage = Map->GetFloorTileTexture();
+	GameEngineTexture* FloorTileImage = Map_->GetFloorTileTexture();
 	ImTextureID FloorTileId = reinterpret_cast<ImTextureID>(*FloorTileImage->GetShaderResourcesView());
 	float4 FloorTileSize = {80.f, 40.f};
 
@@ -126,7 +158,7 @@ void EditorControlWindow::OnGUI()
 		if (true == ImGui::ImageButton(FloorTileId, { FloorTileSize.x, FloorTileSize.y }, { FloorTileCutData.x, FloorTileCutData.y }, { FloorTileCutData.x + FloorTileCutData.z, FloorTileCutData.y + FloorTileCutData.w }))
 		{
 			// 현재 선택된 타일이 벽 텍스쳐이므로 텍스쳐 변경
-			SelectMode = TileType::FLOOR;
+			SelectMode_ = TileType::FLOOR;
 
 			// 현재 선택된 타일의 인덱스로 변경
 			SelectTileIndex_ = i;
@@ -155,7 +187,7 @@ void EditorControlWindow::OnGUI()
 	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("WallTile")), { 500, 500 });
 
 	// 벽
-	GameEngineTexture* WallTileImage = Map->GetWallTileTexture();
+	GameEngineTexture* WallTileImage = Map_->GetWallTileTexture();
 	ImTextureID WallTileId = reinterpret_cast<ImTextureID>(*WallTileImage->GetShaderResourcesView());
 	float4 WallTileSize = { 80.f, 160.f };
 
@@ -169,7 +201,7 @@ void EditorControlWindow::OnGUI()
 		if (true == ImGui::ImageButton(WallTileId, { WallTileSize.x, WallTileSize.y }, { WallCutData.x, WallCutData.y }, { WallCutData.x + WallCutData.z, WallCutData.y + WallCutData.w }))
 		{
 			// 현재 선택된 타일이 벽 텍스쳐이므로 텍스쳐 변경
-			SelectMode = TileType::WALL;
+			SelectMode_ = TileType::WALL;
 
 			// 현재 선택된 타일의 인덱스로 변경
 			SelectTileIndex_ = i;
@@ -215,16 +247,16 @@ void EditorControlWindow::OnGUI()
 	if (true == ImGui::Button("FLOOR CREATE", ImVec2(140.f, 20.f)))
 	{
 		// 기존 테스트용 그리드 모두 제거 후
-		Map->ClearFloorGrid();
+		Map_->ClearFloorGrid();
 
 		// X,Y 카운트만큼 그리드 생성
-		Map->CreateFloorGrid(FloorXCount_, FloorYCount_);
+		Map_->CreateFloorGrid(FloorXCount_, FloorYCount_);
 	}
 	ImGui::SameLine();
 	if (true == ImGui::Button("FLOOR CLEAR", ImVec2(140.f, 20.f)))
 	{
 		// 현재 생성된 테스트용 그리드 제거
-		Map->ClearFloorGrid();
+		Map_->ClearFloorGrid();
 	}
 
 #pragma endregion
@@ -251,20 +283,51 @@ void EditorControlWindow::OnGUI()
 	if (true == ImGui::Button("WALL CREATE", ImVec2(140.f, 20.f)))
 	{
 		// 기존 테스트용 그리드 모두 제거 후
-		Map->ClearWallGrid();
+		Map_->ClearWallGrid();
 
 		// X,Y 카운트만큼 그리드 생성
-		Map->CreateWallGrid(WallXCount_, WallYCount_);
+		Map_->CreateWallGrid(WallXCount_, WallYCount_);
 
 	}
 	ImGui::SameLine();
 	if (true == ImGui::Button("WALL CLEAR", ImVec2(140.f, 20.f)))
 	{
 		// 현재 생성된 테스트용 그리드 제거
-		Map->ClearWallGrid();
+		Map_->ClearWallGrid();
 	}
 
 #pragma endregion
+
+#pragma region RandomMapButton
+	if (true == ImGui::Button("Random_OneRoad", ImVec2(140.f, 30.f)))
+	{
+		GameEngineRandom Random;
+
+		Map_->RandomRoad(Random.RandomInt(3, 10));
+	}
+
+	ImGui::SameLine();
+
+	if (true == ImGui::Button("Random_MultiRoad", ImVec2(140.f, 30.f)))
+	{
+		GameEngineRandom Random;
+
+		Map_->RandomRoad(Random.RandomInt(3, 10), true);
+	}
+
+#pragma endregion
+
+	ImGui::SameLine();
+
+#pragma region TileMapClear
+	if (true == ImGui::Button("AllClear", ImVec2(140.f, 30.f)))
+	{
+		// 현재 생성된 모든 맵 클리어
+		Map_->AllTileClear();
+	}
+#pragma endregion
+
+	ImGui::Text("");
 
 #pragma region Map Save&Load
 	if (true == ImGui::Button("SAVE", ImVec2(140.f, 30.f)))

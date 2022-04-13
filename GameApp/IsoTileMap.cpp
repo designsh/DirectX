@@ -75,13 +75,43 @@ void IsoTileMap::SetFloorTile(TileIndex Index, int CurTileIndex_)
 	Pos.x = (Index.X_ - Index.Y_) * TileSizeHalf_.x;
 	Pos.y = (Index.X_ + Index.Y_) * -TileSizeHalf_.y;
 
-	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
-	
-	Renderer->SetImage(FloorTileTextureName_);
-	Renderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-	Renderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-	Renderer->SetIndex(CurTileIndex_);
-	FloorTiles_.insert(std::make_pair(Index.Index_, Renderer));
+	GameEngineTileMapRenderer* TileRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+	GameEngineTileMapRenderer* GridRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+	if (true == FloorGridMode_)
+	{
+		// 그리드
+		GridRenderer->SetImage("FloorGrid.png");
+		GridRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+		GridRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+		GridRenderer->GetTransform()->SetLocalZOrder(-1.f);
+		FloorGrides_.insert(std::make_pair(Index.Index_, GridRenderer));
+	}
+	else if (true == FloorAllMode_)
+	{
+		// 그리드
+		GridRenderer->SetImage("FloorGrid.png");
+		GridRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+		GridRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+		GridRenderer->GetTransform()->SetLocalZOrder(-1.f);
+		FloorGrides_.insert(std::make_pair(Index.Index_, GridRenderer));
+
+		// 타일
+		TileRenderer->SetImage(FloorTileTextureName_);
+		TileRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+		TileRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+		TileRenderer->SetIndex(CurTileIndex_);
+		FloorTiles_.insert(std::make_pair(Index.Index_, TileRenderer));
+	}
+	else
+	{
+		// 타일
+		TileRenderer->SetImage(FloorTileTextureName_);
+		TileRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+		TileRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+		TileRenderer->SetIndex(CurTileIndex_);
+		FloorTiles_.insert(std::make_pair(Index.Index_, TileRenderer));
+	}
 }
 
 void IsoTileMap::SetWallTile(float4 _Pos, int CurTileIndex_)
@@ -101,48 +131,87 @@ void IsoTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
 	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
 
-	GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+	GameEngineTileMapRenderer* TileRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+	GameEngineTileMapRenderer* GridRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
-	//Renderer->SetImage("WallGrid.png"); // 테스트용
-	//Renderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+	if (true == WallGridMode_)
+	{
+		// 그리드
+		GridRenderer->SetImage("WallGrid.png");
+		GridRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+		GridRenderer->GetTransform()->SetLocalPosition(Pos);
+		GridRenderer->GetTransform()->SetLocalZOrder(-3.f);
+		WallGrides_.insert(std::make_pair(_Index.Index_, GridRenderer));
+	}
+	else if (true == WallAllMode_)
+	{
+		// 그리드
+		GridRenderer->SetImage("WallGrid.png");
+		GridRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+		GridRenderer->GetTransform()->SetLocalPosition(Pos);
+		GridRenderer->GetTransform()->SetLocalZOrder(-3.f);
+		WallGrides_.insert(std::make_pair(_Index.Index_, GridRenderer));
 
-	Renderer->SetImage(WallTileTextureName_);
-	Renderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
-	Renderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-	Renderer->SetIndex(CurTileIndex_);
-	WallTiles_.insert(std::make_pair(_Index.Index_, Renderer));
+		// 타일
+		TileRenderer->SetImage(WallTileTextureName_);
+		TileRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
+		TileRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+		TileRenderer->GetTransform()->SetLocalZOrder(-2.f);
+		TileRenderer->SetIndex(CurTileIndex_);
+		WallTiles_.insert(std::make_pair(_Index.Index_, TileRenderer));
+	}
+	else
+	{
+		// 타일
+		TileRenderer->SetImage(WallTileTextureName_);
+		TileRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
+		TileRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+		TileRenderer->GetTransform()->SetLocalZOrder(-2.f);
+		TileRenderer->SetIndex(CurTileIndex_);
+		WallTiles_.insert(std::make_pair(_Index.Index_, TileRenderer));
+	}
 }
 
 void IsoTileMap::DelWallTile(float4 _Pos) 
 {
 	TileIndex Index = GetWallTileIndex(_Pos);
 
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator FindIter = WallTiles_.find(Index.Index_);
-
-	// 타일이 존재하지않다면 리턴
-	if (WallTiles_.end() == FindIter)
+	// 타일
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TileFindIter = WallTiles_.find(Index.Index_);
+	if (WallTiles_.end() != TileFindIter)
 	{
-		return;
+		TileFindIter->second->Death();
+		WallTiles_.erase(TileFindIter);
 	}
 
-	FindIter->second->Death();
-	WallTiles_.erase(FindIter);
+	// 그리드
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GirdFindIter = WallGrides_.find(Index.Index_);
+	if (WallGrides_.end() != GirdFindIter)
+	{
+		GirdFindIter->second->Death();
+		WallGrides_.erase(GirdFindIter);
+	}
 }
 
 void IsoTileMap::DelFloorTile(float4 _Pos)
 {
 	TileIndex Index = GetFloorTileIndex(_Pos);
 
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator FindIter = FloorTiles_.find(Index.Index_);
-
-	// 타일이 존재하지않다면 리턴
-	if (FloorTiles_.end() == FindIter)
+	// 타일
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TileFindIter = FloorTiles_.find(Index.Index_);
+	if (FloorTiles_.end() != TileFindIter)
 	{
-		return;
+		TileFindIter->second->Death();
+		FloorTiles_.erase(TileFindIter);
 	}
 
-	FindIter->second->Death();
-	FloorTiles_.erase(FindIter);
+	// 그리드
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridFindIter = FloorGrides_.find(Index.Index_);
+	if (FloorGrides_.end() != GridFindIter)
+	{
+		GridFindIter->second->Death();
+		FloorGrides_.erase(GridFindIter);
+	}
 }
 
 void IsoTileMap::AllTileClear()
@@ -402,7 +471,7 @@ void IsoTileMap::CreateWallGrid(int _X, int _Y)
 
 			Renderer->SetImage("WallGrid.png");
 			Renderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
-			Renderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+			Renderer->GetTransform()->SetLocalPosition(Pos);
 			Renderer->GetTransform()->SetLocalZOrder(-1.f);
 			WallGrides_.insert(std::make_pair(Index.Index_, Renderer));
 		}
@@ -422,6 +491,76 @@ void IsoTileMap::ClearWallGrid()
 	WallGrides_.clear();
 }
 
+#pragma endregion
+
+#pragma region 그리드모드
+void IsoTileMap::FloorGridModeSwitching()
+{
+	if (false == FloorGridMode_)
+	{
+		if (true == FloorAllMode_)
+		{
+			FloorAllMode_ = false;
+		}
+
+		FloorGridMode_ = true;
+	}
+	else
+	{
+		FloorGridMode_ = false;
+	}
+}
+
+void IsoTileMap::WallGridModeSwitching()
+{
+	if (false == WallGridMode_)
+	{
+		if (true == WallAllMode_)
+		{
+			WallAllMode_ = false;
+		}
+
+		WallGridMode_ = true;
+	}
+	else
+	{
+		WallGridMode_ = false;
+	}
+}
+
+void IsoTileMap::FloorAllModeSwitching()
+{
+	if (false == FloorAllMode_)
+	{
+		if (true == FloorGridMode_)
+		{
+			FloorGridMode_ = false;
+		}
+
+		FloorAllMode_ = true;
+	}
+	else
+	{
+		FloorAllMode_ = false;
+	}
+}
+
+void IsoTileMap::WallAllModeSwitching()
+{
+	if (false == WallAllMode_)
+	{
+		if (true == WallGridMode_)
+		{
+			WallGridMode_ = false;
+		}
+
+		WallAllMode_ = true;
+	}
+	else
+	{
+		WallAllMode_ = false;
+	}
+}
 #pragma endregion
 
 #pragma region 맵 저장 및 로드
