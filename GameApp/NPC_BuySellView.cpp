@@ -431,7 +431,7 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 			//}
 			#pragma endregion
 
-			#pragma region 버튼(구매, 판매, null, null)
+			#pragma region 버튼(구매, 판매, null, 창닫기)
 			//// 구매버튼 렌더러 (UI1_Button)
 			//BuyButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
 			//BuyButtonRenderer_->CreateAnimation("BuySellBtn_Buy_Default.png", "Default", 0, 0, 0.1f, false);
@@ -572,7 +572,7 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 			}
 			#pragma endregion
 
-			#pragma region 버튼(구매, 판매, 수리, 전부수리)
+			#pragma region 버튼(구매, 판매, 전부수리, 창닫기)
 			// 구매버튼 렌더러 (UI1_Button)
 			BuyButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
 			BuyButtonRenderer_->CreateAnimation("BuySellBtn_Buy_Default.png", "Default", 0, 0, 0.1f, false);
