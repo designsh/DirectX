@@ -121,6 +121,9 @@ public: // 판매창 활성화/비활성화 처리
 	void NPCBuySellViewActive();
 	void NPCBuySellViewInactive();
 
+public: // 판매창 탭과 충돌처리
+	void SelectTabClick(GameEngineCollision* _Other, int _Index);
+
 public: // 판매창 배치타일과 충돌처리
 	void ArrangeTileClick(GameEngineCollision* _Other, int _Index);
 };

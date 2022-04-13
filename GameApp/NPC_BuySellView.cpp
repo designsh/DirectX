@@ -125,10 +125,20 @@ void NPC_BuySellView::Update(float _DeltaTime)
 #pragma endregion
 
 #pragma region 탭선택충돌체크
+	if (false == BuySellViewTabs_.empty())
+	{
+		for (int i = 0; i < static_cast<int>(BuySellViewTabs_.size()); ++i)
+		{
+			if (nullptr != BuySellViewTabs_[i].TabCollision_)
+			{
+#ifdef _DEBUG
+				GetLevel()->PushDebugRender(BuySellViewTabs_[i].TabCollision_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
 
-
-
-
+				BuySellViewTabs_[i].TabCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::SelectTabClick, this, std::placeholders::_1, i));
+			}
+		}
+	}
 #pragma endregion
 
 #pragma region 배치타일충돌체크
@@ -136,7 +146,14 @@ void NPC_BuySellView::Update(float _DeltaTime)
 	{
 		for (int i = 0; i < static_cast<int>(ArrangeTileCols_.size()); ++i)
 		{
-			ArrangeTileCols_[i]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::ArrangeTileClick, this, std::placeholders::_1, i));
+			if (nullptr != ArrangeTileCols_[i])
+			{
+#ifdef _DEBUG
+				GetLevel()->PushDebugRender(ArrangeTileCols_[i]->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
+				ArrangeTileCols_[i]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::ArrangeTileClick, this, std::placeholders::_1, i));
+			}
 		}
 	}
 #pragma endregion
@@ -427,6 +444,19 @@ void NPC_BuySellView::NPCBuySellViewInactive()
 
 
 	// 해당 NPC의 상단메뉴 On
+
+
+
+
+}
+
+void NPC_BuySellView::SelectTabClick(GameEngineCollision* _Other, int _Index)
+{
+	// 현재 선택한 탭인덱스 변경
+	CurTabIndex = _Index;
+
+	// 현재 탭인덱스에 따른 처리
+
 
 
 
