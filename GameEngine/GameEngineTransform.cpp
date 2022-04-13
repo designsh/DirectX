@@ -436,6 +436,14 @@ void GameEngineTransform::Copy(const GameEngineTransform& _Other)
 	ColData_ = _Other.ColData_;
 	Parent_ = _Other.Parent_;
 	Childs_ = _Other.Childs_;
+
+	// 복사 후 자식들까지 모두 계산 후
+	AllChildCalculationScaling();
+	AllChildCalculationRotation();
+	AllChildCalculationPosition();
+
+	// 업데이트
+	TransformUpdate();
 }
 
 float4 GameEngineTransform::GetLocalScaling() const

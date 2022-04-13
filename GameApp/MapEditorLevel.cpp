@@ -109,22 +109,22 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 	
 	if (true == GameEngineInput::GetInst().Press("CameraUp"))
 	{
-		GetMainCamera()->GetTransform()->SetWorldMove(float4::UP * MoveSpeed_ * _DeltaTime);
+		GetMainCameraActor()->GetTransform()->SetWorldMove(float4::UP * MoveSpeed_ * _DeltaTime);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("CameraDown"))
 	{
-		GetMainCamera()->GetTransform()->SetWorldMove(float4::DOWN * MoveSpeed_ * _DeltaTime);
+		GetMainCameraActor()->GetTransform()->SetWorldMove(float4::DOWN * MoveSpeed_ * _DeltaTime);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("CameraLeft"))
 	{
-		GetMainCamera()->GetTransform()->SetWorldMove(float4::LEFT * MoveSpeed_ * _DeltaTime);
+		GetMainCameraActor()->GetTransform()->SetWorldMove(float4::LEFT * MoveSpeed_ * _DeltaTime);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("CameraRight"))
 	{
-		GetMainCamera()->GetTransform()->SetWorldMove(float4::RIGHT * MoveSpeed_ * _DeltaTime);
+		GetMainCameraActor()->GetTransform()->SetWorldMove(float4::RIGHT * MoveSpeed_ * _DeltaTime);
 	}
 
 #pragma endregion
