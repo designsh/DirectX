@@ -245,7 +245,9 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 		{
 			// 탭 1칸(기타)
 
+
 			// 버튼(구매/판매, null, null)
+
 
 			break;
 		}
@@ -255,6 +257,7 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 
 
 			// 버튼(구매/판매, 수리, 전부수리)
+
 
 			break;
 		}
