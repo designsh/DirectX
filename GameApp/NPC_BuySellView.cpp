@@ -647,6 +647,7 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 
 void NPC_BuySellView::NPCBuySellViewActive()
 {
+	// 판매창 활성화
 	On();
 
 	// 현재탭에 속한 Renderer, Collider 활성화
@@ -674,6 +675,7 @@ void NPC_BuySellView::NPCBuySellViewActive()
 
 void NPC_BuySellView::NPCBuySellViewInactive()
 {
+	// 판매창 비성화
 	Off();
 
 	// 현재탭에 속한 Renderer, Collider 비활성화
