@@ -12,6 +12,13 @@
 #include "WeaponNPC.h"
 #include "NPC_TopMenuBar.h"
 
+int NPC_BuySellView::CurTabIndex = 0;
+
+int NPC_BuySellView::GetCurTabIndex()
+{
+	return CurTabIndex;
+}
+
 NPC_BuySellView::NPC_BuySellView() :
 	ViewPanel_(nullptr),
 	BuyButtonRenderer_(nullptr),
@@ -24,6 +31,7 @@ NPC_BuySellView::NPC_BuySellView() :
 	AllRepairButtonCollider_(nullptr),
 	NPCClassType_(NPCClassType::Akara),
 	BuySellViewType_(NPCType::PotionShop),
+	HaveGold_(100000),
 	BuyActive_(false),
 	SellActive_(false),
 	RepairActive_(false),
@@ -112,6 +120,23 @@ void NPC_BuySellView::Update(float _DeltaTime)
 			//RepairButtonRenderer_->SetChangeAnimation("Default");
 
 			RepairBtnState_ = Button_State::Normal;
+		}
+	}
+#pragma endregion
+
+#pragma region 탭선택충돌체크
+
+
+
+
+#pragma endregion
+
+#pragma region 배치타일충돌체크
+	if (false == ArrangeTileCols_.empty())
+	{
+		for (int i = 0; i < static_cast<int>(ArrangeTileCols_.size()); ++i)
+		{
+			ArrangeTileCols_[i]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::ArrangeTileClick, this, std::placeholders::_1, i));
 		}
 	}
 #pragma endregion
@@ -243,25 +268,130 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 	{
 		case NPCType::PotionShop:
 		{
-			// 탭 1칸(기타)
+			#pragma region 탭정보생성(기타)
+			//BuySellViewTabs_.clear();
+			//BuySellViewTabs_.resize(1);
+			//for (int i = 0; i < 1; ++i)
+			//{
+			//	BuySellViewTabs_[i].TabIndex_ = i;
+			//	BuySellViewTabs_[i].TabType_ = ItemLocType::BuySell_Etc;
+			//	BuySellViewTabs_[i].TabName_ = "기타";
+			//	BuySellViewTabs_[i].TabActive_ = true;
+
+			//	// 탭렌더러 및 충돌체 생성
+			//	BuySellViewTabs_[i].TabRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
+			//	BuySellViewTabs_[i].TabRenderer_->CreateAnimation("BuySellTab_DeSel.png", "TabDeselect", 0, 0, 0.1f, false);
+			//	BuySellViewTabs_[i].TabRenderer_->CreateAnimation("BuySellTab_Sel.png", "TabSelect", 0, 0, 0.1f, false);
+			//	BuySellViewTabs_[i].TabRenderer_->GetTransform()->SetLocalPosition(float4());
+			//	BuySellViewTabs_[i].TabRenderer_->GetTransform()->SetLocalScaling(float4(79.f, 30.f));
+			//	if (true == BuySellViewTabs_[i].TabActive_)
+			//	{
+			//		BuySellViewTabs_[i].TabRenderer_->SetChangeAnimation("TabSelect");
+			//	}
+			//	else
+			//	{
+			//		BuySellViewTabs_[i].TabRenderer_->SetChangeAnimation("TabDeselect");
+			//	}
+
+			//	BuySellViewTabs_[i].TabCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+			//	BuySellViewTabs_[i].TabCollision_->GetTransform()->SetLocalPosition(BuySellViewTabs_[i].TabRenderer_->GetTransform()->GetLocalPosition());
+			//	BuySellViewTabs_[i].TabCollision_->GetTransform()->SetLocalScaling(BuySellViewTabs_[i].TabRenderer_->GetTransform()->GetLocalScaling());
+
+			//	// 해당 탭의 배치타일정보(UI1)
+			//	BuySellViewTabs_[i].ArrangeTiles_.clear();
+			//	BuySellViewTabs_[i].ArrangeTiles_.resize(10 * 10);
+			//	for (int y = 0; y < 10; ++y)
+			//	{
+			//		for (int x = 0; x < 10; ++x)
+			//		{
+			//			int Index = (y * 10) + x;
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].ItemArrangementFlag_ = false;
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].Index_ = Index;
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].IndexX_ = x;
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].IndexY_ = y;
+
+			//			// 위치정보 및 크기정보 셋팅
+			//			float4 TilePos = float4();
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].TilePos_ = TilePos;
+
+			//			float4 TileScale = float4(28.f, 28.f, 1.f);
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].TileScale_ = TileScale;
+
+			//			// 렌더러 생성
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetImage("InvTestTileImage.png");
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetResultColor(float4(1.f, 1.f, 1.f, 0.f));
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->TextSetting("diablo", std::to_string(Index), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalPosition(TilePos);
+			//			BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalScaling(TileScale);
+			//		}
+			//	}
+
+			//	// 해당 탭이 보유하고있는 아이템목록(UI1_Render) - 활력물약, 포탈스크롤, 아이템감정스크롤 보유
+			//	// HaveItemList_
+
+			//}
+			#pragma endregion
+
+			#pragma region 버튼(구매, 판매, null, null)
+			//GameEngineUIRenderer* BuyButtonRenderer_;				// 구매 버튼 렌더러
+			//GameEngineCollision* BuyButtonCollider_;				// 구매 버튼 충돌체
+			//GameEngineUIRenderer* SellButtonRenderer_;			// 판매 버튼 렌더러
+			//GameEngineCollision* SellButtonCollider_;				// 판매 버튼 충돌체
 
 
-			// 버튼(구매/판매, null, null)
-
-
+			#pragma endregion
 			break;
 		}
 		case NPCType::WeaponShop:
 		{
-			// 탭 2칸(무기, 갑옷)
+			#pragma region 탭정보생성(무기, 갑옷)
+
+			// 탭이름 생성
+			//std::string TabName[2] = { {"무기"}, {"방어구"} };
+
+			// 탭정보 생성
+			//BuySellViewTabs_.clear();
+			//BuySellViewTabs_.resize(2);
+			//for (int i = 0; i < 2; ++i)
+			//{
+
+			//}
+			#pragma endregion
+
+			#pragma region 버튼(구매, 판매, 수리, 전부수리)
+			//GameEngineUIRenderer* BuyButtonRenderer_;				// 구매 버튼 렌더러
+			//GameEngineCollision* BuyButtonCollider_;				// 구매 버튼 충돌체
+			//GameEngineUIRenderer* SellButtonRenderer_;			// 판매 버튼 렌더러
+			//GameEngineCollision* SellButtonCollider_;				// 판매 버튼 충돌체
+			//GameEngineUIRenderer* RepairButtonRenderer_;			// 수리 버튼 렌더러
+			//GameEngineCollision* RepairButtonCollider_;			// 수리 버튼 충돌체
+			//GameEngineUIRenderer* AllRepairButtonRenderer_;		// 전부수리 버튼 렌더러
+			//GameEngineCollision* AllRepairButtonCollider_;		// 전부수리 버튼 충돌체
 
 
-			// 버튼(구매/판매, 수리, 전부수리)
-
-
+			#pragma endregion
 			break;
 		}
 	}
+
+	// 판매창의 배치타일 충돌체 생성
+	// ArrangeTiles_의 위치/크기정보 Get 필요
+	
+	//ArrangeTileCols_.clear();
+	//ArrangeTileCols_.resize(10 * 10);
+	//for (int y = 0; y < 10; ++y)
+	//{
+	//	for (int x = 0; x < 10; ++x)
+	//	{
+	//		float4 StartPos = float4();
+
+	//		int Index = (y * 10) + x;
+	//		ArrangeTileCols_[Index] = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+	//		ArrangeTileCols_[Index]->GetTransform()->SetLocalPosition(float4());
+	//		ArrangeTileCols_[Index]->GetTransform()->SetLocalScaling(float4(28.f, 28.f));
+	//	}
+	//}
 }
 
 void NPC_BuySellView::NPCBuySellViewActive()
@@ -301,4 +431,21 @@ void NPC_BuySellView::NPCBuySellViewInactive()
 
 
 
+}
+
+void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
+{
+	// Mouse LButton Flag Check
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		// 해당 배치타일에 아이템이 있다면
+		//if (true == BuySellViewTabs_[CurTabIndex].ArrangeTiles_[_Index].ItemArrangementFlag_)
+		//{
+
+		//}
+		//else // 해당 배치타일에 아이템이 없다면
+		//{
+
+		//}
+	}
 }
