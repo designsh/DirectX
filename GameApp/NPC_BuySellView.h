@@ -88,9 +88,11 @@ private: // 특수기능 버튼관련
 	bool BuyActive_;										// 구매 활성화 Flag
 	bool SellActive_;										// 판매 활성화 Flag
 	bool RepairActive_;										// 수리 활성화 Flag
+	bool AllRepairActive_;									// 전부수리 활성화 Flag
 	Button_State BuyBtnState_;								// 구매버튼 상태
 	Button_State SellBtnState_;								// 판매버튼 상태
 	Button_State RepairBtnState_;							// 수리버튼 상태
+	Button_State AllRepairBtnState_;						// 전부수리버튼 상태
 	
 public:
 	NPC_BuySellView();
