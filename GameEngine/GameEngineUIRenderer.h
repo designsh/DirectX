@@ -64,5 +64,6 @@ public: // Text ฐüทร
 	bool DelText();
 	void AllDelText();
 	void SetPrintText(const std::string& _PrintText);
+	void SetTextColor(const float4& _Color);
 };
 

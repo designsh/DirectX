@@ -37,7 +37,6 @@ struct TabInfo
 	bool TabActive_;										// 탭 활성화여부(선택시 true)
 	GameEngineUIRenderer* TabRenderer_;						// 탭 렌더러
 	GameEngineCollision* TabCollision_;						// 탭 충돌체
-	std::string TabName_;									// 탭 명칭(무기, 방어구, 기타)
 	ItemLocType TabType_;									// 해당 탭의 타입(판매창 - 무기탭, 판매창 - 방어구탭, 판매창 - 기타탭)
 	std::vector<ArrangeTileInfo> ArrangeTiles_;				// 해당 탭의 배치타일정보
 	std::vector<HaveItem> HaveItemList_;					// 해당 탭이 보유하고있는 아이템목록
@@ -64,10 +63,10 @@ private: // 버튼관련
 	GameEngineCollision* BuyButtonCollider_;				// 구매 버튼 충돌체
 	GameEngineUIRenderer* SellButtonRenderer_;				// 판매 버튼 렌더러
 	GameEngineCollision* SellButtonCollider_;				// 판매 버튼 충돌체
-	GameEngineUIRenderer* RepairButtonRenderer_;			// 수리 버튼 렌더러
-	GameEngineCollision* RepairButtonCollider_;				// 수리 버튼 충돌체
 	GameEngineUIRenderer* AllRepairButtonRenderer_;			// 전부수리 버튼 렌더러
 	GameEngineCollision* AllRepairButtonCollider_;			// 전부수리 버튼 충돌체
+	GameEngineUIRenderer* CloseButtonRenderer_;				// 창닫기 버튼 렌더러
+	GameEngineCollision* CloseButtonCollider_;				// 창닫기 버튼 충돌체
 
 private: // 탭정보관련
 	std::vector<TabInfo> BuySellViewTabs_;					// 각 판매창의 탭정보(아이템목록, 배치상태, 인덱스, ...)
@@ -87,12 +86,11 @@ private:
 private: // 특수기능 버튼관련
 	bool BuyActive_;										// 구매 활성화 Flag
 	bool SellActive_;										// 판매 활성화 Flag
-	bool RepairActive_;										// 수리 활성화 Flag
 	bool AllRepairActive_;									// 전부수리 활성화 Flag
 	Button_State BuyBtnState_;								// 구매버튼 상태
 	Button_State SellBtnState_;								// 판매버튼 상태
-	Button_State RepairBtnState_;							// 수리버튼 상태
 	Button_State AllRepairBtnState_;						// 전부수리버튼 상태
+	Button_State CloseBtnState_;							// 창닫기버튼 상태
 	
 public:
 	NPC_BuySellView();
@@ -113,8 +111,8 @@ private:
 private: // 각 버튼 클릭체크
 	void BuyButtonClick(GameEngineCollision* _Other);
 	void SellButtonClick(GameEngineCollision* _Other);
-	void RepairButtonClick(GameEngineCollision* _Other);
 	void AllRepairButtonClick(GameEngineCollision* _Other);
+	void CloseButtonClick(GameEngineCollision* _Other);
 
 public: // 타입별 판매창 생성
 	void CreateBuySellView(NPCType _BuySellViewType, NPCClassType _NPCClassType);

@@ -25,19 +25,20 @@ NPC_BuySellView::NPC_BuySellView() :
 	BuyButtonCollider_(nullptr),
 	SellButtonRenderer_(nullptr),
 	SellButtonCollider_(nullptr),
-	RepairButtonRenderer_(nullptr),
-	RepairButtonCollider_(nullptr),
 	AllRepairButtonRenderer_(nullptr),
 	AllRepairButtonCollider_(nullptr),
+	CloseButtonRenderer_(nullptr),
+	CloseButtonCollider_(nullptr),
 	NPCClassType_(NPCClassType::Akara),
 	BuySellViewType_(NPCType::PotionShop),
 	HaveGold_(100000),
 	BuyActive_(false),
 	SellActive_(false),
-	RepairActive_(false),
+	AllRepairActive_(false),
 	BuyBtnState_(Button_State::Normal),
 	SellBtnState_(Button_State::Normal),
-	RepairBtnState_(Button_State::Normal)
+	AllRepairBtnState_(Button_State::Normal),
+	CloseBtnState_(Button_State::Normal)
 {
 }
 
@@ -88,7 +89,7 @@ void NPC_BuySellView::Update(float _DeltaTime)
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
 			// 버튼 애니메이션 변경
-			//BuyButtonRenderer_->SetChangeAnimation("Default");
+			BuyButtonRenderer_->SetChangeAnimation("Default");
 
 			BuyBtnState_ = Button_State::Normal;
 		}
@@ -99,20 +100,9 @@ void NPC_BuySellView::Update(float _DeltaTime)
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
 			// 버튼 애니메이션 변경
-			//SellButtonRenderer_->SetChangeAnimation("Default");
+			SellButtonRenderer_->SetChangeAnimation("Default");
 
 			SellBtnState_ = Button_State::Normal;
-		}
-	}
-
-	if (RepairBtnState_ == Button_State::Click)	// 수리버튼상태
-	{
-		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
-		{
-			// 버튼 애니메이션 변경
-			//RepairButtonRenderer_->SetChangeAnimation("Default");
-
-			RepairBtnState_ = Button_State::Normal;
 		}
 	}
 
@@ -121,9 +111,23 @@ void NPC_BuySellView::Update(float _DeltaTime)
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
 			// 버튼 애니메이션 변경
-			//AllRepairButtonRenderer_->SetChangeAnimation("Default");
+			AllRepairButtonRenderer_->SetChangeAnimation("Default");
 
 			AllRepairBtnState_ = Button_State::Normal;
+		}
+	}
+
+	if (CloseBtnState_ == Button_State::Click)	// 창닫기버튼상태
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 버튼 애니메이션 변경
+			CloseButtonRenderer_->SetChangeAnimation("Default");
+
+			// 해당 판매창종료
+			NPCBuySellViewInactive();
+
+			CloseBtnState_ = Button_State::Normal;
 		}
 	}
 #pragma endregion
@@ -147,15 +151,6 @@ void NPC_BuySellView::Update(float _DeltaTime)
 		SellButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::SellButtonClick, this, std::placeholders::_1));
 	}
 
-	if (nullptr != RepairButtonCollider_)	// 수리버튼
-	{
-#ifdef _DEBUG
-		GetLevel()->PushDebugRender(RepairButtonCollider_->GetTransform(), CollisionType::Rect);
-#endif // _DEBUG
-
-		RepairButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::RepairButtonClick, this, std::placeholders::_1));
-	}
-
 	if (nullptr != AllRepairButtonCollider_)	// 전부수리버튼
 	{
 #ifdef _DEBUG
@@ -163,6 +158,15 @@ void NPC_BuySellView::Update(float _DeltaTime)
 #endif // _DEBUG
 
 		AllRepairButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::AllRepairButtonClick, this, std::placeholders::_1));
+	}
+
+	if (nullptr != CloseButtonCollider_)	// 창닫기버튼
+	{
+#ifdef _DEBUG
+		GetLevel()->PushDebugRender(CloseButtonCollider_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
+		CloseButtonCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_BuySellView::CloseButtonClick, this, std::placeholders::_1));
 	}
 #pragma endregion
 
@@ -209,7 +213,7 @@ void NPC_BuySellView::BuyButtonClick(GameEngineCollision* _Other)
 		if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 		{
 			// 버튼애니메이션 변경
-			//BuyButtonRenderer_->SetChangeAnimation("Click");
+			BuyButtonRenderer_->SetChangeAnimation("Click");
 			
 			// 마우스커서 애니메이션 변경
 			if (false == BuyActive_)
@@ -227,7 +231,7 @@ void NPC_BuySellView::BuyButtonClick(GameEngineCollision* _Other)
 		}
 		else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
-			//BuyButtonRenderer_->SetChangeAnimation("Default");
+			BuyButtonRenderer_->SetChangeAnimation("Default");
 
 			BuyBtnState_ = Button_State::Normal;
 		}
@@ -242,7 +246,7 @@ void NPC_BuySellView::SellButtonClick(GameEngineCollision* _Other)
 		if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 		{
 			// 버튼애니메이션 변경
-			//SellButtonRenderer_->SetChangeAnimation("Click");
+			SellButtonRenderer_->SetChangeAnimation("Click");
 
 			// 마우스커서 애니메이션 변경
 			if (false == SellActive_)
@@ -260,62 +264,9 @@ void NPC_BuySellView::SellButtonClick(GameEngineCollision* _Other)
 		}
 		else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
-			//SellButtonRenderer_->SetChangeAnimation("Default");
+			SellButtonRenderer_->SetChangeAnimation("Default");
 
 			SellBtnState_ = Button_State::Normal;
-		}
-	}
-}
-
-void NPC_BuySellView::RepairButtonClick(GameEngineCollision* _Other)
-{
-	if (RepairBtnState_ != Button_State::Disabled)
-	{
-		if (NPCType::WeaponShop == BuySellViewType_)
-		{
-			// 수리버튼 클릭
-			if (true == GameEngineInput::GetInst().Down("MouseLButton"))
-			{
-				// 버튼애니메이션 변경
-				//RepairButtonRenderer_->SetChangeAnimation("Click");
-
-				// 마우스커서 애니메이션 변경
-				if (false == RepairActive_)
-				{
-					RepairActive_ = true;
-					GlobalValue::CurMouse->RepairCursorActive();
-				}
-				else
-				{
-					RepairActive_ = false;
-					GlobalValue::CurMouse->RepairCursorInactive();
-				}
-
-				RepairBtnState_ = Button_State::Click;
-			}
-			else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
-			{
-				//RepairButtonRenderer_->SetChangeAnimation("Default");
-
-				RepairBtnState_ = Button_State::Normal;
-			}
-		}
-		else // 무기상점을 제외하고 수리기능 없음
-		{
-			// 수리버튼 클릭
-			if (true == GameEngineInput::GetInst().Down("MouseLButton"))
-			{
-				// 버튼애니메이션 변경
-				//RepairButtonRenderer_->SetChangeAnimation("Click");
-
-				RepairBtnState_ = Button_State::Click;
-			}
-			else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
-			{
-				//RepairButtonRenderer_->SetChangeAnimation("Default");
-
-				RepairBtnState_ = Button_State::Normal;
-			}
 		}
 	}
 }
@@ -330,7 +281,7 @@ void NPC_BuySellView::AllRepairButtonClick(GameEngineCollision* _Other)
 			if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 			{
 				// 버튼애니메이션 변경
-				//AllRepairButtonRenderer_->SetChangeAnimation("Click");
+				AllRepairButtonRenderer_->SetChangeAnimation("Click");
 
 				if (false == AllRepairActive_)
 				{
@@ -345,7 +296,7 @@ void NPC_BuySellView::AllRepairButtonClick(GameEngineCollision* _Other)
 			}
 			else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 			{
-				//AllRepairButtonRenderer_->SetChangeAnimation("Default");
+				AllRepairButtonRenderer_->SetChangeAnimation("Default");
 
 				AllRepairBtnState_ = Button_State::Normal;
 			}
@@ -356,16 +307,37 @@ void NPC_BuySellView::AllRepairButtonClick(GameEngineCollision* _Other)
 			if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 			{
 				// 버튼애니메이션 변경
-				//AllRepairButtonRenderer_->SetChangeAnimation("Click");
+				AllRepairButtonRenderer_->SetChangeAnimation("Click");
 
 				AllRepairBtnState_ = Button_State::Click;
 			}
 			else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 			{
-				//AllRepairButtonRenderer_->SetChangeAnimation("Default");
+				AllRepairButtonRenderer_->SetChangeAnimation("Default");
 
 				AllRepairBtnState_ = Button_State::Normal;
 			}
+		}
+	}
+}
+
+void NPC_BuySellView::CloseButtonClick(GameEngineCollision* _Other)
+{
+	if (CloseBtnState_ != Button_State::Disabled)
+	{
+		// 창닫기버튼 클릭
+		if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+		{
+			// 버튼애니메이션 변경
+			CloseButtonRenderer_->SetChangeAnimation("Click");
+
+			CloseBtnState_ = Button_State::Click;
+		}
+		else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			CloseButtonRenderer_->SetChangeAnimation("Default");
+
+			CloseBtnState_ = Button_State::Normal;
 		}
 	}
 }
@@ -401,7 +373,7 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 			//{
 			//	BuySellViewTabs_[i].TabIndex_ = i;
 			//	BuySellViewTabs_[i].TabType_ = ItemLocType::BuySell_Etc;
-			//	BuySellViewTabs_[i].TabName_ = "기타";
+			//	BuySellViewTabs_[i].TabName_ = "MISC";
 			//	BuySellViewTabs_[i].TabActive_ = true;
 
 			//	// 탭렌더러 및 충돌체 생성
@@ -519,96 +491,170 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 			#pragma region 탭정보생성(무기, 갑옷)
 
 			// 탭이름 생성
-			//std::string TabName[2] = { {"무기"}, {"방어구"} };
+			std::string TabName[2] = { {"WEAPONS"}, {"ARMORS"} };
 
 			// 탭정보 생성
-			//BuySellViewTabs_.clear();
-			//BuySellViewTabs_.resize(2);
-			//for (int i = 0; i < 2; ++i)
-			//{
+			BuySellViewTabs_.clear();
+			BuySellViewTabs_.resize(2);
+			for (int i = 0; i < 2; ++i)
+			{
+				BuySellViewTabs_[i].TabIndex_ = i;
+				BuySellViewTabs_[i].TabType_ = static_cast<ItemLocType>(static_cast<int>(ItemLocType::BuySell_Weapon) + i);
 
-			//}
+				// 현재선택된 탭만 TRUE셋팅
+				if (i == CurTabIndex)
+				{
+					BuySellViewTabs_[i].TabActive_ = true;
+				}
+				else
+				{
+					BuySellViewTabs_[i].TabActive_ = false;
+				}
+				
+				// 탭렌더러 및 충돌체 생성
+				BuySellViewTabs_[i].TabRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Tab));
+				BuySellViewTabs_[i].TabRenderer_->CreateAnimation("BuySellTab_DeSel.png", "TabDeselect", 0, 0, 0.1f, false);
+				BuySellViewTabs_[i].TabRenderer_->CreateAnimation("BuySellTab_Sel.png", "TabSelect", 0, 0, 0.1f, false);
+
+				float4 TabPos = float4(-281.f + (i * 79.f), 224.f);
+				BuySellViewTabs_[i].TabRenderer_->GetTransform()->SetLocalPosition(TabPos);
+				BuySellViewTabs_[i].TabRenderer_->GetTransform()->SetLocalScaling(float4(79.f, 30.f));
+				if (true == BuySellViewTabs_[i].TabActive_)
+				{
+					BuySellViewTabs_[i].TabRenderer_->SetChangeAnimation("TabSelect");
+					BuySellViewTabs_[i].TabRenderer_->TextSetting("diablo", TabName[i], 12.f, FW1_CENTER | FW1_VCENTER, float4(0.8f, 0.8f, 0.4f));
+				}
+				else
+				{
+					BuySellViewTabs_[i].TabRenderer_->SetChangeAnimation("TabDeselect");
+					BuySellViewTabs_[i].TabRenderer_->TextSetting("diablo", TabName[i], 12.f, FW1_CENTER | FW1_VCENTER, float4::WHITE);
+				}
+
+				BuySellViewTabs_[i].TabCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+				BuySellViewTabs_[i].TabCollision_->GetTransform()->SetLocalPosition(BuySellViewTabs_[i].TabRenderer_->GetTransform()->GetLocalPosition());
+				BuySellViewTabs_[i].TabCollision_->GetTransform()->SetLocalScaling(BuySellViewTabs_[i].TabRenderer_->GetTransform()->GetLocalScaling());
+
+				// 해당 탭의 배치타일정보(UI1_Tab)
+				BuySellViewTabs_[i].ArrangeTiles_.clear();
+				BuySellViewTabs_[i].ArrangeTiles_.resize(10 * 10);
+				for (int y = 0; y < 10; ++y)
+				{
+					for (int x = 0; x < 10; ++x)
+					{
+						int Index = (y * 10) + x;
+						BuySellViewTabs_[i].ArrangeTiles_[Index].ItemArrangementFlag_ = false;
+						BuySellViewTabs_[i].ArrangeTiles_[Index].Index_ = Index;
+						BuySellViewTabs_[i].ArrangeTiles_[Index].IndexX_ = x;
+						BuySellViewTabs_[i].ArrangeTiles_[Index].IndexY_ = y;
+
+						// 위치정보 및 크기정보 셋팅
+						float4 TilePos = float4::ZERO;
+						TilePos.x = -290.f + (x * 28.f) + (x * 1.f);
+						TilePos.y = -98.f + (y * 28.f) + (y * 1.f);
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TilePos_ = TilePos;
+
+						float4 TileScale = float4(28.f, 28.f, 1.f);
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileScale_ = TileScale;
+
+						// 렌더러 생성
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Tab));
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetImage("InvTestTileImage.png");
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetResultColor(float4(1.f, 1.f, 1.f, 0.f));
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->TextSetting("diablo", std::to_string(Index), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalPosition(TilePos);
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalScaling(TileScale);
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->Off();
+					}
+				}
+
+				// 해당 탭이 보유하고있는 아이템목록(UI1_Render) - 플레이어 장착무기,방어구 등등
+				
+			}
 			#pragma endregion
 
 			#pragma region 버튼(구매, 판매, 수리, 전부수리)
-			//// 구매버튼 렌더러 (UI1_Button)
-			//BuyButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
-			//BuyButtonRenderer_->CreateAnimation("BuySellBtn_Buy_Default.png", "Default", 0, 0, 0.1f, false);
-			//BuyButtonRenderer_->CreateAnimation("BuySellBtn_Buy_Click.png", "Click", 0, 0, 0.1f, false);
-			//BuyButtonRenderer_->GetTransform()->SetLocalScaling(float4(32.f, 32.f));
-			//BuyButtonRenderer_->GetTransform()->SetLocalPosition(float4());
-			//BuyButtonRenderer_->SetChangeAnimation("Default");
+			// 구매버튼 렌더러 (UI1_Button)
+			BuyButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
+			BuyButtonRenderer_->CreateAnimation("BuySellBtn_Buy_Default.png", "Default", 0, 0, 0.1f, false);
+			BuyButtonRenderer_->CreateAnimation("BuySellBtn_Buy_Click.png", "Click", 0, 0, 0.1f, false);
+			BuyButtonRenderer_->GetTransform()->SetLocalScaling(float4(32.f, 32.f));
+			BuyButtonRenderer_->GetTransform()->SetLocalPosition(float4(-188.f, -162.f));
+			BuyButtonRenderer_->SetChangeAnimation("Default");
 
-			//// 구매버튼 충돌체(UI1_Collider)
-			//BuyButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
-			//BuyButtonCollider_->GetTransform()->SetLocalPosition(BuyButtonRenderer_->GetTransform()->GetLocalPosition());
-			//BuyButtonCollider_->GetTransform()->SetLocalScaling(BuyButtonRenderer_->GetTransform()->GetLocalScaling());
+			// 구매버튼 충돌체(UI1_Collider)
+			BuyButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+			BuyButtonCollider_->GetTransform()->SetLocalPosition(BuyButtonRenderer_->GetTransform()->GetLocalPosition());
+			BuyButtonCollider_->GetTransform()->SetLocalScaling(BuyButtonRenderer_->GetTransform()->GetLocalScaling());
 
-			//// 판매버튼 렌더러 (UI1_Button)
-			//SellButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
-			//SellButtonRenderer_->CreateAnimation("BuySellBtn_Sell_Default.png", "Default", 0, 0, 0.1f, false);
-			//SellButtonRenderer_->CreateAnimation("BuySellBtn_Sell_Click.png", "Click", 0, 0, 0.1f, false);
-			//SellButtonRenderer_->GetTransform()->SetLocalScaling(float4(32.f, 32.f));
-			//SellButtonRenderer_->GetTransform()->SetLocalPosition(float4());
-			//SellButtonRenderer_->SetChangeAnimation("Default");
+			// 판매버튼 렌더러 (UI1_Button)
+			SellButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
+			SellButtonRenderer_->CreateAnimation("BuySellBtn_Sell_Default.png", "Default", 0, 0, 0.1f, false);
+			SellButtonRenderer_->CreateAnimation("BuySellBtn_Sell_Click.png", "Click", 0, 0, 0.1f, false);
+			SellButtonRenderer_->GetTransform()->SetLocalScaling(float4(32.f, 32.f));
+			SellButtonRenderer_->GetTransform()->SetLocalPosition(float4(-136.f, -162.f));
+			SellButtonRenderer_->SetChangeAnimation("Default");
 
-			//// 판매버튼 충돌체(UI1_Collider)
-			//SellButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
-			//SellButtonCollider_->GetTransform()->SetLocalPosition(SellButtonRenderer_->GetTransform()->GetLocalPosition());
-			//SellButtonCollider_->GetTransform()->SetLocalScaling(SellButtonRenderer_->GetTransform()->GetLocalScaling());
+			// 판매버튼 충돌체(UI1_Collider)
+			SellButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+			SellButtonCollider_->GetTransform()->SetLocalPosition(SellButtonRenderer_->GetTransform()->GetLocalPosition());
+			SellButtonCollider_->GetTransform()->SetLocalScaling(SellButtonRenderer_->GetTransform()->GetLocalScaling());
 
-			//// 수리버튼 렌더러(UI1_Button)
-			//RepairButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
-			//RepairButtonRenderer_->CreateAnimation("BuySellBtn_Repair_Default.png", "Default", 0, 0, 0.1f, false);
-			//RepairButtonRenderer_->CreateAnimation("BuySellBtn_Repair_Click.png", "Click", 0, 0, 0.1f, false);
-			//RepairButtonRenderer_->GetTransform()->SetLocalScaling(float4(32.f, 32.f));
-			//RepairButtonRenderer_->GetTransform()->SetLocalPosition(float4());
-			//RepairButtonRenderer_->SetChangeAnimation("Default");
+			// 전부수리버튼 렌더러(UI1_Button)
+			AllRepairButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
+			AllRepairButtonRenderer_->CreateAnimation("BuySellBtn_AllRepair_Default.png", "Default", 0, 0, 0.1f, false);
+			AllRepairButtonRenderer_->CreateAnimation("BuySellBtn_AllRepair_Click.png", "Click", 0, 0, 0.1f, false);
+			AllRepairButtonRenderer_->GetTransform()->SetLocalScaling(float4(32.f, 32.f));
+			AllRepairButtonRenderer_->GetTransform()->SetLocalPosition(float4(-84.f, -162.f));
+			AllRepairButtonRenderer_->SetChangeAnimation("Default");
 
-			//// 수리버튼 충돌체(UI1_Collider)
-			//RepairButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
-			//RepairButtonCollider_->GetTransform()->SetLocalPosition(RepairButtonRenderer_->GetTransform()->GetLocalPosition());
-			//RepairButtonCollider_->GetTransform()->SetLocalScaling(RepairButtonRenderer_->GetTransform()->GetLocalScaling());
+			// 전부수리버튼 충돌체(UI1_Collider)
+			AllRepairButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+			AllRepairButtonCollider_->GetTransform()->SetLocalPosition(AllRepairButtonRenderer_->GetTransform()->GetLocalPosition());
+			AllRepairButtonCollider_->GetTransform()->SetLocalScaling(AllRepairButtonRenderer_->GetTransform()->GetLocalScaling());
 
-			//// 전부수리버튼 렌더러(UI1_Button)
-			//AllRepairButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
-			//AllRepairButtonRenderer_->CreateAnimation("BuySellBtn_AllRepair_Default.png", "Default", 0, 0, 0.1f, false);
-			//AllRepairButtonRenderer_->CreateAnimation("BuySellBtn_AllRepair_Click.png", "Click", 0, 0, 0.1f, false);
-			//AllRepairButtonRenderer_->GetTransform()->SetLocalScaling(float4(32.f, 32.f));
-			//AllRepairButtonRenderer_->GetTransform()->SetLocalPosition(float4());
-			//AllRepairButtonRenderer_->SetChangeAnimation("Default");
+			// 창닫기버튼 렌더러(UI1_Button)
+			CloseButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
+			CloseButtonRenderer_->CreateAnimation("CloseButton_Default.png", "Default", 0, 0, 0.1f, false);
+			CloseButtonRenderer_->CreateAnimation("CloseButton_Click.png", "Click", 0, 0, 0.1f, false);
+			CloseButtonRenderer_->GetTransform()->SetLocalScaling(float4(32.f, 32.f));
+			CloseButtonRenderer_->GetTransform()->SetLocalPosition(float4(-32.f, -162.f));
+			CloseButtonRenderer_->SetChangeAnimation("Default");
 
-			//// 전부수리버튼 충돌체(UI1_Collider)
-			//AllRepairButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
-			//AllRepairButtonCollider_->GetTransform()->SetLocalPosition(AllRepairButtonRenderer_->GetTransform()->GetLocalPosition());
-			//AllRepairButtonCollider_->GetTransform()->SetLocalScaling(AllRepairButtonRenderer_->GetTransform()->GetLocalScaling());
+			// 창닫기버튼 충돌체(UI1_Collider)
+			CloseButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+			CloseButtonCollider_->GetTransform()->SetLocalPosition(CloseButtonRenderer_->GetTransform()->GetLocalPosition());
+			CloseButtonCollider_->GetTransform()->SetLocalScaling(CloseButtonRenderer_->GetTransform()->GetLocalScaling());
 			#pragma endregion
 			break;
 		}
 	}
 
 	// 판매창의 배치타일 충돌체 생성
-	// ArrangeTiles_의 위치/크기정보 Get 필요
-	
-	//ArrangeTileCols_.clear();
-	//ArrangeTileCols_.resize(10 * 10);
-	//for (int y = 0; y < 10; ++y)
-	//{
-	//	for (int x = 0; x < 10; ++x)
-	//	{
-	//		float4 StartPos = float4();
-
-	//		int Index = (y * 10) + x;
-	//		ArrangeTileCols_[Index] = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
-	//		ArrangeTileCols_[Index]->GetTransform()->SetLocalPosition(float4());
-	//		ArrangeTileCols_[Index]->GetTransform()->SetLocalScaling(float4(28.f, 28.f));
-	//	}
-	//}
+	ArrangeTileCols_.clear();
+	ArrangeTileCols_.resize(10 * 10);
+	for (int y = 0; y < 10; ++y)
+	{
+		for (int x = 0; x < 10; ++x)
+		{
+			int Index = (y * 10) + x;
+			float4 ArrColPos = BuySellViewTabs_[CurTabIndex].ArrangeTiles_[Index].TileRenderer_->GetTransform()->GetLocalPosition();
+			ArrangeTileCols_[Index] = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+			ArrangeTileCols_[Index]->GetTransform()->SetLocalPosition(ArrColPos);
+			ArrangeTileCols_[Index]->GetTransform()->SetLocalScaling(float4(28.f, 28.f));
+		}
+	}
 }
 
 void NPC_BuySellView::NPCBuySellViewActive()
 {
-	//On();
+	On();
+
+	// 현재탭에 속한 Renderer, Collider 활성화
+	int ArrangeTileCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].ArrangeTiles_.size());
+	for (int i = 0; i < ArrangeTileCnt; ++i)
+	{
+		BuySellViewTabs_[CurTabIndex].ArrangeTiles_[i].TileRenderer_->On();
+	}
 
 	// 판매창 활성화시 플레이어의 인벤토리창도 활성화되며,
 	
@@ -628,7 +674,14 @@ void NPC_BuySellView::NPCBuySellViewActive()
 
 void NPC_BuySellView::NPCBuySellViewInactive()
 {
-	//Off();
+	Off();
+
+	// 현재탭에 속한 Renderer, Collider 비활성화
+	int ArrangeTileCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].ArrangeTiles_.size());
+	for (int i = 0; i < ArrangeTileCnt; ++i)
+	{
+		BuySellViewTabs_[CurTabIndex].ArrangeTiles_[i].TileRenderer_->Off();
+	}
 
 	// 판매창 비활성화시 플레이어의 인벤토리창도 비활성화되며,
 	
@@ -648,15 +701,34 @@ void NPC_BuySellView::NPCBuySellViewInactive()
 
 void NPC_BuySellView::SelectTabClick(GameEngineCollision* _Other, int _Index)
 {
-	// 현재 선택한 탭인덱스 변경
-	CurTabIndex = _Index;
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		// 현재 인덱스를 이용하여 처리
+		BuySellViewTabs_[CurTabIndex].TabRenderer_->SetChangeAnimation("TabDeselect");
+		BuySellViewTabs_[CurTabIndex].TabRenderer_->SetTextColor(float4::WHITE);
 
-	// 현재 탭인덱스에 따른 활성화처리
+		// 현재 탭인덱스에 따른 비활성화 처리
+		int ArrangeTileCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].ArrangeTiles_.size());
+		for (int i = 0; i < ArrangeTileCnt; ++i)
+		{
+			BuySellViewTabs_[CurTabIndex].ArrangeTiles_[i].TileRenderer_->Off();
+		}
+
+
+		// 변경된 현재 탭인덱스
+		CurTabIndex = _Index;
+		BuySellViewTabs_[CurTabIndex].TabRenderer_->SetChangeAnimation("TabSelect");
+		BuySellViewTabs_[CurTabIndex].TabRenderer_->SetTextColor(float4(0.8f, 0.8f, 0.4f));
+
+		// 현재 탭인덱스에 따른 활성화처리
+		for (int i = 0; i < ArrangeTileCnt; ++i)
+		{
+			BuySellViewTabs_[CurTabIndex].ArrangeTiles_[i].TileRenderer_->On();
+		}
 
 
 
-
-
+	}
 }
 
 void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)

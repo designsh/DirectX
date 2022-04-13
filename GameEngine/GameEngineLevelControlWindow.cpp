@@ -4,6 +4,7 @@
 #include "GameEngineLevel.h"
 #include <GameEngineBase\GameEngineTime.h>
 #include "GameEngineActor.h"
+#include "GameEngineInput.h"
 
 GameEngineLevelControlWindow::GameEngineLevelControlWindow()
 {
@@ -25,6 +26,9 @@ void GameEngineLevelControlWindow::OnGUI()
 		Acc = 1.0f;
 	}
 	ImGui::Text(FrameText.c_str());
+
+	ImGui::Text("<<< Mouse Pos >>>");
+	ImGui::Text(GameEngineInput::GetInst().GetMouse3DPos().ToString().c_str());
 
 	int Count = static_cast<int>(GameEngineCore::AllLevel_.size());
 	int SameLineIndex = 0;

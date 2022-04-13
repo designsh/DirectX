@@ -166,3 +166,8 @@ void GameEngineUIRenderer::SetPrintText(const std::string& _PrintText)
 {
 	PrintText_ = _PrintText;
 }
+
+void GameEngineUIRenderer::SetTextColor(const float4& _Color)
+{
+	Color_ = _Color;
+}
