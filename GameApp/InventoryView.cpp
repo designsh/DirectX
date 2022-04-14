@@ -14,6 +14,11 @@
 #include "MouseObject.h"
 #include "MainPlayer.h"
 
+#include "WeaponNPC.h"
+#include "ChandleryNPC.h"
+#include "NPC_TopMenuBar.h"
+#include "NPC_BuySellView.h"
+
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_MiniMenuButton.h"
@@ -55,13 +60,34 @@ void InventoryView::EquipTileBoxClick(GameEngineCollision* _Other, int _Index)
 		InvTabType_ = InvTabType::EQUIP;
 
 		// 현재 마우스의 커서상태 체크
+		
 		if (MouseState::Sell == GlobalValue::CurMouse->GetMouseState()) // 마우스 판매커서상태
 		{
-
+			// 해당 타일이 아이템을 들고있을때 처리가능
+			if (true == InvEquipInfo_[_Index]->GetIsItemArrangeFlag())
+			{
+				// 판매커서 활성화 상태일때 장착탭에 아이템이 존재한다면 현재 상호작용중인 NPC의 판매창에 해당 아이템 판매
+				// 1. 현재 활성화된 판매창이 어떤타입의 판매창인지 알아낸다.
+				// 2. 해당 판매창과 거래를 시도(거래조건 체크)
+				// 3. 거래완료시 처리
+				if (nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate()) // 무기판매창 활성화일때
+				{
+					ItemSellProcess(_Index, InvTabType_, NPCType::WeaponShop);
+				}
+				else if (nullptr != GlobalValue::ChandleryNPC && true == GlobalValue::ChandleryNPC->GetChandleryShop()->IsUpdate()) // 잡화판매창 활성화일때
+				{
+					ItemSellProcess(_Index, InvTabType_, NPCType::PotionShop);
+				}
+			}
 		}
 		else if (MouseState::Repair == GlobalValue::CurMouse->GetMouseState()) // 마우스 수리커서상태
 		{
-
+			// 해당 타일이 아이템을 들고있고 현재 활성화되어있는 판매창이 무기상인의 판매창일때
+			if (true == InvEquipInfo_[_Index]->GetIsItemArrangeFlag() &&
+				(nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate()))
+			{
+				ItemRepairProcess(_Index, InvTabType_);
+			}
 		}
 		else if (MouseState::Stay == GlobalValue::CurMouse->GetMouseState() || MouseState::Move == GlobalValue::CurMouse->GetMouseState()) // 마우스 기본커서상태
 		{
@@ -94,11 +120,31 @@ void InventoryView::StoreTileBoxClick(GameEngineCollision* _Other, int _Index)
 		// 현재 마우스의 커서상태 체크
 		if (MouseState::Sell == GlobalValue::CurMouse->GetMouseState()) // 마우스 판매커서상태
 		{
-
+			// 해당 타일이 아이템을 들고있을때 거래가능
+			if (true == InvStoreInfo_[_Index]->GetIsItemArrangeFlag())
+			{
+				// 판매커서 활성화 상태일때 보관탭에 아이템이 존재한다면 현재 상호작용중인 NPC의 판매창에 해당 아이템 판매
+				// 1. 현재 활성화된 판매창이 어떤타입의 판매창인지 알아낸다.
+				// 2. 해당 판매창과 거래를 시도(거래조건 체크)
+				// 3. 거래완료시 처리
+				if (nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate()) // 무기판매창 활성화일때
+				{
+					ItemSellProcess(_Index, InvTabType_, NPCType::WeaponShop);
+				}
+				else if (nullptr != GlobalValue::ChandleryNPC && true == GlobalValue::ChandleryNPC->GetChandleryShop()->IsUpdate()) // 잡화판매창 활성화일때
+				{
+					ItemSellProcess(_Index, InvTabType_, NPCType::PotionShop);
+				}
+			}
 		}
 		else if (MouseState::Repair == GlobalValue::CurMouse->GetMouseState()) // 마우스 수리커서상태
 		{
-
+			// 해당 타일이 아이템을 들고있고 현재 활성화되어있는 판매창이 무기상인의 판매창일때
+			if (true == InvStoreInfo_[_Index]->GetIsItemArrangeFlag() && 
+				(nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate()))
+			{
+				ItemRepairProcess(_Index, InvTabType_);
+			}
 		}
 		else if (MouseState::Stay == GlobalValue::CurMouse->GetMouseState() || MouseState::Move == GlobalValue::CurMouse->GetMouseState()) // 마우스 기본커서상태
 		{
@@ -1558,6 +1604,33 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 			}
 		}
 	}
+}
+
+void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCType _BuySellType)
+{
+	// 판매처리
+	switch (_BuySellType)
+	{
+		case NPCType::PotionShop:
+		{
+
+			break;
+		}
+		case NPCType::WeaponShop:
+		{
+
+			break;
+		}
+	}
+}
+
+void InventoryView::ItemRepairProcess(int _TileIndex, InvTabType _InvTabType)
+{
+	// 무기상인의 판매창과만 처리가능(수리처리)
+
+
+
+
 }
 
 void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& _ItemName, bool _OnAndOff)

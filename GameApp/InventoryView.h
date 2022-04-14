@@ -3,6 +3,7 @@
 
 #include "GlobalEnumClass.h"
 #include "MainPlayerInfomation.h"
+#include "AllNPCInfomation.h"
 
 enum class InvTabType
 {
@@ -84,6 +85,10 @@ public: // 인벤창 초기셋팅
 public: // 인벤창 마우스와 연동하여 아이템 배치/해제
 	void ItemArrangementOn(int _TileIndex, InvTabType _InvTabType);
 	void ItemArrangementOff(int _TileIndex, InvTabType _InvTabType);
+
+public: // 인벤창과 판매창, 마우스가 연동하여 특수기능 수행
+	void ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCType _BuySellType);
+	void ItemRepairProcess(int _TileIndex, InvTabType _InvTabType);
 
 public: // 인벤창 상단 장착탭의 무기 장착상태에 따라 플레이어 상태 변경
 	void EquipItemCheck(ItemLocType _ItemLocType, const std::string& _ItemName, bool _OnAndOff);
