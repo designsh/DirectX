@@ -990,11 +990,19 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 				//NewItem.StartIndex = 0;
 
 				//// 해당 아이템 크기에 따라 차지하는 배치타일 인덱스 목록 작성
+				//NewItem.ArrangeIndexs_.resize(3 * 3);
+				//for (int y = 0; y < 3; ++y)
+				//{
+				//	for (int x = 0; x < 3; ++x)
+				//	{
+
+				//	}
+				//}
 
 				//ItemList NewItemInfo = {};
 				//AllItemInfomation::GetInst().ItemInfoFindInvName("invcrs", NewItemInfo);
 				//NewItem.ItemInfo_ = NewItemInfo;
-				//NewItem.ItemRemainsQuantity_ = 999;
+				//NewItem.ItemRemainsQuantity_ = 1; // 장착아이템은 수량 1개
 				//NewItem.RenderPos_ = float4(BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TilePos_);
 				//NewItem.ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Render));
 				//NewItem.ItemRenderer_->SetImage("invcrs.png");
@@ -1054,7 +1062,7 @@ std::string NPC_BuySellView::FindWeaponItem(int _ArrangeIndex)
 		int ItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
 		for (int i = 0; i < ItemCnt; ++i)
 		{
-			int ArrangeIndexCnt = BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ArrangeIndexs_.size();
+			int ArrangeIndexCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ArrangeIndexs_.size());
 			for (int j = 0; j < ArrangeIndexCnt; ++j)
 			{
 				// 배치한 인덱스목록을 모두 뒤져서 해당 클릭한 타일의 인덱스를 찾는다.
