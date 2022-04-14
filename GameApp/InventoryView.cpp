@@ -54,20 +54,32 @@ void InventoryView::EquipTileBoxClick(GameEngineCollision* _Other, int _Index)
 	{
 		InvTabType_ = InvTabType::EQUIP;
 
-		// 해당 타일이 아이템을 가지고있고, 마우스가 아이템을 들고있지않다면
-		if (true == InvEquipInfo_[_Index]->GetIsItemArrangeFlag() && false == GlobalValue::CurMouse->IsItemHold())
+		// 현재 마우스의 커서상태 체크
+		if (MouseState::Sell == GlobalValue::CurMouse->GetMouseState()) // 마우스 판매커서상태
 		{
-			ItemArrangementOff(_Index, InvTabType_);
-		}
-		// 해당 타일이 아이템을 가지고있지않고, 마우스가 아이템을 들고있다면
-		else if (false == InvEquipInfo_[_Index]->GetIsItemArrangeFlag() && true == GlobalValue::CurMouse->IsItemHold())
-		{
-			ItemArrangementOn(_Index, InvTabType_);
-		}
-		else
-		{
-			// 두 조건에 만족하지 않다면 사운드 재생
 
+		}
+		else if (MouseState::Repair == GlobalValue::CurMouse->GetMouseState()) // 마우스 수리커서상태
+		{
+
+		}
+		else if (MouseState::Stay == GlobalValue::CurMouse->GetMouseState() || MouseState::Move == GlobalValue::CurMouse->GetMouseState()) // 마우스 기본커서상태
+		{
+			// 해당 타일이 아이템을 가지고있고, 마우스가 아이템을 들고있지않다면
+			if (true == InvEquipInfo_[_Index]->GetIsItemArrangeFlag() && false == GlobalValue::CurMouse->IsItemHold())
+			{
+				ItemArrangementOff(_Index, InvTabType_);
+			}
+			// 해당 타일이 아이템을 가지고있지않고, 마우스가 아이템을 들고있다면
+			else if (false == InvEquipInfo_[_Index]->GetIsItemArrangeFlag() && true == GlobalValue::CurMouse->IsItemHold())
+			{
+				ItemArrangementOn(_Index, InvTabType_);
+			}
+			else
+			{
+				// 두 조건에 만족하지 않다면 사운드 재생
+
+			}
 		}
 	}
 }
@@ -79,20 +91,32 @@ void InventoryView::StoreTileBoxClick(GameEngineCollision* _Other, int _Index)
 	{
 		InvTabType_ = InvTabType::NORMAL;
 
-		// 해당 타일이 아이템을 가지고있고, 마우스가 아이템을 들고있지않다면
-		if (true == InvStoreInfo_[_Index]->GetIsItemArrangeFlag() && false == GlobalValue::CurMouse->IsItemHold())
+		// 현재 마우스의 커서상태 체크
+		if (MouseState::Sell == GlobalValue::CurMouse->GetMouseState()) // 마우스 판매커서상태
 		{
-			ItemArrangementOff(_Index, InvTabType_);
-		}
-		// 해당 타일이 아이템을 가지고있지않고, 마우스가 아이템을 들고있다면
-		else if (false == InvStoreInfo_[_Index]->GetIsItemArrangeFlag() && true == GlobalValue::CurMouse->IsItemHold())
-		{
-			ItemArrangementOn(_Index, InvTabType_);
-		}
-		else
-		{
-			// 두 조건에 만족하지 않다면 사운드 재생
 
+		}
+		else if (MouseState::Repair == GlobalValue::CurMouse->GetMouseState()) // 마우스 수리커서상태
+		{
+
+		}
+		else if (MouseState::Stay == GlobalValue::CurMouse->GetMouseState() || MouseState::Move == GlobalValue::CurMouse->GetMouseState()) // 마우스 기본커서상태
+		{
+			// 해당 타일이 아이템을 가지고있고, 마우스가 아이템을 들고있지않다면
+			if (true == InvStoreInfo_[_Index]->GetIsItemArrangeFlag() && false == GlobalValue::CurMouse->IsItemHold())
+			{
+				ItemArrangementOff(_Index, InvTabType_);
+			}
+			// 해당 타일이 아이템을 가지고있지않고, 마우스가 아이템을 들고있다면
+			else if (false == InvStoreInfo_[_Index]->GetIsItemArrangeFlag() && true == GlobalValue::CurMouse->IsItemHold())
+			{
+				ItemArrangementOn(_Index, InvTabType_);
+			}
+			else
+			{
+				// 두 조건에 만족하지 않다면 사운드 재생
+
+			}
 		}
 	}
 }
