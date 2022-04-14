@@ -983,11 +983,23 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 		case NPCType::WeaponShop:
 		{
 			// ¹«±âÅÇ
+			if (0 == _TabIndex)
+			{
 
 
+
+
+
+			}
 			// ¹æ¾î±¸ÅÇ
+			else if (1 == _TabIndex)
+			{
 
 
+
+
+
+			}
 			break;
 		}
 	}
