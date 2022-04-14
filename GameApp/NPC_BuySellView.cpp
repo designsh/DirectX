@@ -937,12 +937,14 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 				// 플레이어 인벤토리창의 아이템을 클릭시 해당 아이템 판매 및 NPC 판매창 빈칸에 배치, 아이템가격만큼 NPC보유골드 감소
 				// 빈칸이 없다면 실패
 
+
 				int a = 0;
 			}
 			else if (MouseState::Repair == GlobalValue::CurMouse->GetMouseState())
 			{
 				// 플레이어가 가지고있는 아이템에만 적용 가능
 				// 플레이어 인벤토리창의 아이템을 클릭시 해당 아이템이 내구도가 존재할때 수리, 수리비용만큼 NPC보유골드 증가
+
 
 				int a = 0;
 			}
