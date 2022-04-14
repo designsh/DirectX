@@ -965,7 +965,6 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 				std::string TextureName = ItemNameList[i];
 				TextureName += ".png";
 				NewItem.ItemRenderer_->SetImage(TextureName);
-				///NewItem.ItemRenderer_->GetTransform()->SetLocalScaling(BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TileScale_);
 				NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(NewItem.RenderPos_);
 				NewItem.ItemRenderer_->Off();
 
@@ -985,6 +984,30 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 			// 무기탭
 			if (0 == _TabIndex)
 			{
+				//// crs 크리스탈소드
+				//HaveItem NewItem = {};
+				//NewItem.OneSize_ = false;
+				//NewItem.StartIndex = 0;
+
+				//// 해당 아이템 크기에 따라 차지하는 배치타일 인덱스 목록 작성
+
+				//ItemList NewItemInfo = {};
+				//AllItemInfomation::GetInst().ItemInfoFindInvName("invcrs", NewItemInfo);
+				//NewItem.ItemInfo_ = NewItemInfo;
+				//NewItem.ItemRemainsQuantity_ = 999;
+				//NewItem.RenderPos_ = float4(BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TilePos_);
+				//NewItem.ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Render));
+				//NewItem.ItemRenderer_->SetImage("invcrs.png");
+				//NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(NewItem.RenderPos_);
+				//NewItem.ItemRenderer_->Off();
+
+				//// 아이템 배치 관련 갱신
+				//BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TileRenderer_->SetAlpha(0.5f);
+				//BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].ItemArrangementFlag_ = true;
+
+				//// 관리목록에 추가
+				//BuySellViewTabs_[_TabIndex].HaveItemList_.push_back(NewItem);
+
 
 
 
@@ -994,7 +1017,7 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 			// 방어구탭
 			else if (1 == _TabIndex)
 			{
-
+				// bhm(투구 2x2), bsh(방패 3x3), chn(갑옷 3x3), hbt(부츠 2x2), tbl(벨트 1x3), tgl(장갑 2x2)
 
 
 
@@ -1007,11 +1030,42 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 
 std::string NPC_BuySellView::FindChandleryItem(int _ArrangeIndex)
 {
+	// 잡화상점일때만 적용가능
+	if (NPCType::PotionShop == BuySellViewType_)
+	{
+		int ItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+		for (int i = 0; i < ItemCnt; ++i)
+		{
+			if (_ArrangeIndex == BuySellViewTabs_[CurTabIndex].HaveItemList_[i].StartIndex)
+			{
+				return BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemInfo_.ItemName_abbreviation_Inven;
+			}
+		}
+	}
+
 	return std::string();
 }
 
 std::string NPC_BuySellView::FindWeaponItem(int _ArrangeIndex)
 {
+	// 무기상점일때만 적용가능
+	if (NPCType::WeaponShop == BuySellViewType_)
+	{
+		int ItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+		for (int i = 0; i < ItemCnt; ++i)
+		{
+			int ArrangeIndexCnt = BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ArrangeIndexs_.size();
+			for (int j = 0; j < ArrangeIndexCnt; ++j)
+			{
+				// 배치한 인덱스목록을 모두 뒤져서 해당 클릭한 타일의 인덱스를 찾는다.
+				if (_ArrangeIndex == BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ArrangeIndexs_[j])
+				{
+					return BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemInfo_.ItemName_abbreviation_Inven;
+				}
+			}
+		}
+	}
+
 	return std::string();
 }
 
