@@ -134,6 +134,8 @@ public: // 판매창 배치타일과 충돌처리
 
 public: // 상점타입별 아이템목록생성
 	void CreateItemList(int _TabIndex);
+	std::string FindChandleryItem(int _ArrangeIndex);
+	std::string FindWeaponItem(int _ArrangeIndex);
 
 public: // 보유골드 증가/감소
 	void AddHaveGold(int _Gold);

@@ -554,7 +554,7 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 
 			// 탭정보 생성
 			BuySellViewTabs_.clear();
-			BuySellViewTabs_.resize(2);
+			BuySellViewTabs_.resize(1);
 			for (int i = 0; i < 1; ++i)
 			{
 				BuySellViewTabs_[i].TabIndex_ = i;
@@ -873,8 +873,63 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 		// 해당 배치타일에 아이템이 있다면
 		if (true == BuySellViewTabs_[CurTabIndex].ArrangeTiles_[_Index].ItemArrangementFlag_)
 		{
-			// 아이템목록에서 해당 아이템 찾기
+			// 아이템 커서 상태에 따른 처리
+			if (MouseState::Buy == GlobalValue::CurMouse->GetMouseState())
+			{
+				// 판매창이 가지고있는 아이템에만 적용 가능
+				// 판매창의 아이템을 클릭시 해당 아이템 구매 및 플레이어 인벤토리 빈칸에 배치, 아이템가격만큼 NPC보유골드 증가
+				// 빈칸이 없다면 실패
 
+				
+			}
+			else if (MouseState::Sell == GlobalValue::CurMouse->GetMouseState())
+			{
+				// 플레이어가 가지고있는 아이템에만 적용 가능
+				// 플레이어 인벤토리창의 아이템을 클릭시 해당 아이템 판매 및 NPC 판매창 빈칸에 배치, 아이템가격만큼 NPC보유골드 감소
+				// 빈칸이 없다면 실패
+
+
+			}
+			else if (MouseState::Repair == GlobalValue::CurMouse->GetMouseState())
+			{
+				// 플레이어가 가지고있는 아이템에만 적용 가능
+				// 플레이어 인벤토리창의 아이템을 클릭시 해당 아이템이 내구도가 존재할때 수리, 수리비용만큼 NPC보유골드 증가
+
+
+			}
+			else // 일반커서 상태 일때
+			{
+				// 아이템목록에서 해당 아이템 찾기
+				switch (BuySellViewType_)
+				{
+					// 물약상점
+					case NPCType::PotionShop:
+					{
+						std::string ItemName = FindChandleryItem(_Index);
+
+						// 마우스에 전달
+
+
+						// 해당 아이템의 갯수체크하여 남은수량이 0이면 아이템 목록에서 제거
+
+
+						break;
+					}
+					// 무기상점
+					case NPCType::WeaponShop:
+					{
+						std::string ItemName = FindWeaponItem(_Index);
+
+						// 마우스에 전달
+
+
+						// 해당 아이템의 갯수체크하여 남은수량이 0이면 아이템 목록에서 제거
+
+
+						break;
+					}
+				}
+			}
 		}
 	}
 }
@@ -913,7 +968,12 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 				///NewItem.ItemRenderer_->GetTransform()->SetLocalScaling(BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TileScale_);
 				NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(NewItem.RenderPos_);
 				NewItem.ItemRenderer_->Off();
+
+				// 아이템 배치 관련 갱신
 				BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TileRenderer_->SetAlpha(0.5f);
+				BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].ItemArrangementFlag_ = true;
+
+				// 관리목록에 추가
 				BuySellViewTabs_[_TabIndex].HaveItemList_.push_back(NewItem);
 			}
 
@@ -931,6 +991,16 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 			break;
 		}
 	}
+}
+
+std::string NPC_BuySellView::FindChandleryItem(int _ArrangeIndex)
+{
+	return std::string();
+}
+
+std::string NPC_BuySellView::FindWeaponItem(int _ArrangeIndex)
+{
+	return std::string();
 }
 
 void NPC_BuySellView::AddHaveGold(int _Gold)
