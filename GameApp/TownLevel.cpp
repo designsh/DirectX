@@ -5,6 +5,7 @@
 #include "MouseObject.h"
 
 #include "WeaponNPC.h"
+#include "ChandleryNPC.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -18,7 +19,8 @@
 TownLevel::TownLevel() :
 	MainPlayer_(nullptr),
 	MainMouse_(nullptr),
-	WeaponNPC_(nullptr)
+	WeaponNPC_(nullptr),
+	ChandleryNPC_(nullptr)
 {
 }
 
@@ -80,14 +82,19 @@ void TownLevel::LevelStart()
 	WeaponNPC_ = CreateActor<WeaponNPC>();
 	WeaponNPC_->GetTransform()->SetLocalPosition(float4(100.f, 100.f, 10.f));
 	WeaponNPC_->SetMoveRange();
-	WeaponNPC_->SetMessageBoxText("Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); // 임시
+	WeaponNPC_->SetMessageBoxText("Charsi Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); // 임시
 	WeaponNPC_->SetUIPosition();
 	WeaponNPC_->SetTopMenu();
 	GlobalValue::WeaponNPC = WeaponNPC_;
 
 	// NPC 생성(잡화상인)
-
-
+	ChandleryNPC_ = CreateActor<ChandleryNPC>();
+	ChandleryNPC_->GetTransform()->SetLocalPosition(float4(-100.f, 100.f, 10.f));
+	ChandleryNPC_->SetMoveRange();
+	ChandleryNPC_->SetMessageBoxText("Akara Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); // 임시
+	ChandleryNPC_->SetUIPosition();
+	ChandleryNPC_->SetTopMenu();
+	GlobalValue::ChandleryNPC = ChandleryNPC_;
 
 	// 창고오브젝트
 

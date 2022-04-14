@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+#include "GlobalEnumClass.h"
 #include "AllNPCInfomation.h"
 
 // 분류 : 
@@ -27,6 +28,10 @@ private:
 	GameEngineUIRenderer* CloseMenuRenderer_;
 	GameEngineCollision* CloseMenuCol_;
 
+private:
+	Button_State ConversationMenuBtnState_;
+	Button_State BuySellMenuBtnState_;
+	Button_State CloseMenuBtnState_;
 private:
 	NPCClassType NPCClassType_;
 	NPCType NPCType_;
@@ -56,9 +61,18 @@ private:
 	void SelectCloseMenu(GameEngineCollision* _Other);
 
 public:
+	inline NPC_BuySellView* GetBuySellView()
+	{
+		return BuySellView_;
+	}
+
+public:
 	void CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCType);
 
 public: // 메뉴 활성화 및 위치재조정
 	void NPCTopMenuActive();
+
+public:
+	void MenuButtonStateReset();
 };
 

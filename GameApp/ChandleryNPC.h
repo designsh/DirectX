@@ -2,7 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
-enum class WeaponNPC_MoveDir
+enum class ChandleryNPC_MoveDir
 {
 	DIR_B,
 	DIR_LB,
@@ -15,13 +15,14 @@ enum class WeaponNPC_MoveDir
 	MAX
 };
 
-enum class WeaponNPC_FSMState
+enum class ChandleryNPC_FSMState
 {
 	ST_IDLE,	// 대기상태
 	ST_WALK,	// 걷기상태
 	ST_CONV,	// 플레이어와 상호작용대기 상태
 	ST_INTER,	// 플레이어와 상호작용중 상태
 };
+
 
 // 분류 : 
 // 용도 : 
@@ -31,7 +32,7 @@ class GameEngineCollision;
 class NPC_TopMenuBar;
 class NPC_MessageView;
 class NPC_BuySellView;
-class WeaponNPC : public GameEngineActor
+class ChandleryNPC : public GameEngineActor
 {
 private:
 	static bool FirstInteraction;
@@ -41,17 +42,17 @@ public:
 	static bool GetFirstInteaction();
 
 private:	// member Var
-	GameEngineImageRenderer* WeaponNPCRenderer_;
-	GameEngineCollision* WeaponNPCCollision_;
+	GameEngineImageRenderer* ChandleryNPCRenderer_;
+	GameEngineCollision* ChandleryNPCCollision_;
 
 private:
-	WeaponNPC_MoveDir PrevMoveDir_;
-	WeaponNPC_MoveDir CurMoveDir_;
+	ChandleryNPC_MoveDir PrevMoveDir_;
+	ChandleryNPC_MoveDir CurMoveDir_;
 
 private: // FSM
 	GameEngineFSM State_;
-	WeaponNPC_FSMState PrevState_;
-	WeaponNPC_FSMState CurState_;
+	ChandleryNPC_FSMState PrevState_;
+	ChandleryNPC_FSMState CurState_;
 
 private: // 자동화용
 	float MoveDelayTime_;		// 이동딜레이시간
@@ -67,19 +68,19 @@ private: // UI관련
 	NPC_TopMenuBar* TopMenuBar_;
 
 public:
-	WeaponNPC();
-	~WeaponNPC();
+	ChandleryNPC();
+	~ChandleryNPC();
 
 protected:		// delete constructer
-	WeaponNPC(const WeaponNPC& _other) = delete;
-	WeaponNPC(WeaponNPC&& _other) noexcept = delete;
+	ChandleryNPC(const ChandleryNPC& _other) = delete;
+	ChandleryNPC(ChandleryNPC&& _other) noexcept = delete;
 
 private:		//delete operator
-	WeaponNPC& operator=(const WeaponNPC& _other) = delete;
-	WeaponNPC& operator=(const WeaponNPC&& _other) = delete;
+	ChandleryNPC& operator=(const ChandleryNPC& _other) = delete;
+	ChandleryNPC& operator=(const ChandleryNPC&& _other) = delete;
 
 private:
-	void InitWeaponNPC();
+	void InitChandleryNPC();
 	void TextureCutting();
 	void CreateAnimation();
 	void CreateFSMState();
@@ -111,7 +112,7 @@ private:
 
 private:
 	void MouseLButtonClick(GameEngineCollision* _Other);
-	
+
 private:
 	void InteractionDistanceCheck();
 
@@ -120,7 +121,7 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
-	NPC_BuySellView* GetWeaponShop();
+	NPC_BuySellView* GetChandleryShop();
 
 public:
 	void SetMoveRange();

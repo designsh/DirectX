@@ -25,6 +25,6 @@ public: // 스킬버튼관련(스킬목록생성시 지정됨)
 
 public: // NPC 관련
 	static WeaponNPC* WeaponNPC;
-	//static ChandleryNPC* ChandleryNPC;
+	static ChandleryNPC* ChandleryNPC;
 };
 

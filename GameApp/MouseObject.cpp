@@ -25,21 +25,22 @@ void MouseObject::Start()
 	GameEngineTexture* MouseStay = GameEngineTextureManager::GetInst().Find("Mouse.png");
 	MouseStay->Cut(8, 1);
 
-	//GameEngineTexture* MouseBuy = GameEngineTextureManager::GetInst().Find("Mouse.png");
-	//MouseBuy->Cut(1, 1);
-	//GameEngineTexture* MouseSell = GameEngineTextureManager::GetInst().Find("Mouse.png");
-	//MouseSell->Cut(1, 1);
-	//GameEngineTexture* MouseRepair = GameEngineTextureManager::GetInst().Find("Mouse.png");
-	//MouseRepair->Cut(1, 1);
+	// 특수기능 커서
+	GameEngineTexture* MouseBuy = GameEngineTextureManager::GetInst().Find("BuyCursor.png");
+	MouseBuy->Cut(1, 1);
+	GameEngineTexture* MouseSell = GameEngineTextureManager::GetInst().Find("SellCursor.png");
+	MouseSell->Cut(1, 1);
+	GameEngineTexture* MouseRepair = GameEngineTextureManager::GetInst().Find("RepairCursor.png");
+	MouseRepair->Cut(1, 1);
 
 	Mouse_ = CreateTransformComponent<GameEngineUIRenderer>();
 	Mouse_->CreateAnimation("Mouse.png", "StayState", 0, 7, 0.4f);
 	Mouse_->CreateAnimation("Mouse.png", "MoveState", 0, 0, 0.1f, false);
 
 	// 특수기능에서의 커서 애니메이션
-	//Mouse_->CreateAnimation("Mouse.png", "BuyState", 0, 0, 0.1f, false);		// 구매버튼클릭시 활성화
-	//Mouse_->CreateAnimation("Mouse.png", "SellState", 0, 0, 0.1f, false);		// 판매버튼클릭시 활성화
-	//Mouse_->CreateAnimation("Mouse.png", "RepairState", 0, 0, 0.1f, false);	// 수리버튼클릭시 활성화
+	Mouse_->CreateAnimation("BuyCursor.png", "BuyState", 0, 0, 0.1f, false);			// 구매버튼클릭시 활성화
+	Mouse_->CreateAnimation("SellCursor.png", "SellState", 0, 0, 0.1f, false);			// 판매버튼클릭시 활성화
+	Mouse_->CreateAnimation("RepairCursor.png", "RepairState", 0, 0, 0.1f, false);		// 수리버튼클릭시 활성화
 
 	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
 	Mouse_->GetTransform()->SetLocalPosition(float4(15.5f, -11.5f));
@@ -133,53 +134,93 @@ void MouseObject::ItemPutDown()
 void MouseObject::BuyCursorActive()
 {
 	// 커서 애니메이션 변경
-	//Mouse_->SetChangeAnimation("BuyState");
+	Mouse_->SetChangeAnimation("BuyState");
+	Mouse_->GetTransform()->SetLocalScaling(float4(32.f, 40.f, 1.f));
+	Mouse_->GetTransform()->SetLocalPosition(float4(14.5f, -22.5f));
 
 	// 현재 마우스상태 변경
-	//State_ = MouseState::Buy;
+	State_ = MouseState::Buy;
 }
 
 void MouseObject::BuyCursorInActive()
 {
 	// 커서 애니메이션 변경
-	//Mouse_->SetChangeAnimation("StayState");
+	Mouse_->SetChangeAnimation("StayState");
+	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
+	Mouse_->GetTransform()->SetLocalPosition(float4(15.5f, -11.5f));
 
 	// 현재 마우스상태 변경
-	//State_ = MouseState::Stay;
+	State_ = MouseState::Stay;
 }
 
 void MouseObject::SellCursorActive()
 {
 	// 커서 애니메이션 변경
-	// Mouse_->SetChangeAnimation("SellState");
+	Mouse_->SetChangeAnimation("SellState");
+	Mouse_->GetTransform()->SetLocalScaling(float4(32.f, 40.f, 1.f));
+	Mouse_->GetTransform()->SetLocalPosition(float4(14.5f, -22.5f));
 
 	// 현재 마우스상태 변경
-	//State_ = MouseState::Sell;
+	State_ = MouseState::Sell;
 }
 
 void MouseObject::SellCursorInactive()
 {
 	// 커서 애니메이션 변경
-	//Mouse_->SetChangeAnimation("StayState");
+	Mouse_->SetChangeAnimation("StayState");
+	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
+	Mouse_->GetTransform()->SetLocalPosition(float4(15.5f, -11.5f));
 
 	// 현재 마우스상태 변경
-	//State_ = MouseState::Stay;
+	State_ = MouseState::Stay;
 }
 
 void MouseObject::RepairCursorActive()
 {
 	// 커서 애니메이션 변경
-	// Mouse_->SetChangeAnimation("RepairState");
+	Mouse_->SetChangeAnimation("RepairState");
+	Mouse_->GetTransform()->SetLocalScaling(float4(32.f, 40.f, 1.f));
+	Mouse_->GetTransform()->SetLocalPosition(float4(14.5f, -22.5f));
 
 	// 현재 마우스상태 변경
-	//State_ = MouseState::Repair;
+	State_ = MouseState::Repair;
 }
 
 void MouseObject::RepairCursorInactive()
 {
 	// 커서 애니메이션 변경
-	//Mouse_->SetChangeAnimation("StayState");
+	Mouse_->SetChangeAnimation("StayState");
+	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
+	Mouse_->GetTransform()->SetLocalPosition(float4(15.5f, -11.5f));
 
 	// 현재 마우스상태 변경
-	//State_ = MouseState::Stay;
+	State_ = MouseState::Stay;
+}
+
+void MouseObject::SpecialCursorProcess()
+{
+	// 특수기능 관련 기능 수행
+	switch (State_)
+	{
+		case MouseState::Buy: // 아이템 구매
+		{
+
+			break;
+		}
+		case MouseState::Sell: // 아이템 판매
+		{
+
+			break;
+		}
+		case MouseState::Repair: // 아이템 수리
+		{
+
+			break;
+		}
+		case MouseState::Portal: // 포탈 소환
+		{
+
+			break;
+		}
+	}
 }

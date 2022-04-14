@@ -58,6 +58,12 @@ private:
 	void ShortcutsButtonClick(GameEngineCollision* _Other);
 
 public:
+	inline void SetMiniMenuActive(bool _Active)
+	{
+		Active_ = _Active;
+	}
+
+public:
 	float4 GetBasicPos() const
 	{
 		return BasicButtonPos_;

@@ -1,6 +1,12 @@
 #include "PreCompile.h"
 #include "MainPlayer.h"
 
+#include "GlobalValue.h"
+#include "WeaponNPC.h"
+#include "ChandleryNPC.h"
+#include "NPC_TopMenuBar.h"
+#include "NPC_BuySellView.h"
+
 #include "MainPlayerInfomation.h"
 
 #include "BottomStateBar.h"
@@ -89,6 +95,18 @@ void MainPlayer::InventoryViewEnabled(bool _Enabled)
 		IsInventoryView_ = false;
 		InventoryView_->Off();
 		InventoryView_->SetInentroyBoxTileInactive();
+
+		// 무기상인과 상호작용을 통해 판매창이 활성화되어있는 경우 판매창도 비활성
+		if (nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate())
+		{
+			GlobalValue::WeaponNPC->GetWeaponShop()->PublicNPCBuySellViewInactive();
+		}
+
+		// 잡화상인과 상호작용을 통해 판매창이 활성화되어있는 경우 판매창도 비활성
+		if (nullptr != GlobalValue::ChandleryNPC && true == GlobalValue::ChandleryNPC->GetChandleryShop()->IsUpdate())
+		{
+			GlobalValue::ChandleryNPC->GetChandleryShop()->PublicNPCBuySellViewInactive();
+		}
 	}
 }
 

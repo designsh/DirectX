@@ -7,6 +7,7 @@
 class MainPlayer;
 class MouseObject;
 class WeaponNPC;
+class ChandleryNPC;
 class TownLevel : public GameEngineLevel
 {
 private:	// member Var
@@ -15,6 +16,7 @@ private:	// member Var
 
 private:
 	WeaponNPC* WeaponNPC_;
+	ChandleryNPC* ChandleryNPC_;
 
 public:
 	TownLevel();

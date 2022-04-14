@@ -179,7 +179,7 @@ void MainPlayer_MiniMenuButton::MoveButtonPosition()
 		false == GlobalValue::CurPlayer->GetIsSkillView() &&
 		false == GlobalValue::CurPlayer->GetIsInventory())
 	{
-		// 미니메뉴가 비활성 상태였다면 활성화
+		// 미니메뉴가 비활성 상태였고, 판매창 or 창고창이 화면
 		if (false == MainPlayer_MiniMenu::MiniMenuActive())
 		{
 			Parent_->SetMiniMenuActiveFlag(true);

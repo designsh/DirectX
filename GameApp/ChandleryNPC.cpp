@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "WeaponNPC.h"
+#include "ChandleryNPC.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
@@ -12,21 +12,21 @@
 #include "NPC_TopMenuBar.h"
 #include "NPC_BuySellView.h"
 
-bool WeaponNPC::FirstInteraction = false;
-bool WeaponNPC::InteractionFlag = false;
+bool ChandleryNPC::FirstInteraction = false;
+bool ChandleryNPC::InteractionFlag = false;
 
-bool WeaponNPC::GetFirstInteaction()
+bool ChandleryNPC::GetFirstInteaction()
 {
 	return FirstInteraction;
 }
 
-WeaponNPC::WeaponNPC() :
-	WeaponNPCRenderer_(nullptr),
-	WeaponNPCCollision_(nullptr),
-	PrevMoveDir_(WeaponNPC_MoveDir::DIR_L),
-	CurMoveDir_(WeaponNPC_MoveDir::DIR_L),
-	PrevState_(WeaponNPC_FSMState::ST_IDLE),
-	CurState_(WeaponNPC_FSMState::ST_IDLE),
+ChandleryNPC::ChandleryNPC() :
+	ChandleryNPCRenderer_(nullptr),
+	ChandleryNPCCollision_(nullptr),
+	PrevMoveDir_(ChandleryNPC_MoveDir::DIR_L),
+	CurMoveDir_(ChandleryNPC_MoveDir::DIR_L),
+	PrevState_(ChandleryNPC_FSMState::ST_IDLE),
+	CurState_(ChandleryNPC_FSMState::ST_IDLE),
 	MoveDelayTime_(5.f),
 	InteractionDistance_(80.f),
 	MoveSpeed_(100.f),
@@ -39,14 +39,14 @@ WeaponNPC::WeaponNPC() :
 {
 }
 
-WeaponNPC::~WeaponNPC()
+ChandleryNPC::~ChandleryNPC()
 {
 }
 
-void WeaponNPC::Start()
+void ChandleryNPC::Start()
 {
 	// 무기상인관련 생성
-	InitWeaponNPC();
+	InitChandleryNPC();
 
 	// 무기상인 관련 UI 생성
 
@@ -59,10 +59,10 @@ void WeaponNPC::Start()
 	TopMenuBar_->Off();
 }
 
-void WeaponNPC::Update(float _DeltaTime)
+void ChandleryNPC::Update(float _DeltaTime)
 {
 #ifdef _DEBUG
-	GetLevel()->PushDebugRender(WeaponNPCCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(ChandleryNPCCollision_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
 	// 상태 갱신
@@ -75,15 +75,15 @@ void WeaponNPC::Update(float _DeltaTime)
 	}
 
 	// 마우스와 충돌체크
-	WeaponNPCCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&WeaponNPC::MouseLButtonClick, this, std::placeholders::_1));
+	ChandleryNPCCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&ChandleryNPC::MouseLButtonClick, this, std::placeholders::_1));
 }
 
-NPC_BuySellView* WeaponNPC::GetWeaponShop()
+NPC_BuySellView* ChandleryNPC::GetChandleryShop()
 {
 	return TopMenuBar_->GetBuySellView();
 }
 
-void WeaponNPC::MouseLButtonClick(GameEngineCollision* _Other)
+void ChandleryNPC::MouseLButtonClick(GameEngineCollision* _Other)
 {
 	// Mouse LButton Flag Check
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
@@ -97,10 +97,10 @@ void WeaponNPC::MouseLButtonClick(GameEngineCollision* _Other)
 	}
 }
 
-void WeaponNPC::InteractionDistanceCheck()
+void ChandleryNPC::InteractionDistanceCheck()
 {
 	// 이동&대기 상태일때 플레이어와의 거리 체크
-	if (CurState_ == WeaponNPC_FSMState::ST_IDLE || CurState_ == WeaponNPC_FSMState::ST_WALK)
+	if (CurState_ == ChandleryNPC_FSMState::ST_IDLE || CurState_ == ChandleryNPC_FSMState::ST_WALK)
 	{
 		// 거리체크
 		if (nullptr != GlobalValue::CurPlayer)
@@ -130,27 +130,27 @@ void WeaponNPC::InteractionDistanceCheck()
 				if (Angle > -60.f && Angle <= -30.f)
 				{
 					// 우상단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_RT;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_RT;
 				}
 				else if (Angle > -150.f && Angle <= -120.f)
 				{
 					// 우하단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_RB;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_RB;
 				}
 				else if (Angle > -30.f && Angle <= 0.f)
 				{
 					// 상단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_T;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_T;
 				}
 				else if (Angle > -120.f && Angle <= -60.f)
 				{
 					// 우단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_R;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_R;
 				}
 				else if (Angle > -180.f && Angle <= -150.f)
 				{
 					// 하단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_B;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_B;
 				}
 			}
 			else // 왼쪽
@@ -158,37 +158,37 @@ void WeaponNPC::InteractionDistanceCheck()
 				if (Angle > 30.f && Angle <= 60.f)
 				{
 					// 좌상단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_LT;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_LT;
 				}
 				else if (Angle > 120.f && Angle <= 150.f)
 				{
 					// 좌하단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_LB;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_LB;
 				}
 				else if (Angle > 0.f && Angle <= 30.f)
 				{
 					// 상단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_T;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_T;
 				}
 				else if (Angle > 60.f && Angle <= 120.f)
 				{
 					// 좌단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_L;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_L;
 				}
 				else if (Angle > 150.f && Angle <= 180.f)
 				{
 					// 하단
-					CurMoveDir_ = WeaponNPC_MoveDir::DIR_B;
+					CurMoveDir_ = ChandleryNPC_MoveDir::DIR_B;
 				}
 			}
 
 			// 상호작용대기상태로 상태전환
-			State_.ChangeState("WeaponNPC_CONVERSATION");
+			State_.ChangeState("ChandleryNPC_CONVERSATION");
 		}
 	}
 }
 
-void WeaponNPC::SetMoveRange()
+void ChandleryNPC::SetMoveRange()
 {
 	// 최초생성 위치 기준으로 해당 NPC의 이동가능범위가 정해진다.
 	float4 MyPos = GetTransform()->GetLocalPosition();
@@ -202,7 +202,7 @@ void WeaponNPC::SetMoveRange()
 	MoveMaxRange_.y = MyPos.y + 200.f;
 }
 
-void WeaponNPC::SetMessageBoxText(const std::string& _Text)
+void ChandleryNPC::SetMessageBoxText(const std::string& _Text)
 {
 	if (nullptr != MessageView_)
 	{
@@ -210,37 +210,36 @@ void WeaponNPC::SetMessageBoxText(const std::string& _Text)
 	}
 }
 
-void WeaponNPC::SetUIPosition()
+void ChandleryNPC::SetUIPosition()
 {
 	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
 }
 
-void WeaponNPC::SetTopMenu()
+void ChandleryNPC::SetTopMenu()
 {
-
-	TopMenuBar_->CreateNPCTopMenu(NPCClassType::Charsi, NPCType::WeaponShop);
+	TopMenuBar_->CreateNPCTopMenu(NPCClassType::Akara, NPCType::PotionShop);
 }
 
-void WeaponNPC::TopMenuBarInactive()
+void ChandleryNPC::TopMenuBarInactive()
 {
 	TopMenuBar_->Off();
 	TopMenuBar_->MenuButtonStateReset();
 }
 
-void WeaponNPC::TopMenuBarActive()
+void ChandleryNPC::TopMenuBarActive()
 {
 	TopMenuBar_->On();
 	TopMenuBar_->MenuButtonStateReset();
 }
 
-void WeaponNPC::InteractionEnd()
+void ChandleryNPC::InteractionEnd()
 {
 	// 외부에서 해당 NPC 상호작용 종료시 호출되며,
 	// 상호작용이 종료되었으므로 해당 NPC는 대기상태로 돌입한다.
-	State_.ChangeState("WeaponNPC_IDLE");
+	State_.ChangeState("ChandleryNPC_IDLE");
 }
 
-void WeaponNPC::SelectConversationMenu()
+void ChandleryNPC::SelectConversationMenu()
 {
 	// 상호작용상태에서 화면에 표시되는 NPC상단메뉴에서 대화메뉴 선택시 호출
 	FirstInteraction = false;

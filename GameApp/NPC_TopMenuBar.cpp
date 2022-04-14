@@ -4,10 +4,10 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
-#include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
 #include "WeaponNPC.h"
+#include "ChandleryNPC.h"
 #include "NPC_BuySellView.h"
 
 NPC_TopMenuBar::NPC_TopMenuBar() :
@@ -20,7 +20,10 @@ NPC_TopMenuBar::NPC_TopMenuBar() :
 	CloseMenuCol_(nullptr),
 	NPCClassType_(NPCClassType::MAX),
 	NPCType_(NPCType::Normal),
-	BuySellView_(nullptr)
+	BuySellView_(nullptr),
+	ConversationMenuBtnState_(Button_State::Normal),
+	BuySellMenuBtnState_(Button_State::Normal),
+	CloseMenuBtnState_(Button_State::Normal)
 {
 }
 
@@ -34,6 +37,7 @@ void NPC_TopMenuBar::Start()
 
 void NPC_TopMenuBar::Update(float _DeltaTime)
 {
+#pragma region 버튼충돌체크
 	if (nullptr != ConversationMenuCol_)
 	{
 #ifdef _DEBUG
@@ -60,6 +64,7 @@ void NPC_TopMenuBar::Update(float _DeltaTime)
 
 		CloseMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectCloseMenu, this, std::placeholders::_1));
 	}
+#pragma endregion
 }
 
 void NPC_TopMenuBar::SelectConversationMenu(GameEngineCollision* _Other)
@@ -71,7 +76,7 @@ void NPC_TopMenuBar::SelectConversationMenu(GameEngineCollision* _Other)
 		{
 			case NPCClassType::Akara:
 			{
-				//GlobalValue::WeaponNPC->InteractionEnd();
+				GlobalValue::ChandleryNPC->SelectConversationMenu();
 				break;
 			}
 			case NPCClassType::Charsi:
@@ -81,6 +86,16 @@ void NPC_TopMenuBar::SelectConversationMenu(GameEngineCollision* _Other)
 			}
 		}
 	}
+
+	if (ConversationMenuBtnState_ == Button_State::Normal)
+	{
+		ConversationMenuRenderer_->SetTextColor(float4(0.f, 0.f, 1.f, 1.f));
+		BuySellMenuRenderer_->SetTextColor(float4::WHITE);
+		CloseMenuRenderer_->SetTextColor(float4::WHITE);
+		ConversationMenuBtnState_ = Button_State::MouseOn;
+		BuySellMenuBtnState_ = Button_State::Normal;
+		CloseMenuBtnState_ = Button_State::Normal;
+	}
 }
 
 void NPC_TopMenuBar::SelectBuySellMenu(GameEngineCollision* _Other)
@@ -89,7 +104,17 @@ void NPC_TopMenuBar::SelectBuySellMenu(GameEngineCollision* _Other)
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		// 판매창 Active
-		BuySellView_->NPCBuySellViewActive();
+		BuySellView_->PublicNPCBuySellViewActive();
+	}
+
+	if (BuySellMenuBtnState_ == Button_State::Normal)
+	{
+		ConversationMenuRenderer_->SetTextColor(float4::WHITE);
+		BuySellMenuRenderer_->SetTextColor(float4(0.f, 0.f, 1.f, 1.f));
+		CloseMenuRenderer_->SetTextColor(float4::WHITE);
+		ConversationMenuBtnState_ = Button_State::Normal;
+		BuySellMenuBtnState_ = Button_State::MouseOn;
+		CloseMenuBtnState_ = Button_State::Normal;
 	}
 }
 
@@ -105,7 +130,7 @@ void NPC_TopMenuBar::SelectCloseMenu(GameEngineCollision* _Other)
 		{
 			case NPCClassType::Akara:
 			{
-				//GlobalValue::WeaponNPC->InteractionEnd();
+				GlobalValue::ChandleryNPC->InteractionEnd();
 				break;
 			}
 			case NPCClassType::Charsi:
@@ -114,6 +139,16 @@ void NPC_TopMenuBar::SelectCloseMenu(GameEngineCollision* _Other)
 				break;
 			}
 		}
+	}
+
+	if (CloseMenuBtnState_ == Button_State::Normal)
+	{
+		ConversationMenuRenderer_->SetTextColor(float4::WHITE);
+		BuySellMenuRenderer_->SetTextColor(float4::WHITE);
+		CloseMenuRenderer_->SetTextColor(float4(0.f, 0.f, 1.f, 1.f));
+		ConversationMenuBtnState_ = Button_State::Normal;
+		BuySellMenuBtnState_ = Button_State::Normal;
+		CloseMenuBtnState_ = Button_State::MouseOn;
 	}
 }
 
@@ -139,6 +174,49 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 			TopMenuPanel_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 6.f));
 
 			// 메뉴선택텍스트(버튼처럼사용)
+
+			// 대화
+			ConversationMenuRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::NPCUI0_Text));
+			ConversationMenuRenderer_->SetAlpha(0.f);
+			ConversationMenuRenderer_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 18.f));
+			ConversationMenuRenderer_->GetTransform()->SetLocalScaling(float4(78.f, 20.f));
+			ConversationMenuRenderer_->TextSetting("HMKMRHD", "대화", 12.f, FW1_CENTER | FW1_VCENTER, float4::WHITE);
+
+			ConversationMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
+
+			ConversationMenuCol_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 18.f));
+			ConversationMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
+			ConversationMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
+
+			// 판매창
+			BuySellMenuRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::NPCUI0_Text));
+			BuySellMenuRenderer_->SetAlpha(0.f);
+			BuySellMenuRenderer_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y));
+			BuySellMenuRenderer_->GetTransform()->SetLocalScaling(float4(78.f, 20.f));
+			BuySellMenuRenderer_->TextSetting("HMKMRHD", "거래", 12.f, FW1_CENTER | FW1_VCENTER, float4::WHITE);
+
+			ButSellMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
+			ButSellMenuCol_->GetTransform()->SetLocalPosition(BuySellMenuRenderer_->GetTransform()->GetLocalPosition());
+			ButSellMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
+			ButSellMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
+
+			// 취소
+			CloseMenuRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::NPCUI0_Text));
+			CloseMenuRenderer_->SetAlpha(0.f);
+			CloseMenuRenderer_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y - 18.f));
+			CloseMenuRenderer_->GetTransform()->SetLocalScaling(float4(78.f, 20.f));
+			CloseMenuRenderer_->TextSetting("HMKMRHD", "취소", 12.f, FW1_CENTER | FW1_VCENTER, float4::WHITE);
+
+			CloseMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
+			CloseMenuCol_->GetTransform()->SetLocalPosition(CloseMenuRenderer_->GetTransform()->GetLocalPosition());
+			CloseMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
+			CloseMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
+
+#pragma region 판매창생성
+			BuySellView_ = GetLevel()->CreateActor<NPC_BuySellView>();
+			BuySellView_->CreateBuySellView(NPCType_, NPCClassType_);
+			BuySellView_->Off();
+#pragma endregion
 
 			break;
 		}
@@ -214,7 +292,7 @@ void NPC_TopMenuBar::NPCTopMenuActive()
 	{
 		case NPCClassType::Akara:
 		{
-			float4 AkaraPos = GlobalValue::WeaponNPC->GetTransform()->GetLocalPosition();
+			float4 AkaraPos = GlobalValue::ChandleryNPC->GetTransform()->GetLocalPosition();
 			GetTransform()->SetLocalPosition(AkaraPos);
 			break;
 		}
@@ -225,4 +303,17 @@ void NPC_TopMenuBar::NPCTopMenuActive()
 			break;
 		}
 	}
+
+	MenuButtonStateReset();
+}
+
+void NPC_TopMenuBar::MenuButtonStateReset()
+{
+	// 버튼 충돌상태 초기화
+	ConversationMenuRenderer_->SetTextColor(float4::WHITE);
+	BuySellMenuRenderer_->SetTextColor(float4::WHITE);
+	CloseMenuRenderer_->SetTextColor(float4::WHITE);
+	ConversationMenuBtnState_ = Button_State::Normal;
+	BuySellMenuBtnState_ = Button_State::Normal;
+	CloseMenuBtnState_ = Button_State::Normal;
 }

@@ -7,7 +7,8 @@ enum class MouseState
 	Stay,		// 대기
 	Buy,		// 구매버튼클릭으로 인한 구매기능 활성화
 	Sell,		// 판매버튼클릭으로 인한 판매기능 활성화
-	Repair		// 수리버튼클릭으로 인한 수리기능 활성화
+	Repair,		// 수리버튼클릭으로 인한 수리기능 활성화
+	Portal		// 포탈스크롤 사용시 포탈소환 기능활성화
 };
 
 // 분류 : 마우스
@@ -47,6 +48,12 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+public: // 마우스 상태 Get
+	MouseState GetMouseState() const
+	{
+		return State_;
+	}
+
 public:
 	bool IsItemHold() const	// 아이템을 들고있는지 체크하는 Flag
 	{
@@ -68,12 +75,15 @@ public: // 아이템들기관련
 	void ItemHold(const std::string& _ItemName, const float4& _ItemSize);
 	void ItemPutDown();
 
-public: // 특수기능관련
+public: // 특수기능에 따른 렌더러 변경관련
 	void BuyCursorActive();
 	void BuyCursorInActive();
 	void SellCursorActive();
 	void SellCursorInactive();
 	void RepairCursorActive();
 	void RepairCursorInactive();
+
+public:
+	void SpecialCursorProcess();
 };
 
