@@ -11,6 +11,7 @@
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_MiniMenuButton.h"
+#include "InventoryView.h"
 
 #include "MouseObject.h"
 
@@ -927,24 +928,34 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 				// 아이템가격만큼 플레이어의 보유골드 감소
 				// 단, 플레이어의 인벤토리에 빈칸이 없다면 실패
 
-				// 1. 플레이어의 인벤토리를 검사(하단 보관탭)
+				float4 ItemScale = float4();
+
+				// 1. 플레이어의 인벤토리를 검사(하단 보관탭) InventoryViewItemArrageCheck
+				if (true == GlobalValue::CurPlayer->InventoryViewItemArrageCheck(ItemScale))
+				{
+					// 2. 인벤토리에 배치가능하다면 해당 아이템 인벤토리창에 배치 및 플레이어 보유아이템목록에 추가
 
 
-				// 2. 인벤토리에 배치가능하다면 해당 아이템 인벤토리창에 배치 및 플레이어 보유아이템목록에 추가
+
+					// 3. 해당 아이템 가격만큼 NPC 보유골드 증가
 
 
-				// 3. 해당 아이템 가격만큼 NPC 보유골드 증가
 
 
-				// 4. 해당 아이템 가격만큼 플레이어 보유골드 감소
+
+					// 4. 해당 아이템 가격만큼 플레이어 보유골드 감소
 
 
-				
 
-				// 그외 
-				// 1. 판매커서 활성화시 플레이어 인벤토리에서 처리
-				// 2. 수리커서 활성화시 플레이어 인벤토리에서 처리
-				int a = 0;
+					int a = 0;
+				}
+				else // 아이템을 더이상 구매할수없음(이유 : 인벤토리 창부족)
+				{
+					// 사운드실행
+					// '~할 수없다'
+
+					return;
+				}
 			}
 		}
 	}

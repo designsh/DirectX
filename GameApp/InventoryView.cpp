@@ -1633,6 +1633,19 @@ void InventoryView::ItemRepairProcess(int _TileIndex, InvTabType _InvTabType)
 
 }
 
+bool InventoryView::InventoryArrangeTileCheck(const float4& _ItemScaleIndex)
+{
+	int ItemWidth = _ItemScaleIndex.ix();
+	int ItemHeight = _ItemScaleIndex.iy();
+
+	// 인벤토리 검사하여 배치가능한 범위의 아이템이라면 true 반환
+	// 아니라면 false 반환
+
+
+
+	return true;
+}
+
 void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& _ItemName, bool _OnAndOff)
 {
 	// 장착한 아이템명에 따라 처리됨

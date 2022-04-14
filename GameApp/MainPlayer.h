@@ -463,6 +463,9 @@ public:
 	void InventoryViewEnabled(bool _Enabled);
 	void GameEndMenuViewEnabled(bool _Enabled);
 
+public:
+	bool InventoryViewItemArrageCheck(const float4& _ItemScale);
+
 #pragma endregion
 
 #pragma region GamePlaye Update Function
