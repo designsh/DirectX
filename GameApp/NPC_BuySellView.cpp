@@ -4,6 +4,7 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
+#include "AllItemInfomation.h"
 #include "GlobalValue.h"
 
 #include "MainPlayer.h"
@@ -405,6 +406,12 @@ void NPC_BuySellView::PrivateNPCBuySellViewActive()
 		ArrangeTileCols_[i]->Off();
 	}
 
+	int HaveItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+	for (int i = 0; i < HaveItemCnt; ++i)
+	{
+		BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemRenderer_->Off();
+	}
+
 	// 판매창 활성화시 플레이어의 인벤토리창도 비활성화,
 	GlobalValue::CurPlayer->InventoryViewEnabled(false);
 	GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->GetMenuButton(1)->SetMiniMenuActive(false);
@@ -446,6 +453,12 @@ void NPC_BuySellView::PublicNPCBuySellViewActive()
 		ArrangeTileCols_[i]->On();
 	}
 
+	int HaveItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+	for (int i = 0; i < HaveItemCnt; ++i)
+	{
+		BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemRenderer_->On();
+	}
+
 	// 판매창 활성화시 플레이어의 인벤토리창도 활성화되며,
 	GlobalValue::CurPlayer->InventoryViewEnabled(true);
 	GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->GetMenuButton(1)->SetMiniMenuActive(true);
@@ -485,6 +498,12 @@ void NPC_BuySellView::PublicNPCBuySellViewInactive()
 	for (int i = 0; i < ArrangeTileCnt; ++i)
 	{
 		ArrangeTileCols_[i]->Off();
+	}
+
+	int HaveItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+	for (int i = 0; i < HaveItemCnt; ++i)
+	{
+		BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemRenderer_->Off();
 	}
 
 	// 해당 NPC의 상단메뉴 On
@@ -590,7 +609,7 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 						// 렌더러 생성
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Tab));
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetImage("InvTestTileImage.png");
-						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetResultColor(float4(1.f, 1.f, 1.f, 0.f));
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetResultColor(float4(0.f, 0.f, 1.f, 0.f));
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->TextSetting("diablo", std::to_string(Index), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalPosition(TilePos);
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalScaling(TileScale);
@@ -868,7 +887,35 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 		case NPCType::PotionShop:
 		{
 			// 기타탭
+			std::string ItemNameList[3] = { {"invvpl"}, {"invbsc"}, {"invchm"} };
+			int ItemStartPos[3] = { {9}, {19}, {29} };
 
+			// 0. 활력포션(invvpl)
+			// 1. 포탈스크롤(invbsc)
+			// 2. 아이템감정스크롤(invchm)
+
+			for (int i = 0; i < 3; ++i)
+			{
+				HaveItem NewItem = {};
+				NewItem.OneSize_ = true;
+				NewItem.StartIndex = ItemStartPos[i];
+
+				ItemList NewItemInfo = {};
+				AllItemInfomation::GetInst().ItemInfoFindInvName(ItemNameList[i], NewItemInfo);
+				NewItem.ItemInfo_ = NewItemInfo;
+				NewItem.ItemRemainsQuantity_ = 999;
+				NewItem.RenderPos_ = float4(BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TilePos_);
+				NewItem.ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Render));
+
+				std::string TextureName = ItemNameList[i];
+				TextureName += ".png";
+				NewItem.ItemRenderer_->SetImage(TextureName);
+				///NewItem.ItemRenderer_->GetTransform()->SetLocalScaling(BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TileScale_);
+				NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(NewItem.RenderPos_);
+				NewItem.ItemRenderer_->Off();
+				BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TileRenderer_->SetAlpha(0.5f);
+				BuySellViewTabs_[_TabIndex].HaveItemList_.push_back(NewItem);
+			}
 
 			break;
 		}

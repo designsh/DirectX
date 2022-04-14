@@ -24,8 +24,9 @@ struct HaveItem
 	int StartIndex;											// 해당 아이템의 크기가 1x1일때 차지하는 인덱스
 	std::vector<int> ArrangeIndexs_;						// 해당 아이템의 크기가 1x1이 아닐때 차지하는 인덱스목록
 	ItemList ItemInfo_;										// 해당 아이템의 기본정보(이름, 판매금액, ...)
-	GameEngineUIRenderer* ItemRenderer_;					// 해당 아이템 렌더러
+	int ItemRemainsQuantity_;								// 해당 아이템 남은 수량(기본 999)
 	float4 RenderPos_;										// 해당 아이템렌더러 위치
+	GameEngineUIRenderer* ItemRenderer_;					// 해당 아이템 렌더러
 };
 
 // 판매창의 탭정보
