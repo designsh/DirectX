@@ -197,30 +197,13 @@ void MouseObject::RepairCursorInactive()
 	State_ = MouseState::Stay;
 }
 
-void MouseObject::SpecialCursorProcess()
+void MouseObject::CursorStateReset()
 {
-	// 특수기능 관련 기능 수행
-	switch (State_)
-	{
-		case MouseState::Buy: // 아이템 구매
-		{
+	// 커서 애니메이션 변경
+	Mouse_->SetChangeAnimation("StayState");
+	Mouse_->GetTransform()->SetLocalScaling(float4(33.f, 29.f, 1.f));
+	Mouse_->GetTransform()->SetLocalPosition(float4(15.5f, -11.5f));
 
-			break;
-		}
-		case MouseState::Sell: // 아이템 판매
-		{
-
-			break;
-		}
-		case MouseState::Repair: // 아이템 수리
-		{
-
-			break;
-		}
-		case MouseState::Portal: // 포탈 소환
-		{
-
-			break;
-		}
-	}
+	// 현재 마우스상태 변경
+	State_ = MouseState::Stay;
 }

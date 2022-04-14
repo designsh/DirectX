@@ -412,6 +412,9 @@ void NPC_BuySellView::PrivateNPCBuySellViewActive()
 		BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemRenderer_->Off();
 	}
 
+	// 현재마우스 커서상태를 리셋(기본상태로 전환)
+	GlobalValue::CurMouse->CursorStateReset();
+
 	// 판매창 활성화시 플레이어의 인벤토리창도 비활성화,
 	GlobalValue::CurPlayer->InventoryViewEnabled(false);
 	GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->GetMenuButton(1)->SetMiniMenuActive(false);
@@ -505,6 +508,9 @@ void NPC_BuySellView::PublicNPCBuySellViewInactive()
 	{
 		BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemRenderer_->Off();
 	}
+
+	// 현재마우스 커서상태를 리셋(기본상태로 전환)
+	GlobalValue::CurMouse->CursorStateReset();
 
 	// 해당 NPC의 상단메뉴 On
 	switch (NPCClassType_)
@@ -886,14 +892,44 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 		// 해당 배치타일에 아이템이 있다면
 		if (true == BuySellViewTabs_[CurTabIndex].ArrangeTiles_[_Index].ItemArrangementFlag_)
 		{
-			// 아이템 커서 상태에 따른 처리
+			std::string SelectItemName = "";
+
+			// 아이템목록에서 해당 아이템 찾기
+			switch (BuySellViewType_)
+			{
+				// 물약상점
+				case NPCType::PotionShop:
+				{
+					SelectItemName = FindChandleryItem(_Index);
+
+					break;
+				}
+				// 무기상점
+				case NPCType::WeaponShop:
+				{
+					SelectItemName = FindWeaponItem(_Index);
+
+					break;
+				}
+			}
+
+			// 아이템을 찾지못했다면 리턴
+			if (true == SelectItemName.empty())
+			{
+				return;
+			}
+
+			// 아이템을 찾았다면 현재 마우스의 커서상태에 따라 처리를 달리한다.
 			if (MouseState::Buy == GlobalValue::CurMouse->GetMouseState())
 			{
 				// 판매창이 가지고있는 아이템에만 적용 가능
 				// 판매창의 아이템을 클릭시 해당 아이템 구매 및 플레이어 인벤토리 빈칸에 배치, 아이템가격만큼 NPC보유골드 증가
-				// 빈칸이 없다면 실패
+				// 아이템가격만큼 플레이어의 보유골드 감소
+				// 단, 플레이어의 인벤토리에 빈칸이 없다면 실패
 
-				
+
+
+				int a = 0;
 			}
 			else if (MouseState::Sell == GlobalValue::CurMouse->GetMouseState())
 			{
@@ -901,47 +937,25 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 				// 플레이어 인벤토리창의 아이템을 클릭시 해당 아이템 판매 및 NPC 판매창 빈칸에 배치, 아이템가격만큼 NPC보유골드 감소
 				// 빈칸이 없다면 실패
 
-
+				int a = 0;
 			}
 			else if (MouseState::Repair == GlobalValue::CurMouse->GetMouseState())
 			{
 				// 플레이어가 가지고있는 아이템에만 적용 가능
 				// 플레이어 인벤토리창의 아이템을 클릭시 해당 아이템이 내구도가 존재할때 수리, 수리비용만큼 NPC보유골드 증가
 
-
+				int a = 0;
 			}
-			else // 일반커서 상태 일때
+			else if(MouseState::Stay == GlobalValue::CurMouse->GetMouseState() 
+				|| MouseState::Move == GlobalValue::CurMouse->GetMouseState())
 			{
-				// 아이템목록에서 해당 아이템 찾기
-				switch (BuySellViewType_)
-				{
-					// 물약상점
-					case NPCType::PotionShop:
-					{
-						std::string ItemName = FindChandleryItem(_Index);
+				// 일반커서 상태일때 아이템 선택시
 
-						// 마우스에 전달
+				// 마우스에 전달
 
+				// 해당 아이템의 갯수체크하여 남은수량이 0이면 아이템 목록에서 제거
 
-						// 해당 아이템의 갯수체크하여 남은수량이 0이면 아이템 목록에서 제거
-
-
-						break;
-					}
-					// 무기상점
-					case NPCType::WeaponShop:
-					{
-						std::string ItemName = FindWeaponItem(_Index);
-
-						// 마우스에 전달
-
-
-						// 해당 아이템의 갯수체크하여 남은수량이 0이면 아이템 목록에서 제거
-
-
-						break;
-					}
-				}
+				int a = 0;
 			}
 		}
 	}

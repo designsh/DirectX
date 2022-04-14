@@ -83,7 +83,7 @@ public: // 특수기능에 따른 렌더러 변경관련
 	void RepairCursorActive();
 	void RepairCursorInactive();
 
-public:
-	void SpecialCursorProcess();
+public: // 마우스상태를 기본상태로 변경
+	void CursorStateReset();
 };
 
