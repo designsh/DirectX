@@ -750,7 +750,7 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 						// 렌더러 생성
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Tab));
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetImage("InvTestTileImage.png");
-						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetResultColor(float4(1.f, 1.f, 1.f, 0.f));
+						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->SetResultColor(float4(0.f, 0.f, 1.f, 0.f));
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->TextSetting("diablo", std::to_string(Index), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalPosition(TilePos);
 						BuySellViewTabs_[i].ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalScaling(TileScale);
@@ -852,15 +852,28 @@ void NPC_BuySellView::SelectTabClick(GameEngineCollision* _Other, int _Index)
 			BuySellViewTabs_[CurTabIndex].ArrangeTiles_[i].TileRenderer_->Off();
 		}
 
+		int TabItemListCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+		for (int i = 0; i < TabItemListCnt; ++i)
+		{
+			BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemRenderer_->Off();
+		}
+
 		// 변경된 현재 탭인덱스
 		CurTabIndex = _Index;
 		BuySellViewTabs_[CurTabIndex].TabRenderer_->SetChangeAnimation("TabSelect");
 		BuySellViewTabs_[CurTabIndex].TabRenderer_->SetTextColor(float4(0.8f, 0.8f, 0.4f));
 
 		// 현재 탭인덱스에 따른 활성화처리
-		for (int i = 0; i < ArrangeTileCnt; ++i)
+		int CurArrangeTileCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].ArrangeTiles_.size());
+		for (int i = 0; i < CurArrangeTileCnt; ++i)
 		{
 			BuySellViewTabs_[CurTabIndex].ArrangeTiles_[i].TileRenderer_->On();
+		}
+
+		int CurTabItemListCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+		for (int i = 0; i < CurTabItemListCnt; ++i)
+		{
+			BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemRenderer_->On();
 		}
 	}
 }
@@ -984,52 +997,126 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 			// 무기탭
 			if (0 == _TabIndex)
 			{
-				//// crs 크리스탈소드
-				//HaveItem NewItem = {};
-				//NewItem.OneSize_ = false;
-				//NewItem.StartIndex = 0;
+				// crs 크리스탈소드
+				HaveItem NewItem = {};
+				NewItem.OneSize_ = false;
+				NewItem.StartIndex = 0;
 
-				//// 해당 아이템 크기에 따라 차지하는 배치타일 인덱스 목록 작성
-				//NewItem.ArrangeIndexs_.resize(3 * 3);
-				//for (int y = 0; y < 3; ++y)
-				//{
-				//	for (int x = 0; x < 3; ++x)
-				//	{
+				// 해당 아이템 크기에 따라 차지하는 배치타일 인덱스 목록 작성
+				NewItem.ArrangeIndexs_.clear();
+				for (int k = 0; k < 3; ++k)
+				{
+					for (int l = 0; l < 3; ++l)
+					{
+						int CalcIndex = NewItem.StartIndex + l + (k * 10);
+						if (0 <= CalcIndex && CalcIndex < 100)
+						{
+							NewItem.ArrangeIndexs_.push_back(CalcIndex);
+						}
+					}
+				}
 
-				//	}
-				//}
+				// 정렬
+				std::sort(NewItem.ArrangeIndexs_.begin(), NewItem.ArrangeIndexs_.end());
 
-				//ItemList NewItemInfo = {};
-				//AllItemInfomation::GetInst().ItemInfoFindInvName("invcrs", NewItemInfo);
-				//NewItem.ItemInfo_ = NewItemInfo;
-				//NewItem.ItemRemainsQuantity_ = 1; // 장착아이템은 수량 1개
-				//NewItem.RenderPos_ = float4(BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TilePos_);
-				//NewItem.ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Render));
-				//NewItem.ItemRenderer_->SetImage("invcrs.png");
-				//NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(NewItem.RenderPos_);
-				//NewItem.ItemRenderer_->Off();
+				ItemList NewItemInfo = {};
+				AllItemInfomation::GetInst().ItemInfoFindInvName("invcrs", NewItemInfo);
+				NewItem.ItemInfo_ = NewItemInfo;
+				NewItem.ItemRemainsQuantity_ = 1; // 장착아이템은 수량 1개
+				NewItem.ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Render));
+				NewItem.ItemRenderer_->SetImage("invcrs.png");
 
-				//// 아이템 배치 관련 갱신
-				//BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].TileRenderer_->SetAlpha(0.5f);
-				//BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.StartIndex].ItemArrangementFlag_ = true;
+				// 아이템렌더러 위치 계산
+				//float4 RenderPos = float4(-297.f, -97.f);
+				float4 RenderPos = float4::ZERO;
+				int IndexCnt = static_cast<int>(NewItem.ArrangeIndexs_.size());
+				float4 BeginTilePos = BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[0]].TilePos_;
+				float4 EndTilePos = BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[IndexCnt - 1]].TilePos_;
+				BeginTilePos.x += ((EndTilePos.x - BeginTilePos.x) * 0.5f);
+				BeginTilePos.y -= ((BeginTilePos.y - EndTilePos.y) * 0.5f);
+				RenderPos.x = BeginTilePos.x;
+				RenderPos.y = BeginTilePos.y;
 
-				//// 관리목록에 추가
-				//BuySellViewTabs_[_TabIndex].HaveItemList_.push_back(NewItem);
+				NewItem.RenderPos_ = RenderPos;
+				NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(RenderPos);
+				
+				// 아이템 배치 관련 갱신
+				for (int i = 0; i < static_cast<int>(NewItem.ArrangeIndexs_.size()); ++i)
+				{
+					BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[i]].ItemArrangementFlag_ = true;
+					BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[i]].TileRenderer_->SetAlpha(0.5f);
+				}
+				NewItem.ItemRenderer_->Off();
 
-
-
-
-
-
+				// 관리목록에 추가
+				BuySellViewTabs_[_TabIndex].HaveItemList_.push_back(NewItem);
 			}
 			// 방어구탭
 			else if (1 == _TabIndex)
 			{
 				// bhm(투구 2x2), bsh(방패 3x3), chn(갑옷 3x3), hbt(부츠 2x2), tbl(벨트 1x3), tgl(장갑 2x2)
+				std::string ItemName[6] = { {"invbhm"}, {"invbsh"}, {"invchn"}, {"invhbt"}, {"invtbl"}, {"invtgl"} };
+				int ItemStartIndex[6] = { {0}, {3}, {7}, {30}, {42}, {50} };
+				float4 ItemSize[6] = { {float4(2.f, 2.f)}, {float4(3.f, 3.f)}, {float4(3.f, 3.f)}, {float4(2.f, 2.f)}, {float4(3.f, 1.f)}, {float4(2.f, 2.f)} };
 
+				for (int i = 0; i < 6; ++i)
+				{
+					HaveItem NewItem = {};
+					NewItem.OneSize_ = false;
+					NewItem.StartIndex = ItemStartIndex[i];
 
+					// 해당 아이템 크기에 따라 차지하는 배치타일 인덱스 목록 작성
+					NewItem.ArrangeIndexs_.clear();
+					for (int k = 0; k < ItemSize[i].iy(); ++k)
+					{
+						for (int l = 0; l < ItemSize[i].ix(); ++l)
+						{
+							int CalcIndex = NewItem.StartIndex + l + (k * 10);
+							if (0 <= CalcIndex && CalcIndex < 100)
+							{
+								NewItem.ArrangeIndexs_.push_back(CalcIndex);
+							}
+						}
+					}
 
+					// 정렬
+					std::sort(NewItem.ArrangeIndexs_.begin(), NewItem.ArrangeIndexs_.end());
 
+					ItemList NewItemInfo = {};
+					AllItemInfomation::GetInst().ItemInfoFindInvName(ItemName[i], NewItemInfo);
+					NewItem.ItemInfo_ = NewItemInfo;
+					NewItem.ItemRemainsQuantity_ = 1; // 장착아이템은 수량 1개
+					NewItem.ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Render));
+
+					std::string TextureName = ItemName[i];
+					TextureName += ".png";
+					NewItem.ItemRenderer_->SetImage(TextureName);
+
+					// 아이템렌더러 위치 계산
+					//float4 RenderPos = float4(-297.f, -97.f);
+					float4 RenderPos = float4::ZERO;
+					int IndexCnt = static_cast<int>(NewItem.ArrangeIndexs_.size());
+					float4 BeginTilePos = BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[0]].TilePos_;
+					float4 EndTilePos = BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[IndexCnt - 1]].TilePos_;
+					BeginTilePos.x += ((EndTilePos.x - BeginTilePos.x) * 0.5f);
+					BeginTilePos.y -= ((BeginTilePos.y - EndTilePos.y) * 0.5f);
+					RenderPos.x = BeginTilePos.x;
+					RenderPos.y = BeginTilePos.y;
+
+					NewItem.RenderPos_ = RenderPos;
+					NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(RenderPos);
+
+					// 아이템 배치 관련 갱신
+					for (int i = 0; i < static_cast<int>(NewItem.ArrangeIndexs_.size()); ++i)
+					{
+						BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[i]].ItemArrangementFlag_ = true;
+						BuySellViewTabs_[_TabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[i]].TileRenderer_->SetAlpha(0.5f);
+					}
+					NewItem.ItemRenderer_->Off();
+
+					// 관리목록에 추가
+					BuySellViewTabs_[_TabIndex].HaveItemList_.push_back(NewItem);
+				}
 			}
 			break;
 		}
