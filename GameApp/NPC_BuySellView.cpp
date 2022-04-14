@@ -946,17 +946,6 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 
 				int a = 0;
 			}
-			else if(MouseState::Stay == GlobalValue::CurMouse->GetMouseState() 
-				|| MouseState::Move == GlobalValue::CurMouse->GetMouseState())
-			{
-				// 일반커서 상태일때 아이템 선택시
-
-				// 마우스에 전달
-
-				// 해당 아이템의 갯수체크하여 남은수량이 0이면 아이템 목록에서 제거
-
-				int a = 0;
-			}
 		}
 	}
 }
