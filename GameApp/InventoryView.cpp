@@ -1641,7 +1641,7 @@ bool InventoryView::InventoryArrangeTileCheck(const float4& _ItemScaleIndex)
 	// 인벤토리 검사하여 배치가능한 범위의 아이템이라면 true 반환
 	// 아니라면 false 반환
 
-
+	int a = 0;
 
 
 

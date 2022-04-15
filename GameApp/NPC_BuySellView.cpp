@@ -922,10 +922,12 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 				// 아이템가격만큼 플레이어의 보유골드 감소
 				// 단, 플레이어의 인벤토리에 빈칸이 없다면 실패
 				
-
-
-				//BuySellViewTabs_[CurTabIndex].HaveItemList_
-				float4 ItemScale = float4();
+				float4 ItemScale = GetItemScale(SelectItemName);
+				if (float4::ZERO == ItemScale)
+				{
+					// 아이템 크기 Get 에러
+					return;
+				}
 
 				// 1. 플레이어의 인벤토리를 검사(하단 보관탭) InventoryViewItemArrageCheck
 				if (true == GlobalValue::CurPlayer->InventoryViewItemArrageCheck(ItemScale))
@@ -1175,9 +1177,41 @@ std::string NPC_BuySellView::FindWeaponItem(int _ArrangeIndex)
 	return std::string();
 }
 
-int NPC_BuySellView::FindItemListIndex(const std::string& _Name)
+int NPC_BuySellView::FindItemListIndex(const std::string& _ItemName)
 {
-	return 0;
+	int ItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+	for (int i = 0; i < ItemCnt; ++i)
+	{
+		// 배치한 인덱스목록을 모두 뒤져서 해당 클릭한 타일의 인덱스를 찾는다.
+		if (_ItemName == BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemInfo_.ItemName_abbreviation_Inven)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+float4 NPC_BuySellView::GetItemScale(const std::string& _ItemName)
+{
+	int ItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+	for (int i = 0; i < ItemCnt; ++i)
+	{
+		// 배치한 인덱스목록을 모두 뒤져서 해당 클릭한 타일의 인덱스를 찾는다.
+		if (_ItemName == BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemInfo_.ItemName_abbreviation_Inven)
+		{
+			float4 ReturnValue = float4::ZERO;
+
+			int Width = BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemInfo_.WidthSize;
+			int Height = BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemInfo_.HeightSize;
+			ReturnValue.x = static_cast<float>(Width);
+			ReturnValue.y = static_cast<float>(Height);
+
+			return ReturnValue;
+		}
+	}
+
+	return float4::ZERO;
 }
 
 void NPC_BuySellView::AddHaveGold(int _Gold)
