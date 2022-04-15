@@ -50,12 +50,6 @@ class GameEngineUIRenderer;
 class GameEngineCollision;
 class NPC_BuySellView : public GameEngineActor
 {
-private:
-	static int CurTabIndex;									// 해당 판매창의 현재 탭인덱스
-
-public:
-	static int GetCurTabIndex();
-
 private: // 판넬관련
 	GameEngineUIRenderer* ViewPanel_;						// 판매창 판넬렌더러
 
@@ -93,6 +87,9 @@ private: // 특수기능 버튼관련
 	Button_State SellBtnState_;								// 판매버튼 상태
 	Button_State RepairBtnState_;							// 수리버튼 상태
 	Button_State AllRepairBtnState_;						// 전부수리/창닫기 버튼 상태
+
+private:
+	int CurTabIndex;										// 해당 판매창의 현재 탭인덱스
 	
 public:
 	NPC_BuySellView();

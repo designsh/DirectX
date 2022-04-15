@@ -19,13 +19,6 @@
 #include "ChandleryNPC.h"
 #include "NPC_TopMenuBar.h"
 
-int NPC_BuySellView::CurTabIndex = 0;
-
-int NPC_BuySellView::GetCurTabIndex()
-{
-	return CurTabIndex;
-}
-
 NPC_BuySellView::NPC_BuySellView() :
 	ViewPanel_(nullptr),
 	BuyButtonRenderer_(nullptr),
@@ -46,7 +39,8 @@ NPC_BuySellView::NPC_BuySellView() :
 	BuyBtnState_(Button_State::Normal),
 	SellBtnState_(Button_State::Normal),
 	RepairBtnState_(Button_State::Normal),
-	AllRepairBtnState_(Button_State::Normal)
+	AllRepairBtnState_(Button_State::Normal),
+	CurTabIndex(0)
 {
 }
 
