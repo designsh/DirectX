@@ -254,83 +254,83 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 
 	MainPlayerInfo_.ItemInfo.push_back(BasicIdentifyScroll);
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// 테스트용 아이템
-	//ItemList TestItem = {};
-	//TestItem.ItemName_abbreviation = "crs";
-	//TestItem.ItemName_abbreviation_Inven = "invcrs";
-	//TestItem.ItemCode = 5;
-	//TestItem.ItemType = ItemType::Weapon;
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 테스트용 아이템
+	ItemList TestItem = {};
+	TestItem.ItemName_abbreviation = "crs";
+	TestItem.ItemName_abbreviation_Inven = "invcrs";
+	TestItem.ItemCode = 5;
+	TestItem.ItemType = ItemType::Weapon;
 
-	//TestItem.ItemLocType = ItemLocType::Inven_Bottom;
-	//TestItem.StartPosition = 0;
-	//TestItem.WidthSize = 3;
-	//TestItem.HeightSize = 3;
+	TestItem.ItemLocType = ItemLocType::Inven_Bottom;
+	TestItem.StartPosition = 0;
+	TestItem.WidthSize = 3;
+	TestItem.HeightSize = 3;
 
-	//TestItem.IsDurability = false;
-	//TestItem.MaxDurability = 0;
-	//TestItem.CurDurability = 0;
+	TestItem.IsDurability = false;
+	TestItem.MaxDurability = 0;
+	TestItem.CurDurability = 0;
 
-	//TestItem.Block = 0;
-	//TestItem.Weight = 0;
-	//TestItem.Price = 10;
-	//TestItem.PullDamage = 0;
-	//TestItem.PullArmor = 0;
+	TestItem.Block = 0;
+	TestItem.Weight = 0;
+	TestItem.Price = 10;
+	TestItem.PullDamage = 0;
+	TestItem.PullArmor = 0;
 
-	//TestItem.Recovery = 0;
+	TestItem.Recovery = 0;
 
-	//MainPlayerInfo_.ItemInfo.push_back(TestItem);
+	MainPlayerInfo_.ItemInfo.push_back(TestItem);
 
-	//ItemList TestItem2 = {};
-	//TestItem2.ItemName_abbreviation = "bhm";
-	//TestItem2.ItemName_abbreviation_Inven = "invbhm";
-	//TestItem2.ItemCode = 5;
-	//TestItem2.ItemType = ItemType::Helm;
+	ItemList TestItem2 = {};
+	TestItem2.ItemName_abbreviation = "bhm";
+	TestItem2.ItemName_abbreviation_Inven = "invbhm";
+	TestItem2.ItemCode = 5;
+	TestItem2.ItemType = ItemType::Helm;
 
-	//TestItem2.ItemLocType = ItemLocType::Inven_Bottom;
-	//TestItem2.StartPosition = 3;
-	//TestItem2.WidthSize = 2;
-	//TestItem2.HeightSize = 2;
+	TestItem2.ItemLocType = ItemLocType::Inven_Bottom;
+	TestItem2.StartPosition = 3;
+	TestItem2.WidthSize = 2;
+	TestItem2.HeightSize = 2;
 
-	//TestItem2.IsDurability = false;
-	//TestItem2.MaxDurability = 0;
-	//TestItem2.CurDurability = 0;
+	TestItem2.IsDurability = false;
+	TestItem2.MaxDurability = 0;
+	TestItem2.CurDurability = 0;
 
-	//TestItem2.Block = 0;
-	//TestItem2.Weight = 0;
-	//TestItem2.Price = 10;
-	//TestItem2.PullDamage = 0;
-	//TestItem2.PullArmor = 0;
+	TestItem2.Block = 0;
+	TestItem2.Weight = 0;
+	TestItem2.Price = 10;
+	TestItem2.PullDamage = 0;
+	TestItem2.PullArmor = 0;
 
-	//TestItem2.Recovery = 0;
+	TestItem2.Recovery = 0;
 
-	//MainPlayerInfo_.ItemInfo.push_back(TestItem2);
+	MainPlayerInfo_.ItemInfo.push_back(TestItem2);
 
-	//ItemList TestItem3 = {};
-	//TestItem3.ItemName_abbreviation = "chn";
-	//TestItem3.ItemName_abbreviation_Inven = "invchn";
-	//TestItem3.ItemCode = 5;
-	//TestItem3.ItemType = ItemType::Armor;
+	ItemList TestItem3 = {};
+	TestItem3.ItemName_abbreviation = "chn";
+	TestItem3.ItemName_abbreviation_Inven = "invchn";
+	TestItem3.ItemCode = 5;
+	TestItem3.ItemType = ItemType::Armor;
 
-	//TestItem3.ItemLocType = ItemLocType::Inven_Bottom;
-	//TestItem3.StartPosition = 5;
-	//TestItem3.WidthSize = 3;
-	//TestItem3.HeightSize = 3;
+	TestItem3.ItemLocType = ItemLocType::Inven_Bottom;
+	TestItem3.StartPosition = 5;
+	TestItem3.WidthSize = 3;
+	TestItem3.HeightSize = 3;
 
-	//TestItem3.IsDurability = false;
-	//TestItem3.MaxDurability = 0;
-	//TestItem3.CurDurability = 0;
+	TestItem3.IsDurability = false;
+	TestItem3.MaxDurability = 0;
+	TestItem3.CurDurability = 0;
 
-	//TestItem3.Block = 0;
-	//TestItem3.Weight = 0;
-	//TestItem3.Price = 10;
-	//TestItem3.PullDamage = 0;
-	//TestItem3.PullArmor = 0;
+	TestItem3.Block = 0;
+	TestItem3.Weight = 0;
+	TestItem3.Price = 10;
+	TestItem3.PullDamage = 0;
+	TestItem3.PullArmor = 0;
 
-	//TestItem3.Recovery = 0;
+	TestItem3.Recovery = 0;
 
-	//MainPlayerInfo_.ItemInfo.push_back(TestItem3);
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	MainPlayerInfo_.ItemInfo.push_back(TestItem3);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
 	MainPlayerInfo_.ItemInfoCnt = static_cast<int>(MainPlayerInfo_.ItemInfo.size());

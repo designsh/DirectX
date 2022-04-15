@@ -1643,6 +1643,14 @@ bool InventoryView::InventoryArrangeTileCheck(const float4& _ItemScaleIndex)
 
 
 
+
+
+
+
+
+
+
+
 	return true;
 }
 

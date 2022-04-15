@@ -927,7 +927,10 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 				// 판매창의 아이템을 클릭시 해당 아이템 구매 및 플레이어 인벤토리 빈칸에 배치, 아이템가격만큼 NPC보유골드 증가
 				// 아이템가격만큼 플레이어의 보유골드 감소
 				// 단, 플레이어의 인벤토리에 빈칸이 없다면 실패
+				
 
+
+				//BuySellViewTabs_[CurTabIndex].HaveItemList_
 				float4 ItemScale = float4();
 
 				// 1. 플레이어의 인벤토리를 검사(하단 보관탭) InventoryViewItemArrageCheck
@@ -1176,6 +1179,11 @@ std::string NPC_BuySellView::FindWeaponItem(int _ArrangeIndex)
 	}
 
 	return std::string();
+}
+
+int NPC_BuySellView::FindItemListIndex(const std::string& _Name)
+{
+	return 0;
 }
 
 void NPC_BuySellView::AddHaveGold(int _Gold)
