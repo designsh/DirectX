@@ -952,7 +952,7 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 				{
 					// »ç¿îµå½ÇÇà
 					// '~ÇÒ ¼ö¾ø´Ù'
-
+					int a = 0;
 					return;
 				}
 			}
@@ -1019,7 +1019,7 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 				NewItem.ArrangeIndexs_.clear();
 				for (int k = 0; k < 3; ++k)
 				{
-					for (int l = 0; l < 3; ++l)
+					for (int l = 0; l < 2; ++l)
 					{
 						int CalcIndex = NewItem.StartIndex + l + (k * 10);
 						if (0 <= CalcIndex && CalcIndex < 100)
@@ -1067,10 +1067,10 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 			// ¹æ¾î±¸ÅÇ
 			else if (1 == _TabIndex)
 			{
-				// bhm(Åõ±¸ 2x2), bsh(¹æÆÐ 3x3), chn(°©¿Ê 3x3), hbt(ºÎÃ÷ 2x2), tbl(º§Æ® 1x3), tgl(Àå°© 2x2)
+				// bhm(Åõ±¸ 2x2), bsh(¹æÆÐ 2x3), chn(°©¿Ê 2x3), hbt(ºÎÃ÷ 2x2), tbl(º§Æ® 1x3), tgl(Àå°© 2x2)
 				std::string ItemName[6] = { {"invbhm"}, {"invbsh"}, {"invchn"}, {"invhbt"}, {"invtbl"}, {"invtgl"} };
 				int ItemStartIndex[6] = { {0}, {3}, {7}, {30}, {42}, {50} };
-				float4 ItemSize[6] = { {float4(2.f, 2.f)}, {float4(3.f, 3.f)}, {float4(3.f, 3.f)}, {float4(2.f, 2.f)}, {float4(3.f, 1.f)}, {float4(2.f, 2.f)} };
+				float4 ItemSize[6] = { {float4(2.f, 2.f)}, {float4(2.f, 3.f)}, {float4(2.f, 3.f)}, {float4(2.f, 2.f)}, {float4(2.f, 1.f)}, {float4(2.f, 2.f)} };
 
 				for (int i = 0; i < 6; ++i)
 				{

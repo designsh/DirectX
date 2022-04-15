@@ -264,7 +264,7 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 
 	TestItem.ItemLocType = ItemLocType::Inven_Bottom;
 	TestItem.StartPosition = 0;
-	TestItem.WidthSize = 3;
+	TestItem.WidthSize = 2;
 	TestItem.HeightSize = 3;
 
 	TestItem.IsDurability = false;
@@ -314,7 +314,7 @@ void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, Jo
 
 	TestItem3.ItemLocType = ItemLocType::Inven_Bottom;
 	TestItem3.StartPosition = 5;
-	TestItem3.WidthSize = 3;
+	TestItem3.WidthSize = 2;
 	TestItem3.HeightSize = 3;
 
 	TestItem3.IsDurability = false;
