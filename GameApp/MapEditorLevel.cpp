@@ -51,10 +51,26 @@ void MapEditorLevel::LevelStart()
 	GameEngineTexture* WallTile = GameEngineTextureManager::GetInst().Find("Town_Wall.png");
 	WallTile->Cut(31, 1);
 
-	GameEngineTexture* FloorGrid = GameEngineTextureManager::GetInst().Find("FloorGrid.png");
-	FloorGrid->Cut(1, 1);
-	GameEngineTexture* WallGrid = GameEngineTextureManager::GetInst().Find("WallGrid.png");
-	WallGrid->Cut(1, 1);
+	// 일반그리드
+	GameEngineTexture* FloorGridNor = GameEngineTextureManager::GetInst().Find("FloorGrid_Normal.png");
+	FloorGridNor->Cut(1, 1);
+	GameEngineTexture* WallGridNor = GameEngineTextureManager::GetInst().Find("WallGrid_Normal.png");
+	WallGridNor->Cut(1, 1);
+
+	// 센터그리드
+	GameEngineTexture* FloorGridCenter = GameEngineTextureManager::GetInst().Find("FloorGrid_Center.png");
+	FloorGridCenter->Cut(1, 1);
+	GameEngineTexture* WallGridCenter = GameEngineTextureManager::GetInst().Find("WallGrid_Normal.png");
+	WallGridCenter->Cut(1, 1);
+
+	// 특수그리드
+	GameEngineTexture* WallGridRT = GameEngineTextureManager::GetInst().Find("WallGrid_RT.png");
+	WallGridRT->Cut(1, 1);
+	GameEngineTexture* WallGridRB = GameEngineTextureManager::GetInst().Find("WallGrid_RB.png");
+	WallGridRB->Cut(1, 1);
+	GameEngineTexture* WallGridBent = GameEngineTextureManager::GetInst().Find("WallGrid_Bent.png");
+	WallGridBent->Cut(1, 1);
+
 #pragma endregion
 
 #pragma region Editor Window
