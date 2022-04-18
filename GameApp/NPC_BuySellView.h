@@ -114,7 +114,7 @@ private: // 각 버튼 클릭체크
 	void AllRepairButtonClick(GameEngineCollision* _Other);
 
 private: // 내부에서 접근 판매창 비활성화처리
-	void PrivateNPCBuySellViewActive();
+	void PrivateNPCBuySellViewInactive();
 
 public: // 외부에서 접근 판매창 활성화/비활성화 처리
 	void PublicNPCBuySellViewActive();
@@ -141,7 +141,10 @@ public: // 보유골드 증가/감소
 	void AddHaveGold(int _Gold);
 	void SubHaveGold(int _Gold);
 
-public:
+public: // 
 	bool SellItemCheck(const std::string& _SellItemName);
+
+private:
+	void SpecialCursorFlagReset();
 };
 

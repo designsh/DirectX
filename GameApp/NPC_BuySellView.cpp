@@ -137,7 +137,10 @@ void NPC_BuySellView::Update(float _DeltaTime)
 			// 해당 판매창종료(잡화상인이면 창닫기버튼이므로 창닫기 기능처리)
 			if (NPCType::PotionShop == BuySellViewType_)
 			{
-				PrivateNPCBuySellViewActive();
+				PrivateNPCBuySellViewInactive();
+
+				// 모든 버튼 상태 리셋
+				SpecialCursorFlagReset();
 			}
 
 			AllRepairBtnState_ = Button_State::Normal;
@@ -383,7 +386,7 @@ void NPC_BuySellView::AllRepairButtonClick(GameEngineCollision* _Other)
 	}
 }
 
-void NPC_BuySellView::PrivateNPCBuySellViewActive()
+void NPC_BuySellView::PrivateNPCBuySellViewInactive()
 {	
 	// 판매창 비성화
 	Off();
@@ -506,6 +509,9 @@ void NPC_BuySellView::PublicNPCBuySellViewInactive()
 
 	// 현재마우스 커서상태를 리셋(기본상태로 전환)
 	GlobalValue::CurMouse->CursorStateReset();
+
+	// 특수기능 마우스커서 변경을 위한 버튼 Flag 모두 해제
+	SpecialCursorFlagReset();
 
 	// 해당 NPC의 상단메뉴 On
 	switch (NPCClassType_)
@@ -1482,4 +1488,11 @@ bool NPC_BuySellView::SellItemCheck(const std::string& _SellItemName)
 	BuySellViewTabs_[ArrangeTabIndex].HaveItemList_.push_back(NewItem);
 
 	return true;
+}
+
+void NPC_BuySellView::SpecialCursorFlagReset()
+{
+	BuyActive_ = false;
+	SellActive_ = false;
+	RepairActive_ = false;
 }
