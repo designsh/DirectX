@@ -138,9 +138,9 @@ void MainPlayer::GameEndMenuViewEnabled(bool _Enabled)
 
 #pragma region 인벤토리창 아이템배치 체크
 // 외부접근 인벤토리체크하여 해당 아이템 배치가능한지 체크
-bool MainPlayer::InventoryViewItemArrageCheck(const float4& _ItemScale)
+bool MainPlayer::InventoryViewItemArrageCheckOn(const float4& _ItemScale, const std::string& _ItemName)
 {
-	return InventoryView_->InventoryArrangeTileCheck(_ItemScale);
+	return InventoryView_->InventoryArrangeTileCheckOn(_ItemScale, _ItemName);
 }
 
 #pragma endregion

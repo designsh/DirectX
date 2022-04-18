@@ -91,7 +91,7 @@ public: // 인벤창과 판매창, 마우스가 연동하여 특수기능 수행
 	void ItemRepairProcess(int _TileIndex, InvTabType _InvTabType);
 
 public: // 외부에서 접근하여 현재 인벤토리에 아이템이 배치가능한지 체크하는 기능 수행(아이템이 차지하는 타일의 인덱스(가로/세로)를 수신)
-	bool InventoryArrangeTileCheck(const float4& _ItemScaleIndex);
+	bool InventoryArrangeTileCheckOn(const float4& _ItemScaleIndex, const std::string& _ItemName);
 
 public: // 인벤창 상단 장착탭의 무기 장착상태에 따라 플레이어 상태 변경
 	void EquipItemCheck(ItemLocType _ItemLocType, const std::string& _ItemName, bool _OnAndOff);

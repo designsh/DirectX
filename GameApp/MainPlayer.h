@@ -464,7 +464,7 @@ public:
 	void GameEndMenuViewEnabled(bool _Enabled);
 
 public:
-	bool InventoryViewItemArrageCheck(const float4& _ItemScale);
+	bool InventoryViewItemArrageCheckOn(const float4& _ItemScale, const std::string& _ItemName);
 
 #pragma endregion
 

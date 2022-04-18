@@ -929,30 +929,36 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 					return;
 				}
 
-				// 1. 플레이어의 인벤토리를 검사(하단 보관탭) InventoryViewItemArrageCheck
-				if (true == GlobalValue::CurPlayer->InventoryViewItemArrageCheck(ItemScale))
+				// 1. 플레이어의 인벤토리를 검사(하단 보관탭) InventoryViewItemArrageCheckOn
+				// 2. 인벤토리에 배치가능하다면 해당 아이템 인벤토리창에 배치 및 플레이어 보유아이템목록에 추가
+				if (true == GlobalValue::CurPlayer->InventoryViewItemArrageCheckOn(ItemScale, SelectItemName))
 				{
-					// 2. 인벤토리에 배치가능하다면 해당 아이템 인벤토리창에 배치 및 플레이어 보유아이템목록에 추가
+					// 3. 아이템 구매를 완료했으므로 해당 아이템 보유갯수를 체크하여
+					//    갯수가 0일때 해당 아이템을 판매창 아이템목록에서 제거 후
+					int ItemIndex = FindItemListIndex(SelectItemName);
 
+					// 플레이어가 구매했으므로 남은 수량 -1
+					--BuySellViewTabs_[CurTabIndex].HaveItemList_[ItemIndex].ItemRemainsQuantity_;
 
-
-					// 3. 해당 아이템 가격만큼 NPC 보유골드 증가
-
-
-
-
-
-					// 4. 해당 아이템 가격만큼 플레이어 보유골드 감소
-
-
-
-					int a = 0;
+					// 현재 남은수량이 0이면 더이상 판매할수 없으므로 목록에서 제거 및 관련 배치타일 Flag Off처리
+					if (0 == BuySellViewTabs_[CurTabIndex].HaveItemList_[ItemIndex].ItemRemainsQuantity_)
+					{
+						if (true == ItemErase(SelectItemName))
+						{
+							return;
+						}
+						else
+						{
+							// 사운드실행
+							// '~할 수없다'
+							return;
+						}
+					}
 				}
 				else // 아이템을 더이상 구매할수없음(이유 : 인벤토리 창부족)
 				{
 					// 사운드실행
 					// '~할 수없다'
-					int a = 0;
 					return;
 				}
 			}
@@ -1212,6 +1218,35 @@ float4 NPC_BuySellView::GetItemScale(const std::string& _ItemName)
 	}
 
 	return float4::ZERO;
+}
+
+bool NPC_BuySellView::ItemErase(const std::string& _ItemName)
+{
+	int ItemCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_.size());
+	for (int i = 0; i < ItemCnt; ++i)
+	{
+		if (_ItemName == BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemInfo_.ItemName_abbreviation_Inven)
+		{
+			// 해당아이템이 차지하는 배치타일의 모든 Flag Off 처리
+			int IndexCnt = static_cast<int>(BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ArrangeIndexs_.size());
+			for (int j = 0; j < IndexCnt; ++j)
+			{
+				BuySellViewTabs_[CurTabIndex].ArrangeTiles_[BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ArrangeIndexs_[j]].ItemArrangementFlag_ = false;
+				BuySellViewTabs_[CurTabIndex].ArrangeTiles_[BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ArrangeIndexs_[j]].TileRenderer_->SetAlpha(0.f);
+			}
+
+			// 남은 수량이 0개이므로 아이템 렌더러를 죽이고,
+			BuySellViewTabs_[CurTabIndex].HaveItemList_[i].ItemRenderer_->Death();
+
+			// 해당 아이템은 목록에서 제거
+			std::vector<HaveItem>::iterator FindIter = BuySellViewTabs_[CurTabIndex].HaveItemList_.begin() + i;
+			BuySellViewTabs_[CurTabIndex].HaveItemList_.erase(FindIter);
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void NPC_BuySellView::AddHaveGold(int _Gold)

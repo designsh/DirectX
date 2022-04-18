@@ -135,6 +135,7 @@ public: // 상점타입별 아이템목록생성
 	std::string FindWeaponItem(int _ArrangeIndex);
 	int FindItemListIndex(const std::string& _ItemName);
 	float4 GetItemScale(const std::string& _ItemName);
+	bool ItemErase(const std::string& _ItemName);
 
 public: // 보유골드 증가/감소
 	void AddHaveGold(int _Gold);

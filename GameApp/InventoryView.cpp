@@ -1633,41 +1633,168 @@ void InventoryView::ItemRepairProcess(int _TileIndex, InvTabType _InvTabType)
 
 }
 
-bool InventoryView::InventoryArrangeTileCheck(const float4& _ItemScaleIndex)
+bool InventoryView::InventoryArrangeTileCheckOn(const float4& _ItemScaleIndex, const std::string& _ItemName)
 {
-	int ItemWidth = _ItemScaleIndex.ix();
-	int ItemHeight = _ItemScaleIndex.iy();
+	bool OneSizeItem = false;
 
 	// 인벤토리 검사하여 배치가능한 범위의 아이템이라면 true 반환
 	// 아니라면 false 반환
+	int StartIndex = -1;
+	int StoreCnt = static_cast<int>(InvStoreInfo_.size());
+	for (int i = 0; i < StoreCnt; ++i)
+	{
+		if (false == InvStoreInfo_[i]->GetIsItemArrangeFlag())
+		{
+			StartIndex = i;
+			break;
+		}
+	}
 
+	if (StartIndex == -1)
+	{
+		return false;
+	}
 
+	// 빈칸 존재시 검사(1x1크기이면 빈칸검사 제외)
+	int ItemWidth = _ItemScaleIndex.ix();
+	int ItemHeight = _ItemScaleIndex.iy();
+	if (ItemWidth == 1 && ItemHeight == 1)
+	{
+		// StartIndex만 사용하므로 체크 불필요
+		OneSizeItem = true;
+	}
+	else
+	{
+		// StartIndex를 포함하는 인덱스목록 모두 검사
+		for (int y = 0; y < ItemHeight; ++y)
+		{
+			for (int x = 0; x < ItemWidth; ++x)
+			{
+				int Index = StartIndex + x + (y * 10);
+				if (true == InvStoreInfo_[Index]->GetIsItemArrangeFlag())
+				{
+					return false;
+				}
+			}
+		}
+	}
 
+	// 위의 모든 조건에 해당하지않는다면 해당 아이템 배치가능하므로 인벤토리에 해당 아이템 배치
 
+	// 1. 아이템 정보 Get
+	ItemList BuyItem = {};
+	if (true == AllItemInfomation::GetInst().ItemInfoFindInvName(_ItemName, BuyItem))
+	{
+		// 해당 아이템 배치 정보 수정
+		BuyItem.StartPosition = StartIndex;
+		BuyItem.ItemLocType = ItemLocType::Inven_Bottom;
 
+		// 정보를 찾았으므로 해당 아이템정보를 인벤토리 배치 아이템 목록에 추가(항상 하단보관탭으로 위치설정)
+		int ListCnt = static_cast<int>(InvArrItemList_.size());
+		ItemLocType LocType = ItemLocType::Inven_Bottom;
+		float4 RenderPos = InvStoreInfo_[StartIndex]->GetTilePos();
 
+		// 아이템크기가 1x1이면
+		if (true == OneSizeItem)
+		{
+			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
+			if (true == NewItemInfo->CreateItemInfo(ListCnt, StartIndex, LocType, BuyItem.ItemName_abbreviation, RenderPos))
+			{
+				// StartIndex만 차지하는 아이템 배치
+				InvStoreInfo_[StartIndex]->SetItemArrangeFlagOn();
 
+				// 인벤창이 활성화되어있다면 렌더러 On상태로 전환
+				NewItemInfo->On();
 
+				// 목록에 해당 아이템 추가
+				InvArrItemList_.push_back(NewItemInfo);
+			}
+			else
+			{
+				NewItemInfo->Death();
+			}
+		}
+		else
+		{
+			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
+			if (true == NewItemInfo->CreateItemInfo(ListCnt, StartIndex, LocType, BuyItem.ItemName_abbreviation, RenderPos))
+			{
 
+				// 인덱스 목록을 모두 차지하는 아이템 배치
+				std::vector<int> TileArrIndexList;
+				TileArrIndexList.clear();
 
-	/*
-	std::vector<InventoryTileBox*> InvStoreInfo_;				// 보관탭 정보목록
-	std::vector<GameEngineCollision*> InvStoreCol_;				// 보관탭 충돌체 목록
-	*/
+				for (int k = 0; k < ItemHeight; ++k)
+				{
+					for (int l = 0; l < ItemWidth; ++l)
+					{
+						int CalcIndex = StartIndex + l + (k * 10);
+						if (0 <= CalcIndex && CalcIndex < 40)
+						{
+							TileArrIndexList.push_back(CalcIndex);
+						}
+					}
+				}
 
+				// 배치목록 정렬
+				std::sort(TileArrIndexList.begin(), TileArrIndexList.end());
 
+				// 차지하고있는 칸의 중앙 위치를 계산한다.
+				// 첫번째 타일의 위치와 마지막번째 타일의 위치를 Get
+				float4 ReRenderPos = float4::ZERO;
+				int IndexCnt = static_cast<int>(TileArrIndexList.size());
+				float4 BeginTilePos = InvStoreInfo_[TileArrIndexList[0]]->GetTilePos();
+				float4 EndTilePos = InvStoreInfo_[TileArrIndexList[IndexCnt - 1]]->GetTilePos();
 
+				// 두 타일 위치를 비교
+				if (BeginTilePos.x == EndTilePos.x) // 해당 아이템의 너비 1
+				{
+					ReRenderPos.x = BeginTilePos.x;
+				}
+				else
+				{
+					BeginTilePos.x += ((EndTilePos.x - BeginTilePos.x) * 0.5f);
+					ReRenderPos.x = BeginTilePos.x;
+				}
 
+				if (BeginTilePos.y == EndTilePos.y) // 해당 아이템의 높이 1
+				{
+					ReRenderPos.y = BeginTilePos.y;
+				}
+				else
+				{
+					BeginTilePos.y -= ((BeginTilePos.y - EndTilePos.y) * 0.5f);
+					ReRenderPos.y = BeginTilePos.y;
+				}
 
-	int a = 0;
+				NewItemInfo->SetItemRenderPos(ReRenderPos);
 
+				// 아이템 장착 Flag On
+				for (int l = 0; l < IndexCnt; ++l)
+				{
+					InvStoreInfo_[TileArrIndexList[l]]->SetItemArrangeFlagOn();
+				}
+				NewItemInfo->SetTileIndexList(TileArrIndexList);
 
+				// 인벤창이 활성화되어있다면 아이템렌더러 On상태 전환
+				NewItemInfo->On();
 
+				// 목록에 해당 아이템 추가
+				InvArrItemList_.push_back(NewItemInfo);
+			}
+			else
+			{
+				NewItemInfo->Death();
+			}
+		}
 
-
-
-
-
+		// 플레이어 보유 아이템 목록에 추가
+		MainPlayerInfomation::GetInst().PlayerItemAdd(BuyItem);
+	}
+	else
+	{
+		return false;
+	}
 
 	return true;
 }
