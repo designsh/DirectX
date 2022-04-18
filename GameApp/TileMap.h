@@ -67,7 +67,7 @@ struct FloorTileInfo
 struct WallTileInfo
 {
 	// 벽타일 정보
-	float4 TileSize;
+	float4 WallTileSize;
 	int WallIndex;
 	int WallIndexX;
 	int WallIndexY;
@@ -87,8 +87,8 @@ class TileMap : public GameEngineActor
 {
 #pragma region 실질적인 타일정보
 private: // 실질적으로 저장되는 타일정보
-	std::unordered_map<__int64, FloorTileInfo*> FloorTileInfo_;
-	std::unordered_map<__int64, WallTileInfo*> WallTileInfo_;
+	std::unordered_map<__int64, FloorTileInfo> FloorTileInfo_;
+	std::unordered_map<__int64, WallTileInfo> WallTileInfo_;
 #pragma endregion
 
 #pragma region 에디터용도
@@ -193,5 +193,14 @@ public: // CreateAutoMap Mode
 	//void AutoModeTileAllClear();
 
 public:
+	void AllClear();
+
+	void AllClearFloorTile();
+	void AllClearFloorTileInfo();
+	void AllClearFloorTileMapRenderer();
+
+	void AllClearWallTile();
+	void AllClearWallTileInfo();
+	void AllClearWallTileMapRenderer();
 };
 

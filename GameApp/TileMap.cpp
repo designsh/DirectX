@@ -295,13 +295,52 @@ void TileMap::DelWallTile(float4 _Pos)
 // 자동모드 정보생성
 void TileMap::CreateFloorTileInfo(int _WidthTileCount, int _HeightTileCount)
 {
-	// 만약 다른모드에서 정보나 타일정보를 생성한것을 재사용하는것을 방지하기 위하여 기존 정보 모두 클리어하고 생성 시작
-
-
-
-
+	// 만약 다른모드에서 바닥타일정보나 바닥타일렌더링정보를 생성한것을 재사용하는것을 방지하기 위하여 기존 정보 모두 클리어하고 생성 시작
+	AllClearFloorTile();
 
 	// 인자로 수신한 갯수만큼 바닥타일정보 생성
+	for (int y = 0; y < _HeightTileCount; ++y)
+	{
+		for (int x = 0; x < _WidthTileCount; ++x)
+		{
+			//float4 FloorTileSize;
+			//int FloorIndex;
+			//int FloorIndexX;
+			//int FloorIndexY;
+			//int FloorImageIndex;
+			//std::string FloorTextureName;
+			//float4 FloorRenderSize;
+			//float4 FloorRenderPivotPos;
+			
+			// 바닥타일 정보 생성
+			FloorTileInfo NewFloorTileInfo = {};
+			NewFloorTileInfo.FloorTileSize = TileSize_;
+
+
+
+
+
+
+			//TileIndex Index = {};
+
+			//float4 Pos = float4::ZERO;
+			//Pos.x = (x - y) * TileSizeHalf_.x;
+			//Pos.y = (x + y) * -TileSizeHalf_.y;
+
+			//float4 CameraPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+			//Index = GetFloorTileIndex((Pos * GetLevel()->GetMainCamera()->GetZoomValue()) + CameraPos);
+
+			//GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			//Renderer->SetImage("FloorGrid.png");
+			//Renderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+			//Renderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+			//FloorGrides_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
+
+	// 정보 생성완료 후 레퍼런스렌더링(그리드)
+
 
 
 }
@@ -326,5 +365,97 @@ void TileMap::UpdateWallTileInfo(int _DefaultTileIndex)
 
 }
 
+#pragma endregion
+
+#pragma region 정보/렌더링정보삭제기능
+void TileMap::AllClear()
+{
+	// 바닥타일관련 클리어
+	AllClearFloorTile();
+
+	// 벽타일관련 클리어
+	AllClearWallTileInfo();
+	AllClearWallTileMapRenderer();
+}
+
+void TileMap::AllClearFloorTile()
+{
+	// 타일정보 클리어
+	AllClearFloorTileInfo();
+
+	// 타일렌더링정보 클리어
+	AllClearFloorTileMapRenderer();
+}
+
+void TileMap::AllClearFloorTileInfo()
+{
+	if (false == FloorTileInfo_.empty())
+	{
+		FloorTileInfo_.clear();
+	}
+}
+
+void TileMap::AllClearFloorTileMapRenderer()
+{
+	// 타일
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesStartIter = FloorTiles_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesEndIter = FloorTiles_.end();
+	for (; TilesStartIter != TilesEndIter; ++TilesStartIter)
+	{
+		// 세컨드 데스처리
+		(*TilesStartIter).second->Death();
+	}
+	FloorTiles_.clear();
+
+	// 그리드
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsStartIter = FloorGrides_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsEndIter = FloorGrides_.end();
+	for (; GridsStartIter != GridsEndIter; ++GridsStartIter)
+	{
+		// 세컨드 데스처리
+		(*GridsStartIter).second->Death();
+	}
+	FloorGrides_.clear();
+}
+
+void TileMap::AllClearWallTile()
+{
+	// 타일정보 클리어
+	AllClearWallTileInfo();
+
+	// 타일렌더링정보 클리어
+	AllClearWallTileMapRenderer();
+}
+
+void TileMap::AllClearWallTileInfo()
+{
+	if (false == WallTileInfo_.empty())
+	{
+		WallTileInfo_.clear();
+	}
+}
+
+void TileMap::AllClearWallTileMapRenderer()
+{
+	// 타일
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesStartIter = WallTiles_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesEndIter = WallTiles_.end();
+	for (; TilesStartIter != TilesEndIter; ++TilesStartIter)
+	{
+		// 세컨드 데스처리
+		(*TilesStartIter).second->Death();
+	}
+	WallTiles_.clear();
+
+	// 그리드
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsStartIter = WallGrides_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsEndIter = WallGrides_.end();
+	for (; GridsStartIter != GridsEndIter; ++GridsStartIter)
+	{
+		// 세컨드 데스처리
+		(*GridsStartIter).second->Death();
+	}
+	WallGrides_.clear();
+}
 #pragma endregion
 
