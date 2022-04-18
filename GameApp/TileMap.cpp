@@ -149,7 +149,14 @@ void TileMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 	{
 		case TileRenderingType::ALL:
 		{
-			FloorGridRenderer->SetImage("FloorGrid_Normal.png");
+			if (_Index.X_ == 0 && _Index.Y_ == 0)
+			{
+				FloorGridRenderer->SetImage("FloorGrid_Center.png");
+			}
+			else
+			{
+				FloorGridRenderer->SetImage("FloorGrid_Normal.png");
+			}
 			FloorGridRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
 			FloorGridRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
 			FloorGridRenderer->GetTransform()->SetLocalZOrder(-1.f);
@@ -164,7 +171,14 @@ void TileMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 		}
 		case TileRenderingType::GRID:
 		{
-			FloorGridRenderer->SetImage("FloorGrid_Normal.png");
+			if (_Index.X_ == 0 && _Index.Y_ == 0)
+			{
+				FloorGridRenderer->SetImage("FloorGrid_Center.png");
+			}
+			else
+			{
+				FloorGridRenderer->SetImage("FloorGrid_Normal.png");
+			}
 			FloorGridRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
 			FloorGridRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
 			FloorGridRenderer->GetTransform()->SetLocalZOrder(-1.f);
@@ -210,7 +224,14 @@ void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	{
 		case TileRenderingType::ALL:
 		{
-			WallGridRenderer->SetImage("WallGrid_Normal.png");
+			if (_Index.X_ == 0 && _Index.Y_ == 0)
+			{
+				WallGridRenderer->SetImage("WallGrid_Center.png");
+			}
+			else
+			{
+				WallGridRenderer->SetImage("WallGrid_Normal.png");
+			}
 			WallGridRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
 			WallGridRenderer->GetTransform()->SetLocalPosition(Pos);
 			WallGridRenderer->GetTransform()->SetLocalZOrder(-3.f);
@@ -226,7 +247,14 @@ void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 		}
 		case TileRenderingType::GRID:
 		{
-			WallGridRenderer->SetImage("WallGrid_Normal.png");
+			if (_Index.X_ == 0 && _Index.Y_ == 0)
+			{
+				WallGridRenderer->SetImage("WallGrid_Center.png");
+			}
+			else
+			{
+				WallGridRenderer->SetImage("WallGrid_Normal.png");
+			}
 			WallGridRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
 			WallGridRenderer->GetTransform()->SetLocalPosition(Pos);
 			WallGridRenderer->GetTransform()->SetLocalZOrder(-3.f);

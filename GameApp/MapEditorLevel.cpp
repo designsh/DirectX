@@ -60,7 +60,7 @@ void MapEditorLevel::LevelStart()
 	// 센터그리드
 	GameEngineTexture* FloorGridCenter = GameEngineTextureManager::GetInst().Find("FloorGrid_Center.png");
 	FloorGridCenter->Cut(1, 1);
-	GameEngineTexture* WallGridCenter = GameEngineTextureManager::GetInst().Find("WallGrid_Normal.png");
+	GameEngineTexture* WallGridCenter = GameEngineTextureManager::GetInst().Find("WallGrid_Center.png");
 	WallGridCenter->Cut(1, 1);
 
 	// 특수그리드
