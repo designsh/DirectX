@@ -79,6 +79,25 @@ void EditorControlWindow::OnGUI()
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom_);
 #pragma endregion
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #pragma region GridMode
 	if (true == ImGui::Button("FloorGridMode", ImVec2(140.f, 30.f)))
 	{

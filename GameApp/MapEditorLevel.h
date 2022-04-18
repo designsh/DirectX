@@ -4,10 +4,11 @@
 // 분류 : 맵에디터 레벨
 // 용도 : 
 // 설명 : 
+class TileMap;
 class MapEditorLevel : public GameEngineLevel
 {
 private:	// member Var
-	class IsoTileMap* Map;
+	TileMap* TileMap_;
 
 private:
 	float MoveSpeed_;

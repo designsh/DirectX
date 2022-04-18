@@ -1,8 +1,8 @@
 #include "PreCompile.h"
 #include "MapEditorLevel.h"
 
-#include "EditorControlWindow.h"
-#include "IsoTileMap.h"
+#include "CreateTileMapWindow.h"
+#include "TileMap.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
@@ -11,7 +11,7 @@
 #include <GameEngine/GameEngineTexture.h>
 
 MapEditorLevel::MapEditorLevel() :
-	Map(nullptr),
+	TileMap_(nullptr),
 	MoveSpeed_(1000.f)
 {
 }
@@ -22,7 +22,7 @@ MapEditorLevel::~MapEditorLevel()
 
 void MapEditorLevel::LevelChangeEndEvent()
 {
-	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("EditorControlWindow");
+	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
 	if (nullptr != Ptr)
 	{
 		Ptr->Off();
@@ -31,7 +31,7 @@ void MapEditorLevel::LevelChangeEndEvent()
 
 void MapEditorLevel::LevelChangeStartEvent()
 {
-	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("EditorControlWindow");
+	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
 	if (nullptr != Ptr)
 	{
 		Ptr->On();
@@ -50,26 +50,25 @@ void MapEditorLevel::LevelStart()
 	FloorTile->Cut(5, 37);
 	GameEngineTexture* WallTile = GameEngineTextureManager::GetInst().Find("Town_Wall.png");
 	WallTile->Cut(31, 1);
-#pragma endregion
 
 	GameEngineTexture* FloorGrid = GameEngineTextureManager::GetInst().Find("FloorGrid.png");
 	FloorGrid->Cut(1, 1);
 	GameEngineTexture* WallGrid = GameEngineTextureManager::GetInst().Find("WallGrid.png");
 	WallGrid->Cut(1, 1);
+#pragma endregion
 
 #pragma region Editor Window
-	// MapEditor Control Window
-	EditorControlWindow* Ptr = GameEngineGUI::GetInst()->CreateGUIWindow<EditorControlWindow>("EditorControlWindow");
-	Ptr->Off();
-
+	// CreateTileMap Window
+	CreateTileMapWindow* TileMapWindow = GameEngineGUI::GetInst()->CreateGUIWindow<CreateTileMapWindow>("CreateTileMapWindow");
+	TileMapWindow->Off();
 
 #pragma endregion
 
 #pragma region IsoTileMap Create & Setting
-	Map = CreateActor<IsoTileMap>();
-	Ptr->Map_ = Map;
-	Map->SetFloorTileTexture("Town_Floor.png");
-	Map->SetWallTileTexture("Town_Wall.png");
+	TileMap_ = CreateActor<TileMap>();
+	TileMapWindow->TileMap_ = TileMap_;
+	TileMap_->SetFloorTileTexture("Town_Floor.png");
+	TileMap_->SetWallTileTexture("Town_Wall.png");
 #pragma endregion
 
 #pragma region CreateKey
@@ -129,11 +128,11 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 
 #pragma endregion
 
-#pragma region 타일관련
+#pragma region 매뉴얼맵생성모드관련
 	// 타일생성
 	if (true == GameEngineInput::GetInst().Press("MouseLButton"))
 	{
-		EditorControlWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow<EditorControlWindow>("EditorControlWindow");
+		CreateTileMapWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow<CreateTileMapWindow>("CreateTileMapWindow");
 
 		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
 
@@ -162,21 +161,23 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
 		switch (Ptr->SelectMode_)
 		{
-		case TileType::FLOOR:
-			Map->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
-			break;
-		case TileType::WALL:
-			Map->SetWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
-			break;
-		default:
-			break;
+			case TileType::FLOOR:
+			{
+				TileMap_->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				break;
+			}
+			case TileType::WALL:
+			{
+				TileMap_->SetWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				break;
+			}
 		}
 	}
 
 	// 타일제거
 	if (true == GameEngineInput::GetInst().Press("MouseRButton"))
 	{
-		EditorControlWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow<EditorControlWindow>("EditorControlWindow");
+		CreateTileMapWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow<CreateTileMapWindow>("CreateTileMapWindow");
 		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
 
 		if (0 > WindowPos.x)
@@ -204,16 +205,36 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		float4 CameraPos = GetMainCamera()->GetTransform()->GetWorldPosition();
 		switch (Ptr->SelectMode_)
 		{
-		case TileType::FLOOR:
-			Map->DelFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
-			break;
-		case TileType::WALL:
-			Map->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
-			break;
-		default:
-			break;
+			case TileType::FLOOR:
+			{
+				TileMap_->DelFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+				break;
+			}
+			case TileType::WALL:
+			{
+				TileMap_->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+				break;
+			}
 		}
 	}
+
+#pragma endregion
+
+#pragma region 자동맵생성모드관련
+
+
+
+
+
+#pragma endregion
+
+#pragma region 랜덤맵생성모드관련
+
+
+
+
+
+
 
 #pragma endregion
 

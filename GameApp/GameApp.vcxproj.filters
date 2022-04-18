@@ -230,9 +230,6 @@
     <ClCompile Include="MainPlayer_MiniMenuButton.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu\MiniMenuButton</Filter>
     </ClCompile>
-    <ClCompile Include="IsoTileMap.cpp">
-      <Filter>Object\Actor\99.Editor</Filter>
-    </ClCompile>
     <ClCompile Include="MainPlayer_LevelUpActiveButton.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LevelUpButton</Filter>
     </ClCompile>
@@ -286,6 +283,15 @@
     </ClCompile>
     <ClCompile Include="ChandleryNPC_FSMState.cpp">
       <Filter>Object\Actor\00.Global\02.NPC\03.ChandleryNPC</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Object\Actor\99.Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="IsoTileMap.cpp">
+      <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateTileMapWindow.cpp">
+      <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -706,6 +712,9 @@
     <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView">
       <UniqueIdentifier>{9bbb1536-4194-422e-bcf2-5e8fbd7c5fa9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\99.Editor\01.CreateTileMapWindow">
+      <UniqueIdentifier>{fd818974-d54d-4b5c-948e-14534bacc2ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -903,9 +912,6 @@
     <ClInclude Include="MainPlayer_MiniMenuButton.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\MiniMenu\MiniMenuButton</Filter>
     </ClInclude>
-    <ClInclude Include="IsoTileMap.h">
-      <Filter>Object\Actor\99.Editor</Filter>
-    </ClInclude>
     <ClInclude Include="MainPlayer_LevelUpActiveButton.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\LevelUpButton</Filter>
     </ClInclude>
@@ -944,6 +950,15 @@
     </ClInclude>
     <ClInclude Include="ChandleryNPC.h">
       <Filter>Object\Actor\00.Global\02.NPC\03.ChandleryNPC</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Object\Actor\99.Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="IsoTileMap.h">
+      <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateTileMapWindow.h">
+      <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
