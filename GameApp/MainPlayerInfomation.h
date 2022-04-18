@@ -292,7 +292,8 @@ public: // 스탯 포인트 증가
 
 public: // MainPlayer ItemInfo Update
 	void PlayerItemAdd(ItemList _ItemInfo);
-	void PlayerItemDel(const std::string& _ItemName);
+	void PlayerItemDel(const std::string& _ItemName, ItemLocType _ItemLocType, int _StartIndex);
+	void PlayerItemInfoUpdate(ItemLocType _PrevItemLocType, int _PrevStartIndex, ItemList _UpdateItemInfo);
 
 public:
 	void PlayerSkillLevelUP(const std::string& _SkillName);

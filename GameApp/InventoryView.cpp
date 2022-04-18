@@ -554,7 +554,7 @@ void InventoryView::PlayerItemListArrangement()
 			if (true == NewItemInfo->CreateItemInfo(i, TileIndex, LocType, ItemName, RenderPos))
 			{
 				// 아이템 렌더러의 크기에 따라 인벤 하단 보관탭의 칸(타일)의 Flag On
-				float4 ArrangeSize = NewItemInfo->GetArrangeTileSize();
+				float4 ArrangeSize = NewItemInfo->GetArrangeItemSize();
 				if (1 == ArrangeSize.x && 1 == ArrangeSize.y)
 				{
 					// 1칸만 차지하므로 해당 타일인덱스만 Flag On
@@ -695,7 +695,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 			float4 RenderPos = InvEquipInfo_[static_cast<int>(LocType)]->GetTilePos();
 
 			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
-			if (true == NewItemInfo->CreateItemInfo(Cnt, static_cast<int>(LocType), LocType, ItemName, RenderPos))
+			if (true == NewItemInfo->CreateItemInfo(Cnt, static_cast<int>(LocType), LocType, ItemName, RenderPos, true))
 			{
 				// 관리목록 추가
 				InvArrItemList_.push_back(NewItemInfo);
@@ -732,7 +732,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 				ItemLocType LocType = CurItemInfo.ItemLocType;
 				float4 RenderPos = InvStoreInfo_[_TileIndex]->GetTilePos();
 				InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
-				if (true == NewItemInfo->CreateItemInfo(Cnt, _TileIndex, LocType, ItemName, RenderPos))
+				if (true == NewItemInfo->CreateItemInfo(Cnt, _TileIndex, LocType, ItemName, RenderPos, true))
 				{
 					// 정보 생성 성공시 
 
@@ -1428,7 +1428,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					// 장착가능한 타일정보를 이용하여 아이템 생성
 
 					float4 RenderPos = InvStoreInfo_[_TileIndex]->GetTilePos();
-					if (true == NewItemInfo->CreateItemInfo(Cnt, _TileIndex, LocType, ItemName, RenderPos))
+					if (true == NewItemInfo->CreateItemInfo(Cnt, _TileIndex, LocType, ItemName, RenderPos, true))
 					{
 						// 정보 생성 성공시
 						
@@ -1522,6 +1522,9 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 				float4 RenderScale = InvArrItemList_[i]->GetRenderScale();
 				GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
 
+				// 플레이어의 아이템 보유목록에서 해당 아이템 제거
+				MainPlayerInfomation::GetInst().PlayerItemDel(ItemName, LocType, _TileIndex);
+
 				// 해당 아이템 Death 처리
 				InvArrItemList_[i]->Death();
 
@@ -1532,6 +1535,7 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 					InvArrItemList_.erase(DelIter);
 					break;
 				}
+
 				break;
 			}
 		}
@@ -1560,6 +1564,9 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 					// 마우스가 해당 아이템을 들기
 					GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
 
+					// 플레이어의 아이템 보유목록에서 해당 아이템 제거
+					MainPlayerInfomation::GetInst().PlayerItemDel(InvArrItemList_[i]->GetItemName(), InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
 					// 해당 아이템 Death 처리
 					InvArrItemList_[i]->Death();
 
@@ -1578,7 +1585,7 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 				if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex() && ItemLocType::Inven_Bottom == InvArrItemList_[i]->GetLocType())
 				{
 					// 보관탭은 아이템렌더러 크기에 따라 다름
-					float4 ArrangeSize = InvArrItemList_[i]->GetArrangeTileSize();
+					float4 ArrangeSize = InvArrItemList_[i]->GetArrangeItemSize();
 					int TileIndex = InvArrItemList_[i]->GetStartTileIndex();
 					InvStoreInfo_[TileIndex]->SetItemArrangeFlagOff();
 
@@ -1589,6 +1596,9 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 
 					// 마우스가 해당 아이템을 들기
 					GlobalValue::CurMouse->ItemHold(TextureName, RenderScale);
+
+					// 플레이어의 아이템 보유목록에서 해당 아이템 제거
+					MainPlayerInfomation::GetInst().PlayerItemDel(InvArrItemList_[i]->GetItemName(), InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
 
 					// 해당 아이템 Death 처리
 					InvArrItemList_[i]->Death();
@@ -1609,26 +1619,340 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCType _BuySellType)
 {
 	// 판매처리
-	switch (_BuySellType)
+	std::string SellItemName;
+
+	// 판매하려는 아이템의 타입을 알아낸다.
+	if (InvTabType::NORMAL == _InvTabType)
 	{
-		case NPCType::PotionShop:
+		// 인벤창 하단보관탭의 아이템(_TileIndex == 배치된 타일의 시작인덱스)
+		// 단, 아이템 크기가 1x1이면 시작인덱스만 검사하여 아이템이름을 찾아내고
+		// 아니라면 해당 아이템이 포함하는 모든 인덱스목록을 검사하여 아이템이름을 찾아낸다.
+		int Cnt = static_cast<int>(InvArrItemList_.size());
+		for (int i = 0; i < Cnt; ++i)
 		{
-
-			break;
+			if (ItemLocType::Inven_Bottom == InvArrItemList_[i]->GetLocType())
+			{
+				// 해당 아이템 배치인덱스목록이 비어있는경우
+				if (true == InvArrItemList_[i]->GetItemIndexListEmpty())
+				{
+					// 해당 아이템의 시작인덱스와 현재 충돌한 타일인덱스가 동일하면 해당 아이템을 찾음
+					if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+					{
+						SellItemName = InvArrItemList_[i]->GetItemName();
+						break;
+					}
+				}
+				else // 해당 아이템 배치인덱스 목록이 존재하는 경우
+				{
+					// 해당 아이템의 인덱스목록에 현재 충돌한 타일인덱스가 존재하면 해당 아이템을 찾음
+					if (true == InvArrItemList_[i]->ItemArrngeListFind(_TileIndex))
+					{
+						SellItemName = InvArrItemList_[i]->GetItemName();
+						break;
+					}
+				}
+			}
 		}
-		case NPCType::WeaponShop:
+	}
+	else if (InvTabType::EQUIP == _InvTabType)
+	{
+		// 인벤창 상단장착탭의 아이템(_TileIndex == 배치된 장착칸의 인덱스)
+		ItemLocType LocType = static_cast<ItemLocType>(_TileIndex);
+		
+		int Cnt = static_cast<int>(InvArrItemList_.size());
+		for (int i = 0; i < Cnt; ++i)
 		{
-
-			break;
+			if (LocType == InvArrItemList_[i]->GetLocType() && _TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+			{
+				SellItemName = InvArrItemList_[i]->GetItemName();
+				break;
+			}
 		}
+
+		if (true == SellItemName.empty())
+		{
+			// 아이템 찾기 실패!!!!
+			return;
+		}
+	}
+
+	// 아이템을 찾았으므로 해당 아이템을 판매하기 위해 정보 Get
+	ItemList SellItemInfo = {};
+	if (true == AllItemInfomation::GetInst().ItemInfoFindName(SellItemName, SellItemInfo))
+	{
+		// 정보를 찾았다면 판매 처리 시작
+
+		switch (_BuySellType)
+		{
+			case NPCType::PotionShop:
+			{
+				// 판매하려는 아이템이 무기/방어구이면 NPC의 보유골드만 증가
+				if (!(16 <= SellItemInfo.ItemCode && SellItemInfo.ItemCode <= 18))
+				{
+					// NPC의 보유골드 감소 후
+					GlobalValue::ChandleryNPC->GetChandleryShop()->SubHaveGold(SellItemInfo.Price);
+
+					// 인벤토리에서 해당 아이템 제거
+					int Cnt = static_cast<int>(InvArrItemList_.size());
+					for (int i = 0; i < Cnt; ++i)
+					{
+						if (SellItemInfo.ItemName_abbreviation == InvArrItemList_[i]->GetItemName())
+						{
+							// 1. 해당 장비아이템이 위치하던 위치를 알아낸다.
+							if (InvTabType::NORMAL == _InvTabType)
+							{
+								// 2. 해당 장비 아이템의 이전 위치가 인벤창 하단 보관탭이였다면
+								//    해당 아이템의 크기를 알아낸다.
+								float4 ItemSize = InvArrItemList_[i]->GetArrangeItemSize();
+								if (ItemSize.x == 1 && ItemSize.y == 1) // 아이템크기가 1x1일때
+								{
+									if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+									{
+										InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOff();
+
+										// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
+										MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
+										// 인벤창 보유목록에서 해당 아이템을 제거
+										InvArrItemList_[i]->Death();
+										std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
+										InvArrItemList_.erase(FindIter);
+										break;
+									}
+								}
+								else // 아이템크기가 1x1이 아닐때
+								{
+									if (true == InvArrItemList_[i]->ItemArrngeListFind(_TileIndex))
+									{
+										// 아이템이 차지하던 인덱스목록 Get
+										std::vector<int> ItemArrIndexs = InvArrItemList_[i]->GetItemArrIndexList();
+										int IndexCnt = static_cast<int>(ItemArrIndexs.size());
+										for (int k = 0; k < IndexCnt; ++k)
+										{
+											// 목록전체 타일인덱스 Flag 해제
+											InvStoreInfo_[ItemArrIndexs[k]]->SetItemArrangeFlagOff();
+										}
+
+										// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
+										MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
+										// 인벤창 보유목록에서 해당아이템 제거
+										InvArrItemList_[i]->Death();
+										std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
+										InvArrItemList_.erase(FindIter);
+										break;
+									}
+								}
+							}
+							else if (InvTabType::EQUIP == _InvTabType)
+							{
+								// 2. 해당 장비 아이템의 이전 위치가 인벤창 상단 장착탭이였다면
+								//    LocType == _TileIndex 이므로 해당 장착탭만 Flag 해제
+								if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+								{
+									InvEquipInfo_[_TileIndex]->SetItemArrangeFlagOff();
+
+									// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
+									MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
+									// 인벤창 보유목록에서 해당 아이템을 제거
+									InvArrItemList_[i]->Death();
+									std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
+									InvArrItemList_.erase(FindIter);
+									break;
+								}
+							}
+
+							break;
+						}
+					}
+
+					// 판매 처리 완료
+				}
+				else
+				{
+					// NPC의 판매창 보유목록에 해당 판매아이템 존재여부 체크 후 존재한다면 해당아이템 남은수량이 증가, 아니라면 해당 아이템 배치
+					if (true == GlobalValue::ChandleryNPC->GetChandleryShop()->SellItemCheck(SellItemInfo.ItemName_abbreviation_Inven))
+					{
+						// 판매완료!!!!
+						GlobalValue::ChandleryNPC->GetChandleryShop()->SubHaveGold(SellItemInfo.Price);
+
+						// 해당 아이템 인벤토리배치목록에서 제거, 플레이어 보유아이템목록 제거 후 플레이어가 보유한 골드량 증가
+						int Cnt = static_cast<int>(InvArrItemList_.size());
+						for (int i = 0; i < Cnt; ++i)
+						{
+							if (SellItemInfo.ItemName_abbreviation == InvArrItemList_[i]->GetItemName() && 
+								_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+							{
+								// 잡화인 아이템이므로 항상 인벤창하단 보관탭에 존재
+
+								// 아이템의 너비/높이 Get
+								float4 ItemSize = InvArrItemList_[i]->GetArrangeItemSize();
+								if (ItemSize.x == 1 && ItemSize.y == 1) // ItemSize = 1x1
+								{
+									InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOff();
+
+									// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
+									MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
+									// 인벤창 보유목록에서 해당 아이템을 제거하고,
+									InvArrItemList_[i]->Death();
+									std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
+									InvArrItemList_.erase(FindIter);
+									break;
+								}
+
+								break;
+							}
+						}
+
+						// 판매 처리 완료
+					}
+				}
+				break;
+			}
+			case NPCType::WeaponShop:
+			{
+				// 판매하려는 아이템이 잡화이면 NPC의 보유골드만 증가
+				if (16 <= SellItemInfo.ItemCode && SellItemInfo.ItemCode <= 18)
+				{
+					// 잡화이면 NPC의 골드량을 감소시키고,
+					GlobalValue::ChandleryNPC->GetChandleryShop()->SubHaveGold(SellItemInfo.Price);
+
+					// 해당 아이템은 잡화타입이기때문에 항상 인벤창 하단 보관탭에 존재
+					int Cnt = static_cast<int>(InvArrItemList_.size());
+					for (int i = 0; i < Cnt; ++i)
+					{
+						if (SellItemInfo.ItemName_abbreviation == InvArrItemList_[i]->GetItemName() &&
+							_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+						{
+							// 잡화인 아이템이므로 항상 인벤창하단 보관탭에 존재
+
+							// 아이템의 너비/높이 Get
+							float4 ItemSize = InvArrItemList_[i]->GetArrangeItemSize();
+							if (ItemSize.x == 1 && ItemSize.y == 1) // ItemSize = 1x1
+							{
+								InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOff();
+
+								// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
+								MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
+								// 인벤창 보유목록에서 해당 아이템을 제거하고,
+								InvArrItemList_[i]->Death();
+								std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
+								InvArrItemList_.erase(FindIter);
+								break;
+							}
+
+							break;
+						}
+					}
+				}
+				else
+				{
+					// NPC의 판매창 보유목록에 해당 판매아이템 존재여부 체크 후 존재한다면 해당아이템 남은수량이 증가, 아니라면 해당 아이템 배치
+					if (true == GlobalValue::WeaponNPC->GetWeaponShop()->SellItemCheck(SellItemInfo.ItemName_abbreviation_Inven))
+					{
+						// 판매완료!!!!
+						GlobalValue::ChandleryNPC->GetChandleryShop()->SubHaveGold(SellItemInfo.Price);
+
+						int Cnt = static_cast<int>(InvArrItemList_.size());
+						for (int i = 0; i < Cnt; ++i)
+						{
+							if (SellItemInfo.ItemName_abbreviation == InvArrItemList_[i]->GetItemName())
+							{
+								// 1. 해당 장비템이 기존에 위치하고있던 곳을 알아낸다.
+								if (InvTabType::NORMAL == _InvTabType)
+								{
+									// 2. 해당 장비 아이템의 이전 위치가 인벤창 하단 보관탭이였다면
+									//    해당 아이템의 크기를 알아낸다.
+									float4 ItemSize = InvArrItemList_[i]->GetArrangeItemSize();
+									if (ItemSize.x == 1 && ItemSize.y == 1) // 아이템크기가 1x1일때
+									{
+										if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+										{
+											InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOff();
+
+											// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
+											MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
+											// 인벤창 보유목록에서 해당 아이템을 제거
+											InvArrItemList_[i]->Death();
+											std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
+											InvArrItemList_.erase(FindIter);
+											break;
+										}
+									}
+									else // 아이템크기가 1x1이 아닐때
+									{
+										if (true == InvArrItemList_[i]->ItemArrngeListFind(_TileIndex))
+										{
+											// 아이템이 차지하던 인덱스목록 Get
+											std::vector<int> ItemArrIndexs = InvArrItemList_[i]->GetItemArrIndexList();
+											int IndexCnt = static_cast<int>(ItemArrIndexs.size());
+											for (int k = 0; k < IndexCnt; ++k)
+											{
+												// 목록전체 타일인덱스 Flag 해제
+												InvStoreInfo_[ItemArrIndexs[k]]->SetItemArrangeFlagOff();
+											}
+
+											// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
+											MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
+											// 인벤창 보유목록에서 해당아이템 제거
+											InvArrItemList_[i]->Death();
+											std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
+											InvArrItemList_.erase(FindIter);
+											break;
+										}
+									}
+								}
+								else if (InvTabType::EQUIP == _InvTabType)
+								{
+									// 2. 해당 장비 아이템의 이전 위치가 인벤창 상단 장착탭이였다면
+									//    LocType == _TileIndex 이므로 해당 장착탭만 Flag 해제
+									if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
+									{
+										InvEquipInfo_[_TileIndex]->SetItemArrangeFlagOff();
+
+										// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
+										MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
+
+										// 인벤창 보유목록에서 해당 아이템을 제거
+										InvArrItemList_[i]->Death();
+										std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
+										InvArrItemList_.erase(FindIter);
+										break;
+									}
+								}
+							}
+						}
+
+						// 판매 처리 완료
+					}
+				}
+				break;
+			}
+		}
+	}
+	else
+	{
+		// 정보찾기를 실패했다면 해당 아이템 판매처리 중단
+		return;
 	}
 }
 
 void InventoryView::ItemRepairProcess(int _TileIndex, InvTabType _InvTabType)
 {
 	// 무기상인의 판매창과만 처리가능(수리처리)
+	int a = 0;
+	// 충돌한 아이템의 내구도가 존재한다면 해당 내구도 회복 후
 
 
+	// 플레이어의 보유골드량이 감소하고,
+
+
+	// NPC의 보유골드가 증가한다.
 
 
 }
@@ -1711,7 +2035,7 @@ ArrangeTileCheck:
 		if (true == OneSizeItem)
 		{
 			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
-			if (true == NewItemInfo->CreateItemInfo(ListCnt, StartIndex, LocType, BuyItem.ItemName_abbreviation, RenderPos))
+			if (true == NewItemInfo->CreateItemInfo(ListCnt, StartIndex, LocType, BuyItem.ItemName_abbreviation, RenderPos, true))
 			{
 				// StartIndex만 차지하는 아이템 배치
 				InvStoreInfo_[StartIndex]->SetItemArrangeFlagOn();
@@ -1730,9 +2054,8 @@ ArrangeTileCheck:
 		else
 		{
 			InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
-			if (true == NewItemInfo->CreateItemInfo(ListCnt, StartIndex, LocType, BuyItem.ItemName_abbreviation, RenderPos))
+			if (true == NewItemInfo->CreateItemInfo(ListCnt, StartIndex, LocType, BuyItem.ItemName_abbreviation, RenderPos, true))
 			{
-
 				// 인덱스 목록을 모두 차지하는 아이템 배치
 				std::vector<int> TileArrIndexList;
 				TileArrIndexList.clear();
@@ -1800,9 +2123,6 @@ ArrangeTileCheck:
 				NewItemInfo->Death();
 			}
 		}
-
-		// 플레이어 보유 아이템 목록에 추가
-		MainPlayerInfomation::GetInst().PlayerItemAdd(BuyItem);
 	}
 	else
 	{

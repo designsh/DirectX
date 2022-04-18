@@ -940,6 +940,9 @@ void NPC_BuySellView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 					// 플레이어가 구매했으므로 남은 수량 -1
 					--BuySellViewTabs_[CurTabIndex].HaveItemList_[ItemIndex].ItemRemainsQuantity_;
 
+					// 아이템 판매가 정상적으로 완료되었으므로 해당 아이템 가격만큼 NPC 보유골드 증가 후
+					AddHaveGold(BuySellViewTabs_[CurTabIndex].HaveItemList_[ItemIndex].ItemInfo_.Price);
+
 					// 현재 남은수량이 0이면 더이상 판매할수 없으므로 목록에서 제거 및 관련 배치타일 Flag Off처리
 					if (0 == BuySellViewTabs_[CurTabIndex].HaveItemList_[ItemIndex].ItemRemainsQuantity_)
 					{
@@ -1251,14 +1254,232 @@ bool NPC_BuySellView::ItemErase(const std::string& _ItemName)
 
 void NPC_BuySellView::AddHaveGold(int _Gold)
 {
-	// 플레이어가 가지고있는 아이템을 NPC에게 판매시
+	// NPC가 가지고있는 아이템을 플레이어에게 판매시
 	HaveGold_ += _Gold;
 	HaveGoldRenderer_->SetPrintText(std::to_string(HaveGold_));
 }
 
 void NPC_BuySellView::SubHaveGold(int _Gold)
 {
-	// NPC가 가지고있는 아이템을 플레이어에게 판매시
+	// 플레이어가 가지고있는 아이템을 NPC에게 판매시
 	HaveGold_ -= _Gold;
 	HaveGoldRenderer_->SetPrintText(std::to_string(HaveGold_));
+}
+
+bool NPC_BuySellView::SellItemCheck(const std::string& _SellItemName)
+{
+	// 보유아이템 목록에서 해당 아이템 탐색하여 해당 아이템이 존재한다면 보유수량 증가,
+	// 존재하지않는다면 해당 아이템 목록에 배치
+	int TabCnt = static_cast<int>(BuySellViewTabs_.size());
+	for (int i = 0; i < TabCnt; ++i)
+	{
+		int HaveItemListCnt = static_cast<int>(BuySellViewTabs_[i].HaveItemList_.size());
+		for (int j = 0; j < HaveItemListCnt; ++j)
+		{
+			// 동일한 아이템이 존재하면 해당 아이템 남은수량 증가 후 판매창 보유골드량 감소
+			if (_SellItemName == BuySellViewTabs_[i].HaveItemList_[j].ItemInfo_.ItemName_abbreviation_Inven)
+			{
+				++BuySellViewTabs_[i].HaveItemList_[j].ItemRemainsQuantity_;
+				SubHaveGold(BuySellViewTabs_[i].HaveItemList_[j].ItemInfo_.Price);
+				return true;
+			}
+		}
+	}
+
+	// 보유목록에 존재하지않는다면 해당 아이템 배치처리 후 판매창 보유골드량 감소
+
+	// 1. 해당 아이템의 타입에 따라 Tab인덱스를 결정
+	int ArrangeTabIndex = -1;
+	ItemList SellItemInfo = {};
+	if (true == AllItemInfomation::GetInst().ItemInfoFindInvName(_SellItemName, SellItemInfo))
+	{
+		// 1~5 무기
+		if (1 <= SellItemInfo.ItemCode && SellItemInfo.ItemCode <= 5)
+		{
+			ArrangeTabIndex = 0;
+		}
+		// 6~15방어구
+		else if (6 <= SellItemInfo.ItemCode && SellItemInfo.ItemCode <= 15)
+		{
+			ArrangeTabIndex = 1;
+		}
+		// 16~18 잡화탭
+		else if (16 <= SellItemInfo.ItemCode && SellItemInfo.ItemCode <= 18)
+		{
+			ArrangeTabIndex = 0;
+		}
+	}
+
+	if (-1 == ArrangeTabIndex)
+	{
+		// 가지고있는 아이템 정보를 넘어서는 코드의 아이템임!!!
+		return false;
+	}
+
+	// 탭인덱스를 알아내었으므로 해당 탭의 현재 플레이어가 판매한 아이템 보유목록추가 및 배치
+	
+	// 비어있는 칸 탐색
+	int StartIndex = -1;
+	int TileCnt = static_cast<int>(BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_.size());
+	for (int i = 0; i < TileCnt; ++i)
+	{
+		if (false == BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[i].ItemArrangementFlag_)
+		{
+			StartIndex = i;
+			break;
+		}
+	}
+
+	// 판매창의 현재 탭에 비어있는 칸이 미존재
+	if (-1 == StartIndex)
+	{
+		return false;
+	}
+
+	// 존재한다면 해당 아이템 크기만큼의 타일을 모두 체크
+	int ItemWidth = SellItemInfo.WidthSize;
+	int ItemHeight = SellItemInfo.HeightSize;
+	for (int y = 0; y < ItemHeight; ++y)
+	{
+		for (int x = 0; x < ItemWidth; ++x)
+		{
+			int Index = StartIndex + x + (y * 10);
+			if (true == BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[Index].ItemArrangementFlag_)
+			{
+				// 한칸이라도 배치불가능하다면 판매처리 실패
+				return false;
+			}
+		}
+	}
+
+	// 플레이어가 판매한 아이템이 판매가능하고, 해당 탭에 배치가가능하다면 아이템을 생성하여 배치
+	HaveItem NewItem = {};
+	if (ItemHeight == 1 && ItemWidth == 1)
+	{
+		NewItem.OneSize_ = true;
+	}
+	else
+	{
+		NewItem.OneSize_ = false;
+	}
+
+	// 해당 아이템 기본정보 수정
+	NewItem.ItemInfo_ = SellItemInfo;
+	NewItem.ItemRemainsQuantity_ = 1;
+
+	if (true == NewItem.OneSize_)
+	{
+		NewItem.StartIndex = StartIndex;
+
+		BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[NewItem.StartIndex].TileRenderer_->SetAlpha(0.5f);
+		BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[NewItem.StartIndex].ItemArrangementFlag_ = true;
+
+		// 렌더위치 = 시작인덱스 타일의 위치
+		NewItem.RenderPos_ = BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[NewItem.StartIndex].TilePos_;
+	}
+	else
+	{
+		std::vector<int> TileArrIndexList;
+		TileArrIndexList.clear();
+		for (int y = 0; y < ItemHeight; ++y)
+		{
+			for (int x = 0; x < ItemWidth; ++x)
+			{
+				int CalcIndex = StartIndex + x + (y * 10);
+				if (0 <= CalcIndex && CalcIndex < 40)
+				{
+					TileArrIndexList.push_back(CalcIndex);
+				}
+			}
+		}
+
+		// 배치인덱스목록 정렬
+		std::sort(TileArrIndexList.begin(), TileArrIndexList.end());
+
+		// 배치 인덱스목록 저장
+		NewItem.ArrangeIndexs_ = TileArrIndexList;
+
+		int ArrTileIndexListCnt = static_cast<int>(TileArrIndexList.size());
+		for (int k = 0; k < ArrTileIndexListCnt; ++k)
+		{
+			BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[TileArrIndexList[k]].TileRenderer_->SetAlpha(0.5f);
+			BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[TileArrIndexList[k]].ItemArrangementFlag_ = true;
+		}
+
+		// 렌더위치 계산 = 인덱스목록의 최소인덱스 위치 <-> 인덱스목록의 최대인덱스 위치 사이값
+		float4 ReRenderPos = float4::ZERO;
+		int IndexCnt = static_cast<int>(NewItem.ArrangeIndexs_.size());
+		float4 BeginTilePos = BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[0]].TilePos_;
+		float4 EndTilePos = BuySellViewTabs_[ArrangeTabIndex].ArrangeTiles_[NewItem.ArrangeIndexs_[IndexCnt - 1]].TilePos_;
+
+		// 두 타일 위치를 비교
+		if (BeginTilePos.x == EndTilePos.x) // 해당 아이템의 너비 1
+		{
+			ReRenderPos.x = BeginTilePos.x;
+		}
+		else
+		{
+			BeginTilePos.x += ((EndTilePos.x - BeginTilePos.x) * 0.5f);
+			ReRenderPos.x = BeginTilePos.x;
+		}
+
+		if (BeginTilePos.y == EndTilePos.y) // 해당 아이템의 높이 1
+		{
+			ReRenderPos.y = BeginTilePos.y;
+		}
+		else
+		{
+			BeginTilePos.y -= ((BeginTilePos.y - EndTilePos.y) * 0.5f);
+			ReRenderPos.y = BeginTilePos.y;
+		}
+
+		NewItem.RenderPos_ = ReRenderPos;
+	}
+
+	// 아이템 렌더러생성
+	NewItem.ItemRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Render));
+
+	std::string TextureName = _SellItemName;
+	TextureName += ".png";
+	NewItem.ItemRenderer_->SetImage(TextureName);
+	NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(NewItem.RenderPos_);
+
+	// 현재 활성화 탭인덱스에 해당 하는 아이템이라면 On, 아니라면 Off
+	if (CurTabIndex == ArrangeTabIndex)
+	{
+		NewItem.ItemRenderer_->On();
+	}
+	else
+	{
+		NewItem.ItemRenderer_->Off();
+	}
+
+	// 판매창타입과 탭인덱스 타입으로 해당 아이템 위치정보를 결정
+	switch (BuySellViewType_)
+	{
+		case NPCType::PotionShop:
+		{
+			if (0 == ArrangeTabIndex)
+			{
+				NewItem.ItemInfo_.ItemLocType = ItemLocType::BuySell_Etc;
+			}
+			break;
+		}
+		case NPCType::WeaponShop:
+		{
+			if (0 == ArrangeTabIndex)
+			{
+				NewItem.ItemInfo_.ItemLocType = ItemLocType::BuySell_Weapon;
+			}
+			else if (1 == ArrangeTabIndex)
+			{
+				NewItem.ItemInfo_.ItemLocType = ItemLocType::BuySell_Armor;
+			}
+			break;
+		}
+	}
+	
+	BuySellViewTabs_[ArrangeTabIndex].HaveItemList_.push_back(NewItem);
+
+	return true;
 }

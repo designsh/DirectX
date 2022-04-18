@@ -82,7 +82,7 @@ public:
 		return static_cast<int>(TileLocType_);
 	}
 
-	inline float4 GetArrangeTileSize()
+	inline float4 GetArrangeItemSize()
 	{
 		return float4(static_cast<float>(WidthSize_), static_cast<float>(HeightSize_));
 	}
@@ -102,7 +102,7 @@ public:
 
 public:
 	void SetTileIndexList(std::vector<int> _TileIndexList);
-	bool CreateItemInfo(int _ListIndex, int _TileIndex, ItemLocType _TileLocType, const std::string& _ItemName, const float4& _RenderPos);
+	bool CreateItemInfo(int _ListIndex, int _TileIndex, ItemLocType _TileLocType, const std::string& _ItemName, const float4& _RenderPos, bool _CreateInfo = false);
 
 public:
 	bool ItemArrngeListFind(int _Index);

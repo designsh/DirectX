@@ -7,6 +7,9 @@
 #include "GlobalValue.h"
 #include "MouseObject.h"
 
+#include "MainPlayer.h"
+#include "MainPlayerInfomation.h"
+
 #include "AllItemInfomation.h"
 
 InvArrangementItemInfo::InvArrangementItemInfo() :
@@ -53,7 +56,7 @@ void InvArrangementItemInfo::SetTileIndexList(std::vector<int> _TileIndexList)
 	ArrangementTileIdxList_ = _TileIndexList;
 }
 
-bool InvArrangementItemInfo::CreateItemInfo(int _ListIndex, int _TileIndex, ItemLocType _TileLocType, const std::string& _ItemName, const float4& _RenderPos)
+bool InvArrangementItemInfo::CreateItemInfo(int _ListIndex, int _TileIndex, ItemLocType _TileLocType, const std::string& _ItemName, const float4& _RenderPos, bool _CreateInfo)
 {
 	// 해당 아이템정보 Get
 	ItemList CurItemInfo = {};
@@ -87,6 +90,15 @@ bool InvArrangementItemInfo::CreateItemInfo(int _ListIndex, int _TileIndex, Item
 		InvItemRenderer_->SetImage(ItemTexutreName_);
 		InvItemRenderer_->GetTransform()->SetLocalPosition(RenderPos_);
 		InvItemRenderer_->GetTransform()->SetLocalScaling(RenderScale_);
+
+		// 정보생성 성공시 플레이어 아이템 보유목록에 해당 아이템 정보 추가(초기 생성시 _CreateInfo = false)
+		if (true == _CreateInfo)
+		{
+			// 현재 갱신 정보로 갱신 후 저장
+			CurItemInfo.StartPosition = TileIndex_;
+			CurItemInfo.ItemLocType = TileLocType_;
+			MainPlayerInfomation::GetInst().PlayerItemAdd(CurItemInfo);
+		}
 
 		Off();
 

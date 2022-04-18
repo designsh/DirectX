@@ -140,5 +140,8 @@ public: // 상점타입별 아이템목록생성
 public: // 보유골드 증가/감소
 	void AddHaveGold(int _Gold);
 	void SubHaveGold(int _Gold);
+
+public:
+	bool SellItemCheck(const std::string& _SellItemName);
 };
 

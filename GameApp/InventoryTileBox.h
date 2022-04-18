@@ -53,6 +53,11 @@ public:
 		return ItemArrangementFlag_;
 	}
 
+	inline ItemLocType GetItemLocType()
+	{
+		return BoxTileType_;
+	}
+
 public:
 	void SetItemArrangeFlagOn();
 	void SetItemArrangeFlagOff();

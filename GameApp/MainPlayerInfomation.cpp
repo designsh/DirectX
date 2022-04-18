@@ -90,29 +90,51 @@ void MainPlayerInfomation::EnergyPointUP()
 
 void MainPlayerInfomation::PlayerItemAdd(ItemList _ItemInfo)
 {
-	// 동일한 아이템이 이미 있다면 정보만 교체
-	for (auto& ItemList : MainPlayerInfo_.ItemInfo)
-	{
-		if (ItemList.ItemName_abbreviation == _ItemInfo.ItemName_abbreviation)
-		{
-			ItemList = _ItemInfo;
-			return;
-		}
-	}
+	// 220418 SJH - 동일아이템 보유로 변경
+	//// 동일한 아이템이 이미 있다면 정보만 교체
+	//for (auto& ItemList : MainPlayerInfo_.ItemInfo)
+	//{
+	//	if (ItemList.ItemName_abbreviation == _ItemInfo.ItemName_abbreviation)
+	//	{
+	//		ItemList = _ItemInfo;
+	//		return;
+	//	}
+	//}
 
 	// 신규 아이템이라면 보유목록에 추가
 	MainPlayerInfo_.ItemInfo.push_back(_ItemInfo);
 }
 
-void MainPlayerInfomation::PlayerItemDel(const std::string& _ItemName)
+void MainPlayerInfomation::PlayerItemDel(const std::string& _ItemName, ItemLocType _ItemLocType, int _StartIndex)
 {
 	std::vector<ItemList>::iterator StartIter = MainPlayerInfo_.ItemInfo.begin();
 	std::vector<ItemList>::iterator EndIter = MainPlayerInfo_.ItemInfo.end();
 	for (; StartIter != EndIter; ++StartIter)
 	{
-		if ((*StartIter).ItemName_abbreviation == _ItemName)
+		// 해당 정보를 모두 비교하여 일치하는 아이템 삭제
+		if ((*StartIter).ItemName_abbreviation == _ItemName &&
+			(*StartIter).ItemLocType == _ItemLocType &&
+			(*StartIter).StartPosition == _StartIndex)
 		{
 			MainPlayerInfo_.ItemInfo.erase(StartIter);
+			break;
+		}
+	}
+}
+
+void MainPlayerInfomation::PlayerItemInfoUpdate(ItemLocType _PrevItemLocType, int _PrevStartIndex, ItemList _UpdateItemInfo)
+{
+	// 아이템 정보 갱신
+	// 이전정보의 아이템명, 위치타입, 시자인덱스를 넘겨주면 수신한 _ItemInfo 정보로 갱신
+	for (auto& ItemList : MainPlayerInfo_.ItemInfo)
+	{
+		// 이전정보의 아이템명, 위치타입, 시작인덱스를 체크
+		if (ItemList.ItemName_abbreviation == _UpdateItemInfo.ItemName_abbreviation &&
+			ItemList.ItemLocType == _PrevItemLocType &&
+			ItemList.StartPosition == _PrevStartIndex)
+		{
+			// 해당 아이템을 찾았다면 현재 정보로 변경
+			ItemList = _UpdateItemInfo;
 			break;
 		}
 	}
