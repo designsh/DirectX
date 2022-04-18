@@ -331,45 +331,39 @@ void TileMap::CreateFloorTileInfo(int _WidthTileCount, int _HeightTileCount)
 	{
 		for (int x = 0; x < _WidthTileCount; ++x)
 		{
-			//float4 FloorTileSize;
-			//int FloorIndex;
-			//int FloorIndexX;
-			//int FloorIndexY;
-			//int FloorImageIndex;
-			//std::string FloorTextureName;
-			//float4 FloorRenderSize;
-			//float4 FloorRenderPivotPos;
-			
+			TileIndex Index = {};
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (x - y) * TileSizeHalf_.x;
+			Pos.y = (x + y) * -TileSizeHalf_.y;
+
+			float4 CameraPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+			Index = GetFloorTileIndex((Pos * GetLevel()->GetMainCamera()->GetZoomValue()) + CameraPos);
+
 			// 바닥타일 정보 생성
 			FloorTileInfo NewFloorTileInfo = {};
 			NewFloorTileInfo.FloorTileSize = TileSize_;
+			//NewFloorTileInfo.FloorIndex = Index.X_ + (Index.Y_ * )
+			NewFloorTileInfo.FloorIndexX = Index.X_;
+			NewFloorTileInfo.FloorIndexY = Index.Y_;
+			NewFloorTileInfo.FloorImageIndex = 0;	// 초기 0으로 셋팅(추후 갱신때 각 이미지타일 갱신)
+			NewFloorTileInfo.FloorTextureName = FloorTileTextureName_;
+			NewFloorTileInfo.FloorRenderSize = FloorTileImageSize_;
+			NewFloorTileInfo.FloorRenderPivotPos = FloorTileIndexPivotPos_;
 
-
-
-
-
-
-			//TileIndex Index = {};
-
-			//float4 Pos = float4::ZERO;
-			//Pos.x = (x - y) * TileSizeHalf_.x;
-			//Pos.y = (x + y) * -TileSizeHalf_.y;
-
-			//float4 CameraPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
-			//Index = GetFloorTileIndex((Pos * GetLevel()->GetMainCamera()->GetZoomValue()) + CameraPos);
-
-			//GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
-
-			//Renderer->SetImage("FloorGrid.png");
-			//Renderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-			//Renderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-			//FloorGrides_.insert(std::make_pair(Index.Index_, Renderer));
+			FloorTileInfo_.insert(std::make_pair(Index.Index_, NewFloorTileInfo));
 		}
 	}
 
 	// 정보 생성완료 후 레퍼런스렌더링(그리드)
+	int a = 0;
 
+	//GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
+	//Renderer->SetImage("FloorGrid.png");
+	//Renderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+	//Renderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+	//FloorGrides_.insert(std::make_pair(Index.Index_, Renderer));
 
 }
 
