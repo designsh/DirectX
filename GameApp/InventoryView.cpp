@@ -1637,11 +1637,15 @@ bool InventoryView::InventoryArrangeTileCheckOn(const float4& _ItemScaleIndex, c
 {
 	bool OneSizeItem = false;
 
-	// 인벤토리 검사하여 배치가능한 범위의 아이템이라면 true 반환
-	// 아니라면 false 반환
 	int StartIndex = -1;
 	int StoreCnt = static_cast<int>(InvStoreInfo_.size());
-	for (int i = 0; i < StoreCnt; ++i)
+	int CheckStart = -1;
+
+// Goto문말고는 방법이 생각안남!!!!! 일단 goto문으로 재검사처리해놓고 추후 고민해봄
+ArrangeTileCheck:
+
+	++CheckStart;
+	for (int i = CheckStart; i < StoreCnt; ++i)
 	{
 		if (false == InvStoreInfo_[i]->GetIsItemArrangeFlag())
 		{
@@ -1650,7 +1654,7 @@ bool InventoryView::InventoryArrangeTileCheckOn(const float4& _ItemScaleIndex, c
 		}
 	}
 
-	if (StartIndex == -1)
+	if (-1 == StartIndex)
 	{
 		return false;
 	}
@@ -1671,8 +1675,17 @@ bool InventoryView::InventoryArrangeTileCheckOn(const float4& _ItemScaleIndex, c
 			for (int x = 0; x < ItemWidth; ++x)
 			{
 				int Index = StartIndex + x + (y * 10);
-				if (true == InvStoreInfo_[Index]->GetIsItemArrangeFlag())
+				if (0 <= Index && Index < 40)
 				{
+					if (true == InvStoreInfo_[Index]->GetIsItemArrangeFlag())
+					{
+						// goto문사용해도됨???
+						goto ArrangeTileCheck;
+					}
+				}
+				else
+				{
+					// 모든 타일배치을 검사하여 실패시
 					return false;
 				}
 			}
