@@ -1073,10 +1073,10 @@ void NPC_BuySellView::CreateItemList(int _TabIndex)
 			// 规绢备徘
 			else if (1 == _TabIndex)
 			{
-				// bhm(捧备 2x2), bsh(规菩 2x3), chn(癌渴 2x3), hbt(何明 2x2), tbl(骇飘 1x3), tgl(厘癌 2x2)
+				// bhm(捧备 2x2), bsh(规菩 2x3), chn(癌渴 2x3), hbt(何明 2x2), tbl(骇飘 3x1), tgl(厘癌 2x2)
 				std::string ItemName[6] = { {"invbhm"}, {"invbsh"}, {"invchn"}, {"invhbt"}, {"invtbl"}, {"invtgl"} };
 				int ItemStartIndex[6] = { {0}, {3}, {7}, {30}, {42}, {50} };
-				float4 ItemSize[6] = { {float4(2.f, 2.f)}, {float4(2.f, 3.f)}, {float4(2.f, 3.f)}, {float4(2.f, 2.f)}, {float4(2.f, 1.f)}, {float4(2.f, 2.f)} };
+				float4 ItemSize[6] = { {float4(2.f, 2.f)}, {float4(2.f, 3.f)}, {float4(2.f, 3.f)}, {float4(2.f, 2.f)}, {float4(3.f, 1.f)}, {float4(2.f, 2.f)} };
 
 				for (int i = 0; i < 6; ++i)
 				{
