@@ -14,9 +14,28 @@ void GameEngineCore::EngineResourcesLoad()
 {
 	// Engine용 Texture(텍스쳐 세팅을 위한 기본 텍스쳐) 로드
 	GameEngineDirectory EngineTextureDir;
-	EngineTextureDir.MoveParent("DirectX");
-	EngineTextureDir.MoveChild("EngineResources");
+	while (true)
+	{
+		if (EngineTextureDir.IsRoot())
+		{
+			GameEngineDebug::MsgBoxError("엔진 리소스 폴더가 존재하지 않습니다.");
+			return;
+		}
+
+		std::vector<GameEngineDirectory> AllDir = EngineTextureDir.GetAllDirectory("EngineResources");
+
+		if (0 == AllDir.size())
+		{
+			EngineTextureDir.MoveParent();
+			continue;
+		}
+
+		EngineTextureDir.MoveChild("EngineResources");
+		break;
+	}
+
 	EngineTextureDir.MoveChild("Texture");
+
 	std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile();
 	for (size_t i = 0; i < AllFile.size(); i++)
 	{
@@ -24,13 +43,31 @@ void GameEngineCore::EngineResourcesLoad()
 	}
 
 	// 셰이더 디렉터리까지 이동
-	GameEngineDirectory Dir;
-	Dir.MoveParent("DirectX");
-	Dir.MoveChild("EngineResources");
-	Dir.MoveChild("Shader");
+	GameEngineDirectory EngineShaderDir;
 
-	// .fx 파일(셰이더파일)을 모두 가져온다
-	std::vector<GameEngineFile> AllShader = Dir.GetAllFile("fx");
+	while (true)
+	{
+		if (EngineShaderDir.IsRoot())
+		{
+			GameEngineDebug::MsgBoxError("엔진 리소스 폴더가 존재하지 않습니다.");
+			return;
+		}
+
+		std::vector<GameEngineDirectory> AllDir = EngineShaderDir.GetAllDirectory("EngineResources");
+
+		if (0 == AllDir.size())
+		{
+			EngineShaderDir.MoveParent();
+			continue;
+		}
+
+		EngineShaderDir.MoveChild("EngineResources");
+		break;
+	}
+
+	EngineShaderDir.MoveChild("Shader");
+
+	std::vector<GameEngineFile> AllShader = EngineShaderDir.GetAllFile("fx");
 	for (auto& ShaderFile : AllShader)
 	{
 		// 모든 셰이더파일에 관하여 처리
@@ -247,6 +284,23 @@ void GameEngineCore::EngineResourcesCreate()
 	}
 
 	{
+		D3D11_BLEND_DESC BlendInfo = { 0 };
+
+		BlendInfo.AlphaToCoverageEnable = FALSE;
+		BlendInfo.IndependentBlendEnable = FALSE;
+		BlendInfo.RenderTarget[0].BlendEnable = true;
+		BlendInfo.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		BlendInfo.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_MAX;
+		BlendInfo.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+		BlendInfo.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_DEST_COLOR;
+		BlendInfo.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		BlendInfo.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
+		BlendInfo.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		GameEngineBlendManager::GetInst().Create("Trans", BlendInfo);
+	}
+
+	{
 		D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
 
 		DepthInfo.DepthEnable = true;
@@ -348,5 +402,18 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetPixelShader("ProgressBar_PS");
 		Pipe->SetOutputMergerBlend("EngineAlphaBlend");
 		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
+	}
+
+	// ========================================= 알파블렌딩(검정색제외) 관련 ======================================= //
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TextureTrans");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Texture_VS");
+		Pipe->SetVertexShader("Texture_VS");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("Texture_PS");
+		Pipe->SetOutputMergerBlend("Trans");
 	}
 }

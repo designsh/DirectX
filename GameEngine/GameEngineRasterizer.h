@@ -39,6 +39,7 @@ public: // Solid <-> WireFrame Rasterizer State Change
 
 public: // ViewPort
 	void SetViewPort(float _Width, float _Height, float _TopLeftX, float _TopLeftY, float _MinDepth, float _MaxDepth);
+	void AddWindowSizeViewPort();
 
 public: // Add Scissor & Current Scissor Change
 	void PushScissorRect(D3D11_RECT _Rect);

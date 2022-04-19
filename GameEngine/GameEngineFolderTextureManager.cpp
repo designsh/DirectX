@@ -32,26 +32,28 @@ GameEngineFolderTexture* GameEngineFolderTextureManager::Load(const std::string&
 
 GameEngineFolderTexture* GameEngineFolderTextureManager::Load(const std::string& _Name, const std::string& _Path)
 {
-	GameEngineFolderTexture* FindRes = Find(_Name);
+	std::string UpName = GameEngineString::toupper(_Name);
 
+	GameEngineFolderTexture* FindRes = Find(UpName);
 	if (nullptr != FindRes)
 	{
 		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
 	}
 
 	GameEngineFolderTexture* NewRes = new GameEngineFolderTexture();
-	NewRes->SetName(_Name);
+	NewRes->SetName(UpName);
 	NewRes->Load(_Path);
 
-	ResourcesMap.insert(std::map<std::string, GameEngineFolderTexture*>::value_type(_Name, NewRes));
+	ResourcesMap.insert(std::map<std::string, GameEngineFolderTexture*>::value_type(UpName, NewRes));
 
 	return NewRes;
 }
 
 GameEngineFolderTexture* GameEngineFolderTextureManager::Find(const std::string& _Name)
 {
-	std::map<std::string, GameEngineFolderTexture*>::iterator FindIter = ResourcesMap.find(_Name);
+	std::string UpName = GameEngineString::toupper(_Name);
 
+	std::map<std::string, GameEngineFolderTexture*>::iterator FindIter = ResourcesMap.find(UpName);
 	if (FindIter != ResourcesMap.end())
 	{
 		return FindIter->second;

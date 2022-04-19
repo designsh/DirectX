@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "GameEngineRasterizer.h"
+#include "GameEngineWindow.h"
 
 GameEngineRasterizer::GameEngineRasterizer() :
 	State_(nullptr),
@@ -33,6 +34,16 @@ void GameEngineRasterizer::SetViewPort(float _Width, float _Height, float _TopLe
 	ViewPort_.TopLeftY = _TopLeftY;			// LeftTop Y값(세로시작위치)
 	ViewPort_.MinDepth = _MinDepth;		// Min Z(최소깊이)
 	ViewPort_.MaxDepth = _MaxDepth;		// Max Z(최대깊이)
+}
+
+void GameEngineRasterizer::AddWindowSizeViewPort()
+{
+	ViewPort_.Height = GameEngineWindow::GetInst().GetSize().y;
+	ViewPort_.Width = GameEngineWindow::GetInst().GetSize().x;
+	ViewPort_.TopLeftX = 0;
+	ViewPort_.TopLeftY = 0;
+	ViewPort_.MinDepth = 0;
+	ViewPort_.MaxDepth = 1.0f;
 }
 
 void GameEngineRasterizer::PushScissorRect(D3D11_RECT _Rect)

@@ -17,7 +17,7 @@ public:
 	virtual ~GameEngineObjectBase(); // default destructer 디폴트 소멸자
 
 protected:		// delete constructer
-	GameEngineObjectBase(const GameEngineObjectBase& _other) = delete; // default Copy constructer 디폴트 복사생성자
+	GameEngineObjectBase(const GameEngineObjectBase& _other); // default Copy constructer 디폴트 복사생성자
 	GameEngineObjectBase(GameEngineObjectBase&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
 
 private:		//delete operator

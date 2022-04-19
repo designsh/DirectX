@@ -19,10 +19,17 @@ GameEngineObjectBase::~GameEngineObjectBase() // default destructer 디폴트 소멸�
 GameEngineObjectBase::GameEngineObjectBase(GameEngineObjectBase&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
 	: isDeath_(_other.isDeath_),
 	isUpdate_(_other.isUpdate_),
-	isDebug_(_other.isDebug_), // 디버깅 기능 이거 true로 해놓고 f9 걸어 놓으면 
+	isDebug_(_other.isDebug_),
 	Order_(_other.Order_),
 	parent_(_other.parent_)
 {
+}
 
+GameEngineObjectBase::GameEngineObjectBase(const GameEngineObjectBase& _other)
+	: isDeath_(_other.isDeath_),
+	isUpdate_(_other.isUpdate_),
+	isDebug_(_other.isDebug_),
+	parent_(_other.parent_)
+{
 }
 

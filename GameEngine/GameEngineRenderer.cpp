@@ -54,9 +54,16 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 			ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
 		}
 	}
+
+	// 렌더링 파이프라인 셋팅 후 설정하는 상수버퍼 항목 셋팅
+	SetRenderingPipeLineSettingNext();
 }
 
 void GameEngineRenderer::SetRenderGroup(int _Order)
 {
 	GetLevel()->GetMainCamera()->ChangeRendererGroup(_Order, this);
+}
+
+void GameEngineRenderer::SetRenderingPipeLineSettingNext()
+{
 }

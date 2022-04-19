@@ -43,5 +43,6 @@ private:
 public:
 	void SetRenderingPipeLine(const std::string& _Value);
 	virtual void SetRenderGroup(int _Order);
+	virtual void SetRenderingPipeLineSettingNext();
 };
 
