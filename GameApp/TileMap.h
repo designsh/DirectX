@@ -37,7 +37,8 @@ enum class TileRenderingType
 // 벽타일 기본타입(방향구분)
 enum class WallBasicType
 {
-	NONE,		// 벽정보는 존재하나, 렌더링하지않음
+	NONE,		// 벽으로판단하나, 렌더링없음
+	NORMAL,		// 벽으로판단하지않고, 렌더링없음
 	RT,			// 우상단(좌하단)방향
 	RB,			// 우하단(좌상단)방향
 	BENT,		// 꺽이는벽

@@ -436,32 +436,103 @@ void TileMap::CreateWallTileInfo()
 		int WidthFloorTileCnt = static_cast<int>(FloorTileInfo_[HeightFloorTileCnt - 1].size());
 
 		// 벽타일생성 기준 : 바닥타일갯수 * 2 + 1
-		int YIndexCnt = (HeightFloorTileCnt * 2) - 1;
-		int XIndexCnt = (WidthFloorTileCnt * 2) - 1;
+		int YIndexCnt = (HeightFloorTileCnt * 2) + 1;
+		int XIndexCnt = (WidthFloorTileCnt * 2) + 1;
+
+		//// 1) 바닥타일의 너비인덱스가 짝수 or 홀수
+		//if (HeightFloorTileCnt % 2 == 0)
+		//{
+
+		//}
+		//else
+		//{
+
+		//}
+
+		//// 2) 바닥타일의 높이인덱스가 짝수 or 홀수
+		//if (WidthFloorTileCnt % 2 == 0)
+		//{
+
+		//}
+		//else
+		//{
+
+		//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		int YStartIndex = 0;
 		int YEndIndex = 0;
 		int XStartIndex = 0;
 		int XEndIndex = 0;
-		if (YIndexCnt % 2 == 0)
-		{
-			YStartIndex = -(YIndexCnt / 2);
-			YEndIndex = YIndexCnt / 2;
-		}
-		else
+
+		// 바닥타일이 짝수인지 홀수인지 체크
+		if (HeightFloorTileCnt % 2 == 0)
 		{
 			YStartIndex = -(YIndexCnt / 2);
 			YEndIndex = (YIndexCnt / 2) + 1;
 		}
-		if (XIndexCnt % 2 == 0)
-		{
-			XStartIndex = -(XIndexCnt / 2);
-			XEndIndex = XIndexCnt / 2;
-		}
 		else
+		{
+			YStartIndex = -(YIndexCnt / 2) + 1;
+			YEndIndex = (YIndexCnt / 2) + 2;
+		}
+
+		if (WidthFloorTileCnt % 2 == 0)
 		{
 			XStartIndex = -(XIndexCnt / 2);
 			XEndIndex = (XIndexCnt / 2) + 1;
+		}
+		else
+		{
+			XStartIndex = -(XIndexCnt / 2) + 1;
+			XEndIndex = (XIndexCnt / 2) + 2;
+		}
+
+		// 벽타입을 위한 체크 인덱스 생성
+		int YIndexChkM = 0;
+		int YIndexChkP = 0;
+		int XIndexChkM = 0;
+		int XIndexChkP = 0;
+
+		// -. 바닥타일 기준으로 조건 생성
+		if (HeightFloorTileCnt % 2 == 0)
+		{
+			YIndexChkM = -YStartIndex;
+			YIndexChkP = YStartIndex;
+		}
+		else
+		{
+			YIndexChkM = YStartIndex;
+			YIndexChkP = YEndIndex - 1;
+		}
+
+		if (WidthFloorTileCnt % 2 == 0)
+		{
+			XIndexChkM = -XStartIndex;
+			XIndexChkP = XStartIndex;
+		}
+		else
+		{
+			XIndexChkM = XStartIndex;
+			XIndexChkP = XEndIndex - 1;
 		}
 
 		// 벽타일 조건체크에 의한 정보 생성
@@ -482,7 +553,8 @@ void TileMap::CreateWallTileInfo()
 				NewWallTileInfo.WallImageIndex = 0; // 초기 0으로 셋팅(추후 갱신때 각 벽타입을체크하여 이미지타일 결정)
 
 				// 벽 기본타입 조건체크(타일의 인덱스로 조건체크) - 마을맵 생성기준
-				//NONE,			// 벽정보는 존재하나, 렌더링하지않음
+				//NONE,			// 벽으로판단하나, 렌더링없음
+				//NORMAL,		// 벽으로판단하지않고, 렌더링없음
 				//RT,			// 우상단(좌하단)방향
 				//RB,			// 우하단(좌상단)방향
 				//BENT,			// 꺽이는벽
@@ -490,35 +562,103 @@ void TileMap::CreateWallTileInfo()
 				// 1. 벽으로 렌더링해야하는 구간인지 아닌지 판단
 				// 2. 벽으로 렌더링해야한다면 우상단방향인지 우하단방향의 벽인지 판단
 				// 3. 벽으로 렌더링해야하고, 꺽이는벽을 렌더링해야하는지 판단
-				int YIndexChk = YStartIndex;
-				int XIndexChk = XStartIndex;
-				if (0 < YStartIndex)
-				{
-					--YIndexChk;
-				}
-
-				if (0 < XStartIndex)
-				{
-					--XIndexChk;
-				}
-
-				if ( (x == XIndexChk && y == YIndexChk) || (x == -XIndexChk && y == -YIndexChk) || (x == XIndexChk && y == -YIndexChk) || (x == -XIndexChk && y == YIndexChk) )
+				if ((x == XIndexChkP && y == YIndexChkP) || (x == XIndexChkM && y == YIndexChkM) || (x == XIndexChkP && y == YIndexChkM) || (x == XIndexChkM && y == YIndexChkP))
 				{
 					NewWallTileInfo.WallBasicType = WallBasicType::BENT;
 				}
 				// 2). 현재 X인덱스가 XIndexChk와 같으면 벽판정(우상단방향기준)
-				else if (x == XIndexChk || x == -XIndexChk)
+				else if (x == XIndexChkP || x == XIndexChkM)
 				{
-					NewWallTileInfo.WallBasicType = WallBasicType::RT;
+					// 같으면 바닥타일 짝수
+					if ((std::abs(XIndexChkM) == std::abs(XIndexChkP)))
+					{
+						if (y < YIndexChkM && y > YIndexChkP)
+						{
+							// y인덱스가 짝수이면 렌더링 o
+							if (y % 2 == 0)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RT;
+							}
+							// y인덱스가 홀수이면 렌더링 x
+							else
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::NONE;
+							}
+						}
+						else
+						{
+							NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
+						}
+					}
+					else // 다르면 바닥타일 홀수
+					{
+						if (!(y < YIndexChkM && y > YIndexChkP))
+						{
+							// y인덱스가 짝수이면 렌더링 o
+							if (y % 2 == 0)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RT;
+							}
+							// y인덱스가 홀수이면 렌더링 x
+							else
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::NONE;
+							}
+						}
+						else
+						{
+							NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
+						}
+					}
 				}
 				// 3) 현재 Y인덱스가 YIndexChk와 같으면 벽판정(우하단방향기준)
-				else if (y == YIndexChk || y == -YIndexChk)
+				else if (y == YIndexChkP || y == YIndexChkM)
 				{
-					NewWallTileInfo.WallBasicType = WallBasicType::RB;
+					// 같으면 바닥타일 짝수
+					if ((std::abs(YIndexChkM) == std::abs(YIndexChkP)))
+					{
+						if (x < XIndexChkM && x > XIndexChkP)
+						{
+							// x인덱스가 짝수이면 렌더링 o
+							if (x % 2 == 0)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RB;
+							}
+							// x인덱스가 홀수이면 렌더링 x
+							else
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::NONE;
+							}
+						}
+						else
+						{
+							NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
+						}
+					}
+					else
+					{
+						if (!(x < XIndexChkM && x > XIndexChkP))
+						{
+							// x인덱스가 짝수이면 렌더링 o
+							if (x % 2 == 0)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RB;
+							}
+							// x인덱스가 홀수이면 렌더링 x
+							else
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::NONE;
+							}
+						}
+						else
+						{
+							NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
+						}
+					}
 				}
 				else
 				{
-					NewWallTileInfo.WallBasicType = WallBasicType::NONE;
+					NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
 				}
 
 				// 벽 상세타입 조건체크(타일의 인덱스로 조건체크) - 마을맵 생성기준
@@ -550,7 +690,7 @@ void TileMap::CreateWallTileInfo()
 				GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
 				// 벽타입별 이미지
-				if (WallTileInfo_[y][x].WallBasicType == WallBasicType::NONE)
+				if (WallTileInfo_[y][x].WallBasicType == WallBasicType::NORMAL)
 				{
 					// 센터 바닥타일 이미지
 					if (Index.Y_ == 0 && Index.X_ == 0)
@@ -573,6 +713,10 @@ void TileMap::CreateWallTileInfo()
 				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT)
 				{
 					Renderer->SetImage("WallGrid_Bent.png");
+				}
+				else
+				{
+					Renderer->SetImage("WallGrid_None.png");
 				}
 
 				float4 Pos = float4::ZERO;

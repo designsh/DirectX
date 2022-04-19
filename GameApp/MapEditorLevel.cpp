@@ -64,6 +64,8 @@ void MapEditorLevel::LevelStart()
 	WallGridCenter->Cut(1, 1);
 
 	// 특수그리드
+	GameEngineTexture* WallGridNone = GameEngineTextureManager::GetInst().Find("WallGrid_None.png");
+	WallGridNone->Cut(1, 1);
 	GameEngineTexture* WallGridRT = GameEngineTextureManager::GetInst().Find("WallGrid_RT.png");
 	WallGridRT->Cut(1, 1);
 	GameEngineTexture* WallGridRB = GameEngineTextureManager::GetInst().Find("WallGrid_RB.png");
