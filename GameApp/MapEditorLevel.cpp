@@ -120,6 +120,11 @@ void MapEditorLevel::LevelStart()
 
 void MapEditorLevel::LevelUpdate(float _DeltaTime)
 {
+	if (true == GameEngineWindow::GetInst().IsWindowRangeOut(GameEngineInput::GetInst().GetMousePos()))
+	{
+		return;
+	}
+
 #pragma region 카메라이동 키체크
 	
 	if (true == GameEngineInput::GetInst().Press("CameraUp"))
@@ -257,7 +262,7 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 #pragma region 테스트키
 	if (true == GameEngineInput::GetInst().Down("FreeCamera"))
 	{
-		GetMainCameraActor()->FreeCameraModeSwitch();
+		//GetMainCameraActor()->FreeCameraModeSwitch();
 	}
 #pragma endregion
 }

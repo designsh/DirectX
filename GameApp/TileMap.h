@@ -37,6 +37,7 @@ enum class TileRenderingType
 // 벽타일 기본타입(방향구분)
 enum class WallBasicType
 {
+	NONE,		// 벽정보는 존재하나, 렌더링하지않음
 	RT,			// 우상단(좌하단)방향
 	RB,			// 우하단(좌상단)방향
 	BENT,		// 꺽이는벽
@@ -53,12 +54,15 @@ enum class WallDetailType
 struct FloorTileInfo
 {
 	// 바닥타일 정보
-	float4 FloorTileSize;
-	int FloorIndex;
+
+	// 인덱스정보
 	int FloorIndexX;
 	int FloorIndexY;
 	int FloorImageIndex;
+	
+	// 렌더링 정보
 	std::string FloorTextureName;
+	float4 FloorTileSize;
 	float4 FloorRenderSize;
 	float4 FloorRenderPivotPos;
 };
@@ -67,14 +71,17 @@ struct FloorTileInfo
 struct WallTileInfo
 {
 	// 벽타일 정보
-	float4 WallTileSize;
-	int WallIndex;
+
+	// 인덱스 및 타입정보
 	int WallIndexX;
 	int WallIndexY;
 	int WallImageIndex;
 	WallBasicType WallBasicType;
 	WallDetailType WallDetailType;
+
+	// 렌더링 정보
 	std::string WallTextureName;
+	float4 WallTileSize;
 	float4 WallRenderSize;
 	float4 WallRenderPivotPos;
 };
@@ -86,9 +93,9 @@ class GameEngineTileMapRenderer;
 class TileMap : public GameEngineActor
 {
 #pragma region 실질적인 타일정보
-private: // 실질적으로 저장되는 타일정보
-	std::unordered_map<__int64, FloorTileInfo> FloorTileInfo_;
-	std::unordered_map<__int64, WallTileInfo> WallTileInfo_;
+private: // 실질적으로 저장되는 타일정보(값형)
+	std::vector<std::vector<FloorTileInfo>> FloorTileInfo_;
+	std::vector<std::vector<WallTileInfo>> WallTileInfo_;
 #pragma endregion
 
 #pragma region 에디터용도

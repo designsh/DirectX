@@ -39,7 +39,7 @@ void CreateTileMapWindow::OnGUI()
 	// Floor Tile Info
 	TileIndex FloorTileIndex = TileMap_->GetFloorTileIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
 	ImGui::Text("<<< FLOOR TILE INFOMATION >>>");
-	ImGui::Text(("XIndex : " + std::to_string(FloorTileIndex.X_) + "YIndex : " + std::to_string(FloorTileIndex.Y_)).c_str());
+	ImGui::Text(("XIndex : " + std::to_string(FloorTileIndex.X_) + "  YIndex : " + std::to_string(FloorTileIndex.Y_)).c_str());
 
 	float4 FloorTilePos = TileMap_->GetFloorIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
 	std::string FloorIsoPosText = "Floor Iso Pos : ";
@@ -51,7 +51,7 @@ void CreateTileMapWindow::OnGUI()
 	// Wall Tile Info
 	TileIndex WallTileIndex = TileMap_->GetWallTileIndex(GameEngineInput::GetInst().GetMouse3DPos() + CameraPos);
 	ImGui::Text("<<< WALL TILE INFOMATION >>>");
-	ImGui::Text(("XIndex : " + std::to_string(WallTileIndex.X_) + "YIndex : " + std::to_string(WallTileIndex.Y_)).c_str());
+	ImGui::Text(("XIndex : " + std::to_string(WallTileIndex.X_) + "  YIndex : " + std::to_string(WallTileIndex.Y_)).c_str());
 
 	float4 WallTilePos = TileMap_->GetWallIsoPos(GameEngineInput::GetInst().GetMouse3DPos());
 	std::string WallIsoPosText = "Wall Iso Pos : ";
