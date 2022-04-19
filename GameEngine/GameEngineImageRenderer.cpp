@@ -37,7 +37,7 @@ void GameEngineImageRenderer::Start()
 	GameEngineRenderer::Start();
 
 	SetRenderingPipeLine("Texture");
-	ImageRendererStart();
+	//ImageRendererStart();
 }
 
 void GameEngineImageRenderer::SetImage(const std::string& _ImageName, const float4& _RenderSize)
@@ -78,7 +78,7 @@ void GameEngineImageRenderer::Update(float _DeltaTime)
 	CurAnimation_->Update(_DeltaTime);
 }
 
-void GameEngineImageRenderer::ImageRendererStart()
+void GameEngineImageRenderer::SetRenderingPipeLineSettingNext()
 {
 	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData_);
 

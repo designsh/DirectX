@@ -138,7 +138,7 @@ public:
 	// ================================== Animation 관련 ================================== //
 protected:
 	void Update(float _DeltaTime) override;
-	void ImageRendererStart();
+	void SetRenderingPipeLineSettingNext() override;
 
 public:
 	// 애니메이션 텍스쳐만 변경

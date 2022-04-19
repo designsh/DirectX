@@ -21,7 +21,7 @@ void GameEngineTileMapRenderer::Start()
 	GetLevel()->GetMainCamera()->PushRenderer(GetOrder(), this);
 
 	SetRenderingPipeLine("TileMap");
-	ImageRendererStart();
+	//ImageRendererStart();
 }
 
 void GameEngineTileMapRenderer::Render()
