@@ -15,6 +15,7 @@ bool MapEditorLevel::ResourceLoadEndCheck = false;
 
 MapEditorLevel::MapEditorLevel() :
 	TileMap_(nullptr),
+	TileMapWindow_(nullptr),
 	MoveSpeed_(1000.f)
 {
 }
@@ -55,22 +56,15 @@ void MapEditorLevel::CreateLevelActor()
 
 #pragma endregion
 
-#pragma region Editor Window
-	// CreateTileMap Window
-	CreateTileMapWindow* TileMapWindow = GameEngineGUI::GetInst()->CreateGUIWindow<CreateTileMapWindow>("CreateTileMapWindow");
-	TileMapWindow->Off();
-
-#pragma endregion
-
 #pragma region IsoTileMap Create & Setting
 	TileMap_ = CreateActor<TileMap>();
-	TileMapWindow->TileMap_ = TileMap_;
+	TileMapWindow_->TileMap_ = TileMap_;
 	TileMap_->SetFloorTileTexture("Town_Floor.png");
 	TileMap_->SetWallTileTexture("Town_Wall.png");
 #pragma endregion
 }
 
-void MapEditorLevel::LevelChangeEndEvent()
+void MapEditorLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
 	if (nullptr != Ptr)
@@ -79,7 +73,7 @@ void MapEditorLevel::LevelChangeEndEvent()
 	}
 }
 
-void MapEditorLevel::LevelChangeStartEvent()
+void MapEditorLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
 	if (nullptr != Ptr)
@@ -93,6 +87,12 @@ void MapEditorLevel::LevelStart()
 #pragma region SetMainCamera
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
+#pragma endregion
+
+#pragma region Editor Window
+	// CreateTileMap Window
+	TileMapWindow_ = GameEngineGUI::GetInst()->CreateGUIWindow<CreateTileMapWindow>("CreateTileMapWindow");
+	TileMapWindow_->Off();
 #pragma endregion
 
 #pragma region CreateKey

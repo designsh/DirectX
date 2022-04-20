@@ -30,16 +30,10 @@ TownLevel::~TownLevel()
 {
 }
 
-void TownLevel::LevelChangeEndEvent()
-{
-	// 배경음악 Off
-
-}
-
 void TownLevel::CreateLevelActor()
 {
 	// 리소스 로딩완료시 액터 생성
-	
+
 	// 맵로딩(타일맵 - 고정맵)
 
 	// 플레이어 생성
@@ -96,7 +90,13 @@ void TownLevel::CreateLevelActor()
 	}
 }
 
-void TownLevel::LevelChangeStartEvent()
+void TownLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 배경음악 Off
+
+}
+
+void TownLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// 배경음악 On
 

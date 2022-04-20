@@ -61,12 +61,12 @@ void ChaosSanctuaryLevel::CreateLevelActor()
 	}
 }
 
-void ChaosSanctuaryLevel::LevelChangeEndEvent()
+void ChaosSanctuaryLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// πË∞Ê¿Ωæ« Off
 }
 
-void ChaosSanctuaryLevel::LevelChangeStartEvent()
+void ChaosSanctuaryLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// πË∞Ê¿Ωæ« On
 

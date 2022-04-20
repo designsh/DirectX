@@ -53,7 +53,7 @@ void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Col
 	CollisionList_[_Collision->GetOrder()].push_back(_Collision);
 }
 
-void GameEngineLevel::LevelChangeEndActorEvent()
+void GameEngineLevel::LevelChangeEndActorEvent(GameEngineLevel* _NextLevel)
 {
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
@@ -61,12 +61,12 @@ void GameEngineLevel::LevelChangeEndActorEvent()
 
 		for (GameEngineActor* Actor : Actors)
 		{
-			Actor->LevelChangeEndEvent();
+			Actor->LevelChangeEndEvent(_NextLevel);
 		}
 	}
 }
 
-void GameEngineLevel::LevelChangeStartActorEvent()
+void GameEngineLevel::LevelChangeStartActorEvent(GameEngineLevel* _PrevLevel)
 {
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
@@ -74,7 +74,7 @@ void GameEngineLevel::LevelChangeStartActorEvent()
 
 		for (GameEngineActor* Actor : Actors)
 		{
-			Actor->LevelChangeStartEvent();
+			Actor->LevelChangeStartEvent(_PrevLevel);
 		}
 	}
 }
@@ -237,6 +237,15 @@ void GameEngineLevel::Release(float _DeltaTime)
 
 			if (true == ReleaseActor->IsDeath())
 			{
+				if (true == ReleaseActor->IsFindObject_)
+				{
+					if (FindActorMap_.end() == FindActorMap_.find(ReleaseActor->GetName()))
+					{
+						GameEngineDebug::MsgBoxError("찾을수 없는 액터가 찾을수 있는 액터라고 지정되어 있습니다.");
+					}
+					FindActorMap_.erase(ReleaseActor->GetName());
+				}
+
 				delete* ActorsBeginIter;
 				*ActorsBeginIter = nullptr;
 
@@ -285,4 +294,8 @@ void GameEngineLevel::TimeEventUpdate()
 		}
 		++StartIter;
 	}
+}
+
+void GameEngineLevel::GetLevelActorMove(GameEngineLevel* _NextLevel, GameEngineActor* _Actor)
+{
 }

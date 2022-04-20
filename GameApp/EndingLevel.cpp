@@ -18,12 +18,12 @@ EndingLevel::~EndingLevel()
 {
 }
 
-void EndingLevel::LevelChangeEndEvent()
+void EndingLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// πË∞Ê¿Ωæ« Off
 }
 
-void EndingLevel::LevelChangeStartEvent()
+void EndingLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// πË∞Ê¿Ωæ« On
 }

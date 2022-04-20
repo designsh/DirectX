@@ -21,8 +21,8 @@ private:		//delete operator
 	SelectCharacterLevel& operator=(const SelectCharacterLevel&& _other) = delete;
 
 public:
-	virtual void LevelChangeEndEvent() override;
-	virtual void LevelChangeStartEvent() override;
+	virtual void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
+	virtual void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) override;
 	virtual void LevelStart() override;
 	virtual void LevelUpdate(float _DeltaTime) override;
 };

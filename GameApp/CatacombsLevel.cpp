@@ -61,12 +61,12 @@ void CatacombsLevel::CreateLevelActor()
 	}
 }
 
-void CatacombsLevel::LevelChangeEndEvent()
+void CatacombsLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// πË∞Ê¿Ωæ« Off
 }
 
-void CatacombsLevel::LevelChangeStartEvent()
+void CatacombsLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// πË∞Ê¿Ωæ« On
 

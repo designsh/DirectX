@@ -13,16 +13,20 @@ class GameEngineActor : public GameEngineObjectNameBase
 	friend GameEngineLevel;
 
 private:	// member Var
-	GameEngineLevel* Level_;													// 본인이 속한 레벨을 알고있는다.
-	GameEngineTransform													Transform_;											// 액터는 반드시 트랜스폼데이터를 가진다.
+	GameEngineLevel* Level_;												// 본인이 속한 레벨을 알고있는다.
+	GameEngineTransform Transform_;											// 액터는 반드시 트랜스폼데이터를 가진다.
 
 private:
-	std::list<GameEngineComponent*>								ComponentList_;								// 액터는 Transform을 가지지않는 여러개의 컴포넌트를 가질수 있다.
-	std::list<GameEngineTransformComponent*>			TransformComponentList_;			// 액터는 Transform을 가지는 여러개의 컴포넌트를 가질수 있다.
+	std::list<GameEngineComponent*> ComponentList_;							// 액터는 Transform을 가지지않는 여러개의 컴포넌트를 가질수 있다.
+	std::list<GameEngineTransformComponent*> TransformComponentList_;		// 액터는 Transform을 가지는 여러개의 컴포넌트를 가질수 있다.
 
 private:
-	bool																						IsDestroyed_;										// 루프도중 삭제되는 액터가 존재하는지 판단하는 Flag
-	float																						DeathTime_;										// n초뒤 해당 액터를 사망시킬때 사용
+	bool IsDestroyed_;														// 루프도중 삭제되는 액터가 존재하는지 판단하는 Flag
+	float DeathTime_;														// n초뒤 해당 액터를 사망시킬때 사용
+
+private:
+	bool IsFindObject_;														// 
+	bool NextLevelMove_;													// 
 
 public:
 	GameEngineActor(); // default constructer 디폴트 생성자
@@ -35,6 +39,12 @@ protected:		// delete constructer
 private:		//delete operator
 	GameEngineActor& operator=(const GameEngineActor& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineActor& operator=(const GameEngineActor&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+
+public:
+	void MoveNextOn()
+	{
+		NextLevelMove_ = true;
+	}
 
 public:
 	GameEngineLevel* GetLevel() const;
@@ -98,8 +108,8 @@ protected:
 	virtual void Start() {}
 	virtual void Update(float _DeltaTime) {}
 	virtual void ReleaseEvent() {}
-	virtual void LevelChangeEndEvent() {}
-	virtual void LevelChangeStartEvent() {}
+	virtual void LevelChangeEndEvent(GameEngineLevel* _NextLevel) {}
+	virtual void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) {}
 
 public:
 	void UpdateComponent(float _DeltaTime);

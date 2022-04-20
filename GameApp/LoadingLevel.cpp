@@ -29,12 +29,12 @@ void LoadingLevel::CreateLevelActor()
 	LoadingAnimation* Animation = CreateActor<LoadingAnimation>();
 }
 
-void LoadingLevel::LevelChangeEndEvent()
+void LoadingLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// πË∞Ê¿Ωæ« Off
 }
 
-void LoadingLevel::LevelChangeStartEvent()
+void LoadingLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// πË∞Ê¿Ωæ« On
 }

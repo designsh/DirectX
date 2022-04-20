@@ -17,12 +17,12 @@ SelectCharacterLevel::~SelectCharacterLevel()
 {
 }
 
-void SelectCharacterLevel::LevelChangeEndEvent()
+void SelectCharacterLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// πË∞Ê¿Ωæ« Off
 }
 
-void SelectCharacterLevel::LevelChangeStartEvent()
+void SelectCharacterLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// πË∞Ê¿Ωæ« On
 }

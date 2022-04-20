@@ -46,11 +46,11 @@ void TitleLevel::CreateLevelActor()
 	GlobalValue::CurMouse = MainMouse;
 }
 
-void TitleLevel::LevelChangeEndEvent()
+void TitleLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 }
 
-void TitleLevel::LevelChangeStartEvent()
+void TitleLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// 레벨변경시 기존액터들의 필요항목 리셋
 	if (nullptr != StartButton_)

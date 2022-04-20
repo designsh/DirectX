@@ -101,12 +101,12 @@ void CreateCharacterLevel::ClassImageCutting()
 	// ================================================= 팔라딘 ================================================= //
 }
 
-void CreateCharacterLevel::LevelChangeEndEvent()
+void CreateCharacterLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// 배경음악 Off
 }
 
-void CreateCharacterLevel::LevelChangeStartEvent()
+void CreateCharacterLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// 레벨변경시 기존액터들의 필요항목 리셋
 

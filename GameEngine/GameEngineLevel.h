@@ -23,6 +23,7 @@ private:	// member Var
 	// Key값 : 갱신순서(우선순위 판단 오더)
 	// Value값 : 액터목록
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
+	std::map<std::string, GameEngineActor*> FindActorMap_;
 
 	// =================================== Camera 관련 ================================== //
 private:
@@ -58,8 +59,8 @@ private: // 충돌체관련 기능
 	void ChangeCollisionGroup(int _Group, GameEngineCollision* _Collision);
 
 private:
-	void LevelChangeEndActorEvent();
-	void LevelChangeStartActorEvent();
+	void LevelChangeEndActorEvent(GameEngineLevel* _NextLevel);
+	void LevelChangeStartActorEvent(GameEngineLevel* _PrevLevel);
 
 public:
 	template<typename UserEnumType>
@@ -89,6 +90,38 @@ public:
 		return dynamic_cast<ActorType*>(NewActor);
 	}
 
+	template<typename ActorType>
+	ActorType* CreateActor(std::string _Name, bool _IsFind = false, int _UpdateOrder = 0)
+	{
+		GameEngineActor* NewActor = new ActorType();
+		NewActor->IsFindObject_ = _IsFind;
+		NewActor->SetName(_Name);
+		NewActor->SetLevel(this);
+		NewActor->Start();
+		NewActor->SetOrder(_UpdateOrder);
+
+		if (true == _IsFind)
+		{
+			FindActorMap_.insert(std::make_pair(_Name, NewActor));
+		}
+
+		// Insert + Find
+		std::list<GameEngineActor*>& List = ActorList_[_UpdateOrder];
+		List.push_back(NewActor);
+		return dynamic_cast<ActorType*>(NewActor);
+	}
+
+	template<typename ActorType>
+	ActorType* FindActor(std::string _Name)
+	{
+		if (FindActorMap_.end() == FindActorMap_.find(_Name))
+		{
+			return nullptr;
+		}
+
+		return dynamic_cast<ActorType>(FindActorMap_[_Name]);
+	}
+
 public:
 	void ActorUpdate(float _DeltaTime);
 	void Render();
@@ -100,8 +133,8 @@ public:
 	CameraComponent* GetUICamera();
 
 public: // 레벨체인지 관련
-	virtual void LevelChangeEndEvent() = 0;
-	virtual void LevelChangeStartEvent() = 0;
+	virtual void LevelChangeEndEvent(GameEngineLevel* _NextLevel) = 0;
+	virtual void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) = 0;
 
 public: // 레벨시작 및 갱신관련
 	void Init();
@@ -114,5 +147,8 @@ public:
 public:
 	void AddTimeEvent(float _Time, std::function<void()> _Event);
 	void TimeEventUpdate();
+
+public:
+	void GetLevelActorMove(GameEngineLevel* _NextLevel, GameEngineActor* _Actor);
 };
 

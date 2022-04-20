@@ -7,7 +7,8 @@
 GameEngineActor::GameEngineActor() :
 	Level_(nullptr),
 	IsDestroyed_(false),
-	DeathTime_(-1.f)
+	DeathTime_(-1.f),
+	IsFindObject_(false)
 {
 }
 
