@@ -7,6 +7,10 @@ class GameEngineSound;
 class GameEngineSoundPlayer;
 class GameEngineSoundManager
 {
+private:
+	static std::mutex ManagerLock;
+
+
 public:
 	friend GameEngineSound;
 	friend GameEngineSoundPlayer;

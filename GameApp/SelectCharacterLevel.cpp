@@ -50,10 +50,5 @@ void SelectCharacterLevel::LevelStart()
 }
 
 void SelectCharacterLevel::LevelUpdate(float _DeltaTime)
-{	
-	// 테스트용
-	if (true == GameEngineInput::GetInst().Down("NextScene"))
-	{
-		UserGame::LevelChange("LoadingLevel");
-	}
+{
 }

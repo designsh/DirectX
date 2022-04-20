@@ -8,6 +8,9 @@ class GameStartButton;
 class GameEndButton;
 class TitleLevel : public GameEngineLevel
 {
+private:
+	static bool ResourceLoadEndCheck;
+
 private:	// member Var
 	GameStartButton* StartButton_;
 	GameEndButton* EndButton_;
@@ -23,6 +26,9 @@ protected:		// delete constructer
 private:		//delete operator
 	TitleLevel& operator=(const TitleLevel& _other) = delete;
 	TitleLevel& operator=(const TitleLevel&& _other) = delete;
+
+private:
+	void CreateLevelActor();
 
 public:
 	virtual void LevelChangeEndEvent() override;

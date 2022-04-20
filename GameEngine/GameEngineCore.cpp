@@ -16,6 +16,7 @@
 GameEngineLevel* GameEngineCore::NextLevel_ = nullptr;
 GameEngineLevel* GameEngineCore::CurrentLevel_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngineCore::AllLevel_;
+GameEngineThreadQueue GameEngineCore::ThreadQueue_ = GameEngineThreadQueue("GameEngineThread");
 
 void GameEngineCore::LevelChange(const std::string& _Level)
 {
@@ -142,6 +143,9 @@ void GameEngineCore::EngineDestory()
 			Level.second = nullptr;
 		}
 	}
+
+	// Thread Release
+	ThreadQueue_.Destroy();
 
 	// Resource Release
 	GameEngineManagerHelper::ManagerRelease();

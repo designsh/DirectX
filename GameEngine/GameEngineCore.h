@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineLevel.h"
+#include <GameEngineBase\GameEngineThreadQueue.h>
 
 // 분류 : 게임 코어 및 레벨관리자
 // 용도 : 
@@ -14,6 +15,9 @@ private:
 	static GameEngineLevel* NextLevel_;
 	static GameEngineLevel* CurrentLevel_;
 	static std::map<std::string, GameEngineLevel*> AllLevel_;
+
+public:
+	static GameEngineThreadQueue ThreadQueue_;
 
 public:
 	template<typename LevelType>

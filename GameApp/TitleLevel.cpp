@@ -14,6 +14,8 @@
 #include "UserGame.h"
 #include "GlobalValue.h"
 
+bool TitleLevel::ResourceLoadEndCheck = false;
+
 TitleLevel::TitleLevel() :
 	StartButton_(nullptr),
 	EndButton_(nullptr)
@@ -24,27 +26,8 @@ TitleLevel::~TitleLevel()
 {
 }
 
-void TitleLevel::LevelChangeEndEvent()
+void TitleLevel::CreateLevelActor()
 {
-}
-
-void TitleLevel::LevelChangeStartEvent()
-{
-	// 레벨변경시 기존액터들의 필요항목 리셋
-	StartButton_->ChangeStartReset();
-	EndButton_->ChangeStartReset();
-
-	// 레벨 첫 시작시 배경음악 재생
-	
-
-
-}
-
-void TitleLevel::LevelStart()
-{
-	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
-
 	// 배경액터 생성(이미지)
 	TitleBackDrop* BackDrop = CreateActor<TitleBackDrop>();
 
@@ -63,7 +46,44 @@ void TitleLevel::LevelStart()
 	GlobalValue::CurMouse = MainMouse;
 }
 
+void TitleLevel::LevelChangeEndEvent()
+{
+}
+
+void TitleLevel::LevelChangeStartEvent()
+{
+	// 레벨변경시 기존액터들의 필요항목 리셋
+	if (nullptr != StartButton_)
+	{
+		StartButton_->ChangeStartReset();
+	}
+
+	if (nullptr != EndButton_)
+	{
+		EndButton_->ChangeStartReset();
+	}
+
+	// 레벨 첫 시작시 배경음악 재생
+	
+
+
+}
+
+void TitleLevel::LevelStart()
+{
+	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+}
+
 void TitleLevel::LevelUpdate(float _DeltaTime)
 {
+#pragma region ResourceLoadingEndCheck
+	// 이미지 로딩이 완료되면 액터생성
+	if (false == ResourceLoadEndCheck && 0 >= UserGame::LoadingImageFolder)
+	{
+		CreateLevelActor();
+		ResourceLoadEndCheck = true;
+	}
+#pragma endregion
 }
 

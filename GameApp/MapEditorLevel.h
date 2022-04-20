@@ -7,6 +7,9 @@
 class TileMap;
 class MapEditorLevel : public GameEngineLevel
 {
+private:
+	static bool ResourceLoadEndCheck;
+
 private:	// member Var
 	TileMap* TileMap_;
 
@@ -24,6 +27,9 @@ protected:		// delete constructer
 private:		//delete operator
 	MapEditorLevel& operator=(const MapEditorLevel& _other) = delete;
 	MapEditorLevel& operator=(const MapEditorLevel&& _other) = delete;
+
+private:
+	void CreateLevelActor();
 
 public:
 	virtual void LevelChangeEndEvent() override;

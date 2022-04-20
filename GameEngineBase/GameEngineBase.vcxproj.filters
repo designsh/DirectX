@@ -43,6 +43,12 @@
     <Filter Include="IO\ExcelFileControl">
       <UniqueIdentifier>{fbc2f571-b565-4386-9dc8-2be233784b61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{fd8ceab3-bc39-44eb-87f9-143b5f16d409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread\IOCP">
+      <UniqueIdentifier>{5d3b02a8-37de-4dbc-b12d-034a3e3c11bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -90,6 +96,15 @@
     <ClCompile Include="ExcelControl.cpp">
       <Filter>IO\ExcelFileControl</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineThread.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIocp.cpp">
+      <Filter>Thread\IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineThreadQueue.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -136,6 +151,15 @@
     </ClInclude>
     <ClInclude Include="ExcelControl.h">
       <Filter>IO\ExcelFileControl</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineThread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineIocp.h">
+      <Filter>Thread\IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineThreadQueue.h">
+      <Filter>Thread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

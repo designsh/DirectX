@@ -1,10 +1,14 @@
 #pragma once
 #include "GameEngineDevice.h"
+#include <mutex>
 
 // Ό³Έν : 
 class GameEngineTexture;
 class GameEngineTextureManager
 {
+private:
+	static std::mutex ManagerLock;
+
 private:
 	static GameEngineTextureManager* Inst;
 

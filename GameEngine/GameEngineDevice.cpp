@@ -116,6 +116,8 @@ void GameEngineDevice::Initialize()
 	{
 		GameEngineDebug::MsgBoxError("D3D11 Not FEATURE LEVEL 11 ERROR");
 	}
+
+	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 }
 
 void GameEngineDevice::CreateSwapChain()

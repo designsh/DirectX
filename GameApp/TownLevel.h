@@ -10,6 +10,9 @@ class WeaponNPC;
 class ChandleryNPC;
 class TownLevel : public GameEngineLevel
 {
+private:
+	static bool ResourceLoadEndCheck;
+
 private:	// member Var
 	MainPlayer* MainPlayer_;
 	MouseObject* MainMouse_;
@@ -29,6 +32,9 @@ protected:		// delete constructer
 private:		//delete operator
 	TownLevel& operator=(const TownLevel& _other) = delete;
 	TownLevel& operator=(const TownLevel&& _other) = delete;
+
+private:
+	void CreateLevelActor();
 
 public:
 	virtual void LevelChangeEndEvent() override;

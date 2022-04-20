@@ -148,12 +148,6 @@ void SkillView::Update(float _DeltaTime)
 	SkillPageCollider_[0]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage1ChangeClick, this, std::placeholders::_1));
 	SkillPageCollider_[1]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage2ChangeClick, this, std::placeholders::_1));
 	SkillPageCollider_[2]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage3ChangeClick, this, std::placeholders::_1));
-
-	//// È®ÀÎ¿ë
-	//for (int i = 0; i < 3; ++i)
-	//{
-	//	GetLevel()->PushDebugRender(SkillPageCollider_[i]->GetTransform(), CollisionType::Rect);
-	//}
 }
 
 void SkillView::InitSkillView()

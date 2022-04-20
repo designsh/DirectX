@@ -16,6 +16,8 @@
 
 #include "MainPlayerInfomation.h"
 
+bool TownLevel::ResourceLoadEndCheck = false;
+
 TownLevel::TownLevel() :
 	MainPlayer_(nullptr),
 	MainMouse_(nullptr),
@@ -34,44 +36,10 @@ void TownLevel::LevelChangeEndEvent()
 
 }
 
-void TownLevel::LevelChangeStartEvent()
+void TownLevel::CreateLevelActor()
 {
-	// 배경음악 On
-
-
-	// 메인플레이어 지정
-	GlobalValue::CurPlayer = MainPlayer_;
-
-	// 메인마우스 지정
-	GlobalValue::CurMouse = MainMouse_;
-
-	// 메인플레이어 정보 생성되었는지 체크
-	if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
-	{
-		// 정보 생성이 되었다면 플레이어의 UI에 필요한 정보 셋팅
-		if (nullptr != GlobalValue::CurPlayer)
-		{
-			GlobalValue::CurPlayer->CreatePlayerUIInfomation();
-		}
-	}
-}
-
-void TownLevel::LevelStart()
-{
-	// ============================================== 테스트용 ============================================== //
-	//MainPlayerInfomation::GetInst().CreateMainPlayerInfo("test1", JobType::Necromancer);
-	//if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
-	//{
-	//	if (nullptr != GlobalValue::CurPlayer)
-	//	{
-	//		GlobalValue::CurPlayer->CreatePlayerUIInfomation();
-	//	}
-	//}
-	// ============================================== 테스트용 ============================================== //
-
-	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
-
+	// 리소스 로딩완료시 액터 생성
+	
 	// 맵로딩(타일맵 - 고정맵)
 
 	// 플레이어 생성
@@ -87,7 +55,7 @@ void TownLevel::LevelStart()
 	WeaponNPC_->SetTopMenu();
 	GlobalValue::WeaponNPC = WeaponNPC_;
 
-	// NPC 생성(잡화상인)
+	// NPC 생성(잡화상인) - 테스트 위치
 	ChandleryNPC_ = CreateActor<ChandleryNPC>();
 	ChandleryNPC_->GetTransform()->SetLocalPosition(float4(-100.f, 100.f, 10.f));
 	ChandleryNPC_->SetMoveRange();
@@ -105,26 +73,71 @@ void TownLevel::LevelStart()
 	MainMouse_ = CreateActor<MouseObject>();
 	MainMouse_->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
 
-#pragma region 테스트키
-	// 테스트키 생성
-	if (false == GameEngineInput::GetInst().IsKey("FreeCamera"))
+	// 메인플레이어 지정
+	if (GlobalValue::CurPlayer != MainPlayer_)
 	{
-		GameEngineInput::GetInst().CreateKey("FreeCamera", 'o');
+		GlobalValue::CurPlayer = MainPlayer_;
 	}
-#pragma endregion
+
+	// 메인마우스 지정
+	if (GlobalValue::CurMouse != MainMouse_)
+	{
+		GlobalValue::CurMouse = MainMouse_;
+	}
+
+	// 메인플레이어 정보 생성되었는지 체크
+	if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
+	{
+		// 정보 생성이 되었다면 플레이어의 UI에 필요한 정보 셋팅
+		if (nullptr != GlobalValue::CurPlayer)
+		{
+			GlobalValue::CurPlayer->CreatePlayerUIInfomation();
+		}
+	}
+}
+
+void TownLevel::LevelChangeStartEvent()
+{
+	// 배경음악 On
+
+
+	// 메인플레이어 지정
+	if (GlobalValue::CurPlayer != MainPlayer_)
+	{
+		GlobalValue::CurPlayer = MainPlayer_;
+	}
+
+	// 메인마우스 지정
+	if (GlobalValue::CurMouse != MainMouse_)
+	{
+		GlobalValue::CurMouse = MainMouse_;
+	}
+
+	// 메인플레이어 정보 생성되었는지 체크
+	if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
+	{
+		// 정보 생성이 되었다면 플레이어의 UI에 필요한 정보 셋팅
+		if (nullptr != GlobalValue::CurPlayer)
+		{
+			GlobalValue::CurPlayer->CreatePlayerUIInfomation();
+		}
+	}
+}
+
+void TownLevel::LevelStart()
+{
+	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void TownLevel::LevelUpdate(float _DeltaTime)
 {
-#pragma region 테스트키
-	if (true == GameEngineInput::GetInst().Down("NextScene"))
+#pragma region ResourceLoadingEndCheck
+	// 이미지 로딩이 완료되면 액터생성
+	if (false == ResourceLoadEndCheck && 0 >= UserGame::LoadingImageFolder)
 	{
-		UserGame::LevelChange("CatacombsLevel");
-	}
-
-	if (true == GameEngineInput::GetInst().Down("FreeCamera"))
-	{
-		GetMainCameraActor()->FreeCameraModeSwitch();
+		CreateLevelActor();
+		ResourceLoadEndCheck = true;
 	}
 #pragma endregion
 }

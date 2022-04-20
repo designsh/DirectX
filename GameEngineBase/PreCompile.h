@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <process.h>
 
 // 자료구조
 #include <vector>
@@ -13,12 +14,16 @@
 // std::
 #include <string>
 #include <functional>
+#include <thread>
 
 // IO
 #include <io.h>
 #include <filesystem>
 #include <conio.h>
 #include <comdef.h>
+
+// 
+#include <mutex>
 
 // Debug
 #include <assert.h>

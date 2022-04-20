@@ -5,6 +5,8 @@
 #include "GameEngineSound.h"
 #include "GameEngineSoundPlayer.h"
 
+std::mutex GameEngineSoundManager::ManagerLock;
+
 // Static Var
 GameEngineSoundManager* GameEngineSoundManager::Inst = new GameEngineSoundManager();	// Singleton Class Pointer
 
@@ -59,7 +61,12 @@ GameEngineSoundManager::GameEngineSoundManager(GameEngineSoundManager&& _other) 
 //member Func
 GameEngineSound* GameEngineSoundManager::FindSound(const std::string& _name)
 {
-	std::map<std::string, GameEngineSound*>::iterator FindIter = allLoadSound_.find(_name);
+	std::map<std::string, GameEngineSound*>::iterator FindIter;
+	{
+		std::lock_guard Lock(ManagerLock);
+
+		FindIter = allLoadSound_.find(_name);
+	}
 	if (FindIter == allLoadSound_.end())
 	{
 		return nullptr;
@@ -109,7 +116,10 @@ void GameEngineSoundManager::Load(const std::string& _name, const std::string& _
 		return;
 	}
 
-	allLoadSound_.insert(std::map<std::string, GameEngineSound*>::value_type(_name, newLoadSound));
+	{
+		std::lock_guard Lock(ManagerLock);
+		allLoadSound_.insert(std::map<std::string, GameEngineSound*>::value_type(_name, newLoadSound));
+	}
 }
 
 void GameEngineSoundManager::PlaySoundOneShot(const std::string& _name)

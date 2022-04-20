@@ -3,12 +3,15 @@
 
 #include "CreateTileMapWindow.h"
 #include "TileMap.h"
+#include "UserGame.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
 
 #include <GameEngine/GameEngineTextureManager.h>
 #include <GameEngine/GameEngineTexture.h>
+
+bool MapEditorLevel::ResourceLoadEndCheck = false;
 
 MapEditorLevel::MapEditorLevel() :
 	TileMap_(nullptr),
@@ -20,31 +23,8 @@ MapEditorLevel::~MapEditorLevel()
 {
 }
 
-void MapEditorLevel::LevelChangeEndEvent()
+void MapEditorLevel::CreateLevelActor()
 {
-	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
-	if (nullptr != Ptr)
-	{
-		Ptr->Off();
-	}
-}
-
-void MapEditorLevel::LevelChangeStartEvent()
-{
-	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
-	if (nullptr != Ptr)
-	{
-		Ptr->On();
-	}
-}
-
-void MapEditorLevel::LevelStart()
-{
-#pragma region SetMainCamera
-	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
-#pragma endregion
-
 #pragma region TileTexture Cutting
 	GameEngineTexture* FloorTile = GameEngineTextureManager::GetInst().Find("Town_Floor.png");
 	FloorTile->Cut(5, 37);
@@ -88,6 +68,32 @@ void MapEditorLevel::LevelStart()
 	TileMap_->SetFloorTileTexture("Town_Floor.png");
 	TileMap_->SetWallTileTexture("Town_Wall.png");
 #pragma endregion
+}
+
+void MapEditorLevel::LevelChangeEndEvent()
+{
+	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
+	if (nullptr != Ptr)
+	{
+		Ptr->Off();
+	}
+}
+
+void MapEditorLevel::LevelChangeStartEvent()
+{
+	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
+	if (nullptr != Ptr)
+	{
+		Ptr->On();
+	}
+}
+
+void MapEditorLevel::LevelStart()
+{
+#pragma region SetMainCamera
+	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
+#pragma endregion
 
 #pragma region CreateKey
 	if (false == GameEngineInput::GetInst().IsKey("CameraUp"))
@@ -122,6 +128,15 @@ void MapEditorLevel::LevelStart()
 
 void MapEditorLevel::LevelUpdate(float _DeltaTime)
 {
+#pragma region ResourceLoadingEndCheck
+	// 이미지 로딩이 완료되면 액터생성
+	if (false == ResourceLoadEndCheck && 0 >= UserGame::LoadingImageFolder)
+	{
+		CreateLevelActor();
+		ResourceLoadEndCheck = true;
+	}
+#pragma endregion
+
 	if (true == GameEngineWindow::GetInst().IsWindowRangeOut(GameEngineInput::GetInst().GetMousePos()))
 	{
 		return;

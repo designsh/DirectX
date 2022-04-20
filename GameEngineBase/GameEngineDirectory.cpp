@@ -167,8 +167,34 @@ std::vector<GameEngineDirectory> GameEngineDirectory::GetAllDirectory(const std:
 			continue;
 		}
 
-		std::string FileName = File.path().filename().string();
-		GameEngineString::toupper(FileName);
+		if (std::string::npos == File.path().string().find(Filter))
+		{
+			continue;
+		}
+
+		Return.push_back(GameEngineDirectory(File.path().string()));
+	}
+
+	return Return;
+}
+
+std::vector<GameEngineDirectory> GameEngineDirectory::GetAllDirectoryRecursive(const std::string& _filter)
+{
+	std::string Filter = _filter;
+	GameEngineString::toupper(Filter);
+
+	// 현재 시작하는 디렉터리 추가 후 모든디렉터리를 순환해서 디렉터리 탐색
+	std::vector<GameEngineDirectory> Return;
+	Return.push_back(GameEngineDirectory(GetFullPath()));
+
+	std::filesystem::recursive_directory_iterator DirIter = std::filesystem::recursive_directory_iterator(path_);
+
+	for (const std::filesystem::directory_entry& File : DirIter)
+	{
+		if (false == File.is_directory())
+		{
+			continue;
+		}
 
 		if (std::string::npos == File.path().string().find(Filter))
 		{

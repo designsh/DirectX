@@ -8,6 +8,9 @@ class MainPlayer;
 class MouseObject;
 class ChaosSanctuaryLevel : public GameEngineLevel
 {
+private:
+	static bool ResourceLoadEndCheck;
+
 private:	// member Var
 	MainPlayer* MainPlayer_;
 	MouseObject* MainMouse_;
@@ -23,6 +26,9 @@ protected:		// delete constructer
 private:		//delete operator
 	ChaosSanctuaryLevel& operator=(const ChaosSanctuaryLevel& _other) = delete;
 	ChaosSanctuaryLevel& operator=(const ChaosSanctuaryLevel&& _other) = delete;
+
+private:
+	void CreateLevelActor();
 
 public:
 	virtual void LevelChangeEndEvent() override;

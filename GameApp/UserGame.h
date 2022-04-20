@@ -13,6 +13,10 @@ class CatacombsLevel;
 class ChaosSanctuaryLevel;
 class UserGame : public GameEngineCore
 {
+public:
+	static std::atomic<int> LoadingImageFolder;
+	static std::atomic<int> LoadingSoundFolder;
+
 private:	// member Var
 
 public:

@@ -10,12 +10,23 @@
 
 #include "UserGame.h"
 
+bool LoadingLevel::ResourceLoadEndCheck = false;
+
 LoadingLevel::LoadingLevel()
 {
 }
 
 LoadingLevel::~LoadingLevel()
 {
+}
+
+void LoadingLevel::CreateLevelActor()
+{
+	// 로딩 배경
+	LoadingBackDrop* BackDrop = CreateActor<LoadingBackDrop>();
+
+	// 로딩액터(애니메이션)
+	LoadingAnimation* Animation = CreateActor<LoadingAnimation>();
 }
 
 void LoadingLevel::LevelChangeEndEvent()
@@ -32,19 +43,16 @@ void LoadingLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
-
-	// 로딩 배경
-	LoadingBackDrop* BackDrop = CreateActor<LoadingBackDrop>();
-
-	// 로딩액터(애니메이션) - 임시(테스트용)
-	LoadingAnimation* Animation = CreateActor<LoadingAnimation>();
 }
 
 void LoadingLevel::LevelUpdate(float _DeltaTime)
 {
-	// 테스트용
-	if (true == GameEngineInput::GetInst().Down("NextScene"))
+#pragma region ResourceLoadingEndCheck
+	// 이미지 로딩이 완료되면 액터생성
+	if (false == ResourceLoadEndCheck && 0 >= UserGame::LoadingImageFolder)
 	{
-		UserGame::LevelChange("TownLevel");
+		CreateLevelActor();
+		ResourceLoadEndCheck = true;
 	}
+#pragma endregion
 }

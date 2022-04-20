@@ -10,6 +10,9 @@ class TitleLevelMoveBtn;
 class ClassSelectObject;
 class CreateCharacterLevel : public GameEngineLevel
 {
+private:
+	static bool ResourceLoadEndCheck;
+
 private:	// member Var
 	CreateCharacterInputText* IDInputTextBox_;
 	CurPlayerGameStartButton* GameStartBtn_;
@@ -27,6 +30,9 @@ protected:		// delete constructer
 private:		//delete operator
 	CreateCharacterLevel& operator=(const CreateCharacterLevel& _other) = delete;
 	CreateCharacterLevel& operator=(const CreateCharacterLevel&& _other) = delete;
+
+private:
+	void CreateLevelActor();
 
 public: 
 	void ClassImageCutting();

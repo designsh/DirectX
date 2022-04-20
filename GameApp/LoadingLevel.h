@@ -6,6 +6,9 @@
 // Ό³Έν : 
 class LoadingLevel : public GameEngineLevel
 {
+private:
+	static bool ResourceLoadEndCheck;
+
 private:	// member Var
 
 public:
@@ -19,6 +22,9 @@ protected:		// delete constructer
 private:		//delete operator
 	LoadingLevel& operator=(const LoadingLevel& _other) = delete;
 	LoadingLevel& operator=(const LoadingLevel&& _other) = delete;
+
+private:
+	void CreateLevelActor();
 
 public:
 	virtual void LevelChangeEndEvent() override;

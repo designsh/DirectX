@@ -9,30 +9,53 @@
 #include "AllNPCInfomation.h"
 #include "AllItemInfomation.h"
 
-void UserGame::ResourcesLoad()
+void SoundLoading(GameEngineDirectory Dir)
 {
-	// ======================================================= Resource Load ======================================================= // 
-
-	// Sound Load
-	GameEngineDirectory SoundDir;
-	SoundDir.MoveParent("DirectX");
-	SoundDir.MoveChild("Resources");
-	SoundDir.MoveChild("Sound");
-	std::vector<GameEngineFile> SoundAllFile = SoundDir.GetAllFile("wav", true); // true : 하위디렉터리 모두 검사
+	std::vector<GameEngineFile> SoundAllFile = Dir.GetAllFile();
 	for (size_t i = 0; i < SoundAllFile.size(); ++i)
 	{
 		GameEngineSoundManager::GetInst().Load(SoundAllFile[i].GetFullPath());
 	}
 
-	// Image Load
+	--UserGame::LoadingSoundFolder;
+}
+
+void TextureLoading(GameEngineDirectory Dir)
+{
+	std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+	for (size_t i = 0; i < AllFile.size(); i++)
+	{
+		GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	}
+	--UserGame::LoadingImageFolder;
+}
+
+void UserGame::ResourcesLoad()
+{
+	// ======================================================= Resource Load ======================================================= // 
+
+	// Sound Directory Serach 후 Thread Sound Load
+	GameEngineDirectory SoundDir;
+	SoundDir.MoveParent("DirectX");
+	SoundDir.MoveChild("Resources");
+	SoundDir.MoveChild("Sound");
+	std::vector<GameEngineDirectory> AllSoundDir = SoundDir.GetAllDirectoryRecursive();
+	LoadingSoundFolder = static_cast<int>(AllSoundDir.size());
+	for (size_t i = 0; i < AllSoundDir.size(); i++)
+	{
+		GameEngineCore::ThreadQueue_.JobPost(std::bind(SoundLoading, AllSoundDir[i]));
+	}
+
+	// Image Directory Serach 후 Thread Image Load
 	GameEngineDirectory TextureDir;
 	TextureDir.MoveParent("DirectX");
 	TextureDir.MoveChild("Resources");
 	TextureDir.MoveChild("Image");
-	std::vector<GameEngineFile> TextureAllFile = TextureDir.GetAllFile("png", true); // true : 하위디렉터리 모두 검사
-	for (size_t i = 0; i < TextureAllFile.size(); i++)
+	std::vector<GameEngineDirectory> AllTextureDir = TextureDir.GetAllDirectoryRecursive();
+	LoadingImageFolder = static_cast<int>(AllTextureDir.size());
+	for (size_t i = 0; i < AllTextureDir.size(); i++)
 	{
-		GameEngineTextureManager::GetInst().Load(TextureAllFile[i].GetFullPath());
+		GameEngineCore::ThreadQueue_.JobPost(std::bind(TextureLoading, AllTextureDir[i]));
 	}
 
 	// Font Load

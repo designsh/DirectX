@@ -24,6 +24,9 @@
 // IMGUI Window View
 #include <GameEngine/GameEngineLevelControlWindow.h>
 
+std::atomic<int> UserGame::LoadingImageFolder = 0;
+std::atomic<int> UserGame::LoadingSoundFolder = 0;
+
 UserGame::UserGame()
 {
 }
