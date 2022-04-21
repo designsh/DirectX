@@ -330,41 +330,41 @@ void TileMap::DelWallTile(float4 _Pos)
 #pragma region 자동모드관련
 
 // 자동모드 정보생성
-void TileMap::CreateFloorTileInfo(int _WidthTileCount, int _HeightTileCount)
+void TileMap::CreateFloorTileInfo(int _HeightTileCount, int _WidthTileCount)
 {
 	// 만약 다른모드에서 바닥타일정보나 바닥타일렌더링정보를 생성한것을 재사용하는것을 방지하기 위하여 기존 정보 모두 클리어하고 생성 시작
 	AllClearFloorTile();
 
 	// 인자로 수신한 갯수만큼 바닥타일정보 생성
-	FloorTileInfo_.resize(_HeightTileCount);
+	FloorTileInfo_.resize(_WidthTileCount);
 
 	// 시작인덱스, 종료인덱스 계산
 	int YStartIndex = 0;
 	int YEndIndex = 0;
 	int XStartIndex = 0;
 	int XEndIndex = 0;
-	if (_HeightTileCount % 2 == 0) // _HeightTileCount / 2 가 짝수이면 End
+	if (_WidthTileCount % 2 == 0) // _HeightTileCount / 2 가 짝수이면 End
 	{
 		// 시작인덱스, 종료인덱스 계산
-		YStartIndex = -(_HeightTileCount / 2);
-		YEndIndex = _HeightTileCount / 2;
+		YStartIndex = -(_WidthTileCount / 2);
+		YEndIndex = _WidthTileCount / 2;
 	}
 	else // _HeightTileCount / 2 가 홀수이면 End + 1
 	{
 		// 시작인덱스, 종료인덱스 계산
-		YStartIndex = -(_HeightTileCount / 2);
-		YEndIndex = (_HeightTileCount / 2) + 1;
+		YStartIndex = -(_WidthTileCount / 2);
+		YEndIndex = (_WidthTileCount / 2) + 1;
 	}
 
-	if (_WidthTileCount % 2 == 0)
+	if (_HeightTileCount % 2 == 0)
 	{
-		XStartIndex = -(_WidthTileCount / 2);
-		XEndIndex = _WidthTileCount / 2;
+		XStartIndex = -(_HeightTileCount / 2);
+		XEndIndex = _HeightTileCount / 2;
 	}
 	else
 	{
-		XStartIndex = -(_WidthTileCount / 2);
-		XEndIndex = (_WidthTileCount / 2) + 1;
+		XStartIndex = -(_HeightTileCount / 2);
+		XEndIndex = (_HeightTileCount / 2) + 1;
 	}
 
 	int YIndex = 0;
@@ -436,47 +436,8 @@ void TileMap::CreateWallTileInfo()
 		int WidthFloorTileCnt = static_cast<int>(FloorTileInfo_[HeightFloorTileCnt - 1].size());
 
 		// 벽타일생성 기준 : 바닥타일갯수 * 2 + 1
-		int YIndexCnt = (HeightFloorTileCnt * 2) + 1;
-		int XIndexCnt = (WidthFloorTileCnt * 2) + 1;
-
-		//// 1) 바닥타일의 너비인덱스가 짝수 or 홀수
-		//if (HeightFloorTileCnt % 2 == 0)
-		//{
-
-		//}
-		//else
-		//{
-
-		//}
-
-		//// 2) 바닥타일의 높이인덱스가 짝수 or 홀수
-		//if (WidthFloorTileCnt % 2 == 0)
-		//{
-
-		//}
-		//else
-		//{
-
-		//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		int YIndexCnt = (WidthFloorTileCnt * 2) + 1;
+		int XIndexCnt = (HeightFloorTileCnt * 2) + 1;
 
 		int YStartIndex = 0;
 		int YEndIndex = 0;
@@ -486,24 +447,24 @@ void TileMap::CreateWallTileInfo()
 		// 바닥타일이 짝수인지 홀수인지 체크
 		if (HeightFloorTileCnt % 2 == 0)
 		{
-			YStartIndex = -(YIndexCnt / 2);
-			YEndIndex = (YIndexCnt / 2) + 1;
+			XStartIndex = -HeightFloorTileCnt;
+			XEndIndex = HeightFloorTileCnt + 1;
 		}
 		else
 		{
-			YStartIndex = -(YIndexCnt / 2) + 1;
-			YEndIndex = (YIndexCnt / 2) + 2;
+			XStartIndex = -HeightFloorTileCnt + 1;
+			XEndIndex = HeightFloorTileCnt + 2;
 		}
 
 		if (WidthFloorTileCnt % 2 == 0)
 		{
-			XStartIndex = -(XIndexCnt / 2);
-			XEndIndex = (XIndexCnt / 2) + 1;
+			YStartIndex = -WidthFloorTileCnt;
+			YEndIndex = WidthFloorTileCnt + 1;
 		}
 		else
 		{
-			XStartIndex = -(XIndexCnt / 2) + 1;
-			XEndIndex = (XIndexCnt / 2) + 2;
+			YStartIndex = -WidthFloorTileCnt + 1;
+			YEndIndex = WidthFloorTileCnt + 2;
 		}
 
 		// 벽타입을 위한 체크 인덱스 생성
@@ -515,24 +476,24 @@ void TileMap::CreateWallTileInfo()
 		// -. 바닥타일 기준으로 조건 생성
 		if (HeightFloorTileCnt % 2 == 0)
 		{
-			YIndexChkM = -YStartIndex;
-			YIndexChkP = YStartIndex;
-		}
-		else
-		{
-			YIndexChkM = YStartIndex;
-			YIndexChkP = YEndIndex - 1;
-		}
-
-		if (WidthFloorTileCnt % 2 == 0)
-		{
-			XIndexChkM = -XStartIndex;
-			XIndexChkP = XStartIndex;
+			XIndexChkM = XStartIndex;
+			XIndexChkP = -XStartIndex;
 		}
 		else
 		{
 			XIndexChkM = XStartIndex;
 			XIndexChkP = XEndIndex - 1;
+		}
+
+		if (WidthFloorTileCnt % 2 == 0)
+		{
+			YIndexChkM = YStartIndex;
+			YIndexChkP = -YStartIndex;
+		}
+		else
+		{
+			YIndexChkM = YStartIndex;
+			YIndexChkP = YEndIndex - 1;
 		}
 
 		// 벽타일 조건체크에 의한 정보 생성
@@ -566,99 +527,34 @@ void TileMap::CreateWallTileInfo()
 				{
 					NewWallTileInfo.WallBasicType = WallBasicType::BENT;
 				}
-				// 2). 현재 X인덱스가 XIndexChk와 같으면 벽판정(우상단방향기준)
-				else if (x == XIndexChkP || x == XIndexChkM)
+				else
 				{
-					// 같으면 바닥타일 짝수
-					if ((std::abs(XIndexChkM) == std::abs(XIndexChkP)))
+					if (x == XIndexChkP || x == XIndexChkM)
 					{
-						if (y < YIndexChkM && y > YIndexChkP)
+						if (y % 2 == 0 && x % 2 == 0)
 						{
-							// y인덱스가 짝수이면 렌더링 o
-							if (y % 2 == 0)
-							{
-								NewWallTileInfo.WallBasicType = WallBasicType::RT;
-							}
-							// y인덱스가 홀수이면 렌더링 x
-							else
-							{
-								NewWallTileInfo.WallBasicType = WallBasicType::NONE;
-							}
+							NewWallTileInfo.WallBasicType = WallBasicType::RT;
 						}
 						else
 						{
-							NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
+							NewWallTileInfo.WallBasicType = WallBasicType::NONE;
 						}
 					}
-					else // 다르면 바닥타일 홀수
+					else if (y == YIndexChkM || y == YIndexChkP)
 					{
-						if (!(y < YIndexChkM && y > YIndexChkP))
+						if (y % 2 == 0 && x % 2 == 0)
 						{
-							// y인덱스가 짝수이면 렌더링 o
-							if (y % 2 == 0)
-							{
-								NewWallTileInfo.WallBasicType = WallBasicType::RT;
-							}
-							// y인덱스가 홀수이면 렌더링 x
-							else
-							{
-								NewWallTileInfo.WallBasicType = WallBasicType::NONE;
-							}
+							NewWallTileInfo.WallBasicType = WallBasicType::RB;
 						}
 						else
 						{
-							NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
-						}
-					}
-				}
-				// 3) 현재 Y인덱스가 YIndexChk와 같으면 벽판정(우하단방향기준)
-				else if (y == YIndexChkP || y == YIndexChkM)
-				{
-					// 같으면 바닥타일 짝수
-					if ((std::abs(YIndexChkM) == std::abs(YIndexChkP)))
-					{
-						if (x < XIndexChkM && x > XIndexChkP)
-						{
-							// x인덱스가 짝수이면 렌더링 o
-							if (x % 2 == 0)
-							{
-								NewWallTileInfo.WallBasicType = WallBasicType::RB;
-							}
-							// x인덱스가 홀수이면 렌더링 x
-							else
-							{
-								NewWallTileInfo.WallBasicType = WallBasicType::NONE;
-							}
-						}
-						else
-						{
-							NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
+							NewWallTileInfo.WallBasicType = WallBasicType::NONE;
 						}
 					}
 					else
 					{
-						if (!(x < XIndexChkM && x > XIndexChkP))
-						{
-							// x인덱스가 짝수이면 렌더링 o
-							if (x % 2 == 0)
-							{
-								NewWallTileInfo.WallBasicType = WallBasicType::RB;
-							}
-							// x인덱스가 홀수이면 렌더링 x
-							else
-							{
-								NewWallTileInfo.WallBasicType = WallBasicType::NONE;
-							}
-						}
-						else
-						{
-							NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
-						}
+						NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
 					}
-				}
-				else
-				{
-					NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
 				}
 
 				// 벽 상세타입 조건체크(타일의 인덱스로 조건체크) - 마을맵 생성기준
@@ -720,6 +616,7 @@ void TileMap::CreateWallTileInfo()
 				}
 
 				float4 Pos = float4::ZERO;
+				//Pos.x = (Index.X_ - Index.Y_) * -WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
 				Pos.x = (Index.X_ - Index.Y_) * WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
 				Pos.y = (Index.X_ + Index.Y_) * -WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().y;
 
