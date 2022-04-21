@@ -60,8 +60,10 @@ enum class WallRenderingType
 // 오브젝트타일 렌더링타입(벽으로 취급)
 enum class ObjectRenderingType
 {
-	TILE,
-	GRID,
+	TILE,				// 단순 타일(이미지인덱스에 영향)
+	GRID_WALL,			// 벽타일의 NONE타입과 동일(오브젝트 기본타입에 영향)
+	GRID_NORMAL,		// 아무것도 렌더링하지않은 타일(오브젝트 기본타입에 영향)
+	GRID_OBJECT,		// 오브젝트가 렌더링되어있는 타일(오브젝트 기본타입에 영향)
 };
 
 // 벽타일 기본타입(방향구분)

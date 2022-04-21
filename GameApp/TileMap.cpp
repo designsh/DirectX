@@ -11,7 +11,7 @@
 TileMap::TileMap() :
 	FloorRenderingType_(FloorRenderingType::GRID),
 	WallRenderingType_(WallRenderingType::GRID_NOR),
-	ObjectRenderingType_(ObjectRenderingType::GRID),
+	ObjectRenderingType_(ObjectRenderingType::GRID_NORMAL),
 	FloorGridesActive_(true),
 	WallGridesActive_(true),
 	ObjectGridesActive_(false),
@@ -408,12 +408,22 @@ void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 
 void TileMap::SetObjectTile(float4 _Pos, int CurTileIndex_)
 {
-
+	SetObjectTile(GetWallTileIndex(_Pos), CurTileIndex_);
 }
 
 void TileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
 {
 	// 여기부터 시작할꺼임!!!!!!!!!!!!!!!
+
+	// OBJECT 그리드일때 오브젝트 타일 배치가능
+
+
+
+
+
+
+
+
 
 }
 
@@ -477,6 +487,23 @@ void TileMap::SetFloorGird(TileIndex _Index, int CurTileIndex_)
 		// 같은 인덱스가 존재하면 리턴
 		if (FloorGrides_.end() != FloorGrides_.find(_Index.Index_))
 		{
+			// 기존의 그리드 렌더러 변경
+			float4 ChangePos = float4::ZERO;
+			ChangePos.x = (_Index.X_ - _Index.Y_) * TileSizeHalf_.x;
+			ChangePos.y = (_Index.X_ + _Index.Y_) * -TileSizeHalf_.y;
+
+			if (_Index.X_ == 0 && _Index.Y_ == 0)
+			{
+				FloorGrides_.find(_Index.Index_)->second->SetImage("FloorGrid_Center.png");
+			}
+			else
+			{
+				FloorGrides_.find(_Index.Index_)->second->SetImage("FloorGrid_Normal.png");
+			}
+			FloorGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+			FloorGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + ChangePos);
+			FloorGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalZOrder(-1.f);
+
 			return;
 		}
 
@@ -512,6 +539,100 @@ void TileMap::SetWallGird(TileIndex _Index, int CurTileIndex_)
 	{
 		if (WallGrides_.end() != WallGrides_.find(_Index.Index_))
 		{
+			// 현재 그리드렌더러 이미지 변경
+			float4 ChangePos = float4::ZERO;
+			ChangePos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
+			ChangePos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
+
+			// 렌더타입별 이미지 셋팅
+			if (WallRenderingType::GRID_NOR == WallRenderingType_)
+			{
+				// 센터 바닥타일 이미지
+				if (_Index.Y_ == 0 && _Index.X_ == 0)
+				{
+					WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_Center.png");
+				}
+				else // 일반 바닥타일 이미지
+				{
+					WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_Normal.png");
+				}
+			}
+			// RT_T
+			else if (WallRenderingType::GRID_RT_T == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RT_T.png");
+			}
+			else if (WallRenderingType::GRID_RT_T_RE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RT_T_RE.png");
+			}
+			else if (WallRenderingType::GRID_RT_T_LE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RT_T_LE.png");
+			}
+			// RT_B
+			else if (WallRenderingType::GRID_RT_B == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RT_B.png");
+			}
+			else if (WallRenderingType::GRID_RT_B_RE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RT_B_RE.png");
+			}
+			else if (WallRenderingType::GRID_RT_B_LE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RT_B_LE.png");
+			}
+			// RB_L
+			else if (WallRenderingType::GRID_RB_L == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RB_L.png");
+			}
+			else if (WallRenderingType::GRID_RB_L_BE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RB_L_BE.png");
+			}
+			else if (WallRenderingType::GRID_RB_L_TE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RB_L_TE.png");
+			}
+			// RB_R
+			else if (WallRenderingType::GRID_RB_R == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RB_R.png");
+			}
+			else if (WallRenderingType::GRID_RB_R_BE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RB_R_BE.png");
+			}
+			else if (WallRenderingType::GRID_RB_R_TE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_RB_R_TE.png");
+			}
+			// BENT_SINGLE
+			else if (WallRenderingType::GRID_BENT_SINGLE == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_Bent_Single.png");
+			}
+			// BENT_MULTI1
+			else if (WallRenderingType::GRID_BENT_MULTI1 == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_Bent_Multi.png");
+			}
+			// BENT_MULTI2
+			else if (WallRenderingType::GRID_BENT_MULTI2 == WallRenderingType_)
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_Bent_Multi.png");
+			}
+			else
+			{
+				WallGrides_.find(_Index.Index_)->second->SetImage("WallGrid_None.png");
+			}
+
+			WallGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalScaling(TileSizeHalf_);
+			WallGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalPosition(ChangePos);
+			WallGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalZOrder(-3.f);
+
 			// 정보갱신
 			int YIndex = static_cast<int>(WallTileInfo_.size());
 			if (0 < YIndex)
@@ -695,17 +816,118 @@ void TileMap::SetWallGird(TileIndex _Index, int CurTileIndex_)
 		Renderer->GetTransform()->SetLocalPosition(Pos);
 		Renderer->GetTransform()->SetLocalZOrder(-3.f);
 		WallGrides_.insert(std::make_pair(_Index.Index_, Renderer));
-
-		// 
 	}
 }
 
 void TileMap::SetObjectGird(float4 _Pos, int CurTileIndex_)
 {
+	SetObjectGird(GetWallTileIndex(_Pos), CurTileIndex_);
 }
 
 void TileMap::SetObjectGird(TileIndex _Index, int CurTileIndex_)
 {
+	// 타일모드가 아닐때 처리
+	if (ObjectRenderingType::TILE != ObjectRenderingType_)
+	{
+		if (ObjectGrides_.end() != ObjectGrides_.find(_Index.Index_))
+		{
+			// 그리드 타입변환
+			if (ObjectRenderingType::GRID_NORMAL == ObjectRenderingType_)
+			{
+				// 센터 바닥타일 이미지
+				if (_Index.Y_ == 0 && _Index.X_ == 0)
+				{
+					ObjectGrides_.find(_Index.Index_)->second->SetImage("WallGrid_Center.png");
+				}
+				else // 일반 바닥타일 이미지
+				{
+					ObjectGrides_.find(_Index.Index_)->second->SetImage("WallGrid_Normal.png");
+				}
+			}
+			else if (ObjectRenderingType::GRID_OBJECT == ObjectRenderingType_)
+			{
+				ObjectGrides_.find(_Index.Index_)->second->SetImage("ObjectGrid_Object.png");
+			}
+			else
+			{
+				ObjectGrides_.find(_Index.Index_)->second->SetImage("WallGrid_None.png");
+			}
+
+			float4 ChangePos = float4::ZERO;
+			ChangePos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
+			ChangePos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
+
+			ObjectGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalScaling(TileSizeHalf_);
+			ObjectGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalPosition(ChangePos);
+			ObjectGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalZOrder(-4.f);
+
+			// 정보갱신
+			int YIndex = static_cast<int>(ObjectTileInfo_.size());
+			if (0 < YIndex)
+			{
+				int XIndex = static_cast<int>(ObjectTileInfo_[YIndex - 1].size());
+				for (int y = 0; y < YIndex; ++y)
+				{
+					for (int x = 0; x < XIndex; ++x)
+					{
+						if (_Index.X_ == ObjectTileInfo_[y][x].ObjectIndexX &&
+							_Index.Y_ == ObjectTileInfo_[y][x].ObjectIndexY)
+						{
+							if (ObjectRenderingType::GRID_NORMAL == ObjectRenderingType_)
+							{
+								ObjectTileInfo_[y][x].ObjectBasicType = ObjectBasicType::NORMAL;
+							}
+							else if (ObjectRenderingType::GRID_OBJECT == ObjectRenderingType_)
+							{
+								ObjectTileInfo_[y][x].ObjectBasicType = ObjectBasicType::OBJECT;
+							}
+							else
+							{
+								ObjectTileInfo_[y][x].ObjectBasicType = ObjectBasicType::WALL;
+							}
+							return;
+						}
+					}
+				}
+				return;
+			}
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
+			Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			// 렌더타입별 이미지 셋팅
+			if (ObjectRenderingType::GRID_NORMAL == ObjectRenderingType_)
+			{
+				// 센터 바닥타일 이미지
+				if (_Index.Y_ == 0 && _Index.X_ == 0)
+				{
+					Renderer->SetImage("WallGrid_Center.png");
+				}
+				else // 일반 바닥타일 이미지
+				{
+					Renderer->SetImage("WallGrid_Normal.png");
+				}
+			}
+			// OBJECT
+			else if (ObjectRenderingType::GRID_OBJECT == ObjectRenderingType_)
+			{
+				Renderer->SetImage("ObjectGrid_Object.png");
+			}
+			// WALL
+			else
+			{
+				Renderer->SetImage("WallGrid_None.png");
+			}
+
+			Renderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+			Renderer->GetTransform()->SetLocalPosition(Pos);
+			Renderer->GetTransform()->SetLocalZOrder(-4.f);
+			ObjectGrides_.insert(std::make_pair(_Index.Index_, Renderer));
+		}
+	}
 }
 
 void TileMap::DelFloorGird(float4 _Pos)
@@ -1265,8 +1487,7 @@ void TileMap::CreateObjectTileInfo()
 					GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
 					// 벽타입별 이미지
-					if (ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::NORMAL ||
-						ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::OBJECT)
+					if (ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::NORMAL)
 					{
 						// 센터 바닥타일 이미지
 						if (Index.Y_ == 0 && Index.X_ == 0)
@@ -1277,6 +1498,10 @@ void TileMap::CreateObjectTileInfo()
 						{
 							Renderer->SetImage("WallGrid_Normal.png");
 						}
+					}
+					else if (ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::OBJECT)
+					{
+						Renderer->SetImage("ObjectGrid_Object.png");
 					}
 					else
 					{

@@ -89,6 +89,10 @@ void MapEditorLevel::CreateLevelActor()
 	GameEngineTexture* WallGridBentSingle = GameEngineTextureManager::GetInst().Find("WallGrid_Bent_Single.png");
 	WallGridBentSingle->Cut(1, 1);
 
+	// OBJECT
+	GameEngineTexture* ObjectGrid = GameEngineTextureManager::GetInst().Find("ObjectGrid_Object.png");
+	ObjectGrid->Cut(1, 1);
+
 #pragma endregion
 
 #pragma region IsoTileMap Create & Setting

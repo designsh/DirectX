@@ -511,14 +511,45 @@ void CreateTileMapWindow::OnGUI()
 
 	// OBJECT ¼öÁ¤
 	ImGui::Text("10. Select Object Tile & Gride EditMode");
+	if (ObjectRenderingType::TILE == TileMap_->GetCurObjectRenderType())
+	{
+		ImGui::SameLine();
+		ImGui::Text("CURRENT MODE : TILE MODE!!!!!!!!!!!");
+	}
+	else if (ObjectRenderingType::GRID_NORMAL == TileMap_->GetCurObjectRenderType())
+	{
+		ImGui::SameLine();
+		ImGui::Text("CURRENT MODE : GRID NORMAL MODE!!!!!!!!!!!");
+	}
+	else if (ObjectRenderingType::GRID_OBJECT == TileMap_->GetCurObjectRenderType())
+	{
+		ImGui::SameLine();
+		ImGui::Text("CURRENT MODE : GRID OBJECT MODE!!!!!!!!!!!");
+	}
+	else if (ObjectRenderingType::GRID_WALL == TileMap_->GetCurObjectRenderType())
+	{
+		ImGui::SameLine();
+		ImGui::Text("CURRENT MODE : GRID WALL MODE!!!!!!!!!!!");
+	}
+
 	if (true == ImGui::Button("O: TILE", ImVec2(140.f, 20.f)))
 	{
 		TileMap_->SetObjectRenderingMode(ObjectRenderingType::TILE);
 	}
 	ImGui::SameLine();
-	if (true == ImGui::Button("O : GRID", ImVec2(140.f, 20.f)))
+	if (true == ImGui::Button("O : GRID NORMAL", ImVec2(140.f, 20.f)))
 	{
-		TileMap_->SetObjectRenderingMode(ObjectRenderingType::GRID);
+		TileMap_->SetObjectRenderingMode(ObjectRenderingType::GRID_NORMAL);
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("O : GRID OBJECT", ImVec2(140.f, 20.f)))
+	{
+		TileMap_->SetObjectRenderingMode(ObjectRenderingType::GRID_OBJECT);
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("O : GRID WALL", ImVec2(140.f, 20.f)))
+	{
+		TileMap_->SetObjectRenderingMode(ObjectRenderingType::GRID_WALL);
 	}
 #pragma endregion
 
