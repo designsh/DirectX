@@ -5,7 +5,8 @@
 enum class TileType
 {
 	FLOOR,
-	WALL
+	WALL,
+	OBJECT
 };
 
 // ºÐ·ù : 

@@ -137,20 +137,25 @@ void CreateTileMapWindow::OnGUI()
 		ImGui::SameLine();
 		ImGui::Text("CURRENT EDIT TYPE : FLOOR!!!!!!!!");
 	}
-	else
+	else if(TileType::WALL == SelectMode_)
 	{
 		ImGui::SameLine();
 		ImGui::Text("CURRENT EDIT TYPE : WALL!!!!!!!!");
 	}
+	else if (TileType::OBJECT == SelectMode_)
+	{
+		ImGui::SameLine();
+		ImGui::Text("CURRENT EDIT TYPE : OBJECT!!!!!!!!");
+	}
 
 #pragma region 바탁타일목록
-	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("FloorTile")), { 500, 200 });
+	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("FloorTile")), { 300, 200 });
 
 	GameEngineTexture* FloorTileImage = TileMap_->GetFloorTileTexture();
 	ImTextureID FloorTileId = reinterpret_cast<ImTextureID>(*FloorTileImage->GetShaderResourcesView());
 	float4 FloorTileSize = { 80.f, 40.f };
 
-	int LineCount = 5;
+	int LineCount = 3;
 	for (int i = 0; i < static_cast<int>(FloorTileImage->GetCutCount()); i++)
 	{
 		float4 FloorTileCutData = FloorTileImage->GetCutData(i);
@@ -176,7 +181,7 @@ void CreateTileMapWindow::OnGUI()
 
 		if (0 == LineCount)
 		{
-			LineCount = 5;
+			LineCount = 3;
 		}
 	}
 
@@ -186,14 +191,14 @@ void CreateTileMapWindow::OnGUI()
 #pragma endregion
 
 #pragma region 벽타일목록
-	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("WallTile")), { 500, 200 });
+	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("WallTile")), { 300, 200 });
 
 	// 벽
 	GameEngineTexture* WallTileImage = TileMap_->GetWallTileTexture();
 	ImTextureID WallTileId = reinterpret_cast<ImTextureID>(*WallTileImage->GetShaderResourcesView());
 	float4 WallTileSize = { 80.f, 160.f };
 
-	int WallTileLineCount = 5;
+	int WallTileLineCount = 3;
 	for (int i = 0; i < static_cast<int>(WallTileImage->GetCutCount()); i++)
 	{
 		float4 WallCutData = WallTileImage->GetCutData(i);
@@ -219,7 +224,50 @@ void CreateTileMapWindow::OnGUI()
 
 		if (0 == WallTileLineCount)
 		{
-			WallTileLineCount = 5;
+			WallTileLineCount = 3;
+		}
+	}
+
+	ImGui::EndChildFrame();
+#pragma endregion
+
+	ImGui::SameLine();
+
+#pragma region 오브젝트타일목록
+	ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("ObjectTile")), { 300, 200 });
+
+	// 벽
+	GameEngineTexture* ObjectTileImage = TileMap_->GetObjectTileTexture();
+	ImTextureID ObjectTileId = reinterpret_cast<ImTextureID>(*ObjectTileImage->GetShaderResourcesView());
+	float4 ObjectTileSize = { 80.f, 160.f };
+
+	int ObjectTileLineCount = 3;
+	for (int i = 0; i < static_cast<int>(ObjectTileImage->GetCutCount()); i++)
+	{
+		float4 ObjectCutData = ObjectTileImage->GetCutData(i);
+		__int64 ObjectImageBtnID = reinterpret_cast<__int64>(ObjectTileId);
+		ObjectImageBtnID += i;
+		ImGui::PushID(static_cast<int>(ObjectImageBtnID));
+		if (true == ImGui::ImageButton(ObjectTileId, { ObjectTileSize.x, ObjectTileSize.y }, { ObjectCutData.x, ObjectCutData.y }, { ObjectCutData.x + ObjectCutData.z, ObjectCutData.y + ObjectCutData.w }))
+		{
+			// 현재 선택된 타일이 벽 텍스쳐이므로 텍스쳐 변경
+			SelectMode_ = TileType::OBJECT;
+
+			// 현재 선택된 타일의 인덱스로 변경
+			SelectTileIndex_ = i;
+		}
+		ImGui::PopID();
+
+		--ObjectTileLineCount;
+
+		if (0 != ObjectTileLineCount)
+		{
+			ImGui::SameLine();
+		}
+
+		if (0 == ObjectTileLineCount)
+		{
+			ObjectTileLineCount = 3;
 		}
 	}
 
@@ -460,10 +508,22 @@ void CreateTileMapWindow::OnGUI()
 	{
 		TileMap_->SetWallRenderingMode(WallRenderingType::GRID_BENT_MULTI2);
 	}
+
+	// OBJECT 수정
+	ImGui::Text("10. Select Object Tile & Gride EditMode");
+	if (true == ImGui::Button("O: TILE", ImVec2(140.f, 20.f)))
+	{
+		TileMap_->SetObjectRenderingMode(ObjectRenderingType::TILE);
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("O : GRID", ImVec2(140.f, 20.f)))
+	{
+		TileMap_->SetObjectRenderingMode(ObjectRenderingType::GRID);
+	}
 #pragma endregion
 
 	// AUTOMAP ALL CLEAR
-	ImGui::Text("10. AutoMap All Clear");
+	ImGui::Text("... AutoMap All Clear");
 	if (true == ImGui::Button("Auto Map ALL Clear", ImVec2(140.f, 20.f)))
 	{
 		TileMap_->AutoModeTileAllClear();

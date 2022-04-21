@@ -11,8 +11,10 @@
 TileMap::TileMap() :
 	FloorRenderingType_(FloorRenderingType::GRID),
 	WallRenderingType_(WallRenderingType::GRID_NOR),
+	ObjectRenderingType_(ObjectRenderingType::GRID),
 	FloorGridesActive_(true),
 	WallGridesActive_(true),
+	ObjectGridesActive_(true),
 	Wall_RT_T_ImageIndex_(1),
 	Wall_RT_T_LE_ImageIndex_(9),
 	Wall_RT_T_RE_ImageIndex_(2),
@@ -56,6 +58,11 @@ void TileMap::Start()
 	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
 	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y };
 
+	// 오브젝트타일
+	ObjectTileImageSize_ = { 160.0f, 320.f };
+
+	ObjectTileImageSizeHalf_ = ObjectTileImageSize_.halffloat4();
+	ObjectTileIndexPivotPos_ = { 0.0f, TileSize_.y };
 }
 
 void TileMap::FloorGridesSwitching()
@@ -110,6 +117,32 @@ void TileMap::WallGridesSwitching()
 	}
 }
 
+void TileMap::ObjectGridesSwitching()
+{
+	if (false == ObjectGridesActive_)
+	{
+		ObjectGridesActive_ = true;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = ObjectGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = ObjectGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->On();
+		}
+	}
+	else
+	{
+		ObjectGridesActive_ = false;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = ObjectGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = ObjectGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->Off();
+		}
+	}
+}
+
 #pragma region 편의기능관련
 
 void TileMap::SetFloorRenderingMode(FloorRenderingType _FloorRenderingType)
@@ -120,6 +153,11 @@ void TileMap::SetFloorRenderingMode(FloorRenderingType _FloorRenderingType)
 void TileMap::SetWallRenderingMode(WallRenderingType _WallRenderingType)
 {
 	WallRenderingType_ = _WallRenderingType;
+}
+
+void TileMap::SetObjectRenderingMode(ObjectRenderingType _ObjectRenderingType)
+{
+	ObjectRenderingType_ = _ObjectRenderingType;
 }
 
 #pragma endregion
@@ -368,6 +406,15 @@ void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	}
 }
 
+void TileMap::SetObjectTile(float4 _Pos, int CurTileIndex_)
+{
+
+}
+
+void TileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
+{
+}
+
 void TileMap::DelFloorTile(float4 _Pos)
 {
 	// 타일모드일때 처리
@@ -405,6 +452,10 @@ void TileMap::DelWallTile(float4 _Pos)
 			WallTiles_.erase(TileFindIter);
 		}
 	}
+}
+
+void TileMap::DelObjectTile(float4 _Pos)
+{
 }
 
 #pragma endregion
@@ -647,6 +698,14 @@ void TileMap::SetWallGird(TileIndex _Index, int CurTileIndex_)
 	}
 }
 
+void TileMap::SetObjectGird(float4 _Pos, int CurTileIndex_)
+{
+}
+
+void TileMap::SetObjectGird(TileIndex _Index, int CurTileIndex_)
+{
+}
+
 void TileMap::DelFloorGird(float4 _Pos)
 {
 	// 타일모드가 아닐때 처리
@@ -679,6 +738,10 @@ void TileMap::DelWallGird(float4 _Pos)
 			WallGrides_.erase(GridFindIter);
 		}
 	}
+}
+
+void TileMap::DelObjectGird(float4 _Pos)
+{
 }
 
 #pragma endregion
@@ -1333,22 +1396,6 @@ void TileMap::UpdateWallTileInfo()
 	}
 }
 
-void TileMap::ManuallyEditAuto_GeneratedMaps_Floor(int _SelectTileIndex)
-{
-	// 자동으로 생성한 맵 수정모드(바닥타일)
-
-
-
-}
-
-void TileMap::ManuallyEditAuto_GeneratedMaps_Wall(int _SelectTileIndex)
-{
-	// 자동으로 생성한 맵 수정모드(벽타일 or 오브젝트타일)
-
-
-
-}
-
 void TileMap::AutoModeTileAllClear()
 {
 	// 자동으로 생성한 맵 정보 및 그리드, 타일렌더 모두 클리어
@@ -1365,6 +1412,9 @@ void TileMap::AllClear()
 
 	// 벽타일관련 클리어
 	AllClearWallTile();
+
+	// 오브젝트타일관련 클리어
+	AllClearObjectTile();
 }
 
 void TileMap::AllClearFloorTile()
@@ -1465,5 +1515,53 @@ void TileMap::AllClearWallTileMapRenderer()
 	// ON/OFF Flag해제
 	WallGridesActive_ = true;
 }
+
+void TileMap::AllClearObjectTile()
+{
+	// 타일정보 클리어
+	AllClearObjectTileInfo();
+
+	// 타일렌더링정보 클리어
+	AllClearObjectTileMapRenderer();
+}
+
+void TileMap::AllClearObjectTileInfo()
+{
+	for (int y = 0; y < static_cast<int>(ObjectTileInfo_.size()); ++y)
+	{
+		if (false == ObjectTileInfo_[y].empty())
+		{
+			ObjectTileInfo_[y].clear();
+		}
+	}
+	ObjectTileInfo_.clear();
+}
+
+void TileMap::AllClearObjectTileMapRenderer()
+{
+	// 타일
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesStartIter = ObjectTiles_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesEndIter = ObjectTiles_.end();
+	for (; TilesStartIter != TilesEndIter; ++TilesStartIter)
+	{
+		// 세컨드 데스처리
+		(*TilesStartIter).second->Death();
+	}
+	ObjectTiles_.clear();
+
+	// 그리드
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsStartIter = ObjectGrides_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsEndIter = ObjectGrides_.end();
+	for (; GridsStartIter != GridsEndIter; ++GridsStartIter)
+	{
+		// 세컨드 데스처리
+		(*GridsStartIter).second->Death();
+	}
+	ObjectGrides_.clear();
+
+	// ON/OFF Flag해제
+	ObjectGridesActive_ = true;
+}
+
 #pragma endregion
 

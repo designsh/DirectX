@@ -57,6 +57,13 @@ enum class WallRenderingType
 	GRID_BENT_MULTI2,	// 그리드모드(BENT_MULTI2)
 };
 
+// 오브젝트타일 렌더링타입(벽으로 취급)
+enum class ObjectRenderingType
+{
+	TILE,
+	GRID,
+};
+
 // 벽타일 기본타입(방향구분)
 enum class WallBasicType
 {
@@ -115,8 +122,6 @@ struct FloorTileInfo
 // 벽타일 정보
 struct WallTileInfo
 {
-	// 벽타일 정보
-
 	// 인덱스 및 타입정보
 	int WallIndexX;
 	int WallIndexY;
@@ -130,6 +135,21 @@ struct WallTileInfo
 	float4 WallTileSize;
 	float4 WallRenderSize;
 	float4 WallRenderPivotPos;
+};
+
+// 오브젝트타일 정보
+struct ObjectTileInfo
+{
+	// 인덱스 및 타입정보
+	int ObjectIndexX;
+	int ObjectIndexY;
+	int ObjectTile1ImageIndex;
+
+	// 렌더링 정보
+	std::string ObjectTextureName;
+	float4 ObjectTileSize;
+	float4 ObjectRenderSize;
+	float4 ObjectRenderPivotPos;
 };
 
 class GameEngineTileMapRenderer;
@@ -149,21 +169,23 @@ class TileMap : public GameEngineActor
 private: // 실질적으로 저장되는 타일정보(값형)
 	std::vector<std::vector<FloorTileInfo>> FloorTileInfo_;
 	std::vector<std::vector<WallTileInfo>> WallTileInfo_;
+	std::vector<std::vector<ObjectTileInfo>> ObjectTileInfo_;
 #pragma endregion
 
 #pragma region 에디터용도
 private: // 텍스쳐 명칭
 	std::string FloorTileTextureName_;
 	std::string WallTileTextureName_;
+	std::string ObjectTileTextureName_;
 
 private: // 에디터 화면 렌더링 용도
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorTiles_;
-
-
 	std::unordered_map<__int64, WallTileRender> WallTiles_;
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> ObjectTiles_;
 
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorGrides_;
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> WallGrides_;
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> ObjectGrides_;
 
 private: // 타일정보
 	float4 TileSize_;
@@ -180,15 +202,20 @@ private: // 벽타일정보
 	float4 WallTileImageSizeHalf_;
 	float4 WallTileImageSize_;
 	float4 WallTileIndexPivotPos_;
-	float4 WallGridTileIndexPivotPos_;
+
+private: // 오브젝트타일정보
+	float4 ObjectTileImageSizeHalf_;
+	float4 ObjectTileImageSize_;
+	float4 ObjectTileIndexPivotPos_;
 
 private: // 렌더링모드
 	FloorRenderingType FloorRenderingType_;
 	WallRenderingType WallRenderingType_;
+	ObjectRenderingType ObjectRenderingType_;
 
 #pragma endregion
 
-#pragma region 특별조건벽타일이미지인덱스
+#pragma region 벽타일 특별조건 이미지인덱스
 	// RT_T
 	int Wall_RT_T_ImageIndex_;
 	int Wall_RT_T_LE_ImageIndex_;
@@ -222,6 +249,7 @@ private: // 렌더링모드
 #pragma region 그리드On/Off상태값
 	bool FloorGridesActive_;
 	bool WallGridesActive_;
+	bool ObjectGridesActive_;
 #pragma endregion
 
 public:
@@ -242,6 +270,7 @@ private:
 public:
 	void FloorGridesSwitching();
 	void WallGridesSwitching();
+	void ObjectGridesSwitching();
 
 public:
 	inline void SetFloorTileTexture(const std::string& _FloorTileTextureName)
@@ -254,6 +283,11 @@ public:
 		WallTileTextureName_ = _WallTileTextureName;
 	}
 
+	inline void SetObjectTileTexture(const std::string& _ObjectTileTextureName)
+	{
+		ObjectTileTextureName_ = _ObjectTileTextureName;
+	}
+
 	inline GameEngineTexture* GetFloorTileTexture()
 	{
 		return GameEngineTextureManager::GetInst().Find(FloorTileTextureName_);
@@ -264,9 +298,15 @@ public:
 		return GameEngineTextureManager::GetInst().Find(WallTileTextureName_);
 	}
 
+	inline GameEngineTexture* GetObjectTileTexture()
+	{
+		return GameEngineTextureManager::GetInst().Find(ObjectTileTextureName_);
+	}
+
 public: // 렌더링모드 선택
 	void SetFloorRenderingMode(FloorRenderingType _FloorRenderingType);
 	void SetWallRenderingMode(WallRenderingType _WallRenderingType);
+	void SetObjectRenderingMode(ObjectRenderingType _ObjectRenderingType);
 
 public: // 현재 렌더링모드 Get
 	inline FloorRenderingType GetCurFloorRenderType()
@@ -277,6 +317,11 @@ public: // 현재 렌더링모드 Get
 	inline WallRenderingType GetCurWallRenderType()
 	{
 		return WallRenderingType_;
+	}
+
+	inline ObjectRenderingType GetCurObjectRenderType()
+	{
+		return ObjectRenderingType_;
 	}
 
 public: // IMGUI Window 표시용
@@ -292,16 +337,22 @@ public: // SetTile/DelTile
 	void SetFloorTile(TileIndex _Index, int CurTileIndex_);
 	void SetWallTile(float4 _Pos, int CurTileIndex_);
 	void SetWallTile(TileIndex _Index, int CurTileIndex_);
+	void SetObjectTile(float4 _Pos, int CurTileIndex_);
+	void SetObjectTile(TileIndex _Index, int CurTileIndex_);
 	void DelFloorTile(float4 _Pos);
 	void DelWallTile(float4 _Pos);
+	void DelObjectTile(float4 _Pos);
 
 public: // SetGrid/DelGrid
 	void SetFloorGird(float4 _Pos, int CurTileIndex_);
 	void SetFloorGird(TileIndex _Index, int CurTileIndex_);
 	void SetWallGird(float4 _Pos, int CurTileIndex_);
 	void SetWallGird(TileIndex _Index, int CurTileIndex_);
+	void SetObjectGird(float4 _Pos, int CurTileIndex_);
+	void SetObjectGird(TileIndex _Index, int CurTileIndex_);
 	void DelFloorGird(float4 _Pos);
 	void DelWallGird(float4 _Pos);
+	void DelObjectGird(float4 _Pos);
 
 public: // CreateAutoMap Mode
 	// 타일정보 생성 : 각 조건에 맞게 처리되며 정보생성이 완료되면, 그리드형태로 화면에 렌더링한다.
@@ -320,11 +371,7 @@ public: // CreateAutoMap Mode
 	// 2. 1.에서 지정된 타일로 현재 텍스쳐 매칭 후 정보 갱신
 	void UpdateWallTileInfo();
 	
-	// 현재 자동모드로 생성한 타일을 수정하는 기능
-	void ManuallyEditAuto_GeneratedMaps_Floor(int _SelectTileIndex);
-	void ManuallyEditAuto_GeneratedMaps_Wall(int _SelectTileIndex);
-
-	// 현재 생성한 모든 타일정보 및 렌더링 정보 삭제
+	// 현재 자동생성한 모든 타일정보 및 렌더링 정보 삭제
 	void AutoModeTileAllClear();
 
 public:
@@ -337,5 +384,9 @@ public:
 	void AllClearWallTile();
 	void AllClearWallTileInfo();
 	void AllClearWallTileMapRenderer();
+
+	void AllClearObjectTile();
+	void AllClearObjectTileInfo();
+	void AllClearObjectTileMapRenderer();
 };
 

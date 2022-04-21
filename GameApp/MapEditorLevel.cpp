@@ -31,6 +31,8 @@ void MapEditorLevel::CreateLevelActor()
 	FloorTile->Cut(5, 37);
 	GameEngineTexture* WallTile = GameEngineTextureManager::GetInst().Find("Town_Wall.png");
 	WallTile->Cut(31, 1);
+	GameEngineTexture* ObjectTile = GameEngineTextureManager::GetInst().Find("Town_Object.png");
+	ObjectTile->Cut(53, 1);
 
 	// 일반그리드
 	GameEngineTexture* FloorGridNor = GameEngineTextureManager::GetInst().Find("FloorGrid_Normal.png");
@@ -94,6 +96,7 @@ void MapEditorLevel::CreateLevelActor()
 	TileMapWindow_->TileMap_ = TileMap_;
 	TileMap_->SetFloorTileTexture("Town_Floor.png");
 	TileMap_->SetWallTileTexture("Town_Wall.png");
+	TileMap_->SetObjectTileTexture("Town_Object.png");
 #pragma endregion
 }
 
@@ -151,11 +154,11 @@ void MapEditorLevel::LevelStart()
 #pragma endregion
 
 #pragma region 테스트키
-	// 테스트키 생성
-	if (false == GameEngineInput::GetInst().IsKey("FreeCamera"))
-	{
-		GameEngineInput::GetInst().CreateKey("FreeCamera", 'p');
-	}
+	//// 테스트키 생성
+	//if (false == GameEngineInput::GetInst().IsKey("FreeCamera"))
+	//{
+	//	GameEngineInput::GetInst().CreateKey("FreeCamera", 'p');
+	//}
 #pragma endregion
 
 #pragma region 그리드 ON/OFF
@@ -169,6 +172,12 @@ void MapEditorLevel::LevelStart()
 	if (false == GameEngineInput::GetInst().IsKey("WallGrideSwitching"))
 	{
 		GameEngineInput::GetInst().CreateKey("WallGrideSwitching", 'o');
+	}
+
+	// 오브젝트타일 그리드 On/Off
+	if (false == GameEngineInput::GetInst().IsKey("ObjectGrideSwitching"))
+	{
+		GameEngineInput::GetInst().CreateKey("ObjectGrideSwitching", 'p');
 	}
 #pragma endregion
 }
@@ -191,6 +200,15 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		if (nullptr != TileMap_)
 		{
 			TileMap_->WallGridesSwitching();
+		}
+	}
+
+	// 오브젝트타일 그리드 On/Off
+	if (true == GameEngineInput::GetInst().Down("ObjectGrideSwitching"))
+	{
+		if (nullptr != TileMap_)
+		{
+			TileMap_->ObjectGridesSwitching();
 		}
 	}
 #pragma endregion
@@ -290,6 +308,18 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 				}
 				break;
 			}
+			case TileType::OBJECT:
+			{
+				if (ObjectRenderingType::TILE == TileMap_->GetCurObjectRenderType())
+				{
+					TileMap_->SetObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				}
+				else
+				{
+					TileMap_->SetObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				}
+				break;
+			}
 		}
 	}
 
@@ -345,6 +375,18 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 				else
 				{
 					TileMap_->DelWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+				}
+				break;
+			}
+			case TileType::OBJECT:
+			{
+				if (ObjectRenderingType::TILE == TileMap_->GetCurObjectRenderType())
+				{
+					TileMap_->DelObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+				}
+				else
+				{
+					TileMap_->DelObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				break;
 			}
