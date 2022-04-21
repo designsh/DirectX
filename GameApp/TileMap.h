@@ -26,12 +26,35 @@ public:
 	}
 };
 
-// 렌더링타입
-enum class TileRenderingType
+// 바닥타일 렌더링타입
+enum class FloorRenderingType
 {
-	ALL,		// 그리드+타일
-	GRID,		// 그리드
-	TILE		// 타일
+	TILE,		// 타일모드
+	GRID		// 그리드모드
+};
+
+// 벽타일 렌더링타입
+enum class WallRenderingType
+{
+	TILE1,				// 타일모드(타일1렌더러 교체)
+	TILE2,				// 타일모드(타일2렌더러 교체)
+	GRID_NOR,			// 그리드(벽이 아니면서 렌더링안하는 타입)
+	GRID_NONE,			// 그리드(벽이면서 렌더링안하는 타입)
+	GRID_RT_T,			// 그리드모드(RT_T)
+	GRID_RT_T_LE,		// 그리드모드(RT_T_LE)
+	GRID_RT_T_RE,		// 그리드모드(RT_T_RE)
+	GRID_RT_B,			// 그리드모드(RT_B)
+	GRID_RT_B_LE,		// 그리드모드(RT_B_LE)
+	GRID_RT_B_RE,		// 그리드모드(RT_B_RE)
+	GRID_RB_L,			// 그리드모드(RB_L)
+	GRID_RB_L_TE,		// 그리드모드(RB_L_TE)
+	GRID_RB_L_BE,		// 그리드모드(RB_L_BE)
+	GRID_RB_R,			// 그리드모드(RB_R)
+	GRID_RB_R_TE,		// 그리드모드(RB_R_TE)
+	GRID_RB_R_BE,		// 그리드모드(RB_R_BE)
+	GRID_BENT_SINGLE,	// 그리드모드(BENT_SINGLE)
+	GRID_BENT_MULTI1,	// 그리드모드(BENT_MULTI1)
+	GRID_BENT_MULTI2,	// 그리드모드(BENT_MULTI2)
 };
 
 // 벽타일 기본타입(방향구분)
@@ -97,7 +120,8 @@ struct WallTileInfo
 	// 인덱스 및 타입정보
 	int WallIndexX;
 	int WallIndexY;
-	int WallImageIndex;
+	int WallTile1ImageIndex;
+	int WallTile2ImageIndex;
 	WallBasicType WallBasicType;
 	WallDetailType WallDetailType;
 
@@ -159,7 +183,8 @@ private: // 벽타일정보
 	float4 WallGridTileIndexPivotPos_;
 
 private: // 렌더링모드
-	TileRenderingType TileRenderingType_;
+	FloorRenderingType FloorRenderingType_;
+	WallRenderingType WallRenderingType_;
 
 #pragma endregion
 
@@ -240,7 +265,19 @@ public:
 	}
 
 public: // 렌더링모드 선택
-	void SetTileRenderingMode(TileRenderingType _RenderingType);
+	void SetFloorRenderingMode(FloorRenderingType _FloorRenderingType);
+	void SetWallRenderingMode(WallRenderingType _WallRenderingType);
+
+public: // 현재 렌더링모드 Get
+	inline FloorRenderingType GetCurFloorRenderType()
+	{
+		return FloorRenderingType_;
+	}
+
+	inline WallRenderingType GetCurWallRenderType()
+	{
+		return WallRenderingType_;
+	}
 
 public: // IMGUI Window 표시용
 	float4 GetFloorIsoPos(float4 _Pos);
@@ -257,6 +294,14 @@ public: // SetTile/DelTile
 	void SetWallTile(TileIndex _Index, int CurTileIndex_);
 	void DelFloorTile(float4 _Pos);
 	void DelWallTile(float4 _Pos);
+
+public: // SetGrid/DelGrid
+	void SetFloorGird(float4 _Pos, int CurTileIndex_);
+	void SetFloorGird(TileIndex _Index, int CurTileIndex_);
+	void SetWallGird(float4 _Pos, int CurTileIndex_);
+	void SetWallGird(TileIndex _Index, int CurTileIndex_);
+	void DelFloorGird(float4 _Pos);
+	void DelWallGird(float4 _Pos);
 
 public: // CreateAutoMap Mode
 	// 타일정보 생성 : 각 조건에 맞게 처리되며 정보생성이 완료되면, 그리드형태로 화면에 렌더링한다.
@@ -275,12 +320,12 @@ public: // CreateAutoMap Mode
 	// 2. 1.에서 지정된 타일로 현재 텍스쳐 매칭 후 정보 갱신
 	void UpdateWallTileInfo();
 	
-	
-
-	
+	// 현재 자동모드로 생성한 타일을 수정하는 기능
+	void ManuallyEditAuto_GeneratedMaps_Floor(int _SelectTileIndex);
+	void ManuallyEditAuto_GeneratedMaps_Wall(int _SelectTileIndex);
 
 	// 현재 생성한 모든 타일정보 및 렌더링 정보 삭제
-	//void AutoModeTileAllClear();
+	void AutoModeTileAllClear();
 
 public:
 	void AllClear();

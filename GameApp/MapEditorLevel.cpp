@@ -268,12 +268,26 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		{
 			case TileType::FLOOR:
 			{
-				TileMap_->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				if (FloorRenderingType::TILE == TileMap_->GetCurFloorRenderType())
+				{
+					TileMap_->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				}
+				else
+				{
+					TileMap_->SetFloorGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				}
 				break;
 			}
 			case TileType::WALL:
 			{
-				TileMap_->SetWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				if (WallRenderingType::TILE1 == TileMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == TileMap_->GetCurWallRenderType())
+				{
+					TileMap_->SetWallTile((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				}
+				else
+				{
+					TileMap_->SetWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+				}
 				break;
 			}
 		}
@@ -312,12 +326,26 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		{
 			case TileType::FLOOR:
 			{
-				TileMap_->DelFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+				if (FloorRenderingType::TILE == TileMap_->GetCurFloorRenderType())
+				{
+					TileMap_->DelFloorTile((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos);
+				}
+				else
+				{
+					TileMap_->DelFloorGird((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos);
+				}
 				break;
 			}
 			case TileType::WALL:
 			{
-				TileMap_->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+				if (WallRenderingType::TILE1 == TileMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == TileMap_->GetCurWallRenderType())
+				{
+					TileMap_->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+				}
+				else
+				{
+					TileMap_->DelWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+				}
 				break;
 			}
 		}
