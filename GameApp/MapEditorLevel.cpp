@@ -45,14 +45,47 @@ void MapEditorLevel::CreateLevelActor()
 	WallGridCenter->Cut(1, 1);
 
 	// 특수그리드
+	// NONE
 	GameEngineTexture* WallGridNone = GameEngineTextureManager::GetInst().Find("WallGrid_None.png");
 	WallGridNone->Cut(1, 1);
-	GameEngineTexture* WallGridRT = GameEngineTextureManager::GetInst().Find("WallGrid_RT.png");
-	WallGridRT->Cut(1, 1);
-	GameEngineTexture* WallGridRB = GameEngineTextureManager::GetInst().Find("WallGrid_RB.png");
-	WallGridRB->Cut(1, 1);
-	GameEngineTexture* WallGridBent = GameEngineTextureManager::GetInst().Find("WallGrid_Bent.png");
-	WallGridBent->Cut(1, 1);
+
+	// RT_T
+	GameEngineTexture* WallGridRT_T = GameEngineTextureManager::GetInst().Find("WallGrid_RT_T.png");
+	WallGridRT_T->Cut(1, 1);
+	GameEngineTexture* WallGridRT_T_LE = GameEngineTextureManager::GetInst().Find("WallGrid_RT_T_LE.png");
+	WallGridRT_T_LE->Cut(1, 1);
+	GameEngineTexture* WallGridRT_T_RE = GameEngineTextureManager::GetInst().Find("WallGrid_RT_T_RE.png");
+	WallGridRT_T_RE->Cut(1, 1);
+
+	// RT_B
+	GameEngineTexture* WallGridRT_B = GameEngineTextureManager::GetInst().Find("WallGrid_RT_B.png");
+	WallGridRT_B->Cut(1, 1);
+	GameEngineTexture* WallGridRT_B_LE = GameEngineTextureManager::GetInst().Find("WallGrid_RT_B_LE.png");
+	WallGridRT_B_LE->Cut(1, 1);
+	GameEngineTexture* WallGridRT_B_RE = GameEngineTextureManager::GetInst().Find("WallGrid_RT_B_RE.png");
+	WallGridRT_B_RE->Cut(1, 1);
+
+	// RB_L
+	GameEngineTexture* WallGridRB_L = GameEngineTextureManager::GetInst().Find("WallGrid_RB_L.png");
+	WallGridRB_L->Cut(1, 1);
+	GameEngineTexture* WallGridRB_L_TE = GameEngineTextureManager::GetInst().Find("WallGrid_RB_L_TE.png");
+	WallGridRB_L_TE->Cut(1, 1);
+	GameEngineTexture* WallGridRB_L_BE = GameEngineTextureManager::GetInst().Find("WallGrid_RB_L_BE.png");
+	WallGridRB_L_BE->Cut(1, 1);
+
+	// RB_R
+	GameEngineTexture* WallGridRB_R = GameEngineTextureManager::GetInst().Find("WallGrid_RB_R.png");
+	WallGridRB_R->Cut(1, 1);
+	GameEngineTexture* WallGridRB_R_TE = GameEngineTextureManager::GetInst().Find("WallGrid_RB_R_TE.png");
+	WallGridRB_R_TE->Cut(1, 1);
+	GameEngineTexture* WallGridRB_R_BE = GameEngineTextureManager::GetInst().Find("WallGrid_RB_R_BE.png");
+	WallGridRB_R_BE->Cut(1, 1);
+
+	// BENT
+	GameEngineTexture* WallGridBentMulti = GameEngineTextureManager::GetInst().Find("WallGrid_Bent_Multi.png");
+	WallGridBentMulti->Cut(1, 1);
+	GameEngineTexture* WallGridBentSingle = GameEngineTextureManager::GetInst().Find("WallGrid_Bent_Single.png");
+	WallGridBentSingle->Cut(1, 1);
 
 #pragma endregion
 

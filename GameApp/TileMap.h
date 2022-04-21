@@ -39,9 +39,30 @@ enum class WallBasicType
 {
 	NONE,		// 벽으로판단하나, 렌더링없음
 	NORMAL,		// 벽으로판단하지않고, 렌더링없음
-	RT,			// 우상단(좌하단)방향(연속된벽)
-	RB,			// 우하단(좌상단)방향(연속된벽)
-	BENT,		// 꺽이는벽(렌더러를 2개 가진다)
+
+	// RT_T
+	RT_T,			// 우상단(좌하단)방향(연속된벽) - 중심기준(0,0) 윗벽
+	RT_T_RE,		// 우상단방향으로 윗벽의 끝(BENT와 연결되는 벽)
+	RT_T_LE,		// 좌하단방향으로 윗벽의 끝(BENT직전에 RT가 끝)
+
+	// RT_B
+	RT_B,			// 우상단(좌하단)방향(연속된벽) - 중심기준(0,0) 아랫벽
+	RT_B_RE,		// 우상단방향으로 아랫벽의 끝(BENT가 끝)
+	RT_B_LE,		// 좌하단방향으로 아랫벽의 끝(BENT직전에 RT가 끝)
+
+	// RB_L
+	RB_L,			// 우하단(좌상단)방향(연속된벽) - 중심기준(0,0) 왼쪽벽
+	RB_L_BE,		// 우하단방향으로 왼쪽벽의 끝(BENT직전에 RB가 끝)
+	RB_L_TE,		// 좌상단방향으로 왼쪽벽의 끝(BENT가 끝)
+
+	// RB_R
+	RB_R,			// 우하단(좌상단)방향(연속된벽) - 중심기준(0,0) 오른쪽벽
+	RB_R_BE,		// 우하단방향으로 오른쪽벽의 끝(BENT직전에 RB가 끝)
+	RB_R_TE,		// 좌상단방향으로 오른쪽벽의 끝(BENT와 연결되는 벽)
+
+	// BENT
+	BENT_MULTI,		// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우상단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
+	BENT_SINGLE,	// 꺽이는벽(렌더러를 1개 가진다) - 중심기준(0,0) 좌하단꺽이는벽 => RT_B_LE와 RB_L_BE가 만나려고하는 벽(단독렌더러)
 };
 
 // 벽타일 상세타입(역할구분)
@@ -87,6 +108,13 @@ struct WallTileInfo
 	float4 WallRenderPivotPos;
 };
 
+class GameEngineTileMapRenderer;
+struct WallTileRender
+{
+	GameEngineTileMapRenderer* Tiles1_;
+	GameEngineTileMapRenderer* Tiles2_;
+};
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -106,7 +134,9 @@ private: // 텍스쳐 명칭
 
 private: // 에디터 화면 렌더링 용도
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorTiles_;
-	std::unordered_map<__int64, GameEngineTileMapRenderer*> WallTiles_;
+
+
+	std::unordered_map<__int64, WallTileRender> WallTiles_;
 
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorGrides_;
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> WallGrides_;
@@ -134,11 +164,34 @@ private: // 렌더링모드
 #pragma endregion
 
 #pragma region 특별조건벽타일이미지인덱스
-	int WallRTImageIndex_;
-	int WallRBImageIndex_;
-	int WallBENTImage1Index_;
-	int WallBENTImage2Index_;
-	int WallDOORImageIndex_;
+	// RT_T
+	int Wall_RT_T_ImageIndex_;
+	int Wall_RT_T_LE_ImageIndex_;
+	int Wall_RT_T_RE_ImageIndex_;
+
+	// RT_B
+	int Wall_RT_B_ImageIndex_;
+	int Wall_RT_B_LE_ImageIndex_;
+	int Wall_RT_B_RE_ImageIndex_;
+
+	// RB_L
+	int Wall_RB_L_ImageIndex_;
+	int Wall_RB_L_TE_ImageIndex_;
+	int Wall_RB_L_BE_ImageIndex_;
+
+	// RB_R
+	int Wall_RB_R_ImageIndex_;
+	int Wall_RB_R_TE_ImageIndex_;
+	int Wall_RB_R_BE_ImageIndex_;
+
+	// BENT_SINGLE
+	int Wall_BENT_SINGLE_ImageIndex_;
+
+	// BENT_MULTI1
+	int Wall_BENT_MULTI1_ImageIndex_;
+
+	// BENT_MULTI2
+	int Wall_BENT_MULTI2_ImageIndex_;
 #pragma endregion
 
 #pragma region 그리드On/Off상태값

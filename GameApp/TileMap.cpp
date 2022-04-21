@@ -12,11 +12,21 @@ TileMap::TileMap() :
 	TileRenderingType_(TileRenderingType::GRID),
 	FloorGridesActive_(true),
 	WallGridesActive_(true),
-	WallRTImageIndex_(1),
-	WallRBImageIndex_(4),
-	WallBENTImage1Index_(7),
-	WallBENTImage2Index_(6),
-	WallDOORImageIndex_(-1)
+	Wall_RT_T_ImageIndex_(1),
+	Wall_RT_T_LE_ImageIndex_(9),
+	Wall_RT_T_RE_ImageIndex_(2),
+	Wall_RT_B_ImageIndex_(1),
+	Wall_RT_B_LE_ImageIndex_(9),
+	Wall_RT_B_RE_ImageIndex_(11),
+	Wall_RB_L_ImageIndex_(4),
+	Wall_RB_L_TE_ImageIndex_(26),
+	Wall_RB_L_BE_ImageIndex_(3),
+	Wall_RB_R_ImageIndex_(4),
+	Wall_RB_R_TE_ImageIndex_(5),
+	Wall_RB_R_BE_ImageIndex_(3),
+	Wall_BENT_SINGLE_ImageIndex_(29),
+	Wall_BENT_MULTI1_ImageIndex_(7),
+	Wall_BENT_MULTI2_ImageIndex_(6)
 {
 }
 
@@ -263,73 +273,73 @@ void TileMap::SetWallTile(float4 _Pos, int CurTileIndex_)
 
 void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 {
-	// 동일한 타일인덱스가 존재하면 해당 타일인덱스의 타일이미지를 현재 선택된 이미지로 변경
-	if (WallTiles_.end() != WallTiles_.find(_Index.Index_))
-	{
-		WallTiles_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
-		return;
-	}
+	//// 동일한 타일인덱스가 존재하면 해당 타일인덱스의 타일이미지를 현재 선택된 이미지로 변경
+	//if (WallTiles_.end() != WallTiles_.find(_Index.Index_))
+	//{
+	//	//WallTiles_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
+	//	return;
+	//}
 
-	float4 Pos = float4::ZERO;
-	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
-	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
+	//float4 Pos = float4::ZERO;
+	//Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
+	//Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
 
-	GameEngineTileMapRenderer* WallTileRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
-	GameEngineTileMapRenderer* WallGridRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+	//GameEngineTileMapRenderer* WallTileRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+	//GameEngineTileMapRenderer* WallGridRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
-	// 렌더링 타입 체크
-	switch (TileRenderingType_)
-	{
-		case TileRenderingType::ALL:
-		{
-			if (_Index.X_ == 0 && _Index.Y_ == 0)
-			{
-				WallGridRenderer->SetImage("WallGrid_Center.png");
-			}
-			else
-			{
-				WallGridRenderer->SetImage("WallGrid_Normal.png");
-			}
-			WallGridRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
-			WallGridRenderer->GetTransform()->SetLocalPosition(Pos);
-			WallGridRenderer->GetTransform()->SetLocalZOrder(-3.f);
-			WallGrides_.insert(std::make_pair(_Index.Index_, WallGridRenderer));
+	//// 렌더링 타입 체크
+	//switch (TileRenderingType_)
+	//{
+	//	case TileRenderingType::ALL:
+	//	{
+	//		if (_Index.X_ == 0 && _Index.Y_ == 0)
+	//		{
+	//			WallGridRenderer->SetImage("WallGrid_Center.png");
+	//		}
+	//		else
+	//		{
+	//			WallGridRenderer->SetImage("WallGrid_Normal.png");
+	//		}
+	//		WallGridRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+	//		WallGridRenderer->GetTransform()->SetLocalPosition(Pos);
+	//		WallGridRenderer->GetTransform()->SetLocalZOrder(-3.f);
+	//		WallGrides_.insert(std::make_pair(_Index.Index_, WallGridRenderer));
 
-			WallTileRenderer->SetImage(WallTileTextureName_);
-			WallTileRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
-			WallTileRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-			WallTileRenderer->GetTransform()->SetLocalZOrder(-2.f);
-			WallTileRenderer->SetIndex(CurTileIndex_);
-			WallTiles_.insert(std::make_pair(_Index.Index_, WallTileRenderer));
-			break;
-		}
-		case TileRenderingType::GRID:
-		{
-			if (_Index.X_ == 0 && _Index.Y_ == 0)
-			{
-				WallGridRenderer->SetImage("WallGrid_Center.png");
-			}
-			else
-			{
-				WallGridRenderer->SetImage("WallGrid_Normal.png");
-			}
-			WallGridRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
-			WallGridRenderer->GetTransform()->SetLocalPosition(Pos);
-			WallGridRenderer->GetTransform()->SetLocalZOrder(-3.f);
-			WallGrides_.insert(std::make_pair(_Index.Index_, WallGridRenderer));
-			break;
-		}
-		case TileRenderingType::TILE:
-		{
-			WallTileRenderer->SetImage(WallTileTextureName_);
-			WallTileRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
-			WallTileRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-			WallTileRenderer->GetTransform()->SetLocalZOrder(-2.f);
-			WallTileRenderer->SetIndex(CurTileIndex_);
-			WallTiles_.insert(std::make_pair(_Index.Index_, WallTileRenderer));
-			break;
-		}
-	}
+	//		WallTileRenderer->SetImage(WallTileTextureName_);
+	//		WallTileRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
+	//		WallTileRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+	//		WallTileRenderer->GetTransform()->SetLocalZOrder(-2.f);
+	//		WallTileRenderer->SetIndex(CurTileIndex_);
+	//		WallTiles_.insert(std::make_pair(_Index.Index_, WallTileRenderer));
+	//		break;
+	//	}
+	//	case TileRenderingType::GRID:
+	//	{
+	//		if (_Index.X_ == 0 && _Index.Y_ == 0)
+	//		{
+	//			WallGridRenderer->SetImage("WallGrid_Center.png");
+	//		}
+	//		else
+	//		{
+	//			WallGridRenderer->SetImage("WallGrid_Normal.png");
+	//		}
+	//		WallGridRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+	//		WallGridRenderer->GetTransform()->SetLocalPosition(Pos);
+	//		WallGridRenderer->GetTransform()->SetLocalZOrder(-3.f);
+	//		WallGrides_.insert(std::make_pair(_Index.Index_, WallGridRenderer));
+	//		break;
+	//	}
+	//	case TileRenderingType::TILE:
+	//	{
+	//		WallTileRenderer->SetImage(WallTileTextureName_);
+	//		WallTileRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
+	//		WallTileRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+	//		WallTileRenderer->GetTransform()->SetLocalZOrder(-2.f);
+	//		WallTileRenderer->SetIndex(CurTileIndex_);
+	//		WallTiles_.insert(std::make_pair(_Index.Index_, WallTileRenderer));
+	//		break;
+	//	}
+	//}
 }
 
 void TileMap::DelFloorTile(float4 _Pos)
@@ -358,10 +368,15 @@ void TileMap::DelWallTile(float4 _Pos)
 	TileIndex Index = GetWallTileIndex(_Pos);
 
 	// 타일
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TileFindIter = WallTiles_.find(Index.Index_);
+	std::unordered_map<__int64, WallTileRender>::iterator TileFindIter = WallTiles_.find(Index.Index_);
 	if (WallTiles_.end() != TileFindIter)
 	{
-		TileFindIter->second->Death();
+		TileFindIter->second.Tiles1_->Death();
+		if (nullptr != TileFindIter->second.Tiles2_)
+		{
+			TileFindIter->second.Tiles2_->Death();
+		}
+
 		WallTiles_.erase(TileFindIter);
 	}
 
@@ -560,46 +575,145 @@ void TileMap::CreateWallTileInfo()
 
 				NewWallTileInfo.WallIndexX = x;
 				NewWallTileInfo.WallIndexY = y;
-				NewWallTileInfo.WallImageIndex = 0; // 초기 0으로 셋팅(추후 갱신때 각 벽타입을체크하여 이미지타일 결정)
+				NewWallTileInfo.WallImageIndex = 0; // 초기 0으로 셋팅(추후 이미지갱신시점에 각 벽타입을체크하여 이미지타일 결정)
 
 				// 벽 기본타입 조건체크(타일의 인덱스로 조건체크) - 마을맵 생성기준
-				//NONE,			// 벽으로판단하나, 렌더링없음
-				//NORMAL,		// 벽으로판단하지않고, 렌더링없음
-				//RT,			// 우상단(좌하단)방향
-				//RB,			// 우하단(좌상단)방향
-				//BENT,			// 꺽이는벽
 
 				// 1. 벽으로 렌더링해야하는 구간인지 아닌지 판단
-				// 2. 벽으로 렌더링해야한다면 우상단방향인지 우하단방향의 벽인지 판단
+				// 2. 벽으로 렌더링해야한다면 우상단(좌하단)방향인지 우하단(좌상단)방향의 벽인지 판단
+				//    1) 중심(0,0)기준 위쪽벽인지 아래쪽벽인지 판단(우상단(좌하단)방향)
+				//       [1] 우상단방향으로 벽의 끝인지 판단
+				//       [2] 좌하단방향으로 벽의 끝인지 판단
+				//    2) 중심(0,0)기준 왼쪽벽인지 오른쪽벽인지 판단(우하단(좌상단)방향)
+				//       [1] 우하단방향으로 벽의 끝인지 판단
+				//       [2] 좌상단방향으로 벽의 끝인지 판단
 				// 3. 벽으로 렌더링해야하고, 꺽이는벽을 렌더링해야하는지 판단
-				if ((x == XIndexChkP && y == YIndexChkP) || (x == XIndexChkM && y == YIndexChkM) || (x == XIndexChkP && y == YIndexChkM) || (x == XIndexChkM && y == YIndexChkP))
+				//    1) 중심(0,0)기준 우상단 꺽이는 벽인지 판단(RT_T_RE와 RB_R_TE가 만나는지 판단)
+				//    2) 중심(0,0)기준 좌하단 꺽이는 벽인지 판단(RT_B_LE와 RB_L_BE가 만나는지 판단)
+
+				// (1) 벤트구간 타입체크
+				//     1) 우상단(RT_T_RE와 RB_R_TE가 만나기 직전지점)
+				if (x == XIndexChkM && y == YIndexChkM)
 				{
-					NewWallTileInfo.WallBasicType = WallBasicType::BENT;
+					NewWallTileInfo.WallBasicType = WallBasicType::BENT_MULTI;
 				}
+				//     2) 좌하단(RT_B_LE와 RB_L_BE가 만나기 직전지점
+				else if (x == XIndexChkP && y == YIndexChkP)
+				{
+					NewWallTileInfo.WallBasicType = WallBasicType::BENT_SINGLE;
+				}
+				// (2) 연속벽 및 벽끝 체크
 				else
 				{
-					if (x == XIndexChkP || x == XIndexChkM)
+					// 1) RT_T구간 타입체크
+					if (x == XIndexChkM)
 					{
 						if (y % 2 == 0 && x % 2 == 0)
 						{
-							NewWallTileInfo.WallBasicType = WallBasicType::RT;
+							// [1] 왼쪽끝벽인지 체크
+							if (x == XIndexChkM && y == YIndexChkP - 2)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RT_T_LE;
+							}
+							// [2] RT_T로 들어오나, RB_L의 위쪽끝벽이 되는경우
+							else if (x == XIndexChkM && y == YIndexChkP)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RB_L_TE;
+							}
+							// [3] 오른쪽끝벽인지 체크
+							else if (x == XIndexChkM && y == YIndexChkM + 2)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RT_T_RE;
+							}
+							// [4] 연속벽인지 체크
+							else
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RT_T;
+							}
 						}
+						// [5] 벽이라고판단하지만 렌더링하지않는구간인지 체크
 						else
 						{
 							NewWallTileInfo.WallBasicType = WallBasicType::NONE;
 						}
 					}
-					else if (y == YIndexChkM || y == YIndexChkP)
+					// 2) RT_B구간 타입체크
+					else if (x == XIndexChkP)
 					{
 						if (y % 2 == 0 && x % 2 == 0)
 						{
-							NewWallTileInfo.WallBasicType = WallBasicType::RB;
+							// [1] 왼쪽끝벽인지 체크
+							if (x == XIndexChkP && y == YIndexChkP - 2)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RT_B_LE;
+							}
+							// [2] 오른쪽끝벽인지 체크
+							else if (x == XIndexChkP && y == YIndexChkM)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RT_B_RE;
+							}
+							// [3] 연속벽인지 체크
+							else
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RT_B;
+							}
 						}
+						// [4] 벽이라고판단하지만 렌더링하지않는구간인지 체크
 						else
 						{
 							NewWallTileInfo.WallBasicType = WallBasicType::NONE;
 						}
 					}
+					// 3) RB_L구간 타입체크
+					else if (y == YIndexChkP)
+					{
+						if (y % 2 == 0 && x % 2 == 0)
+						{
+							// [1] 아래쪽끝벽인지 체크
+							if (x == XIndexChkP - 2 && y == YIndexChkP)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RB_L_BE;
+							}
+							// [2] 연속벽인지 체크
+							else
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RB_L;
+							}
+						}
+						// [3] 벽이라고판단하지만 렌더링하지않는구간인지 체크
+						else
+						{
+							NewWallTileInfo.WallBasicType = WallBasicType::NONE;
+						}
+					}
+					// 4) RB_R구간 타입체크
+					else if (y == YIndexChkM)
+					{
+						if (y % 2 == 0 && x % 2 == 0)
+						{
+							// [1] 위쪽끝벽인지 체크
+							if (x == XIndexChkM + 2 && y == YIndexChkM)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RB_R_TE;
+							}
+							// [2] 아래쪽끝벽인지 체크
+							else if (x == XIndexChkP - 2 && y == YIndexChkM)
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RB_R_BE;
+							}
+							// [3] 연속벽인지 체크
+							else
+							{
+								NewWallTileInfo.WallBasicType = WallBasicType::RB_R;
+							}
+						}
+						// [4] 벽이라고판단하지만 렌더링하지않는구간인지 체크
+						else
+						{
+							NewWallTileInfo.WallBasicType = WallBasicType::NONE;
+						}
+					}
+					// 5) 위 조건에 모두 맞지않다면 일반타일로 벽이라 판단하지않는벽
 					else
 					{
 						NewWallTileInfo.WallBasicType = WallBasicType::NORMAL;
@@ -647,17 +761,67 @@ void TileMap::CreateWallTileInfo()
 						Renderer->SetImage("WallGrid_Normal.png");
 					}
 				}
-				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT)
+				// RT_T
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T)
 				{
-					Renderer->SetImage("WallGrid_RT.png");
+					Renderer->SetImage("WallGrid_RT_T.png");
 				}
-				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB)
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_RE)
 				{
-					Renderer->SetImage("WallGrid_RB.png");
+					Renderer->SetImage("WallGrid_RT_T_RE.png");
 				}
-				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT)
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_LE)
 				{
-					Renderer->SetImage("WallGrid_Bent.png");
+					Renderer->SetImage("WallGrid_RT_T_LE.png");
+				}
+				// RT_B
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B)
+				{
+					Renderer->SetImage("WallGrid_RT_B.png");
+				}
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_RE)
+				{
+					Renderer->SetImage("WallGrid_RT_B_RE.png");
+				}
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_LE)
+				{
+					Renderer->SetImage("WallGrid_RT_B_LE.png");
+				}
+				// RB_L
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L)
+				{
+					Renderer->SetImage("WallGrid_RB_L.png");
+				}
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_BE)
+				{
+					Renderer->SetImage("WallGrid_RB_L_BE.png");
+				}
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_TE)
+				{
+					Renderer->SetImage("WallGrid_RB_L_TE.png");
+				}
+				// RB_R
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R)
+				{
+					Renderer->SetImage("WallGrid_RB_R.png");
+				}
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_BE)
+				{
+					Renderer->SetImage("WallGrid_RB_R_BE.png");
+				}
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_TE)
+				{
+					Renderer->SetImage("WallGrid_RB_R_TE.png");
+				}
+				// BENT_SINGLE
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_SINGLE)
+				{
+					Renderer->SetImage("WallGrid_Bent_Single.png");
+				}
+				// BENT_MULTI
+				else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_MULTI)
+				{
+					Renderer->SetImage("WallGrid_Bent_Multi.png");
 				}
 				else
 				{
@@ -665,7 +829,6 @@ void TileMap::CreateWallTileInfo()
 				}
 
 				float4 Pos = float4::ZERO;
-				//Pos.x = (Index.X_ - Index.Y_) * -WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
 				Pos.x = (Index.X_ - Index.Y_) * WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
 				Pos.y = (Index.X_ + Index.Y_) * -WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().y;
 
@@ -716,33 +879,33 @@ void TileMap::SetTownWallTexture()
 	//int WallBENTImage2Index_;
 	//int WallDOORImageIndex_;
 
-	// 1. 우상단(좌하단)방향의 연속된 벽 텍스쳐
-	if (-1 != WallRTImageIndex_)
-	{
+	//// 1. 우상단(좌하단)방향의 연속된 벽 텍스쳐
+	//if (-1 != WallRTImageIndex_)
+	//{
 
-	}
+	//}
 
-	// 2. 우하단(좌상단)방향의 연속된 벽 텍스쳐
-	if (-1 != WallRBImageIndex_)
-	{
+	//// 2. 우하단(좌상단)방향의 연속된 벽 텍스쳐
+	//if (-1 != WallRBImageIndex_)
+	//{
 
-	}
+	//}
 
-	// 3. 렌더러2개를 가지는 꺽이는 벽 텍스쳐
-	if (-1 != WallBENTImage1Index_)
-	{
+	//// 3. 렌더러2개를 가지는 꺽이는 벽 텍스쳐
+	//if (-1 != WallBENTImage1Index_)
+	//{
 
-	}
-	if (-1 != WallBENTImage2Index_)
-	{
+	//}
+	//if (-1 != WallBENTImage2Index_)
+	//{
 
-	}
+	//}
 
-	// 4. 문 텍스쳐
-	if (-1 != WallDOORImageIndex_)
-	{
+	//// 4. 문 텍스쳐
+	//if (-1 != WallDOORImageIndex_)
+	//{
 
-	}
+	//}
 }
 
 void TileMap::SetCatacombsWallTexture()
@@ -768,42 +931,118 @@ void TileMap::UpdateWallTileInfo()
 		{
 			TileIndex Index = TileIndex(WallTileInfo_[y][x].WallIndexX, WallTileInfo_[y][x].WallIndexY);
 
-			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+			WallTileRender WallTiles = {};
+
+			WallTiles.Tiles1_ = CreateTransformComponent<GameEngineTileMapRenderer>();
+			WallTiles.Tiles2_ = nullptr;
 
 			float4 Pos = float4::ZERO;
 			Pos.x = (Index.X_ - Index.Y_) * WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
 			Pos.y = (Index.X_ + Index.Y_) * -WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().y;
 
-			Renderer->SetImage(WallTileInfo_[y][x].WallTextureName);
-			Renderer->GetTransform()->SetLocalScaling(WallTileInfo_[y][x].WallRenderSize);
-			Renderer->GetTransform()->SetLocalPosition(WallTileInfo_[y][x].WallRenderPivotPos + Pos);
-			Renderer->GetTransform()->SetLocalZOrder(-2.f);
+			WallTiles.Tiles1_->SetImage(WallTileInfo_[y][x].WallTextureName);
+			WallTiles.Tiles1_->GetTransform()->SetLocalScaling(WallTileInfo_[y][x].WallRenderSize);
+			WallTiles.Tiles1_->GetTransform()->SetLocalPosition(WallTileInfo_[y][x].WallRenderPivotPos + Pos);
+			WallTiles.Tiles1_->GetTransform()->SetLocalZOrder(-2.f);
 
 			// 벽타입별 이미지
-			if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT)
+			
+			// 1. RT_T
+			if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T)
 			{
-				Renderer->SetIndex(WallRTImageIndex_);
-				WallTiles_.insert(std::make_pair(Index.Index_, Renderer));
+				WallTiles.Tiles1_->SetIndex(Wall_RT_T_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
-			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB)
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_LE)
 			{
-				Renderer->SetIndex(WallRBImageIndex_);
-				WallTiles_.insert(std::make_pair(Index.Index_, Renderer));
+				WallTiles.Tiles1_->SetIndex(Wall_RT_T_LE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
-			//else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT)
-			//{
-			//	//Renderer->SetIndex(WallRTImageIndex_);
-			//	//WallTiles_.insert(std::make_pair(Index.Index_, Renderer));
-			//}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_RE)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RT_T_RE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			// 2. RT_B
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RT_B_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_LE)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RT_B_LE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_RE)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RT_B_RE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			// 3. RB_L
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RB_L_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_TE)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RB_L_TE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_BE)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RB_L_BE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			// 4. RB_R
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RB_R_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_TE)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RB_R_TE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_BE)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_RB_R_BE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			// 5. BENT_SINGLE
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_SINGLE)
+			{
+				WallTiles.Tiles1_->SetIndex(Wall_BENT_SINGLE_ImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			// 6. BENT_MULTI
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_MULTI)
+			{
+				// BENT_MULTI는 렌더러 2개를 가진다.
+				WallTiles.Tiles1_->SetIndex(Wall_BENT_MULTI1_ImageIndex_);
+
+				WallTiles.Tiles2_ = CreateTransformComponent<GameEngineTileMapRenderer>();
+				WallTiles.Tiles2_->SetImage(WallTileInfo_[y][x].WallTextureName);
+				WallTiles.Tiles2_->GetTransform()->SetLocalScaling(WallTileInfo_[y][x].WallRenderSize);
+				WallTiles.Tiles2_->GetTransform()->SetLocalPosition(WallTileInfo_[y][x].WallRenderPivotPos + Pos);
+				WallTiles.Tiles2_->GetTransform()->SetLocalZOrder(-2.f);
+				WallTiles.Tiles2_->SetIndex(Wall_BENT_MULTI2_ImageIndex_);
+
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			// 타입을 찾을수 없으면 생성된 렌더러 바로 죽임
 			else
 			{
-				Renderer->Death();
-				continue;
+				WallTiles.Tiles1_->Death();
+				if (nullptr != WallTiles.Tiles2_)
+				{
+					WallTiles.Tiles2_->Death();
+				}
 			}
 		}
 	}
-
-	int a = 0;
 }
 
 #pragma endregion
@@ -890,12 +1129,17 @@ void TileMap::AllClearWallTileInfo()
 void TileMap::AllClearWallTileMapRenderer()
 {
 	// 타일
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesStartIter = WallTiles_.begin();
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesEndIter = WallTiles_.end();
+	std::unordered_map<__int64, WallTileRender>::iterator TilesStartIter = WallTiles_.begin();
+	std::unordered_map<__int64, WallTileRender>::iterator TilesEndIter = WallTiles_.end();
 	for (; TilesStartIter != TilesEndIter; ++TilesStartIter)
 	{
 		// 세컨드 데스처리
-		(*TilesStartIter).second->Death();
+		(*TilesStartIter).second.Tiles1_->Death();
+
+		if (nullptr != (*TilesStartIter).second.Tiles2_)
+		{
+			(*TilesStartIter).second.Tiles2_->Death();
+		}
 	}
 	WallTiles_.clear();
 
