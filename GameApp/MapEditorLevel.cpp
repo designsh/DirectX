@@ -121,13 +121,47 @@ void MapEditorLevel::LevelStart()
 	// 테스트키 생성
 	if (false == GameEngineInput::GetInst().IsKey("FreeCamera"))
 	{
-		GameEngineInput::GetInst().CreateKey("FreeCamera", 'o');
+		GameEngineInput::GetInst().CreateKey("FreeCamera", 'p');
+	}
+#pragma endregion
+
+#pragma region 그리드 ON/OFF
+	// 바닥타일 그리드 On/Off
+	if (false == GameEngineInput::GetInst().IsKey("FloorGrideSwitching"))
+	{
+		GameEngineInput::GetInst().CreateKey("FloorGrideSwitching", 'i');
+	}
+
+	// 벽타일 그리드 On/Off
+	if (false == GameEngineInput::GetInst().IsKey("WallGrideSwitching"))
+	{
+		GameEngineInput::GetInst().CreateKey("WallGrideSwitching", 'o');
 	}
 #pragma endregion
 }
 
 void MapEditorLevel::LevelUpdate(float _DeltaTime)
 {
+#pragma region 그리드 ON/OFF
+	// 바닥타일 그리드 On/Off
+	if (true == GameEngineInput::GetInst().Down("FloorGrideSwitching"))
+	{
+		if (nullptr != TileMap_)
+		{
+			TileMap_->FloorGridesSwitching();
+		}
+	}
+
+	// 벽타일 그리드 On/Off
+	if (true == GameEngineInput::GetInst().Down("WallGrideSwitching"))
+	{
+		if (nullptr != TileMap_)
+		{
+			TileMap_->WallGridesSwitching();
+		}
+	}
+#pragma endregion
+
 #pragma region ResourceLoadingEndCheck
 	// 이미지 로딩이 완료되면 액터생성
 	if (false == ResourceLoadEndCheck && 0 >= UserGame::LoadingImageFolder)

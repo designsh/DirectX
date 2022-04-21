@@ -39,9 +39,9 @@ enum class WallBasicType
 {
 	NONE,		// 벽으로판단하나, 렌더링없음
 	NORMAL,		// 벽으로판단하지않고, 렌더링없음
-	RT,			// 우상단(좌하단)방향
-	RB,			// 우하단(좌상단)방향
-	BENT,		// 꺽이는벽
+	RT,			// 우상단(좌하단)방향(연속된벽)
+	RB,			// 우하단(좌상단)방향(연속된벽)
+	BENT,		// 꺽이는벽(렌더러를 2개 가진다)
 };
 
 // 벽타일 상세타입(역할구분)
@@ -133,6 +133,19 @@ private: // 렌더링모드
 
 #pragma endregion
 
+#pragma region 특별조건벽타일이미지인덱스
+	int WallRTImageIndex_;
+	int WallRBImageIndex_;
+	int WallBENTImage1Index_;
+	int WallBENTImage2Index_;
+	int WallDOORImageIndex_;
+#pragma endregion
+
+#pragma region 그리드On/Off상태값
+	bool FloorGridesActive_;
+	bool WallGridesActive_;
+#pragma endregion
+
 public:
 	TileMap();
 	~TileMap();
@@ -147,6 +160,10 @@ private:		//delete operator
 
 private:
 	void Start() override;
+
+public:
+	void FloorGridesSwitching();
+	void WallGridesSwitching();
 
 public:
 	inline void SetFloorTileTexture(const std::string& _FloorTileTextureName)
@@ -190,12 +207,24 @@ public: // SetTile/DelTile
 
 public: // CreateAutoMap Mode
 	// 타일정보 생성 : 각 조건에 맞게 처리되며 정보생성이 완료되면, 그리드형태로 화면에 렌더링한다.
-	void CreateFloorTileInfo(int _WidthTileCount, int _HeightTileCount);
+	void CreateFloorTileInfo(int _WidthTileCount, int _HeightTileCount, int _ImageIndex);
 	void CreateWallTileInfo(); // 벽타일의 갯수는 바닥타일 갯수에 비례하여 생성된다.
 
-	// 생성된 정보를 이용하여 특정 조건에 해당하는 타일을 제외한 모든 타일은 디폴트타일로 정보갱신
-	void UpdateFloorTileInfo(int _DefaultTileIndex);
-	void UpdateWallTileInfo(int _DefaultTileIndex);
+	// 생성된 바닥타일 정보를 이용하여 특정 조건에 해당하는 타일을 제외한 모든 타일은 디폴트타일로 정보갱신
+	void UpdateFloorTileInfo();
+
+	// 생성된 바닥타일 정보를 이용하여 특정 조건에 해당하는 타일을 제외한 모든 타일은 디폴트타일로 정보갱신
+	// 1. 각 ACT별 조건별 이미지정보 매칭
+	void SetTownWallTexture();
+	void SetCatacombsWallTexture();
+	void SetChaosSanctuaryWallTexture();
+
+	// 2. 1.에서 지정된 타일로 현재 텍스쳐 매칭 후 정보 갱신
+	void UpdateWallTileInfo();
+	
+	
+
+	
 
 	// 현재 생성한 모든 타일정보 및 렌더링 정보 삭제
 	//void AutoModeTileAllClear();

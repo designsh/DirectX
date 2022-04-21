@@ -9,7 +9,14 @@
 #include "GlobalEnumClass.h"
 
 TileMap::TileMap() :
-	TileRenderingType_(TileRenderingType::GRID)
+	TileRenderingType_(TileRenderingType::GRID),
+	FloorGridesActive_(true),
+	WallGridesActive_(true),
+	WallRTImageIndex_(1),
+	WallRBImageIndex_(4),
+	WallBENTImage1Index_(7),
+	WallBENTImage2Index_(6),
+	WallDOORImageIndex_(-1)
 {
 }
 
@@ -38,6 +45,58 @@ void TileMap::Start()
 	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
 	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y };
 
+}
+
+void TileMap::FloorGridesSwitching()
+{
+	if (false == FloorGridesActive_)
+	{
+		FloorGridesActive_ = true;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = FloorGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = FloorGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->On();
+		}
+	}
+	else
+	{
+		FloorGridesActive_ = false;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = FloorGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = FloorGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->Off();
+		}
+	}
+}
+
+void TileMap::WallGridesSwitching()
+{
+	if (false == WallGridesActive_)
+	{
+		WallGridesActive_ = true;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->On();
+		}
+	}
+	else
+	{
+		WallGridesActive_ = false;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->Off();
+		}
+	}
 }
 
 #pragma region 편의기능관련
@@ -134,11 +193,6 @@ void TileMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 	if (FloorTiles_.end() != FloorTiles_.find(_Index.Index_))
 	{
 		FloorTiles_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
-	}
-
-	if (FloorGrides_.end() != FloorGrides_.find(_Index.Index_))
-	{
-		FloorGrides_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
 		return;
 	}
 
@@ -213,11 +267,6 @@ void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	if (WallTiles_.end() != WallTiles_.find(_Index.Index_))
 	{
 		WallTiles_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
-	}
-
-	if (WallGrides_.end() != WallGrides_.find(_Index.Index_))
-	{
-		WallGrides_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
 		return;
 	}
 
@@ -330,7 +379,7 @@ void TileMap::DelWallTile(float4 _Pos)
 #pragma region 자동모드관련
 
 // 자동모드 정보생성
-void TileMap::CreateFloorTileInfo(int _HeightTileCount, int _WidthTileCount)
+void TileMap::CreateFloorTileInfo(int _HeightTileCount, int _WidthTileCount, int _ImageIndex)
 {
 	// 만약 다른모드에서 바닥타일정보나 바닥타일렌더링정보를 생성한것을 재사용하는것을 방지하기 위하여 기존 정보 모두 클리어하고 생성 시작
 	AllClearFloorTile();
@@ -378,7 +427,7 @@ void TileMap::CreateFloorTileInfo(int _HeightTileCount, int _WidthTileCount)
 			FloorTileInfo NewFloorTileInfo = {};
 			NewFloorTileInfo.FloorIndexX = y;
 			NewFloorTileInfo.FloorIndexY = x;
-			NewFloorTileInfo.FloorImageIndex = 0;	// 초기 0으로 셋팅(추후 갱신때 각 이미지타일 갱신)
+			NewFloorTileInfo.FloorImageIndex = _ImageIndex;	// 초기 선택된 텍스쳐로 모두 셋팅
 			NewFloorTileInfo.FloorTextureName = FloorTileTextureName_;
 			NewFloorTileInfo.FloorTileSize = TileSize_;
 			NewFloorTileInfo.FloorRenderSize = FloorTileImageSize_;
@@ -626,20 +675,135 @@ void TileMap::CreateWallTileInfo()
 				WallGrides_.insert(std::make_pair(Index.Index_, Renderer));
 			}
 		}
-
-		int a = 0;
 	}
 }
 
 // 자동모드 타일텍스쳐 매칭
-void TileMap::UpdateFloorTileInfo(int _DefaultTileIndex)
+void TileMap::UpdateFloorTileInfo()
 {
+	// 바닥타일정보를 읽어들여 이미지 인덱스를 매칭하여 화면에 렌더링한다.
+	// 현재 사용자가 선택한 바닥타일 이미지로 컨텍된다.
+	// 또한, 수동맵모드에서 이미지 매칭을 수정할 수 있다.
+	// 주의!!!! 자동모드에서 현재 지정된 바닥타일의 이미지를 확인!!!!
+	int YInfoCnt = static_cast<int>(FloorTileInfo_.size());
+	int XInfoCnt = static_cast<int>(FloorTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(FloorTileInfo_[y][x].FloorIndexX, FloorTileInfo_[y][x].FloorIndexY);
 
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * FloorTileInfo_[y][x].FloorTileSize.halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -FloorTileInfo_[y][x].FloorTileSize.halffloat4().y;
+
+			Renderer->SetImage(FloorTileTextureName_);
+			Renderer->GetTransform()->SetLocalScaling(FloorTileInfo_[y][x].FloorRenderSize);
+			Renderer->GetTransform()->SetLocalPosition(FloorTileInfo_[y][x].FloorRenderPivotPos + Pos);
+			Renderer->SetIndex(FloorTileInfo_[y][x].FloorImageIndex);
+			FloorTiles_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
 }
 
-void TileMap::UpdateWallTileInfo(int _DefaultTileIndex)
+void TileMap::SetTownWallTexture()
 {
+	//int WallRTImageIndex_;
+	//int WallRBImageIndex_;
+	//int WallBENTImage1Index_;
+	//int WallBENTImage2Index_;
+	//int WallDOORImageIndex_;
 
+	// 1. 우상단(좌하단)방향의 연속된 벽 텍스쳐
+	if (-1 != WallRTImageIndex_)
+	{
+
+	}
+
+	// 2. 우하단(좌상단)방향의 연속된 벽 텍스쳐
+	if (-1 != WallRBImageIndex_)
+	{
+
+	}
+
+	// 3. 렌더러2개를 가지는 꺽이는 벽 텍스쳐
+	if (-1 != WallBENTImage1Index_)
+	{
+
+	}
+	if (-1 != WallBENTImage2Index_)
+	{
+
+	}
+
+	// 4. 문 텍스쳐
+	if (-1 != WallDOORImageIndex_)
+	{
+
+	}
+}
+
+void TileMap::SetCatacombsWallTexture()
+{
+}
+
+void TileMap::SetChaosSanctuaryWallTexture()
+{
+}
+
+void TileMap::UpdateWallTileInfo()
+{
+	// 벽타일 그리드 정보를 읽어들여 이미지 인덱스를 매칭하여 화면에 렌더링한다.
+	// 단, BENT타입의 경우 렌더러 2개를 가지며 또한 각 방향(RT/RB)는 연속된 벽이미지인덱스를 컨텍하여
+	// 화면에 렌더링한다.
+	// 또한, 수동맵모드에서 이미지 매칭을 수정할 수 있다.
+			// 정보 생성완료 후 레퍼런스렌더링(그리드)
+	int YInfoCnt = static_cast<int>(WallTileInfo_.size());
+	int XInfoCnt = static_cast<int>(WallTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(WallTileInfo_[y][x].WallIndexX, WallTileInfo_[y][x].WallIndexY);
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().y;
+
+			Renderer->SetImage(WallTileInfo_[y][x].WallTextureName);
+			Renderer->GetTransform()->SetLocalScaling(WallTileInfo_[y][x].WallRenderSize);
+			Renderer->GetTransform()->SetLocalPosition(WallTileInfo_[y][x].WallRenderPivotPos + Pos);
+			Renderer->GetTransform()->SetLocalZOrder(-2.f);
+
+			// 벽타입별 이미지
+			if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT)
+			{
+				Renderer->SetIndex(WallRTImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, Renderer));
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB)
+			{
+				Renderer->SetIndex(WallRBImageIndex_);
+				WallTiles_.insert(std::make_pair(Index.Index_, Renderer));
+			}
+			//else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT)
+			//{
+			//	//Renderer->SetIndex(WallRTImageIndex_);
+			//	//WallTiles_.insert(std::make_pair(Index.Index_, Renderer));
+			//}
+			else
+			{
+				Renderer->Death();
+				continue;
+			}
+		}
+	}
+
+	int a = 0;
 }
 
 #pragma endregion
@@ -697,6 +861,9 @@ void TileMap::AllClearFloorTileMapRenderer()
 		(*GridsStartIter).second->Death();
 	}
 	FloorGrides_.clear();
+
+	// ON/OFF Flag해제
+	FloorGridesActive_ = true;
 }
 
 void TileMap::AllClearWallTile()
@@ -741,6 +908,9 @@ void TileMap::AllClearWallTileMapRenderer()
 		(*GridsStartIter).second->Death();
 	}
 	WallGrides_.clear();
+
+	// ON/OFF Flag해제
+	WallGridesActive_ = true;
 }
 #pragma endregion
 

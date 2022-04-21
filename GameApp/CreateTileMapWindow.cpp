@@ -213,7 +213,7 @@ void CreateTileMapWindow::OnGUI()
 	ImGui::SameLine();
 	if (true == ImGui::Button("CREATE FLOORTILE INFO", ImVec2(200.f, 30.f)))
 	{
-		TileMap_->CreateFloorTileInfo(FloorXCount_, FloorYCount_);
+		TileMap_->CreateFloorTileInfo(FloorXCount_, FloorYCount_, SelectTileIndex_);
 	}
 
 	// 자동모드 벽타일정보생성
@@ -225,11 +225,46 @@ void CreateTileMapWindow::OnGUI()
 	}
 
 	// 자동모드 바닥타일 텍스쳐 매칭
+	ImGui::Text("4. ");
+	ImGui::SameLine();
+	if (true == ImGui::Button("FLOORTILE TEXTURE MATCHING", ImVec2(200.f, 30.f)))
+	{
+		TileMap_->UpdateFloorTileInfo();
+	}
+
+	// 자동모드 벽타일 특별 조건에 의한 벽텍스쳐 매칭
+	ImGui::Text("5. ");
+	ImGui::SameLine();
+	if (true == ImGui::Button("TOWN WALL TEXTURE SET", ImVec2(200.f, 30.f)))
+	{
+		TileMap_->SetTownWallTexture();
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("CATACOMBS WALL TEXTURE SET", ImVec2(200.f, 30.f)))
+	{
+		TileMap_->SetCatacombsWallTexture();
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("CHAOSSANCTUARY WALL TEXTURE SET", ImVec2(200.f, 30.f)))
+	{
+		TileMap_->SetChaosSanctuaryWallTexture();
+	}
+
+	// 현재 선택한 ACT의 특별조건 벽텍스쳐
+	// 1. RT
+	// 2. RB
+	// 3. BENT
 
 
 	// 자동모드 벽타일 텍스쳐 매칭
+	ImGui::Text("6. ");
+	ImGui::SameLine();
+	if (true == ImGui::Button("WALLTILE TEXTURE MATCHING", ImVec2(200.f, 30.f)))
+	{
+		TileMap_->UpdateWallTileInfo();
+	}
 
-
+	// 수동모드에서 편집하세요!!!!!
 
 #pragma endregion
 
