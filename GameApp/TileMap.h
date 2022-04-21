@@ -102,6 +102,14 @@ enum class WallDetailType
 	DOOR,		// 문
 };
 
+// 오브젝트타일 기본타입
+enum class ObjectBasicType
+{
+	NORMAL,		// 렌더링안함
+	WALL,		// 벽으로 판단하므로 오브젝트 배치불가
+	OBJECT,		// 오브젝트가 배치되어있음
+};
+
 // 바닥타일 정보
 struct FloorTileInfo
 {
@@ -143,7 +151,8 @@ struct ObjectTileInfo
 	// 인덱스 및 타입정보
 	int ObjectIndexX;
 	int ObjectIndexY;
-	int ObjectTile1ImageIndex;
+	int ObjectImageIndex;
+	ObjectBasicType ObjectBasicType;
 
 	// 렌더링 정보
 	std::string ObjectTextureName;
@@ -356,8 +365,9 @@ public: // SetGrid/DelGrid
 
 public: // CreateAutoMap Mode
 	// 타일정보 생성 : 각 조건에 맞게 처리되며 정보생성이 완료되면, 그리드형태로 화면에 렌더링한다.
-	void CreateFloorTileInfo(int _WidthTileCount, int _HeightTileCount, int _ImageIndex);
-	void CreateWallTileInfo(); // 벽타일의 갯수는 바닥타일 갯수에 비례하여 생성된다.
+	void CreateFloorTileInfo(int _WidthTileCount, int _HeightTileCount, int _ImageIndex);	// 인자로 수신한 너비/높이 인덱스를 이용하여 바닥타일 정보 및 그리드 생성
+	void CreateWallTileInfo();																// 벽타일의 갯수는 바닥타일 갯수에 비례하여 생성
+	void CreateObjectTileInfo();															// 벽타일생성이 완료된 후 호출되어 오브젝트 배치를 위한 정보생성시작
 
 	// 생성된 바닥타일 정보를 이용하여 특정 조건에 해당하는 타일을 제외한 모든 타일은 디폴트타일로 정보갱신
 	void UpdateFloorTileInfo();

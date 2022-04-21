@@ -14,7 +14,7 @@ TileMap::TileMap() :
 	ObjectRenderingType_(ObjectRenderingType::GRID),
 	FloorGridesActive_(true),
 	WallGridesActive_(true),
-	ObjectGridesActive_(true),
+	ObjectGridesActive_(false),
 	Wall_RT_T_ImageIndex_(1),
 	Wall_RT_T_LE_ImageIndex_(9),
 	Wall_RT_T_RE_ImageIndex_(2),
@@ -413,6 +413,8 @@ void TileMap::SetObjectTile(float4 _Pos, int CurTileIndex_)
 
 void TileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
 {
+	// 여기부터 시작할꺼임!!!!!!!!!!!!!!!
+
 }
 
 void TileMap::DelFloorTile(float4 _Pos)
@@ -1192,6 +1194,105 @@ void TileMap::CreateWallTileInfo()
 				Renderer->GetTransform()->SetLocalPosition(Pos);
 				Renderer->GetTransform()->SetLocalZOrder(-3.f);
 				WallGrides_.insert(std::make_pair(Index.Index_, Renderer));
+			}
+		}
+
+#pragma region 오브젝트타일관련
+		// 벽타일정보 및 그리드생성이 완료되고, 오브젝트타일정보 및 그리드를 생성한다.
+		CreateObjectTileInfo();
+#pragma endregion
+	}
+}
+
+void TileMap::CreateObjectTileInfo()
+{
+	// 벽타일정보가 있다면 생성함(벽타일과 같은기준으로 타일정보를 가진다.)
+	if (false == WallTileInfo_.empty())
+	{
+		// 만약 기존의 오브젝트관련 정보나 타일정보가 남아있다면 제거
+		AllClearObjectTile();
+
+		// 벽타일정보 기준으로 똑같이 생성
+		int WallYIndexCnt = static_cast<int>(WallTileInfo_.size());
+		if (0 < WallYIndexCnt)
+		{
+			int WallXIndexCnt = static_cast<int>(WallTileInfo_[WallYIndexCnt - 1].size());
+
+			ObjectTileInfo_.resize(WallYIndexCnt);
+			for (int y = 0; y < WallYIndexCnt; ++y)
+			{
+				for (int x = 0; x < WallXIndexCnt; ++x)
+				{
+					ObjectTileInfo NewObjectTileInfo = {};
+
+					// WallTile의 인덱스 정보를 그대로 사용한다.
+					NewObjectTileInfo.ObjectIndexX = WallTileInfo_[y][x].WallIndexX;
+					NewObjectTileInfo.ObjectIndexY = WallTileInfo_[y][x].WallIndexY;
+
+					// Object의 기본 이미지 인덱스는 -1로 설정한다(추후 수정모드에서 오브젝트배치시 선택한 이미지인덱스로 저장된다.)
+					NewObjectTileInfo.ObjectImageIndex = -1;
+
+					// 벽이아닌 타일이면 타입은 NORMAL타입을 가진다.
+					if (WallTileInfo_[y][x].WallBasicType == WallBasicType::NORMAL)
+					{
+						NewObjectTileInfo.ObjectBasicType = ObjectBasicType::NORMAL;
+					}
+					// 벽이거나 벽취급은하지만 렌더링하지않는 타입이라면 오브젝트를 배치할수없는 WALL TYPE을 가진다.
+					else
+					{
+						NewObjectTileInfo.ObjectBasicType = ObjectBasicType::WALL;
+					}
+
+					// 기본 렌더링 정보 생성
+					NewObjectTileInfo.ObjectTextureName = ObjectTileTextureName_;
+					NewObjectTileInfo.ObjectTileSize = TileSize_;
+					NewObjectTileInfo.ObjectRenderSize = ObjectTileImageSize_;
+					NewObjectTileInfo.ObjectRenderPivotPos = ObjectTileIndexPivotPos_;
+
+					ObjectTileInfo_[y].push_back(NewObjectTileInfo);
+				}
+			}
+
+			// 정보 생성완료 후 레퍼런스렌더링(그리드)
+			int YInfoCnt = static_cast<int>(ObjectTileInfo_.size());
+			int XInfoCnt = static_cast<int>(ObjectTileInfo_[YInfoCnt - 1].size());
+			for (int y = 0; y < YInfoCnt; ++y)
+			{
+				for (int x = 0; x < XInfoCnt; ++x)
+				{
+					TileIndex Index = TileIndex(ObjectTileInfo_[y][x].ObjectIndexX, ObjectTileInfo_[y][x].ObjectIndexY);
+
+					GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+					// 벽타입별 이미지
+					if (ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::NORMAL ||
+						ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::OBJECT)
+					{
+						// 센터 바닥타일 이미지
+						if (Index.Y_ == 0 && Index.X_ == 0)
+						{
+							Renderer->SetImage("WallGrid_Center.png");
+						}
+						else // 일반 바닥타일 이미지
+						{
+							Renderer->SetImage("WallGrid_Normal.png");
+						}
+					}
+					else
+					{
+						Renderer->SetImage("WallGrid_None.png");
+					}
+
+					float4 Pos = float4::ZERO;
+					Pos.x = (Index.X_ - Index.Y_) * ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().x;
+					Pos.y = (Index.X_ + Index.Y_) * -ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().y;
+
+					Renderer->GetTransform()->SetLocalScaling(ObjectTileInfo_[y][x].ObjectTileSize.halffloat4());
+					Renderer->GetTransform()->SetLocalPosition(Pos);
+					Renderer->GetTransform()->SetLocalZOrder(-4.f);
+					Renderer->Off();
+					ObjectGrides_.insert(std::make_pair(Index.Index_, Renderer));
+				}
 			}
 		}
 	}
