@@ -106,10 +106,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="EditorControlWindow.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <SubType>
       </SubType>
@@ -147,10 +143,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="InventoryView.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="IsoTileMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -444,10 +436,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EditorControlWindow.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="EndingLevel.h">
       <SubType>
       </SubType>
@@ -486,10 +474,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="InventoryView.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="IsoTileMap.h">
       <SubType>
       </SubType>
     </ClInclude>

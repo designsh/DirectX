@@ -42,6 +42,16 @@ void TownLevel::CreateLevelActor()
 		MainPlayer_ = CreateActor<MainPlayer>();
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(MainPlayer_->GetTransform()->GetLocalPosition());
 		GlobalValue::CurPlayer = MainPlayer_;
+
+		// 메인플레이어 정보 생성되었는지 체크
+		if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
+		{
+			// 정보 생성이 되었다면 플레이어의 UI에 필요한 정보 셋팅
+			if (nullptr != GlobalValue::CurPlayer)
+			{
+				GlobalValue::CurPlayer->CreatePlayerUIInfomation();
+			}
+		}
 	}
 
 	// NPC 생성(무기상인) - 테스트 위치
@@ -98,28 +108,6 @@ void TownLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// 배경음악 On
 
-
-	// 메인플레이어 지정
-	if (GlobalValue::CurPlayer != MainPlayer_)
-	{
-		GlobalValue::CurPlayer = MainPlayer_;
-	}
-
-	// 메인마우스 지정
-	if (GlobalValue::CurMouse != MainMouse_)
-	{
-		GlobalValue::CurMouse = MainMouse_;
-	}
-
-	// 메인플레이어 정보 생성되었는지 체크
-	if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
-	{
-		// 정보 생성이 되었다면 플레이어의 UI에 필요한 정보 셋팅
-		if (nullptr != GlobalValue::CurPlayer)
-		{
-			GlobalValue::CurPlayer->CreatePlayerUIInfomation();
-		}
-	}
 }
 
 void TownLevel::LevelStart()

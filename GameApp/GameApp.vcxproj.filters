@@ -218,9 +218,6 @@
     <ClCompile Include="MapEditorLevel.cpp">
       <Filter>Object\Level\99.EditorLevel</Filter>
     </ClCompile>
-    <ClCompile Include="EditorControlWindow.cpp">
-      <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
-    </ClCompile>
     <ClCompile Include="MainPlayer_Stamina.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina</Filter>
     </ClCompile>
@@ -286,9 +283,6 @@
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>Object\Actor\99.Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="IsoTileMap.cpp">
-      <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
     </ClCompile>
     <ClCompile Include="CreateTileMapWindow.cpp">
       <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
@@ -661,9 +655,6 @@
     <Filter Include="Object\Actor\99.Editor">
       <UniqueIdentifier>{f828f566-6a0e-4bc1-b999-b8387e51ad84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\99.Editor\00.EditorControlWindow">
-      <UniqueIdentifier>{e527dff8-f3bb-4944-9544-da62a2992bbb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina">
       <UniqueIdentifier>{937ed26c-7b5c-449e-b605-49d5c5721220}</UniqueIdentifier>
     </Filter>
@@ -900,9 +891,6 @@
     <ClInclude Include="MapEditorLevel.h">
       <Filter>Object\Level\99.EditorLevel</Filter>
     </ClInclude>
-    <ClInclude Include="EditorControlWindow.h">
-      <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
-    </ClInclude>
     <ClInclude Include="MainPlayer_Stamina.h">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina</Filter>
     </ClInclude>
@@ -953,9 +941,6 @@
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>Object\Actor\99.Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="IsoTileMap.h">
-      <Filter>Object\Actor\99.Editor\00.EditorControlWindow</Filter>
     </ClInclude>
     <ClInclude Include="CreateTileMapWindow.h">
       <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
