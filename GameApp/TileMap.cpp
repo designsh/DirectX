@@ -414,17 +414,66 @@ void TileMap::SetObjectTile(float4 _Pos, int CurTileIndex_)
 void TileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
 {
 	// 여기부터 시작할꺼임!!!!!!!!!!!!!!!
+	if (ObjectRenderingType::TILE == ObjectRenderingType_)
+	{
+		if (ObjectTiles_.end() != ObjectTiles_.find(_Index.Index_))
+		{
+			// 렌더러 갱신
+			ObjectTiles_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
 
-	// OBJECT 그리드일때 오브젝트 타일 배치가능
+			// 정보가 존재할때 갱신
+			int YIndex = static_cast<int>(ObjectTileInfo_.size());
+			if (0 < YIndex)
+			{
+				int XIndex = static_cast<int>(ObjectTileInfo_[YIndex - 1].size());
+				for (int y = 0; y < YIndex; ++y)
+				{
+					for (int x = 0; x < XIndex; ++x)
+					{
+						if (_Index.X_ == ObjectTileInfo_[y][x].ObjectIndexX &&
+							_Index.Y_ == ObjectTileInfo_[y][x].ObjectIndexY)
+						{
+							ObjectTileInfo_[y][x].ObjectImageIndex = CurTileIndex_;
+							return;
+						}
+					}
+				}
+			}
+			return;
+		}
 
+		float4 Pos = float4::ZERO;
+		Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
+		Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
 
+		GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
+		Renderer->SetImage(ObjectTileTextureName_);
+		Renderer->GetTransform()->SetLocalScaling(ObjectTileImageSize_);
+		Renderer->GetTransform()->SetLocalPosition(ObjectTileIndexPivotPos_ + Pos);
+		Renderer->GetTransform()->SetLocalZOrder(-4.f);
+		Renderer->SetIndex(CurTileIndex_);
+		ObjectTiles_.insert(std::make_pair(_Index.Index_, Renderer));
 
-
-
-
-
-
+		// 
+		int YIndex = static_cast<int>(ObjectTileInfo_.size());
+		if (0 < YIndex)
+		{
+			int XIndex = static_cast<int>(ObjectTileInfo_[YIndex - 1].size());
+			for (int y = 0; y < YIndex; ++y)
+			{
+				for (int x = 0; x < XIndex; ++x)
+				{
+					if (_Index.X_ == ObjectTileInfo_[y][x].ObjectIndexX &&
+						_Index.Y_ == ObjectTileInfo_[y][x].ObjectIndexY)
+					{
+						ObjectTileInfo_[y][x].ObjectImageIndex = CurTileIndex_;
+						return;
+					}
+				}
+			}
+		}
+	}
 }
 
 void TileMap::DelFloorTile(float4 _Pos)
@@ -487,23 +536,7 @@ void TileMap::SetFloorGird(TileIndex _Index, int CurTileIndex_)
 		// 같은 인덱스가 존재하면 리턴
 		if (FloorGrides_.end() != FloorGrides_.find(_Index.Index_))
 		{
-			// 기존의 그리드 렌더러 변경
-			float4 ChangePos = float4::ZERO;
-			ChangePos.x = (_Index.X_ - _Index.Y_) * TileSizeHalf_.x;
-			ChangePos.y = (_Index.X_ + _Index.Y_) * -TileSizeHalf_.y;
-
-			if (_Index.X_ == 0 && _Index.Y_ == 0)
-			{
-				FloorGrides_.find(_Index.Index_)->second->SetImage("FloorGrid_Center.png");
-			}
-			else
-			{
-				FloorGrides_.find(_Index.Index_)->second->SetImage("FloorGrid_Normal.png");
-			}
-			FloorGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-			FloorGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + ChangePos);
-			FloorGrides_.find(_Index.Index_)->second->GetTransform()->SetLocalZOrder(-1.f);
-
+			// 그리드 타입이 한개이므로 바로 리턴
 			return;
 		}
 
