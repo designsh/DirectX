@@ -2059,7 +2059,7 @@ void TileMap::AllClearObjectTileMapRenderer()
 	ObjectGrides_.clear();
 
 	// ON/OFF Flag«ÿ¡¶
-	ObjectGridesActive_ = true;
+	ObjectGridesActive_ = false;
 }
 
 #pragma endregion
