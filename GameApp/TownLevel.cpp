@@ -86,16 +86,6 @@ void TownLevel::CreateLevelActor()
 	{
 		GlobalValue::CurMouse = MainMouse_;
 	}
-
-	// 메인플레이어 정보 생성되었는지 체크
-	if (true == MainPlayerInfomation::GetInst().IsMainPlayerInfo())
-	{
-		// 정보 생성이 되었다면 플레이어의 UI에 필요한 정보 셋팅
-		if (nullptr != GlobalValue::CurPlayer)
-		{
-			GlobalValue::CurPlayer->CreatePlayerUIInfomation();
-		}
-	}
 }
 
 void TownLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
