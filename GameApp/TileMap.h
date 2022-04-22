@@ -338,10 +338,12 @@ public: // 현재 렌더링모드 Get
 public: // IMGUI Window 표시용
 	float4 GetFloorIsoPos(float4 _Pos);
 	float4 GetWallIsoPos(float4 _Pos);
+	float4 GetObjectIsoPos(float4 _Pos);
 
 public: // GetTileIndex
 	TileIndex GetFloorTileIndex(float4 _Pos);
 	TileIndex GetWallTileIndex(float4 _Pos);
+	TileIndex GetObjectTileIndex(float4 _Pos);
 
 public: // SetTile/DelTile
 	void SetFloorTile(float4 _Pos, int CurTileIndex_);

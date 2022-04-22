@@ -174,6 +174,11 @@ float4 TileMap::GetWallIsoPos(float4 _Pos)
 	return { ((_Pos.x / TileSizeHHalf_.x) - (_Pos.y / TileSizeHHalf_.y)) / 2.0f, ((_Pos.y / TileSizeHHalf_.y) + (_Pos.x / TileSizeHHalf_.x)) / -2.0f };
 }
 
+float4 TileMap::GetObjectIsoPos(float4 _Pos)
+{
+	return { ((_Pos.x / TileSizeHHalf_.x) - (_Pos.y / TileSizeHHalf_.y)) / 2.0f, ((_Pos.y / TileSizeHHalf_.y) + (_Pos.x / TileSizeHHalf_.x)) / -2.0f };
+}
+
 #pragma endregion
 
 #pragma region GetTileIndex(Floor/Wall)
@@ -202,6 +207,37 @@ TileIndex TileMap::GetFloorTileIndex(float4 _Pos)
 }
 
 TileIndex TileMap::GetWallTileIndex(float4 _Pos)
+{
+	TileIndex Index = {};
+
+	float RatioX = ((_Pos.x / TileSizeHHalf_.x) - (_Pos.y / TileSizeHHalf_.y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSizeHHalf_.y) + (_Pos.x / TileSizeHHalf_.x)) / -2.0f;
+
+	if (0 > RatioX)
+	{
+		RatioX += -0.5f;
+	}
+	else
+	{
+		RatioX += 0.5f;
+	}
+
+	if (0 > RatioY)
+	{
+		RatioY += -0.5f;
+	}
+	else
+	{
+		RatioY += 0.5f;
+	}
+
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
+
+	return Index;
+}
+
+TileIndex TileMap::GetObjectTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
@@ -408,7 +444,7 @@ void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 
 void TileMap::SetObjectTile(float4 _Pos, int CurTileIndex_)
 {
-	SetObjectTile(GetWallTileIndex(_Pos), CurTileIndex_);
+	SetObjectTile(GetObjectTileIndex(_Pos), CurTileIndex_);
 }
 
 void TileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
@@ -517,6 +553,19 @@ void TileMap::DelWallTile(float4 _Pos)
 
 void TileMap::DelObjectTile(float4 _Pos)
 {
+	// 타일모드일때 처리
+	if (ObjectRenderingType::TILE == ObjectRenderingType_)
+	{
+		TileIndex Index = GetObjectTileIndex(_Pos);
+
+		// 타일
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TileFindIter = ObjectTiles_.find(Index.Index_);
+		if (ObjectTiles_.end() != TileFindIter)
+		{
+			TileFindIter->second->Death();
+			ObjectTiles_.erase(TileFindIter);
+		}
+	}
 }
 
 #pragma endregion
@@ -854,7 +903,7 @@ void TileMap::SetWallGird(TileIndex _Index, int CurTileIndex_)
 
 void TileMap::SetObjectGird(float4 _Pos, int CurTileIndex_)
 {
-	SetObjectGird(GetWallTileIndex(_Pos), CurTileIndex_);
+	SetObjectGird(GetObjectTileIndex(_Pos), CurTileIndex_);
 }
 
 void TileMap::SetObjectGird(TileIndex _Index, int CurTileIndex_)
@@ -999,6 +1048,19 @@ void TileMap::DelWallGird(float4 _Pos)
 
 void TileMap::DelObjectGird(float4 _Pos)
 {
+	// 타일모드가 아닐때 처리
+	if (ObjectRenderingType::TILE != ObjectRenderingType_)
+	{
+		TileIndex Index = GetObjectTileIndex(_Pos);
+
+		// 타일
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridFindIter = ObjectGrides_.find(Index.Index_);
+		if (WallGrides_.end() != GridFindIter)
+		{
+			GridFindIter->second->Death();
+			ObjectGrides_.erase(GridFindIter);
+		}
+	}
 }
 
 #pragma endregion
