@@ -566,6 +566,25 @@ void TileMap::DelObjectTile(float4 _Pos)
 			TileFindIter->second->Death();
 			ObjectTiles_.erase(TileFindIter);
 		}
+
+		// 오브젝트타일정보의 이미지인덱스 -1로 변경
+		int YIndex = static_cast<int>(ObjectTileInfo_.size());
+		if (0 < YIndex)
+		{
+			int XIndex = static_cast<int>(ObjectTileInfo_[YIndex - 1].size());
+			for (int y = 0; y < YIndex; ++y)
+			{
+				for (int x = 0; x < XIndex; ++x)
+				{
+					if (Index.X_ == ObjectTileInfo_[y][x].ObjectIndexX &&
+						Index.Y_ == ObjectTileInfo_[y][x].ObjectIndexY)
+					{
+						ObjectTileInfo_[y][x].ObjectImageIndex = -1;
+						return;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -2381,7 +2400,7 @@ void TileMap::MapFileLoad()
 			pFile.Read(ObjectRenderPivotPosX);
 			pFile.Read(ObjectRenderPivotPosY);
 			pFile.Read(ObjectRenderPivotPosZ);
-			ObjectTileInfo_[y][x].ObjectRenderSize = float4(static_cast<float>(ObjectRenderSizeX), static_cast<float>(ObjectRenderSizeY), static_cast<float>(ObjectRenderSizeZ));
+			ObjectTileInfo_[y][x].ObjectRenderPivotPos = float4(static_cast<float>(ObjectRenderPivotPosX), static_cast<float>(ObjectRenderPivotPosY), static_cast<float>(ObjectRenderPivotPosZ));
 		}
 	}
 
@@ -2661,7 +2680,7 @@ void TileMap::CreatedAfterLoading_WallTiles()
 				WallTiles.Tiles2_->SetImage(WallTileInfo_[y][x].WallTextureName);
 				WallTiles.Tiles2_->GetTransform()->SetLocalScaling(WallTileInfo_[y][x].WallRenderSize);
 				WallTiles.Tiles2_->GetTransform()->SetLocalPosition(WallTileInfo_[y][x].WallRenderPivotPos + Pos);
-				WallTiles.Tiles2_->GetTransform()->SetLocalZOrder(-2.f);
+				WallTiles.Tiles2_->GetTransform()->SetLocalZOrder(-3.f);
 				WallTiles.Tiles2_->SetIndex(WallTileInfo_[y][x].WallTile2ImageIndex);
 
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
@@ -2688,7 +2707,6 @@ void TileMap::CreatedAfterLoading_ObjectTiles()
 			float4 Pos = float4::ZERO;
 			Pos.x = (Index.X_ - Index.Y_) * ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().x;
 			Pos.y = (Index.X_ + Index.Y_) * -ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().y;
-
 
 			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
