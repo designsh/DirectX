@@ -570,8 +570,6 @@ void CreateTileMapWindow::OnGUI()
 
 #pragma endregion
 
-	ImGui::Text("");
-
 #pragma region 맵파일저장/로드 관련
 	ImGui::Text("<<< MAP FILE SAVE & LOAD >>>");
 	if (true == ImGui::Button("SAVE", ImVec2(140.f, 20.f)))

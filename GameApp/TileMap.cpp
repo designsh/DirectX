@@ -11,9 +11,9 @@
 #include "GlobalEnumClass.h"
 
 TileMap::TileMap() :
-	FloorRenderingType_(FloorRenderingType::GRID),
-	WallRenderingType_(WallRenderingType::GRID_NOR),
-	ObjectRenderingType_(ObjectRenderingType::GRID_NORMAL),
+	FloorRenderingType_(FloorRenderingType::TILE),
+	WallRenderingType_(WallRenderingType::TILE1),
+	ObjectRenderingType_(ObjectRenderingType::TILE),
 	FloorGridesActive_(true),
 	WallGridesActive_(true),
 	ObjectGridesActive_(false),
@@ -580,6 +580,7 @@ void TileMap::DelObjectTile(float4 _Pos)
 						Index.Y_ == ObjectTileInfo_[y][x].ObjectIndexY)
 					{
 						ObjectTileInfo_[y][x].ObjectImageIndex = -1;
+						ObjectTileInfo_[y][x].ObjectBasicType = ObjectBasicType::NORMAL;
 						return;
 					}
 				}
