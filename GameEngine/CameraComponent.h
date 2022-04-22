@@ -55,6 +55,9 @@ private:
 	void DebugRender();
 	void ReleaseRenderer();
 
+private:
+	void NextLevelMoveRenderer(CameraComponent* _NextCamera, GameEngineActor* _Actor);
+
 public:
 	inline GameEngineRenderTarget* GetCameraRenderTarget()
 	{

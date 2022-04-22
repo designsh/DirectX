@@ -388,6 +388,13 @@ void StatView::Update(float _DeltaTime)
 	MainCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&StatView::CloseButtonClick, this, std::placeholders::_1));
 }
 
+void StatView::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 스탯창이 들고있는 액터 모두 넘김
+
+
+}
+
 void StatView::InitStatView()
 {
 	// 메인플레이어 정보를 이용하여 String Setting

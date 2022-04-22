@@ -28,21 +28,19 @@ void CatacombsLevel::CreateLevelActor()
 {
 	// 맵로딩(타일맵 - 랜덤맵)
 
-	// 플레이어 생성
-	MainPlayer_ = CreateActor<MainPlayer>();
-	GetMainCameraActor()->GetTransform()->SetWorldPosition(MainPlayer_->GetTransform()->GetLocalPosition());
+	// 플레이어 생성 및 메인플레이어 지정
+	if (nullptr == GlobalValue::CurPlayer)
+	{
+		MainPlayer_ = CreateActor<MainPlayer>();
+		GetMainCameraActor()->GetTransform()->SetWorldPosition(MainPlayer_->GetTransform()->GetLocalPosition());
+		GlobalValue::CurPlayer = MainPlayer_;
+	}
 
 	// 몬스터 생성
 
 	// 마우스
 	MainMouse_ = CreateActor<MouseObject>();
 	MainMouse_->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
-
-	// 메인플레이어 지정
-	if (GlobalValue::CurPlayer != MainPlayer_)
-	{
-		GlobalValue::CurPlayer = MainPlayer_;
-	}
 
 	// 메인마우스 지정
 	if (GlobalValue::CurMouse != MainMouse_)

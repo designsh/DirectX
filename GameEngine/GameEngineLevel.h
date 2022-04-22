@@ -18,12 +18,21 @@ class GameEngineLevel : public GameEngineObjectNameBase
 	friend class GameEngineRenderer;
 	friend class GameEngineCollision;
 
+private:
+	class NextLevelActor
+	{
+	public:
+		GameEngineActor* Actor_;
+		GameEngineLevel* Level_;
+	};
+
 	// ==================================== Actor 관련 =================================== //
 private:	// member Var
 	// Key값 : 갱신순서(우선순위 판단 오더)
 	// Value값 : 액터목록
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
 	std::map<std::string, GameEngineActor*> FindActorMap_;
+	std::vector<NextLevelActor> NextLevelActorsData_;
 
 	// =================================== Camera 관련 ================================== //
 private:
@@ -61,6 +70,9 @@ private: // 충돌체관련 기능
 private:
 	void LevelChangeEndActorEvent(GameEngineLevel* _NextLevel);
 	void LevelChangeStartActorEvent(GameEngineLevel* _PrevLevel);
+
+private:
+	void SetLevelActorMoveProcess();
 
 public:
 	template<typename UserEnumType>
@@ -149,6 +161,6 @@ public:
 	void TimeEventUpdate();
 
 public:
-	void GetLevelActorMove(GameEngineLevel* _NextLevel, GameEngineActor* _Actor);
+	void SetLevelActorMove(GameEngineLevel* _NextLevel, GameEngineActor* _Actor);
 };
 

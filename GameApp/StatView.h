@@ -18,6 +18,7 @@ enum class StatPointType
 // Ό³Έν : 
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameEngineLevel;
 class StatView : public GameEngineActor
 {
 private:
@@ -102,6 +103,7 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
 
 public:
 	void InitStatView();

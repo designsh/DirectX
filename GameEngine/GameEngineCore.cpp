@@ -21,6 +21,11 @@ GameEngineThreadQueue GameEngineCore::ThreadQueue_ = GameEngineThreadQueue("Game
 void GameEngineCore::LevelChange(const std::string& _Level)
 {
 	GameEngineLevel* FindLevel = LevelFind(_Level);
+	if (FindLevel == CurrentLevel_)
+	{
+		// 동일한 레벨끼리 이동 불가
+		return;
+	}
 	if (nullptr == FindLevel)
 	{
 		GameEngineDebug::MsgBoxError("Next Level Is Nullptr");
@@ -72,9 +77,11 @@ void GameEngineCore::MainLoop()
 		{
 			CurrentLevel_->LevelChangeEndActorEvent(NextLevel_);
 			CurrentLevel_->LevelChangeEndEvent(NextLevel_);
+			CurrentLevel_->SetLevelActorMoveProcess();
 
 			NextLevel_->LevelChangeStartActorEvent(CurrentLevel_);
 			NextLevel_->LevelChangeStartEvent(CurrentLevel_);
+			NextLevel_->SetLevelActorMoveProcess();
 
 			CurrentLevel_ = NextLevel_;
 		}

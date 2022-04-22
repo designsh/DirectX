@@ -156,6 +156,35 @@ void CameraComponent::ReleaseRenderer()
 	}
 }
 
+void CameraComponent::NextLevelMoveRenderer(CameraComponent* _NextCamera, GameEngineActor* _Actor)
+{
+	std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapBeginIter = RendererList_.begin();
+	std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapEndIter = RendererList_.end();
+	for (; RenderMapBeginIter != RenderMapEndIter; ++RenderMapBeginIter)
+	{
+		std::list<GameEngineRenderer*>& Renderers = RenderMapBeginIter->second;
+		std::list<GameEngineRenderer*>::iterator BeginIter = Renderers.begin();
+		std::list<GameEngineRenderer*>::iterator EndIter = Renderers.end();
+
+		for (; BeginIter != EndIter; )
+		{
+			GameEngineRenderer* ReleaseRenderer = *BeginIter;
+			if (nullptr == ReleaseRenderer)
+			{
+				GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
+			}
+
+			if (ReleaseRenderer->GetActor() == _Actor)
+			{
+				_NextCamera->RendererList_[(*BeginIter)->GetOrder()].push_back(*BeginIter);
+				BeginIter = Renderers.erase(BeginIter);
+				continue;
+			}
+			++BeginIter;
+		}
+	}
+}
+
 void CameraComponent::CameraZoomReset()
 {
 	if (ProjectionMode_ == ProjectionMode::Orthographic) // 직교투영일때

@@ -137,6 +137,7 @@ class SkillView;
 class InventoryView;
 class GameEndMenuView;
 class GameEngineImageRenderer;
+class GameEngineLevel;
 class MainPlayer : public GameEngineActor
 {
 #pragma region PlayerFlag
@@ -230,6 +231,7 @@ private: // 플레이어 UI
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
 #pragma endregion
 
 #pragma region MainPlayerBasicFunction

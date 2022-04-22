@@ -254,6 +254,12 @@ void InventoryView::Update(float _DeltaTime)
 #pragma endregion
 }
 
+void InventoryView::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 인벤토리가 들고있는 모든 액터를 넘김
+
+}
+
 bool InventoryView::GetInvenCurEquipState(ItemLocType _LocType)
 {
 	// 현재 인벤창 무기탭에 장착된 아이템이 없으면 false

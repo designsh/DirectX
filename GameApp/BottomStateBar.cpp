@@ -88,6 +88,39 @@ void BottomStateBar::Update(float _DeltaTime)
 {
 }
 
+void BottomStateBar::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 하단상태바가 들고있는 모든 액터 레벨넘김
+
+	//// HP/MP
+	//MainPlayer_CurrentHP* HP_;
+	//MainPlayer_CurrentMP* MP_;
+
+	//// 활성화스킬버튼(좌/우)
+	//MainPlayer_LeftWeaponSkillButton* LWeaponSkill_;
+	//MainPlayer_RightWeaponSkillButton* RWeaponSkill_;
+
+	//// 스태미나
+	//MainPlayer_Stamina* Stamina_;
+
+	//// 미니메뉴
+	//MainPlayer_MiniMenu* MiniMenu_;
+
+	//// 레벨업시 활성화되는 버튼
+	//MainPlayer_LevelUpActiveButton* AddStatPointButton_;
+	//MainPlayer_LevelUpActiveButton* AddSkillPointButton_;
+
+	//// 현재 경험치
+	//MainPlayer_CurExpProgressBar* CurExpProgressBar_;
+
+
+
+
+	//GetLevel()->SetLevelActorMove(_NextLevel, this);
+	//_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0F, -100.0F));
+
+}
+
 void BottomStateBar::InitBottomStateBar()
 {
 	// 현재 HP

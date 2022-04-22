@@ -9,6 +9,7 @@
 class GameEngineUIRenderer;
 class GameEngineCollision;
 class MainPlayer_SkillIcon;
+class GameEngineLevel;
 class SkillView : public GameEngineActor
 {
 private:
@@ -52,6 +53,7 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
 
 public:
 	void InitSkillView();

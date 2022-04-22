@@ -20,6 +20,7 @@ class GameEngineUIRenderer;
 class GameEngineCollision;
 class InventoryTileBox;
 class InvArrangementItemInfo;
+class GameEngineLevel;
 class InventoryView : public GameEngineActor
 {
 #pragma region 인벤창 기본정보
@@ -67,6 +68,7 @@ private:
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
 
 public:
 	bool GetInvenCurEquipState(ItemLocType _LocType = ItemLocType::Inven_Weapon);

@@ -14,6 +14,7 @@
 #include "GameEndMenuView.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineLevel.h>
 
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
@@ -147,6 +148,26 @@ void MainPlayer::Update(float _DeltaTime)
 		int TextEXP = 10;
 		BottomStateBar_->GetEXPProgressBarControl()->AddEXP(TextEXP);
 	}
+}
+
+void MainPlayer::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
+	//if (std::string::npos != _NextLevel->GetName().find("Title"))
+	//{
+	//	return;
+	//}
+
+	// Player가 들고있는 모든 액터를 넘김
+	//BottomStateBar* BottomStateBar_;						// 하단상태바
+	//StatView* StatView_;									// 상태창
+	//SkillView* SkillView_;								// 스킬트리창
+	//InventoryView* InventoryView_;						// 인벤토리창
+	//GameEndMenuView* GameEndMenuView_;					// 게임종료메뉴창
+
+
+	//GetLevel()->SetLevelActorMove(_NextLevel, this);
+	//_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0F, -100.0F));
 }
 
 void MainPlayer::PlayerUIActiveKeyCheck()

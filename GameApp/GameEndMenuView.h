@@ -6,6 +6,7 @@
 // Ό³Έν : 
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameEngineLevel;
 class GameEndMenuView : public GameEngineActor
 {
 private:	// member Var
@@ -25,6 +26,7 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
 
 public:
 	void InitGameEndMenuView();

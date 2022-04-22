@@ -30,6 +30,7 @@ public:
 		}
 
 		AllLevel_.insert(std::make_pair(_Level, new LevelType()));
+		AllLevel_[_Level]->SetName(_Level);
 		AllLevel_[_Level]->Init();
 		AllLevel_[_Level]->LevelStart();
 	}

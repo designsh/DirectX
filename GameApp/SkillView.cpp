@@ -150,6 +150,12 @@ void SkillView::Update(float _DeltaTime)
 	SkillPageCollider_[2]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SkillView::SkillPage3ChangeClick, this, std::placeholders::_1));
 }
 
+void SkillView::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 스킬창이 들고있는 모든 액터 넘김
+
+}
+
 void SkillView::InitSkillView()
 {
 	// 메인플레이어 정보를 이용하여 String Setting

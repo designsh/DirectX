@@ -13,6 +13,7 @@ class MainPlayer_Stamina;
 class MainPlayer_MiniMenu;
 class MainPlayer_LevelUpActiveButton;
 class MainPlayer_CurExpProgressBar;
+class GameEngineLevel;
 class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
@@ -54,6 +55,7 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
 
 public:
 	inline MainPlayer_CurrentHP* GetHPControl()
