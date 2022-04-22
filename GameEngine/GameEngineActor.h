@@ -47,6 +47,13 @@ public:
 	}
 
 public:
+	template<typename LevelType>
+	LevelType* GetLevelConvert()
+	{
+		return dynamic_cast<LevelType*>(Level_);
+	}
+
+public:
 	GameEngineLevel* GetLevel() const;
 	GameEngineTransform* GetTransform();
 
