@@ -256,6 +256,11 @@ public:
 		return static_cast<int>(z);
 	}
 
+	int iw() const
+	{
+		return static_cast<int>(w);
+	}
+
 	int uix() const
 	{
 		return static_cast<unsigned int>(x);
@@ -269,6 +274,11 @@ public:
 	int uiz() const
 	{
 		return static_cast<unsigned int>(z);
+	}
+
+	int uiw() const
+	{
+		return static_cast<unsigned int>(w);
 	}
 
 

@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "TileMap.h"
 
+#include <GameEngineBase/GameEngineFile.h>
+
 #include <GameEngine/GameEngineTileMapRenderer.h>
 
 #include <GameEngine/CameraComponent.h>
@@ -449,7 +451,6 @@ void TileMap::SetObjectTile(float4 _Pos, int CurTileIndex_)
 
 void TileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
 {
-	// 여기부터 시작할꺼임!!!!!!!!!!!!!!!
 	if (ObjectRenderingType::TILE == ObjectRenderingType_)
 	{
 		if (ObjectTiles_.end() != ObjectTiles_.find(_Index.Index_))
@@ -1055,7 +1056,7 @@ void TileMap::DelObjectGird(float4 _Pos)
 
 		// 타일
 		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridFindIter = ObjectGrides_.find(Index.Index_);
-		if (WallGrides_.end() != GridFindIter)
+		if (ObjectGrides_.end() != GridFindIter)
 		{
 			GridFindIter->second->Death();
 			ObjectGrides_.erase(GridFindIter);
@@ -1694,7 +1695,6 @@ void TileMap::UpdateWallTileInfo()
 	// 단, BENT타입의 경우 렌더러 2개를 가지며 또한 각 방향(RT/RB)는 연속된 벽이미지인덱스를 컨텍하여
 	// 화면에 렌더링한다.
 	// 또한, 수동맵모드에서 이미지 매칭을 수정할 수 있다.
-			// 정보 생성완료 후 레퍼런스렌더링(그리드)
 	int YInfoCnt = static_cast<int>(WallTileInfo_.size());
 	int XInfoCnt = static_cast<int>(WallTileInfo_[YInfoCnt - 1].size());
 	for (int y = 0; y < YInfoCnt; ++y)
@@ -1722,78 +1722,137 @@ void TileMap::UpdateWallTileInfo()
 			// 1. RT_T
 			if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RT_T_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RT_T_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_LE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RT_T_LE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RT_T_LE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_RE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RT_T_RE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RT_T_RE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			// 2. RT_B
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RT_B_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RT_B_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_LE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RT_B_LE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RT_B_LE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_RE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RT_B_RE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RT_B_RE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			// 3. RB_L
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RB_L_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RB_L_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_TE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RB_L_TE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RB_L_TE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_BE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RB_L_BE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RB_L_BE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			// 4. RB_R
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RB_R_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RB_R_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_TE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RB_R_TE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RB_R_TE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_BE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_RB_R_BE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_RB_R_BE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			// 5. BENT_SINGLE
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_SINGLE)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_BENT_SINGLE_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
 				WallTiles.Tiles1_->SetIndex(Wall_BENT_SINGLE_ImageIndex_);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
 			// 6. BENT_MULTI
 			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_MULTI)
 			{
+				// 정보 변경 후
+				WallTileInfo_[y][x].WallTile1ImageIndex = Wall_BENT_MULTI1_ImageIndex_;
+
+				// 현재 렌더러 정보 셋팅
+				
 				// BENT_MULTI는 렌더러 2개를 가진다.
 				WallTiles.Tiles1_->SetIndex(Wall_BENT_MULTI1_ImageIndex_);
+
+				WallTileInfo_[y][x].WallTile2ImageIndex = Wall_BENT_MULTI2_ImageIndex_;
 
 				WallTiles.Tiles2_ = CreateTransformComponent<GameEngineTileMapRenderer>();
 				WallTiles.Tiles2_->SetImage(WallTileInfo_[y][x].WallTextureName);
@@ -1986,3 +2045,668 @@ void TileMap::AllClearObjectTileMapRenderer()
 
 #pragma endregion
 
+void TileMap::MapFileSave()
+{
+	// 파일생성 위치로 디렉터리 이동
+	GameEngineDirectory DataFileDir;
+	DataFileDir.MoveParent("DirectX");
+	DataFileDir.MoveChild("Resources");
+	DataFileDir.MoveChild("MapFile");
+	std::string FullPath = DataFileDir.GetFullPath();
+	FullPath += "\\";
+	FullPath += "TownLevel_Map.dat";
+
+	// 파일 열기
+	GameEngineFile pFile = GameEngineFile(FullPath, "wb");
+	
+	// 바닥타일정보 저장
+	int FloorYIndex = static_cast<int>(FloorTileInfo_.size());
+	if (0 < FloorYIndex)
+	{
+		int FloorXIndex = static_cast<int>(FloorTileInfo_[FloorYIndex - 1].size());
+
+		// Y인덱스 저장
+		pFile.Write(FloorYIndex);
+
+		// X인덱스 저장
+		pFile.Write(FloorXIndex);
+
+		for (int y = 0; y < FloorYIndex; ++y)
+		{
+			for (int x = 0; x < FloorXIndex; ++x)
+			{
+				// 인덱스 정보
+				pFile.Write(FloorTileInfo_[y][x].FloorIndexX);
+				pFile.Write(FloorTileInfo_[y][x].FloorIndexY);
+				pFile.Write(FloorTileInfo_[y][x].FloorImageIndex);
+
+				// 렌더링정보
+				pFile.Write(FloorTileInfo_[y][x].FloorTextureName);
+
+				// float4 정보
+
+				// TileSize
+				pFile.Write(FloorTileInfo_[y][x].FloorTileSize.ix());
+				pFile.Write(FloorTileInfo_[y][x].FloorTileSize.iy());
+				pFile.Write(FloorTileInfo_[y][x].FloorTileSize.iz());
+
+				// RenderSize
+				pFile.Write(FloorTileInfo_[y][x].FloorRenderSize.ix());
+				pFile.Write(FloorTileInfo_[y][x].FloorRenderSize.iy());
+				pFile.Write(FloorTileInfo_[y][x].FloorRenderSize.iz());
+
+				// RenderPivotPos
+				pFile.Write(FloorTileInfo_[y][x].FloorRenderPivotPos.ix());
+				pFile.Write(FloorTileInfo_[y][x].FloorRenderPivotPos.iy());
+				pFile.Write(FloorTileInfo_[y][x].FloorRenderPivotPos.iz());
+			}
+		}
+	}
+
+	// 벽타일정보 저장
+	int WallYIndex = static_cast<int>(WallTileInfo_.size());
+	if (0 < WallYIndex)
+	{
+		int WallXIndex = static_cast<int>(WallTileInfo_[WallYIndex - 1].size());
+
+		// Y인덱스 저장
+		pFile.Write(WallYIndex);
+
+		// X인덱스 저장
+		pFile.Write(WallXIndex);
+
+		for (int y = 0; y < WallYIndex; ++y)
+		{
+			for (int x = 0; x < WallXIndex; ++x)
+			{
+				// 인덱스 및 타입정보
+				pFile.Write(WallTileInfo_[y][x].WallIndexX);
+				pFile.Write(WallTileInfo_[y][x].WallIndexY);
+				pFile.Write(WallTileInfo_[y][x].WallTile1ImageIndex);
+				pFile.Write(WallTileInfo_[y][x].WallTile2ImageIndex);
+				pFile.Write(static_cast<int>(WallTileInfo_[y][x].WallBasicType));
+				pFile.Write(static_cast<int>(WallTileInfo_[y][x].WallDetailType));
+
+				// 렌더링 정보
+				pFile.Write(WallTileInfo_[y][x].WallTextureName);
+
+				// float4 Data
+
+				// WallTileSize
+				pFile.Write(WallTileInfo_[y][x].WallTileSize.ix());
+				pFile.Write(WallTileInfo_[y][x].WallTileSize.iy());
+				pFile.Write(WallTileInfo_[y][x].WallTileSize.iz());
+
+				// WallRenderSize
+				pFile.Write(WallTileInfo_[y][x].WallRenderSize.ix());
+				pFile.Write(WallTileInfo_[y][x].WallRenderSize.iy());
+				pFile.Write(WallTileInfo_[y][x].WallRenderSize.iz());
+
+				// WallRenderPivotPos
+				pFile.Write(WallTileInfo_[y][x].WallRenderPivotPos.ix());
+				pFile.Write(WallTileInfo_[y][x].WallRenderPivotPos.iy());
+				pFile.Write(WallTileInfo_[y][x].WallRenderPivotPos.iz());
+			}
+		}
+	}
+
+	// 오브젝트타일정보 저장
+	int ObjectYIndex = static_cast<int>(ObjectTileInfo_.size());
+	if (0 < ObjectYIndex)
+	{
+		int ObjectXIndex = static_cast<int>(ObjectTileInfo_[ObjectYIndex - 1].size());
+
+		// Y인덱스 저장
+		pFile.Write(ObjectYIndex);
+
+		// X인덱스 저장
+		pFile.Write(ObjectXIndex);
+
+		for (int y = 0; y < ObjectYIndex; ++y)
+		{
+			for (int x = 0; x < ObjectXIndex; ++x)
+			{
+				// 인덱스 및 타입정보
+				pFile.Write(ObjectTileInfo_[y][x].ObjectIndexX);
+				pFile.Write(ObjectTileInfo_[y][x].ObjectIndexY);
+				pFile.Write(ObjectTileInfo_[y][x].ObjectImageIndex);
+				pFile.Write(static_cast<int>(ObjectTileInfo_[y][x].ObjectBasicType));
+
+				// 렌더링 정보
+				pFile.Write(ObjectTileInfo_[y][x].ObjectTextureName);
+
+				// float4 Data
+
+				// ObjectTileSize
+				pFile.Write(ObjectTileInfo_[y][x].ObjectTileSize.ix());
+				pFile.Write(ObjectTileInfo_[y][x].ObjectTileSize.iy());
+				pFile.Write(ObjectTileInfo_[y][x].ObjectTileSize.iz());
+
+				// ObjectRenderSize
+				pFile.Write(ObjectTileInfo_[y][x].ObjectRenderSize.ix());
+				pFile.Write(ObjectTileInfo_[y][x].ObjectRenderSize.iy());
+				pFile.Write(ObjectTileInfo_[y][x].ObjectRenderSize.iz());
+
+				// ObjectRenderPivotPos
+				pFile.Write(ObjectTileInfo_[y][x].ObjectRenderPivotPos.ix());
+				pFile.Write(ObjectTileInfo_[y][x].ObjectRenderPivotPos.iy());
+				pFile.Write(ObjectTileInfo_[y][x].ObjectRenderPivotPos.iz());
+			}
+		}
+	}
+
+	// 파일종료
+	pFile.Close();
+}
+
+void TileMap::MapFileLoad()
+{
+	// 정보로드전 모든 데이터 및 렌더러 클리어
+	AllClear();
+
+	// 파일로드 위치로 디렉터리 이동
+	GameEngineDirectory DataFileDir;
+	DataFileDir.MoveParent("DirectX");
+	DataFileDir.MoveChild("Resources");
+	DataFileDir.MoveChild("MapFile");
+	std::string FullPath = DataFileDir.GetFullPath();
+	FullPath += "\\";
+	FullPath += "TownLevel_Map.dat";
+
+	// 파일 열기
+	GameEngineFile pFile = GameEngineFile(FullPath, "rb");
+
+	// 바닥타일정보 로드
+	int FloorYIndex = 1;
+	pFile.Read(FloorYIndex);
+	FloorTileInfo_.resize(FloorYIndex);
+
+	int FloorXIndex = 1;
+	pFile.Read(FloorXIndex);
+	for (int y = 0; y < FloorYIndex; ++y)
+	{
+		FloorTileInfo_[y].resize(FloorXIndex);
+
+		for (int x = 0; x < FloorXIndex; ++x)
+		{
+			// 인덱스정보
+			pFile.Read(FloorTileInfo_[y][x].FloorIndexX);
+			pFile.Read(FloorTileInfo_[y][x].FloorIndexY);
+			pFile.Read(FloorTileInfo_[y][x].FloorImageIndex);
+
+			// 렌더링 정보
+			pFile.Read(FloorTileInfo_[y][x].FloorTextureName);
+
+			// float4 Data
+
+			// FloorTileSize
+			int FloorTileSizeX = 0;
+			int FloorTileSizeY = 0;
+			int FloorTileSizeZ = 0;
+			pFile.Read(FloorTileSizeX);
+			pFile.Read(FloorTileSizeY);
+			pFile.Read(FloorTileSizeZ);
+			FloorTileInfo_[y][x].FloorTileSize = float4(static_cast<float>(FloorTileSizeX), static_cast<float>(FloorTileSizeY), static_cast<float>(FloorTileSizeZ));
+
+			// FloorRenderSize
+			int FloorRenderSizeX = 0;
+			int FloorRenderSizeY = 0;
+			int FloorRenderSizeZ = 0;
+			pFile.Read(FloorRenderSizeX);
+			pFile.Read(FloorRenderSizeY);
+			pFile.Read(FloorRenderSizeZ);
+			FloorTileInfo_[y][x].FloorRenderSize = float4(static_cast<float>(FloorRenderSizeX), static_cast<float>(FloorRenderSizeY), static_cast<float>(FloorRenderSizeZ));
+
+			// FloorRenderPivotPos
+			int FloorRenderPivotPosX = 0;
+			int FloorRenderPivotPosY = 0;
+			int FloorRenderPivotPosZ = 0;
+			pFile.Read(FloorRenderPivotPosX);
+			pFile.Read(FloorRenderPivotPosY);
+			pFile.Read(FloorRenderPivotPosZ);
+			FloorTileInfo_[y][x].FloorRenderPivotPos = float4(static_cast<float>(FloorRenderPivotPosX), static_cast<float>(FloorRenderPivotPosY), static_cast<float>(FloorRenderPivotPosZ));
+		}
+	}
+	
+	// 벽타일정보 로드
+	int WallYIndex = 1;
+	pFile.Read(WallYIndex);
+	WallTileInfo_.resize(WallYIndex);
+
+	int WallXIndex = 1;
+	pFile.Read(WallXIndex);
+	for (int y = 0; y < WallYIndex; ++y)
+	{
+		WallTileInfo_[y].resize(WallXIndex);
+
+		for (int x = 0; x < WallXIndex; ++x)
+		{
+			// 인덱스 및 타입정보
+			pFile.Read(WallTileInfo_[y][x].WallIndexX);
+			pFile.Read(WallTileInfo_[y][x].WallIndexY);
+			pFile.Read(WallTileInfo_[y][x].WallTile1ImageIndex);
+			pFile.Read(WallTileInfo_[y][x].WallTile2ImageIndex);
+
+			int WallBasicType_ = 0;
+			pFile.Read(WallBasicType_);
+			WallTileInfo_[y][x].WallBasicType = static_cast<WallBasicType>(WallBasicType_);
+
+			int WallDetailType_ = 0;
+			pFile.Read(WallDetailType_);
+			WallTileInfo_[y][x].WallDetailType = static_cast<WallDetailType>(WallDetailType_);
+
+			// 렌더링 정보
+			pFile.Read(WallTileInfo_[y][x].WallTextureName);
+			
+			// float4 Data
+
+			// WallTileSize
+			int WallTileSizeX = 0;
+			int WallTileSizeY = 0;
+			int WallTileSizeZ = 0;
+			pFile.Read(WallTileSizeX);
+			pFile.Read(WallTileSizeY);
+			pFile.Read(WallTileSizeZ);
+			WallTileInfo_[y][x].WallTileSize = float4(static_cast<float>(WallTileSizeX), static_cast<float>(WallTileSizeY), static_cast<float>(WallTileSizeZ));
+
+			// WallRenderSize
+			int WallRenderSizeX = 0;
+			int WallRenderSizeY = 0;
+			int WallRenderSizeZ = 0;
+			pFile.Read(WallRenderSizeX);
+			pFile.Read(WallRenderSizeY);
+			pFile.Read(WallRenderSizeZ);
+			WallTileInfo_[y][x].WallRenderSize = float4(static_cast<float>(WallRenderSizeX), static_cast<float>(WallRenderSizeY), static_cast<float>(WallRenderSizeZ));
+
+			// WallRenderPivotPos
+			int WallRenderPivotPosX = 0;
+			int WallRenderPivotPosY = 0;
+			int WallRenderPivotPosZ = 0;
+			pFile.Read(WallRenderPivotPosX);
+			pFile.Read(WallRenderPivotPosY);
+			pFile.Read(WallRenderPivotPosZ);
+			WallTileInfo_[y][x].WallRenderPivotPos = float4(static_cast<float>(WallRenderPivotPosX), static_cast<float>(WallRenderPivotPosY), static_cast<float>(WallRenderPivotPosZ));
+		}
+	}
+
+	// 오브젝트타일정보 로드
+	int ObjectYIndex = 1;
+	pFile.Read(ObjectYIndex);
+	ObjectTileInfo_.resize(ObjectYIndex);
+
+	int ObjectXIndex = 1;
+	pFile.Read(ObjectXIndex);
+	for (int y = 0; y < ObjectYIndex; ++y)
+	{
+		ObjectTileInfo_[y].resize(ObjectXIndex);
+
+		for (int x = 0; x < ObjectXIndex; ++x)
+		{
+			// 인덱스 및 타입정보
+			pFile.Read(ObjectTileInfo_[y][x].ObjectIndexX);
+			pFile.Read(ObjectTileInfo_[y][x].ObjectIndexY);
+			pFile.Read(ObjectTileInfo_[y][x].ObjectImageIndex);
+
+			int ObjectBasicType_ = 0;
+			pFile.Read(ObjectBasicType_);
+			ObjectTileInfo_[y][x].ObjectBasicType = static_cast<ObjectBasicType>(ObjectBasicType_);
+
+			// 렌더링 정보
+			pFile.Read(ObjectTileInfo_[y][x].ObjectTextureName);
+			
+			// float4 Data
+
+			// ObjectTileSize
+			int ObjectTileSizeX = 0;
+			int ObjectTileSizeY = 0;
+			int ObjectTileSizeZ = 0;
+			pFile.Read(ObjectTileSizeX);
+			pFile.Read(ObjectTileSizeY);
+			pFile.Read(ObjectTileSizeZ);
+			ObjectTileInfo_[y][x].ObjectTileSize = float4(static_cast<float>(ObjectTileSizeX), static_cast<float>(ObjectTileSizeY), static_cast<float>(ObjectTileSizeZ));
+
+			// ObjectRenderSize
+			int ObjectRenderSizeX = 0;
+			int ObjectRenderSizeY = 0;
+			int ObjectRenderSizeZ = 0;
+			pFile.Read(ObjectRenderSizeX);
+			pFile.Read(ObjectRenderSizeY);
+			pFile.Read(ObjectRenderSizeZ);
+			ObjectTileInfo_[y][x].ObjectRenderSize = float4(static_cast<float>(ObjectRenderSizeX), static_cast<float>(ObjectRenderSizeY), static_cast<float>(ObjectRenderSizeZ));
+
+			// ObjectRenderPivotPos
+			int ObjectRenderPivotPosX = 0;
+			int ObjectRenderPivotPosY = 0;
+			int ObjectRenderPivotPosZ = 0;
+			pFile.Read(ObjectRenderPivotPosX);
+			pFile.Read(ObjectRenderPivotPosY);
+			pFile.Read(ObjectRenderPivotPosZ);
+			ObjectTileInfo_[y][x].ObjectRenderSize = float4(static_cast<float>(ObjectRenderSizeX), static_cast<float>(ObjectRenderSizeY), static_cast<float>(ObjectRenderSizeZ));
+		}
+	}
+
+	pFile.Close();
+
+	// 모든 정보 로딩완료시 화면에 렌더링하는 렌더러 생성
+	CreatedAfterLoading();
+}
+
+void TileMap::CreatedAfterLoading()
+{
+	// 모든 정보 로딩완료시 화면에 렌더링하는 렌더러 생성
+
+	// 그리드 생성
+	CreatedAfterLoading_FloorGrides();
+	CreatedAfterLoading_WallGrides();
+	CreatedAfterLoading_ObjectGrides();
+
+	// 타일 생성
+	CreatedAfterLoading_FloorTiles();
+	CreatedAfterLoading_WallTiles();
+	CreatedAfterLoading_ObjectTiles();
+}
+
+void TileMap::CreatedAfterLoading_FloorGrides()
+{
+	// 바닥 타일
+	int YInfoCnt = static_cast<int>(FloorTileInfo_.size());
+	int XInfoCnt = static_cast<int>(FloorTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(FloorTileInfo_[y][x].FloorIndexX, FloorTileInfo_[y][x].FloorIndexY);
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			// 센터 바닥타일 이미지
+			if (Index.Y_ == 0 && Index.X_ == 0)
+			{
+				Renderer->SetImage("FloorGrid_Center.png");
+			}
+			else // 일반 바닥타일 이미지
+			{
+				Renderer->SetImage("FloorGrid_Normal.png");
+			}
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * FloorTileInfo_[y][x].FloorTileSize.halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -FloorTileInfo_[y][x].FloorTileSize.halffloat4().y;
+
+			Renderer->GetTransform()->SetLocalScaling(FloorTileInfo_[y][x].FloorRenderSize);
+			Renderer->GetTransform()->SetLocalPosition(FloorTileInfo_[y][x].FloorRenderPivotPos + Pos);
+			FloorGrides_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
+}
+
+void TileMap::CreatedAfterLoading_WallGrides()
+{
+	// 벽 타일
+	int YInfoCnt = static_cast<int>(WallTileInfo_.size());
+	int XInfoCnt = static_cast<int>(WallTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(WallTileInfo_[y][x].WallIndexX, WallTileInfo_[y][x].WallIndexY);
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			// 벽타입별 이미지
+			if (WallTileInfo_[y][x].WallBasicType == WallBasicType::NORMAL)
+			{
+				// 센터 바닥타일 이미지
+				if (Index.Y_ == 0 && Index.X_ == 0)
+				{
+					Renderer->SetImage("WallGrid_Center.png");
+				}
+				else // 일반 바닥타일 이미지
+				{
+					Renderer->SetImage("WallGrid_Normal.png");
+				}
+			}
+			// RT_T
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T)
+			{
+				Renderer->SetImage("WallGrid_RT_T.png");
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_RE)
+			{
+				Renderer->SetImage("WallGrid_RT_T_RE.png");
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_LE)
+			{
+				Renderer->SetImage("WallGrid_RT_T_LE.png");
+			}
+			// RT_B
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B)
+			{
+				Renderer->SetImage("WallGrid_RT_B.png");
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_RE)
+			{
+				Renderer->SetImage("WallGrid_RT_B_RE.png");
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_LE)
+			{
+				Renderer->SetImage("WallGrid_RT_B_LE.png");
+			}
+			// RB_L
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L)
+			{
+				Renderer->SetImage("WallGrid_RB_L.png");
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_BE)
+			{
+				Renderer->SetImage("WallGrid_RB_L_BE.png");
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_TE)
+			{
+				Renderer->SetImage("WallGrid_RB_L_TE.png");
+			}
+			// RB_R
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R)
+			{
+				Renderer->SetImage("WallGrid_RB_R.png");
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_BE)
+			{
+				Renderer->SetImage("WallGrid_RB_R_BE.png");
+			}
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_TE)
+			{
+				Renderer->SetImage("WallGrid_RB_R_TE.png");
+			}
+			// BENT_SINGLE
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_SINGLE)
+			{
+				Renderer->SetImage("WallGrid_Bent_Single.png");
+			}
+			// BENT_MULTI
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_MULTI)
+			{
+				Renderer->SetImage("WallGrid_Bent_Multi.png");
+			}
+			else
+			{
+				Renderer->SetImage("WallGrid_None.png");
+			}
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().y;
+
+			Renderer->GetTransform()->SetLocalScaling(WallTileInfo_[y][x].WallTileSize.halffloat4());
+			Renderer->GetTransform()->SetLocalPosition(Pos);
+			Renderer->GetTransform()->SetLocalZOrder(-3.f);
+			WallGrides_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
+}
+
+void TileMap::CreatedAfterLoading_ObjectGrides()
+{
+	// 오브젝트 타일
+	int YInfoCnt = static_cast<int>(ObjectTileInfo_.size());
+	int XInfoCnt = static_cast<int>(ObjectTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(ObjectTileInfo_[y][x].ObjectIndexX, ObjectTileInfo_[y][x].ObjectIndexY);
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			// 벽타입별 이미지
+			if (ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::NORMAL)
+			{
+				// 센터 바닥타일 이미지
+				if (Index.Y_ == 0 && Index.X_ == 0)
+				{
+					Renderer->SetImage("WallGrid_Center.png");
+				}
+				else // 일반 바닥타일 이미지
+				{
+					Renderer->SetImage("WallGrid_Normal.png");
+				}
+			}
+			else if (ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::OBJECT)
+			{
+				Renderer->SetImage("ObjectGrid_Object.png");
+			}
+			else
+			{
+				Renderer->SetImage("WallGrid_None.png");
+			}
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().y;
+
+			Renderer->GetTransform()->SetLocalScaling(ObjectTileInfo_[y][x].ObjectTileSize.halffloat4());
+			Renderer->GetTransform()->SetLocalPosition(Pos);
+			Renderer->GetTransform()->SetLocalZOrder(-4.f);
+			Renderer->Off();
+			ObjectGrides_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
+}
+
+void TileMap::CreatedAfterLoading_FloorTiles()
+{
+	int YInfoCnt = static_cast<int>(FloorTileInfo_.size());
+	int XInfoCnt = static_cast<int>(FloorTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(FloorTileInfo_[y][x].FloorIndexX, FloorTileInfo_[y][x].FloorIndexY);
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * FloorTileInfo_[y][x].FloorTileSize.halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -FloorTileInfo_[y][x].FloorTileSize.halffloat4().y;
+
+			Renderer->SetImage(FloorTileTextureName_);
+			Renderer->GetTransform()->SetLocalScaling(FloorTileInfo_[y][x].FloorRenderSize);
+			Renderer->GetTransform()->SetLocalPosition(FloorTileInfo_[y][x].FloorRenderPivotPos + Pos);
+			Renderer->SetIndex(FloorTileInfo_[y][x].FloorImageIndex);
+			FloorTiles_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
+}
+
+void TileMap::CreatedAfterLoading_WallTiles()
+{
+	int YInfoCnt = static_cast<int>(WallTileInfo_.size());
+	int XInfoCnt = static_cast<int>(WallTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(WallTileInfo_[y][x].WallIndexX, WallTileInfo_[y][x].WallIndexY);
+
+			WallTileRender WallTiles = {};
+
+			WallTiles.Tiles1_ = CreateTransformComponent<GameEngineTileMapRenderer>();
+			WallTiles.Tiles2_ = nullptr;
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().y;
+
+			WallTiles.Tiles1_->SetImage(WallTileInfo_[y][x].WallTextureName);
+			WallTiles.Tiles1_->GetTransform()->SetLocalScaling(WallTileInfo_[y][x].WallRenderSize);
+			WallTiles.Tiles1_->GetTransform()->SetLocalPosition(WallTileInfo_[y][x].WallRenderPivotPos + Pos);
+			WallTiles.Tiles1_->GetTransform()->SetLocalZOrder(-2.f);
+
+			// 벽타입별 이미지
+			// 단, Normal, None이면 렌더러를 생성하지않음
+			if (WallTileInfo_[y][x].WallBasicType == WallBasicType::NONE || WallTileInfo_[y][x].WallBasicType == WallBasicType::NORMAL)
+			{
+				WallTiles.Tiles1_->Death();
+				if (nullptr != WallTiles.Tiles2_)
+				{
+					WallTiles.Tiles2_->Death();
+				}
+			}
+			// BENT_MULTI이면 렌더러 2개
+			else if (WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_MULTI)
+			{
+				WallTiles.Tiles1_->SetIndex(WallTileInfo_[y][x].WallTile1ImageIndex);
+
+				WallTiles.Tiles2_ = CreateTransformComponent<GameEngineTileMapRenderer>();
+				WallTiles.Tiles2_->SetImage(WallTileInfo_[y][x].WallTextureName);
+				WallTiles.Tiles2_->GetTransform()->SetLocalScaling(WallTileInfo_[y][x].WallRenderSize);
+				WallTiles.Tiles2_->GetTransform()->SetLocalPosition(WallTileInfo_[y][x].WallRenderPivotPos + Pos);
+				WallTiles.Tiles2_->GetTransform()->SetLocalZOrder(-2.f);
+				WallTiles.Tiles2_->SetIndex(WallTileInfo_[y][x].WallTile2ImageIndex);
+
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			else
+			{
+				WallTiles.Tiles1_->SetIndex(WallTileInfo_[y][x].WallTile1ImageIndex);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+		}
+	}
+}
+
+void TileMap::CreatedAfterLoading_ObjectTiles()
+{
+	int YInfoCnt = static_cast<int>(ObjectTileInfo_.size());
+	int XInfoCnt = static_cast<int>(ObjectTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(ObjectTileInfo_[y][x].ObjectIndexX, ObjectTileInfo_[y][x].ObjectIndexY);
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().y;
+
+
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			Renderer->SetImage(ObjectTileInfo_[y][x].ObjectTextureName);
+			Renderer->GetTransform()->SetLocalScaling(ObjectTileInfo_[y][x].ObjectRenderSize);
+			Renderer->GetTransform()->SetLocalPosition(ObjectTileInfo_[y][x].ObjectRenderPivotPos + Pos);
+			Renderer->GetTransform()->SetLocalZOrder(-4.f);
+
+			// -1 == ObjectTileInfo_[y][x].ObjectImageIndex이면 오브젝트가 배치되어있지않은 타일로 판단
+			if (-1 != ObjectTileInfo_[y][x].ObjectImageIndex)
+			{
+				Renderer->SetIndex(ObjectTileInfo_[y][x].ObjectImageIndex);
+				ObjectTiles_.insert(std::make_pair(Index.Index_, Renderer));
+			}
+			else
+			{
+				Renderer->Death();
+			}
+		}
+	}
+}

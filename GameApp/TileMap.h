@@ -115,8 +115,6 @@ enum class ObjectBasicType
 // 바닥타일 정보
 struct FloorTileInfo
 {
-	// 바닥타일 정보
-
 	// 인덱스정보
 	int FloorIndexX;
 	int FloorIndexY;
@@ -402,5 +400,19 @@ public:
 	void AllClearObjectTile();
 	void AllClearObjectTileInfo();
 	void AllClearObjectTileMapRenderer();
+
+public:
+	// 맵파일 저장
+	void MapFileSave();
+
+	// 맵파일로드 후 타일, 그리드 생성
+	void MapFileLoad();
+	void CreatedAfterLoading();
+	void CreatedAfterLoading_FloorGrides();
+	void CreatedAfterLoading_WallGrides();
+	void CreatedAfterLoading_ObjectGrides();
+	void CreatedAfterLoading_FloorTiles();
+	void CreatedAfterLoading_WallTiles();
+	void CreatedAfterLoading_ObjectTiles();
 };
 

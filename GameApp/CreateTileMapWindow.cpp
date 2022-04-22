@@ -562,10 +562,10 @@ void CreateTileMapWindow::OnGUI()
 
 #pragma endregion
 
-	ImGui::Text("");
+	//ImGui::Text("");
 
 #pragma region 랜덤맵생성모드관련
-	ImGui::Text("<<< Create RandomMap Mode Related >>>");
+	//ImGui::Text("<<< Create RandomMap Mode Related >>>");
 
 
 #pragma endregion
@@ -573,14 +573,15 @@ void CreateTileMapWindow::OnGUI()
 	ImGui::Text("");
 
 #pragma region 맵파일저장/로드 관련
-
-
-
-
-
-
-
-
-
+	ImGui::Text("<<< MAP FILE SAVE & LOAD >>>");
+	if (true == ImGui::Button("SAVE", ImVec2(140.f, 20.f)))
+	{
+		TileMap_->MapFileSave();
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("LOAD", ImVec2(140.f, 20.f)))
+	{
+		TileMap_->MapFileLoad();
+	}
 #pragma endregion
 }
