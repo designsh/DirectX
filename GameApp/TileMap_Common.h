@@ -116,3 +116,52 @@ enum class ObjectBasicType
 	WALL,		// 벽으로 판단하므로 오브젝트 배치불가
 	OBJECT,		// 오브젝트가 배치되어있음
 };
+
+// 바닥타일 정보
+struct FloorTileInfo
+{
+	// 인덱스정보
+	int FloorIndexX;
+	int FloorIndexY;
+	int FloorImageIndex;
+
+	// 렌더링 정보
+	std::string FloorTextureName;
+	float4 FloorTileSize;
+	float4 FloorRenderSize;
+	float4 FloorRenderPivotPos;
+};
+
+// 벽타일 정보
+struct WallTileInfo
+{
+	// 인덱스 및 타입정보
+	int WallIndexX;
+	int WallIndexY;
+	int WallTile1ImageIndex;
+	int WallTile2ImageIndex;
+	WallBasicType WallBasicType;
+	WallDetailType WallDetailType;
+
+	// 렌더링 정보
+	std::string WallTextureName;
+	float4 WallTileSize;
+	float4 WallRenderSize;
+	float4 WallRenderPivotPos;
+};
+
+// 오브젝트타일 정보
+struct ObjectTileInfo
+{
+	// 인덱스 및 타입정보
+	int ObjectIndexX;
+	int ObjectIndexY;
+	int ObjectImageIndex;
+	ObjectBasicType ObjectBasicType;
+
+	// 렌더링 정보
+	std::string ObjectTextureName;
+	float4 ObjectTileSize;
+	float4 ObjectRenderSize;
+	float4 ObjectRenderPivotPos;
+};

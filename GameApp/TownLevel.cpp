@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "TownLevel.h"
 
+#include "TownMap.h"
+
 #include "MainPlayer.h"
 #include "MouseObject.h"
 
@@ -19,6 +21,7 @@
 bool TownLevel::ResourceLoadEndCheck = false;
 
 TownLevel::TownLevel() :
+	TownMap_(nullptr),
 	MainPlayer_(nullptr),
 	MainMouse_(nullptr),
 	WeaponNPC_(nullptr),
@@ -35,6 +38,8 @@ void TownLevel::CreateLevelActor()
 	// 리소스 로딩완료시 액터 생성
 
 	// 맵로딩(타일맵 - 고정맵)
+	TownMap_ = CreateActor<TownMap>();
+	TownMap_->TownLevel_FixedMapLoad();
 
 	// 플레이어 생성 및 메인플레이어 지정
 	if (nullptr == GlobalValue::CurPlayer)

@@ -8,12 +8,16 @@ class MainPlayer;
 class MouseObject;
 class WeaponNPC;
 class ChandleryNPC;
+class TownMap;
 class TownLevel : public GameEngineLevel
 {
 private:
 	static bool ResourceLoadEndCheck;
 
 private:	// member Var
+	TownMap* TownMap_;
+
+private:
 	MainPlayer* MainPlayer_;
 	MouseObject* MainMouse_;
 
