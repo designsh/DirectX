@@ -257,4 +257,12 @@ void TownMap::CreatedAfterLoadingTiles()
 
 void TownMap::CreateNavigationInfo()
 {
+	// 해당 맵에 존재하는 모든 액터(NPC, 플레이어, ...)들의 길찾기 알고리즘의 정보를 제공하기 위해
+	// 네비게이션 정보를 생성
+
+
+
+
+
+
 }
