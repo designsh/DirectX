@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "WeaponNPC.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineRandom.h>
 

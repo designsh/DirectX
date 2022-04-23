@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ChandleryNPC.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalEnumClass.h"
@@ -62,10 +62,6 @@ void ChandleryNPC::Start()
 
 void ChandleryNPC::Update(float _DeltaTime)
 {
-#ifdef _DEBUG
-	GetLevel()->PushDebugRender(ChandleryNPCCollision_->GetTransform(), CollisionType::Rect);
-#endif // _DEBUG
-
 	// 상태 갱신
 	State_.Update();
 
@@ -77,6 +73,10 @@ void ChandleryNPC::Update(float _DeltaTime)
 
 	// 마우스와 충돌체크
 	ChandleryNPCCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&ChandleryNPC::MouseLButtonClick, this, std::placeholders::_1));
+
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(ChandleryNPCCollision_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
 }
 
 NPC_BuySellView* ChandleryNPC::GetChandleryShop()
@@ -109,7 +109,7 @@ void ChandleryNPC::InteractionDistanceCheck()
 			float4 MyPos = GetTransform()->GetLocalPosition();
 
 			// 플레이어를 향한 방향을 알아낸다.
-			float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition();
+			float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition() - float4(100.f, 100.f);
 
 			// 두벡터(플레이어<->목표지점)의 각도 계산
 			float4 MoveDirect = PlayerPos - MyPos;

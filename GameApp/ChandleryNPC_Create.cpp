@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ChandleryNPC.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 
@@ -33,7 +33,7 @@ void ChandleryNPC::TextureCutting()
 
 void ChandleryNPC::CreateAnimation()
 {
-	ChandleryNPCRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	ChandleryNPCRenderer_ = CreateTransformComponent<GameEngineUIRenderer>();
 	ChandleryNPCRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
 
 	// 기본상태

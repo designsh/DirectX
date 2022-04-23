@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "WeaponNPC.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 void WeaponNPC::InitWeaponNPC()
@@ -32,7 +32,7 @@ void WeaponNPC::TextureCutting()
 
 void WeaponNPC::CreateAnimation()
 {
-	WeaponNPCRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	WeaponNPCRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	WeaponNPCRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
 
 	// 기본상태

@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "WeaponNPC.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalEnumClass.h"
@@ -75,8 +75,7 @@ void WeaponNPC::Update(float _DeltaTime)
 	WeaponNPCCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&WeaponNPC::MouseLButtonClick, this, std::placeholders::_1));
 
 #ifdef _DEBUG
-	GetLevel()->PushDebugRender(WeaponNPCCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(WeaponNPCRenderer_->GetTransform(), CollisionType::Rect);
+	GetLevel()->UIPushDebugRender(WeaponNPCCollision_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 }
 
@@ -110,7 +109,7 @@ void WeaponNPC::InteractionDistanceCheck()
 			float4 MyPos = GetTransform()->GetWorldPosition();
 
 			// 플레이어를 향한 방향을 알아낸다.
-			float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetWorldPosition();
+			float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition() - float4(100.f, 100.f);
 
 			// 두벡터(플레이어<->목표지점)의 각도 계산
 			float4 MoveDirect = PlayerPos - MyPos;

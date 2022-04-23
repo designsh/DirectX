@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ChandleryNPC.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include "GlobalValue.h"

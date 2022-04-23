@@ -27,7 +27,7 @@ enum class ChandleryNPC_FSMState
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineImageRenderer;
+class GameEngineUIRenderer;
 class GameEngineCollision;
 class NPC_TopMenuBar;
 class NPC_MessageView;
@@ -42,7 +42,7 @@ public:
 	static bool GetFirstInteaction();
 
 private:	// member Var
-	GameEngineImageRenderer* ChandleryNPCRenderer_;
+	GameEngineUIRenderer* ChandleryNPCRenderer_;
 	GameEngineCollision* ChandleryNPCCollision_;
 
 private:
