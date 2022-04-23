@@ -62,11 +62,6 @@ void WeaponNPC::Start()
 
 void WeaponNPC::Update(float _DeltaTime)
 {
-#ifdef _DEBUG
-	GetLevel()->PushDebugRender(WeaponNPCCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(WeaponNPCRenderer_->GetTransform(), CollisionType::Rect);
-#endif // _DEBUG
-
 	// 상태 갱신
 	State_.Update();
 
@@ -78,6 +73,11 @@ void WeaponNPC::Update(float _DeltaTime)
 
 	// 마우스와 충돌체크
 	WeaponNPCCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&WeaponNPC::MouseLButtonClick, this, std::placeholders::_1));
+
+#ifdef _DEBUG
+	GetLevel()->PushDebugRender(WeaponNPCCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(WeaponNPCRenderer_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
 }
 
 NPC_BuySellView* WeaponNPC::GetWeaponShop()

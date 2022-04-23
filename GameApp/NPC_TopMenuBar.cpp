@@ -41,7 +41,7 @@ void NPC_TopMenuBar::Update(float _DeltaTime)
 	if (nullptr != ConversationMenuCol_)
 	{
 #ifdef _DEBUG
-		GetLevel()->PushDebugRender(ConversationMenuCol_->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(ConversationMenuCol_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
 		ConversationMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectConversationMenu, this, std::placeholders::_1));
@@ -50,7 +50,7 @@ void NPC_TopMenuBar::Update(float _DeltaTime)
 	if (nullptr != ButSellMenuCol_)
 	{
 #ifdef _DEBUG
-		GetLevel()->PushDebugRender(ButSellMenuCol_->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(ButSellMenuCol_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
 		ButSellMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectBuySellMenu, this, std::placeholders::_1));
@@ -59,7 +59,7 @@ void NPC_TopMenuBar::Update(float _DeltaTime)
 	if (nullptr != CloseMenuCol_)
 	{
 #ifdef _DEBUG
-		GetLevel()->PushDebugRender(CloseMenuCol_->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(CloseMenuCol_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
 		CloseMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectCloseMenu, this, std::placeholders::_1));
@@ -184,7 +184,7 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 
 			ConversationMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
 
-			ConversationMenuCol_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 18.f));
+			ConversationMenuCol_->GetTransform()->SetLocalPosition(ConversationMenuRenderer_->GetTransform()->GetLocalPosition());
 			ConversationMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
 			ConversationMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
 

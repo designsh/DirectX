@@ -32,7 +32,7 @@ void WeaponNPC::TextureCutting()
 
 void WeaponNPC::CreateAnimation()
 {
-	WeaponNPCRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	WeaponNPCRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	WeaponNPCRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
 
 	// 기본상태

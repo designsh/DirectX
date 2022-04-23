@@ -78,8 +78,8 @@ void TownLevel::CreateLevelActor()
 	if (nullptr == GlobalValue::CurPlayer)
 	{
 		MainPlayer_ = CreateActor<MainPlayer>();
-		GetMainCameraActor()->GetTransform()->SetLocalPosition(MainPlayer_->GetTransform()->GetLocalPosition());
 		MainPlayer_->GetTransform()->SetWorldPosition(float4(100.f, 100.f));
+		GetMainCameraActor()->GetTransform()->SetWorldPosition(MainPlayer_->GetTransform()->GetLocalPosition());
 		GlobalValue::CurPlayer = MainPlayer_;
 
 		// 메인플레이어 정보 생성되었는지 체크

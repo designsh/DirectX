@@ -17,54 +17,54 @@ void ChandleryNPC::ChangeAnimationCheck(const std::string& _StateName)
 
 	switch (CurMoveDir_)
 	{
-	case ChandleryNPC_MoveDir::DIR_B:
-	{
-		AnimationName += "_B";
-		ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_LB:
-	{
-		AnimationName += "_LB";
-		ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_L:
-	{
-		AnimationName += "_L";
-		ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_LT:
-	{
-		AnimationName += "_LT";
-		ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_T:
-	{
-		AnimationName += "_T";
-		ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_RT:
-	{
-		AnimationName += "_RT";
-		ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_R:
-	{
-		AnimationName += "_R";
-		ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_RB:
-	{
-		AnimationName += "_RB";
-		ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
-		break;
-	}
+		case ChandleryNPC_MoveDir::DIR_B:
+		{
+			AnimationName += "_B";
+			ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
+			break;
+		}
+		case ChandleryNPC_MoveDir::DIR_LB:
+		{
+			AnimationName += "_LB";
+			ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
+			break;
+		}
+		case ChandleryNPC_MoveDir::DIR_L:
+		{
+			AnimationName += "_L";
+			ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
+			break;
+		}
+		case ChandleryNPC_MoveDir::DIR_LT:
+		{
+			AnimationName += "_LT";
+			ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
+			break;
+		}
+		case ChandleryNPC_MoveDir::DIR_T:
+		{
+			AnimationName += "_T";
+			ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
+			break;
+		}
+		case ChandleryNPC_MoveDir::DIR_RT:
+		{
+			AnimationName += "_RT";
+			ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
+			break;
+		}
+		case ChandleryNPC_MoveDir::DIR_R:
+		{
+			AnimationName += "_R";
+			ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
+			break;
+		}
+		case ChandleryNPC_MoveDir::DIR_RB:
+		{
+			AnimationName += "_RB";
+			ChandleryNPCRenderer_->SetChangeAnimation(AnimationName);
+			break;
+		}
 	}
 }
 #pragma endregion
@@ -122,8 +122,8 @@ void ChandleryNPC::StartWalk()
 	CurState_ = ChandleryNPC_FSMState::ST_WALK;
 
 	// 이동전 위치 저장
-	MoveStartPos_ = GetTransform()->GetLocalPosition();
-	MoveCurPos_ = GetTransform()->GetLocalPosition();
+	MoveStartPos_ = GetTransform()->GetWorldPosition();
+	MoveCurPos_ = GetTransform()->GetWorldPosition();
 }
 
 void ChandleryNPC::UpdateWalk()
@@ -132,158 +132,158 @@ void ChandleryNPC::UpdateWalk()
 	// 최대 이동거리 이동완료시 대기상태로 돌입
 	switch (CurMoveDir_)
 	{
-	case ChandleryNPC_MoveDir::DIR_B:
-	{
-		// 이동 및 현재 이동위치 갱신
-		GetTransform()->SetLocalDeltaTimeMove(float4(0.0f, -1.0f) * MoveSpeed_);
-		MoveCurPos_ = GetTransform()->GetLocalPosition();
-
-		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-		if (100.0f <= MoveDist.y)
+		case ChandleryNPC_MoveDir::DIR_B:
 		{
-			// 현재이동방향 저장
-			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetLocalDeltaTimeMove(float4(0.0f, -1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetWorldPosition();
 
-			// 상태 전환
-			State_.ChangeState("ChandleryNPC_IDLE");
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+			}
+			break;
 		}
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_LB:
-	{
-		// 이동 및 현재 이동위치 갱신
-		GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, -1.0f) * MoveSpeed_);
-		MoveCurPos_ = GetTransform()->GetLocalPosition();
-
-		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-		if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+		case ChandleryNPC_MoveDir::DIR_LB:
 		{
-			// 현재이동방향 저장
-			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, -1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetWorldPosition();
 
-			// 상태 전환
-			State_.ChangeState("ChandleryNPC_IDLE");
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+			}
+			break;
 		}
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_L:
-	{
-		// 이동 및 현재 이동위치 갱신
-		GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, 0.0f) * MoveSpeed_);
-		MoveCurPos_ = GetTransform()->GetLocalPosition();
-
-		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-		if (100.0f <= MoveDist.x)
+		case ChandleryNPC_MoveDir::DIR_L:
 		{
-			// 현재이동방향 저장
-			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, 0.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetWorldPosition();
 
-			// 상태 전환
-			State_.ChangeState("ChandleryNPC_IDLE");
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+			}
+			break;
 		}
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_LT:
-	{
-		// 이동 및 현재 이동위치 갱신
-		GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, 1.0f) * MoveSpeed_);
-		MoveCurPos_ = GetTransform()->GetLocalPosition();
-
-		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-		if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+		case ChandleryNPC_MoveDir::DIR_LT:
 		{
-			// 현재이동방향 저장
-			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, 1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetWorldPosition();
 
-			// 상태 전환
-			State_.ChangeState("ChandleryNPC_IDLE");
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+			}
+			break;
 		}
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_T:
-	{
-		// 이동 및 현재 이동위치 갱신
-		GetTransform()->SetLocalDeltaTimeMove(float4(0.0f, 1.0f) * MoveSpeed_);
-		MoveCurPos_ = GetTransform()->GetLocalPosition();
-
-		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-		if (100.0f <= MoveDist.y)
+		case ChandleryNPC_MoveDir::DIR_T:
 		{
-			// 현재이동방향 저장
-			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetLocalDeltaTimeMove(float4(0.0f, 1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetWorldPosition();
 
-			// 상태 전환
-			State_.ChangeState("ChandleryNPC_IDLE");
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+			}
+			break;
 		}
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_RT:
-	{
-		// 이동 및 현재 이동위치 갱신
-		GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, 1.0f) * MoveSpeed_);
-		MoveCurPos_ = GetTransform()->GetLocalPosition();
-
-		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-		if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+		case ChandleryNPC_MoveDir::DIR_RT:
 		{
-			// 현재이동방향 저장
-			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, 1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetWorldPosition();
 
-			// 상태 전환
-			State_.ChangeState("ChandleryNPC_IDLE");
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+			}
+			break;
 		}
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_R:
-	{
-		// 이동 및 현재 이동위치 갱신
-		GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, 0.0f) * MoveSpeed_);
-		MoveCurPos_ = GetTransform()->GetLocalPosition();
-
-		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-		if (100.0f <= MoveDist.x)
+		case ChandleryNPC_MoveDir::DIR_R:
 		{
-			// 현재이동방향 저장
-			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, 0.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetWorldPosition();
 
-			// 상태 전환
-			State_.ChangeState("ChandleryNPC_IDLE");
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+			}
+			break;
 		}
-		break;
-	}
-	case ChandleryNPC_MoveDir::DIR_RB:
-	{
-		// 이동 및 현재 이동위치 갱신
-		GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, -1.0f) * MoveSpeed_);
-		MoveCurPos_ = GetTransform()->GetLocalPosition();
-
-		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-		if (100.0f <= MoveDist.x && 100.0f <= MoveDist.y)
+		case ChandleryNPC_MoveDir::DIR_RB:
 		{
-			// 현재이동방향 저장
-			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, -1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetWorldPosition();
 
-			// 상태 전환
-			State_.ChangeState("ChandleryNPC_IDLE");
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.x && 100.0f <= MoveDist.y)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+			}
+			break;
 		}
-		break;
-	}
 	}
 
 	// 이동처리중 최대이동범위를 넘어가면 현재이동방향을 저장하고 바로 상태전환
@@ -318,8 +318,8 @@ void ChandleryNPC::UpdateConversation()
 {
 	// 플레이어와 상호작용가능범위 체크
 	// 상호작용가능범위 진입시 상태전환
-	float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition();
-	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetWorldPosition();
+	float4 MyPos = GetTransform()->GetWorldPosition();
 	float4 InteactionDist = MyPos - PlayerPos;
 	InteactionDist = float4(std::abs(InteactionDist.x), std::abs(InteactionDist.y));
 	//if (InteractionDistance_ >= InteactionDist.x || InteractionDistance_ >= InteactionDist.y) // 임시주석
