@@ -287,6 +287,9 @@
     <ClCompile Include="CreateTileMapWindow.cpp">
       <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
     </ClCompile>
+    <ClCompile Include="TownMap.cpp">
+      <Filter>Object\Actor\00.Global\05.Map\00.FixedMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -706,6 +709,15 @@
     <Filter Include="Object\Actor\99.Editor\01.CreateTileMapWindow">
       <UniqueIdentifier>{fd818974-d54d-4b5c-948e-14534bacc2ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\05.Map">
+      <UniqueIdentifier>{c7a28ff8-1af2-4ef7-b877-4ddf8c7d1d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\05.Map\00.FixedMap">
+      <UniqueIdentifier>{4e7121c1-caa1-4990-bff6-c939cc52bbdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\05.Map\01.RandomMap">
+      <UniqueIdentifier>{d7c7c3d9-9769-4bb4-af1e-65b09b6743dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -944,6 +956,12 @@
     </ClInclude>
     <ClInclude Include="CreateTileMapWindow.h">
       <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="TownMap.h">
+      <Filter>Object\Actor\00.Global\05.Map\00.FixedMap</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap_Common.h">
+      <Filter>Object\Actor\00.Global\05.Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

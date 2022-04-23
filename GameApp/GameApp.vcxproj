@@ -333,6 +333,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TownMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UserGame.cpp">
       <SubType>
       </SubType>
@@ -622,6 +626,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TileMap_Common.h" />
     <ClInclude Include="TitleBackDrop.h">
       <SubType>
       </SubType>
@@ -639,6 +644,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TownLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TownMap.h">
       <SubType>
       </SubType>
     </ClInclude>
