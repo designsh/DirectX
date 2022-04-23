@@ -411,7 +411,9 @@ void TownMap::CreateNavigationInfo()
 	// 네비게이션 정보를 생성
 	// std::vector<std::vector<NavigationType>> TownMap_Navi_;
 
-
+	// 벽정보와 오브젝트정보를 이용하여 네베게이션 정보를 생성
+	// 벽정보와 오브젝트정보는 타일기준 동일하며, 각 타입별 이동불가지역 판단하여
+	// 네비게이션 정보를 생성한다.
 
 
 
@@ -419,7 +421,10 @@ void TownMap::CreateNavigationInfo()
 
 void TownMap::TownLevelArrangeActor()
 {
-	// 액터 배치
+	// 해당 맵에서 사용하는 모든 액터를 생성하고, 맵에 배치
+
+
+
 
 
 
