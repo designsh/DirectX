@@ -39,6 +39,9 @@ private: // 타일 렌더러
 private: // 해당 맵의 네비게이션 정보(벽정보 + 오브젝트정보)
 	std::vector<std::vector<NavigationType>> TownMap_Navi_;
 
+private: // 타일크기(인덱스 계산용)
+	float4 TileSize_;
+
 public:
 	TownMap();
 	~TownMap();
@@ -74,6 +77,13 @@ private: // 네비게이션정보생성
 
 private: // 현재 생성된 맵을 이용하여 모든 액터 배치
 	void TownLevelArrangeActor();
+#pragma endregion
+
+#pragma region 확인용
+public:
+	TileIndex GetFloorTileIndex(float4 _MousePos);
+	TileIndex GetNavigationIndex(float4 _MousePos);
+	NavigationType GetTileToNaviType(float4 _MousePos);
 #pragma endregion
 };
 

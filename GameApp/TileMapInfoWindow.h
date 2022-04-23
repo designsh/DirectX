@@ -4,9 +4,11 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class TownMap;
 class TileMapInfoWindow : public GameEngineGUIWindow
 {
 private:	// member Var
+	TownMap* TownMap_;
 
 public:
 	TileMapInfoWindow();
@@ -24,5 +26,9 @@ protected:
 	virtual void OnGUI() override;
 
 public:
+	inline void SetTownMap(TownMap* _Map)
+	{
+		TownMap_ = _Map;
+	}
 };
 

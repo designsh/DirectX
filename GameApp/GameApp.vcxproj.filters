@@ -727,15 +727,6 @@
     <Filter Include="Window%28IMGUI%29\MapInfoWindow">
       <UniqueIdentifier>{c65136ae-02a7-4261-94ff-bf65d15bace3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Window%28IMGUI%29\MapInfoWindow\00.Town">
-      <UniqueIdentifier>{187ef77c-fd63-46c9-bc66-d5b92f62b1cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Window%28IMGUI%29\MapInfoWindow\01.Catacombs">
-      <UniqueIdentifier>{17264ed1-1f99-494f-a84b-e4c7383d3e8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Window%28IMGUI%29\MapInfoWindow\02.ChaosSanctuary">
-      <UniqueIdentifier>{2f80fe51-3751-43d0-873b-83912cba0bf4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

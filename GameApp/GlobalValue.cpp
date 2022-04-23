@@ -20,3 +20,6 @@ MainPlayer_RightWeaponSkillButton* GlobalValue::CurRightSkill = nullptr;
 // 현재 생성된 게임의 NPC
 WeaponNPC* GlobalValue::WeaponNPC = nullptr;
 ChandleryNPC* GlobalValue::ChandleryNPC = nullptr;
+
+// 맵관련
+TownMap* GlobalValue::TownMap = nullptr;

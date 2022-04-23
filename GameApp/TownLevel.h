@@ -9,6 +9,7 @@ class MouseObject;
 class WeaponNPC;
 class ChandleryNPC;
 class TownMap;
+class TileMapInfoWindow;
 class TownLevel : public GameEngineLevel
 {
 private:
@@ -24,6 +25,9 @@ private:
 private:
 	WeaponNPC* WeaponNPC_;
 	ChandleryNPC* ChandleryNPC_;
+
+private:
+	TileMapInfoWindow* TileMapInfoWindow_;
 
 public:
 	TownLevel();

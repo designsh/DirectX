@@ -2,9 +2,11 @@
 #include "TownMap.h"
 
 #include <GameEngine/GameEngineTileMapRenderer.h>
+#include <GameEngine/GameEngineGUI.h>
 
 TownMap::TownMap() :
-	MapType_(MapType::FIXED)
+	MapType_(MapType::FIXED),
+	TileSize_(float4(160.f, 80.f))
 {
 }
 
@@ -236,6 +238,8 @@ bool TownMap::TownLevel_FixedMapLoad()
 	// 렌더러 생성완료 후 해당 맵의 네비게이션 정보 생성시작
 	CreateNavigationInfo();
 
+	// 해당 맵에 액터 배치
+
 	return true;
 }
 
@@ -414,9 +418,36 @@ void TownMap::CreateNavigationInfo()
 	// 벽정보와 오브젝트정보를 이용하여 네베게이션 정보를 생성
 	// 벽정보와 오브젝트정보는 타일기준 동일하며, 각 타입별 이동불가지역 판단하여
 	// 네비게이션 정보를 생성한다.
+	int YInfoCnt = static_cast<int>(TownMap_WallTileInfo_.size());
+	int XInfoCnt = static_cast<int>(TownMap_WallTileInfo_[YInfoCnt - 1].size());
 
+	TownMap_Navi_.resize(YInfoCnt);
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		TownMap_Navi_[y].resize(XInfoCnt);
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			// 벽타입 중 노말 타입은 이동가능지역
+			if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::NORMAL)
+			{
+				TownMap_Navi_[y][x] = NavigationType::NOR;
+			}
+			else
+			{
+				TownMap_Navi_[y][x] = NavigationType::WALL;
+			}
 
-
+			// 오브젝트타입 중 노말 타입은 이동가능지역
+			if (TownMap_ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::NORMAL)
+			{
+				TownMap_Navi_[y][x] = NavigationType::NOR;
+			}
+			else
+			{
+				TownMap_Navi_[y][x] = NavigationType::WALL;
+			}
+		}
+	}
 }
 
 void TownMap::TownLevelArrangeActor()
@@ -428,4 +459,79 @@ void TownMap::TownLevelArrangeActor()
 
 
 
+}
+
+TileIndex TownMap::GetFloorTileIndex(float4 _MousePos)
+{
+	TileIndex Index = {};
+
+	float RatioX = ((_MousePos.x / TileSize_.halffloat4().x) - (_MousePos.y / TileSize_.halffloat4().y)) / 2.0f;
+	float RatioY = ((_MousePos.y / TileSize_.halffloat4().y) + (_MousePos.x / TileSize_.halffloat4().x)) / -2.0f;
+
+	if (0 > RatioX)
+	{
+		RatioX += -1.f;
+	}
+
+	if (0 > RatioY)
+	{
+		RatioY += -1.f;
+	}
+
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
+
+	return Index;
+}
+
+TileIndex TownMap::GetNavigationIndex(float4 _MousePos)
+{
+	TileIndex Index = {};
+
+	float RatioX = ((_MousePos.x / TileSize_.halffloat4().halffloat4().x) - (_MousePos.y / TileSize_.halffloat4().halffloat4().y)) / 2.0f;
+	float RatioY = ((_MousePos.y / TileSize_.halffloat4().halffloat4().y) + (_MousePos.x / TileSize_.halffloat4().halffloat4().x)) / -2.0f;
+
+	if (0 > RatioX)
+	{
+		RatioX += -0.5f;
+	}
+	else
+	{
+		RatioX += 0.5f;
+	}
+
+	if (0 > RatioY)
+	{
+		RatioY += -0.5f;
+	}
+	else
+	{
+		RatioY += 0.5f;
+	}
+
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
+
+	return Index;
+}
+
+NavigationType TownMap::GetTileToNaviType(float4 _MousePos)
+{
+	TileIndex TileIndex = GetNavigationIndex(_MousePos);
+
+	int YInfoCnt = static_cast<int>(TownMap_WallTileInfo_.size());
+	int XInfoCnt = static_cast<int>(TownMap_WallTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			if (TownMap_WallTileInfo_[y][x].WallIndexX == TileIndex.X_ &&
+				TownMap_WallTileInfo_[y][x].WallIndexY == TileIndex.Y_)
+			{
+				return TownMap_Navi_[y][x];
+			}
+		}
+	}
+
+	return NavigationType();
 }

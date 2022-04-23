@@ -10,6 +10,7 @@ class MainPlayer_LeftWeaponSkillButton;
 class MainPlayer_RightWeaponSkillButton;
 class WeaponNPC;
 class ChandleryNPC;
+class TownMap;
 class GlobalValue
 {
 public: // 플레이어 관련
@@ -26,5 +27,8 @@ public: // 스킬버튼관련(스킬목록생성시 지정됨)
 public: // NPC 관련
 	static WeaponNPC* WeaponNPC;
 	static ChandleryNPC* ChandleryNPC;
+
+public: // 맵관련
+	static TownMap* TownMap;
 };
 

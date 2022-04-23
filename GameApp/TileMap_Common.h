@@ -31,46 +31,6 @@ public:
 	}
 };
 
-// 바닥타일 렌더링타입
-enum class FloorRenderingType
-{
-	TILE,		// 타일모드
-	GRID		// 그리드모드
-};
-
-// 벽타일 렌더링타입
-enum class WallRenderingType
-{
-	TILE1,				// 타일모드(타일1렌더러 교체)
-	TILE2,				// 타일모드(타일2렌더러 교체)
-	GRID_NOR,			// 그리드(벽이 아니면서 렌더링안하는 타입)
-	GRID_NONE,			// 그리드(벽이면서 렌더링안하는 타입)
-	GRID_RT_T,			// 그리드모드(RT_T)
-	GRID_RT_T_LE,		// 그리드모드(RT_T_LE)
-	GRID_RT_T_RE,		// 그리드모드(RT_T_RE)
-	GRID_RT_B,			// 그리드모드(RT_B)
-	GRID_RT_B_LE,		// 그리드모드(RT_B_LE)
-	GRID_RT_B_RE,		// 그리드모드(RT_B_RE)
-	GRID_RB_L,			// 그리드모드(RB_L)
-	GRID_RB_L_TE,		// 그리드모드(RB_L_TE)
-	GRID_RB_L_BE,		// 그리드모드(RB_L_BE)
-	GRID_RB_R,			// 그리드모드(RB_R)
-	GRID_RB_R_TE,		// 그리드모드(RB_R_TE)
-	GRID_RB_R_BE,		// 그리드모드(RB_R_BE)
-	GRID_BENT_SINGLE,	// 그리드모드(BENT_SINGLE)
-	GRID_BENT_MULTI1,	// 그리드모드(BENT_MULTI1)
-	GRID_BENT_MULTI2,	// 그리드모드(BENT_MULTI2)
-};
-
-// 오브젝트타일 렌더링타입(벽으로 취급)
-enum class ObjectRenderingType
-{
-	TILE,				// 단순 타일(이미지인덱스에 영향)
-	GRID_WALL,			// 벽타일의 NONE타입과 동일(오브젝트 기본타입에 영향)
-	GRID_NORMAL,		// 아무것도 렌더링하지않은 타일(오브젝트 기본타입에 영향)
-	GRID_OBJECT,		// 오브젝트가 렌더링되어있는 타일(오브젝트 기본타입에 영향)
-};
-
 // 벽타일 기본타입(방향구분)
 enum class WallBasicType
 {

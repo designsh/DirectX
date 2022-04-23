@@ -3,6 +3,8 @@
 
 #include "TownMap.h"
 
+#include "TileMapInfoWindow.h"
+
 #include "MainPlayer.h"
 #include "MouseObject.h"
 
@@ -25,7 +27,8 @@ TownLevel::TownLevel() :
 	MainPlayer_(nullptr),
 	MainMouse_(nullptr),
 	WeaponNPC_(nullptr),
-	ChandleryNPC_(nullptr)
+	ChandleryNPC_(nullptr),
+	TileMapInfoWindow_(nullptr)
 {
 }
 
@@ -40,6 +43,7 @@ void TownLevel::CreateLevelActor()
 	// 맵로딩(타일맵 - 고정맵)
 	TownMap_ = CreateActor<TownMap>();
 	TownMap_->TownLevel_FixedMapLoad();
+	GlobalValue::TownMap = TownMap_;
 
 	// NPC 생성(무기상인) - 테스트 위치
 	WeaponNPC_ = CreateActor<WeaponNPC>();
@@ -98,12 +102,24 @@ void TownLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// 배경음악 Off
 
+	// 전용 윈도우 Off
+	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("TileMapInfoWindow");
+	if (nullptr != Ptr)
+	{
+		Ptr->Off();
+	}
 }
 
 void TownLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// 배경음악 On
 
+	// 전용 윈도우 On
+	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("TileMapInfoWindow");
+	if (nullptr != Ptr)
+	{
+		Ptr->On();
+	}
 }
 
 void TownLevel::LevelStart()
@@ -111,26 +127,30 @@ void TownLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
 
+	// TownMap전용 윈도우생성
+	TileMapInfoWindow_ = GameEngineGUI::GetInst()->CreateGUIWindow<TileMapInfoWindow>("TileMapInfoWindow");
+	TileMapInfoWindow_->Off();
+
 #pragma region 맵테스트용
-	//if (false == GameEngineInput::GetInst().IsKey("MAPUP"))
-	//{
-	//	GameEngineInput::GetInst().CreateKey("MAPUP", VK_UP);
-	//}
+	if (false == GameEngineInput::GetInst().IsKey("MAPUP"))
+	{
+		GameEngineInput::GetInst().CreateKey("MAPUP", VK_UP);
+	}
 
-	//if (false == GameEngineInput::GetInst().IsKey("MAPDOWN"))
-	//{
-	//	GameEngineInput::GetInst().CreateKey("MAPDOWN", VK_DOWN);
-	//}
+	if (false == GameEngineInput::GetInst().IsKey("MAPDOWN"))
+	{
+		GameEngineInput::GetInst().CreateKey("MAPDOWN", VK_DOWN);
+	}
 
-	//if (false == GameEngineInput::GetInst().IsKey("MAPLEFT"))
-	//{
-	//	GameEngineInput::GetInst().CreateKey("MAPLEFT", VK_LEFT);
-	//}
+	if (false == GameEngineInput::GetInst().IsKey("MAPLEFT"))
+	{
+		GameEngineInput::GetInst().CreateKey("MAPLEFT", VK_LEFT);
+	}
 
-	//if (false == GameEngineInput::GetInst().IsKey("MAPRIGHT"))
-	//{
-	//	GameEngineInput::GetInst().CreateKey("MAPRIGHT", VK_RIGHT);
-	//}
+	if (false == GameEngineInput::GetInst().IsKey("MAPRIGHT"))
+	{
+		GameEngineInput::GetInst().CreateKey("MAPRIGHT", VK_RIGHT);
+	}
 #pragma endregion
 }
 
@@ -146,26 +166,26 @@ void TownLevel::LevelUpdate(float _DeltaTime)
 #pragma endregion
 
 #pragma region 테스트키
-	//if (true == GameEngineInput::GetInst().Press("MAPUP"))
-	//{
-	//	GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldUpVector() * _DeltaTime * 200.f);
-	//}
+	if (true == GameEngineInput::GetInst().Press("MAPUP"))
+	{
+		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldUpVector() * _DeltaTime * 200.f);
+	}
 
-	//if (true == GameEngineInput::GetInst().Press("MAPDOWN"))
-	//{
-	//	GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldDownVector() * _DeltaTime * 200.f);
+	if (true == GameEngineInput::GetInst().Press("MAPDOWN"))
+	{
+		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldDownVector() * _DeltaTime * 200.f);
 
-	//}
+	}
 
-	//if (true == GameEngineInput::GetInst().Press("MAPLEFT"))
-	//{
-	//	GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldLeftVector() * _DeltaTime * 200.f);
-	//}
+	if (true == GameEngineInput::GetInst().Press("MAPLEFT"))
+	{
+		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldLeftVector() * _DeltaTime * 200.f);
+	}
 
-	//if (true == GameEngineInput::GetInst().Press("MAPRIGHT"))
-	//{
-	//	GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldRightVector() * _DeltaTime * 200.f);
-	//}
+	if (true == GameEngineInput::GetInst().Press("MAPRIGHT"))
+	{
+		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldRightVector() * _DeltaTime * 200.f);
+	}
 #pragma endregion
 
 	if (nullptr != GlobalValue::CurPlayer)
