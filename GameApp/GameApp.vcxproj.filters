@@ -963,5 +963,8 @@
     <ClInclude Include="TileMap_Common.h">
       <Filter>Object\Actor\00.Global\05.Map</Filter>
     </ClInclude>
+    <ClInclude Include="Navigation_Common.h">
+      <Filter>Object\Actor\00.Global\05.Map</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

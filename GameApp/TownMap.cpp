@@ -241,27 +241,185 @@ bool TownMap::TownLevel_FixedMapLoad()
 
 void TownMap::CreatedAfterLoadingTiles()
 {
+	// 깊이값 순서 : 바닥 -> 벽 -> 오브젝트
+	CreatedAfterFloorTiles();
+	CreatedAfterWallTiles();
+	CreatedAfterObjectTiles();
+}
+
+void TownMap::CreatedAfterFloorTiles()
+{
 	// 바닥렌더러 생성
 	//std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorTiles_;
-	
+	int YInfoCnt = static_cast<int>(TownMap_FloorTileInfo_.size());
+	int XInfoCnt = static_cast<int>(TownMap_FloorTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(TownMap_FloorTileInfo_[y][x].FloorIndexX, TownMap_FloorTileInfo_[y][x].FloorIndexY);
 
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * TownMap_FloorTileInfo_[y][x].FloorTileSize.halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -TownMap_FloorTileInfo_[y][x].FloorTileSize.halffloat4().y;
+
+			Renderer->SetImage(TownMap_FloorTileInfo_[y][x].FloorTextureName);
+			Renderer->GetTransform()->SetLocalScaling(TownMap_FloorTileInfo_[y][x].FloorRenderSize);
+			Renderer->GetTransform()->SetLocalPosition(TownMap_FloorTileInfo_[y][x].FloorRenderPivotPos + Pos);
+			Renderer->GetTransform()->SetLocalZOrder(100.f);
+			Renderer->SetIndex(TownMap_FloorTileInfo_[y][x].FloorImageIndex);
+			FloorTiles_.insert(std::make_pair(Index.Index_, Renderer));
+		}
+	}
+}
+
+void TownMap::CreatedAfterWallTiles()
+{
 	// 벽렌더러 생성
 	//std::unordered_map<__int64, WallTileRenderer> WallTiles_;
-	
+	int YInfoCnt = static_cast<int>(TownMap_WallTileInfo_.size());
+	int XInfoCnt = static_cast<int>(TownMap_WallTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(TownMap_WallTileInfo_[y][x].WallIndexX, TownMap_WallTileInfo_[y][x].WallIndexY);
 
+			WallTileRenderer WallTiles = {};
+
+			WallTiles.WallTiles1_ = CreateTransformComponent<GameEngineTileMapRenderer>();
+			WallTiles.WallTiles2_ = nullptr;
+
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * TownMap_WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -TownMap_WallTileInfo_[y][x].WallTileSize.halffloat4().halffloat4().y;
+
+			WallTiles.WallTiles1_->SetImage(TownMap_WallTileInfo_[y][x].WallTextureName);
+			WallTiles.WallTiles1_->GetTransform()->SetLocalScaling(TownMap_WallTileInfo_[y][x].WallRenderSize);
+			WallTiles.WallTiles1_->GetTransform()->SetLocalPosition(TownMap_WallTileInfo_[y][x].WallRenderPivotPos + Pos);
+
+			// 벽타입별 이미지
+			// 단, Normal, None이면 렌더러를 생성하지않음
+			if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::NONE || TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::NORMAL)
+			{
+				WallTiles.WallTiles1_->Death();
+				if (nullptr != WallTiles.WallTiles2_)
+				{
+					WallTiles.WallTiles2_->Death();
+				}
+			}
+			// BENT_MULTI이면 렌더러 2개
+			else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_MULTI)
+			{
+				WallTiles.WallTiles1_->SetIndex(TownMap_WallTileInfo_[y][x].WallTile1ImageIndex);
+
+				WallTiles.WallTiles2_ = CreateTransformComponent<GameEngineTileMapRenderer>();
+				WallTiles.WallTiles2_->SetImage(TownMap_WallTileInfo_[y][x].WallTextureName);
+				WallTiles.WallTiles2_->GetTransform()->SetLocalScaling(TownMap_WallTileInfo_[y][x].WallRenderSize);
+				WallTiles.WallTiles2_->GetTransform()->SetLocalPosition(TownMap_WallTileInfo_[y][x].WallRenderPivotPos + Pos);
+				WallTiles.WallTiles2_->GetTransform()->SetLocalZOrder(99.f);
+				WallTiles.WallTiles2_->SetIndex(TownMap_WallTileInfo_[y][x].WallTile2ImageIndex);
+
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+			else
+			{
+				// 벽타입별 깊이값 설정 :	RT_B -> RB_R
+				//							 -> BENT_S -> RB_L -> RT_T
+				if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T ||
+					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_LE ||
+					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_RE)
+				{
+					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(99.f);
+				}
+				else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B ||
+					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_LE ||
+					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_RE)
+				{
+					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(96.f);
+				}
+				else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L ||
+					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_TE ||
+					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_BE)
+				{
+					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(98.f);
+				}
+				else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R ||
+					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_TE ||
+					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_BE)
+				{
+					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(97.f);
+				}
+				else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_SINGLE)
+				{
+					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(95.f);
+				}
+				else // 그외
+				{
+					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(99.f);
+				}
+
+				WallTiles.WallTiles1_->SetIndex(TownMap_WallTileInfo_[y][x].WallTile1ImageIndex);
+				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
+			}
+		}
+	}
+}
+
+void TownMap::CreatedAfterObjectTiles()
+{
 	// 오브젝트렌더러 생성
 	//std::unordered_map<__int64, GameEngineTileMapRenderer*> ObjectTiles_;
+	int YInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_.size());
+	int XInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			TileIndex Index = TileIndex(TownMap_ObjectTileInfo_[y][x].ObjectIndexX, TownMap_ObjectTileInfo_[y][x].ObjectIndexY);
 
+			float4 Pos = float4::ZERO;
+			Pos.x = (Index.X_ - Index.Y_) * TownMap_ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().x;
+			Pos.y = (Index.X_ + Index.Y_) * -TownMap_ObjectTileInfo_[y][x].ObjectTileSize.halffloat4().halffloat4().y;
 
+			GameEngineTileMapRenderer* Renderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+			Renderer->SetImage(TownMap_ObjectTileInfo_[y][x].ObjectTextureName);
+			Renderer->GetTransform()->SetLocalScaling(TownMap_ObjectTileInfo_[y][x].ObjectRenderSize);
+			Renderer->GetTransform()->SetLocalPosition(TownMap_ObjectTileInfo_[y][x].ObjectRenderPivotPos + Pos);
+			Renderer->GetTransform()->SetLocalZOrder(94.f);
+
+			// -1 == ObjectTileInfo_[y][x].ObjectImageIndex이면 오브젝트가 배치되어있지않은 타일로 판단
+			if (-1 != TownMap_ObjectTileInfo_[y][x].ObjectImageIndex)
+			{
+				Renderer->SetIndex(TownMap_ObjectTileInfo_[y][x].ObjectImageIndex);
+				ObjectTiles_.insert(std::make_pair(Index.Index_, Renderer));
+			}
+			else
+			{
+				Renderer->Death();
+			}
+		}
+	}
 }
 
 void TownMap::CreateNavigationInfo()
 {
 	// 해당 맵에 존재하는 모든 액터(NPC, 플레이어, ...)들의 길찾기 알고리즘의 정보를 제공하기 위해
 	// 네비게이션 정보를 생성
+	// std::vector<std::vector<NavigationType>> TownMap_Navi_;
 
 
 
+
+
+}
+
+void TownMap::TownLevelArrangeActor()
+{
+	// 액터 배치
 
 
 

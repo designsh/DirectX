@@ -108,7 +108,29 @@ void TownLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 void TownLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
+
+#pragma region 맵테스트용
+	//if (false == GameEngineInput::GetInst().IsKey("MAPUP"))
+	//{
+	//	GameEngineInput::GetInst().CreateKey("MAPUP", VK_UP);
+	//}
+
+	//if (false == GameEngineInput::GetInst().IsKey("MAPDOWN"))
+	//{
+	//	GameEngineInput::GetInst().CreateKey("MAPDOWN", VK_DOWN);
+	//}
+
+	//if (false == GameEngineInput::GetInst().IsKey("MAPLEFT"))
+	//{
+	//	GameEngineInput::GetInst().CreateKey("MAPLEFT", VK_LEFT);
+	//}
+
+	//if (false == GameEngineInput::GetInst().IsKey("MAPRIGHT"))
+	//{
+	//	GameEngineInput::GetInst().CreateKey("MAPRIGHT", VK_RIGHT);
+	//}
+#pragma endregion
 }
 
 void TownLevel::LevelUpdate(float _DeltaTime)
@@ -120,5 +142,28 @@ void TownLevel::LevelUpdate(float _DeltaTime)
 		CreateLevelActor();
 		ResourceLoadEndCheck = true;
 	}
+#pragma endregion
+
+#pragma region 테스트키
+	//if (true == GameEngineInput::GetInst().Press("MAPUP"))
+	//{
+	//	GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldUpVector() * _DeltaTime * 200.f);
+	//}
+
+	//if (true == GameEngineInput::GetInst().Press("MAPDOWN"))
+	//{
+	//	GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldDownVector() * _DeltaTime * 200.f);
+
+	//}
+
+	//if (true == GameEngineInput::GetInst().Press("MAPLEFT"))
+	//{
+	//	GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldLeftVector() * _DeltaTime * 200.f);
+	//}
+
+	//if (true == GameEngineInput::GetInst().Press("MAPRIGHT"))
+	//{
+	//	GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldRightVector() * _DeltaTime * 200.f);
+	//}
 #pragma endregion
 }

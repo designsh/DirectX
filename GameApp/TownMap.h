@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include "TileMap_Common.h"
+#include "Navigation_Common.h"
 
 // 분류 : 맵(MAP)
 // 용도 : 고정맵
@@ -35,8 +36,8 @@ private: // 타일 렌더러
 	std::unordered_map<__int64, WallTileRenderer> WallTiles_;
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> ObjectTiles_;
 
-private: // 해당 맵의 네비게이션 정보
-
+private: // 해당 맵의 네비게이션 정보(벽정보 + 오브젝트정보)
+	std::vector<std::vector<NavigationType>> TownMap_Navi_;
 
 public:
 	TownMap();
@@ -60,7 +61,19 @@ private:
 
 public:
 	bool TownLevel_FixedMapLoad();
+
+#pragma region 내부처리
+private: // 타일렌더러 생성
 	void CreatedAfterLoadingTiles();
+	void CreatedAfterFloorTiles();
+	void CreatedAfterWallTiles();
+	void CreatedAfterObjectTiles();
+
+private: // 네비게이션정보생성
 	void CreateNavigationInfo();
+
+private: // 현재 생성된 맵을 이용하여 모든 액터 배치
+	void TownLevelArrangeActor();
+#pragma endregion
 };
 

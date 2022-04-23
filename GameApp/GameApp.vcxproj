@@ -549,6 +549,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Navigation_Common.h" />
     <ClInclude Include="NPC_BuySellView.h">
       <SubType>
       </SubType>
