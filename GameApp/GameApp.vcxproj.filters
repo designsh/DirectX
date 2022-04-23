@@ -290,6 +290,9 @@
     <ClCompile Include="TownMap.cpp">
       <Filter>Object\Actor\00.Global\05.Map\00.FixedMap</Filter>
     </ClCompile>
+    <ClCompile Include="TileMapInfoWindow.cpp">
+      <Filter>Window%28IMGUI%29\MapInfoWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -718,6 +721,21 @@
     <Filter Include="Object\Actor\00.Global\05.Map\01.RandomMap">
       <UniqueIdentifier>{d7c7c3d9-9769-4bb4-af1e-65b09b6743dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Window%28IMGUI%29">
+      <UniqueIdentifier>{5a3bf84e-f45a-4451-878c-df4b9ba9e5cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window%28IMGUI%29\MapInfoWindow">
+      <UniqueIdentifier>{c65136ae-02a7-4261-94ff-bf65d15bace3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window%28IMGUI%29\MapInfoWindow\00.Town">
+      <UniqueIdentifier>{187ef77c-fd63-46c9-bc66-d5b92f62b1cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window%28IMGUI%29\MapInfoWindow\01.Catacombs">
+      <UniqueIdentifier>{17264ed1-1f99-494f-a84b-e4c7383d3e8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window%28IMGUI%29\MapInfoWindow\02.ChaosSanctuary">
+      <UniqueIdentifier>{2f80fe51-3751-43d0-873b-83912cba0bf4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -965,6 +983,9 @@
     </ClInclude>
     <ClInclude Include="Navigation_Common.h">
       <Filter>Object\Actor\00.Global\05.Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapInfoWindow.h">
+      <Filter>Window%28IMGUI%29\MapInfoWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

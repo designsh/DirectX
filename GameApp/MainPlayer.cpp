@@ -133,9 +133,6 @@ void MainPlayer::Start()
 
 void MainPlayer::Update(float _DeltaTime)
 {
-	// 카메라위치를 플레이어위치에 따라 갱신
-	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
-
 	// 플레이어 관련 키체크
 	PlayerUIActiveKeyCheck();
 

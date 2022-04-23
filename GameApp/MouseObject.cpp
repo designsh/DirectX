@@ -47,8 +47,6 @@ void MouseObject::Start()
 	Mouse_->SetRenderGroup(static_cast<int>(UIRenderOrder::Mouse));
 	Mouse_->SetChangeAnimation("StayState");
 
-	float4 PivotPos = Mouse_->GetTransform()->GetLocalPosition();
-
 	MouseCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Mouse));
 	MouseCollider_->GetTransform()->SetLocalScaling(float4(5.f, 5.f, 1.f));
 
@@ -62,15 +60,11 @@ void MouseObject::Start()
 
 void MouseObject::Update(float _DeltaTime)
 {
-#ifdef _DEBUG
-	GetLevel()->PushDebugRender(MouseCollider_->GetTransform(), CollisionType::Rect);
-#endif // _DEBUG
-
 	float4 PrevPos = GameEngineInput::GetInst().GetPrevMouse3DPos();
 	float4 CurPos = GameEngineInput::GetInst().GetMouse3DPos();
 
 	// 마우스 위치 갱신
-	GetTransform()->SetLocalPosition(float4(CurPos.x, CurPos.y));
+	GetTransform()->SetWorldPosition(float4(CurPos.x, CurPos.y));
 
 	// 이전 마우스위치와 현재마우스가 달라졌을때 동작상태에서 대기상태로 전환
 	if (PrevPos == CurPos)
@@ -97,6 +91,10 @@ void MouseObject::Update(float _DeltaTime)
 			State_ = MouseState::Move;
 		}
 	}
+
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(MouseCollider_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
 }
 
 void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize)

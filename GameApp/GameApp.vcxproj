@@ -313,6 +313,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TileMapInfoWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleBackDrop.cpp">
       <SubType>
       </SubType>
@@ -624,6 +628,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TileMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TileMapInfoWindow.h">
       <SubType>
       </SubType>
     </ClInclude>

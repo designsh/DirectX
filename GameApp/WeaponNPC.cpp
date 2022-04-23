@@ -56,6 +56,7 @@ void WeaponNPC::Start()
 
 	// 2. 상단메뉴(NPC 상단에 표시)
 	TopMenuBar_ = GetLevel()->CreateActor<NPC_TopMenuBar>();
+	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetLocalPosition());
 	TopMenuBar_->Off();
 }
 
@@ -63,6 +64,7 @@ void WeaponNPC::Update(float _DeltaTime)
 {
 #ifdef _DEBUG
 	GetLevel()->PushDebugRender(WeaponNPCCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(WeaponNPCRenderer_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
 	// 상태 갱신
@@ -105,10 +107,10 @@ void WeaponNPC::InteractionDistanceCheck()
 		// 거리체크
 		if (nullptr != GlobalValue::CurPlayer)
 		{
-			float4 MyPos = GetTransform()->GetLocalPosition();
+			float4 MyPos = GetTransform()->GetWorldPosition();
 
 			// 플레이어를 향한 방향을 알아낸다.
-			float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition();
+			float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetWorldPosition();
 
 			// 두벡터(플레이어<->목표지점)의 각도 계산
 			float4 MoveDirect = PlayerPos - MyPos;
@@ -191,7 +193,7 @@ void WeaponNPC::InteractionDistanceCheck()
 void WeaponNPC::SetMoveRange()
 {
 	// 최초생성 위치 기준으로 해당 NPC의 이동가능범위가 정해진다.
-	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 MyPos = GetTransform()->GetWorldPosition();
 
 	// 최소이동위치
 	MoveMinRange_.x = MyPos.x - 200.f;
@@ -212,12 +214,11 @@ void WeaponNPC::SetMessageBoxText(const std::string& _Text)
 
 void WeaponNPC::SetUIPosition()
 {
-	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetLocalPosition());
 }
 
 void WeaponNPC::SetTopMenu()
 {
-
 	TopMenuBar_->CreateNPCTopMenu(NPCClassType::Charsi, NPCType::WeaponShop);
 }
 

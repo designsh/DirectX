@@ -85,6 +85,7 @@ public:
 
 public:
 	void PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type);
+	void UIPushDebugRender(GameEngineTransform* _Transform, CollisionType _Type);
 
 public:
 	template<typename ActorType>

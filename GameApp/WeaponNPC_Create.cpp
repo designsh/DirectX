@@ -12,11 +12,11 @@ void WeaponNPC::InitWeaponNPC()
 	// 애니메이션 생성관련
 	CreateAnimation();
 
-	// FSM 상태관련
-	CreateFSMState();
-
 	// 충돌체 생성
 	CreateCollision();
+
+	// FSM 상태관련
+	CreateFSMState();
 }
 
 void WeaponNPC::TextureCutting()
@@ -82,6 +82,6 @@ void WeaponNPC::CreateCollision()
 	WeaponNPCCollision_ = CreateTransformComponent<GameEngineCollision>();
 	WeaponNPCCollision_->GetTransform()->SetLocalScaling(float4(32.f, 75.f));
 
-	float4 Pos = GetTransform()->GetLocalPosition();
-	WeaponNPCCollision_->GetTransform()->SetLocalPosition(float4(Pos.x, Pos.y, -10.f));
+	// 임시
+	WeaponNPCCollision_->GetTransform()->SetWorldZOrder(-99.f);
 }

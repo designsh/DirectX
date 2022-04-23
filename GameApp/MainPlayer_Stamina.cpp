@@ -68,7 +68,7 @@ void MainPlayer_Stamina::Start()
 void MainPlayer_Stamina::Update(float _DeltaTime)
 {
 #ifdef _DEBUG
-	GetLevel()->PushDebugRender(StaminaButtonCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->UIPushDebugRender(StaminaButtonCollision_->GetTransform(), CollisionType::Rect);
 #endif // DEBUG
 
 	if (ButtonState_ == Button_State::Click)

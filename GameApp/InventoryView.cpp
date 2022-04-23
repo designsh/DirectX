@@ -207,12 +207,12 @@ void InventoryView::Update(float _DeltaTime)
 #ifdef _DEBUG
 	for (int i = 0; i < static_cast<int>(InvEquipCol_.size()); ++i)
 	{
-		GetLevel()->PushDebugRender(InvEquipCol_[i]->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(InvEquipCol_[i]->GetTransform(), CollisionType::Rect);
 	}
 
 	for (int i = 0; i < static_cast<int>(InvStoreCol_.size()); ++i)
 	{
-		GetLevel()->PushDebugRender(InvStoreCol_[i]->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(InvStoreCol_[i]->GetTransform(), CollisionType::Rect);
 	}
 #endif // _DEBUG
 

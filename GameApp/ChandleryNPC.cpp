@@ -56,6 +56,7 @@ void ChandleryNPC::Start()
 
 	// 2. 상단메뉴(NPC 상단에 표시)
 	TopMenuBar_ = GetLevel()->CreateActor<NPC_TopMenuBar>();
+	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetLocalPosition());
 	TopMenuBar_->Off();
 }
 
@@ -212,7 +213,7 @@ void ChandleryNPC::SetMessageBoxText(const std::string& _Text)
 
 void ChandleryNPC::SetUIPosition()
 {
-	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetLocalPosition());
 }
 
 void ChandleryNPC::SetTopMenu()

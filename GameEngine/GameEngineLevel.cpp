@@ -163,6 +163,11 @@ void GameEngineLevel::PushDebugRender(GameEngineTransform* _Transform, Collision
 	MainCameraActor_->GetCamera()->PushDebugRender(_Transform, _Type);
 }
 
+void GameEngineLevel::UIPushDebugRender(GameEngineTransform* _Transform, CollisionType _Type)
+{
+	UICameraActor_->GetCamera()->PushDebugRender(_Transform, _Type);
+}
+
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
 	// Level Time Eventer Update
@@ -199,7 +204,9 @@ void GameEngineLevel::Render()
 	// 각각의 Camera가 가지는 모든 렌더러를 렌더링
 	MainCameraActor_->GetCamera()->Render();
 	MainCameraActor_->GetCamera()->DebugRender();
+
 	UICameraActor_->GetCamera()->Render();
+	UICameraActor_->GetCamera()->DebugRender();
 
 	// 각각의 카메라가 자신의 렌더타겟을 가지므로, 최종적으로 스왑체인으로부터 얻어온 렌더타겟(백버퍼)에 모든 렌더링항목을 병합
 	// 병합 : 본래의 타겟에 그려져있는 렌더들을 지우지않고 그대로 합치는 것
