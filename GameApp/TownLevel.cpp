@@ -12,6 +12,7 @@
 #include "ChandleryNPC.h"
 
 #include "Portal.h"
+#include "Storehouse.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -31,6 +32,7 @@ TownLevel::TownLevel() :
 	WeaponNPC_(nullptr),
 	ChandleryNPC_(nullptr),
 	Portal_(nullptr),
+	Storehouse_(nullptr),
 	TileMapInfoWindow_(nullptr)
 {
 }
@@ -67,7 +69,8 @@ void TownLevel::CreateLevelActor()
 	GlobalValue::ChandleryNPC = ChandleryNPC_;
 
 	// 창고오브젝트
-
+	Storehouse_ = CreateActor<Storehouse>();
+	Storehouse_->GetTransform()->SetWorldPosition(float4(-150.f, 60.f));
 
 	// 맵이동 포탈생성(마을->카타콤)
 	Portal_ = CreateActor<Portal>();

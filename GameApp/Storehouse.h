@@ -4,11 +4,16 @@
 // 분류 : 창고오브젝트
 // 용도 : 창고창 오픈
 // 설명 : 마우스와 충돌하였고, 플레이어가 일정거리 진입시 창고창 오픈
-class GameEngineImageRenderer;
+class GameEngineUIRenderer;
+class GameEngineCollision;
 class Storehouse : public GameEngineActor
 {
 private:	// member Var
-	GameEngineImageRenderer* Storehouse_;
+	bool DistanceCheck_;
+
+private:
+	GameEngineUIRenderer* StorehouseRenderer_;
+	GameEngineCollision* StorehouseCollision_;
 
 public:
 	Storehouse();
@@ -25,6 +30,12 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+private:
+	void MouseLButtonClick(GameEngineCollision* _Other);
+
+private:
+	void DistanceCheck();
 
 public:
 };
