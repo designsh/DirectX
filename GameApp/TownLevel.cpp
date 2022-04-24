@@ -11,6 +11,8 @@
 #include "WeaponNPC.h"
 #include "ChandleryNPC.h"
 
+#include "Portal.h"
+
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
@@ -28,6 +30,7 @@ TownLevel::TownLevel() :
 	MainMouse_(nullptr),
 	WeaponNPC_(nullptr),
 	ChandleryNPC_(nullptr),
+	Portal_(nullptr),
 	TileMapInfoWindow_(nullptr)
 {
 }
@@ -47,18 +50,18 @@ void TownLevel::CreateLevelActor()
 
 	// NPC 생성(무기상인) - 테스트 위치
 	WeaponNPC_ = CreateActor<WeaponNPC>();
-	WeaponNPC_->GetTransform()->SetWorldPosition(float4(100.f, 100.f, 10.f));
+	WeaponNPC_->GetTransform()->SetWorldPosition(float4(-270.f, 504.f, 10.f));
 	WeaponNPC_->SetMoveRange();
-	WeaponNPC_->SetMessageBoxText("Charsi Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); // 임시
+	WeaponNPC_->SetMessageBoxText("Charsi Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	WeaponNPC_->SetUIPosition();
 	WeaponNPC_->SetTopMenu();
 	GlobalValue::WeaponNPC = WeaponNPC_;
 
 	// NPC 생성(잡화상인) - 테스트 위치
 	ChandleryNPC_ = CreateActor<ChandleryNPC>();
-	ChandleryNPC_->GetTransform()->SetWorldPosition(float4(-100.f, 100.f, 10.f));
+	ChandleryNPC_->GetTransform()->SetWorldPosition(float4(-1420.f, 170.f, 10.f));
 	ChandleryNPC_->SetMoveRange();
-	ChandleryNPC_->SetMessageBoxText("Akara Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); // 임시
+	ChandleryNPC_->SetMessageBoxText("Akara Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	ChandleryNPC_->SetUIPosition();
 	ChandleryNPC_->SetTopMenu();
 	GlobalValue::ChandleryNPC = ChandleryNPC_;
@@ -66,7 +69,12 @@ void TownLevel::CreateLevelActor()
 	// 창고오브젝트
 
 
-	// ....
+	// 맵이동 포탈생성(마을->카타콤)
+	Portal_ = CreateActor<Portal>();
+	Portal_->GetTransform()->SetWorldPosition(float4(-20.f, -250.f));
+	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("CatacombsLevel");
+	Portal_->CreateLevelChangePortal(PortalType::TOWN, NextLevel);
+	GlobalValue::Portal = Portal_;
 
 	// 마우스
 	if (nullptr == GlobalValue::CurMouse)
@@ -174,23 +182,22 @@ void TownLevel::LevelUpdate(float _DeltaTime)
 #pragma region 테스트키
 	if (true == GameEngineInput::GetInst().Press("MAPUP"))
 	{
-		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldUpVector() * _DeltaTime * 200.f);
+		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldUpVector() * _DeltaTime * 200.f);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("MAPDOWN"))
 	{
-		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldDownVector() * _DeltaTime * 200.f);
-
+		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldDownVector() * _DeltaTime * 200.f);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("MAPLEFT"))
 	{
-		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldLeftVector() * _DeltaTime * 200.f);
+		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldLeftVector() * _DeltaTime * 200.f);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("MAPRIGHT"))
 	{
-		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldRightVector() * _DeltaTime * 200.f);
+		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldRightVector() * _DeltaTime * 200.f);
 	}
 #pragma endregion
 }

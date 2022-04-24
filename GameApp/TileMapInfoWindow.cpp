@@ -20,7 +20,10 @@ void TileMapInfoWindow::OnGUI()
 {
 	if (nullptr != GlobalValue::TownMap)
 	{
+		// CamPos 
 		float4 CameraPos = GameEngineCore::CurrentLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+		ImGui::Text("<<< MainCamera Pos >>>");
+		ImGui::Text(("Cam X : " + std::to_string(CameraPos.x) + "  Cam Y : " + std::to_string(CameraPos.y)).c_str());
 
 		// Floor Tile Info
 		ImGui::Text("<<<< FLOOR INFOMATION >>>>");

@@ -6,7 +6,8 @@
 
 TownMap::TownMap() :
 	MapType_(MapType::FIXED),
-	TileSize_(float4(160.f, 80.f))
+	TileSize_(float4(160.f, 80.f)),
+	DebugRendererFlag_(false)
 {
 }
 
@@ -16,10 +17,31 @@ TownMap::~TownMap()
 
 void TownMap::Start()
 {
+#pragma region 테스트키
+	if (false == GameEngineInput::GetInst().IsKey("NavigationSwitch"))
+	{
+		GameEngineInput::GetInst().CreateKey("NavigationSwitch", '1');
+	}
+#pragma endregion
 }
 
 void TownMap::Update(float _DeltaTime)
 {
+#pragma region 디버그렌더러
+	TownLevelNavigationDebugRender();
+
+	if (true == GameEngineInput::GetInst().Down("NavigationSwitch"))
+	{
+		if (false == DebugRendererFlag_)
+		{
+			DebugRendererFlag_ = true;
+		}
+		else
+		{
+			DebugRendererFlag_ = false;
+		}
+	}
+#pragma endregion
 }
 
 float4 TownMap::GetNavigationIndexToPos(TileIndex _TileIndex)
@@ -442,12 +464,9 @@ void TownMap::CreateNavigationInfo()
 				TownMap_Navi_[y][x] = NavigationType::WALL;
 			}
 
-			// 오브젝트타입 중 노말 타입은 이동가능지역
-			if (TownMap_ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::NORMAL)
-			{
-				TownMap_Navi_[y][x] = NavigationType::NOR;
-			}
-			else
+			// 오브젝트타입 중 노말 타입을 제외한 타입은 벽으로 판단
+			if (TownMap_ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::WALL ||
+				TownMap_ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::OBJECT)
 			{
 				TownMap_Navi_[y][x] = NavigationType::WALL;
 			}
@@ -464,6 +483,15 @@ void TownMap::TownLevelArrangeActor()
 
 
 
+}
+
+void TownMap::TownLevelNavigationDebugRender()
+{
+	// 릴리즈빌드에서도 확인용으로 사용
+	if (true == DebugRendererFlag_)
+	{
+		//GetLevel()->PushDebugRender();
+	}
 }
 
 TileIndex TownMap::GetFloorTileIndex(float4 _MousePos)

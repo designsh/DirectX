@@ -293,6 +293,9 @@
     <ClCompile Include="TileMapInfoWindow.cpp">
       <Filter>Window%28IMGUI%29\MapInfoWindow</Filter>
     </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Object\Actor\00.Global\06.Portal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -727,6 +730,9 @@
     <Filter Include="Window%28IMGUI%29\MapInfoWindow">
       <UniqueIdentifier>{c65136ae-02a7-4261-94ff-bf65d15bace3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\06.Portal">
+      <UniqueIdentifier>{035c014c-4c47-413c-8e7f-5426ac8eb48a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -977,6 +983,9 @@
     </ClInclude>
     <ClInclude Include="TileMapInfoWindow.h">
       <Filter>Window%28IMGUI%29\MapInfoWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Object\Actor\00.Global\06.Portal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

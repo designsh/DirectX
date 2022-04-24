@@ -42,6 +42,9 @@ private: // 해당 맵의 네비게이션 정보(벽정보 + 오브젝트정보)
 private: // 타일크기(인덱스 계산용)
 	float4 TileSize_;
 
+private: // 디버그렌더러 스위칭 Flag
+	bool DebugRendererFlag_;
+
 public:
 	TownMap();
 	~TownMap();
@@ -80,6 +83,9 @@ private: // 네비게이션정보생성
 
 private: // 현재 생성된 맵을 이용하여 모든 액터 배치
 	void TownLevelArrangeActor();
+
+private: // 디버그렌더러 표시/표시안함
+	void TownLevelNavigationDebugRender();
 #pragma endregion
 
 #pragma region 확인용

@@ -11,6 +11,7 @@ class MainPlayer_RightWeaponSkillButton;
 class WeaponNPC;
 class ChandleryNPC;
 class TownMap;
+class Portal;
 class GlobalValue
 {
 public: // 플레이어 관련
@@ -30,5 +31,8 @@ public: // NPC 관련
 
 public: // 맵관련
 	static TownMap* TownMap;
+
+public: // 포탈관련
+	static Portal* Portal;
 };
 

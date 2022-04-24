@@ -223,6 +223,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapEditorLevel.cpp">
       <SubType>
       </SubType>
@@ -546,6 +550,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayer_WeaponSkillButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
       <SubType>
       </SubType>
     </ClInclude>

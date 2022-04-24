@@ -75,6 +75,7 @@ enum class UIRenderOrder
 	ErrorPopup_Button,
 	ErrorPopup_Collider,
 	ErrorPopup_Text,
+	Player = 8888,
 	Mouse = 9999,
 	MouseHoldItem,
 	MAX

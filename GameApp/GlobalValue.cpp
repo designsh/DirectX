@@ -23,3 +23,6 @@ ChandleryNPC* GlobalValue::ChandleryNPC = nullptr;
 
 // ¸Ê°ü·Ã
 TownMap* GlobalValue::TownMap = nullptr;
+
+// Æ÷Å»°ü·Ã
+Portal* GlobalValue::Portal = nullptr;

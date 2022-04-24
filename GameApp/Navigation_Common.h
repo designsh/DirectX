@@ -10,11 +10,12 @@ enum class NavigationType
 	WALL,		// 이동불가지역
 };
 
-struct NavigationInfo
+class NavigationInfo
 {
+public:
 	NavigationType NaviType;
 	int IndexX;
 	int IndexY;
-
+	float4 CenterPos;
 
 };

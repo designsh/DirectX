@@ -2,6 +2,9 @@
 #include "MouseObject.h"
 
 #include "GlobalEnumClass.h"
+#include "GlobalValue.h"
+
+#include "Portal.h"
 
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
@@ -89,6 +92,19 @@ void MouseObject::Update(float _DeltaTime)
 
 			// 현재 마우스 상태 저장
 			State_ = MouseState::Move;
+		}
+	}
+
+	// 현재 레벨의 포탈이 존재하고 
+	if (nullptr != GlobalValue::Portal)
+	{
+		if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+		{
+			// 레벨이동이 활성화상태이고, 플레이어가 이동목표지점을 바꿧다면 해당 포탈의 활성화 해제
+			if (true == GlobalValue::Portal->GetCurPortalMoveFlag())
+			{
+				//GlobalValue::Portal->PortMoveableFlagOff();
+			}
 		}
 	}
 
