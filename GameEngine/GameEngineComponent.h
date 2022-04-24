@@ -36,6 +36,12 @@ public:
 		return Level_;
 	}
 
+public:
+	inline void SetLevel(GameEngineLevel* _Level)
+	{
+		Level_ = _Level;
+	}
+
 protected:
 	virtual void InitComponent(GameEngineActor* Actor_);
 	virtual void Start() = 0;

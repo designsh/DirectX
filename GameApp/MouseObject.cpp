@@ -94,7 +94,6 @@ void MouseObject::Update(float _DeltaTime)
 
 #ifdef _DEBUG
 	GetLevel()->UIPushDebugRender(MouseCollider_->GetTransform(), CollisionType::Rect);
-	//GetLevel()->PushDebugRender(MouseCollider_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 }
 

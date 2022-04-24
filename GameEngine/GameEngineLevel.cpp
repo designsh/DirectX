@@ -90,7 +90,7 @@ void GameEngineLevel::SetLevelActorMoveProcess()
 		MainCameraActor_->GetCamera()->NextLevelMoveRenderer(_NextLevel->GetMainCamera(), _Actor);
 		UICameraActor_->GetCamera()->NextLevelMoveRenderer(_NextLevel->GetUICamera(), _Actor);
 
-		// 콜리전 삭제
+		// 충돌체 이동
 		{
 			std::map<int, std::list<GameEngineCollision*>>::iterator RenderMapBeginIter = CollisionList_.begin();
 			std::map<int, std::list<GameEngineCollision*>>::iterator RenderMapEndIter = CollisionList_.end();
@@ -110,7 +110,8 @@ void GameEngineLevel::SetLevelActorMoveProcess()
 
 					if (ReleaseCollision->GetActor() == _Actor)
 					{
-						_NextLevel->CollisionList_[(*BeginIter)->GetOrder()].push_back(*BeginIter);
+						_NextLevel->CollisionList_[(*BeginIter)->GetOrder()].push_back(ReleaseCollision);
+						ReleaseCollision->SetLevel(_NextLevel);
 						BeginIter = Collisions.erase(BeginIter);
 						continue;
 					}
