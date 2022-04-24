@@ -36,10 +36,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="AppMain.cpp" />
-    <ClCompile Include="BossPortal_Auto.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="BottomStateBar.cpp">
       <SubType>
       </SubType>
@@ -255,10 +251,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="NormalPortal.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Precompile.h</PrecompiledHeaderFile>
@@ -376,10 +368,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Andariel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="BossPortal_Auto.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -583,10 +571,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MouseObject.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="NormalPortal.h">
       <SubType>
       </SubType>
     </ClInclude>
