@@ -9,3 +9,12 @@ enum class NavigationType
 	NOR,		// 이동가능지역
 	WALL,		// 이동불가지역
 };
+
+struct NavigationInfo
+{
+	NavigationType NaviType;
+	int IndexX;
+	int IndexY;
+
+
+};

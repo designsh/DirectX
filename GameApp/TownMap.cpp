@@ -22,6 +22,11 @@ void TownMap::Update(float _DeltaTime)
 {
 }
 
+float4 TownMap::GetNavigationIndexToPos(TileIndex _TileIndex)
+{
+	return float4();
+}
+
 void TownMap::MapInfoAllClear()
 {
 }

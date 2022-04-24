@@ -59,6 +59,9 @@ private:
 	void Update(float _DeltaTime) override;
 
 private:
+	float4 GetNavigationIndexToPos(TileIndex _TileIndex);
+
+private:
 	void MapInfoAllClear();
 	void MapTextureCutting();
 
