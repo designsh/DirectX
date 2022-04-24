@@ -101,7 +101,13 @@ void Portal::PlayerCollisionCheck(GameEngineCollision* _Other)
 	}
 }
 
-void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _NextLevel)
+void Portal::IdleAnimationEnd()
+{
+	PortalEntityRenderer_->SetChangeAnimation("IDLE");
+	PortalShadowRenderer_->SetChangeAnimation("IDLE");
+}
+
+void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _NextLevel, bool _Open)
 {
 	// 정보저장
 	PortalType_ = _PortalType;
@@ -112,40 +118,65 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		// 본체 렌더러 생성
 		PortalEntityRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 		PortalEntityRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+		PortalEntityRenderer_->GetTransform()->SetLocalZOrder(9.f);
 
 		PortalEntityRenderer_->CreateAnimation("NorPortal_Entity_Open.png", "OPEN", 0, 14, 0.1f, false);
 		PortalEntityRenderer_->CreateAnimation("NorPortal_Entity_Idle.png", "IDLE", 0, 14, 0.1f);
-
-		PortalEntityRenderer_->SetChangeAnimation("IDLE");
+		PortalEntityRenderer_->SetEndCallBack("OPEN", std::bind(&Portal::IdleAnimationEnd, this));
 
 		// 충돌체 생성(본체기준)
 		PortalCollision_ = CreateTransformComponent<GameEngineCollision>();
-		PortalCollision_->GetTransform()->SetLocalScaling(float4(100.f, 150.f));
+		PortalCollision_->GetTransform()->SetLocalScaling(float4(80.f, 120.f));
 		PortalCollision_->GetTransform()->SetLocalZOrder(-10.f);
 
 		// 그림자 렌더러 생성
 		PortalShadowRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 		PortalShadowRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+		PortalShadowRenderer_->GetTransform()->SetLocalZOrder(10.f);
 
 		PortalShadowRenderer_->CreateAnimation("NorPortal_Shadow_Open.png", "OPEN", 0, 14, 0.1f, false);
 		PortalShadowRenderer_->CreateAnimation("NorPortal_Shadow_Idle.png", "IDLE", 0, 14, 0.1f);
-
-		// 본체렌더러를 회전시켜 그림자처럼구현
-		float4 CalcPos = PortalEntityRenderer_->GetTransform()->GetLocalPosition();
-		//CalcPos.ro
-
-		PortalShadowRenderer_->SetChangeAnimation("IDLE");
-
-		// 알파블렌딩변경
-		PortalEntityRenderer_->SetRenderingPipeLine("TextureTrans");
 	}
 	else
 	{
+		// 본체 렌더러 생성
+		PortalEntityRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+		PortalEntityRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+		PortalEntityRenderer_->GetTransform()->SetLocalZOrder(9.f);
 
+		PortalEntityRenderer_->CreateAnimation("BossPortal_Entity_Open.png", "OPEN", 0, 14, 0.1f, false);
+		PortalEntityRenderer_->CreateAnimation("BossPortal_Entity_Idle.png", "IDLE", 0, 14, 0.1f);
+		PortalEntityRenderer_->SetEndCallBack("OPEN", std::bind(&Portal::IdleAnimationEnd, this));
+
+		// 충돌체 생성(본체기준)
+		PortalCollision_ = CreateTransformComponent<GameEngineCollision>();
+		PortalCollision_->GetTransform()->SetLocalScaling(float4(80.f, 120.f));
+		PortalCollision_->GetTransform()->SetLocalZOrder(-10.f);
+
+		// 그림자 렌더러 생성
+		PortalShadowRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+		PortalShadowRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+		PortalShadowRenderer_->GetTransform()->SetLocalZOrder(10.f);
+
+		PortalShadowRenderer_->CreateAnimation("BossPortal_Shadow_Open.png", "OPEN", 0, 14, 0.1f, false);
+		PortalShadowRenderer_->CreateAnimation("BossPortal_Shadow_Idle.png", "IDLE", 0, 14, 0.1f);
 	}
 
-	// FSM 생성
+	// 알파블렌딩변경
+	PortalEntityRenderer_->SetRenderingPipeLine("TextureTrans");
 
+	// 열기 애니메이션부터 시작
+	if (true == _Open)
+	{
+		PortalEntityRenderer_->SetChangeAnimation("OPEN");
+		PortalShadowRenderer_->SetChangeAnimation("OPEN");
+	}
+	// 이미 소환되어있음
+	else
+	{
+		PortalEntityRenderer_->SetChangeAnimation("IDLE");
+		PortalShadowRenderer_->SetChangeAnimation("IDLE");
+	}
 }
 
 void Portal::PortMoveableFlagOff()

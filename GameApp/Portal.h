@@ -50,6 +50,9 @@ private:
 	void MouseLButtonClick(GameEngineCollision* _Other);
 	void PlayerCollisionCheck(GameEngineCollision* _Other);
 
+private:
+	void IdleAnimationEnd();
+
 public:
 	inline bool GetCurPortalMoveFlag()
 	{
@@ -57,7 +60,7 @@ public:
 	}
 
 public: // 포탈타입에 따른 렌더러 & 충돌체 생성 및 이동레벨 결정
-	void CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _NextLevel);
+	void CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _NextLevel, bool _Open = false);
 
 public: // 외부에서 이동가능 활성화 Flag 해제용
 	void PortMoveableFlagOff();
