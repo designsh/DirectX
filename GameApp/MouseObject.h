@@ -47,6 +47,7 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
 
 public: // 마우스 상태 Get
 	MouseState GetMouseState() const

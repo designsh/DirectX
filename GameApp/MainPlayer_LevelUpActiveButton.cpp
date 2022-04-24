@@ -51,6 +51,10 @@ void MainPlayer_LevelUpActiveButton::Start()
 
 void MainPlayer_LevelUpActiveButton::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(ButtonCollision_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
 	if (ButtonState_ == Button_State::Click)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))

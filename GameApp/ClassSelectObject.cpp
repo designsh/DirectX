@@ -112,7 +112,9 @@ void ClassSelectObject::ChangeStartReset()
 
 void ClassSelectObject::DebugRender()
 {
+#ifdef _DEBUG
 	GetLevel()->PushDebugRender(MainCollision_->GetTransform(), CollisionType::Rect);
+#endif
 }
 
 void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType, CurSelectState _FirstTextureType)

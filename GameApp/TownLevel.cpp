@@ -69,12 +69,10 @@ void TownLevel::CreateLevelActor()
 	// ....
 
 	// 마우스
-	MainMouse_ = CreateActor<MouseObject>();
-	MainMouse_->GetTransform()->SetWorldPosition(GameEngineInput::GetInst().GetMouse3DPos());
-
-	// 메인마우스 지정
-	if (GlobalValue::CurMouse != MainMouse_)
+	if (nullptr == GlobalValue::CurMouse)
 	{
+		MainMouse_ = CreateActor<MouseObject>();
+		MainMouse_->GetTransform()->SetWorldPosition(GameEngineInput::GetInst().GetMouse3DPos());
 		GlobalValue::CurMouse = MainMouse_;
 	}
 
@@ -119,6 +117,14 @@ void TownLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 	if (nullptr != Ptr)
 	{
 		Ptr->On();
+	}
+
+	// 메인플레이어의 마을진입 Flag On
+	if (nullptr != GlobalValue::CurPlayer)
+	{
+		GlobalValue::CurPlayer->SetIsTown(true);
+		GlobalValue::CurPlayer->GetTransform()->SetWorldPosition(float4(100.f, 100.f));
+		GetMainCameraActor()->GetTransform()->SetLocalPosition(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition());
 	}
 }
 
@@ -187,9 +193,4 @@ void TownLevel::LevelUpdate(float _DeltaTime)
 		//GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldRightVector() * _DeltaTime * 200.f);
 	}
 #pragma endregion
-
-	if (nullptr != GlobalValue::CurPlayer)
-	{
-		GetMainCameraActor()->GetTransform()->SetLocalPosition(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition());
-	}
 }

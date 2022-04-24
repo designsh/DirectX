@@ -37,6 +37,10 @@ void MainPlayer_MiniMenuButton::Start()
 
 void MainPlayer_MiniMenuButton::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(ButtonCollision_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
 	if (ButtonState_ == Button_State::Click)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))

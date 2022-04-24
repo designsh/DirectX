@@ -100,6 +100,40 @@ void MainPlayer_RightWeaponSkillButton::Update(float _DeltaTime)
 	CurSkillButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_RightWeaponSkillButton::CurRWeaponSkillBtnCol, this, std::placeholders::_1));
 }
 
+void MainPlayer_RightWeaponSkillButton::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
+	if (std::string::npos != _NextLevel->GetName().find("TitleLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("CreateCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("SelectCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("LoadingLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("MapEditorLevel"))
+	{
+		return;
+	}
+
+	if (false == RWeaponSkillList_.empty())
+	{
+		int RWeaponSkillListCnt = static_cast<int>(RWeaponSkillList_.size());
+		for (int i = 0; i < RWeaponSkillListCnt; ++i)
+		{
+			GetLevel()->SetLevelActorMove(_NextLevel, RWeaponSkillList_[i]);
+		}
+	}
+}
+
 void MainPlayer_RightWeaponSkillButton::UpdateWeaponSkillList(int _SkillID)
 {
 	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();

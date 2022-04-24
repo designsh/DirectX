@@ -90,35 +90,79 @@ void BottomStateBar::Update(float _DeltaTime)
 
 void BottomStateBar::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
+	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
+	if (std::string::npos != _NextLevel->GetName().find("TitleLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("CreateCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("SelectCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("LoadingLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("MapEditorLevel"))
+	{
+		return;
+	}
+
 	// 하단상태바가 들고있는 모든 액터 레벨넘김
+	
+	// HP
+	if (nullptr != HP_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, HP_);
+	}
 
-	//// HP/MP
-	//MainPlayer_CurrentHP* HP_;
-	//MainPlayer_CurrentMP* MP_;
+	// MP
+	if (nullptr != MP_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, MP_);
+	}
 
-	//// 활성화스킬버튼(좌/우)
-	//MainPlayer_LeftWeaponSkillButton* LWeaponSkill_;
-	//MainPlayer_RightWeaponSkillButton* RWeaponSkill_;
+	// 활성화스킬버튼(좌/우)
+	if (nullptr != LWeaponSkill_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, LWeaponSkill_);
+	}
+	if (nullptr != RWeaponSkill_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, RWeaponSkill_);
+	}
 
-	//// 스태미나
-	//MainPlayer_Stamina* Stamina_;
+	// 스태미나
+	if (nullptr != Stamina_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, Stamina_);
+	}
 
-	//// 미니메뉴
-	//MainPlayer_MiniMenu* MiniMenu_;
+	// 미니메뉴
+	if (nullptr != MiniMenu_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, MiniMenu_);
+	}
 
-	//// 레벨업시 활성화되는 버튼
-	//MainPlayer_LevelUpActiveButton* AddStatPointButton_;
-	//MainPlayer_LevelUpActiveButton* AddSkillPointButton_;
+	// 레벨업시 활성화되는 버튼
+	if (nullptr != AddStatPointButton_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, AddStatPointButton_);
+	}
+	if (nullptr != AddSkillPointButton_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, AddSkillPointButton_);
+	}
 
-	//// 현재 경험치
-	//MainPlayer_CurExpProgressBar* CurExpProgressBar_;
-
-
-
-
-	//GetLevel()->SetLevelActorMove(_NextLevel, this);
-	//_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0F, -100.0F));
-
+	// 현재 경험치
+	if (nullptr != CurExpProgressBar_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, CurExpProgressBar_);
+	}
 }
 
 void BottomStateBar::InitBottomStateBar()

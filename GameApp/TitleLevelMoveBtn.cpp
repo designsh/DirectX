@@ -88,5 +88,7 @@ void TitleLevelMoveBtn::PrevButtonClick(GameEngineCollision* _OtherCollision)
 
 void TitleLevelMoveBtn::DebugRender()
 {
+#ifdef _DEBUG
 	GetLevel()->PushDebugRender(MainCollider_->GetTransform(), CollisionType::Rect);
+#endif
 }

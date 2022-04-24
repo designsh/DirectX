@@ -43,7 +43,6 @@ void TitleLevel::CreateLevelActor()
 	// 현재 마우스 생성
 	MouseObject* MainMouse = CreateActor<MouseObject>();
 	MainMouse->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
-	GlobalValue::CurMouse = MainMouse;
 }
 
 void TitleLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)

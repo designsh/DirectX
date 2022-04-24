@@ -51,7 +51,10 @@ void MainPlayer_WeaponSkillButton::Update(float _DeltaTime)
 	// 충돌체크
 	if (nullptr != SkillButtonCollision_)
 	{
-		//GetLevel()->PushDebugRender(SkillButtonCollision_->GetTransform(), CollisionType::Rect);
+#ifdef _DEBUG
+		GetLevel()->UIPushDebugRender(SkillButtonCollision_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
 		SkillButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_WeaponSkillButton::SelectCurrentSkill, this, std::placeholders::_1));
 	}
 }

@@ -224,7 +224,6 @@ private: // 플레이어 UI
 	SkillView* SkillView_;									// 스킬트리창
 	InventoryView* InventoryView_;							// 인벤토리창
 	GameEndMenuView* GameEndMenuView_;						// 게임종료메뉴창
-
 #pragma endregion
 
 #pragma region PlayerOverrideFunction

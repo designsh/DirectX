@@ -49,12 +49,10 @@ void CatacombsLevel::CreateLevelActor()
 	// 몬스터 생성
 
 	// 마우스
-	MainMouse_ = CreateActor<MouseObject>();
-	MainMouse_->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
-
-	// 메인마우스 지정
-	if (GlobalValue::CurMouse != MainMouse_)
+	if (nullptr == GlobalValue::CurMouse)
 	{
+		MainMouse_ = CreateActor<MouseObject>();
+		MainMouse_->GetTransform()->SetWorldPosition(GameEngineInput::GetInst().GetMouse3DPos());
 		GlobalValue::CurMouse = MainMouse_;
 	}
 }
@@ -68,6 +66,13 @@ void CatacombsLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	// 배경음악 On
 
+	// 메인플레이어의 마을진입 Flag Off
+	if (nullptr != GlobalValue::CurPlayer)
+	{
+		GlobalValue::CurPlayer->SetIsTown(false);
+		GlobalValue::CurPlayer->GetTransform()->SetWorldPosition(float4(0.f, 0.f));
+		GetMainCameraActor()->GetTransform()->SetLocalPosition(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition());
+	}
 }
 
 void CatacombsLevel::LevelStart()

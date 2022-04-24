@@ -81,5 +81,7 @@ void GameStartButton::ChangeStartReset()
 
 void GameStartButton::DebugRender()
 {
+#ifdef _DEBUG
 	GetLevel()->PushDebugRender(MainCollision_->GetTransform(), CollisionType::Rect);
+#endif
 }

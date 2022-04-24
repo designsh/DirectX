@@ -145,26 +145,68 @@ void MainPlayer::Update(float _DeltaTime)
 		int TextEXP = 10;
 		BottomStateBar_->GetEXPProgressBarControl()->AddEXP(TextEXP);
 	}
+
+	// 카메라는 플레이어를 따라 다닌다.
+	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 }
 
 void MainPlayer::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
-	//if (std::string::npos != _NextLevel->GetName().find("Title"))
-	//{
-	//	return;
-	//}
+	if (std::string::npos != _NextLevel->GetName().find("TitleLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("CreateCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("SelectCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("LoadingLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("MapEditorLevel"))
+	{
+		return;
+	}
 
-	// Player가 들고있는 모든 액터를 넘김
-	//BottomStateBar* BottomStateBar_;						// 하단상태바
-	//StatView* StatView_;									// 상태창
-	//SkillView* SkillView_;								// 스킬트리창
-	//InventoryView* InventoryView_;						// 인벤토리창
-	//GameEndMenuView* GameEndMenuView_;					// 게임종료메뉴창
+	// 하단상태바
+	if (nullptr != BottomStateBar_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, BottomStateBar_);
+	}
 
+	// 상태창
+	if (nullptr != StatView_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, StatView_);
+	}
 
-	//GetLevel()->SetLevelActorMove(_NextLevel, this);
-	//_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0F, -100.0F));
+	// 스킬창
+	if (nullptr != SkillView_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, SkillView_);
+	}
+
+	// 인벤토리창
+	if (nullptr != InventoryView_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, InventoryView_);
+	}
+
+	// 게임종료메뉴
+	if (nullptr != GameEndMenuView_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, GameEndMenuView_);
+	}
+
+	// 메인플레이어
+	GetLevel()->SetLevelActorMove(_NextLevel, this);
+	_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0f, -100.0f));
 }
 
 void MainPlayer::PlayerUIActiveKeyCheck()
@@ -248,7 +290,7 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 			return;
 		}
 
-		float4 MousePos = MainMouse->GetTransform()->GetLocalPosition();
+		float4 MousePos = MainMouse->GetTransform()->GetWorldPosition();
 
 		// 현재 방향 전환 및 이동 Flag On
 		if (true == MoveDirectCheck(MousePos))

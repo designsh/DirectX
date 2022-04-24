@@ -41,6 +41,10 @@ void MainPlayer_SkillIcon::Start()
 
 void MainPlayer_SkillIcon::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(IconCollision_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
 	// 스킬아이콘 클릭 체크
 	if (ButtonState_ == Button_State::Click)
 	{

@@ -122,6 +122,13 @@ void SkillView::Start()
 
 void SkillView::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(CloseButtonCollider_->GetTransform(), CollisionType::Rect);
+	GetLevel()->UIPushDebugRender(SkillPageCollider_[0]->GetTransform(), CollisionType::Rect);
+	GetLevel()->UIPushDebugRender(SkillPageCollider_[1]->GetTransform(), CollisionType::Rect);
+	GetLevel()->UIPushDebugRender(SkillPageCollider_[2]->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
 	// 스킬창 종료버튼 체크
 	if (CloseButtonState_ == Button_State::Click)
 	{
@@ -152,8 +159,37 @@ void SkillView::Update(float _DeltaTime)
 
 void SkillView::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
-	// 스킬창이 들고있는 모든 액터 넘김
+	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
+	if (std::string::npos != _NextLevel->GetName().find("TitleLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("CreateCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("SelectCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("LoadingLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("MapEditorLevel"))
+	{
+		return;
+	}
 
+	// 스킬창이 들고있는 모든 액터 넘김
+	for (int i = 0; i < static_cast<int>(SkillPageNo::MAX); ++i)
+	{
+		int PageToIconCnt = static_cast<int>(SkillPageToIcon[i].size());
+		for (int j = 0; j < PageToIconCnt; ++j)
+		{
+			GetLevel()->SetLevelActorMove(_NextLevel, SkillPageToIcon[i][j]);
+		}
+	}
 }
 
 void SkillView::InitSkillView()

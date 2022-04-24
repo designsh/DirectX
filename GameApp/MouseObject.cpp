@@ -98,6 +98,34 @@ void MouseObject::Update(float _DeltaTime)
 #endif // _DEBUG
 }
 
+void MouseObject::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
+	if (std::string::npos != _NextLevel->GetName().find("TitleLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("CreateCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("SelectCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("LoadingLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("MapEditorLevel"))
+	{
+		return;
+	}
+
+	// 마우스 다음레벨 전달
+	GetLevel()->SetLevelActorMove(_NextLevel, this);
+}
+
 void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize)
 {
 	// 아이템을 들고있음

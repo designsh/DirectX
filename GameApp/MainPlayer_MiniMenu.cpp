@@ -75,6 +75,10 @@ void MainPlayer_MiniMenu::Start()
 
 void MainPlayer_MiniMenu::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(MiniMenuActiveButtonCollision_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
 	if (ButtonState_ == Button_State::Click)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
@@ -87,6 +91,40 @@ void MainPlayer_MiniMenu::Update(float _DeltaTime)
 	}
 
 	MiniMenuActiveButtonCollision_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&MainPlayer_MiniMenu::MiniMenuButtonClick, this, std::placeholders::_1));
+}
+
+void MainPlayer_MiniMenu::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+{
+	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
+	if (std::string::npos != _NextLevel->GetName().find("TitleLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("CreateCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("SelectCharacterLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("LoadingLevel"))
+	{
+		return;
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("MapEditorLevel"))
+	{
+		return;
+	}
+
+	if (false == MiniMenuList_.empty())
+	{
+		int MenuListCnt = static_cast<int>(MiniMenuList_.size());
+		for (int i = 0; i < MenuListCnt; ++i)
+		{
+			GetLevel()->SetLevelActorMove(_NextLevel, MiniMenuList_[i]);
+		}
+	}
 }
 
 void MainPlayer_MiniMenu::CreateMiniMenuList()

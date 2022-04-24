@@ -112,7 +112,9 @@ void CurPlayerGameStartButton::ChangeStartReset()
 
 void CurPlayerGameStartButton::DebugRender()
 {
+#ifdef _DEBUG
 	GetLevel()->PushDebugRender(MainCollider_->GetTransform(), CollisionType::Rect);
+#endif
 }
 
 void CurPlayerGameStartButton::OKButtonClick(GameEngineCollision* _OtherCollision)
