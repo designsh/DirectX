@@ -46,6 +46,9 @@ void TownMap::Update(float _DeltaTime)
 
 float4 TownMap::GetNavigationIndexToPos(TileIndex _TileIndex)
 {
+	// 네비게이션 타일인덱스를 월드상의 위치값으로 변환해서 반환
+
+
 	return float4();
 }
 
