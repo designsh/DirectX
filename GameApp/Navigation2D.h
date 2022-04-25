@@ -10,7 +10,7 @@ class Navigation2D : public Navigation
 {
 private:	// member Var
 	GameEngineTileMapRenderer* NavData_;
-	NavInfoManager* NavInfoManager_;
+	NavNodeInfoManager* NavInfoManager_;
 
 public:
 	Navigation2D();
@@ -39,7 +39,7 @@ public:
 		NavData_ = _Data;
 	}
 
-	inline void SetNavInfoManager(NavInfoManager* _Info)
+	inline void SetNavInfoManager(NavNodeInfoManager* _Info)
 	{
 		NavInfoManager_ = _Info;
 	}

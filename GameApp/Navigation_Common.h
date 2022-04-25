@@ -10,7 +10,7 @@ enum class NavigationType
 	WALL,		// 이동불가지역
 };
 
-// 노드체크 방향
+// 노드체크 방향(체크하려는 이웃노드)
 enum Neighbor_Dir
 {
 	ND_Top,
@@ -35,15 +35,31 @@ enum class Nav_Insert_Type
 // 네비게이션 정보(노드정보)
 struct NavNodeInfo
 {
+	Nav_Insert_Type NavType;	// 열린노드/닫힌노드
 	int	IndexX;
 	int	IndexY;
-	Nav_Insert_Type NavType;	// 열린노드/닫힌노드
+	float Cost;
 	float Dist;
 
+	NavNodeInfo()
+	{
+		Cost = 0.f;
+		Dist = 0.f;
+		IndexX = -1;
+		IndexY = -1;
+		NavType = Nav_Insert_Type::None;
+	}
+
+	void Clear()
+	{
+		Cost = 0.f;
+		Dist = 0.f;
+		NavType = Nav_Insert_Type::None;
+	}
 };
 
 // 네비게이션 관리자
-struct NavInfoManager
+struct NavNodeInfoManager
 {
 	std::vector<NavNodeInfo> vecNavInfo;
 	std::vector<NavNodeInfo*> vecOpen;
@@ -63,7 +79,7 @@ struct NavInfoManager
 		return &vecNavInfo[_IndexY * CountX + _IndexX];
 	}
 
-	NavInfoManager()
+	NavNodeInfoManager()
 	{
 		OpenCount = 0;
 		UseCount = 0;
