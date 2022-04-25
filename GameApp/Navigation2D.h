@@ -8,8 +8,11 @@
 class GameEngineTileMapRenderer;
 class Navigation2D : public Navigation
 {
+private:
+	static bool SortOpenList(NavNodeInfo* _Src, NavNodeInfo* _Dest);
+
 private:	// member Var
-	GameEngineTileMapRenderer* NavData_;
+	GameEngineTileMapRenderer* NavRenderer_;
 	NavNodeInfoManager* NavInfoManager_;
 
 public:
@@ -24,26 +27,27 @@ private:		//delete operator
 	Navigation2D& operator=(const Navigation2D& _other) = delete;
 	Navigation2D& operator=(const Navigation2D&& _other) = delete;
 
+private:
+	bool FindNode(NavNodeInfo* _Node, NavNodeInfo* _GoalNode, const float4& _Goal, std::vector<float4>& _vecPath);
+
 public:
 	virtual bool FindPath(const float4& _Start, const float4& _Goal, std::vector<float4>& _vecPath) override;
 
 public:
 	inline GameEngineTileMapRenderer* GetTileMap() const
 	{
-		return NavData_;
+		return NavRenderer_;
 	}
 
 public:
 	inline void SetNavData(GameEngineTileMapRenderer* _Data)
 	{
-		NavData_ = _Data;
+		NavRenderer_ = _Data;
 	}
 
 	inline void SetNavInfoManager(NavNodeInfoManager* _Info)
 	{
 		NavInfoManager_ = _Info;
 	}
-
-
 };
 
