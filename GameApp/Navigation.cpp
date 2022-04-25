@@ -4,3 +4,7 @@
 Navigation::Navigation()
 {
 }
+
+Navigation::~Navigation()
+{
+}
