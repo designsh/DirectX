@@ -298,5 +298,10 @@ public:
 	void CreatedAfterLoading_FloorTiles();
 	void CreatedAfterLoading_WallTiles();
 	void CreatedAfterLoading_ObjectTiles();
+
+#pragma region ·£´ý¸Ê°ü·Ã
+	
+
+#pragma endregion
 };
 
