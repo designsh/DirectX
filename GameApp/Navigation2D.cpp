@@ -6,7 +6,9 @@ bool Navigation2D::SortOpenList(NavNodeInfo* _Src, NavNodeInfo* _Dest)
 	return false;
 }
 
-Navigation2D::Navigation2D()
+Navigation2D::Navigation2D() :
+	NavRenderer_(nullptr),
+	NavInfoManager_(nullptr)
 {
 }
 
