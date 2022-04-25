@@ -493,7 +493,15 @@ void TownMap::TownLevelNavigationDebugRender()
 	// 릴리즈빌드에서도 확인용으로 사용
 	if (true == DebugRendererFlag_)
 	{
-		//GetLevel()->PushDebugRender();
+		//if (false == ObjectTiles_.empty())
+		//{
+			//std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = ObjectTiles_.begin();
+			//std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = ObjectTiles_.end();
+			//for (; StartIter != EndIter; ++StartIter)
+			//{
+			//	GetLevel()->PushDebugRender((*StartIter).second->GetTransform(), CollisionType::Rect);
+			//}
+		//}
 	}
 }
 

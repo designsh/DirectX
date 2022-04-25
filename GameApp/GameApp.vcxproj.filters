@@ -282,7 +282,7 @@
       <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
     </ClCompile>
     <ClCompile Include="TownMap.cpp">
-      <Filter>Object\Actor\00.Global\05.Map\00.FixedMap</Filter>
+      <Filter>Object\Actor\00.Global\05.Map\01.FixedMap</Filter>
     </ClCompile>
     <ClCompile Include="TileMapInfoWindow.cpp">
       <Filter>Window%28IMGUI%29\MapInfoWindow</Filter>
@@ -685,12 +685,6 @@
     <Filter Include="Object\Actor\00.Global\05.Map">
       <UniqueIdentifier>{c7a28ff8-1af2-4ef7-b877-4ddf8c7d1d2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\05.Map\00.FixedMap">
-      <UniqueIdentifier>{4e7121c1-caa1-4990-bff6-c939cc52bbdc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\05.Map\01.RandomMap">
-      <UniqueIdentifier>{d7c7c3d9-9769-4bb4-af1e-65b09b6743dd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Window%28IMGUI%29">
       <UniqueIdentifier>{5a3bf84e-f45a-4451-878c-df4b9ba9e5cc}</UniqueIdentifier>
     </Filter>
@@ -717,6 +711,12 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\03.Object\04.Portal">
       <UniqueIdentifier>{035c014c-4c47-413c-8e7f-5426ac8eb48a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\05.Map\01.FixedMap">
+      <UniqueIdentifier>{4e7121c1-caa1-4990-bff6-c939cc52bbdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\05.Map\02.RandomMap">
+      <UniqueIdentifier>{d7c7c3d9-9769-4bb4-af1e-65b09b6743dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -952,7 +952,7 @@
       <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
     </ClInclude>
     <ClInclude Include="TownMap.h">
-      <Filter>Object\Actor\00.Global\05.Map\00.FixedMap</Filter>
+      <Filter>Object\Actor\00.Global\05.Map\01.FixedMap</Filter>
     </ClInclude>
     <ClInclude Include="TileMap_Common.h">
       <Filter>Object\Actor\00.Global\05.Map</Filter>
