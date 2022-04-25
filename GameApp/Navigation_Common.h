@@ -10,12 +10,64 @@ enum class NavigationType
 	WALL,		// 이동불가지역
 };
 
-class NavigationInfo
+// 노드체크 방향
+enum Neighbor_Dir
 {
-public:
-	NavigationType NaviType;
-	int IndexX;
-	int IndexY;
-	float4 CenterPos;
+	ND_Top,
+	ND_RightTop,
+	ND_Right,
+	ND_RightBottom,
+	ND_Bottom,
+	ND_LeftBottom,
+	ND_Left,
+	ND_LeftTop,
+	ND_End
+};
 
+// 네비게이션 정보 타입
+enum class Nav_Insert_Type
+{
+	None,
+	Open,
+	Close
+};
+
+// 네비게이션 정보(노드정보)
+struct NavNodeInfo
+{
+	int	IndexX;
+	int	IndexY;
+	Nav_Insert_Type NavType;	// 열린노드/닫힌노드
+	float Dist;
+
+};
+
+// 네비게이션 관리자
+struct NavInfoManager
+{
+	std::vector<NavNodeInfo> vecNavInfo;
+	std::vector<NavNodeInfo*> vecOpen;
+	std::vector<NavNodeInfo*> vecUse;
+	int OpenCount;
+	int	UseCount;
+	int	CountX;
+	int	CountY;
+
+	NavNodeInfo* GetNavInfo(int _IndexX, int _IndexY)
+	{
+		if (_IndexX < 0 || _IndexY < 0 || _IndexX >= CountX || _IndexY >= CountY)
+		{
+			return nullptr;
+		}
+
+		return &vecNavInfo[_IndexY * CountX + _IndexX];
+	}
+
+	NavInfoManager()
+	{
+		OpenCount = 0;
+		UseCount = 0;
+		CountX = 0;
+		CountY = 0;
+	}
 };

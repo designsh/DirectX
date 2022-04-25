@@ -290,6 +290,15 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Object\Actor\00.Global\03.Object\04.Portal</Filter>
     </ClCompile>
+    <ClCompile Include="RandomMap.cpp">
+      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation.cpp">
+      <Filter>Object\Actor\00.Global\06.Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation2D.cpp">
+      <Filter>Object\Actor\00.Global\06.Navigation\00.Navigation2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -718,6 +727,12 @@
     <Filter Include="Object\Actor\00.Global\05.Map\02.RandomMap">
       <UniqueIdentifier>{d7c7c3d9-9769-4bb4-af1e-65b09b6743dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\06.Navigation">
+      <UniqueIdentifier>{fd19b225-7d4c-44f4-8c20-fdd595b0e3b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\06.Navigation\00.Navigation2D">
+      <UniqueIdentifier>{7ef67e4f-bcc3-4882-a598-e6e21c312f82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -965,6 +980,15 @@
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Object\Actor\00.Global\03.Object\04.Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomMap.h">
+      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Navigation.h">
+      <Filter>Object\Actor\00.Global\06.Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="Navigation2D.h">
+      <Filter>Object\Actor\00.Global\06.Navigation\00.Navigation2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

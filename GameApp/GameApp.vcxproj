@@ -219,6 +219,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Navigation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Navigation2D.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Portal.cpp">
       <SubType>
       </SubType>
@@ -236,6 +244,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="NPC_TopMenuBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="RandomMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -541,6 +553,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Navigation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Navigation2D.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Portal.h">
       <SubType>
       </SubType>
@@ -559,6 +579,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="NPC_TopMenuBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="RandomMap.h">
       <SubType>
       </SubType>
     </ClInclude>
