@@ -65,6 +65,7 @@ private:
 
 public:
 	float4 GetTileIndexToPos(TileIndex _TileIndex);
+	TileIndex GetPosToTileINdex(float4 _Pos);
 
 private:
 	void MapInfoAllClear();
@@ -93,6 +94,9 @@ public:
 	TileIndex GetNavigationIndex(float4 _MousePos);
 	NavigationType GetTileToNaviType(float4 _MousePos);
 #pragma endregion
+
+private:
+	bool MoveableCheck(PathIndex _PathIndex);
 
 public:
 	void NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos);

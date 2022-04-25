@@ -59,6 +59,11 @@ float4 TownMap::GetTileIndexToPos(TileIndex _TileIndex)
 	return TilePos;
 }
 
+TileIndex TownMap::GetPosToTileINdex(float4 _Pos)
+{
+	return TileIndex();
+}
+
 void TownMap::MapInfoAllClear()
 {
 }
@@ -450,7 +455,6 @@ void TownMap::CreateNavigationInfo()
 {
 	// 해당 맵에 존재하는 모든 액터(NPC, 플레이어, ...)들의 길찾기 알고리즘의 정보를 제공하기 위해
 	// 네비게이션 정보를 생성
-	// std::vector<std::vector<NavigationType>> TownMap_Navi_;
 
 	// 벽정보와 오브젝트정보를 이용하여 네베게이션 정보를 생성
 	// 벽정보와 오브젝트정보는 타일기준 동일하며, 각 타입별 이동불가지역 판단하여
@@ -579,14 +583,48 @@ NavigationType TownMap::GetTileToNaviType(float4 _MousePos)
 	return NavigationType();
 }
 
+bool TownMap::MoveableCheck(PathIndex _PathIndex)
+{
+	TileIndex CheckTileIndex;
+	CheckTileIndex.X_ = _PathIndex.X_;
+	CheckTileIndex.Y_ = _PathIndex.Y_;
+
+	// 네비게이션 인덱스 타입에 존재하는 인덱스이며, Wall타입이면 이동불가판정
+	if (NavTownMap_.end() != NavTownMap_.find(CheckTileIndex.Index_))
+	{
+		if (NavTownMap_[CheckTileIndex.Index_] == NavigationType::WALL)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos)
 {
 	if (nullptr != Navigation_)
 	{
+		//// 플레이어의 현재위치를 이용하여 타일인덱스 계산
+		//TileIndex PlayerIndex = GetPosToTileINdex(_StartPos);
 
+		//// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
+		//TileIndex TargetIndex = GetPosToTileINdex(_MouseClickPos);
+
+		//Navigation_->AStarFind4Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::MoveableCheck, this, std::placeholders::_1));
 	}
 }
 
 void TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos)
 {
+	if (nullptr != Navigation_)
+	{
+		//// 플레이어의 현재위치를 이용하여 타일인덱스 계산
+		//TileIndex PlayerIndex = GetPosToTileINdex(_StartPos);
+
+		//// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
+		//TileIndex TargetIndex = GetPosToTileINdex(_MouseClickPos);
+
+		//Navigation_->AStarFind8Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::MoveableCheck, this, std::placeholders::_1));
+	}
 }
