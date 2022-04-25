@@ -631,9 +631,6 @@
     <Filter Include="Object\Level\99.EditorLevel">
       <UniqueIdentifier>{ddcfa666-d62a-4cb5-85f0-39784c199896}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\99.Editor">
-      <UniqueIdentifier>{f828f566-6a0e-4bc1-b999-b8387e51ad84}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\Stamina">
       <UniqueIdentifier>{937ed26c-7b5c-449e-b605-49d5c5721220}</UniqueIdentifier>
     </Filter>
@@ -682,9 +679,6 @@
     <Filter Include="Object\Actor\00.Global\02.NPC\01.NPC_UI\01.MessageView">
       <UniqueIdentifier>{9bbb1536-4194-422e-bcf2-5e8fbd7c5fa9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\99.Editor\01.CreateTileMapWindow">
-      <UniqueIdentifier>{fd818974-d54d-4b5c-948e-14534bacc2ec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\05.Map">
       <UniqueIdentifier>{c7a28ff8-1af2-4ef7-b877-4ddf8c7d1d2e}</UniqueIdentifier>
     </Filter>
@@ -720,6 +714,15 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\05.Map\02.RandomMap">
       <UniqueIdentifier>{d7c7c3d9-9769-4bb4-af1e-65b09b6743dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\05.Map\99.CommonHeader">
+      <UniqueIdentifier>{15002d7c-b438-4c8f-b6c8-c5dc6fc5cf22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\99.Editor">
+      <UniqueIdentifier>{f828f566-6a0e-4bc1-b999-b8387e51ad84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\99.Editor\01.CreateTileMapWindow">
+      <UniqueIdentifier>{fd818974-d54d-4b5c-948e-14534bacc2ec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -957,12 +960,6 @@
     <ClInclude Include="TownMap.h">
       <Filter>Object\Actor\00.Global\05.Map\01.FixedMap</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap_Common.h">
-      <Filter>Object\Actor\00.Global\05.Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Navigation_Common.h">
-      <Filter>Object\Actor\00.Global\05.Map</Filter>
-    </ClInclude>
     <ClInclude Include="TileMapInfoWindow.h">
       <Filter>Window%28IMGUI%29\MapInfoWindow</Filter>
     </ClInclude>
@@ -971,6 +968,12 @@
     </ClInclude>
     <ClInclude Include="RandomMap.h">
       <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Navigation_Common.h">
+      <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap_Common.h">
+      <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

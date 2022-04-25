@@ -26,7 +26,7 @@ enum class WeaponNPC_FSMState
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineUIRenderer;
+class GameEngineImageRenderer;
 class GameEngineCollision;
 class NPC_TopMenuBar;
 class NPC_MessageView;
@@ -41,7 +41,7 @@ public:
 	static bool GetFirstInteaction();
 
 private:	// member Var
-	GameEngineUIRenderer* WeaponNPCRenderer_;
+	GameEngineImageRenderer* WeaponNPCRenderer_;
 	GameEngineCollision* WeaponNPCCollision_;
 
 private:

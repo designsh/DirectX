@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ChandleryNPC.h"
 
-#include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalEnumClass.h"
@@ -64,6 +64,10 @@ void ChandleryNPC::Update(float _DeltaTime)
 {
 	// 상태 갱신
 	State_.Update();
+
+	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	ChandleryNPCCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
 	// 마우스클릭으로 상호작용대기전환시도 On상태일때
 	if (true == InteractionFlag)

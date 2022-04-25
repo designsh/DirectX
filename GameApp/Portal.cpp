@@ -68,8 +68,12 @@ void Portal::Update(float _DeltaTime)
 	if (nullptr != PortalCollision_)
 	{
 #ifdef _DEBUG
-		GetLevel()->PushDebugRender(PortalCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(PortalCollision_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
+
+		float4 MyPos = GetTransform()->GetLocalPosition();
+		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+		PortalCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
 		// 마우스가 해당 포탈을 클릭한 상태에서 
 		PortalCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Mouse), std::bind(&Portal::MouseLButtonClick, this, std::placeholders::_1));
@@ -127,6 +131,7 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		// 충돌체 생성(본체기준)
 		PortalCollision_ = CreateTransformComponent<GameEngineCollision>();
 		PortalCollision_->GetTransform()->SetLocalScaling(float4(80.f, 120.f));
+		PortalCollision_->GetTransform()->SetLocalPosition(PortalEntityRenderer_->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 		PortalCollision_->GetTransform()->SetLocalZOrder(-10.f);
 
 		// 그림자 렌더러 생성
@@ -151,6 +156,7 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		// 충돌체 생성(본체기준)
 		PortalCollision_ = CreateTransformComponent<GameEngineCollision>();
 		PortalCollision_->GetTransform()->SetLocalScaling(float4(80.f, 120.f));
+		PortalCollision_->GetTransform()->SetLocalPosition(PortalEntityRenderer_->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 		PortalCollision_->GetTransform()->SetLocalZOrder(-10.f);
 
 		// 그림자 렌더러 생성

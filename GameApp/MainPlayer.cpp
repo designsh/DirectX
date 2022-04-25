@@ -21,7 +21,6 @@
 
 MainPlayer::MainPlayer() :
 	IsTown_(true),
-	//IsTown_(false),
 	IsRun_(false),
 	IsInventoryView_(false),
 	IsStateView_(false),
@@ -147,7 +146,7 @@ void MainPlayer::Update(float _DeltaTime)
 	}
 
 	// 카메라는 플레이어를 따라 다닌다.
-	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+	//GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 }
 
 void MainPlayer::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
@@ -296,7 +295,7 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		if (true == MoveDirectCheck(MousePos))
 		{
 			// 이동 시작
-			MoveStart();
+			MoveStart(MousePos);
 		}
 	}
 }

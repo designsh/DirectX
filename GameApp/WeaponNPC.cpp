@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "WeaponNPC.h"
 
-#include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalEnumClass.h"
@@ -65,6 +65,10 @@ void WeaponNPC::Update(float _DeltaTime)
 	// 상태 갱신
 	State_.Update();
 
+	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	WeaponNPCCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+
 	// 마우스클릭으로 상호작용대기전환시도 On상태일때
 	if (true == InteractionFlag)
 	{
@@ -109,7 +113,7 @@ void WeaponNPC::InteractionDistanceCheck()
 			float4 MyPos = GetTransform()->GetWorldPosition();
 
 			// 플레이어를 향한 방향을 알아낸다.
-			float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition() - float4(100.f, 100.f);
+			float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
 
 			// 두벡터(플레이어<->목표지점)의 각도 계산
 			float4 MoveDirect = PlayerPos - MyPos;

@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "WeaponNPC.h"
 
-#include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 void WeaponNPC::InitWeaponNPC()
@@ -32,7 +32,7 @@ void WeaponNPC::TextureCutting()
 
 void WeaponNPC::CreateAnimation()
 {
-	WeaponNPCRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	WeaponNPCRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	WeaponNPCRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
 
 	// 기본상태
@@ -81,7 +81,7 @@ void WeaponNPC::CreateCollision()
 {
 	WeaponNPCCollision_ = CreateTransformComponent<GameEngineCollision>();
 	WeaponNPCCollision_->GetTransform()->SetLocalScaling(float4(32.f, 75.f));
-
-	// 임시
+	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	WeaponNPCCollision_->GetTransform()->SetLocalPosition(WeaponNPCRenderer_->GetTransform()->GetLocalPosition() - CamPos);
 	WeaponNPCCollision_->GetTransform()->SetWorldZOrder(-99.f);
 }

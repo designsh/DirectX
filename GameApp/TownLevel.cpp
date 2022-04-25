@@ -50,43 +50,6 @@ void TownLevel::CreateLevelActor()
 	TownMap_->TownLevel_FixedMapLoad();
 	GlobalValue::TownMap = TownMap_;
 
-	// NPC 생성(무기상인) - 테스트 위치
-	WeaponNPC_ = CreateActor<WeaponNPC>();
-	WeaponNPC_->GetTransform()->SetWorldPosition(float4(-270.f, 504.f, 10.f));
-	WeaponNPC_->SetMoveRange();
-	WeaponNPC_->SetMessageBoxText("Charsi Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	WeaponNPC_->SetUIPosition();
-	WeaponNPC_->SetTopMenu();
-	GlobalValue::WeaponNPC = WeaponNPC_;
-
-	// NPC 생성(잡화상인) - 테스트 위치
-	ChandleryNPC_ = CreateActor<ChandleryNPC>();
-	ChandleryNPC_->GetTransform()->SetWorldPosition(float4(-1420.f, 170.f, 10.f));
-	ChandleryNPC_->SetMoveRange();
-	ChandleryNPC_->SetMessageBoxText("Akara Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	ChandleryNPC_->SetUIPosition();
-	ChandleryNPC_->SetTopMenu();
-	GlobalValue::ChandleryNPC = ChandleryNPC_;
-
-	// 창고오브젝트
-	Storehouse_ = CreateActor<Storehouse>();
-	Storehouse_->GetTransform()->SetWorldPosition(float4(-150.f, 60.f));
-
-	// 맵이동 포탈생성(마을->카타콤)
-	Portal_ = CreateActor<Portal>();
-	Portal_->GetTransform()->SetWorldPosition(float4(-20.f, -250.f));
-	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("CatacombsLevel");
-	Portal_->CreateLevelChangePortal(PortalType::TOWN, NextLevel);
-	GlobalValue::Portal = Portal_;
-
-	// 마우스
-	if (nullptr == GlobalValue::CurMouse)
-	{
-		MainMouse_ = CreateActor<MouseObject>();
-		MainMouse_->GetTransform()->SetWorldPosition(GameEngineInput::GetInst().GetMouse3DPos());
-		GlobalValue::CurMouse = MainMouse_;
-	}
-
 	// 플레이어 생성 및 메인플레이어 지정
 	if (nullptr == GlobalValue::CurPlayer)
 	{
@@ -104,6 +67,48 @@ void TownLevel::CreateLevelActor()
 				GlobalValue::CurPlayer->CreatePlayerUIInfomation();
 			}
 		}
+	}
+
+	// NPC 생성(무기상인) - 테스트 위치
+	float4 WeaponNPCPos = TownMap_->GetTileIndexToPos(TileIndex(-20, -15));
+	WeaponNPC_ = CreateActor<WeaponNPC>();
+	WeaponNPC_->GetTransform()->SetWorldPosition(WeaponNPCPos - GetMainCameraActor()->GetTransform()->GetLocalPosition());
+	WeaponNPC_->SetMoveRange();
+	WeaponNPC_->SetMessageBoxText("Charsi Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	WeaponNPC_->SetUIPosition();
+	WeaponNPC_->SetTopMenu();
+	GlobalValue::WeaponNPC = WeaponNPC_;
+
+	// NPC 생성(잡화상인) - 테스트 위치
+	float4 ChandleryNPCPos = TownMap_->GetTileIndexToPos(TileIndex(22, -17));
+	ChandleryNPC_ = CreateActor<ChandleryNPC>();
+	ChandleryNPC_->GetTransform()->SetWorldPosition(ChandleryNPCPos);
+	ChandleryNPC_->SetMoveRange();
+	ChandleryNPC_->SetMessageBoxText("Akara Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	ChandleryNPC_->SetUIPosition();
+	ChandleryNPC_->SetTopMenu();
+	GlobalValue::ChandleryNPC = ChandleryNPC_;
+
+	// 창고오브젝트
+	float4 StorehousePos = TownMap_->GetTileIndexToPos(TileIndex(-4, -3));
+	StorehousePos.y += 20.f;
+	Storehouse_ = CreateActor<Storehouse>();
+	Storehouse_->GetTransform()->SetWorldPosition(StorehousePos);
+
+	// 맵이동 포탈생성(마을->카타콤)
+	float4 PortalPos = TownMap_->GetTileIndexToPos(TileIndex(6, 7));
+	Portal_ = CreateActor<Portal>();
+	Portal_->GetTransform()->SetWorldPosition(PortalPos);
+	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("CatacombsLevel");
+	Portal_->CreateLevelChangePortal(PortalType::TOWN, NextLevel);
+	GlobalValue::Portal = Portal_;
+
+	// 마우스
+	if (nullptr == GlobalValue::CurMouse)
+	{
+		MainMouse_ = CreateActor<MouseObject>();
+		MainMouse_->GetTransform()->SetWorldPosition(GameEngineInput::GetInst().GetMouse3DPos());
+		GlobalValue::CurMouse = MainMouse_;
 	}
 }
 

@@ -375,7 +375,7 @@ private:
 #pragma region ChangeState
 private: // 规氢 贸府 包访
 	bool MoveDirectCheck(const float4& _MousePos);
-	void MoveStart();
+	void MoveStart(const float4& _MousePos);
 
 private: // ZOrder 函版贸府 包访
 	void StateAndDirectChangeZOrder();

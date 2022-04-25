@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineBase/GameEnginePathFind.h>
 #include <GameEngine/GameEngineActor.h>
 #include "TileMap_Common.h"
 #include "Navigation_Common.h"
@@ -37,9 +38,8 @@ private: // 타일 렌더러
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> ObjectTiles_;
 
 private: // 해당 맵의 네비게이션 정보(벽정보 + 오브젝트정보)
-
-
-	std::vector<std::vector<NavigationType>> TownMap_Navi_; // 추후 변경
+	GameEnginePathFind* Navigation_;
+	std::unordered_map<__int64, NavigationType> NavTownMap_;
 
 private: // 타일크기(인덱스 계산용)
 	float4 TileSize_;
@@ -63,8 +63,8 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-private:
-	float4 GetNavigationIndexToPos(TileIndex _TileIndex);
+public:
+	float4 GetTileIndexToPos(TileIndex _TileIndex);
 
 private:
 	void MapInfoAllClear();
@@ -83,9 +83,6 @@ private: // 타일렌더러 생성
 private: // 네비게이션정보생성
 	void CreateNavigationInfo();
 
-private: // 현재 생성된 맵을 이용하여 모든 액터 배치
-	void TownLevelArrangeActor();
-
 private: // 디버그렌더러 표시/표시안함
 	void TownLevelNavigationDebugRender();
 #pragma endregion
@@ -96,5 +93,9 @@ public:
 	TileIndex GetNavigationIndex(float4 _MousePos);
 	NavigationType GetTileToNaviType(float4 _MousePos);
 #pragma endregion
+
+public:
+	void NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos);
+	void NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos);
 };
 

@@ -2,7 +2,6 @@
 #include "Storehouse.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
-#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalEnumClass.h"
@@ -24,16 +23,21 @@ Storehouse::~Storehouse()
 
 void Storehouse::Start()
 {
-	StorehouseRenderer_ = CreateTransformComponent<GameEngineUIRenderer>();
+	StorehouseRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	StorehouseRenderer_->SetImage("Storehouse.png");
 
 	StorehouseCollision_ = CreateTransformComponent<GameEngineCollision>();
 	StorehouseCollision_->GetTransform()->SetLocalScaling(StorehouseRenderer_->GetTransform()->GetLocalScaling());
+	StorehouseCollision_->GetTransform()->SetLocalPosition(StorehouseRenderer_->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 	StorehouseCollision_->GetTransform()->SetWorldZOrder(-99.f);
 }
 
 void Storehouse::Update(float _DeltaTime)
 {
+	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	StorehouseCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+
 #ifdef _DEBUG
 	GetLevel()->UIPushDebugRender(StorehouseCollision_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG

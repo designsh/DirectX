@@ -13,6 +13,11 @@ TownMap::TownMap() :
 
 TownMap::~TownMap()
 {
+	if (nullptr != Navigation_)
+	{
+		delete Navigation_;
+		Navigation_ = nullptr;
+	}
 }
 
 void TownMap::Start()
@@ -44,12 +49,14 @@ void TownMap::Update(float _DeltaTime)
 #pragma endregion
 }
 
-float4 TownMap::GetNavigationIndexToPos(TileIndex _TileIndex)
+float4 TownMap::GetTileIndexToPos(TileIndex _TileIndex)
 {
 	// 네비게이션 타일인덱스를 월드상의 위치값으로 변환해서 반환
-
-
-	return float4();
+	float4 TilePos = float4::ZERO;
+	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.halffloat4().halffloat4().x;
+	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.halffloat4().halffloat4().y;
+	
+	return TilePos;
 }
 
 void TownMap::MapInfoAllClear()
@@ -450,42 +457,43 @@ void TownMap::CreateNavigationInfo()
 	// 네비게이션 정보를 생성한다.
 	int YInfoCnt = static_cast<int>(TownMap_WallTileInfo_.size());
 	int XInfoCnt = static_cast<int>(TownMap_WallTileInfo_[YInfoCnt - 1].size());
-
-	TownMap_Navi_.resize(YInfoCnt);
 	for (int y = 0; y < YInfoCnt; ++y)
 	{
-		TownMap_Navi_[y].resize(XInfoCnt);
 		for (int x = 0; x < XInfoCnt; ++x)
 		{
+			TileIndex Index;
+			Index.X_ = TownMap_WallTileInfo_[y][x].WallIndexX;
+			Index.Y_ = TownMap_WallTileInfo_[y][x].WallIndexY;
+
 			// 벽타입 중 노말 타입은 이동가능지역
 			if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::NORMAL)
 			{
-				TownMap_Navi_[y][x] = NavigationType::NOR;
+				NavTownMap_.insert(std::make_pair(Index.Index_, NavigationType::NOR));
 			}
 			else
 			{
-				TownMap_Navi_[y][x] = NavigationType::WALL;
+				NavTownMap_.insert(std::make_pair(Index.Index_, NavigationType::WALL));
 			}
 
 			// 오브젝트타입 중 노말 타입을 제외한 타입은 벽으로 판단
 			if (TownMap_ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::WALL ||
 				TownMap_ObjectTileInfo_[y][x].ObjectBasicType == ObjectBasicType::OBJECT)
 			{
-				TownMap_Navi_[y][x] = NavigationType::WALL;
+				// 이미 존재하는 인덱스면 타입만 변경 아니면 추가
+				if (NavTownMap_.end() != NavTownMap_.find(Index.Index_))
+				{
+					NavTownMap_[Index.Index_] = NavigationType::WALL;
+				}
+				else
+				{
+					NavTownMap_.insert(std::make_pair(Index.Index_, NavigationType::WALL));
+				}
 			}
 		}
 	}
-}
 
-void TownMap::TownLevelArrangeActor()
-{
-	// 해당 맵에서 사용하는 모든 액터를 생성하고, 맵에 배치
-
-
-
-
-
-
+	// 네비게이션 생성
+	Navigation_ = new GameEnginePathFind();
 }
 
 void TownMap::TownLevelNavigationDebugRender()
@@ -563,19 +571,22 @@ NavigationType TownMap::GetTileToNaviType(float4 _MousePos)
 {
 	TileIndex TileIndex = GetNavigationIndex(_MousePos);
 
-	int YInfoCnt = static_cast<int>(TownMap_WallTileInfo_.size());
-	int XInfoCnt = static_cast<int>(TownMap_WallTileInfo_[YInfoCnt - 1].size());
-	for (int y = 0; y < YInfoCnt; ++y)
+	if (NavTownMap_.end() != NavTownMap_.find(TileIndex.Index_))
 	{
-		for (int x = 0; x < XInfoCnt; ++x)
-		{
-			if (TownMap_WallTileInfo_[y][x].WallIndexX == TileIndex.X_ &&
-				TownMap_WallTileInfo_[y][x].WallIndexY == TileIndex.Y_)
-			{
-				return TownMap_Navi_[y][x];
-			}
-		}
+		return NavTownMap_[TileIndex.Index_];
 	}
 
 	return NavigationType();
+}
+
+void TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos)
+{
+	if (nullptr != Navigation_)
+	{
+
+	}
+}
+
+void TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos)
+{
 }

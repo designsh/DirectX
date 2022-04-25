@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ChandleryNPC.h"
 
-#include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 
@@ -33,7 +33,7 @@ void ChandleryNPC::TextureCutting()
 
 void ChandleryNPC::CreateAnimation()
 {
-	ChandleryNPCRenderer_ = CreateTransformComponent<GameEngineUIRenderer>();
+	ChandleryNPCRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	ChandleryNPCRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
 
 	// 기본상태
@@ -82,8 +82,8 @@ void ChandleryNPC::CreateCollision()
 {
 	ChandleryNPCCollision_ = CreateTransformComponent<GameEngineCollision>();
 	ChandleryNPCCollision_->GetTransform()->SetLocalScaling(float4(32.f, 75.f));
-
-	float4 Pos = GetTransform()->GetLocalPosition();
-	ChandleryNPCCollision_->GetTransform()->SetLocalPosition(float4(Pos.x, Pos.y, -10.f));
+	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	ChandleryNPCCollision_->GetTransform()->SetLocalPosition(ChandleryNPCRenderer_->GetTransform()->GetLocalPosition() - CamPos);
+	ChandleryNPCCollision_->GetTransform()->SetWorldZOrder(-99.f);
 }
 

@@ -136,9 +136,8 @@ void WeaponNPC::UpdateWalk()
 		case WeaponNPC_MoveDir::DIR_B:
 		{
 			// 이동 및 현재 이동위치 갱신
-			GetTransform()->SetLocalDeltaTimeMove(float4(0.0f, -1.0f) * MoveSpeed_);
+			GetTransform()->SetWorldDeltaTimeMove(float4(0.0f, -1.0f) * MoveSpeed_);
 			MoveCurPos_ = GetTransform()->GetLocalPosition();
-
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -155,9 +154,8 @@ void WeaponNPC::UpdateWalk()
 		case WeaponNPC_MoveDir::DIR_LB:
 		{
 			// 이동 및 현재 이동위치 갱신
-			GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, -1.0f) * MoveSpeed_);
+			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, -1.0f) * MoveSpeed_);
 			MoveCurPos_ = GetTransform()->GetLocalPosition();
-
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -174,9 +172,8 @@ void WeaponNPC::UpdateWalk()
 		case WeaponNPC_MoveDir::DIR_L:
 		{
 			// 이동 및 현재 이동위치 갱신
-			GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, 0.0f) * MoveSpeed_);
+			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, 0.0f) * MoveSpeed_);
 			MoveCurPos_ = GetTransform()->GetLocalPosition();
-
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -193,9 +190,8 @@ void WeaponNPC::UpdateWalk()
 		case WeaponNPC_MoveDir::DIR_LT:
 		{
 			// 이동 및 현재 이동위치 갱신
-			GetTransform()->SetLocalDeltaTimeMove(float4(-1.0f, 1.0f) * MoveSpeed_);
+			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, 1.0f) * MoveSpeed_);
 			MoveCurPos_ = GetTransform()->GetLocalPosition();
-
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -212,9 +208,8 @@ void WeaponNPC::UpdateWalk()
 		case WeaponNPC_MoveDir::DIR_T:
 		{
 			// 이동 및 현재 이동위치 갱신
-			GetTransform()->SetLocalDeltaTimeMove(float4(0.0f, 1.0f) * MoveSpeed_);
+			GetTransform()->SetWorldDeltaTimeMove(float4(0.0f, 1.0f) * MoveSpeed_);
 			MoveCurPos_ = GetTransform()->GetLocalPosition();
-
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -231,9 +226,8 @@ void WeaponNPC::UpdateWalk()
 		case WeaponNPC_MoveDir::DIR_RT:
 		{
 			// 이동 및 현재 이동위치 갱신
-			GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, 1.0f) * MoveSpeed_);
+			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, 1.0f) * MoveSpeed_);
 			MoveCurPos_ = GetTransform()->GetLocalPosition();
-
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -250,9 +244,8 @@ void WeaponNPC::UpdateWalk()
 		case WeaponNPC_MoveDir::DIR_R:
 		{
 			// 이동 및 현재 이동위치 갱신
-			GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, 0.0f)* MoveSpeed_);
+			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, 0.0f)* MoveSpeed_);
 			MoveCurPos_ = GetTransform()->GetLocalPosition();
-
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -269,9 +262,8 @@ void WeaponNPC::UpdateWalk()
 		case WeaponNPC_MoveDir::DIR_RB:
 		{
 			// 이동 및 현재 이동위치 갱신
-			GetTransform()->SetLocalDeltaTimeMove(float4(1.0f, -1.0f)* MoveSpeed_);
+			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, -1.0f)* MoveSpeed_);
 			MoveCurPos_ = GetTransform()->GetLocalPosition();
-
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -286,9 +278,7 @@ void WeaponNPC::UpdateWalk()
 			break;
 		}
 	}
-
 	
-
 	// 이동처리중 최대이동범위를 넘어가면 현재이동방향을 저장하고 바로 상태전환
 	if (!((MoveMinRange_.x <= MoveCurPos_.x && MoveMinRange_.y <= MoveCurPos_.y) && (MoveMaxRange_.x >= MoveCurPos_.x && MoveMaxRange_.y >= MoveCurPos_.y)))
 	{

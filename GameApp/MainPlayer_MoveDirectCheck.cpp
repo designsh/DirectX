@@ -4,6 +4,7 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+#include "TownMap.h"
 #include "MouseObject.h"
 
 bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
@@ -94,8 +95,27 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 	return true;
 }
 
-void MainPlayer::MoveStart()
+void MainPlayer::MoveStart(const float4& _MousePos)
 {
+	// 레벨체크
+	if (std::string::npos != GetLevel()->GetName().find("TownLevel"))
+	{
+		GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
+	}
+	else if(std::string::npos != GetLevel()->GetName().find("CatacombsLevel"))
+	{
+
+	}
+	else if (std::string::npos != GetLevel()->GetName().find("ChaosSanctuaryLevel"))
+	{
+
+	}
+	else
+	{
+		// 맵이 존재하지않으면 이동 불가
+		return;
+	}
+
 	// 이동가능한 구역이므로 방향을 이용하여 상태 및 애니메이션 변경
 	// 단, 현재 플레이어가 마을인지 필드인지 체크한다.
 	// 또한, 뛰기 상태인지 체크

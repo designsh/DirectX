@@ -293,13 +293,13 @@ void NPC_TopMenuBar::NPCTopMenuActive()
 		case NPCClassType::Akara:
 		{
 			float4 AkaraPos = GlobalValue::ChandleryNPC->GetTransform()->GetLocalPosition();
-			GetTransform()->SetWorldPosition(AkaraPos);
+			GetTransform()->SetWorldPosition(AkaraPos - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 			break;
 		}
 		case NPCClassType::Charsi:
 		{
 			float4 CharsiPos = GlobalValue::WeaponNPC->GetTransform()->GetLocalPosition();
-			GetTransform()->SetWorldPosition(CharsiPos);
+			GetTransform()->SetWorldPosition(CharsiPos - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 			break;
 		}
 	}
