@@ -38,6 +38,7 @@ private: // 타일 렌더러
 
 private: // 해당 맵의 네비게이션 정보(벽정보 + 오브젝트정보)
 	std::vector<std::vector<NavigationType>> TownMap_Navi_; // 추후 변경
+	//NavNodeInfoManager* NavManager_;
 
 private: // 타일크기(인덱스 계산용)
 	float4 TileSize_;
