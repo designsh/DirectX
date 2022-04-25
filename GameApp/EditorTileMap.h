@@ -56,7 +56,7 @@ struct WallTileRender
 // 용도 : 
 // 설명 : 
 class GameEngineTileMapRenderer;
-class TileMap : public GameEngineActor
+class EditorTileMap : public GameEngineActor
 {
 #pragma region 실질적인 타일정보
 private: // 실질적으로 저장되는 타일정보(값형)
@@ -146,16 +146,16 @@ private: // 렌더링모드
 #pragma endregion
 
 public:
-	TileMap();
-	~TileMap();
+	EditorTileMap();
+	~EditorTileMap();
 
 protected:		// delete constructer
-	TileMap(const TileMap& _other) = delete;
-	TileMap(TileMap&& _other) noexcept = delete;
+	EditorTileMap(const EditorTileMap& _other) = delete;
+	EditorTileMap(EditorTileMap&& _other) noexcept = delete;
 
 private:		//delete operator
-	TileMap& operator=(const TileMap& _other) = delete;
-	TileMap& operator=(const TileMap&& _other) = delete;
+	EditorTileMap& operator=(const EditorTileMap& _other) = delete;
+	EditorTileMap& operator=(const EditorTileMap&& _other) = delete;
 
 private:
 	void Start() override;

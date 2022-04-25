@@ -48,6 +48,9 @@ private:
 	double deltaTime_;
 
 private:
+	std::map<int, float> TimeScale_;
+
+private:
 	std::list<TimeEvent*> AllEvent_;
 	std::list<TimeEvent*> AddEvent_;
 
@@ -62,11 +65,54 @@ public:	//member Func
 		return static_cast<float>(deltaTime_);
 	}
 
+	float GetDeltaTime(int _Index)
+	{
+		if (TimeScale_.end() == TimeScale_.find(_Index))
+		{
+			TimeScale_[_Index] = 1.0f;
+		}
+
+		return static_cast<float>(deltaTime_) * TimeScale_[_Index];
+	}
+
 public:
 	void TimeCheckReset();
 	void TimeCheck();
 
 public:
 	void AddTimeEvent(float _Time, std::function<void()> _Event);
+
+public:
+	template<typename EnumType>
+	void SetTimeScale(EnumType _Index, float _Scale)
+	{
+		SetTimeScale(static_cast<int>(_Index), _Scale);
+	}
+
+	void SetTimeScale(int _Index, float _Scale)
+	{
+		if (TimeScale_.end() == TimeScale_.find(_Index))
+		{
+			TimeScale_[_Index] = 1.0f;
+		}
+
+		TimeScale_[_Index] = _Scale;
+	}
+
+	template<typename EnumType>
+	float GetTimeScale(EnumType _Index)
+	{
+		return GetTimeScale(static_cast<int>(_Index));
+	}
+
+	float GetTimeScale(int _Index)
+	{
+		if (TimeScale_.end() == TimeScale_.find(_Index))
+		{
+			TimeScale_[_Index] = 1.0f;
+		}
+
+		return TimeScale_[_Index];
+	}
 };
 

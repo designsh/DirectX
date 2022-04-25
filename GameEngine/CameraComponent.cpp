@@ -177,7 +177,6 @@ void CameraComponent::NextLevelMoveRenderer(CameraComponent* _NextCamera, GameEn
 			if (ReleaseRenderer->GetActor() == _Actor)
 			{
 				_NextCamera->RendererList_[(*BeginIter)->GetOrder()].push_back(ReleaseRenderer);
-				ReleaseRenderer->SetLevel(_NextCamera->GetLevel());
 				BeginIter = Renderers.erase(BeginIter);
 				continue;
 			}

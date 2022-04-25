@@ -13,11 +13,11 @@ enum class TileType
 // 용도 : 
 // 설명 : 
 class CameraComponent;
-class TileMap;
+class EditorTileMap;
 class CreateTileMapWindow : public GameEngineGUIWindow
 {
 public:
-	TileMap* TileMap_;
+	EditorTileMap* TileMap_;
 
 public:
 	float Zoom_;

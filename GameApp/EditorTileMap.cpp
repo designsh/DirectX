@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "TileMap.h"
+#include "EditorTileMap.h"
 
 #include <GameEngineBase/GameEngineFile.h>
 
@@ -10,7 +10,7 @@
 
 #include "GlobalEnumClass.h"
 
-TileMap::TileMap() :
+EditorTileMap::EditorTileMap() :
 	FloorRenderingType_(FloorRenderingType::TILE),
 	WallRenderingType_(WallRenderingType::TILE1),
 	ObjectRenderingType_(ObjectRenderingType::TILE),
@@ -35,11 +35,11 @@ TileMap::TileMap() :
 {
 }
 
-TileMap::~TileMap()
+EditorTileMap::~EditorTileMap()
 {
 }
 
-void TileMap::Start()
+void EditorTileMap::Start()
 {
 	// 에디터 사용 기본 정보 초기화
 
@@ -67,7 +67,7 @@ void TileMap::Start()
 	ObjectTileIndexPivotPos_ = { 0.0f, TileSize_.y };
 }
 
-void TileMap::FloorGridesSwitching()
+void EditorTileMap::FloorGridesSwitching()
 {
 	if (false == FloorGridesActive_)
 	{
@@ -93,7 +93,7 @@ void TileMap::FloorGridesSwitching()
 	}
 }
 
-void TileMap::WallGridesSwitching()
+void EditorTileMap::WallGridesSwitching()
 {
 	if (false == WallGridesActive_)
 	{
@@ -119,7 +119,7 @@ void TileMap::WallGridesSwitching()
 	}
 }
 
-void TileMap::ObjectGridesSwitching()
+void EditorTileMap::ObjectGridesSwitching()
 {
 	if (false == ObjectGridesActive_)
 	{
@@ -147,17 +147,17 @@ void TileMap::ObjectGridesSwitching()
 
 #pragma region 편의기능관련
 
-void TileMap::SetFloorRenderingMode(FloorRenderingType _FloorRenderingType)
+void EditorTileMap::SetFloorRenderingMode(FloorRenderingType _FloorRenderingType)
 {
 	FloorRenderingType_ = _FloorRenderingType;
 }
 
-void TileMap::SetWallRenderingMode(WallRenderingType _WallRenderingType)
+void EditorTileMap::SetWallRenderingMode(WallRenderingType _WallRenderingType)
 {
 	WallRenderingType_ = _WallRenderingType;
 }
 
-void TileMap::SetObjectRenderingMode(ObjectRenderingType _ObjectRenderingType)
+void EditorTileMap::SetObjectRenderingMode(ObjectRenderingType _ObjectRenderingType)
 {
 	ObjectRenderingType_ = _ObjectRenderingType;
 }
@@ -166,17 +166,17 @@ void TileMap::SetObjectRenderingMode(ObjectRenderingType _ObjectRenderingType)
 
 #pragma region IMGUI표시용
 
-float4 TileMap::GetFloorIsoPos(float4 _Pos)
+float4 EditorTileMap::GetFloorIsoPos(float4 _Pos)
 {
 	return { ((_Pos.x / TileSizeHalf_.x) - (_Pos.y / TileSizeHalf_.y)) / 2.0f ,((_Pos.y / TileSizeHalf_.y) + (_Pos.x / TileSizeHalf_.x)) / -2.0f };
 }
 
-float4 TileMap::GetWallIsoPos(float4 _Pos)
+float4 EditorTileMap::GetWallIsoPos(float4 _Pos)
 {
 	return { ((_Pos.x / TileSizeHHalf_.x) - (_Pos.y / TileSizeHHalf_.y)) / 2.0f, ((_Pos.y / TileSizeHHalf_.y) + (_Pos.x / TileSizeHHalf_.x)) / -2.0f };
 }
 
-float4 TileMap::GetObjectIsoPos(float4 _Pos)
+float4 EditorTileMap::GetObjectIsoPos(float4 _Pos)
 {
 	return { ((_Pos.x / TileSizeHHalf_.x) - (_Pos.y / TileSizeHHalf_.y)) / 2.0f, ((_Pos.y / TileSizeHHalf_.y) + (_Pos.x / TileSizeHHalf_.x)) / -2.0f };
 }
@@ -185,7 +185,7 @@ float4 TileMap::GetObjectIsoPos(float4 _Pos)
 
 #pragma region GetTileIndex(Floor/Wall)
 
-TileIndex TileMap::GetFloorTileIndex(float4 _Pos)
+TileIndex EditorTileMap::GetFloorTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
@@ -208,7 +208,7 @@ TileIndex TileMap::GetFloorTileIndex(float4 _Pos)
 	return Index;
 }
 
-TileIndex TileMap::GetWallTileIndex(float4 _Pos)
+TileIndex EditorTileMap::GetWallTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
@@ -239,7 +239,7 @@ TileIndex TileMap::GetWallTileIndex(float4 _Pos)
 	return Index;
 }
 
-TileIndex TileMap::GetObjectTileIndex(float4 _Pos)
+TileIndex EditorTileMap::GetObjectTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
@@ -274,12 +274,12 @@ TileIndex TileMap::GetObjectTileIndex(float4 _Pos)
 
 #pragma region SetTile/DelTile(Floor/Wall)
 
-void TileMap::SetFloorTile(float4 _Pos, int CurTileIndex_)
+void EditorTileMap::SetFloorTile(float4 _Pos, int CurTileIndex_)
 {
 	SetFloorTile(GetFloorTileIndex(_Pos), CurTileIndex_);
 }
 
-void TileMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
+void EditorTileMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 {
 	// 타일타입일때만 처리
 	if (FloorRenderingType::TILE == FloorRenderingType_)
@@ -344,12 +344,12 @@ void TileMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 	}
 }
 
-void TileMap::SetWallTile(float4 _Pos, int CurTileIndex_)
+void EditorTileMap::SetWallTile(float4 _Pos, int CurTileIndex_)
 {
 	SetWallTile(GetWallTileIndex(_Pos), CurTileIndex_);
 }
 
-void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
+void EditorTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 {
 	// 타일타입일때만 처리
 	if (WallRenderingType::TILE1 == WallRenderingType_ || WallRenderingType::TILE2 == WallRenderingType_)
@@ -444,12 +444,12 @@ void TileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	}
 }
 
-void TileMap::SetObjectTile(float4 _Pos, int CurTileIndex_)
+void EditorTileMap::SetObjectTile(float4 _Pos, int CurTileIndex_)
 {
 	SetObjectTile(GetObjectTileIndex(_Pos), CurTileIndex_);
 }
 
-void TileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
+void EditorTileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
 {
 	if (ObjectRenderingType::TILE == ObjectRenderingType_)
 	{
@@ -513,7 +513,7 @@ void TileMap::SetObjectTile(TileIndex _Index, int CurTileIndex_)
 	}
 }
 
-void TileMap::DelFloorTile(float4 _Pos)
+void EditorTileMap::DelFloorTile(float4 _Pos)
 {
 	// 타일모드일때 처리
 	if (FloorRenderingType::TILE == FloorRenderingType_)
@@ -530,7 +530,7 @@ void TileMap::DelFloorTile(float4 _Pos)
 	}
 }
 
-void TileMap::DelWallTile(float4 _Pos)
+void EditorTileMap::DelWallTile(float4 _Pos)
 {
 	// 타일모드일때 처리
 	if (WallRenderingType::TILE1 == WallRenderingType_ || WallRenderingType::TILE2 == WallRenderingType_)
@@ -552,7 +552,7 @@ void TileMap::DelWallTile(float4 _Pos)
 	}
 }
 
-void TileMap::DelObjectTile(float4 _Pos)
+void EditorTileMap::DelObjectTile(float4 _Pos)
 {
 	// 타일모드일때 처리
 	if (ObjectRenderingType::TILE == ObjectRenderingType_)
@@ -593,12 +593,12 @@ void TileMap::DelObjectTile(float4 _Pos)
 
 #pragma region SetGrid/DelGrid(Floor/Wall)
 
-void TileMap::SetFloorGird(float4 _Pos, int CurTileIndex_)
+void EditorTileMap::SetFloorGird(float4 _Pos, int CurTileIndex_)
 {
 	SetFloorGird(GetFloorTileIndex(_Pos), CurTileIndex_);
 }
 
-void TileMap::SetFloorGird(TileIndex _Index, int CurTileIndex_)
+void EditorTileMap::SetFloorGird(TileIndex _Index, int CurTileIndex_)
 {
 	// 타일모드가 아닐때 처리
 	if (FloorRenderingType::TILE != FloorRenderingType_)
@@ -630,12 +630,12 @@ void TileMap::SetFloorGird(TileIndex _Index, int CurTileIndex_)
 	}
 }
 
-void TileMap::SetWallGird(float4 _Pos, int CurTileIndex_)
+void EditorTileMap::SetWallGird(float4 _Pos, int CurTileIndex_)
 {
 	SetWallGird(GetWallTileIndex(_Pos), CurTileIndex_);
 }
 
-void TileMap::SetWallGird(TileIndex _Index, int CurTileIndex_)
+void EditorTileMap::SetWallGird(TileIndex _Index, int CurTileIndex_)
 {
 	// 타일모드가 아닐때 처리
 	if (WallRenderingType::TILE1 != WallRenderingType_ && WallRenderingType::TILE2 != WallRenderingType_)
@@ -922,12 +922,12 @@ void TileMap::SetWallGird(TileIndex _Index, int CurTileIndex_)
 	}
 }
 
-void TileMap::SetObjectGird(float4 _Pos, int CurTileIndex_)
+void EditorTileMap::SetObjectGird(float4 _Pos, int CurTileIndex_)
 {
 	SetObjectGird(GetObjectTileIndex(_Pos), CurTileIndex_);
 }
 
-void TileMap::SetObjectGird(TileIndex _Index, int CurTileIndex_)
+void EditorTileMap::SetObjectGird(TileIndex _Index, int CurTileIndex_)
 {
 	// 타일모드가 아닐때 처리
 	if (ObjectRenderingType::TILE != ObjectRenderingType_)
@@ -1033,7 +1033,7 @@ void TileMap::SetObjectGird(TileIndex _Index, int CurTileIndex_)
 	}
 }
 
-void TileMap::DelFloorGird(float4 _Pos)
+void EditorTileMap::DelFloorGird(float4 _Pos)
 {
 	// 타일모드가 아닐때 처리
 	if (FloorRenderingType::TILE != FloorRenderingType_)
@@ -1050,7 +1050,7 @@ void TileMap::DelFloorGird(float4 _Pos)
 	}
 }
 
-void TileMap::DelWallGird(float4 _Pos)
+void EditorTileMap::DelWallGird(float4 _Pos)
 {
 	// 타일모드가 아닐때 처리
 	if (WallRenderingType::TILE1 != WallRenderingType_ && WallRenderingType::TILE2 != WallRenderingType_)
@@ -1067,7 +1067,7 @@ void TileMap::DelWallGird(float4 _Pos)
 	}
 }
 
-void TileMap::DelObjectGird(float4 _Pos)
+void EditorTileMap::DelObjectGird(float4 _Pos)
 {
 	// 타일모드가 아닐때 처리
 	if (ObjectRenderingType::TILE != ObjectRenderingType_)
@@ -1089,7 +1089,7 @@ void TileMap::DelObjectGird(float4 _Pos)
 #pragma region 자동모드관련
 
 // 자동모드 정보생성
-void TileMap::CreateFloorTileInfo(int _HeightTileCount, int _WidthTileCount, int _ImageIndex)
+void EditorTileMap::CreateFloorTileInfo(int _HeightTileCount, int _WidthTileCount, int _ImageIndex)
 {
 	// 만약 다른모드에서 바닥타일정보나 바닥타일렌더링정보를 생성한것을 재사용하는것을 방지하기 위하여 기존 정보 모두 클리어하고 생성 시작
 	AllClearFloorTile();
@@ -1181,7 +1181,7 @@ void TileMap::CreateFloorTileInfo(int _HeightTileCount, int _WidthTileCount, int
 	}
 }
 
-void TileMap::CreateWallTileInfo()
+void EditorTileMap::CreateWallTileInfo()
 {
 	// 만약 다른모드에서 바닥타일정보나 바닥타일렌더링정보를 생성한것을 재사용하는것을 방지하기 위하여 기존 정보 모두 클리어하고 생성 시작
 	AllClearWallTile();
@@ -1542,7 +1542,7 @@ void TileMap::CreateWallTileInfo()
 	}
 }
 
-void TileMap::CreateObjectTileInfo()
+void EditorTileMap::CreateObjectTileInfo()
 {
 	// 벽타일정보가 있다면 생성함(벽타일과 같은기준으로 타일정보를 가진다.)
 	if (false == WallTileInfo_.empty())
@@ -1640,7 +1640,7 @@ void TileMap::CreateObjectTileInfo()
 }
 
 // 자동모드 타일텍스쳐 매칭
-void TileMap::UpdateFloorTileInfo()
+void EditorTileMap::UpdateFloorTileInfo()
 {
 	// 바닥타일정보를 읽어들여 이미지 인덱스를 매칭하여 화면에 렌더링한다.
 	// 현재 사용자가 선택한 바닥타일 이미지로 컨텍된다.
@@ -1669,7 +1669,7 @@ void TileMap::UpdateFloorTileInfo()
 	}
 }
 
-void TileMap::SetTownWallTexture()
+void EditorTileMap::SetTownWallTexture()
 {
 	// RT_T
 	Wall_RT_T_ImageIndex_ = 1;
@@ -1701,15 +1701,15 @@ void TileMap::SetTownWallTexture()
 	Wall_BENT_MULTI2_ImageIndex_ = 6;
 }
 
-void TileMap::SetCatacombsWallTexture()
+void EditorTileMap::SetCatacombsWallTexture()
 {
 }
 
-void TileMap::SetChaosSanctuaryWallTexture()
+void EditorTileMap::SetChaosSanctuaryWallTexture()
 {
 }
 
-void TileMap::UpdateWallTileInfo()
+void EditorTileMap::UpdateWallTileInfo()
 {
 	// 벽타일 그리드 정보를 읽어들여 이미지 인덱스를 매칭하여 화면에 렌더링한다.
 	// 단, BENT타입의 경우 렌더러 2개를 가지며 또한 각 방향(RT/RB)는 연속된 벽이미지인덱스를 컨텍하여
@@ -1896,7 +1896,7 @@ void TileMap::UpdateWallTileInfo()
 	}
 }
 
-void TileMap::AutoModeTileAllClear()
+void EditorTileMap::AutoModeTileAllClear()
 {
 	// 자동으로 생성한 맵 정보 및 그리드, 타일렌더 모두 클리어
 	AllClear();
@@ -1905,7 +1905,7 @@ void TileMap::AutoModeTileAllClear()
 #pragma endregion
 
 #pragma region 정보/렌더링정보삭제기능
-void TileMap::AllClear()
+void EditorTileMap::AllClear()
 {
 	// 바닥타일관련 클리어
 	AllClearFloorTile();
@@ -1917,7 +1917,7 @@ void TileMap::AllClear()
 	AllClearObjectTile();
 }
 
-void TileMap::AllClearFloorTile()
+void EditorTileMap::AllClearFloorTile()
 {
 	// 타일정보 클리어
 	AllClearFloorTileInfo();
@@ -1926,7 +1926,7 @@ void TileMap::AllClearFloorTile()
 	AllClearFloorTileMapRenderer();
 }
 
-void TileMap::AllClearFloorTileInfo()
+void EditorTileMap::AllClearFloorTileInfo()
 {
 	for (int y = 0; y < static_cast<int>(FloorTileInfo_.size()); ++y)
 	{
@@ -1938,7 +1938,7 @@ void TileMap::AllClearFloorTileInfo()
 	FloorTileInfo_.clear();
 }
 
-void TileMap::AllClearFloorTileMapRenderer()
+void EditorTileMap::AllClearFloorTileMapRenderer()
 {
 	// 타일
 	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesStartIter = FloorTiles_.begin();
@@ -1964,7 +1964,7 @@ void TileMap::AllClearFloorTileMapRenderer()
 	FloorGridesActive_ = true;
 }
 
-void TileMap::AllClearWallTile()
+void EditorTileMap::AllClearWallTile()
 {
 	// 타일정보 클리어
 	AllClearWallTileInfo();
@@ -1973,7 +1973,7 @@ void TileMap::AllClearWallTile()
 	AllClearWallTileMapRenderer();
 }
 
-void TileMap::AllClearWallTileInfo()
+void EditorTileMap::AllClearWallTileInfo()
 {
 	for (int y = 0; y < static_cast<int>(WallTileInfo_.size()); ++y)
 	{
@@ -1985,7 +1985,7 @@ void TileMap::AllClearWallTileInfo()
 	WallTileInfo_.clear();
 }
 
-void TileMap::AllClearWallTileMapRenderer()
+void EditorTileMap::AllClearWallTileMapRenderer()
 {
 	// 타일
 	std::unordered_map<__int64, WallTileRender>::iterator TilesStartIter = WallTiles_.begin();
@@ -2016,7 +2016,7 @@ void TileMap::AllClearWallTileMapRenderer()
 	WallGridesActive_ = true;
 }
 
-void TileMap::AllClearObjectTile()
+void EditorTileMap::AllClearObjectTile()
 {
 	// 타일정보 클리어
 	AllClearObjectTileInfo();
@@ -2025,7 +2025,7 @@ void TileMap::AllClearObjectTile()
 	AllClearObjectTileMapRenderer();
 }
 
-void TileMap::AllClearObjectTileInfo()
+void EditorTileMap::AllClearObjectTileInfo()
 {
 	for (int y = 0; y < static_cast<int>(ObjectTileInfo_.size()); ++y)
 	{
@@ -2037,7 +2037,7 @@ void TileMap::AllClearObjectTileInfo()
 	ObjectTileInfo_.clear();
 }
 
-void TileMap::AllClearObjectTileMapRenderer()
+void EditorTileMap::AllClearObjectTileMapRenderer()
 {
 	// 타일
 	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator TilesStartIter = ObjectTiles_.begin();
@@ -2065,7 +2065,7 @@ void TileMap::AllClearObjectTileMapRenderer()
 
 #pragma endregion
 
-void TileMap::MapFileSave()
+void EditorTileMap::MapFileSave()
 {
 	// 파일생성 위치로 디렉터리 이동
 	GameEngineDirectory DataFileDir;
@@ -2219,7 +2219,7 @@ void TileMap::MapFileSave()
 	pFile.Close();
 }
 
-void TileMap::MapFileLoad()
+void EditorTileMap::MapFileLoad()
 {
 	// 정보로드전 모든 데이터 및 렌더러 클리어
 	AllClear();
@@ -2411,7 +2411,7 @@ void TileMap::MapFileLoad()
 	CreatedAfterLoading();
 }
 
-void TileMap::CreatedAfterLoading()
+void EditorTileMap::CreatedAfterLoading()
 {
 	// 모든 정보 로딩완료시 화면에 렌더링하는 렌더러 생성
 
@@ -2426,7 +2426,7 @@ void TileMap::CreatedAfterLoading()
 	CreatedAfterLoading_ObjectTiles();
 }
 
-void TileMap::CreatedAfterLoading_FloorGrides()
+void EditorTileMap::CreatedAfterLoading_FloorGrides()
 {
 	// 바닥 타일
 	int YInfoCnt = static_cast<int>(FloorTileInfo_.size());
@@ -2460,7 +2460,7 @@ void TileMap::CreatedAfterLoading_FloorGrides()
 	}
 }
 
-void TileMap::CreatedAfterLoading_WallGrides()
+void EditorTileMap::CreatedAfterLoading_WallGrides()
 {
 	// 벽 타일
 	int YInfoCnt = static_cast<int>(WallTileInfo_.size());
@@ -2565,7 +2565,7 @@ void TileMap::CreatedAfterLoading_WallGrides()
 	}
 }
 
-void TileMap::CreatedAfterLoading_ObjectGrides()
+void EditorTileMap::CreatedAfterLoading_ObjectGrides()
 {
 	// 오브젝트 타일
 	int YInfoCnt = static_cast<int>(ObjectTileInfo_.size());
@@ -2613,7 +2613,7 @@ void TileMap::CreatedAfterLoading_ObjectGrides()
 	}
 }
 
-void TileMap::CreatedAfterLoading_FloorTiles()
+void EditorTileMap::CreatedAfterLoading_FloorTiles()
 {
 	int YInfoCnt = static_cast<int>(FloorTileInfo_.size());
 	int XInfoCnt = static_cast<int>(FloorTileInfo_[YInfoCnt - 1].size());
@@ -2638,7 +2638,7 @@ void TileMap::CreatedAfterLoading_FloorTiles()
 	}
 }
 
-void TileMap::CreatedAfterLoading_WallTiles()
+void EditorTileMap::CreatedAfterLoading_WallTiles()
 {
 	int YInfoCnt = static_cast<int>(WallTileInfo_.size());
 	int XInfoCnt = static_cast<int>(WallTileInfo_[YInfoCnt - 1].size());
@@ -2695,7 +2695,7 @@ void TileMap::CreatedAfterLoading_WallTiles()
 	}
 }
 
-void TileMap::CreatedAfterLoading_ObjectTiles()
+void EditorTileMap::CreatedAfterLoading_ObjectTiles()
 {
 	int YInfoCnt = static_cast<int>(ObjectTileInfo_.size());
 	int XInfoCnt = static_cast<int>(ObjectTileInfo_[YInfoCnt - 1].size());

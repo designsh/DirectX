@@ -2,7 +2,7 @@
 #include "MapEditorLevel.h"
 
 #include "CreateTileMapWindow.h"
-#include "TileMap.h"
+#include "EditorTileMap.h"
 #include "UserGame.h"
 
 #include <GameEngine/CameraComponent.h>
@@ -14,7 +14,7 @@
 bool MapEditorLevel::ResourceLoadEndCheck = false;
 
 MapEditorLevel::MapEditorLevel() :
-	TileMap_(nullptr),
+	EditorTileMap_(nullptr),
 	TileMapWindow_(nullptr),
 	MoveSpeed_(1000.f)
 {
@@ -96,11 +96,11 @@ void MapEditorLevel::CreateLevelActor()
 #pragma endregion
 
 #pragma region IsoTileMap Create & Setting
-	TileMap_ = CreateActor<TileMap>();
-	TileMapWindow_->TileMap_ = TileMap_;
-	TileMap_->SetFloorTileTexture("Town_Floor.png");
-	TileMap_->SetWallTileTexture("Town_Wall.png");
-	TileMap_->SetObjectTileTexture("Town_Object.png");
+	EditorTileMap_ = CreateActor<EditorTileMap>();
+	TileMapWindow_->TileMap_ = EditorTileMap_;
+	EditorTileMap_->SetFloorTileTexture("Town_Floor.png");
+	EditorTileMap_->SetWallTileTexture("Town_Wall.png");
+	EditorTileMap_->SetObjectTileTexture("Town_Object.png");
 #pragma endregion
 }
 
@@ -192,27 +192,27 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 	// 바닥타일 그리드 On/Off
 	if (true == GameEngineInput::GetInst().Down("FloorGrideSwitching"))
 	{
-		if (nullptr != TileMap_)
+		if (nullptr != EditorTileMap_)
 		{
-			TileMap_->FloorGridesSwitching();
+			EditorTileMap_->FloorGridesSwitching();
 		}
 	}
 
 	// 벽타일 그리드 On/Off
 	if (true == GameEngineInput::GetInst().Down("WallGrideSwitching"))
 	{
-		if (nullptr != TileMap_)
+		if (nullptr != EditorTileMap_)
 		{
-			TileMap_->WallGridesSwitching();
+			EditorTileMap_->WallGridesSwitching();
 		}
 	}
 
 	// 오브젝트타일 그리드 On/Off
 	if (true == GameEngineInput::GetInst().Down("ObjectGrideSwitching"))
 	{
-		if (nullptr != TileMap_)
+		if (nullptr != EditorTileMap_)
 		{
-			TileMap_->ObjectGridesSwitching();
+			EditorTileMap_->ObjectGridesSwitching();
 		}
 	}
 #pragma endregion
@@ -290,37 +290,37 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		{
 			case TileType::FLOOR:
 			{
-				if (FloorRenderingType::TILE == TileMap_->GetCurFloorRenderType())
+				if (FloorRenderingType::TILE == EditorTileMap_->GetCurFloorRenderType())
 				{
-					TileMap_->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorTileMap_->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				else
 				{
-					TileMap_->SetFloorGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorTileMap_->SetFloorGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				break;
 			}
 			case TileType::WALL:
 			{
-				if (WallRenderingType::TILE1 == TileMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == TileMap_->GetCurWallRenderType())
+				if (WallRenderingType::TILE1 == EditorTileMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == EditorTileMap_->GetCurWallRenderType())
 				{
-					TileMap_->SetWallTile((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorTileMap_->SetWallTile((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				else
 				{
-					TileMap_->SetWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorTileMap_->SetWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				break;
 			}
 			case TileType::OBJECT:
 			{
-				if (ObjectRenderingType::TILE == TileMap_->GetCurObjectRenderType())
+				if (ObjectRenderingType::TILE == EditorTileMap_->GetCurObjectRenderType())
 				{
-					TileMap_->SetObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorTileMap_->SetObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				else
 				{
-					TileMap_->SetObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorTileMap_->SetObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				break;
 			}
@@ -360,37 +360,37 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		{
 			case TileType::FLOOR:
 			{
-				if (FloorRenderingType::TILE == TileMap_->GetCurFloorRenderType())
+				if (FloorRenderingType::TILE == EditorTileMap_->GetCurFloorRenderType())
 				{
-					TileMap_->DelFloorTile((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorTileMap_->DelFloorTile((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				else
 				{
-					TileMap_->DelFloorGird((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorTileMap_->DelFloorGird((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				break;
 			}
 			case TileType::WALL:
 			{
-				if (WallRenderingType::TILE1 == TileMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == TileMap_->GetCurWallRenderType())
+				if (WallRenderingType::TILE1 == EditorTileMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == EditorTileMap_->GetCurWallRenderType())
 				{
-					TileMap_->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorTileMap_->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				else
 				{
-					TileMap_->DelWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorTileMap_->DelWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				break;
 			}
 			case TileType::OBJECT:
 			{
-				if (ObjectRenderingType::TILE == TileMap_->GetCurObjectRenderType())
+				if (ObjectRenderingType::TILE == EditorTileMap_->GetCurObjectRenderType())
 				{
-					TileMap_->DelObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorTileMap_->DelObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				else
 				{
-					TileMap_->DelObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorTileMap_->DelObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				break;
 			}

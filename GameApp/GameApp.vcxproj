@@ -309,7 +309,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
+    <ClCompile Include="EditorTileMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -627,7 +627,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TileMap.h">
+    <ClInclude Include="EditorTileMap.h">
       <SubType>
       </SubType>
     </ClInclude>

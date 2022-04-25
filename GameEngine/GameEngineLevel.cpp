@@ -111,7 +111,6 @@ void GameEngineLevel::SetLevelActorMoveProcess()
 					if (ReleaseCollision->GetActor() == _Actor)
 					{
 						_NextLevel->CollisionList_[(*BeginIter)->GetOrder()].push_back(ReleaseCollision);
-						ReleaseCollision->SetLevel(_NextLevel);
 						BeginIter = Collisions.erase(BeginIter);
 						continue;
 					}
@@ -176,6 +175,8 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
+		float Scale = GameEngineTime::GetInst().GetTimeScale(Pair.first);
+
 		std::list<GameEngineActor*>& Actors = Pair.second;
 
 		for (GameEngineActor* Actor : Actors)
@@ -185,8 +186,8 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 				continue;
 			}
 
-			Actor->Update(_DeltaTime);
-			Actor->UpdateComponent(_DeltaTime);
+			Actor->Update(_DeltaTime * Scale);
+			Actor->UpdateComponent(_DeltaTime * Scale);
 		}
 	}
 }

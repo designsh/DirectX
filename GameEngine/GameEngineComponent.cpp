@@ -3,13 +3,17 @@
 #include "GameEngineActor.h"
 
 GameEngineComponent::GameEngineComponent() :
-	Actor_(nullptr),
-	Level_(nullptr)
+	Actor_(nullptr)
 {
 }
 
 GameEngineComponent::~GameEngineComponent()
 {
+}
+
+GameEngineLevel* GameEngineComponent::GetLevel()
+{
+	return Actor_->GetLevel();
 }
 
 void GameEngineComponent::InitComponent(GameEngineActor* _Actor)
@@ -19,8 +23,5 @@ void GameEngineComponent::InitComponent(GameEngineActor* _Actor)
 
 	// 부모 액터를 지정(Member Value)
 	Actor_ = _Actor;
-
-	// 부모액터의 레벨이 나의 레벨이 됨
-	Level_ = Actor_->GetLevel();
 }
 

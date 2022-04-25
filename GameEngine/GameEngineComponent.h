@@ -11,7 +11,6 @@ class GameEngineComponent : public GameEngineObjectNameBase
 
 private:	// member Var
 	GameEngineActor* Actor_;
-	GameEngineLevel* Level_;
 
 public:
 	GameEngineComponent();
@@ -31,16 +30,7 @@ public:
 		return Actor_;
 	}
 
-	GameEngineLevel* GetLevel()
-	{
-		return Level_;
-	}
-
-public:
-	inline void SetLevel(GameEngineLevel* _Level)
-	{
-		Level_ = _Level;
-	}
+	GameEngineLevel* GetLevel();
 
 protected:
 	virtual void InitComponent(GameEngineActor* Actor_);

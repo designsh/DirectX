@@ -49,6 +49,9 @@
     <Filter Include="Thread\IOCP">
       <UniqueIdentifier>{5d3b02a8-37de-4dbc-b12d-034a3e3c11bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math\Navigation">
+      <UniqueIdentifier>{f54fd0cd-d1bc-445f-8990-2bbf30e0a5e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -105,6 +108,9 @@
     <ClCompile Include="GameEngineThreadQueue.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
+    <ClCompile Include="GameEnginePathFind.cpp">
+      <Filter>Math\Navigation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -160,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineThreadQueue.h">
       <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePathFind.h">
+      <Filter>Math\Navigation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

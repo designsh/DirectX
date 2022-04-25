@@ -4,7 +4,7 @@
 // 분류 : 맵에디터 레벨
 // 용도 : 
 // 설명 : 
-class TileMap;
+class EditorTileMap;
 class CreateTileMapWindow;
 class MapEditorLevel : public GameEngineLevel
 {
@@ -12,7 +12,7 @@ private:
 	static bool ResourceLoadEndCheck;
 
 private:	// member Var
-	TileMap* TileMap_;
+	EditorTileMap* EditorTileMap_;
 
 private: // Window
 	CreateTileMapWindow* TileMapWindow_;

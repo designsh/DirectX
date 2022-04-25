@@ -322,6 +322,12 @@ public:
 		return ix() == 0 && iy() == 0 && iz() == 0;
 	}
 
+	float Len2D()
+	{
+		float4 Len = DirectX::XMVector2Length(DirectVector);
+		return Len.x;
+	}
+
 	float Len3D()
 	{
 		float4 Len = DirectX::XMVector3Length(DirectVector);

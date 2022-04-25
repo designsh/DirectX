@@ -31,6 +31,10 @@
     <ClInclude Include="GameEngineObjectBase.h" />
     <ClInclude Include="GameEngineObjectNameBase.h" />
     <ClInclude Include="GameEnginePath.h" />
+    <ClInclude Include="GameEnginePathFind.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineRandom.h" />
     <ClInclude Include="GameEngineSoundManager.h" />
     <ClInclude Include="GameEngineSound.h" />
@@ -63,6 +67,10 @@
     <ClCompile Include="GameEngineObjectBase.cpp" />
     <ClCompile Include="GameEngineObjectNameBase.cpp" />
     <ClCompile Include="GameEnginePath.cpp" />
+    <ClCompile Include="GameEnginePathFind.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineRandom.cpp" />
     <ClCompile Include="GameEngineSoundManager.cpp" />
     <ClCompile Include="GameEngineSound.cpp" />

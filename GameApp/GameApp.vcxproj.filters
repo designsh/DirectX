@@ -275,7 +275,7 @@
     <ClCompile Include="ChandleryNPC_FSMState.cpp">
       <Filter>Object\Actor\00.Global\02.NPC\03.ChandleryNPC</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
+    <ClCompile Include="EditorTileMap.cpp">
       <Filter>Object\Actor\99.Editor</Filter>
     </ClCompile>
     <ClCompile Include="CreateTileMapWindow.cpp">
@@ -948,7 +948,7 @@
     <ClInclude Include="ChandleryNPC.h">
       <Filter>Object\Actor\00.Global\02.NPC\03.ChandleryNPC</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap.h">
+    <ClInclude Include="EditorTileMap.h">
       <Filter>Object\Actor\99.Editor</Filter>
     </ClInclude>
     <ClInclude Include="CreateTileMapWindow.h">

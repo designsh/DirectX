@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "CreateTileMapWindow.h"
-#include "TileMap.h"
+#include "EditorTileMap.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>

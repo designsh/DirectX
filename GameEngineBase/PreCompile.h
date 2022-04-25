@@ -10,6 +10,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <set>
 
 // std::
 #include <string>
