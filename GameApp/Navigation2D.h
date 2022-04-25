@@ -40,9 +40,9 @@ public:
 	}
 
 public:
-	inline void SetNavData(GameEngineTileMapRenderer* _Data)
+	inline void SetNavData(GameEngineTileMapRenderer* _Renderer)
 	{
-		NavRenderer_ = _Data;
+		NavRenderer_ = _Renderer;
 	}
 
 	inline void SetNavInfoManager(NavNodeInfoManager* _Info)
