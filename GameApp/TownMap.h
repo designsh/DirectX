@@ -82,6 +82,9 @@ private: // 타일렌더러 생성
 	void CreatedAfterWallTiles();
 	void CreatedAfterObjectTiles();
 
+private:
+	void TileMapDepthUpdate();
+
 private: // 네비게이션정보생성
 	void CreateNavigationInfo();
 

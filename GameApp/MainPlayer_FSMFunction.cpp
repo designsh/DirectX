@@ -102,11 +102,18 @@ void MainPlayer::StartTownWalk()
 		if (true == IsTown_)
 		{
 			// 다음 이동타일인덱스 Get
-			PathIndex TargetTileIndex = MovePath_.front();
-			MoveTargetIndex_ = TileIndex(TargetTileIndex.X_, TargetTileIndex.Y_);
+			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
+
+			// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
+			// 플레이어의 이동방향을 설정한다.
+			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			MoveTargetDir_ = DirPos.NormalizeReturn3D();
+			
+			// 이동방향에 따른 애니메이션을 변경
+
 		}
 		else
 		{
@@ -123,20 +130,40 @@ void MainPlayer::UpdateTownWalk()
 	
 	// 이동타겟 타일인덱스 도달시 이동경로가 남아있다면 타겟위치 재설정 후 재이동
 	// 더이상의 이동경로가 존재하지않는다면 대기상태 돌입
-	if (MoveTargetIndex_.X_ == GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()).X_ && 
-		MoveTargetIndex_.Y_ == GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()).Y_)
+	if (MoveTargetIndex_.Index_ == GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()).Index_)
 	{
 		if (false == MovePath_.empty())
 		{
+			// 타겟타일 인덱스 변경
+			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
+			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+			// 타겟위치로 지정된 경로의 인덱스제거
+			MovePath_.pop_front();
 		}
 		else
 		{
+			// 이동완료이므로 이동 Flag 해제
+			IsMove_ = false;
 
+			// 더 이상 이동할 이유가 없으므로 플레이어 대기상태 돌입
+			ChangeFSMState("Natural_Town");
+
+			// 혹시 잔존하는 경로가 있다면 클리어
+			if (false == MovePath_.empty())
+			{
+				MovePath_.clear();
+			}
+
+			return;
 		}
-
-		// 이동 시작
-
+	}
+	else
+	{
+		// 이동시작
+		GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 	}
 }
 

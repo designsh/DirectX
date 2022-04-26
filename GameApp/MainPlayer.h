@@ -232,8 +232,9 @@ private: // 플레이어 UI
 
 #pragma region PlayerMove
 private:
+	float MoveSpeed_;										// 플레이어 이동속도
 	std::list<PathIndex> MovePath_;							// 플레이어 현재 이동경로
-	float4 MoveTargetPos_;									// 현재 이동경로의 이동목표위치
+	float4 MoveTargetDir_;									// 현재 이동경로의 이동방향(플레이어 이동을 위하여)
 	TileIndex MoveTargetIndex_;								// 현재 이동경로의 이동목표타일 인덱스
 
 #pragma endregion

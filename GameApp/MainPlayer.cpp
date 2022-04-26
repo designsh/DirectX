@@ -51,7 +51,9 @@ MainPlayer::MainPlayer() :
 	SkillView_(nullptr),
 	InventoryView_(nullptr),
 	GameEndMenuView_(nullptr),
-	MoveTargetPos_(float4::ZERO)
+	MoveSpeed_(100.f),
+	MoveTargetDir_(float4::ZERO),
+	MoveTargetIndex_(TileIndex())
 {
 	IsItemEquipState_.clear();
 	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
@@ -147,7 +149,7 @@ void MainPlayer::Update(float _DeltaTime)
 	}
 
 	// 카메라는 플레이어를 따라 다닌다.
-	//GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 }
 
 void MainPlayer::LevelChangeEndEvent(GameEngineLevel* _NextLevel)

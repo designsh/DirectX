@@ -327,6 +327,9 @@ void TownMap::CreatedAfterLoadingTiles()
 	CreatedAfterFloorTiles();
 	CreatedAfterWallTiles();
 	CreatedAfterObjectTiles();
+
+	// 오브젝트관련 깊이값 갱신
+	TileMapDepthUpdate();
 }
 
 void TownMap::CreatedAfterFloorTiles()
@@ -420,23 +423,24 @@ void TownMap::CreatedAfterWallTiles()
 					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_LE ||
 					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_RE)
 				{
-					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(96.f);
 				}
 				else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L ||
 					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_TE ||
 					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_BE)
 				{
-					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(98.f);
 				}
 				else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R ||
 					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_TE ||
 					TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_BE)
 				{
-					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(97.f);
+					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(99.f);
+				}
+				else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_MULTI)
+				{
+					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(99.f);
 				}
 				else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_SINGLE)
 				{
-					WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(95.f);
 				}
 				else // 그외
 				{
@@ -471,7 +475,6 @@ void TownMap::CreatedAfterObjectTiles()
 			Renderer->SetImage(TownMap_ObjectTileInfo_[y][x].ObjectTextureName);
 			Renderer->GetTransform()->SetLocalScaling(TownMap_ObjectTileInfo_[y][x].ObjectRenderSize);
 			Renderer->GetTransform()->SetLocalPosition(TownMap_ObjectTileInfo_[y][x].ObjectRenderPivotPos + Pos);
-			Renderer->GetTransform()->SetLocalZOrder(94.f);
 
 			// -1 == ObjectTileInfo_[y][x].ObjectImageIndex이면 오브젝트가 배치되어있지않은 타일로 판단
 			if (-1 != TownMap_ObjectTileInfo_[y][x].ObjectImageIndex)
@@ -482,6 +485,29 @@ void TownMap::CreatedAfterObjectTiles()
 			else
 			{
 				Renderer->Death();
+			}
+		}
+	}
+}
+
+void TownMap::TileMapDepthUpdate()
+{
+	// 플레이어와 깊이버퍼에 의한 처리가 필요하기때문에 Object타일목록을 읽어들여
+	// 타입이 Object인 타일인덱스의 바닥타일을 구하여 해당 타일의 깊이값을 갱신
+	int YInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_.size());
+	int XInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_[YInfoCnt - 1].size());
+	for (int y = 0; y < YInfoCnt; ++y)
+	{
+		for (int x = 0; x < XInfoCnt; ++x)
+		{
+			if (ObjectBasicType::OBJECT == TownMap_ObjectTileInfo_[y][x].ObjectBasicType)
+			{
+				// 해당 타일을 가지는 바닥타일을 모두 찾아내어 깊이값을 0으로 갱신한다.
+
+
+
+
+
 			}
 		}
 	}
