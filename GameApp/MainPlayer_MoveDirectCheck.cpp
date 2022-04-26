@@ -104,11 +104,6 @@ void MainPlayer::MoveStart(const float4& _MousePos)
 	if (std::string::npos != GetLevel()->GetName().find("TownLevel"))
 	{
 		MovePath = GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
-		if (true == MovePath.empty())
-		{
-			// 이동불가판정
-			return;
-		}
 	}
 	else if(std::string::npos != GetLevel()->GetName().find("CatacombsLevel"))
 	{
@@ -125,10 +120,21 @@ void MainPlayer::MoveStart(const float4& _MousePos)
 	}
 
 	// 이동경로의 타일인덱스를 모두 사용할때까지 이동처리
-	MovePath;
+	if (true == MovePath.empty())
+	{
+		// 이동불가판정
+		return;
+	}
+	else
+	{
+		// 이동가능
 
-	int a = 0;
 
+		// 경로에서 한개씩빼서 이동 -> 이동종료 다음경로로 이동????
+
+
+		int a = 0;
+	}
 
 	// 이동가능한 구역이므로 방향을 이용하여 상태 및 애니메이션 변경
 	// 단, 현재 플레이어가 마을인지 필드인지 체크한다.
