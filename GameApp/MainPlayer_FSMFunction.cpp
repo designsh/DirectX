@@ -103,9 +103,7 @@ void MainPlayer::StartTownWalk()
 		{
 			// 다음 이동타일인덱스 Get
 			PathIndex TargetTileIndex = MovePath_.front();
-
-			// 타일인덱스를 이용하여 이동목표 위치 셋팅
-			MoveTargetPos_ = GlobalValue::TownMap->GetTileIndexToPos(TargetTileIndex.X_, TargetTileIndex.Y_);
+			MoveTargetIndex_ = TileIndex(TargetTileIndex.X_, TargetTileIndex.Y_);
 
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
@@ -122,12 +120,24 @@ void MainPlayer::UpdateTownWalk()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
+	
+	// 이동타겟 타일인덱스 도달시 이동경로가 남아있다면 타겟위치 재설정 후 재이동
+	// 더이상의 이동경로가 존재하지않는다면 대기상태 돌입
+	if (MoveTargetIndex_.X_ == GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()).X_ && 
+		MoveTargetIndex_.Y_ == GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()).Y_)
+	{
+		if (false == MovePath_.empty())
+		{
 
-	// 이동위치까지 이동완료 후 이동경로가 남아있다면 타겟위치 재설정 후 이동
-	// 이동종료위치 타일인덱스까지 이동시 Idle상태로 전환
+		}
+		else
+		{
 
+		}
 
+		// 이동 시작
 
+	}
 }
 
 void MainPlayer::EndTownWalk()

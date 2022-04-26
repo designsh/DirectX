@@ -69,7 +69,7 @@ float4 TownMap::GetTileIndexToPos(int _IndexX, int _IndexY)
 	return TilePos;
 }
 
-TileIndex TownMap::GetPosToTileINdex(float4 _Pos)
+TileIndex TownMap::GetPosToTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
 
@@ -642,11 +642,11 @@ std::list<PathIndex> TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseC
 	if (nullptr != Navigation_)
 	{
 		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
-		TileIndex PlayerIndex = GetPosToTileINdex(_StartPos);
+		TileIndex PlayerIndex = GetPosToTileIndex(_StartPos);
 
 		// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
 		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
-		TileIndex TargetIndex = GetPosToTileINdex(_MouseClickPos + CamPos);
+		TileIndex TargetIndex = GetPosToTileIndex(_MouseClickPos + CamPos);
 
 		return Navigation_->AStarFind4Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::MoveableCheck, this, std::placeholders::_1));
 	}

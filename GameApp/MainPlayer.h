@@ -4,6 +4,8 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
+#include "TileMap_Common.h"
+#include "Navigation_Common.h"
 #include "MainPlayerInfomation.h"
 
 #pragma region Player_Direct
@@ -232,7 +234,7 @@ private: // 플레이어 UI
 private:
 	std::list<PathIndex> MovePath_;							// 플레이어 현재 이동경로
 	float4 MoveTargetPos_;									// 현재 이동경로의 이동목표위치
-
+	TileIndex MoveTargetIndex_;								// 현재 이동경로의 이동목표타일 인덱스
 
 #pragma endregion
 

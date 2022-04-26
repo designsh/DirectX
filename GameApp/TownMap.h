@@ -66,7 +66,7 @@ private:
 public:
 	float4 GetTileIndexToPos(TileIndex _TileIndex);
 	float4 GetTileIndexToPos(int _IndexX, int _IndexY);
-	TileIndex GetPosToTileINdex(float4 _Pos);
+	TileIndex GetPosToTileIndex(float4 _Pos);
 
 private:
 	void MapInfoAllClear();
