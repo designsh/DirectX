@@ -20,6 +20,7 @@ std::list<PathIndex> GameEnginePathFind::CalReturn(AStarNode* _EndNode)
 	{
 		ReturnList.push_front(FindNode->Index_);
 
+		// 부모인덱스로 변경
 		FindNode = FindNode->Parent_;
 	}
 	return ReturnList;
