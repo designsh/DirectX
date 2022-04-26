@@ -97,10 +97,18 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 
 void MainPlayer::MoveStart(const float4& _MousePos)
 {
+	std::list<PathIndex> MovePath;
+	MovePath.clear();
+
 	// 레벨체크
 	if (std::string::npos != GetLevel()->GetName().find("TownLevel"))
 	{
-		GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
+		MovePath = GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
+		if (true == MovePath.empty())
+		{
+			// 이동불가판정
+			return;
+		}
 	}
 	else if(std::string::npos != GetLevel()->GetName().find("CatacombsLevel"))
 	{
@@ -117,9 +125,9 @@ void MainPlayer::MoveStart(const float4& _MousePos)
 	}
 
 	// 이동경로의 타일인덱스를 모두 사용할때까지 이동처리
+	MovePath;
 
-
-
+	int a = 0;
 
 
 	// 이동가능한 구역이므로 방향을 이용하여 상태 및 애니메이션 변경

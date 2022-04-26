@@ -61,7 +61,33 @@ float4 TownMap::GetTileIndexToPos(TileIndex _TileIndex)
 
 TileIndex TownMap::GetPosToTileINdex(float4 _Pos)
 {
-	return TileIndex();
+	TileIndex Index = {};
+
+	float RatioX = ((_Pos.x / TileSize_.halffloat4().halffloat4().x) - (_Pos.y / TileSize_.halffloat4().halffloat4().y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSize_.halffloat4().halffloat4().y) + (_Pos.x / TileSize_.halffloat4().halffloat4().x)) / -2.0f;
+
+	if (0 > RatioX)
+	{
+		RatioX += -0.5f;
+	}
+	else
+	{
+		RatioX += 0.5f;
+	}
+
+	if (0 > RatioY)
+	{
+		RatioY += -0.5f;
+	}
+	else
+	{
+		RatioY += 0.5f;
+	}
+
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
+
+	return Index;
 }
 
 void TownMap::MapInfoAllClear()
@@ -601,21 +627,24 @@ bool TownMap::MoveableCheck(PathIndex _PathIndex)
 	return false;
 }
 
-void TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos)
+std::list<PathIndex> TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos)
 {
 	if (nullptr != Navigation_)
 	{
-		//// 플레이어의 현재위치를 이용하여 타일인덱스 계산
-		//TileIndex PlayerIndex = GetPosToTileINdex(_StartPos);
+		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
+		TileIndex PlayerIndex = GetPosToTileINdex(_StartPos);
 
-		//// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
-		//TileIndex TargetIndex = GetPosToTileINdex(_MouseClickPos);
+		// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
+		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+		TileIndex TargetIndex = GetPosToTileINdex(_MouseClickPos + CamPos);
 
-		//Navigation_->AStarFind4Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::MoveableCheck, this, std::placeholders::_1));
+		return Navigation_->AStarFind4Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::MoveableCheck, this, std::placeholders::_1));
 	}
+
+	return std::list<PathIndex>();
 }
 
-void TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos)
+std::list<PathIndex> TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos)
 {
 	if (nullptr != Navigation_)
 	{
@@ -627,4 +656,6 @@ void TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos)
 
 		//Navigation_->AStarFind8Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::MoveableCheck, this, std::placeholders::_1));
 	}
+
+	return std::list<PathIndex>();
 }

@@ -14,9 +14,14 @@ std::list<PathIndex> GameEnginePathFind::CalReturn(AStarNode* _EndNode)
 {
 	std::list<PathIndex> ReturnList;
 
-	while (nullptr != _EndNode->Parent_)
+	// End ~ Start 까지 부모를 탐색하여 경로목록을 반환
+	
+	AStarNode* FindNode = _EndNode;
+	while (nullptr != FindNode->Parent_)
 	{
-		ReturnList.push_front(_EndNode->Index_);
+		ReturnList.push_front(FindNode->Index_);
+
+		FindNode = FindNode->Parent_;
 	}
 	return ReturnList;
 }
@@ -29,7 +34,7 @@ AStarNode* GameEnginePathFind::CreateNode(PathIndex _Index, PathIndex End, AStar
 	}
 
 	AStarNode* NewNode = &NodePool_[PoolCount_++];
-	NewNode->Parent_ = _ParentNode;
+	//NewNode->Parent_ = _ParentNode;
 	NewNode->Reset();
 	NewNode->Index_ = _Index;
 	NewNode->CalLen(End);
@@ -98,17 +103,21 @@ std::list<PathIndex> GameEnginePathFind::AStarFind4Way(PathIndex _Start, PathInd
 
 			// 모든 조건을 만족하여 이동가능 경로라면
 			// 시작노드의 이웃하는 노드이므로 시작노드가 부모노드로 결정
-			AStarNode* NewNode = CreateNode(_Start, _End, FirstNode);
-
-			// 목표 노드에 도착했다면 이동경로 반환
-			if (_End == FindIndex)
+			AStarNode* NewNode = CreateNode(FindIndex, _End, nullptr);
+			if (nullptr != NewNode)
 			{
-				return CalReturn(NewNode);
-			}
+				NewNode->Parent_ = FirstNode;
 
-			// 아니라면 열린노드목록에 해당 노드 추가
-			OpenList_.insert(std::make_pair(NewNode->TotalLen_, NewNode));
-			OpenKeys_.insert(FirstNode->Index_.Index_);
+				// 목표 노드에 도착했다면 이동경로 반환
+				if (_End == FindIndex)
+				{
+					return CalReturn(NewNode);
+				}
+
+				// 아니라면 열린노드목록에 해당 노드 추가
+				OpenList_.insert(std::make_pair(NewNode->TotalLen_, NewNode));
+				OpenKeys_.insert(FirstNode->Index_.Index_);
+			}
 		}
 	}
 

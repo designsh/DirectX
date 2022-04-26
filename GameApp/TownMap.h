@@ -99,7 +99,7 @@ private:
 	bool MoveableCheck(PathIndex _PathIndex);
 
 public:
-	void NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos);
-	void NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos);
+	std::list<PathIndex> NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos);
+	std::list<PathIndex> NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos);
 };
 
