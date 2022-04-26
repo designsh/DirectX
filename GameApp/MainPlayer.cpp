@@ -292,6 +292,22 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 
 		float4 MousePos = MainMouse->GetTransform()->GetWorldPosition();
 
+		// 이미 이동중이였다면 현재 경로를 삭제하고 Flag해제 후 플레이어 대기상태 돌입
+		if (true == IsMove_)
+		{
+			MovePath_.clear();
+			IsMove_ = false;
+
+			if (true == IsTown_)
+			{
+				ChangeFSMState("Natural_Town");
+			}
+			else
+			{
+				ChangeFSMState("Natural_Field");
+			}
+		}
+
 		// 현재 방향 전환 및 이동 Flag On
 		if (true == MoveDirectCheck(MousePos))
 		{

@@ -59,6 +59,16 @@ float4 TownMap::GetTileIndexToPos(TileIndex _TileIndex)
 	return TilePos;
 }
 
+float4 TownMap::GetTileIndexToPos(int _IndexX, int _IndexY)
+{
+	// 네비게이션 타일인덱스를 월드상의 위치값으로 변환해서 반환
+	float4 TilePos = float4::ZERO;
+	TilePos.x = (_IndexX - _IndexY) * TileSize_.halffloat4().halffloat4().x;
+	TilePos.y = (_IndexX + _IndexY) * -TileSize_.halffloat4().halffloat4().y;
+
+	return TilePos;
+}
+
 TileIndex TownMap::GetPosToTileINdex(float4 _Pos)
 {
 	TileIndex Index = {};

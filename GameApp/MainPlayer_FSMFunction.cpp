@@ -3,6 +3,10 @@
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
+#include "GlobalValue.h"
+#include "TownMap.h"
+#include "RandomMap.h"
+
 void MainPlayer::ChangeCheckProcess()
 {
 	// 현재 상태 전환 전이기 때문에 현재상태의 아이템 착용상태를 체크하여
@@ -61,12 +65,6 @@ void MainPlayer::StartTownNatural()
 
 	// 기타
 
-
-	// 이동경로가 남아있다면 다시 Walk or Run 상태로 전환
-	if (false == MovePath_.empty())
-	{
-
-	}
 }
 
 void MainPlayer::UpdateTownNatural()
@@ -101,15 +99,22 @@ void MainPlayer::StartTownWalk()
 	// 이동위치 결정
 	if (false == MovePath_.empty())
 	{
-		//// 다음 이동타일인덱스 Get
-		//PathIndex TargetTileIndex = MovePath_.front();
+		if (true == IsTown_)
+		{
+			// 다음 이동타일인덱스 Get
+			PathIndex TargetTileIndex = MovePath_.front();
 
-		//// 타겟위치로 사용된 타일인덱스 목록에서 제거
-		//MovePath_.pop_front();
+			// 타일인덱스를 이용하여 이동목표 위치 셋팅
+			MoveTargetPos_ = GlobalValue::TownMap->GetTileIndexToPos(TargetTileIndex.X_, TargetTileIndex.Y_);
 
+			// 타겟위치로 지정된 경로의 인덱스제거
+			MovePath_.pop_front();
+		}
+		else
+		{
+			// 랜덤맵에서 찾아낸다.
 
-
-		//int a = 0;
+		}
 	}
 }
 
@@ -118,7 +123,9 @@ void MainPlayer::UpdateTownWalk()
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
 
-	// 이동위치까지 이동완료시 IDLE상태전환
+	// 이동위치까지 이동완료 후 이동경로가 남아있다면 타겟위치 재설정 후 이동
+	// 이동종료위치 타일인덱스까지 이동시 Idle상태로 전환
+
 
 
 }

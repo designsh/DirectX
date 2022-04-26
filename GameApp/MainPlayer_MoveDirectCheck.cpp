@@ -16,7 +16,8 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 	PrevDirect_ = CurDirect_;
 
 	// 두벡터(플레이어<->목표지점)의 각도 계산
-	float4 MoveDirect = _MousePos - MyPos;
+	float4 MousePos = _MousePos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+	float4 MoveDirect = MousePos - MyPos;
 	MoveDirect.Normalize3D();
 
 	// 월드의 y축기준 방향벡터를 얻어온다.
@@ -94,8 +95,6 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 
 void MainPlayer::MoveStart(const float4& _MousePos)
 {
-	MovePath_.clear();
-
 	// 레벨체크
 	if (std::string::npos != GetLevel()->GetName().find("TownLevel"))
 	{
