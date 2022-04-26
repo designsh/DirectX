@@ -60,6 +60,13 @@ void MainPlayer::StartTownNatural()
 
 
 	// 기타
+
+
+	// 이동경로가 남아있다면 다시 Walk or Run 상태로 전환
+	if (false == MovePath_.empty())
+	{
+
+	}
 }
 
 void MainPlayer::UpdateTownNatural()
@@ -90,6 +97,20 @@ void MainPlayer::StartTownWalk()
 
 	// 애니메이션변경
 	ChangeAnimation(State_.GetCurStateName());
+
+	// 이동위치 결정
+	if (false == MovePath_.empty())
+	{
+		//// 다음 이동타일인덱스 Get
+		//PathIndex TargetTileIndex = MovePath_.front();
+
+		//// 타겟위치로 사용된 타일인덱스 목록에서 제거
+		//MovePath_.pop_front();
+
+
+
+		//int a = 0;
+	}
 }
 
 void MainPlayer::UpdateTownWalk()
@@ -97,6 +118,7 @@ void MainPlayer::UpdateTownWalk()
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
 
+	// 이동위치까지 이동완료시 IDLE상태전환
 
 
 }

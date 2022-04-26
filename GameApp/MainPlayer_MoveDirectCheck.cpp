@@ -89,9 +89,6 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 	PrevMoveTargetPos_ = CurMoveTargetPos_;
 	CurMoveTargetPos_ = _MousePos;
 
-	// 이동중 Flag On
-	IsMove_ = true;
-
 	return true;
 }
 
@@ -123,7 +120,6 @@ void MainPlayer::MoveStart(const float4& _MousePos)
 	{
 		// 이동가능 Flag
 		IsMove_ = true;
-		return;
 	}
 
 	// 이동가능한 구역이므로 방향을 이용하여 상태 및 애니메이션 변경
