@@ -14,8 +14,7 @@ std::list<PathIndex> GameEnginePathFind::CalReturn(AStarNode* _EndNode)
 {
 	std::list<PathIndex> ReturnList;
 
-	// End ~ Start 까지 부모를 탐색하여 경로목록을 반환
-	
+	// End ~ Start이전까지 부모를 탐색하여 경로목록을 반환
 	AStarNode* FindNode = _EndNode;
 	while (nullptr != FindNode->Parent_)
 	{
