@@ -97,13 +97,12 @@ bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 
 void MainPlayer::MoveStart(const float4& _MousePos)
 {
-	std::list<PathIndex> MovePath;
-	MovePath.clear();
+	MovePath_.clear();
 
 	// 레벨체크
 	if (std::string::npos != GetLevel()->GetName().find("TownLevel"))
 	{
-		MovePath = GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
+		MovePath_ = GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
 	}
 	else if(std::string::npos != GetLevel()->GetName().find("CatacombsLevel"))
 	{
@@ -120,38 +119,32 @@ void MainPlayer::MoveStart(const float4& _MousePos)
 	}
 
 	// 이동경로의 타일인덱스를 모두 사용할때까지 이동처리
-	if (true == MovePath.empty())
+	if (false == MovePath_.empty())
 	{
-		// 이동불가판정
+		// 이동가능 Flag
+		IsMove_ = true;
 		return;
-	}
-	else
-	{
-		// 이동가능
-
-
-		// 경로에서 한개씩빼서 이동 -> 이동종료 다음경로로 이동????
-
-
-		int a = 0;
 	}
 
 	// 이동가능한 구역이므로 방향을 이용하여 상태 및 애니메이션 변경
 	// 단, 현재 플레이어가 마을인지 필드인지 체크한다.
 	// 또한, 뛰기 상태인지 체크
-	if (true == IsRun_)
+	if (true == IsMove_)
 	{
-		ChangeFSMState("Run");
-	}
-	else
-	{
-		if (true == IsTown_)
+		if (true == IsRun_)
 		{
-			ChangeFSMState("Walk_Town");
+			ChangeFSMState("Run");
 		}
 		else
 		{
-			ChangeFSMState("Walk_Field");
+			if (true == IsTown_)
+			{
+				ChangeFSMState("Walk_Town");
+			}
+			else
+			{
+				ChangeFSMState("Walk_Field");
+			}
 		}
 	}
 }

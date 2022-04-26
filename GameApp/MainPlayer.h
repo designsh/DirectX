@@ -1,4 +1,6 @@
 #pragma once
+#include <GameEngineBase/GameEnginePathFind.h>
+
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
@@ -224,6 +226,14 @@ private: // 플레이어 UI
 	SkillView* SkillView_;									// 스킬트리창
 	InventoryView* InventoryView_;							// 인벤토리창
 	GameEndMenuView* GameEndMenuView_;						// 게임종료메뉴창
+#pragma endregion
+
+#pragma region PlayerMove
+private:
+	std::list<PathIndex> MovePath_;							// 플레이어 현재 이동경로
+	float4 MoveTargetPos_;									// 현재 이동경로의 이동목표위치
+
+
 #pragma endregion
 
 #pragma region PlayerOverrideFunction

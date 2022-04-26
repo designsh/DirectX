@@ -50,7 +50,8 @@ MainPlayer::MainPlayer() :
 	StatView_(nullptr),
 	SkillView_(nullptr),
 	InventoryView_(nullptr),
-	GameEndMenuView_(nullptr)
+	GameEndMenuView_(nullptr),
+	MoveTargetPos_(float4::ZERO)
 {
 	IsItemEquipState_.clear();
 	for (int i = 0; i < static_cast<int>(RendererPartType::PART_MAX); ++i)
