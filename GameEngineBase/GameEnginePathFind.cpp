@@ -34,7 +34,6 @@ AStarNode* GameEnginePathFind::CreateNode(PathIndex _Index, PathIndex End, AStar
 	}
 
 	AStarNode* NewNode = &NodePool_[PoolCount_++];
-	//NewNode->Parent_ = _ParentNode;
 	NewNode->Reset();
 	NewNode->Index_ = _Index;
 	NewNode->CalLen(End);
@@ -103,9 +102,10 @@ std::list<PathIndex> GameEnginePathFind::AStarFind4Way(PathIndex _Start, PathInd
 
 			// 모든 조건을 만족하여 이동가능 경로라면
 			// 시작노드의 이웃하는 노드이므로 시작노드가 부모노드로 결정
-			AStarNode* NewNode = CreateNode(FindIndex, _End, nullptr);
+			AStarNode* NewNode = CreateNode(FindIndex, _End, FirstNode);
 			if (nullptr != NewNode)
 			{
+				// 이웃노드 4방향검사시 현재 선택된 노드를 부모로 저장
 				NewNode->Parent_ = FirstNode;
 
 				// 목표 노드에 도착했다면 이동경로 반환
