@@ -393,6 +393,31 @@ void MainPlayer::StartRun()
 
 	// 애니메이션변경
 	ChangeAnimation(State_.GetCurStateName());
+
+	// 이동위치 결정(마을맵기준)
+	if (false == MovePath_.empty())
+	{
+		// 다음 이동타일인덱스 Get
+		MoveTargetIndex_.Index_ = MovePath_.front().Index_;
+
+		// 타겟위치로 지정된 경로의 인덱스제거
+		MovePath_.pop_front();
+
+		if (true == IsTown_)
+		{
+			// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
+			// 플레이어의 이동방향을 설정한다.
+			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			MoveTargetDir_ = DirPos.NormalizeReturn3D();
+		}
+		else
+		{
+
+		}
+	}
+
+	MoveSpeed_ = 250.f;
+
 }
 
 void MainPlayer::UpdateRun()
@@ -400,7 +425,55 @@ void MainPlayer::UpdateRun()
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
 
+	// 이동처리
+	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 
+	// 이동타겟 타일인덱스 도달시 이동경로가 남아있다면 타겟위치 재설정 후 재이동
+	// 더이상의 이동경로가 존재하지않는다면 대기상태 돌입
+	if (MoveTargetIndex_.Index_ == GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()).Index_)
+	{
+		if (false == MovePath_.empty())
+		{
+			// 타겟타일 인덱스 변경
+			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
+
+			if (true == IsTown_)
+			{
+				float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+				MoveTargetDir_ = DirPos.NormalizeReturn3D();
+			}
+			else
+			{
+
+			}
+
+			// 타겟위치로 지정된 경로의 인덱스제거
+			MovePath_.pop_front();
+		}
+		else
+		{
+			// 이동완료이므로 이동 Flag 해제
+			IsMove_ = false;
+
+			// 더 이상 이동할 이유가 없으므로 플레이어 대기상태 돌입
+			if (true == IsTown_)
+			{
+				ChangeFSMState("Natural_Town");
+			}
+			else
+			{
+				ChangeFSMState("Natural_Field");
+			}
+
+			// 혹시 잔존하는 경로가 있다면 클리어
+			if (false == MovePath_.empty())
+			{
+				MovePath_.clear();
+			}
+
+			return;
+		}
+	}
 
 }
 
