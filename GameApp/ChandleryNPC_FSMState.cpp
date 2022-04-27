@@ -8,6 +8,7 @@
 
 #include "GlobalValue.h"
 #include "MainPlayer.h"
+#include "TownMap.h"
 
 #include "NPC_MessageView.h"
 #include "NPC_TopMenuBar.h"
@@ -136,9 +137,23 @@ void ChandleryNPC::UpdateWalk()
 	{
 		case ChandleryNPC_MoveDir::DIR_B:
 		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(1, 1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+				return;
+			}
+
 			// 이동 및 현재 이동위치 갱신
 			GetTransform()->SetWorldDeltaTimeMove(float4(0.0f, -1.0f) * MoveSpeed_);
-			MoveCurPos_ = GetTransform()->GetWorldPosition();
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -154,9 +169,23 @@ void ChandleryNPC::UpdateWalk()
 		}
 		case ChandleryNPC_MoveDir::DIR_LB:
 		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(0, 1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+				return;
+			}
+
 			// 이동 및 현재 이동위치 갱신
 			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, -1.0f) * MoveSpeed_);
-			MoveCurPos_ = GetTransform()->GetWorldPosition();
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -172,9 +201,23 @@ void ChandleryNPC::UpdateWalk()
 		}
 		case ChandleryNPC_MoveDir::DIR_L:
 		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(-1, 1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+				return;
+			}
+
 			// 이동 및 현재 이동위치 갱신
 			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, 0.0f) * MoveSpeed_);
-			MoveCurPos_ = GetTransform()->GetWorldPosition();
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -190,9 +233,23 @@ void ChandleryNPC::UpdateWalk()
 		}
 		case ChandleryNPC_MoveDir::DIR_LT:
 		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(-1, 0);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+				return;
+			}
+
 			// 이동 및 현재 이동위치 갱신
 			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, 1.0f) * MoveSpeed_);
-			MoveCurPos_ = GetTransform()->GetWorldPosition();
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -208,9 +265,23 @@ void ChandleryNPC::UpdateWalk()
 		}
 		case ChandleryNPC_MoveDir::DIR_T:
 		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(-1, -1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+				return;
+			}
+
 			// 이동 및 현재 이동위치 갱신
 			GetTransform()->SetWorldDeltaTimeMove(float4(0.0f, 1.0f) * MoveSpeed_);
-			MoveCurPos_ = GetTransform()->GetWorldPosition();
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -226,9 +297,23 @@ void ChandleryNPC::UpdateWalk()
 		}
 		case ChandleryNPC_MoveDir::DIR_RT:
 		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(0, -1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+				return;
+			}
+
 			// 이동 및 현재 이동위치 갱신
 			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, 1.0f) * MoveSpeed_);
-			MoveCurPos_ = GetTransform()->GetWorldPosition();
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -244,9 +329,23 @@ void ChandleryNPC::UpdateWalk()
 		}
 		case ChandleryNPC_MoveDir::DIR_R:
 		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(1, -1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+				return;
+			}
+
 			// 이동 및 현재 이동위치 갱신
 			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, 0.0f) * MoveSpeed_);
-			MoveCurPos_ = GetTransform()->GetWorldPosition();
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -262,9 +361,23 @@ void ChandleryNPC::UpdateWalk()
 		}
 		case ChandleryNPC_MoveDir::DIR_RB:
 		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(1, 0);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
+
+				// 상태 전환
+				State_.ChangeState("ChandleryNPC_IDLE");
+				return;
+			}
+
 			// 이동 및 현재 이동위치 갱신
 			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, -1.0f) * MoveSpeed_);
-			MoveCurPos_ = GetTransform()->GetWorldPosition();
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
 			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
 			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
 			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
@@ -310,17 +423,25 @@ void ChandleryNPC::StartConversation()
 
 void ChandleryNPC::UpdateConversation()
 {
+	TileIndex SearchTile[9] = { {0, 0}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1} };
+
 	// 플레이어와 상호작용가능범위 체크
-	// 상호작용가능범위 진입시 상태전환
-	float4 PlayerPos = GlobalValue::CurPlayer->GetTransform()->GetWorldPosition();
-	float4 MyPos = GetTransform()->GetWorldPosition();
-	float4 InteactionDist = MyPos - PlayerPos;
-	InteactionDist = float4(std::abs(InteactionDist.x), std::abs(InteactionDist.y));
-	//if (InteractionDistance_ >= InteactionDist.x || InteractionDistance_ >= InteactionDist.y) // 임시주석
-	if (500.f >= InteactionDist.x || 500.f >= InteactionDist.y) // 테스트용
+	// 플레이어의 위치(타일위치)가 NPC가 위치하는 타일에서의 +-1 차이에 존재하는 타일이면
+	// 상호작용가능처리
+	TileIndex PlayerTile = GlobalValue::TownMap->GetPosToTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());
+	TileIndex MyTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+	for (int i = 0; i < 9; ++i)
 	{
-		// 진입성공으로 인한 상태전환
-		State_.ChangeState("ChandleryNPC_INTERACTION");
+		// 현재 NPC의 타일에서 이웃노드(8방향) 검사하여 플레이어를 찾아낸다.
+		TileIndex FindTile = MyTile + SearchTile[i];
+
+		// 플레이어를 찾아냈다면 상호작용 상태로 전환
+		if (PlayerTile == FindTile)
+		{
+			// 진입성공으로 인한 상태전환
+			State_.ChangeState("ChandleryNPC_INTERACTION");
+			return;
+		}
 	}
 }
 

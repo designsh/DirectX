@@ -28,7 +28,6 @@ ChandleryNPC::ChandleryNPC() :
 	PrevState_(ChandleryNPC_FSMState::ST_IDLE),
 	CurState_(ChandleryNPC_FSMState::ST_IDLE),
 	MoveDelayTime_(5.f),
-	InteractionDistance_(80.f),
 	MoveSpeed_(100.f),
 	MoveStartPos_(float4::ZERO),
 	MoveCurPos_(float4::ZERO),
@@ -199,12 +198,12 @@ void ChandleryNPC::SetMoveRange()
 	float4 MyPos = GetTransform()->GetLocalPosition();
 
 	// 최소이동위치
-	MoveMinRange_.x = MyPos.x - 200.f;
-	MoveMinRange_.y = MyPos.y - 200.f;
+	MoveMinRange_.x = MyPos.x - 150.f;
+	MoveMinRange_.y = MyPos.y - 150.f;
 
 	// 최대이동위치
-	MoveMaxRange_.x = MyPos.x + 200.f;
-	MoveMaxRange_.y = MyPos.y + 200.f;
+	MoveMaxRange_.x = MyPos.x + 150.f;
+	MoveMaxRange_.y = MyPos.y + 150.f;
 }
 
 void ChandleryNPC::SetMessageBoxText(const std::string& _Text)

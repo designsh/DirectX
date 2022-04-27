@@ -12,51 +12,6 @@
 #include "NPC_MessageView.h"
 #include "NPC_TopMenuBar.h"
 
-#pragma region 목표위치경로탐색
-std::list<PathIndex> WeaponNPC::SearchMovePath(WeaponNPC_MoveDir _MoveDir)
-{
-	// 타겟위치 셋팅
-	float4 MoveTargetPos = float4::ZERO;
-
-	// 이동방향에 맞는 타겟위치 결정
-	TileIndex TargetTile = TileIndex();
-	switch (_MoveDir)
-	{
-		case WeaponNPC_MoveDir::DIR_B:
-		{
-			TargetTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()) + TileIndex(0, -2);
-			MoveTargetPos = GlobalValue::TownMap->GetTileIndexToPos(TargetTile);
-			break;
-		}
-		case WeaponNPC_MoveDir::DIR_L:
-		{
-			TargetTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()) + TileIndex(-2, 0);
-			MoveTargetPos = GlobalValue::TownMap->GetTileIndexToPos(TargetTile);
-			break;
-		}
-		case WeaponNPC_MoveDir::DIR_T:
-		{
-			TargetTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()) + TileIndex(0, 2);
-			MoveTargetPos = GlobalValue::TownMap->GetTileIndexToPos(TargetTile);
-			break;
-		}
-		case WeaponNPC_MoveDir::DIR_R:
-		{
-			TargetTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()) + TileIndex(2, 0);
-			MoveTargetPos = GlobalValue::TownMap->GetTileIndexToPos(TargetTile);
-			break;
-		}
-	}
-
-	if (float4::ZERO != MoveTargetPos)
-	{
-		return GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), MoveTargetPos);
-	}
-
-	return std::list<PathIndex>();
-}
-#pragma endregion
-
 #pragma region 방향/상태 체크하여 애니메이션 변경
 void WeaponNPC::ChangeAnimationCheck(const std::string& _StateName)
 {

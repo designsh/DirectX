@@ -35,6 +35,7 @@ void ChandleryNPC::CreateAnimation()
 {
 	ChandleryNPCRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	ChandleryNPCRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+	ChandleryNPCRenderer_->GetTransform()->SetLocalZOrder(11.f);
 
 	// 기본상태
 	ChandleryNPCRenderer_->CreateAnimation("Akara_Idle.png", "Akara_Idle_T" , 0, 12, 0.1f);

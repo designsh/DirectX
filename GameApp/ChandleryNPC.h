@@ -54,14 +54,15 @@ private: // FSM
 	ChandleryNPC_FSMState PrevState_;
 	ChandleryNPC_FSMState CurState_;
 
-private: // 자동화용
-	float MoveDelayTime_;		// 이동딜레이시간
-	float InteractionDistance_;	// 최소 상호작용 활성화거리(플레이어와의 거리)
-	float MoveSpeed_;			// 이동속도
-	float4 MoveStartPos_;		// 이동전위치
-	float4 MoveCurPos_;			// 이동중위치
-	float4 MoveMinRange_;		// 최소이동범위
-	float4 MoveMaxRange_;		// 최대이동범위
+private: // 이동경로 및 자동이동관련
+	float MoveDelayTime_;				// NPC의 다음이동까지 딜레이시간
+	float MoveSpeed_;					// NPC의 이동속도
+	float4 MoveStartPos_;				// 이동전위치
+	float4 MoveCurPos_;					// 이동중위치
+
+private:
+	float4 MoveMinRange_;				// 최소이동범위(이동가능한 타일인덱스 계산용)
+	float4 MoveMaxRange_;				// 최대이동범위(이동가능한 타일인덱스 계산용)
 
 private: // UI관련
 	NPC_MessageView* MessageView_;
