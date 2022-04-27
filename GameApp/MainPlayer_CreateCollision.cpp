@@ -17,7 +17,7 @@ void MainPlayer::CreateCollision()
 
 void MainPlayer::PlayerBodyCollision(GameEngineCollision* _Other)
 {
-
+	// 몬스터의 공격모션에 몸체가 충돌하면 피격판정!!!!
 
 
 	int a = 0;
