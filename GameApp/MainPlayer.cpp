@@ -14,10 +14,13 @@
 #include "GameEndMenuView.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
 #include <GameEngine/GameEngineLevel.h>
 
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
+
+#include "Portal.h"
 
 MainPlayer::MainPlayer() :
 	IsTown_(true),
@@ -39,6 +42,7 @@ MainPlayer::MainPlayer() :
 	PrevLevel_(1),
 	CurLevel_(1),
 	State_(),
+	BodyCollider_(nullptr),
 	RenderSize_(float4(256.f, 256.f)),
 	PrevMoveTargetPos_(float4::ZERO),
 	CurMoveTargetPos_(float4::ZERO),
@@ -148,6 +152,17 @@ void MainPlayer::Update(float _DeltaTime)
 		BottomStateBar_->GetEXPProgressBarControl()->AddEXP(TextEXP);
 	}
 
+#pragma region 플레이어충돌체
+	if (nullptr != BodyCollider_)
+	{
+#ifdef _DEBUG
+		GetLevel()->PushDebugRender(BodyCollider_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
+		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Object), std::bind(&MainPlayer::PlayerBodyCollision, this, std::placeholders::_1));
+	}
+#pragma endregion
+
 	// 카메라는 플레이어를 따라 다닌다.
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 }
@@ -209,6 +224,48 @@ void MainPlayer::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	// 메인플레이어
 	GetLevel()->SetLevelActorMove(_NextLevel, this);
 	_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0f, -100.0f));
+}
+
+void MainPlayer::TownMapObjectCheck(const float4& _MousePos)
+{
+	// 마을맵에 존재하는 모든 오브젝트 상호작용 활성화해제 체크
+
+	// 포탈
+	if (nullptr != GlobalValue::Portal)
+	{
+		// 활성화되어있다면 해제
+		if (true == GlobalValue::Portal->GetPortalInteractionFlag())
+		{
+			// 단, 마우스가 클릭한지점이 포탈이 존재하는 타일이 아닌경우에만 해제
+			GlobalValue::Portal->PortMoveableFlagOff(_MousePos);
+		}
+	}
+
+	// 창고는 제외
+}
+
+void MainPlayer::RandomMapObjectCheck(const float4& _MousePos)
+{
+	// 필드맵에 존재하는 모든 오브젝트 상호작용 활성화해제 체크
+
+	// 아이템상자
+
+	// HP우물
+
+	// MP우물
+
+	// 스태미나우물
+
+	// 포탈
+	if (nullptr != GlobalValue::Portal)
+	{
+		// 활성화되어있다면 해제
+		if (true == GlobalValue::Portal->GetPortalInteractionFlag())
+		{
+			// 단, 마우스가 클릭한지점이 포탈이 존재하는 타일이 아닌경우에만 해제
+			GlobalValue::Portal->PortMoveableFlagOff(_MousePos);
+		}
+	}
 }
 
 void MainPlayer::PlayerUIActiveKeyCheck()
@@ -351,6 +408,17 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		}
 
 		float4 MousePos = MainMouse->GetTransform()->GetWorldPosition();
+
+#pragma region 오브젝트활성화여부체크
+		if (true == IsTown_)
+		{
+			TownMapObjectCheck(MousePos);
+		}
+		else
+		{
+			RandomMapObjectCheck(MousePos);
+		}
+#pragma endregion
 
 		// 이미 이동중이였다면 현재 경로를 삭제하고 Flag해제 후 플레이어 대기상태 돌입
 		if (true == IsMove_)

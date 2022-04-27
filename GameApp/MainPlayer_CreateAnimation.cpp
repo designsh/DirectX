@@ -15,7 +15,7 @@ void MainPlayer::CreateAnimation()
 		// LIT / HVY 렌더러 추가
 		for (int j = 0; j < 2; ++j)
 		{
-			RenderPart.Renderer_[j] = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+			RenderPart.Renderer_[j] = CreateTransformComponent<GameEngineImageRenderer>();
 		}
 
 		// 초기 LIT 상태이므로 HVY상태 렌더러 모두 Off

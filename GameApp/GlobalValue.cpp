@@ -24,5 +24,5 @@ ChandleryNPC* GlobalValue::ChandleryNPC = nullptr;
 // 맵관련
 TownMap* GlobalValue::TownMap = nullptr;
 
-// 포탈관련
+// 오브젝트관련
 Portal* GlobalValue::Portal = nullptr;

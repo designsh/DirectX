@@ -5,11 +5,17 @@
 #include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalEnumClass.h"
+#include "GlobalValue.h"
 #include "UserGame.h"
+#include "MainPlayer.h"
+
+#include "TileMap_Common.h"
+#include "TownMap.h"
+#include "RandomMap.h"
 
 Portal::Portal() :
 	PortalType_(PortalType::TOWN),
-	Moveable_(false),
+	InteractionFlag_(false),
 	NextLevel_(nullptr),
 	PortalEntityRenderer_(nullptr),
 	PortalShadowRenderer_(nullptr),
@@ -88,17 +94,19 @@ void Portal::MouseLButtonClick(GameEngineCollision* _Other)
 	// 마우스를 클릭 하면 플레이어와의 충돌체크 활성화
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
-		if (false == Moveable_)
+		if (false == InteractionFlag_)
 		{
-			Moveable_ = true;
+			InteractionFlag_ = true;
 		}
 	}
 }
 
 void Portal::PlayerCollisionCheck(GameEngineCollision* _Other)
 {
-	if (true == Moveable_)
+	if (true == InteractionFlag_)
 	{
+		int a = 0;
+
 		// 플레이어와 충돌체크 충돌성공시 레벨 체인지
 		// 단, 이동가능 Flag 활성화 상태일때만 가능
 		UserGame::LevelChange("CatacombsLevel");
@@ -129,7 +137,7 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		PortalEntityRenderer_->SetEndCallBack("OPEN", std::bind(&Portal::IdleAnimationEnd, this));
 
 		// 충돌체 생성(본체기준)
-		PortalCollision_ = CreateTransformComponent<GameEngineCollision>();
+		PortalCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Object));
 		PortalCollision_->GetTransform()->SetLocalScaling(float4(80.f, 120.f));
 		PortalCollision_->GetTransform()->SetLocalPosition(PortalEntityRenderer_->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 		PortalCollision_->GetTransform()->SetLocalZOrder(-10.f);
@@ -185,7 +193,37 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 	}
 }
 
-void Portal::PortMoveableFlagOff()
+void Portal::PortMoveableFlagOff(const float4& _MousePos)
 {
-	Moveable_ = false;
+	// 마우스 클릭지점의 타일을 검사하여 포탈이 있으면 해제 실패
+	// 아니라면 해제
+	TileIndex CheckTile;
+	TileIndex MyTileIndex;
+
+	// 마을레벨일때 마을맵에서 검사
+	if (std::string::npos != GetLevel()->GetName().find("TownLevel"))
+	{
+		CheckTile = GlobalValue::TownMap->GetPosToTileIndex(_MousePos);
+		MyTileIndex = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+		if (MyTileIndex == CheckTile)
+		{
+			return;
+		}
+
+		// Flag 해제 성공
+		InteractionFlag_ = false;
+	}
+	// 필드레벨들일때 랜덤맵에서 검사
+	else
+	{
+		//CheckTile = GlobalValue::TownMap->GetPosToTileIndex(_MousePos);
+		//MyTileIndex = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+		//if (MyTileIndex == CheckTile)
+		//{
+		//	return;
+		//}
+
+		//// Flag 해제 성공
+		//InteractionFlag_ = false;
+	}
 }

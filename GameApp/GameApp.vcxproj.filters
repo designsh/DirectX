@@ -293,6 +293,9 @@
     <ClCompile Include="RandomMap.cpp">
       <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_CreateCollision.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -723,6 +726,9 @@
     </Filter>
     <Filter Include="Object\Actor\99.Editor\01.CreateTileMapWindow">
       <UniqueIdentifier>{fd818974-d54d-4b5c-948e-14534bacc2ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\Collision">
+      <UniqueIdentifier>{15034ba8-422c-42c5-a795-98eea78032e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

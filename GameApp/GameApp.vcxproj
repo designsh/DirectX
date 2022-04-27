@@ -143,6 +143,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainPlayer_ChangeZOrder.cpp" />
+    <ClCompile Include="MainPlayer_CreateCollision.cpp" />
     <ClCompile Include="MainPlayer_CurExpProgressBar.cpp">
       <SubType>
       </SubType>

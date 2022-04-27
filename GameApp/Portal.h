@@ -19,7 +19,7 @@ private:	// member Var
 	PortalType PortalType_;
 
 private:
-	bool Moveable_; // 레벨체인지 가능 Flag(마우스로 클릭시 활성화/마우스가 다른곳클릭시 비활성화)
+	bool InteractionFlag_; // 레벨체인지 가능 Flag(마우스로 클릭시 활성화/마우스가 다른곳클릭시 비활성화)
 
 private:
 	GameEngineLevel* CurLevel_;
@@ -54,16 +54,16 @@ private:
 	void IdleAnimationEnd();
 
 public:
-	inline bool GetCurPortalMoveFlag()
+	inline bool GetPortalInteractionFlag()
 	{
-		return Moveable_;
+		return InteractionFlag_;
 	}
 
 public: // 포탈타입에 따른 렌더러 & 충돌체 생성 및 이동레벨 결정
 	void CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _NextLevel, bool _Open = false);
 
 public: // 외부에서 이동가능 활성화 Flag 해제용
-	void PortMoveableFlagOff();
+	void PortMoveableFlagOff(const float4& _MousePos);
 
 };
 

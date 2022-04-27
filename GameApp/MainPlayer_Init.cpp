@@ -10,6 +10,9 @@ void MainPlayer::MainPlayerinitialization()
 	// 플레이어 애니메이션 생성 관련
 	CreateAnimation();
 
+	// 플레이어 충돌체 생성 관련
+	CreateCollision();
+
 	// 플레이어 FSM 상태 생성 관련
 	CreatePlayerStateFSM();
 	

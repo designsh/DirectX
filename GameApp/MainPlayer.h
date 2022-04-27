@@ -202,6 +202,10 @@ private: // 플레이어 상태별 렌더오더
 	std::vector<PlayerZOrderManagement> DirectRenderOrder_[static_cast<int>(PlayerState::STAT_MAX)];
 #pragma endregion
 
+#pragma region PlayerCollider
+	GameEngineCollision* BodyCollider_;						// 플레이어의 몸체 충돌체(포탈이동, 피격판정, ...)
+#pragma endregion
+
 #pragma region PlayerFloat4Value
 private: // 플레이어 렌더링 크기
 	float4 RenderSize_;
@@ -335,6 +339,9 @@ public: // UI Flag관련
 private: // 플레이어 초기값 설정을 위한 초기화
 	void MainPlayerinitialization();
 	void MainPlayerStartSetting();
+
+private: // 플레이어 충돌체 생성관련
+	void CreateCollision();
 	
 private: // 텍스쳐 컷팅관련
 	void AllAnimationCut();							// 플레이어의 전체 애니메이션에 필요한 모든 텍스쳐 컷팅처리
@@ -389,6 +396,9 @@ private:
 private: // 방향 처리 관련
 	bool MoveDirectCheck(const float4& _MousePos);
 	void MoveStart(const float4& _MousePos);
+
+private: // 충돌 처리관련
+	void PlayerBodyCollision(GameEngineCollision* _Other);
 
 private: // ZOrder 변경처리 관련
 	void StateAndDirectChangeZOrder();
@@ -486,6 +496,12 @@ public:
 	void HPConsumption(float _Damage);			// 데미지를 받으면 해당 함수 호출
 	void MPConsumption(float _MPConsumption);	// 마법(스킬)을 사용하면 해당 함수 호출
 
+#pragma endregion
+
+#pragma region Object Active Check Function
+private:
+	void TownMapObjectCheck(const float4& _MousePos);
+	void RandomMapObjectCheck(const float4& _MousePos);
 #pragma endregion
 
 };

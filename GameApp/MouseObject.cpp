@@ -113,7 +113,7 @@ void MouseObject::Update(float _DeltaTime)
 		if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 		{
 			// 레벨이동이 활성화상태이고, 플레이어가 이동목표지점을 바꿧다면 해당 포탈의 활성화 해제
-			if (true == GlobalValue::Portal->GetCurPortalMoveFlag())
+			if (true == GlobalValue::Portal->GetPortalInteractionFlag())
 			{
 				//GlobalValue::Portal->PortMoveableFlagOff();
 			}
