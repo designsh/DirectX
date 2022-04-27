@@ -1,6 +1,11 @@
 #pragma once
+#include <GameEngineBase/GameEnginePathFind.h>
+
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
+
+#include "TileMap_Common.h"
+#include "Navigation_Common.h"
 
 enum class WeaponNPC_MoveDir
 {
@@ -53,14 +58,16 @@ private: // FSM
 	WeaponNPC_FSMState PrevState_;
 	WeaponNPC_FSMState CurState_;
 
-private: // 자동화용
-	float MoveDelayTime_;		// 이동딜레이시간
-	float InteractionDistance_;	// 최소 상호작용 활성화거리(플레이어와의 거리)
-	float MoveSpeed_;			// 이동속도
-	float4 MoveStartPos_;		// 이동전위치
-	float4 MoveCurPos_;			// 이동중위치
-	float4 MoveMinRange_;		// 최소이동범위
-	float4 MoveMaxRange_;		// 최대이동범위
+private: // 이동경로 및 자동이동관련
+	float MoveDelayTime_;				// 이동딜레이시간
+	float MoveSpeed_;					// 이동속도
+	std::list<PathIndex> MovePath_;		// 이동경로
+	float4 MoveTargetDir_;				// 현재 이동경로의 이동방향
+	TileIndex MoveTargetIndex_;			// 현재 이동경로의 이동목표타일 인덱스
+
+private:
+	float4 MoveMinRange_;				// 최소이동범위(이동가능한 타일인덱스 계산용)
+	float4 MoveMaxRange_;				// 최대이동범위(이동가능한 타일인덱스 계산용)
 
 private: // UI관련
 	NPC_MessageView* MessageView_;

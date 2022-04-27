@@ -20,6 +20,7 @@
 
 #include "UserGame.h"
 #include "GlobalValue.h"
+#include "GlobalEnumClass.h"
 
 #include "MainPlayerInfomation.h"
 
@@ -53,7 +54,7 @@ void TownLevel::CreateLevelActor()
 	// 플레이어 생성 및 메인플레이어 지정
 	if (nullptr == GlobalValue::CurPlayer)
 	{
-		MainPlayer_ = CreateActor<MainPlayer>();
+		MainPlayer_ = CreateActor<MainPlayer>(static_cast<int>(UpdateOrder::PLAYER));
 		MainPlayer_->GetTransform()->SetWorldPosition(float4(100.f, 100.f));
 		GetMainCameraActor()->GetTransform()->SetLocalPosition(MainPlayer_->GetTransform()->GetLocalPosition());
 		GlobalValue::CurPlayer = MainPlayer_;
@@ -71,7 +72,7 @@ void TownLevel::CreateLevelActor()
 
 	// NPC 생성(무기상인) - 테스트 위치
 	float4 WeaponNPCPos = TownMap_->GetTileIndexToPos(TileIndex(-20, -15));
-	WeaponNPC_ = CreateActor<WeaponNPC>();
+	WeaponNPC_ = CreateActor<WeaponNPC>(static_cast<int>(UpdateOrder::NPC));
 	WeaponNPC_->GetTransform()->SetWorldPosition(WeaponNPCPos - GetMainCameraActor()->GetTransform()->GetLocalPosition());
 	WeaponNPC_->SetMoveRange();
 	WeaponNPC_->SetMessageBoxText("Charsi Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -81,7 +82,7 @@ void TownLevel::CreateLevelActor()
 
 	// NPC 생성(잡화상인) - 테스트 위치
 	float4 ChandleryNPCPos = TownMap_->GetTileIndexToPos(TileIndex(22, -17));
-	ChandleryNPC_ = CreateActor<ChandleryNPC>();
+	ChandleryNPC_ = CreateActor<ChandleryNPC>(static_cast<int>(UpdateOrder::NPC));
 	ChandleryNPC_->GetTransform()->SetWorldPosition(ChandleryNPCPos);
 	ChandleryNPC_->SetMoveRange();
 	ChandleryNPC_->SetMessageBoxText("Akara Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -92,12 +93,12 @@ void TownLevel::CreateLevelActor()
 	// 창고오브젝트
 	float4 StorehousePos = TownMap_->GetTileIndexToPos(TileIndex(-4, -3));
 	StorehousePos.y += 20.f;
-	Storehouse_ = CreateActor<Storehouse>();
+	Storehouse_ = CreateActor<Storehouse>(static_cast<int>(UpdateOrder::OBJECT));
 	Storehouse_->GetTransform()->SetWorldPosition(StorehousePos);
 
 	// 맵이동 포탈생성(마을->카타콤)
 	float4 PortalPos = TownMap_->GetTileIndexToPos(TileIndex(6, 7));
-	Portal_ = CreateActor<Portal>();
+	Portal_ = CreateActor<Portal>(static_cast<int>(UpdateOrder::OBJECT));
 	Portal_->GetTransform()->SetWorldPosition(PortalPos);
 	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("CatacombsLevel");
 	Portal_->CreateLevelChangePortal(PortalType::TOWN, NextLevel);

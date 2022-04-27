@@ -53,12 +53,12 @@ void MainPlayer::StartTownNatural()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_TN;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 
 	// 관련 사운드 시작
 
@@ -89,12 +89,12 @@ void MainPlayer::StartTownWalk()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_TW;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 
 	// 이동위치 결정(마을맵기준)
 	if (false == MovePath_.empty())
@@ -174,13 +174,12 @@ void MainPlayer::StartFieldNatural()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_NU;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateFieldNatural()
@@ -205,12 +204,12 @@ void MainPlayer::StartFieldWalk()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_WL;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateFieldWalk()
@@ -237,12 +236,12 @@ void MainPlayer::StartAttack1()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_A1;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateAttack1()
@@ -267,12 +266,12 @@ void MainPlayer::StartAttack2()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_A2;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateAttack2()
@@ -297,12 +296,12 @@ void MainPlayer::StartBlock()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_BL;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateBlock()
@@ -327,12 +326,12 @@ void MainPlayer::StartGetHit()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_GH;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateGetHit()
@@ -357,12 +356,12 @@ void MainPlayer::StartKick()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_KK;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateKick()
@@ -387,12 +386,12 @@ void MainPlayer::StartRun()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_RN;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 
 	// 이동위치 결정(마을맵기준)
 	if (false == MovePath_.empty())
@@ -490,12 +489,12 @@ void MainPlayer::StartSkillAttack()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_S1;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateSkillAttack()
@@ -520,12 +519,12 @@ void MainPlayer::StartSkillCasting()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_SC;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateSkillCasting()
@@ -552,12 +551,12 @@ void MainPlayer::StartDead()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_DD;
 
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateDead()
@@ -582,12 +581,12 @@ void MainPlayer::StartDeath()
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_DT;
 	
+	// 애니메이션변경
+	ChangeAnimation(State_.GetCurStateName());
+
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 애니메이션변경
-	ChangeAnimation(State_.GetCurStateName());
 }
 
 void MainPlayer::UpdateDeath()

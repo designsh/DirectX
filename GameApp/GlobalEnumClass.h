@@ -10,6 +10,15 @@ enum class Button_State
 	End
 };
 
+// Update Order
+enum class UpdateOrder
+{
+	PLAYER,
+	MONSTER,
+	NPC,
+	OBJECT,
+};
+
 // UI전용 렌더오더
 enum class UIRenderOrder
 {

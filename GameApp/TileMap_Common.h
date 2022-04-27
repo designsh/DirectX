@@ -29,6 +29,21 @@ public:
 	{
 
 	}
+
+	TileIndex operator+(const TileIndex& _Other)
+	{
+		return { _Other.X_ + X_, _Other.Y_ + Y_ };
+	}
+
+	bool operator==(const TileIndex& _Other)
+	{
+		return _Other.X_ == X_ && _Other.Y_ == Y_;
+	}
+
+	bool operator!=(const TileIndex& _Other)
+	{
+		return _Other.X_ != X_ || _Other.Y_ != Y_;
+	}
 };
 
 // 벽타일 기본타입(방향구분)
