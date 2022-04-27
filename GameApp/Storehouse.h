@@ -6,6 +6,7 @@
 // 설명 : 마우스와 충돌하였고, 플레이어가 일정거리 진입시 창고창 오픈
 class GameEngineImageRenderer;
 class GameEngineCollision;
+class StoreView;
 class Storehouse : public GameEngineActor
 {
 private:	// member Var
@@ -14,6 +15,9 @@ private:	// member Var
 private:
 	GameEngineImageRenderer* StorehouseRenderer_;
 	GameEngineCollision* StorehouseCollision_;
+
+private:
+	StoreView* StoreView_;
 
 public:
 	Storehouse();

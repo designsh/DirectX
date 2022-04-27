@@ -13,7 +13,8 @@
 Storehouse::Storehouse() :
 	DistanceCheck_(false),
 	StorehouseRenderer_(nullptr),
-	StorehouseCollision_(nullptr)
+	StorehouseCollision_(nullptr),
+	StoreView_(nullptr)
 {
 }
 
@@ -25,11 +26,15 @@ void Storehouse::Start()
 {
 	StorehouseRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	StorehouseRenderer_->SetImage("Storehouse.png");
+	StorehouseRenderer_->GetTransform()->SetLocalZOrder(11.f);
 
 	StorehouseCollision_ = CreateTransformComponent<GameEngineCollision>();
 	StorehouseCollision_->GetTransform()->SetLocalScaling(StorehouseRenderer_->GetTransform()->GetLocalScaling());
 	StorehouseCollision_->GetTransform()->SetLocalPosition(StorehouseRenderer_->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 	StorehouseCollision_->GetTransform()->SetWorldZOrder(-99.f);
+
+	// 창고창 생성
+	
 }
 
 void Storehouse::Update(float _DeltaTime)

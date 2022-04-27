@@ -296,6 +296,9 @@
     <ClCompile Include="MainPlayer_CreateCollision.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="StoreView.cpp">
+      <Filter>Object\Actor\00.Global\03.Object\00.Storehouse\00.StoreView</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -983,6 +986,9 @@
     </ClInclude>
     <ClInclude Include="TileMap_Common.h">
       <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreView.h">
+      <Filter>Object\Actor\00.Global\03.Object\00.Storehouse\00.StoreView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
