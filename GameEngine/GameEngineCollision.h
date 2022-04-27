@@ -46,6 +46,7 @@ public:
 	static bool OBBBox3DToAABBBox3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
 
 private:	// member Var
+	bool Collision_;
 
 public:
 	GameEngineCollision();
@@ -74,7 +75,7 @@ public:
 
 public:
 	// 해당 객체가 원하는 _OtherGroup과의 충돌체크 후 충돌한 충돌체의 CallbackFunction 호출
-	void Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack);
+	void Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack, std::function<void(GameEngineCollision*)> _EndCallBack = nullptr);
 
 public: // CollisionType 별 충돌
 	void SphereToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack);

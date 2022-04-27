@@ -14,6 +14,7 @@ class NPC_TopMenuBar : public GameEngineActor
 {
 private:	// member Var
 	GameEngineUIRenderer* TopMenuPanel_;
+	GameEngineCollision* TopMenuPanelCol_;
 
 private:
 	// ¥Î»≠

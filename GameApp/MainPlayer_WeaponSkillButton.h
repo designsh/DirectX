@@ -35,6 +35,9 @@ private:
 	GameEngineUIRenderer*			SkillButtonRenderer_;		// 스킬버튼 렌더러
 	GameEngineCollision*			SkillButtonCollision_;		// 스킬버튼 충돌체
 
+private:
+	GameEngineCollision*			MoveableChkCol_;			// 플레이어 이동판단 체크용 충돌체
+
 public:
 	MainPlayer_WeaponSkillButton();
 	~MainPlayer_WeaponSkillButton();

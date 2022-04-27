@@ -479,7 +479,6 @@ public:
 
 public:
 	bool InventoryViewItemArrageCheckOn(const float4& _ItemScale, const std::string& _ItemName);
-
 #pragma endregion
 
 #pragma region GamePlaye Update Function

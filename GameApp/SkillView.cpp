@@ -21,6 +21,7 @@ int SkillView::SkillPoint = 0;
 
 SkillView::SkillView() :
 	PanelRenderer_(nullptr),
+	PanelCol_(nullptr),
 	SkillPagePanel_{nullptr, },
 	SkillPageCollider_{ nullptr, },
 	CloseButton_(nullptr),
@@ -50,6 +51,12 @@ void SkillView::Start()
 	PanelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	PanelRenderer_->SetImage("Player_SkillView_Panel.png");
 	PanelRenderer_->GetTransform()->SetLocalPosition(float4(ImageHarfSize.x, 24.f));
+
+	// 플레이어 이동불가처리를 위한 충돌체 생성
+	PanelCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UIMoveabledCheckCol));
+	PanelCol_->SetName("Player_SkillView");
+	PanelCol_->GetTransform()->SetLocalScaling(PanelRenderer_->GetTransform()->GetLocalScaling());
+	PanelCol_->GetTransform()->SetLocalPosition(PanelRenderer_->GetTransform()->GetLocalPosition());
 
 	// Button Image Cutting
 	GameEngineTexture* ButtonDefault = GameEngineTextureManager::GetInst().Find("CloseButton_Default.png");
@@ -123,6 +130,7 @@ void SkillView::Start()
 void SkillView::Update(float _DeltaTime)
 {
 #ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(PanelCol_->GetTransform(), CollisionType::Rect);
 	GetLevel()->UIPushDebugRender(CloseButtonCollider_->GetTransform(), CollisionType::Rect);
 	GetLevel()->UIPushDebugRender(SkillPageCollider_[0]->GetTransform(), CollisionType::Rect);
 	GetLevel()->UIPushDebugRender(SkillPageCollider_[1]->GetTransform(), CollisionType::Rect);

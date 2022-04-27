@@ -10,7 +10,7 @@
 bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 {
 	// 플레이어 현재 위치 Get
-	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 MyPos = GetTransform()->GetWorldPosition();
 
 	// 마우스 클릭지점을 이용하여 이동방향을 얻어와서 현재 이동방향 변경
 	PrevDirect_ = CurDirect_;
@@ -99,6 +99,7 @@ void MainPlayer::MoveStart(const float4& _MousePos)
 	if (std::string::npos != GetLevel()->GetName().find("TownLevel"))
 	{
 		MovePath_ = GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
+		//MovePath_ = GlobalValue::TownMap->NavgationFind8Way(GetTransform()->GetWorldPosition(), _MousePos);
 	}
 	else if(std::string::npos != GetLevel()->GetName().find("CatacombsLevel"))
 	{

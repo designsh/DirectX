@@ -52,6 +52,7 @@ class NPC_BuySellView : public GameEngineActor
 {
 private: // 판넬관련
 	GameEngineUIRenderer* ViewPanel_;						// 판매창 판넬렌더러
+	GameEngineCollision* BuySellViewPanelCol_;				// 판매창 판넬충돌체(플레이어 이동판단 체크용)
 
 private: // 버튼관련
 	GameEngineUIRenderer* BuyButtonRenderer_;				// 구매 버튼 렌더러

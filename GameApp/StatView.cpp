@@ -18,6 +18,7 @@ int StatView::StatPoint = 0;
 
 StatView::StatView() :
 	PanelRenderer_(nullptr),
+	PanelCol_(nullptr),
 	IDRenderer_(nullptr),
 	JobClassRenderer_(nullptr),
 	CurLevelRenderer_(nullptr),
@@ -78,8 +79,13 @@ void StatView::Start()
 	PanelRenderer_->SetImage("Player_StateView_Panel.png");
 	PanelRenderer_->GetTransform()->SetLocalPosition(float4(ImageHarfSize.x - WindowHarfSize.x, 24.f));
 
-	// MainPlayer Infomation String Setting
+	// 플레이어 이동불가처리를 위한 충돌체 생성
+	PanelCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UIMoveabledCheckCol));
+	PanelCol_->SetName("Player_StatView");
+	PanelCol_->GetTransform()->SetLocalScaling(PanelRenderer_->GetTransform()->GetLocalScaling());
+	PanelCol_->GetTransform()->SetLocalPosition(PanelRenderer_->GetTransform()->GetLocalPosition());
 
+	// MainPlayer Infomation String Setting
 	// 상태창 ID
 	IDRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
 	IDRenderer_->GetTransform()->SetLocalPosition(float4(-220.f, 222.f));
@@ -307,6 +313,11 @@ void StatView::Start()
 
 void StatView::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(PanelCol_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
+
 	// 종료버튼 클릭체크
 	if (ButtonState_ == Button_State::Click)
 	{

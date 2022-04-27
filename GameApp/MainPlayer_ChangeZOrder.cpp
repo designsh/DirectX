@@ -88,7 +88,6 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 			case PlayerState::STAT_TW:
 			case PlayerState::STAT_WL:
 			case PlayerState::STAT_MAX:
-			default:
 			{				
 				// Animation Frame별 ZOrder 변화없음
 				IsDefaultZOrderChangeChk_ = false;
@@ -97,34 +96,47 @@ void MainPlayer::AnimationFrameCheckZOrderChange()
 		}
 	}
 
-	// 기본 ZOrder의 마지막인덱스 프레임이 종료되었다면 Flag On
+	// 기본 ZOrder의 마지막인덱스 프레임이 종료되었을때
 	if (false == IsDefaultZOrderChangeChk_)
 	{
+		// TR파트만 존재하기때문에 사망모션 or 시체모션시 체크안함
 		if (CurState_ == PlayerState::STAT_DD || CurState_ == PlayerState::STAT_DT)
 		{
 			return;
 		}
 
-		GameEngineImageRenderer* CurRenderer = nullptr;
-		int CheckAnimationFrame = DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].DefaultEndIndex_;
-		std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(static_cast<RendererPartType>(RendererPartType::PART_TR));
-		bool ItemEquipType = FindIter->second;
-		if (false == ItemEquipType)
+		// 그외의 상태라면 ZOrder의 변화가 없으므로 각 파트별 오더를 셋팅한다.
+		for (int i = 0; i < static_cast<int>(PartRenderer_.size()); ++i)
 		{
-			CurRenderer = PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)];
-		}
-		else
-		{
-			CurRenderer = PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)];
-		}
-
-		// 현재 애니메이션의 시작프레임과 종료프레임을 체크하여 일정범위의 프레임을 반환
-		if (true == DefaultZOrderEndFrameCheck(CurRenderer, CheckAnimationFrame))
-		{
-			// 단, 현재 상태의 현재 방향의 변경되는 ZOrder값이 false이면 Flag On 못함
-			if (false != DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrderFlag_)
+			GameEngineImageRenderer* CurRenderer = nullptr;
+			std::map<RendererPartType, bool>::iterator FindIter = IsItemEquipState_.find(PartRenderer_[i].PartType_);
+			if (false == FindIter->second)
 			{
-				IsDefaultZOrderChangeChk_ = true;
+				// 미착용상태일때 방패파트가 들어오면 컨티뉴
+				if (i == static_cast<int>(RendererPartType::PART_SH))
+				{
+					continue;
+				}
+
+				CurRenderer = PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)];
+			}
+			else
+			{
+				CurRenderer = PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)];
+			}
+
+			if (nullptr != CurRenderer->GetCurrentAnimation())
+			{
+				// 현재 애니메이션의 시작프레임과 종료프레임을 체크하여 일정범위의 프레임을 반환
+				int CheckAnimationFrame = DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].DefaultEndIndex_;
+				if (true == DefaultZOrderEndFrameCheck(CurRenderer, CheckAnimationFrame))
+				{
+					// 단, 현재 상태의 현재 방향의 변경되는 ZOrder값이 false이면 Flag On 못함
+					if (true == DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].UnderChangeZOrderFlag_)
+					{
+						IsDefaultZOrderChangeChk_ = true;
+					}
+				}
 			}
 		}
 	}
@@ -175,7 +187,7 @@ void MainPlayer::ZorderCheckChange()
 			else // 아이템 착용
 			{
 				float ZOrder = static_cast<float>(DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].DefaultZOrder_[i]);
-				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetLocalZOrder(ZOrder);
+				PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalZOrder(ZOrder);
 			}
 		}
 
@@ -230,7 +242,7 @@ void MainPlayer::ZorderCheckChange()
 					else // 아이템 착용
 					{
 						float ZOrder = static_cast<float>(DirectRenderOrder_[static_cast<int>(CurState_)][static_cast<int>(CurDirect_)].DefaultZOrder_[i]);
-						PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->GetTransform()->SetLocalZOrder(ZOrder);
+						PartRenderer_[i].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->GetTransform()->SetLocalZOrder(ZOrder);
 					}
 				}
 

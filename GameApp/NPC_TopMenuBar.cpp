@@ -12,6 +12,7 @@
 
 NPC_TopMenuBar::NPC_TopMenuBar() :
 	TopMenuPanel_(nullptr),
+	TopMenuPanelCol_(nullptr),
 	ConversationMenuRenderer_(nullptr),
 	ConversationMenuCol_(nullptr),
 	BuySellMenuRenderer_(nullptr),
@@ -37,6 +38,15 @@ void NPC_TopMenuBar::Start()
 
 void NPC_TopMenuBar::Update(float _DeltaTime)
 {
+#pragma region 플레이어이동체크판단용충돌체
+	if (nullptr != TopMenuPanelCol_)
+	{
+#ifdef _DEBUG
+		GetLevel()->UIPushDebugRender(TopMenuPanelCol_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+	}
+#pragma endregion
+
 #pragma region 버튼충돌체크
 	if (nullptr != ConversationMenuCol_)
 	{
@@ -173,6 +183,12 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 			float4 TextureSizeHalf = Texture->GetTextureSize();
 			TopMenuPanel_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 6.f));
 
+			// 플레이어 이동불가처리를 위한 충돌체 생성
+			TopMenuPanelCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UIMoveabledCheckCol));
+			TopMenuPanelCol_->SetName("NPC_TopMenu");
+			TopMenuPanelCol_->GetTransform()->SetLocalScaling(TopMenuPanel_->GetTransform()->GetLocalScaling());
+			TopMenuPanelCol_->GetTransform()->SetLocalPosition(TopMenuPanel_->GetTransform()->GetLocalPosition());
+
 			// 메뉴선택텍스트(버튼처럼사용)
 
 			// 대화
@@ -231,6 +247,12 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 			GameEngineTexture* Texture = GameEngineTextureManager::GetInst().Find("TopMenu_Type1_Panel.png");
 			float4 TextureSizeHalf = Texture->GetTextureSize();
 			TopMenuPanel_->GetTransform()->SetLocalPosition(float4(0.f, TextureSizeHalf.y + 6.f));
+
+			// 플레이어 이동불가처리를 위한 충돌체 생성
+			TopMenuPanelCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UIMoveabledCheckCol));
+			TopMenuPanelCol_->SetName("NPC_TopMenu");
+			TopMenuPanelCol_->GetTransform()->SetLocalScaling(TopMenuPanel_->GetTransform()->GetLocalScaling());
+			TopMenuPanelCol_->GetTransform()->SetLocalPosition(TopMenuPanel_->GetTransform()->GetLocalPosition());
 
 			// 메뉴선택텍스트(버튼처럼사용)
 

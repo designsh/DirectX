@@ -18,7 +18,19 @@ class GameEngineUIRenderer;
 class GameEngineCollision;
 class MouseObject : public GameEngineActor
 {
-private:	// member Var
+private: // 플레이어 UI 충돌체크
+	bool PlayerUI_BottomStateBarCol_;
+	bool PlayerUI_StatViewCol_;
+	bool PlayerUI_SkillViewCol_;
+	bool PlayerUI_IventoryViewCol_;
+	bool PlayerUI_LWeaponSkillListBtnCol_;
+	bool PlayerUI_RWeaponSkillListBtnCol_;
+
+private: // NPC UI 충돌체크
+	bool NPCUI_TopMenuBarCol_;
+	bool NPCUI_BuySellViewCol_;
+
+private:
 	bool IsItemHold_;
 	std::string HoldItemName_;
 
@@ -49,6 +61,10 @@ private:
 	void Update(float _DeltaTime) override;
 	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
 
+private:
+	void MouseUICollision(GameEngineCollision* _Other);
+	void MouseUICollisionEnd(GameEngineCollision* _Other);
+
 public: // 마우스 상태 Get
 	MouseState GetMouseState() const
 	{
@@ -70,6 +86,58 @@ public:
 		}
 
 		return "";
+	}
+
+public:
+	// 하단상태바의 UI선택중 이동체크 불가
+	inline bool GetBottomStateBarCollision() const
+	{
+		return PlayerUI_BottomStateBarCol_;
+	}
+
+	// 화면의 오른쪽으로 이동체크 불가
+	inline bool GetScreenRightUIViewCollision() const
+	{
+		if (true == PlayerUI_SkillViewCol_)
+		{
+			return true;
+		}
+
+		if (true == PlayerUI_IventoryViewCol_)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	// 화면의 왼쪽으로 이동체크 불가
+	inline bool GetScreenLeftUIViewCollision() const
+	{
+		return PlayerUI_StatViewCol_;
+	}
+
+	// 왼쪽스킬리스트에서 스킬선택중 이동체크 불가
+	inline bool GetLWeaponSkillListCollision() const
+	{
+		return PlayerUI_LWeaponSkillListBtnCol_;
+	}
+
+	// 오른쪽스킬리스트에서 스킬선택중 이동체크 불가
+	inline bool GetRWeaponSkillListCollision() const
+	{
+		return PlayerUI_RWeaponSkillListBtnCol_;
+	}
+
+public: // NPC UI 체크 FLAG
+	inline bool GetTopMenuBarCollision() const
+	{
+		return NPCUI_TopMenuBarCol_;
+	}
+
+	inline bool GetBuySellViewCollision() const
+	{
+		return NPCUI_BuySellViewCol_;
 	}
 
 public: // 아이템들기관련

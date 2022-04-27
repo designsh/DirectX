@@ -26,6 +26,9 @@ private:
 
 private:	// member Var
 	GameEngineUIRenderer* PanelRenderer_;						// 상태창(판넬)
+	GameEngineCollision* PanelCol_;								// 상태창(판넬_충돌체)
+
+private:
 	GameEngineUIRenderer* IDRenderer_;							// 상태창 ID
 	GameEngineUIRenderer* JobClassRenderer_;					// 상태창 직업명
 	GameEngineUIRenderer* CurLevelRenderer_;					// 상태창 현재 레벨

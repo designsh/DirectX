@@ -26,6 +26,7 @@ class InventoryView : public GameEngineActor
 #pragma region 인벤창 기본정보
 private:	// member Var
 	GameEngineUIRenderer* InventoryPanel_;
+	GameEngineCollision* PanelCol_;
 
 private:
 	GameEngineUIRenderer* CloseButton_;

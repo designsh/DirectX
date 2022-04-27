@@ -100,7 +100,8 @@ public:
 #pragma endregion
 
 private:
-	bool MoveableCheck(PathIndex _PathIndex);
+	bool Moveable4WaysCheck(PathIndex _PathIndex);
+	bool Moveable8WaysCheck(PathIndex _PathIndex);
 
 public:
 	std::list<PathIndex> NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos);

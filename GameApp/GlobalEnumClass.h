@@ -71,6 +71,7 @@ enum class UIRenderOrder
 	UI12,
 	UI12_Collider,
 	UI12_Text,
+	UIMoveabledCheckCol,	// 플레이어 이동불가 판정 충돌체
 	ErrorPopup,
 	ErrorPopup_Button,
 	ErrorPopup_Collider,

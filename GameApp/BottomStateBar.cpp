@@ -2,6 +2,7 @@
 #include "BottomStateBar.h"
 
 #include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
@@ -19,6 +20,7 @@
 
 BottomStateBar::BottomStateBar() :
 	Panel_(nullptr),
+	PanelCol_(nullptr),
 	HP_(nullptr),
 	MP_(nullptr),
 	LWeaponSkill_(nullptr),
@@ -47,6 +49,12 @@ void BottomStateBar::Start()
 	Panel_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI10));
 	Panel_->SetImage("Player_BottomStatBar_UI.png", float4(WindowSize.x, ImageSize.y));
 	Panel_->GetTransform()->SetLocalPosition(float4(0.f, ImageHarfSize.y - WindowHarfSize.y));
+
+	// 플레이어 이동불가처리를 위한 충돌체 생성
+	PanelCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UIMoveabledCheckCol));
+	PanelCol_->SetName("Player_BottomStateBar");
+	PanelCol_->GetTransform()->SetLocalScaling(Panel_->GetTransform()->GetLocalScaling());
+	PanelCol_->GetTransform()->SetLocalPosition(Panel_->GetTransform()->GetLocalPosition());
 
 	// ====================================================== 관련 액터 생성 ====================================================== //
 
@@ -86,6 +94,10 @@ void BottomStateBar::Start()
 
 void BottomStateBar::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(PanelCol_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
 }
 
 void BottomStateBar::LevelChangeEndEvent(GameEngineLevel* _NextLevel)

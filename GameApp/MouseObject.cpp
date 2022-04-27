@@ -10,6 +10,14 @@
 #include <GameEngine/GameEngineCollision.h>
 
 MouseObject::MouseObject() :
+	PlayerUI_BottomStateBarCol_(false),
+	PlayerUI_StatViewCol_(false),
+	PlayerUI_SkillViewCol_(false),
+	PlayerUI_IventoryViewCol_(false),
+	PlayerUI_LWeaponSkillListBtnCol_(false),
+	PlayerUI_RWeaponSkillListBtnCol_(false),
+	NPCUI_TopMenuBarCol_(false),
+	NPCUI_BuySellViewCol_(false),
 	IsItemHold_(false),
 	HoldItemName_(),
 	ItemRenderer_(nullptr),
@@ -63,6 +71,10 @@ void MouseObject::Start()
 
 void MouseObject::Update(float _DeltaTime)
 {
+#pragma region 마우스충돌체크
+	MouseCollider_->Collision(CollisionType::CirCle, CollisionType::Rect, static_cast<int>(UIRenderOrder::UIMoveabledCheckCol), std::bind(&MouseObject::MouseUICollision, this, std::placeholders::_1), std::bind(&MouseObject::MouseUICollisionEnd, this, std::placeholders::_1));
+#pragma endregion
+
 	float4 PrevPos = GameEngineInput::GetInst().GetPrevMouse3DPos();
 	float4 CurPos = GameEngineInput::GetInst().GetMouse3DPos();
 
@@ -139,6 +151,81 @@ void MouseObject::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 
 	// 마우스 다음레벨 전달
 	GetLevel()->SetLevelActorMove(_NextLevel, this);
+}
+
+void MouseObject::MouseUICollision(GameEngineCollision* _Other)
+{
+	// 마우스가 어떠한 UI와 충돌하든 충돌체크
+	if (std::string::npos != _Other->GetName().find("Player_BottomStateBar"))
+	{
+		// 마우스가 플레이어 하단상태바와 충돌중
+		PlayerUI_BottomStateBarCol_ = true;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_StatView"))
+	{
+		PlayerUI_StatViewCol_ = true;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_SkillView"))
+	{
+		PlayerUI_SkillViewCol_ = true;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_InventoryView"))
+	{
+		PlayerUI_IventoryViewCol_ = true;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_LWeaponSkill"))
+	{
+		PlayerUI_LWeaponSkillListBtnCol_ = true;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_RWeaponSkill"))
+	{
+		PlayerUI_RWeaponSkillListBtnCol_ = true;
+	}
+	else if (std::string::npos != _Other->GetName().find("NPC_TopMenu"))
+	{
+		NPCUI_TopMenuBarCol_ = true;
+	}
+	else if (std::string::npos != _Other->GetName().find("NPC_BuySellView"))
+	{
+		NPCUI_BuySellViewCol_ = true;
+	}
+}
+
+void MouseObject::MouseUICollisionEnd(GameEngineCollision* _Other)
+{
+	if (std::string::npos != _Other->GetName().find("Player_BottomStateBar"))
+	{
+		// 마우스가 플레이어 하단상태바와 충돌종료
+		PlayerUI_BottomStateBarCol_ = false;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_StatView"))
+	{
+		PlayerUI_StatViewCol_ = false;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_SkillView"))
+	{
+		PlayerUI_SkillViewCol_ = false;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_InventoryView"))
+	{
+		PlayerUI_IventoryViewCol_ = false;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_LWeaponSkill"))
+	{
+		PlayerUI_LWeaponSkillListBtnCol_ = false;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_RWeaponSkill"))
+	{
+		PlayerUI_RWeaponSkillListBtnCol_ = false;
+	}
+	else if (std::string::npos != _Other->GetName().find("NPC_TopMenu"))
+	{
+		NPCUI_TopMenuBarCol_ = false;
+	}
+	else if (std::string::npos != _Other->GetName().find("NPC_BuySellView"))
+	{
+		NPCUI_BuySellViewCol_ = false;
+	}
 }
 
 void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize)

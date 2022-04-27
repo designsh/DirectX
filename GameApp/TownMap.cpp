@@ -645,7 +645,7 @@ NavigationType TownMap::GetTileToNaviType(float4 _MousePos)
 	return NavigationType();
 }
 
-bool TownMap::MoveableCheck(PathIndex _PathIndex)
+bool TownMap::Moveable4WaysCheck(PathIndex _PathIndex)
 {
 	TileIndex CheckTileIndex;
 	CheckTileIndex.X_ = _PathIndex.X_;
@@ -663,6 +663,30 @@ bool TownMap::MoveableCheck(PathIndex _PathIndex)
 	return false;
 }
 
+bool TownMap::Moveable8WaysCheck(PathIndex _PathIndex)
+{
+	TileIndex CheckTileIndex;
+	CheckTileIndex.X_ = _PathIndex.X_;
+	CheckTileIndex.Y_ = _PathIndex.Y_;
+
+	// 네비게이션 인덱스 타입에 존재하는 인덱스이며, Wall타입이면 이동불가판정
+	if (NavTownMap_.end() != NavTownMap_.find(CheckTileIndex.Index_))
+	{
+		if (NavTownMap_[CheckTileIndex.Index_] == NavigationType::WALL)
+		{
+			return true;
+		}
+		else // non or nor 타입일때
+		{
+			// 이동하려는 타일 이웃타일을 검사하여
+			// 벽과 벽사이의 존재하는 타일이면 이동불가판단
+
+		}
+	}
+
+	return false;
+}
+
 std::list<PathIndex> TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos)
 {
 	if (nullptr != Navigation_)
@@ -674,7 +698,7 @@ std::list<PathIndex> TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseC
 		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 		TileIndex TargetIndex = GetPosToTileIndex(_MouseClickPos + CamPos);
 
-		return Navigation_->AStarFind4Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::MoveableCheck, this, std::placeholders::_1));
+		return Navigation_->AStarFind4Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable4WaysCheck, this, std::placeholders::_1));
 	}
 
 	return std::list<PathIndex>();
@@ -684,13 +708,14 @@ std::list<PathIndex> TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseC
 {
 	if (nullptr != Navigation_)
 	{
-		//// 플레이어의 현재위치를 이용하여 타일인덱스 계산
-		//TileIndex PlayerIndex = GetPosToTileINdex(_StartPos);
+		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
+		TileIndex PlayerIndex = GetPosToTileIndex(_StartPos);
 
-		//// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
-		//TileIndex TargetIndex = GetPosToTileINdex(_MouseClickPos);
+		// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
+		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+		TileIndex TargetIndex = GetPosToTileIndex(_MouseClickPos + CamPos);
 
-		//Navigation_->AStarFind8Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::MoveableCheck, this, std::placeholders::_1));
+		return Navigation_->AStarFind8Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable8WaysCheck, this, std::placeholders::_1));
 	}
 
 	return std::list<PathIndex>();

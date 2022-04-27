@@ -18,6 +18,7 @@ private:
 
 private:	// member Var
 	GameEngineUIRenderer* PanelRenderer_;						// 스킬창 판넬 렌더러
+	GameEngineCollision* PanelCol_;								// 스킬창 판넬 충돌체(플레이어 이동불가판단)
 
 private: // 스킬페이지
 	GameEngineUIRenderer* SkillPagePanel_[static_cast<int>(SkillPageNo::MAX)];

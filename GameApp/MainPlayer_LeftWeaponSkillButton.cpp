@@ -168,6 +168,10 @@ void MainPlayer_LeftWeaponSkillButton::UpdateWeaponSkillList(int _SkillID)
 			break;
 		}
 	}
+
+	// 왼쪽 활성화 스킬목록 전체를 포함하는 충돌체의 위치 및 크기 지정
+	//SkillListCol_->GetTransform()->SetLocalPosition(float4());
+	//SkillListCol_->GetTransform()->SetLocalScaling(float4());
 }
 
 void MainPlayer_LeftWeaponSkillButton::InitLWeaponSkillList()
@@ -243,7 +247,7 @@ void MainPlayer_LeftWeaponSkillButton::LWeaponActiveSkillListView(bool _Flag)
 		int Count = static_cast<int>(LWeaponSkillList_.size());
 		for (int i = 0; i < Count; ++i)
 		{
-			LWeaponSkillList_[i]->Off();
+			LWeaponSkillList_[i]->On();
 		}
 	}
 }
@@ -260,6 +264,7 @@ void MainPlayer_LeftWeaponSkillButton::CurSkillChange(int _SkillID, const std::s
 		{
 			LWeaponSkillList_[i]->Off();
 		}
+
 		IsActive_ = false;
 
 		return;

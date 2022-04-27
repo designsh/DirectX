@@ -51,7 +51,7 @@ MainPlayer::MainPlayer() :
 	SkillView_(nullptr),
 	InventoryView_(nullptr),
 	GameEndMenuView_(nullptr),
-	MoveSpeed_(100.f),
+	MoveSpeed_(200.f),
 	MoveTargetDir_(float4::ZERO),
 	MoveTargetIndex_(TileIndex())
 {
@@ -280,9 +280,60 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	// 마우스 왼쪽버튼(추후 충돌시 호출로 변경예정)
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
-		// UI 충돌과 동시에 클릭일시 리턴처리(이동불가처리)
+#pragma region 마우스가 이미 UI와 충돌중이라면 이동불가 판단
 
+#pragma region 플레이어 UI
+		// 하단상태바와 충돌중이라면 클릭지점 이동불가
+		if (true == GlobalValue::CurMouse->GetBottomStateBarCollision())
+		{
+			return;
+		}
 
+		// 스킬트리창 or 인벤토리창과 충돌중이라면 클릭지점 이동불가
+		// 단, 클릭지점이 화면의 왼쪽지점이라면 이동가능판단
+		if (true == GlobalValue::CurMouse->GetScreenRightUIViewCollision())
+		{
+			return;
+		}
+
+		// 스탯창 or NPC의 판매창 충돌중이라면 클릭지점 이동불가
+		// 단, 클릭지점이 화면의 오른쪽지점이라면 이동가능판단
+		if (true == GlobalValue::CurMouse->GetScreenLeftUIViewCollision())
+		{
+			return;
+		}
+
+		// 왼쪽스킬목록리스트와 충돌중이라면 이동불가
+		if (true == GlobalValue::CurMouse->GetLWeaponSkillListCollision())
+		{
+			return;
+		}
+
+		// 오른쪽스킬목록리스트와 충돌중이라면 이동불가
+		if (true == GlobalValue::CurMouse->GetRWeaponSkillListCollision())
+		{
+			return;
+		}
+#pragma endregion
+
+#pragma region NPC UI
+		if (true == IsTown_) // 마을레벨에만 NPC 존재
+		{
+			// 상단메뉴바
+			if (true == GlobalValue::CurMouse->GetTopMenuBarCollision())
+			{
+				return;
+			}
+
+			// 판매창
+			if (true == GlobalValue::CurMouse->GetBuySellViewCollision())
+			{
+				return;
+			}
+		}
+#pragma endregion
+
+#pragma endregion
 
 		// 이동인지 체크후 이동이라면 방향계산후 상태 변경
 		MouseObject* MainMouse = GlobalValue::CurMouse;

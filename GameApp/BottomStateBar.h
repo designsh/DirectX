@@ -5,6 +5,7 @@
 // 용도 : 하단상태바
 // 설명 : 플레이어의 하단상태바관리
 class GameEngineUIRenderer;
+class GameEngineCollision;
 class MainPlayer_CurrentHP;
 class MainPlayer_CurrentMP;
 class MainPlayer_LeftWeaponSkillButton;
@@ -18,6 +19,7 @@ class BottomStateBar : public GameEngineActor
 {
 private:	// member Var
 	GameEngineUIRenderer* Panel_;
+	GameEngineCollision* PanelCol_;
 
 private: // HP/MP
 	MainPlayer_CurrentHP* HP_;

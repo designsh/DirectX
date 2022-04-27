@@ -21,7 +21,8 @@ MainPlayer_WeaponSkillButton::MainPlayer_WeaponSkillButton() :
 	SkillBtnPos_(float4::ZERO),
 	ButtonState_(Button_State::Normal),
 	SkillButtonRenderer_(nullptr),
-	SkillButtonCollision_(nullptr)
+	SkillButtonCollision_(nullptr),
+	MoveableChkCol_(nullptr)
 {
 }
 
@@ -150,12 +151,24 @@ void MainPlayer_WeaponSkillButton::CreateSkillButton(int _PushNo, const float4& 
 				SkillButtonRenderer_->GetTransform()->SetLocalScaling(float4(48.f, 48.f, 1.f));
 				SkillButtonRenderer_->GetTransform()->SetLocalPosition(SkillBtnPos_);
 				SkillButtonRenderer_->SetChangeAnimation("Default");
-				//SkillButtonRenderer_->Off();
 
 				// 충돌체 생성
 				SkillButtonCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI11_Collider));
 				SkillButtonCollision_->GetTransform()->SetLocalScaling(float4(46.f, 46.f));
 				SkillButtonCollision_->GetTransform()->SetLocalPosition(SkillButtonRenderer_->GetTransform()->GetLocalPosition());
+
+				// 
+				MoveableChkCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UIMoveabledCheckCol));
+				if (DirectType::Left == DirectType_)
+				{
+					MoveableChkCol_->SetName("Player_LWeaponSkill");
+				}
+				else
+				{
+					MoveableChkCol_->SetName("Player_RWeaponSkill");
+				}
+				MoveableChkCol_->GetTransform()->SetLocalScaling(SkillButtonCollision_->GetTransform()->GetLocalScaling());
+				MoveableChkCol_->GetTransform()->SetLocalPosition(SkillButtonCollision_->GetTransform()->GetLocalPosition());
 
 				// 기본 Off 상태
 				Off();

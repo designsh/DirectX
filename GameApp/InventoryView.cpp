@@ -25,6 +25,7 @@
 
 InventoryView::InventoryView() :
 	InventoryPanel_(nullptr),
+	PanelCol_(nullptr),
 	CloseButton_(nullptr),
 	CloseButtonCollider_(nullptr),
 	CloseButtonState_(Button_State::Normal),
@@ -180,6 +181,12 @@ void InventoryView::Start()
 	InventoryPanel_->SetImage("Inventory_Panel.png");
 	InventoryPanel_->GetTransform()->SetLocalPosition(float4(ImageHarfSize.x, 24.f));
 
+	// 플레이어 이동불가처리를 위한 충돌체 생성
+	PanelCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UIMoveabledCheckCol));
+	PanelCol_->SetName("Player_InventoryView");
+	PanelCol_->GetTransform()->SetLocalScaling(InventoryPanel_->GetTransform()->GetLocalScaling());
+	PanelCol_->GetTransform()->SetLocalPosition(InventoryPanel_->GetTransform()->GetLocalPosition());
+
 	// Button Image Cutting
 	GameEngineTexture* ButtonDefault = GameEngineTextureManager::GetInst().Find("CloseButton_Default.png");
 	ButtonDefault->Cut(1, 1);
@@ -205,6 +212,8 @@ void InventoryView::Start()
 void InventoryView::Update(float _DeltaTime)
 {
 #ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(PanelCol_->GetTransform(), CollisionType::Rect);
+
 	for (int i = 0; i < static_cast<int>(InvEquipCol_.size()); ++i)
 	{
 		GetLevel()->UIPushDebugRender(InvEquipCol_[i]->GetTransform(), CollisionType::Rect);

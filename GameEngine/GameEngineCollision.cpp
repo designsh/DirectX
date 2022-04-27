@@ -171,7 +171,8 @@ bool GameEngineCollision::OBBBox3DToAABBBox3D(GameEngineTransform* _Left, GameEn
 }
 
 
-GameEngineCollision::GameEngineCollision()
+GameEngineCollision::GameEngineCollision() :
+	Collision_(false)
 {
 }
 
@@ -193,13 +194,22 @@ void GameEngineCollision::SetCollisionGroup(int _Type)
 	GetLevel()->ChangeCollisionGroup(_Type, this);
 }
 
-void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
+void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack, std::function<void(GameEngineCollision*)> _EndCallBack)
 {
 	std::list<GameEngineCollision*>& Group = GetLevel()->GetCollisionGroup(_OtherGroup);
 	for (GameEngineCollision* OtherCollision : Group)
 	{
 		if (false == OtherCollision->IsUpdate())
-		{
+		{		
+			// 충돌중상태 -> 충돌종료상태
+			if (nullptr != _EndCallBack)
+			{
+				if (true == OtherCollision->Collision_)
+				{
+					_EndCallBack(OtherCollision);
+					OtherCollision->Collision_ = false;
+				}
+			}
 			continue;
 		}
 
@@ -212,10 +222,20 @@ void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _Othe
 
 		if (false == CheckFunction(GetTransform(), OtherCollision->GetTransform()))
 		{
+			// 충돌중상태 -> 충돌종료상태
+			if (nullptr != _EndCallBack)
+			{
+				if (true == OtherCollision->Collision_)
+				{
+					_EndCallBack(OtherCollision);
+					OtherCollision->Collision_ = false;
+				}
+			}
 			continue;
 		}
 
 		_CallBack(OtherCollision);
+		OtherCollision->Collision_ = true;
 	}
 }
 

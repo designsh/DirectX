@@ -90,6 +90,11 @@ public:
 		return CurAnimation_->GetName();
 	}
 
+	inline Animation2D* GetCurrentAnimation()
+	{
+		return CurAnimation_;
+	}
+
 	inline bool IsCurrentAnimationString(const std::string& _Name)
 	{
 		return CurAnimation_->GetName() == _Name;

@@ -96,37 +96,31 @@ void MainPlayer::StartTownWalk()
 	// 애니메이션변경
 	ChangeAnimation(State_.GetCurStateName());
 
-	// 이동위치 결정
+	// 이동위치 결정(마을맵기준)
 	if (false == MovePath_.empty())
 	{
-		if (true == IsTown_)
-		{
-			// 다음 이동타일인덱스 Get
-			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
+		// 다음 이동타일인덱스 Get
+		MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
-			// 타겟위치로 지정된 경로의 인덱스제거
-			MovePath_.pop_front();
+		// 타겟위치로 지정된 경로의 인덱스제거
+		MovePath_.pop_front();
 
-			// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
-			// 플레이어의 이동방향을 설정한다.
-			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
-			MoveTargetDir_ = DirPos.NormalizeReturn3D();
-			
-			// 이동방향에 따른 애니메이션을 변경
-
-		}
-		else
-		{
-			// 랜덤맵에서 찾아낸다.
-
-		}
+		// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
+		// 플레이어의 이동방향을 설정한다.
+		float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+		MoveTargetDir_ = DirPos.NormalizeReturn3D();
 	}
+
+	MoveSpeed_ = 200.f;
 }
 
 void MainPlayer::UpdateTownWalk()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
+
+	// 이동처리
+	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 	
 	// 이동타겟 타일인덱스 도달시 이동경로가 남아있다면 타겟위치 재설정 후 재이동
 	// 더이상의 이동경로가 존재하지않는다면 대기상태 돌입
@@ -139,6 +133,9 @@ void MainPlayer::UpdateTownWalk()
 
 			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
 			MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+			// 애니메이션 변경
+
 
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
@@ -159,11 +156,6 @@ void MainPlayer::UpdateTownWalk()
 
 			return;
 		}
-	}
-	else
-	{
-		// 이동시작
-		GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 	}
 }
 

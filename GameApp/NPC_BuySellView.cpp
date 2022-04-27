@@ -93,6 +93,15 @@ void NPC_BuySellView::Start()
 
 void NPC_BuySellView::Update(float _DeltaTime)
 {
+#pragma region 플레이어이동체크판단용 충돌체
+	if (nullptr != BuySellViewPanelCol_)
+	{
+#ifdef _DEBUG
+		GetLevel()->UIPushDebugRender(BuySellViewPanelCol_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+	}
+#pragma endregion
+
 #pragma region 버튼상태갱신
 	if (BuyBtnState_ == Button_State::Click)	// 구매버튼상태
 	{
@@ -548,6 +557,12 @@ void NPC_BuySellView::CreateBuySellView(NPCType _BuySellViewType, NPCClassType _
 	ViewPanel_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 	ViewPanel_->SetImage("BuySell_Panel.png");
 	ViewPanel_->GetTransform()->SetLocalPosition(float4(ImageHarfSize.x - WindowHarfSize.x, 24.f));
+
+	// 플레이어 이동불가처리를 위한 충돌체 생성
+	BuySellViewPanelCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UIMoveabledCheckCol));
+	BuySellViewPanelCol_->SetName("NPC_BuySellView");
+	BuySellViewPanelCol_->GetTransform()->SetLocalScaling(ViewPanel_->GetTransform()->GetLocalScaling());
+	BuySellViewPanelCol_->GetTransform()->SetLocalPosition(ViewPanel_->GetTransform()->GetLocalPosition());
 
 	// 판매창타입별 버튼 및 탭생성
 	switch (BuySellViewType_)
