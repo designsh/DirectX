@@ -70,17 +70,17 @@ void TownLevel::CreateLevelActor()
 		}
 	}
 
-	// NPC 생성(무기상인) - 테스트 위치
-	float4 WeaponNPCPos = TownMap_->GetTileIndexToPos(TileIndex(-20, -15));
+	// NPC 생성(무기상인)
+	float4 WeaponNPCPos = TownMap_->GetTileIndexToPos(TileIndex(-19, -15));
 	WeaponNPC_ = CreateActor<WeaponNPC>(static_cast<int>(UpdateOrder::NPC));
-	WeaponNPC_->GetTransform()->SetWorldPosition(WeaponNPCPos - GetMainCameraActor()->GetTransform()->GetLocalPosition());
+	WeaponNPC_->GetTransform()->SetWorldPosition(WeaponNPCPos);
 	WeaponNPC_->SetMoveRange();
 	WeaponNPC_->SetMessageBoxText("Charsi Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	WeaponNPC_->SetUIPosition();
 	WeaponNPC_->SetTopMenu();
 	GlobalValue::WeaponNPC = WeaponNPC_;
 
-	// NPC 생성(잡화상인) - 테스트 위치
+	// NPC 생성(잡화상인)
 	float4 ChandleryNPCPos = TownMap_->GetTileIndexToPos(TileIndex(22, -17));
 	ChandleryNPC_ = CreateActor<ChandleryNPC>(static_cast<int>(UpdateOrder::NPC));
 	ChandleryNPC_->GetTransform()->SetWorldPosition(ChandleryNPCPos);

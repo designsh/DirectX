@@ -59,11 +59,10 @@ private: // FSM
 	WeaponNPC_FSMState CurState_;
 
 private: // 이동경로 및 자동이동관련
-	float MoveDelayTime_;				// 이동딜레이시간
-	float MoveSpeed_;					// 이동속도
-	std::list<PathIndex> MovePath_;		// 이동경로
-	float4 MoveTargetDir_;				// 현재 이동경로의 이동방향
-	TileIndex MoveTargetIndex_;			// 현재 이동경로의 이동목표타일 인덱스
+	float MoveDelayTime_;				// NPC의 다음이동까지 딜레이시간
+	float MoveSpeed_;					// NPC의 이동속도
+	float4 MoveStartPos_;				// 이동전위치
+	float4 MoveCurPos_;					// 이동중위치
 
 private:
 	float4 MoveMinRange_;				// 최소이동범위(이동가능한 타일인덱스 계산용)
@@ -94,6 +93,9 @@ private:
 
 private: // 상태/방향별 체크가하여 애니메이션 변경
 	void ChangeAnimationCheck(const std::string& _StateName);
+
+private: // 목표타일까지의 경로탐색
+	std::list<PathIndex> SearchMovePath(WeaponNPC_MoveDir _MoveDir);
 
 private:
 	// 대기상태

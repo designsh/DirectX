@@ -12,6 +12,51 @@
 #include "NPC_MessageView.h"
 #include "NPC_TopMenuBar.h"
 
+#pragma region 목표위치경로탐색
+std::list<PathIndex> WeaponNPC::SearchMovePath(WeaponNPC_MoveDir _MoveDir)
+{
+	// 타겟위치 셋팅
+	float4 MoveTargetPos = float4::ZERO;
+
+	// 이동방향에 맞는 타겟위치 결정
+	TileIndex TargetTile = TileIndex();
+	switch (_MoveDir)
+	{
+		case WeaponNPC_MoveDir::DIR_B:
+		{
+			TargetTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()) + TileIndex(0, -2);
+			MoveTargetPos = GlobalValue::TownMap->GetTileIndexToPos(TargetTile);
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_L:
+		{
+			TargetTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()) + TileIndex(-2, 0);
+			MoveTargetPos = GlobalValue::TownMap->GetTileIndexToPos(TargetTile);
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_T:
+		{
+			TargetTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()) + TileIndex(0, 2);
+			MoveTargetPos = GlobalValue::TownMap->GetTileIndexToPos(TargetTile);
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_R:
+		{
+			TargetTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()) + TileIndex(2, 0);
+			MoveTargetPos = GlobalValue::TownMap->GetTileIndexToPos(TargetTile);
+			break;
+		}
+	}
+
+	if (float4::ZERO != MoveTargetPos)
+	{
+		return GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), MoveTargetPos);
+	}
+
+	return std::list<PathIndex>();
+}
+#pragma endregion
+
 #pragma region 방향/상태 체크하여 애니메이션 변경
 void WeaponNPC::ChangeAnimationCheck(const std::string& _StateName)
 {
@@ -89,24 +134,10 @@ void WeaponNPC::UpdateIdle()
 	if (0.f >= MoveDelayTime_)
 	{
 		// 이동방향 결정
-		// 1. 이동가능한지 판단
-		// 2. 이동가능한 타일이라면 경로 생성과 동시에 Walk상태로 전환
+		// 이전방향을 체크하여 현재방향이 결정된다.
+		// 즉, 아래로 이동한뒤 다시 대기상태가 되었다면 위로 이동한다.
+		// 원래자리로 복귀후 방향이 전환되며, 위와같은 동작을 반복처리하게된다.
 
-
-
-
-
-		//MovePath_ = GlobalValue::TownMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
-
-
-
-
-
-
-
-
-
-		
 		// 이전방향과 현재방향이 반대방향이면 랜덤으로 방향 재결정
 		srand((unsigned int)time(0));
 		int RandomDir = rand() % static_cast<int>(WeaponNPC_MoveDir::MAX);
@@ -137,193 +168,290 @@ void WeaponNPC::StartWalk()
 	PrevState_ = CurState_;
 	CurState_ = WeaponNPC_FSMState::ST_WALK;
 
-
-	// 
+	// 이동전 위치 저장
+	MoveStartPos_ = GetTransform()->GetLocalPosition();
+	MoveCurPos_ = GetTransform()->GetLocalPosition();
 }
 
 void WeaponNPC::UpdateWalk()
 {
 	// 플레이어와 상호작용상태가 아닐때 자동이동
 	// 최대 이동거리 이동완료시 대기상태로 돌입
+	switch (CurMoveDir_)
+	{
+		case WeaponNPC_MoveDir::DIR_B:
+		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(1, 1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+				return;
+			}
 
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetWorldDeltaTimeMove(float4(0.0f, -1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+			}
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_LB:
+		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(0, 1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+				return;
+			}
 
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, -1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+			}
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_L:
+		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(-1, 1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+				return;
+			}
 
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, 0.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+			}
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_LT:
+		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(-1, 0);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+				return;
+			}
 
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, 1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+			}
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_T:
+		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(-1, -1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+				return;
+			}
 
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetWorldDeltaTimeMove(float4(0.0f, 1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+			}
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_RT:
+		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(0, -1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
-	//switch (CurMoveDir_)
-	//{
-	//	case WeaponNPC_MoveDir::DIR_B:
-	//	{
-	//		// 이동 및 현재 이동위치 갱신
-	//		GetTransform()->SetWorldDeltaTimeMove(float4(0.0f, -1.0f) * MoveSpeed_);
-	//		MoveCurPos_ = GetTransform()->GetLocalPosition();
-	//		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-	//		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-	//		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-	//		if (100.0f <= MoveDist.y)
-	//		{
-	//			// 현재이동방향 저장
-	//			PrevMoveDir_ = CurMoveDir_;
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+				return;
+			}
 
-	//			// 상태 전환
-	//			State_.ChangeState("WeaponNPC_IDLE");
-	//		}
-	//		break;
-	//	}
-	//	case WeaponNPC_MoveDir::DIR_LB:
-	//	{
-	//		// 이동 및 현재 이동위치 갱신
-	//		GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, -1.0f) * MoveSpeed_);
-	//		MoveCurPos_ = GetTransform()->GetLocalPosition();
-	//		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-	//		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-	//		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-	//		if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
-	//		{
-	//			// 현재이동방향 저장
-	//			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, 1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
-	//			// 상태 전환
-	//			State_.ChangeState("WeaponNPC_IDLE");
-	//		}
-	//		break;
-	//	}
-	//	case WeaponNPC_MoveDir::DIR_L:
-	//	{
-	//		// 이동 및 현재 이동위치 갱신
-	//		GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, 0.0f) * MoveSpeed_);
-	//		MoveCurPos_ = GetTransform()->GetLocalPosition();
-	//		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-	//		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-	//		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-	//		if (100.0f <= MoveDist.x)
-	//		{
-	//			// 현재이동방향 저장
-	//			PrevMoveDir_ = CurMoveDir_;
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+			}
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_R:
+		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(1, -1);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
-	//			// 상태 전환
-	//			State_.ChangeState("WeaponNPC_IDLE");
-	//		}
-	//		break;
-	//	}
-	//	case WeaponNPC_MoveDir::DIR_LT:
-	//	{
-	//		// 이동 및 현재 이동위치 갱신
-	//		GetTransform()->SetWorldDeltaTimeMove(float4(-1.0f, 1.0f) * MoveSpeed_);
-	//		MoveCurPos_ = GetTransform()->GetLocalPosition();
-	//		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-	//		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-	//		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-	//		if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
-	//		{
-	//			// 현재이동방향 저장
-	//			PrevMoveDir_ = CurMoveDir_;
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+				return;
+			}
 
-	//			// 상태 전환
-	//			State_.ChangeState("WeaponNPC_IDLE");
-	//		}
-	//		break;
-	//	}
-	//	case WeaponNPC_MoveDir::DIR_T:
-	//	{
-	//		// 이동 및 현재 이동위치 갱신
-	//		GetTransform()->SetWorldDeltaTimeMove(float4(0.0f, 1.0f) * MoveSpeed_);
-	//		MoveCurPos_ = GetTransform()->GetLocalPosition();
-	//		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-	//		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-	//		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-	//		if (100.0f <= MoveDist.y)
-	//		{
-	//			// 현재이동방향 저장
-	//			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, 0.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.x)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
-	//			// 상태 전환
-	//			State_.ChangeState("WeaponNPC_IDLE");
-	//		}
-	//		break;
-	//	}
-	//	case WeaponNPC_MoveDir::DIR_RT:
-	//	{
-	//		// 이동 및 현재 이동위치 갱신
-	//		GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, 1.0f) * MoveSpeed_);
-	//		MoveCurPos_ = GetTransform()->GetLocalPosition();
-	//		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-	//		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-	//		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-	//		if (100.0f <= MoveDist.y && 100.0f <= MoveDist.x)
-	//		{
-	//			// 현재이동방향 저장
-	//			PrevMoveDir_ = CurMoveDir_;
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+			}
+			break;
+		}
+		case WeaponNPC_MoveDir::DIR_RB:
+		{
+			// 이동전 현재 타일인덱스에서 이동하려는 타일의 타입이 벽이면 이동을 중단하고
+			// 대기상태로 전환한다.
+			TileIndex CurTile = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
+			CurTile = CurTile + TileIndex(1, 0);
+			if (NavigationType::WALL == GlobalValue::TownMap->GetTileToNaviType(GlobalValue::TownMap->GetTileIndexToPos(CurTile)))
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
-	//			// 상태 전환
-	//			State_.ChangeState("WeaponNPC_IDLE");
-	//		}
-	//		break;
-	//	}
-	//	case WeaponNPC_MoveDir::DIR_R:
-	//	{
-	//		// 이동 및 현재 이동위치 갱신
-	//		GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, 0.0f)* MoveSpeed_);
-	//		MoveCurPos_ = GetTransform()->GetLocalPosition();
-	//		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-	//		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-	//		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-	//		if (100.0f <= MoveDist.x)
-	//		{
-	//			// 현재이동방향 저장
-	//			PrevMoveDir_ = CurMoveDir_;
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+				return;
+			}
 
-	//			// 상태 전환
-	//			State_.ChangeState("WeaponNPC_IDLE");
-	//		}
-	//		break;
-	//	}
-	//	case WeaponNPC_MoveDir::DIR_RB:
-	//	{
-	//		// 이동 및 현재 이동위치 갱신
-	//		GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, -1.0f)* MoveSpeed_);
-	//		MoveCurPos_ = GetTransform()->GetLocalPosition();
-	//		// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
-	//		float4 MoveDist = MoveStartPos_ - MoveCurPos_;
-	//		MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
-	//		if (100.0f <= MoveDist.x && 100.0f <= MoveDist.y)
-	//		{
-	//			// 현재이동방향 저장
-	//			PrevMoveDir_ = CurMoveDir_;
+			// 이동 및 현재 이동위치 갱신
+			GetTransform()->SetWorldDeltaTimeMove(float4(1.0f, -1.0f) * MoveSpeed_);
+			MoveCurPos_ = GetTransform()->GetLocalPosition();
+			// 이동중 이동시작위치와 현재위치를 비교하여 320 이상 거리가 벌어지면 이동 종료
+			float4 MoveDist = MoveStartPos_ - MoveCurPos_;
+			MoveDist = float4(std::abs(MoveDist.x), std::abs(MoveDist.y));
+			if (100.0f <= MoveDist.x && 100.0f <= MoveDist.y)
+			{
+				// 현재이동방향 저장
+				PrevMoveDir_ = CurMoveDir_;
 
-	//			// 상태 전환
-	//			State_.ChangeState("WeaponNPC_IDLE");
-	//		}
-	//		break;
-	//	}
-	//}
-	//
-	//// 이동처리중 최대이동범위를 넘어가면 현재이동방향을 저장하고 바로 상태전환
-	//if (!((MoveMinRange_.x <= MoveCurPos_.x && MoveMinRange_.y <= MoveCurPos_.y) && (MoveMaxRange_.x >= MoveCurPos_.x && MoveMaxRange_.y >= MoveCurPos_.y)))
-	//{
-	//	// 현재이동방향 저장
-	//	PrevMoveDir_ = CurMoveDir_;
+				// 상태 전환
+				State_.ChangeState("WeaponNPC_IDLE");
+			}
+			break;
+		}
+	}
 
-	//	// 상태 전환
-	//	State_.ChangeState("WeaponNPC_IDLE");
-	//	return;
-	//}
+	// 이동처리중 최대이동범위를 넘어가면 현재이동방향을 저장하고 바로 상태전환
+	if (!((MoveMinRange_.x <= MoveCurPos_.x && MoveMinRange_.y <= MoveCurPos_.y) && (MoveMaxRange_.x >= MoveCurPos_.x && MoveMaxRange_.y >= MoveCurPos_.y)))
+	{
+		// 현재이동방향 저장
+		PrevMoveDir_ = CurMoveDir_;
+
+		// 상태 전환
+		State_.ChangeState("WeaponNPC_IDLE");
+		return;
+	}
 }
 
 void WeaponNPC::EndWalk()
 {
-	
+	MoveCurPos_ = float4::ZERO;
 }
 
 // 상호작용대기 상태

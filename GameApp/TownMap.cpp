@@ -692,13 +692,13 @@ std::list<PathIndex> TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseC
 	if (nullptr != Navigation_)
 	{
 		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
-		TileIndex PlayerIndex = GetPosToTileIndex(_StartPos);
+		TileIndex StartIndex = GetPosToTileIndex(_StartPos);
 
 		// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
 		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 		TileIndex TargetIndex = GetPosToTileIndex(_MouseClickPos + CamPos);
 
-		return Navigation_->AStarFind4Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable4WaysCheck, this, std::placeholders::_1));
+		return Navigation_->AStarFind4Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable4WaysCheck, this, std::placeholders::_1));
 	}
 
 	return std::list<PathIndex>();
@@ -709,13 +709,13 @@ std::list<PathIndex> TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseC
 	if (nullptr != Navigation_)
 	{
 		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
-		TileIndex PlayerIndex = GetPosToTileIndex(_StartPos);
+		TileIndex StartIndex = GetPosToTileIndex(_StartPos);
 
 		// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
 		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 		TileIndex TargetIndex = GetPosToTileIndex(_MouseClickPos + CamPos);
 
-		return Navigation_->AStarFind8Way(PathIndex(PlayerIndex.X_, PlayerIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable8WaysCheck, this, std::placeholders::_1));
+		return Navigation_->AStarFind8Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable8WaysCheck, this, std::placeholders::_1));
 	}
 
 	return std::list<PathIndex>();

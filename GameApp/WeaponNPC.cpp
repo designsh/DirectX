@@ -29,8 +29,8 @@ WeaponNPC::WeaponNPC() :
 	CurState_(WeaponNPC_FSMState::ST_IDLE),
 	MoveDelayTime_(5.f),
 	MoveSpeed_(100.f),
-	MoveTargetDir_(float4::ZERO),
-	MoveTargetIndex_(TileIndex()),
+	MoveStartPos_(float4::ZERO),
+	MoveCurPos_(float4::ZERO),
 	MoveMinRange_(float4::ZERO),
 	MoveMaxRange_(float4::ZERO),
 	MessageView_(nullptr),
@@ -198,12 +198,12 @@ void WeaponNPC::SetMoveRange()
 	float4 MyPos = GetTransform()->GetWorldPosition();
 
 	// 최소이동위치
-	MoveMinRange_.x = MyPos.x - 200.f;
-	MoveMinRange_.y = MyPos.y - 200.f;
+	MoveMinRange_.x = MyPos.x - 150.f;
+	MoveMinRange_.y = MyPos.y - 150.f;
 
 	// 최대이동위치
-	MoveMaxRange_.x = MyPos.x + 200.f;
-	MoveMaxRange_.y = MyPos.y + 200.f;
+	MoveMaxRange_.x = MyPos.x + 150.f;
+	MoveMaxRange_.y = MyPos.y + 150.f;
 }
 
 void WeaponNPC::SetMessageBoxText(const std::string& _Text)

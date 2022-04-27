@@ -280,6 +280,13 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	// 마우스 왼쪽버튼(추후 충돌시 호출로 변경예정)
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
+#pragma region 게임화면을 벗어나면 이동불가 판단
+		if (GameEngineWindow::GetInst().IsWindowRangeOut(GameEngineInput::GetInst().GetMousePos()))
+		{
+			return;
+		}
+#pragma endregion
+
 #pragma region 마우스가 이미 UI와 충돌중이라면 이동불가 판단
 
 #pragma region 플레이어 UI

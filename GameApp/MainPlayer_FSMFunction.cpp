@@ -134,9 +134,6 @@ void MainPlayer::UpdateTownWalk()
 			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
 			MoveTargetDir_ = DirPos.NormalizeReturn3D();
 
-			// 애니메이션 변경
-
-
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
 		}
