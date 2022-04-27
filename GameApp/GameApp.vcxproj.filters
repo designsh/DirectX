@@ -730,6 +730,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\Collision">
       <UniqueIdentifier>{15034ba8-422c-42c5-a795-98eea78032e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\00.Storehouse\00.StoreView">
+      <UniqueIdentifier>{cd4ce947-b94a-4523-93a5-4c04086f7856}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
