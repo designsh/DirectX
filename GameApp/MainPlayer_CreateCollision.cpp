@@ -17,5 +17,8 @@ void MainPlayer::CreateCollision()
 
 void MainPlayer::PlayerBodyCollision(GameEngineCollision* _Other)
 {
+
+
+
 	int a = 0;
 }

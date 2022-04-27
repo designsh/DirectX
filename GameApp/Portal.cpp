@@ -74,12 +74,19 @@ void Portal::Update(float _DeltaTime)
 	if (nullptr != PortalCollision_)
 	{
 #ifdef _DEBUG
-		GetLevel()->UIPushDebugRender(PortalCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(PortalCollision_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
-		float4 MyPos = GetTransform()->GetLocalPosition();
-		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
-		PortalCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+		if (false == InteractionFlag_)
+		{
+			float4 MyPos = GetTransform()->GetLocalPosition();
+			float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+			PortalCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+		}
+		else
+		{
+			PortalCollision_->GetTransform()->SetLocalPosition(PortalEntityRenderer_->GetTransform()->GetLocalPosition());
+		}
 
 		// 마우스가 해당 포탈을 클릭한 상태에서 
 		PortalCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Mouse), std::bind(&Portal::MouseLButtonClick, this, std::placeholders::_1));
@@ -105,8 +112,6 @@ void Portal::PlayerCollisionCheck(GameEngineCollision* _Other)
 {
 	if (true == InteractionFlag_)
 	{
-		int a = 0;
-
 		// 플레이어와 충돌체크 충돌성공시 레벨 체인지
 		// 단, 이동가능 Flag 활성화 상태일때만 가능
 		UserGame::LevelChange("CatacombsLevel");
@@ -162,7 +167,7 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		PortalEntityRenderer_->SetEndCallBack("OPEN", std::bind(&Portal::IdleAnimationEnd, this));
 
 		// 충돌체 생성(본체기준)
-		PortalCollision_ = CreateTransformComponent<GameEngineCollision>();
+		PortalCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Object));
 		PortalCollision_->GetTransform()->SetLocalScaling(float4(80.f, 120.f));
 		PortalCollision_->GetTransform()->SetLocalPosition(PortalEntityRenderer_->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 		PortalCollision_->GetTransform()->SetLocalZOrder(-10.f);
@@ -203,7 +208,7 @@ void Portal::PortMoveableFlagOff(const float4& _MousePos)
 	// 마을레벨일때 마을맵에서 검사
 	if (std::string::npos != GetLevel()->GetName().find("TownLevel"))
 	{
-		CheckTile = GlobalValue::TownMap->GetPosToTileIndex(_MousePos);
+		CheckTile = GlobalValue::TownMap->GetPosToTileIndex(_MousePos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition());
 		MyTileIndex = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
 		if (MyTileIndex == CheckTile)
 		{
