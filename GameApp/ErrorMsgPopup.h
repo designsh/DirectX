@@ -16,6 +16,9 @@ private:	// member Var
 
 private:
 	GameEngineUIRenderer* ErrorMsgPanel_;
+	GameEngineCollision* ErrorMsgCol_;				// 해당 창과 충돌중 어떠한 동작도 불가능하게 처리하기 위한 충돌체
+
+private:
 	GameEngineUIRenderer* ErrorMsgButton_;
 	GameEngineCollision* ErrorMsgBtnCollision_;
 

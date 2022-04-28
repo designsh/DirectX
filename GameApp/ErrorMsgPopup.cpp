@@ -8,6 +8,7 @@ ErrorMsgPopup::ErrorMsgPopup() :
 	ErrorMsgText_(),
 	ButtonState_(Button_State::Normal),
 	ErrorMsgPanel_(nullptr),
+	ErrorMsgCol_(nullptr),
 	ErrorMsgButton_(nullptr),
 	ErrorMsgBtnCollision_(nullptr)
 {
@@ -27,12 +28,15 @@ void ErrorMsgPopup::Start()
 	ButtonClick->Cut(1, 1);
 
 	// 에러 메세지 창
-	ErrorMsgPanel_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::ErrorPopup));
+	ErrorMsgPanel_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::Popup));
 	ErrorMsgPanel_->SetImage("ErrorMsgBox_Panel.png");
 	ErrorMsgPanel_->TextSetting("diablo", ErrorMsgText_, 15, FW1_CENTER | FW1_VCENTER, float4::WHITE);
 
+	//ErrorMsgCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Popup_Abled_Col));
+
+
 	// 에러 확인 버튼(액터)
-	ErrorMsgButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::ErrorPopup_Button));
+	ErrorMsgButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::Popup_Button));
 	ErrorMsgButton_->CreateAnimation("ShortButton_Stay.png", "Default", 0, 0, 0.1f, false);
 	ErrorMsgButton_->CreateAnimation("ShortButton_Click.png", "Click", 0, 0, 0.1f, false);
 	ErrorMsgButton_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
@@ -43,7 +47,7 @@ void ErrorMsgPopup::Start()
 	ErrorMsgButton_->TextSetting("diablo", "OK", 15, FW1_VCENTER | FW1_CENTER, float4::BLACK);
 
 	// 충돌체 생성
-	ErrorMsgBtnCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::ErrorPopup_Collider));
+	ErrorMsgBtnCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Popup_Collider));
 	ErrorMsgBtnCollision_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
 	ErrorMsgBtnCollision_->GetTransform()->SetLocalPosition(ErrorMsgButton_->GetTransform()->GetLocalPosition());
 

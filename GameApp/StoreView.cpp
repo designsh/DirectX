@@ -14,6 +14,8 @@
 
 #include "MouseObject.h"
 
+#include "TakeInOutGoldPopup.h"
+
 StoreView::StoreView() :
 	StoreViewActive_(false),
 	StoredGold_(0),
@@ -25,6 +27,7 @@ StoreView::StoreView() :
 	StoreGoldTakeOutPopBtnState_(Button_State::Normal),
 	StoreGold_(nullptr),
 	StoreMaxGold_(nullptr),
+	TakeOutGoldPopup_(nullptr),
 	CloseButton_(nullptr),
 	CloseBtnCol_(nullptr),
 	CloseBtnState_(Button_State::Normal)
@@ -102,6 +105,10 @@ void StoreView::Start()
 	StoreMaxGold_->GetTransform()->SetLocalScaling(float4(172.f, 17.f));
 	StoreMaxGold_->GetTransform()->SetLocalPosition(float4(-160.f, 182.f));
 	StoreMaxGold_->SetAlpha(0.f);
+
+	// 골드꺼내기 팝업관련
+	TakeOutGoldPopup_ = GetLevel()->CreateActor<TakeInOutGoldPopup>();
+	//TakeOutGoldPopup_->CreateTakePopup(TakeInOutPopupType::TakeOut, TakeInOutPopCreateType::STOREDVIEW, float4());
 
 	// 아이템배치 정보관련
 

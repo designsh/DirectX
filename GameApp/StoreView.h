@@ -14,7 +14,7 @@ struct StoreViewInfo
 // 설명 : 
 class GameEngineUIRenderer;
 class GameEngineCollision;
-
+class TakeInOutGoldPopup;
 class StoreView : public GameEngineActor
 {
 private:
@@ -35,6 +35,9 @@ private: // 골드관련
 	// 골드량 관련
 	GameEngineUIRenderer* StoreGold_;					// 창고 저장용 보유골드량
 	GameEngineUIRenderer* StoreMaxGold_;				// 창고 저장용 골드 최대량
+
+	// 골드팝업 관련
+	TakeInOutGoldPopup* TakeOutGoldPopup_;				// 창고에 저장된 골드량 꺼내기 팝업창
 
 private: // 창닫기버튼 관련
 	GameEngineUIRenderer* CloseButton_;					// 창고창 종료버튼
