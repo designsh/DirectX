@@ -36,7 +36,7 @@ void Storehouse::Start()
 	StorehouseCollision_->GetTransform()->SetWorldZOrder(-99.f);
 	
 	// 창고창 생성
-	StoreView_ = GetLevel()->CreateActor<StoreView>();
+	//StoreView_ = GetLevel()->CreateActor<StoreView>();
 
 	
 }
