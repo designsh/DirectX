@@ -17,6 +17,7 @@
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_LevelUpActiveButton.h"
 #include "MainPlayer_CurExpProgressBar.h"
+#include "MainPlayer_QuickSlot.h"
 
 BottomStateBar::BottomStateBar() :
 	Panel_(nullptr),
@@ -29,7 +30,8 @@ BottomStateBar::BottomStateBar() :
 	MiniMenu_(nullptr),
 	AddStatPointButton_(nullptr),
 	AddSkillPointButton_(nullptr),
-	CurExpProgressBar_(nullptr)
+	CurExpProgressBar_(nullptr),
+	QuickSlot_(nullptr)
 {
 }
 
@@ -84,12 +86,11 @@ void BottomStateBar::Start()
 	// ½ºÅÂ¹Ì³ª
 	Stamina_ = GetLevel()->CreateActor<MainPlayer_Stamina>();
 
-	// ¹°¾àÄ­
-
+	// Äü½½·Ô
+	QuickSlot_ = GetLevel()->CreateActor<MainPlayer_QuickSlot>();
 
 	// ¹Ì´Ï¸Þ´º°ü·Ã
 	MiniMenu_ = GetLevel()->CreateActor<MainPlayer_MiniMenu>();
-
 }
 
 void BottomStateBar::Update(float _DeltaTime)
@@ -174,6 +175,12 @@ void BottomStateBar::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	if (nullptr != CurExpProgressBar_)
 	{
 		GetLevel()->SetLevelActorMove(_NextLevel, CurExpProgressBar_);
+	}
+
+	// Äü½½·Ô
+	if (nullptr != QuickSlot_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, QuickSlot_);
 	}
 }
 

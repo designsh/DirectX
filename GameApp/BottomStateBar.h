@@ -14,6 +14,7 @@ class MainPlayer_Stamina;
 class MainPlayer_MiniMenu;
 class MainPlayer_LevelUpActiveButton;
 class MainPlayer_CurExpProgressBar;
+class MainPlayer_QuickSlot;
 class GameEngineLevel;
 class BottomStateBar : public GameEngineActor
 {
@@ -41,6 +42,9 @@ private: // 레벨업시 활성화되는 버튼
 
 private: // 현재 경험치
 	MainPlayer_CurExpProgressBar* CurExpProgressBar_;
+
+private: // 퀵슬롯
+	MainPlayer_QuickSlot* QuickSlot_;
 
 public:
 	BottomStateBar();

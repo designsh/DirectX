@@ -202,6 +202,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainPlayer_MoveDirectCheck.cpp" />
+    <ClCompile Include="MainPlayer_QuickSlot.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MainPlayer_RightWeaponSkillButton.cpp">
       <SubType>
       </SubType>
@@ -315,6 +319,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EditorTileMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TakeInOutGoldPopup.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -534,6 +542,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MainPlayer_QuickSlot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MainPlayer_RightWeaponSkillButton.h">
       <SubType>
       </SubType>
@@ -637,6 +649,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EditorTileMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TakeInOutGoldPopup.h">
       <SubType>
       </SubType>
     </ClInclude>
