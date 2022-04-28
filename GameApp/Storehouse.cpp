@@ -10,6 +10,8 @@
 #include "MouseObject.h"
 #include "MainPlayer.h"
 
+#include "StoreView.h"
+
 Storehouse::Storehouse() :
 	DistanceCheck_(false),
 	StorehouseRenderer_(nullptr),
@@ -32,8 +34,10 @@ void Storehouse::Start()
 	StorehouseCollision_->GetTransform()->SetLocalScaling(StorehouseRenderer_->GetTransform()->GetLocalScaling());
 	StorehouseCollision_->GetTransform()->SetLocalPosition(StorehouseRenderer_->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
 	StorehouseCollision_->GetTransform()->SetWorldZOrder(-99.f);
-
+	
 	// 창고창 생성
+	StoreView_ = GetLevel()->CreateActor<StoreView>();
+
 	
 }
 

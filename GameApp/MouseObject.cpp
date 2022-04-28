@@ -16,6 +16,7 @@ MouseObject::MouseObject() :
 	PlayerUI_IventoryViewCol_(false),
 	PlayerUI_LWeaponSkillListBtnCol_(false),
 	PlayerUI_RWeaponSkillListBtnCol_(false),
+	PlayerUI_StoreViewCol_(false),
 	NPCUI_TopMenuBarCol_(false),
 	NPCUI_BuySellViewCol_(false),
 	IsItemHold_(false),
@@ -181,6 +182,10 @@ void MouseObject::MouseUICollision(GameEngineCollision* _Other)
 	{
 		PlayerUI_RWeaponSkillListBtnCol_ = true;
 	}
+	else if (std::string::npos != _Other->GetName().find("Player_StatView"))
+	{
+		PlayerUI_StoreViewCol_ = true;
+	}
 	else if (std::string::npos != _Other->GetName().find("NPC_TopMenu"))
 	{
 		NPCUI_TopMenuBarCol_ = true;
@@ -217,6 +222,10 @@ void MouseObject::MouseUICollisionEnd(GameEngineCollision* _Other)
 	else if (std::string::npos != _Other->GetName().find("Player_RWeaponSkill"))
 	{
 		PlayerUI_RWeaponSkillListBtnCol_ = false;
+	}
+	else if (std::string::npos != _Other->GetName().find("Player_StatView"))
+	{
+		PlayerUI_StoreViewCol_ = false;
 	}
 	else if (std::string::npos != _Other->GetName().find("NPC_TopMenu"))
 	{

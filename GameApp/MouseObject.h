@@ -25,6 +25,7 @@ private: // 플레이어 UI 충돌체크
 	bool PlayerUI_IventoryViewCol_;
 	bool PlayerUI_LWeaponSkillListBtnCol_;
 	bool PlayerUI_RWeaponSkillListBtnCol_;
+	bool PlayerUI_StoreViewCol_;
 
 private: // NPC UI 충돌체크
 	bool NPCUI_TopMenuBarCol_;
@@ -95,7 +96,7 @@ public:
 		return PlayerUI_BottomStateBarCol_;
 	}
 
-	// 화면의 오른쪽으로 이동체크 불가
+	// 화면의 오른쪽으로 이동체크 불가(스킬창 or 인벤토리창)
 	inline bool GetScreenRightUIViewCollision() const
 	{
 		if (true == PlayerUI_SkillViewCol_)
@@ -111,10 +112,21 @@ public:
 		return false;
 	}
 
-	// 화면의 왼쪽으로 이동체크 불가
+	// 화면의 왼쪽으로 이동체크 불가(스탯창 or 창고창)
 	inline bool GetScreenLeftUIViewCollision() const
 	{
-		return PlayerUI_StatViewCol_;
+		if (true == PlayerUI_StatViewCol_)
+		{
+			return true;
+		}
+
+
+		if (true == PlayerUI_StoreViewCol_)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	// 왼쪽스킬리스트에서 스킬선택중 이동체크 불가
