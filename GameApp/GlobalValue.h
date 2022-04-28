@@ -12,6 +12,7 @@ class WeaponNPC;
 class ChandleryNPC;
 class TownMap;
 class Portal;
+class Storehouse;
 class GlobalValue
 {
 public: // 플레이어 관련
@@ -33,6 +34,14 @@ public: // 맵관련
 	static TownMap* TownMap;
 
 public: // 오브젝트관련
+	// 공통
 	static Portal* Portal;
+
+	// 마을맵
+	static Storehouse* Storehouse;
+
+	// 카타콤맵
+
+	// 카오스생츄어리맵
 };
 

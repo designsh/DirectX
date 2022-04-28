@@ -25,4 +25,12 @@ ChandleryNPC* GlobalValue::ChandleryNPC = nullptr;
 TownMap* GlobalValue::TownMap = nullptr;
 
 // 오브젝트관련
+// 공통(레벨이 변경될때마다 변경된다.)
 Portal* GlobalValue::Portal = nullptr;
+
+// 마을맵(해당 맵에만 존재하는 오브젝트)
+Storehouse* GlobalValue::Storehouse = nullptr;
+
+// 카타콤맵(해당 맵에만 존재하는 오브젝트)
+
+// 카오스생츄어리맵(해당 맵에만 존재하는 오브젝트)

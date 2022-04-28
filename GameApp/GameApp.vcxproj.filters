@@ -736,6 +736,9 @@
     <Filter Include="Object\Actor\00.Global\03.Object\00.Storehouse\00.StoreView">
       <UniqueIdentifier>{cd4ce947-b94a-4523-93a5-4c04086f7856}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\QuickSlot">
+      <UniqueIdentifier>{a99055aa-8c2a-4076-817b-8fedc69ab3da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

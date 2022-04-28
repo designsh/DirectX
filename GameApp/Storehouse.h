@@ -42,5 +42,9 @@ private:
 	void DistanceCheck();
 
 public:
+	inline StoreView* GetStoreView() const
+	{
+		return StoreView_;
+	}
 };
 

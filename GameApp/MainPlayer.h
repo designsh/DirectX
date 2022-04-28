@@ -390,6 +390,8 @@ private:
 #pragma region KeyCheck
 private:
 	void PlayerUIActiveKeyCheck();
+	bool PlayerUIActiveConditionCheck();
+	void PlayerMoveKeyCheck();
 #pragma endregion
 
 #pragma region ChangeState

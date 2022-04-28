@@ -2,10 +2,14 @@
 #include "MainPlayer.h"
 
 #include "GlobalValue.h"
+
 #include "WeaponNPC.h"
 #include "ChandleryNPC.h"
 #include "NPC_TopMenuBar.h"
 #include "NPC_BuySellView.h"
+
+#include "Storehouse.h"
+#include "StoreView.h"
 
 #include "MainPlayerInfomation.h"
 
@@ -96,16 +100,26 @@ void MainPlayer::InventoryViewEnabled(bool _Enabled)
 		InventoryView_->Off();
 		InventoryView_->SetInentroyBoxTileInactive();
 
-		// 무기상인과 상호작용을 통해 판매창이 활성화되어있는 경우 판매창도 비활성
-		if (nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate())
+		// 현재 플레이어가 속한 레벨이 Town레벨일때
+		if (true == IsTown_)
 		{
-			GlobalValue::WeaponNPC->GetWeaponShop()->PublicNPCBuySellViewInactive();
-		}
+			// 무기상인과 상호작용을 통해 판매창이 활성화되어있는 경우 판매창도 비활성
+			if (nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate())
+			{
+				GlobalValue::WeaponNPC->GetWeaponShop()->PublicNPCBuySellViewInactive();
+			}
 
-		// 잡화상인과 상호작용을 통해 판매창이 활성화되어있는 경우 판매창도 비활성
-		if (nullptr != GlobalValue::ChandleryNPC && true == GlobalValue::ChandleryNPC->GetChandleryShop()->IsUpdate())
-		{
-			GlobalValue::ChandleryNPC->GetChandleryShop()->PublicNPCBuySellViewInactive();
+			// 잡화상인과 상호작용을 통해 판매창이 활성화되어있는 경우 판매창도 비활성
+			if (nullptr != GlobalValue::ChandleryNPC && true == GlobalValue::ChandleryNPC->GetChandleryShop()->IsUpdate())
+			{
+				GlobalValue::ChandleryNPC->GetChandleryShop()->PublicNPCBuySellViewInactive();
+			}
+
+			// 창고와 상호작용을 통해 창고창이 활성화되어있는 경우 창고창도 비활성
+			if (nullptr != GlobalValue::Storehouse && true == GlobalValue::Storehouse->GetStoreView()->IsUpdate())
+			{
+				GlobalValue::Storehouse->GetStoreView()->StoreViewOff();
+			}
 		}
 	}
 }

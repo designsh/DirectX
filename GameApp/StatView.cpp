@@ -315,6 +315,27 @@ void StatView::Update(float _DeltaTime)
 {
 #ifdef _DEBUG
 	GetLevel()->UIPushDebugRender(PanelCol_->GetTransform(), CollisionType::Rect);
+	GetLevel()->UIPushDebugRender(MainCollider_->GetTransform(), CollisionType::Rect);
+
+	if (true == STRPointUpButtonCollider_->IsUpdate())
+	{
+		GetLevel()->UIPushDebugRender(STRPointUpButtonCollider_->GetTransform(), CollisionType::Rect);
+	}
+
+	if (true == DEXPointUpButtonCollider_->IsUpdate())
+	{
+		GetLevel()->UIPushDebugRender(DEXPointUpButtonCollider_->GetTransform(), CollisionType::Rect);
+	}
+
+	if (true == VITPointUpButtonCollider_->IsUpdate())
+	{
+		GetLevel()->UIPushDebugRender(VITPointUpButtonCollider_->GetTransform(), CollisionType::Rect);
+	}
+
+	if (true == ENRPointUpButtonCollider_->IsUpdate())
+	{
+		GetLevel()->UIPushDebugRender(ENRPointUpButtonCollider_->GetTransform(), CollisionType::Rect);
+	}
 #endif // _DEBUG
 
 

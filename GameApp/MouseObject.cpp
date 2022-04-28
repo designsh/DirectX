@@ -182,7 +182,7 @@ void MouseObject::MouseUICollision(GameEngineCollision* _Other)
 	{
 		PlayerUI_RWeaponSkillListBtnCol_ = true;
 	}
-	else if (std::string::npos != _Other->GetName().find("Player_StatView"))
+	else if (std::string::npos != _Other->GetName().find("Player_StoreView"))
 	{
 		PlayerUI_StoreViewCol_ = true;
 	}
@@ -223,7 +223,7 @@ void MouseObject::MouseUICollisionEnd(GameEngineCollision* _Other)
 	{
 		PlayerUI_RWeaponSkillListBtnCol_ = false;
 	}
-	else if (std::string::npos != _Other->GetName().find("Player_StatView"))
+	else if (std::string::npos != _Other->GetName().find("Player_StoreView"))
 	{
 		PlayerUI_StoreViewCol_ = false;
 	}

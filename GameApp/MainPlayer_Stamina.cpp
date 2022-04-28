@@ -103,51 +103,55 @@ void MainPlayer_Stamina::CalculationStaminaConsumption(float _DeltaTime)
 		// 메인플레이어가 뛰기상태이면 스태미나 소모량 계산
 		if (true == GlobalValue::CurPlayer->GetIsRun())
 		{
-			// 이동중일때 소모
-			if (true == GlobalValue::CurPlayer->GetIsMove())
+			// 플레이어가 현재 필드일때 소모
+			if (false == GlobalValue::CurPlayer->GetIsTown())
 			{
-				// 시간에 따른 스태미나 소모
-				if (0.f <= CurStamina_)
+				// 이동중일때 소모
+				if (true == GlobalValue::CurPlayer->GetIsMove())
 				{
-					CurStamina_ -= (StaminaDrain_ * 0.01f) * _DeltaTime;
-					StaminaProgressBarRenderer_->SetPercent(CurStamina_);
-
-					// 스태미나량이 30%이하이면 스태미나 색을전환한다.
-					if (0.3f >= CurStamina_ && false == Stamina30Percent_)
+					// 시간에 따른 스태미나 소모
+					if (0.f <= CurStamina_)
 					{
-						StaminaProgressBarRenderer_->SetResultColor(float4::RED);
+						CurStamina_ -= (StaminaDrain_ * 0.01f) * _DeltaTime;
+						StaminaProgressBarRenderer_->SetPercent(CurStamina_);
 
-						Stamina30Percent_ = true;
+						// 스태미나량이 30%이하이면 스태미나 색을전환한다.
+						if (0.3f >= CurStamina_ && false == Stamina30Percent_)
+						{
+							StaminaProgressBarRenderer_->SetResultColor(float4::RED);
+
+							Stamina30Percent_ = true;
+						}
+					}
+
+					// 스태미나량이 0%이하이면 플레이어는 걷기상태로 전환된다.
+					if (0.f >= CurStamina_)
+					{
+						if (true == GlobalValue::CurPlayer->GetIsTown())
+						{
+							GlobalValue::CurPlayer->ChangeFSMState("Walk_Town");
+						}
+						else
+						{
+							GlobalValue::CurPlayer->ChangeFSMState("Walk_Field");
+						}
 					}
 				}
-
-				// 스태미나량이 0%이하이면 플레이어는 걷기상태로 전환된다.
-				if (0.f >= CurStamina_)
+				else // 이동중이 아닐때
 				{
-					if (true == GlobalValue::CurPlayer->GetIsTown())
+					// 스태미나량이 100%가 아니라면 회복
+					if (1.f >= CurStamina_)
 					{
-						GlobalValue::CurPlayer->ChangeFSMState("Walk_Town");
-					}
-					else
-					{
-						GlobalValue::CurPlayer->ChangeFSMState("Walk_Field");
-					}
-				}
-			}
-			else // 이동중이 아닐때
-			{
-				// 스태미나량이 100%가 아니라면 회복
-				if (1.f >= CurStamina_)
-				{
-					// 스태미나량이 30% 이상이되면 색상(1,1,1,1)로 전환 및 색전환 Flag 해제
-					CurStamina_ += (StaminaDrain_ * 0.01f) * _DeltaTime;
-					StaminaProgressBarRenderer_->SetPercent(CurStamina_);
+						// 스태미나량이 30% 이상이되면 색상(1,1,1,1)로 전환 및 색전환 Flag 해제
+						CurStamina_ += (StaminaDrain_ * 0.01f) * _DeltaTime;
+						StaminaProgressBarRenderer_->SetPercent(CurStamina_);
 
-					if (0.3f <= CurStamina_ && true == Stamina30Percent_)
-					{
-						StaminaProgressBarRenderer_->SetResultColor(float4::ONE);
+						if (0.3f <= CurStamina_ && true == Stamina30Percent_)
+						{
+							StaminaProgressBarRenderer_->SetResultColor(float4::ONE);
 
-						Stamina30Percent_ = false;
+							Stamina30Percent_ = false;
+						}
 					}
 				}
 			}

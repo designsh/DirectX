@@ -92,9 +92,10 @@ void TownLevel::CreateLevelActor()
 
 	// 창고오브젝트
 	float4 StorehousePos = TownMap_->GetTileIndexToPos(TileIndex(-4, -3));
-	StorehousePos.y += 20.f;
+	StorehousePos.y += 10.f;
 	Storehouse_ = CreateActor<Storehouse>(static_cast<int>(UpdateOrder::OBJECT));
 	Storehouse_->GetTransform()->SetWorldPosition(StorehousePos);
+	GlobalValue::Storehouse = Storehouse_;
 
 	// 맵이동 포탈생성(마을->카타콤)
 	float4 PortalPos = TownMap_->GetTileIndexToPos(TileIndex(6, 7));

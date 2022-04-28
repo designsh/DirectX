@@ -20,7 +20,14 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+#include "WeaponNPC.h"
+#include "ChandleryNPC.h"
+#include "NPC_TopMenuBar.h"
+#include "NPC_BuySellView.h"
+
 #include "Portal.h"
+#include "Storehouse.h"
+#include "StoreView.h"
 
 MainPlayer::MainPlayer() :
 	IsTown_(true),
@@ -139,8 +146,11 @@ void MainPlayer::Start()
 
 void MainPlayer::Update(float _DeltaTime)
 {
-	// 플레이어 관련 키체크
+	// 플레이어 UI활성화관련 키체크
 	PlayerUIActiveKeyCheck();
+
+	// 플레이어 이동관련 키체크
+	PlayerMoveKeyCheck();
 
 	// 상태별 행동패턴 처리
 	State_.Update();
@@ -273,27 +283,84 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 	// 스킬창 열기
 	if (true == GameEngineInput::GetInst().Down("SkillViewActive"))
 	{
-		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(2);
+		if (false == PlayerUIActiveConditionCheck())
+		{
+			BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(2);
+		}
 	}
 	
 	// 스탯창 열기
 	if (true == GameEngineInput::GetInst().Down("StatViewActive"))
 	{
-		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(0);
+		if (false == PlayerUIActiveConditionCheck())
+		{
+			BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(0);
+		}
 	}
 
 	// 인벤토리 열기
 	if (true == GameEngineInput::GetInst().Down("InventoryActive"))
 	{
-		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(1);
+		if (false == PlayerUIActiveConditionCheck())
+		{
+			BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(1);
+		}
 	}
 
 	// 게임종료메뉴 열기(임시보류)
 	if (true == GameEngineInput::GetInst().Down("GameEndMenuActive"))
 	{
-		BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(3);
+		if (false == PlayerUIActiveConditionCheck())
+		{
+			BottomStateBar_->GetMiniMenuControl()->KeyInputViewProcess(3);
+		}
+	}
+}
+
+bool MainPlayer::PlayerUIActiveConditionCheck()
+{
+	// 플레이어의 각 UI관련 활성화/비활성화 처리에 필요한 조건체크
+
+	// NPC의 판매창이 활성화 되어있거나 창고창이 활성화 되어있다면
+	// 키입력을 무시한다.(단, 이 조건은 플레이어가 TownLevel에 존재할때만 체크)
+	if (true == IsTown_)
+	{
+		if (nullptr != GlobalValue::WeaponNPC)
+		{
+			// 무기상인과의 상호작용으로 인한 판매창 활성화 상태
+			if (true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate())
+			{
+				return true;
+			}
+		}
+		else if (nullptr != GlobalValue::ChandleryNPC)
+		{
+			// 잡화상인과의 상호작용으로 인한 판매창 활성화 상태
+			if (true == GlobalValue::ChandleryNPC->GetChandleryShop()->IsUpdate())
+			{
+				return true;
+			}
+		}
+		else if (nullptr != GlobalValue::Storehouse)
+		{
+			// 창고와의 상호작용으로 인한 창고창 활서와 상태
+			if (true == GlobalValue::Storehouse->GetStoreView()->IsUpdate())
+			{
+				return true;
+			}
+		}
+	}
+	else
+	{
+		// 필드맵에서 체크를 해야되나???
+
 	}
 
+	return false;
+}
+
+void MainPlayer::PlayerMoveKeyCheck()
+{
 	// 스태미나 활성/비활성
 	if (true == GameEngineInput::GetInst().Down("StaminaActive"))
 	{
@@ -444,4 +511,3 @@ void MainPlayer::PlayerUIActiveKeyCheck()
 		}
 	}
 }
-

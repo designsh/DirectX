@@ -21,6 +21,7 @@
 
 NPC_BuySellView::NPC_BuySellView() :
 	ViewPanel_(nullptr),
+	BuySellViewPanelCol_(nullptr),
 	BuyButtonRenderer_(nullptr),
 	BuyButtonCollider_(nullptr),
 	SellButtonRenderer_(nullptr),
