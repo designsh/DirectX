@@ -48,6 +48,7 @@ MainPlayer::MainPlayer() :
 	CurEXP_(0),
 	PrevLevel_(1),
 	CurLevel_(1),
+	HaveGold_(0),
 	State_(),
 	BodyCollider_(nullptr),
 	RenderSize_(float4(256.f, 256.f)),
@@ -325,29 +326,20 @@ bool MainPlayer::PlayerUIActiveConditionCheck()
 	// 키입력을 무시한다.(단, 이 조건은 플레이어가 TownLevel에 존재할때만 체크)
 	if (true == IsTown_)
 	{
-		if (nullptr != GlobalValue::WeaponNPC)
+		// 무기상인과의 상호작용으로 인한 판매창 활성화 상태
+		if (nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate())
 		{
-			// 무기상인과의 상호작용으로 인한 판매창 활성화 상태
-			if (true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate())
-			{
-				return true;
-			}
+			return true;
 		}
-		else if (nullptr != GlobalValue::ChandleryNPC)
+		// 잡화상인과의 상호작용으로 인한 판매창 활성화 상태
+		else if (nullptr != GlobalValue::ChandleryNPC && true == GlobalValue::ChandleryNPC->GetChandleryShop()->IsUpdate())
 		{
-			// 잡화상인과의 상호작용으로 인한 판매창 활성화 상태
-			if (true == GlobalValue::ChandleryNPC->GetChandleryShop()->IsUpdate())
-			{
-				return true;
-			}
+			return true;
 		}
-		else if (nullptr != GlobalValue::Storehouse)
+		// 창고와의 상호작용으로 인한 창고창 활서와 상태
+		else if (nullptr != GlobalValue::Storehouse && true == GlobalValue::Storehouse->GetStoreView()->IsUpdate())
 		{
-			// 창고와의 상호작용으로 인한 창고창 활서와 상태
-			if (true == GlobalValue::Storehouse->GetStoreView()->IsUpdate())
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 	else

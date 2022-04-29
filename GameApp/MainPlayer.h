@@ -187,6 +187,8 @@ private:
 	int PrevLevel_;											// 플레이어 이전 레벨
 	int CurLevel_;											// 플레이어 현재 레벨
 
+	int HaveGold_;											// 플레이어 현재 보유골드량
+
 #pragma endregion
 
 #pragma region PlayerFSMState
@@ -497,6 +499,10 @@ public:
 public:
 	void HPConsumption(float _Damage);			// 데미지를 받으면 해당 함수 호출
 	void MPConsumption(float _MPConsumption);	// 마법(스킬)을 사용하면 해당 함수 호출
+
+public:
+	void HaveGoldAdd(int _Gold);				// 골드를 획득하거나 창고에서 꺼내올때 호출
+	void HaveGoldSub(int _Gold);				// 골드를 내려놓거나 창고에 저장할때 호출
 
 #pragma endregion
 

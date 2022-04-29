@@ -82,7 +82,7 @@ enum class UIRenderOrder
 	UI12_Text,
 	UIMoveabledCheckCol,	// 플레이어 이동불가 판정 충돌체
 	Popup,					// 팝업용(에러메세지 or 골드넣기/꺼내기팝업)
-	Popup_Abled_Col,		// 
+	Popup_Action_Col,		// 팝업용 충돌체(마우스 다른 동작 제한)
 	Popup_Button,
 	Popup_Collider,
 	Popup_Text,

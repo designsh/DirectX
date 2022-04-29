@@ -27,3 +27,24 @@ void MainPlayer::MPConsumption(float _MPConsumption)
 
 
 }
+
+// 골드를 획득하거나 창고에서 꺼내올때 호출
+void MainPlayer::HaveGoldAdd(int _Gold)
+{
+	// 내 골드량 증가
+	HaveGold_ += _Gold;
+}
+
+// 골드를 내려놓거나 창고에 저장할때 호출
+void MainPlayer::HaveGoldSub(int _Gold)
+{
+	// 내 골드량 감소
+	int Gold = HaveGold_ - _Gold;
+	if (0 >= Gold)
+	{
+		HaveGold_ = 0;
+		return;
+	}
+
+	HaveGold_ = Gold;
+}

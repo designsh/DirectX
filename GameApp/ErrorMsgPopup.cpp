@@ -4,6 +4,9 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
+#include "GlobalValue.h"
+#include "MouseObject.h"
+
 ErrorMsgPopup::ErrorMsgPopup() :
 	ErrorMsgText_(),
 	ButtonState_(Button_State::Normal),
@@ -32,8 +35,10 @@ void ErrorMsgPopup::Start()
 	ErrorMsgPanel_->SetImage("ErrorMsgBox_Panel.png");
 	ErrorMsgPanel_->TextSetting("diablo", ErrorMsgText_, 15, FW1_CENTER | FW1_VCENTER, float4::WHITE);
 
-	//ErrorMsgCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Popup_Abled_Col));
-
+	// 마우스와 충돌중일때 마우스 동작 제한
+	ErrorMsgCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Popup_Action_Col));
+	ErrorMsgCol_->GetTransform()->SetLocalScaling(ErrorMsgPanel_->GetTransform()->GetLocalScaling());
+	ErrorMsgCol_->GetTransform()->SetLocalPosition(ErrorMsgCol_->GetTransform()->GetLocalPosition());
 
 	// 에러 확인 버튼(액터)
 	ErrorMsgButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::Popup_Button));
@@ -55,6 +60,13 @@ void ErrorMsgPopup::Start()
 
 void ErrorMsgPopup::Update(float _DeltaTime)
 {
+	if (nullptr != ErrorMsgCol_)
+	{
+#ifdef _DEBUG
+		GetLevel()->UIPushDebugRender(ErrorMsgCol_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+	}
+
 	if (ButtonState_ == Button_State::Click)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
@@ -84,6 +96,12 @@ void ErrorMsgPopup::ErrorMsgPopupActive(const std::string& _ErrorMsg)
 
 void ErrorMsgPopup::ErrorMsgPopupDeactive()
 {
+	// 해당 충돌 Flag를 해제시키고
+	if (nullptr != GlobalValue::CurMouse && true == GlobalValue::CurMouse->GetUIPopupCollision())
+	{
+		GlobalValue::CurMouse->UIPopupCollisionOff();
+	}
+
 	// 해당 액터 사망처리
 	Death();
 }

@@ -19,6 +19,7 @@ MouseObject::MouseObject() :
 	PlayerUI_StoreViewCol_(false),
 	NPCUI_TopMenuBarCol_(false),
 	NPCUI_BuySellViewCol_(false),
+	UI_PopupCol_(nullptr),
 	IsItemHold_(false),
 	HoldItemName_(),
 	ItemRenderer_(nullptr),
@@ -74,6 +75,7 @@ void MouseObject::Update(float _DeltaTime)
 {
 #pragma region 마우스충돌체크
 	MouseCollider_->Collision(CollisionType::CirCle, CollisionType::Rect, static_cast<int>(UIRenderOrder::UIMoveabledCheckCol), std::bind(&MouseObject::MouseUICollision, this, std::placeholders::_1), std::bind(&MouseObject::MouseUICollisionEnd, this, std::placeholders::_1));
+	MouseCollider_->Collision(CollisionType::CirCle, CollisionType::Rect, static_cast<int>(UIRenderOrder::Popup_Action_Col), std::bind(&MouseObject::PopupUICollision, this, std::placeholders::_1), std::bind(&MouseObject::PopupUICollisionEnd, this, std::placeholders::_1));
 #pragma endregion
 
 	float4 PrevPos = GameEngineInput::GetInst().GetPrevMouse3DPos();
@@ -131,22 +133,37 @@ void MouseObject::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
 	if (std::string::npos != _NextLevel->GetName().find("TitleLevel"))
 	{
+		// 전역마우스가 설정되어있다면 해제
+		GlobalValue::CurMouse = nullptr;
+
 		return;
 	}
 	else if (std::string::npos != _NextLevel->GetName().find("CreateCharacterLevel"))
 	{
+		// 전역마우스가 설정되어있다면 해제
+		GlobalValue::CurMouse = nullptr;
+
 		return;
 	}
 	else if (std::string::npos != _NextLevel->GetName().find("SelectCharacterLevel"))
 	{
+		// 전역마우스가 설정되어있다면 해제
+		GlobalValue::CurMouse = nullptr;
+
 		return;
 	}
 	else if (std::string::npos != _NextLevel->GetName().find("LoadingLevel"))
 	{
+		// 전역마우스가 설정되어있다면 해제
+		GlobalValue::CurMouse = nullptr;
+
 		return;
 	}
 	else if (std::string::npos != _NextLevel->GetName().find("MapEditorLevel"))
 	{
+		// 전역마우스가 설정되어있다면 해제
+		GlobalValue::CurMouse = nullptr;
+
 		return;
 	}
 
@@ -235,6 +252,18 @@ void MouseObject::MouseUICollisionEnd(GameEngineCollision* _Other)
 	{
 		NPCUI_BuySellViewCol_ = false;
 	}
+}
+
+void MouseObject::PopupUICollision(GameEngineCollision* _Other)
+{
+	// 팝업창과 충돌시작 & 충돌중시 호출
+	UI_PopupCol_ = true;
+}
+
+void MouseObject::PopupUICollisionEnd(GameEngineCollision* _Other)
+{
+	// 팝업창과 충돌종료시 호출
+	UI_PopupCol_ = false;
 }
 
 void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize)

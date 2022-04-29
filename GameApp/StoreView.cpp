@@ -108,7 +108,7 @@ void StoreView::Start()
 
 	// 골드꺼내기 팝업관련
 	TakeOutGoldPopup_ = GetLevel()->CreateActor<TakeInOutGoldPopup>();
-	//TakeOutGoldPopup_->CreateTakePopup(TakeInOutPopupType::TakeOut, TakeInOutPopCreateType::STOREDVIEW, float4());
+	TakeOutGoldPopup_->CreateTakePopup(TakeInOutPopupType::TakeOut, TakeInOutPopCreateType::STOREDVIEW, float4(280.f - WindowHarfSize.x, WindowHarfSize.y - 220.f), StoredGold_);
 
 	// 아이템배치 정보관련
 
@@ -217,6 +217,12 @@ void StoreView::PrivateStoreViewActive()
 		// Flag 해제
 		StoreViewActive_ = false;
 
+		// 창고에서 골드꺼내기 팝업이 활성화 상태라면 비활성화
+		if (true == TakeOutGoldPopup_->IsUpdate())
+		{
+			TakeOutGoldPopup_->TakeInOutGoldPopupInactive();
+		}
+
 		// 창고창 비활성
 		Off();
 
@@ -231,11 +237,8 @@ void StoreView::PrivateStoreViewActive()
 
 void StoreView::GoldPopupViewActive()
 {
-	// 골드꺼내기 팝업 활성화
-
-
-
-
+	// 골드꺼내기 팝업 활성화(현재 저장된 골드량 전달하여 팝업 리셋)
+	TakeOutGoldPopup_->TakeInOutGoldPopupActive(StoredGold_);
 }
 
 void StoreView::StoreViewOff()
@@ -246,6 +249,12 @@ void StoreView::StoreViewOff()
 	{
 		// 활성화 Flag Off
 		StoreViewActive_ = false;
+
+		// 창고에서 골드꺼내기 팝업이 활성화 상태라면 비활성화
+		if (true == TakeOutGoldPopup_->IsUpdate())
+		{
+			TakeOutGoldPopup_->TakeInOutGoldPopupInactive();
+		}
 
 		// 창고창 비활성화
 		Off();
@@ -300,11 +309,14 @@ int StoreView::StoredGoldSub(int _Gold)
 	// 현재 저장된 골드량에서 해당 골드만큼 빼기
 	// 단, 꺼내려는 골드량이 현재 저장된 보유골드보다 클경우
 	// 현재 저장된 보유골드만 반환한다.
-	int StoredGold = StoredMaxGold_ - _Gold;
+	int StoredGold = StoredGold_ - _Gold;
 	if (0 >= StoredGold)
 	{
-		// 현재 저장된 보유골드만큼만 반환
-		return StoredMaxGold_;
+		// 보유골드량은 0이 된다
+		StoredGold_ = 0;
+		StoreGold_->SetPrintText(std::to_string(StoredGold_));
+
+		return 0;
 	}
 
 	// 현재 저장된 보유골드량을 알맞게 찾았다면 해당 골드만큼 차감

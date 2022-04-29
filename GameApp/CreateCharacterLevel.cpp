@@ -57,9 +57,10 @@ void CreateCharacterLevel::CreateLevelActor()
 	NecromancerClass_->CreateClassRenderer(float4(0.f, 0.f), JobType::Necromancer);
 	NecromancerClass_->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -1.f));
 
-	// 泅犁 付快胶 积己
+	// 付快胶 积己
 	MouseObject* MainMouse = CreateActor<MouseObject>();
 	MainMouse->GetTransform()->SetLocalPosition(GameEngineInput::GetInst().GetMouse3DPos());
+	GlobalValue::CurMouse = MainMouse;
 }
 
 void CreateCharacterLevel::ClassImageCutting()

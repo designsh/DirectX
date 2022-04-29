@@ -31,6 +31,9 @@ private: // NPC UI 충돌체크
 	bool NPCUI_TopMenuBarCol_;
 	bool NPCUI_BuySellViewCol_;
 
+private: // 팝업창 충돌체크
+	bool UI_PopupCol_;
+
 private:
 	bool IsItemHold_;
 	std::string HoldItemName_;
@@ -65,6 +68,10 @@ private:
 private:
 	void MouseUICollision(GameEngineCollision* _Other);
 	void MouseUICollisionEnd(GameEngineCollision* _Other);
+
+private:
+	void PopupUICollision(GameEngineCollision* _Other);
+	void PopupUICollisionEnd(GameEngineCollision* _Other);
 
 public: // 마우스 상태 Get
 	MouseState GetMouseState() const
@@ -150,6 +157,17 @@ public: // NPC UI 체크 FLAG
 	inline bool GetBuySellViewCollision() const
 	{
 		return NPCUI_BuySellViewCol_;
+	}
+
+public: // UI 팝업창 체크 Flag
+	inline bool GetUIPopupCollision() const
+	{
+		return UI_PopupCol_;
+	}
+
+	inline void UIPopupCollisionOff()
+	{
+		UI_PopupCol_ = false;
 	}
 
 public: // 아이템들기관련

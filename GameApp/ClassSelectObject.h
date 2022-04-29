@@ -24,6 +24,7 @@ enum class CurSelectState
 // 설명 : 마우스와 충돌중이며 마우스 왼쪽버튼 클릭시 해당 직업(클래스)를 선택하는것으로 판단
 class GameEngineImageRenderer;
 class GameEngineCollision;
+class MouseObject;
 class ClassSelectObject : public GameEngineActor
 {
 private: // 해당 클래스를 사용하는 객체가 한개의 값을 가지도록 멤버전역변수로 선언 
@@ -43,9 +44,6 @@ private:
 	CurSelectState SelectState_;
 	JobType JobType_;
 	std::string JobName_;
-
-private: // TEST
-	int TESTIndex_ = 0;
 
 public:
 	ClassSelectObject();

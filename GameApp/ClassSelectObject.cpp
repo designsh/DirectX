@@ -323,6 +323,12 @@ void ClassSelectObject::ClassSelOrDesel(GameEngineCollision* _OtherCollision)
 	// 충돌중 마우스왼쪽버튼 클릭시 해당 액터 애니메이션 상태 전환
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
+		// 마우스가 팝업창과 충돌중에는 선택/선택취소 무시
+		if (nullptr != GlobalValue::CurMouse && true == GlobalValue::CurMouse->GetUIPopupCollision())
+		{
+			return;
+		}
+
 		// 해당 액터(직업클래스)의 선택/미선택 상태에 따라 애니메이션 변경처리
 		// 선택 : 이전에 이미 선택된 클래스로 한번더 클릭시 선택해제 모션 시작 및 확인버튼 비활성화
 		// 미선택 : 이전에 선택되지않은 클래스로 클릭시 선택 모션 시작 및 확인버튼 활성화
