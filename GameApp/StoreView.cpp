@@ -115,7 +115,26 @@ void StoreView::Start()
 
 
 
+	// 창고창의 배치타일 충돌체 생성
+	//StoreArrTileCols_.clear();
+	//StoreArrTileCols_.resize(6 * 8);
+	//for (int y = 0; y < 8; ++y)
+	//{
+	//	for (int x = 0; x < 6; ++x)
+	//	{
+	//		int Index = (y * 8) + x;
 
+
+
+
+
+	//		float4 ArrColPos = StoreViewInfo_.ArrangeTiles_[Index].TileRenderer_->GetTransform()->GetLocalPosition();
+	//		StoreArrTileCols_[Index] = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
+	//		StoreArrTileCols_[Index]->GetTransform()->SetLocalPosition(ArrColPos);
+	//		StoreArrTileCols_[Index]->GetTransform()->SetLocalScaling(float4(28.f, 28.f));
+	//		StoreArrTileCols_[Index]->Off();
+	//	}
+	//}
 
 	// 기본 Off상태로 생성
 	Off();
