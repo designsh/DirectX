@@ -37,6 +37,7 @@ enum class UIRenderOrder
 	UI0,
 	UI0_Tab,
 	UI0_Button,
+	UI0_Render,
 	UI0_Collider,
 	UI0_Text,
 	UI0_TextCol,

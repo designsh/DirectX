@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 #include "MainPlayerInfomation.h"
+#include "AllItemInfomation.h"
 #include "GlobalEnumClass.h"
 
 // 창고창의 아이템배치타일정보
@@ -34,6 +35,7 @@ struct StoreViewInfo
 {
 	std::vector<StoredArrangeTileInfo> ArrangeTiles_;		// 배치타일정보
 	std::vector<StoredItem> HaveItemList_;					// 보유하고있는 아이템목록
+	std::vector<GameEngineCollision*> StoreArrTileCols_;	// 각 창고창의 배치타일 충돌체
 };
 
 // 분류 : 
@@ -72,8 +74,7 @@ private: // 창닫기버튼 관련
 	Button_State CloseBtnState_;									// 창고창 종료버튼 상태
 
 private: // 아이템 배치관련
-	StoreViewInfo StoreViewInfo_;									// 창고창 정보(아이템보유목록, 아이템배치상태, ...)
-	std::vector<GameEngineCollision*> StoreArrTileCols_;			// 각 창고창의 배치타일 충돌체
+	StoreViewInfo StoreViewInfo_;									// 창고창 정보(아이템보유목록, 아이템배치상태, 아이템배치충돌체, ...)
 
 public:
 	StoreView();
@@ -96,6 +97,12 @@ private:
 	void GoldButtonClick(GameEngineCollision* _Other);
 	void PrivateStoreViewActive();
 	void GoldPopupViewActive();
+
+private: // 아이템 배치관련
+	void ArrangeTileClick(GameEngineCollision* _Other, int _Index);
+	void ItemPlacement(int _ColTileIndex);
+	bool ItemPlacementCheck(int _ColTileIndex, ItemList& _CurItemInfo);
+	void ItemDisposition(int _ColTileIndex);
 
 public:
 	void StoreViewOff();
