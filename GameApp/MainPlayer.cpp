@@ -8,6 +8,8 @@
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_Stamina.h"
 #include "MainPlayer_CurExpProgressBar.h"
+#include "MainPlayer_CurrentHP.h"
+#include "MainPlayer_CurrentMP.h"
 #include "StatView.h"
 #include "SkillView.h"
 #include "InventoryView.h"
@@ -143,6 +145,10 @@ void MainPlayer::Start()
 	{
 		GameEngineInput::GetInst().CreateKey("TESTLEVELUP", 'P');
 	}
+	if (false == GameEngineInput::GetInst().IsKey("TESTDAMAGE"))
+	{
+		GameEngineInput::GetInst().CreateKey("TESTDAMAGE", 'O');
+	}
 }
 
 void MainPlayer::Update(float _DeltaTime)
@@ -156,12 +162,21 @@ void MainPlayer::Update(float _DeltaTime)
 	// 상태별 행동패턴 처리
 	State_.Update();
 
+#pragma region 테스트키
 	if (true == GameEngineInput::GetInst().Down("TESTLEVELUP"))
 	{
 		// 테스트 경험치 증가
-		int TextEXP = 10;
-		BottomStateBar_->GetEXPProgressBarControl()->AddEXP(TextEXP);
+		int TestEXP = 10;
+		BottomStateBar_->GetEXPProgressBarControl()->AddEXP(TestEXP);
 	}
+
+	if (true == GameEngineInput::GetInst().Down("TESTDAMAGE"))
+	{
+		// 테스트용 데미지
+		DelCurrentHP(10);
+		DelCurrentMP(10);
+	}
+#pragma endregion
 
 #pragma region 플레이어충돌체
 	if (nullptr != BodyCollider_)
@@ -459,6 +474,14 @@ void MainPlayer::PlayerMoveKeyCheck()
 			{
 				return;
 			}
+		}
+#pragma endregion
+
+#pragma region 마우스아이템들고있는지판단
+		if (true == GlobalValue::CurMouse->IsItemHold())
+		{
+			// 아이템을 들고있다면 아이템 배치 or 드랍 이전에 이동불가처리
+			return;
 		}
 #pragma endregion
 

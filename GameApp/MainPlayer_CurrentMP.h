@@ -27,6 +27,8 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
-	void MPConsumption(float _Damage);
+	void AllMPRecovery();					// 현재 마력 모두 회복
+	void MPRecovery(float _Damage);			// 현재 마력 회복
+	void MPConsumption(float _Damage);		// 현재 마력 소모
 };
 

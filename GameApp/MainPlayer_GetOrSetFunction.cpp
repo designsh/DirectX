@@ -2,6 +2,9 @@
 #include "MainPlayer.h"
 
 #include "MainPlayerInfomation.h"
+#include "BottomStateBar.h"
+#include "MainPlayer_CurrentHP.h"
+#include "MainPlayer_CurrentMP.h"
 
 // ======================================================= GET FUNCTION ======================================================= //
 
@@ -178,32 +181,50 @@ void MainPlayer::SetIsFrameZOrderChangeChk(bool _Flag)
 void MainPlayer::SetCurrentHP(int _HP)
 {
 	CurHP_ = _HP;
+	BottomStateBar_->GetHPControl()->HPConsumption(static_cast<float>(CurHP_) * 0.01f);
 }
 
 void MainPlayer::DelCurrentHP(int _HP)
 {
 	CurHP_ -= _HP;
+	BottomStateBar_->GetHPControl()->HPConsumption(static_cast<float>(CurHP_) * 0.01f);
 }
 
 void MainPlayer::AddCurrentHP(int _HP)
 {
 	CurHP_ += _HP;
+	BottomStateBar_->GetHPControl()->HPConsumption(static_cast<float>(CurHP_) * 0.01f);
+}
+
+void MainPlayer::AllCurrentHPRecovery()
+{
+	CurHP_ = 100;
+	BottomStateBar_->GetHPControl()->AllHPRecovery();
 }
 
 // MP
 void MainPlayer::SetCurrentMP(int _MP)
 {
 	CurMP_ = _MP;
+	BottomStateBar_->GetMPControl()->MPConsumption(static_cast<float>(CurMP_) * 0.01f);
 }
 
 void MainPlayer::DelCurrentMP(int _MP)
 {
 	CurMP_ -= _MP;
+	BottomStateBar_->GetMPControl()->MPConsumption(static_cast<float>(CurMP_) * 0.01f);
 }
 
 void MainPlayer::AddCurrentMP(int _MP)
 {
 	CurMP_ += _MP;
+	BottomStateBar_->GetMPControl()->MPConsumption(static_cast<float>(CurMP_) * 0.01f);
+}
+
+void MainPlayer::AllCurrentMPRecovery()
+{
+	CurMP_ = 100;
+	BottomStateBar_->GetMPControl()->AllMPRecovery();
 }
 
 // EXP

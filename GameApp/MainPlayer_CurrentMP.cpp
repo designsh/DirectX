@@ -32,15 +32,22 @@ void MainPlayer_CurrentMP::Update(float _DeltaTime)
 {
 }
 
+void MainPlayer_CurrentMP::AllMPRecovery()
+{
+	MPRenderer_->SetPercent(1.f);
+}
+
+void MainPlayer_CurrentMP::MPRecovery(float _Damage)
+{
+	MPRenderer_->SetPercent(_Damage);
+}
+
 void MainPlayer_CurrentMP::MPConsumption(float _Damage)
 {
 	// 플레이어의 현재 체력에 영향을 받아 이미지를 컷팅하여 렌더링
 	if (nullptr != GlobalValue::CurPlayer)
 	{
-		// 현재 플레이어의 체력감소(데이터)
-		GlobalValue::CurPlayer->DelCurrentMP(static_cast<int>(_Damage));
-
 		// 현재 MP Circle의 퍼센트를 계산
-		//MPRenderer_->SetParent();
+		MPRenderer_->SetPercent(_Damage);
 	}
 }

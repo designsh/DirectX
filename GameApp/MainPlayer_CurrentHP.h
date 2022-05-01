@@ -30,6 +30,9 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
-	void HPConsumption(float _Damage);
+	void AllHPRecovery();					// 현재 체력 모두 회복
+	void HPRecovery(float _Damage);			// 현재 체력 회복
+	void HPConsumption(float _Damage);		// 현재 체력 소모
+
 };
 

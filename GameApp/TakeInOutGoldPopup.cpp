@@ -360,7 +360,7 @@ void TakeInOutGoldPopup::CreateTakePopup(TakeInOutPopupType _PopupType, TakeInOu
 		Panel_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::Popup));
 		Panel_->SetImage("TakeInOutGoldView_Panel.png");
 		Panel_->GetTransform()->SetLocalPosition(_InitPos);
-		Panel_->TextSetting("diablo", "얼마를 내려놓으시겠습니까?", 10.f, FW1_CENTER | FW1_VCENTER, float4(0.8f, 0.8f, 0.4f), float4(0.f, -60.f));
+		Panel_->TextSetting("diablo", "얼마를 내려놓으시겠습니까?", 14.f, FW1_CENTER | FW1_VCENTER, float4(0.8f, 0.8f, 0.4f), float4(0.f, -60.f));
 
 		// 마우스와 충돌중일때 마우스 동작 제한 충돌체
 		TakeInOutPopCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Popup_Action_Col));

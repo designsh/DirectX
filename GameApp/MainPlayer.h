@@ -313,11 +313,13 @@ public: // 상태관련
 	void SetCurrentHP(int _HP);
 	void DelCurrentHP(int _HP);
 	void AddCurrentHP(int _HP);
+	void AllCurrentHPRecovery();
 
 	// MP
 	void SetCurrentMP(int _MP);
 	void DelCurrentMP(int _MP);
 	void AddCurrentMP(int _MP);
+	void AllCurrentMPRecovery();
 
 	// EXP
 	void SetPrevEXP(int _EXP);

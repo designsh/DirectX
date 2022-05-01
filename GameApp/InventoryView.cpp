@@ -958,10 +958,15 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 			int StartIndex = _TileIndex;
 			int WidthSize = CurItemInfo.WidthSize;
 			int HeightSize = CurItemInfo.HeightSize;
+
+			// 아이템 배치타입 변경(하단 보관탭타입으로 변경)
+			CurItemInfo.ItemLocType = ItemLocType::Inven_Bottom;
+
 			if (1 == WidthSize && 1 == HeightSize)
 			{
 				// 아이템렌더러 크기가 1x1이면 해당 타일인덱스만 활성화되면서 아이템 배치
 				std::string ItemName = CurItemInfo.ItemName_abbreviation;
+
 				ItemLocType LocType = CurItemInfo.ItemLocType;
 				float4 RenderPos = InvStoreInfo_[_TileIndex]->GetTilePos();
 				InvArrangementItemInfo* NewItemInfo = GetLevel()->CreateActor<InvArrangementItemInfo>();
@@ -1919,7 +1924,7 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 		{
 			case NPCType::PotionShop:
 			{
-				// 판매하려는 아이템이 무기/방어구이면 NPC의 보유골드만 증가
+				// 판매하려는 아이템이 무기/방어구이면 NPC의 보유골드만 감소
 				if (!(16 <= SellItemInfo.ItemCode && SellItemInfo.ItemCode <= 18))
 				{
 					// NPC의 보유골드 감소 후
