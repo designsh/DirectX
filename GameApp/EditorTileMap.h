@@ -316,6 +316,15 @@ public:
 #pragma region 랜덤맵관련
 public:
 	void RandomRoad(int _Count, bool _Multidirectional = false);
+
+public:
+	void CreateRandomMapTotalGrides(int _IndexX, int _IndexY);		// 랜덤맵을 생성할 맵의 크기만큼의 그리드를 생성
+	void RamdomMapDivisionStart();									// 랜덤맵 생성을 위한 그리드 분할시작
+	void CreateRamdomMapRoom();										// 분할된 그리드내에 룸정보 및 룸생성
+	void RamdomMapRoomConnection();									// 생성된 룸을 모두 연결
+	void CreateRamdomMapWall();										// 생성된 바닥타일정보를 이용하여 벽정보 및 벽 배치그리드 생성
+	void RandomMapRender();											// 생성된 룸/바닥/벽 정보를 이용하여 각 렌더러 생성 및 렌더링
+
 #pragma endregion
 };
 

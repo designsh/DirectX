@@ -2854,3 +2854,51 @@ void EditorTileMap::RandomRoad(int _Count, bool _Multidirectional)
 		}
 	}
 }
+
+void EditorTileMap::CreateRandomMapTotalGrides(int _IndexX, int _IndexY)
+{
+	// 시작점(0,0)을 기준으로 해당 타일인덱스 갯수만큼의 크기를 가지는 그리드 생성
+
+
+
+}
+
+void EditorTileMap::RamdomMapDivisionStart()
+{
+	// 그리드 분할 시작!!!!
+
+
+}
+
+void EditorTileMap::CreateRamdomMapRoom()
+{
+	// 분할된 그리드 내에 룸을 생성
+
+
+}
+
+void EditorTileMap::RamdomMapRoomConnection()
+{
+	// 생성된 모든 룸을 연결(복도생성)
+
+
+
+}
+
+void EditorTileMap::CreateRamdomMapWall()
+{
+	// 벽정보 생성 시작
+
+
+
+}
+
+void EditorTileMap::RandomMapRender()
+{
+	// 렌더링
+
+
+
+}
+
+
