@@ -1951,6 +1951,9 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 										// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
 										MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
 
+										// 플레이어의 보유골드 증가
+										GlobalValue::CurPlayer->HaveGoldAdd(SellItemInfo.Price);
+
 										// 인벤창 보유목록에서 해당 아이템을 제거
 										InvArrItemList_[i]->Death();
 										std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
@@ -1971,6 +1974,9 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 											InvStoreInfo_[ItemArrIndexs[k]]->SetItemArrangeFlagOff();
 										}
 
+										// 플레이어의 보유골드 증가
+										GlobalValue::CurPlayer->HaveGoldAdd(SellItemInfo.Price);
+
 										// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
 										MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
 
@@ -1990,6 +1996,9 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 								{
 									InvEquipInfo_[_TileIndex]->SetItemArrangeFlagOff();
 
+									// 플레이어의 보유골드 증가
+									GlobalValue::CurPlayer->HaveGoldAdd(SellItemInfo.Price);
+
 									// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
 									MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
 
@@ -1997,6 +2006,7 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 									InvArrItemList_[i]->Death();
 									std::vector<InvArrangementItemInfo*>::iterator FindIter = InvArrItemList_.begin() + i;
 									InvArrItemList_.erase(FindIter);
+								
 									break;
 								}
 							}
@@ -2004,17 +2014,12 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 							break;
 						}
 					}
-
-					// 판매 처리 완료
 				}
 				else
 				{
 					// NPC의 판매창 보유목록에 해당 판매아이템 존재여부 체크 후 존재한다면 해당아이템 남은수량이 증가, 아니라면 해당 아이템 배치
 					if (true == GlobalValue::ChandleryNPC->GetChandleryShop()->SellItemCheck(SellItemInfo.ItemName_abbreviation_Inven))
 					{
-						// 판매완료!!!!
-						GlobalValue::ChandleryNPC->GetChandleryShop()->SubHaveGold(SellItemInfo.Price);
-
 						// 해당 아이템 인벤토리배치목록에서 제거, 플레이어 보유아이템목록 제거 후 플레이어가 보유한 골드량 증가
 						int Cnt = static_cast<int>(InvArrItemList_.size());
 						for (int i = 0; i < Cnt; ++i)
@@ -2030,6 +2035,9 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 								{
 									InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOff();
 
+									// 플레이어의 보유골드 증가
+									GlobalValue::CurPlayer->HaveGoldAdd(SellItemInfo.Price);
+
 									// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
 									MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
 
@@ -2043,8 +2051,6 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 								break;
 							}
 						}
-
-						// 판매 처리 완료
 					}
 				}
 				break;
@@ -2072,6 +2078,9 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 							{
 								InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOff();
 
+								// 플레이어의 보유골드 증가
+								GlobalValue::CurPlayer->HaveGoldAdd(SellItemInfo.Price);
+
 								// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
 								MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
 
@@ -2091,9 +2100,6 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 					// NPC의 판매창 보유목록에 해당 판매아이템 존재여부 체크 후 존재한다면 해당아이템 남은수량이 증가, 아니라면 해당 아이템 배치
 					if (true == GlobalValue::WeaponNPC->GetWeaponShop()->SellItemCheck(SellItemInfo.ItemName_abbreviation_Inven))
 					{
-						// 판매완료!!!!
-						GlobalValue::ChandleryNPC->GetChandleryShop()->SubHaveGold(SellItemInfo.Price);
-
 						int Cnt = static_cast<int>(InvArrItemList_.size());
 						for (int i = 0; i < Cnt; ++i)
 						{
@@ -2110,6 +2116,9 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 										if (_TileIndex == InvArrItemList_[i]->GetStartTileIndex())
 										{
 											InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOff();
+
+											// 플레이어의 보유골드 증가
+											GlobalValue::CurPlayer->HaveGoldAdd(SellItemInfo.Price);
 
 											// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
 											MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
@@ -2134,6 +2143,9 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 												InvStoreInfo_[ItemArrIndexs[k]]->SetItemArrangeFlagOff();
 											}
 
+											// 플레이어의 보유골드 증가
+											GlobalValue::CurPlayer->HaveGoldAdd(SellItemInfo.Price);
+
 											// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
 											MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
 
@@ -2153,6 +2165,9 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 									{
 										InvEquipInfo_[_TileIndex]->SetItemArrangeFlagOff();
 
+										// 플레이어의 보유골드 증가
+										GlobalValue::CurPlayer->HaveGoldAdd(SellItemInfo.Price);
+
 										// 현재 플레이어 아이템 보유목록에서 해당 아이템 삭제
 										MainPlayerInfomation::GetInst().PlayerItemDel(SellItemInfo.ItemName_abbreviation, InvArrItemList_[i]->GetLocType(), InvArrItemList_[i]->GetStartTileIndex());
 
@@ -2165,8 +2180,6 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 								}
 							}
 						}
-
-						// 판매 처리 완료
 					}
 				}
 				break;
@@ -2183,7 +2196,7 @@ void InventoryView::ItemSellProcess(int _TileIndex, InvTabType _InvTabType, NPCT
 void InventoryView::ItemRepairProcess(int _TileIndex, InvTabType _InvTabType)
 {
 	// 무기상인의 판매창과만 처리가능(수리처리)
-	int a = 0;
+	
 	// 충돌한 아이템의 내구도가 존재한다면 해당 내구도 회복 후
 
 

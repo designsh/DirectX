@@ -1505,6 +1505,7 @@ bool NPC_BuySellView::SellItemCheck(const std::string& _SellItemName)
 		}
 	}
 	
+	SubHaveGold(NewItem.ItemInfo_.Price);
 	BuySellViewTabs_[ArrangeTabIndex].HaveItemList_.push_back(NewItem);
 
 	return true;

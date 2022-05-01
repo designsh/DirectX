@@ -134,7 +134,7 @@ void MainPlayer_QuickSlot::QuickSlotClick(GameEngineCollision* _Other, int _Inde
 		else if (MouseState::Sell == GlobalValue::CurMouse->GetMouseState())
 		{
 			// 해당 퀵슬롯의 아이템이 존재한다면
-			if (false == QuickSlotInfo_[_Index].ItemArrangementFlag_)
+			if (true == QuickSlotInfo_[_Index].ItemArrangementFlag_)
 			{
 				if (nullptr != GlobalValue::WeaponNPC && true == GlobalValue::WeaponNPC->GetWeaponShop()->IsUpdate()) // 무기판매창 활성화일때
 				{
@@ -251,15 +251,33 @@ void MainPlayer_QuickSlot::ItemSellProcess(int _TileIndex, NPCType _BuySellType)
 	std::string SellItemName = QuickSlotInfo_[_TileIndex].ItemInfo_.ItemName_abbreviation_Inven;
 
 	// 잡화상인에게 판매하는 경우
-	if (_BuySellType == NPCType::PotionShop)
+	if (QuickSlotInfo_[_TileIndex].ItemInfo_.ItemCode == 18) // 물약만 배치하므로 해당 아이템이 물약이면 판매가능
 	{
-		// 해당 아이템의 정보를 해당 판매창에 전달
-
-		// 해당 아이템 코드가 무기타입의 아이템이라면 NPC의 보유골드만 감소
-		if (!(16 <= QuickSlotInfo_[_TileIndex].ItemInfo_.ItemCode && QuickSlotInfo_[_TileIndex].ItemInfo_.ItemCode <= 18))
+		// 잡화상인에게 판매하는경우 잡화상인이 해당 아이템을 들고있다면 아이템수량증가 아니면 아이템 배치
+		if (_BuySellType == NPCType::PotionShop)
 		{
-			// 
-			GlobalValue::ChandleryNPC->GetChandleryShop()->SubHaveGold(QuickSlotInfo_[_TileIndex].ItemInfo_.Price);
+			// 현재 NPC의 보유목록에 해당 아이템이 존재하면 해당 아이템 수량만 증가
+			if (true == GlobalValue::ChandleryNPC->GetChandleryShop()->SellItemCheck(QuickSlotInfo_[_TileIndex].ItemInfo_.ItemName_abbreviation_Inven))
+			{
+				// 플레이어정보의 보유아이템 목록에 해당 아이템 제거
+				MainPlayerInfomation::GetInst().PlayerItemDel(QuickSlotInfo_[_TileIndex].ItemInfo_.ItemName_abbreviation, QuickSlotInfo_[_TileIndex].ItemInfo_.ItemLocType, QuickSlotInfo_[_TileIndex].ItemInfo_.StartPosition);
+
+				// 퀵슬롯에서 해당 아이템 제거
+				QuickSlotInfo_[_TileIndex].ItemArrangementFlag_ = false;
+				QuickSlotInfo_[_TileIndex].TileRenderer_->SetAlpha(0.f);
+
+				QuickSlotInfo_[_TileIndex].ItemRenderer_->Death();
+				QuickSlotInfo_[_TileIndex].ItemRenderer_ = nullptr;
+
+				// 플레이어의 보유골드 증가
+				GlobalValue::CurPlayer->HaveGoldAdd(QuickSlotInfo_[_TileIndex].ItemInfo_.Price);
+			}
+		}
+		// 무기상인에게 판매하는경우 무기상인 보유골드만 감소
+		else if (_BuySellType == NPCType::WeaponShop)
+		{
+			// 무기상인의 보유골드만 감소
+			GlobalValue::WeaponNPC->GetWeaponShop()->SubHaveGold(QuickSlotInfo_[_TileIndex].ItemInfo_.Price);
 
 			// 플레이어정보의 보유아이템 목록에 해당 아이템 제거
 			MainPlayerInfomation::GetInst().PlayerItemDel(QuickSlotInfo_[_TileIndex].ItemInfo_.ItemName_abbreviation, QuickSlotInfo_[_TileIndex].ItemInfo_.ItemLocType, QuickSlotInfo_[_TileIndex].ItemInfo_.StartPosition);
@@ -274,28 +292,5 @@ void MainPlayer_QuickSlot::ItemSellProcess(int _TileIndex, NPCType _BuySellType)
 			// 플레이어의 보유골드 증가
 			GlobalValue::CurPlayer->HaveGoldAdd(QuickSlotInfo_[_TileIndex].ItemInfo_.Price);
 		}
-		// 아니라면 해당아이템을 판매창에 전달
-		else
-		{
-			// 현재 NPC의 보유목록에 해당 아이템이 존재하는지 판단
-			if (true == GlobalValue::ChandleryNPC->GetChandleryShop()->SellItemCheck(QuickSlotInfo_[_TileIndex].ItemInfo_.ItemName_abbreviation_Inven))
-			{
-				// 존재한다면 해당 아이템의 수량만 증가
-
-			}
-			else
-			{
-				// 해당 아이템 배치가능 여부 판단
-
-			}
-		}
-	}
-	// 무기상인에게 판매하는 경우
-	else if (_BuySellType == NPCType::WeaponShop)
-	{
-		// 해당 아이템의 정보를 해당 판매창에 전달
-
-
-
 	}
 }
