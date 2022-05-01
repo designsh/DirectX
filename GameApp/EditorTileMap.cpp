@@ -1923,6 +1923,13 @@ void EditorTileMap::AutoModeTileAllClear()
 {
 	// 자동으로 생성한 맵 정보 및 그리드, 타일렌더 모두 클리어
 	AllClear();
+
+	// 랜덤맵 시작인덱스 초기화
+	int RandomStartPosCnt = static_cast<int>(RandomStartPos_.size());
+	for (int i = 0; i < RandomStartPosCnt; ++i)
+	{
+		RandomStartPos_[i] = float4::ZERO;
+	}
 }
 
 #pragma endregion
