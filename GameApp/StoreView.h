@@ -109,6 +109,12 @@ public:
 	void StoreViewOn();
 
 public:
+	inline TakeInOutGoldPopup* GetTakeOutGoldPopup() const
+	{
+		return TakeOutGoldPopup_;
+	}
+
+public:
 	int StoredGoldAdd(int _Gold);
 	int StoredGoldSub(int _Gold);
 };

@@ -13,6 +13,8 @@
 
 #include "MouseObject.h"
 #include "MainPlayer.h"
+#include "Storehouse.h"
+#include "StoreView.h"
 
 #include "WeaponNPC.h"
 #include "ChandleryNPC.h"
@@ -23,13 +25,21 @@
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_MiniMenuButton.h"
 
+#include "TakeInOutGoldPopup.h"
+
 InventoryView::InventoryView() :
 	InventoryPanel_(nullptr),
 	PanelCol_(nullptr),
 	CloseButton_(nullptr),
 	CloseButtonCollider_(nullptr),
 	CloseButtonState_(Button_State::Normal),
-	InvTabType_(InvTabType::NONE)
+	InvTabType_(InvTabType::NONE),
+	GoldTakeInPopup_(nullptr),
+	GoldDropPopup_(nullptr),
+	GoldButton_(nullptr),
+	GoldButtonCol_(nullptr),
+	GoldButtonState_(Button_State::Normal),
+	CurHaveGoldText_(nullptr)
 {
 }
 
@@ -188,10 +198,15 @@ void InventoryView::Start()
 	PanelCol_->GetTransform()->SetLocalPosition(InventoryPanel_->GetTransform()->GetLocalPosition());
 
 	// Button Image Cutting
-	GameEngineTexture* ButtonDefault = GameEngineTextureManager::GetInst().Find("CloseButton_Default.png");
-	ButtonDefault->Cut(1, 1);
-	GameEngineTexture* ButtonClick = GameEngineTextureManager::GetInst().Find("CloseButton_Click.png");
-	ButtonClick->Cut(1, 1);
+	GameEngineTexture* CloseButtonDefault = GameEngineTextureManager::GetInst().Find("CloseButton_Default.png");
+	CloseButtonDefault->Cut(1, 1);
+	GameEngineTexture* CloseButtonClick = GameEngineTextureManager::GetInst().Find("CloseButton_Click.png");
+	CloseButtonClick->Cut(1, 1);
+	GameEngineTexture* GoldCoinButtonDefault = GameEngineTextureManager::GetInst().Find("GoldIconBtn_Default.png");
+	GoldCoinButtonDefault->Cut(1, 1);
+	GameEngineTexture* GoldCoinButtonClick = GameEngineTextureManager::GetInst().Find("GoldIconBtn_Click.png");
+	GoldCoinButtonClick->Cut(1, 1);
+
 
 	// Create Button Renderer
 	CloseButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
@@ -205,6 +220,31 @@ void InventoryView::Start()
 	CloseButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	CloseButtonCollider_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.0f));
 	CloseButtonCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
+
+	// 플레이어 보유 골드 관련
+	GoldTakeInPopup_ = GetLevel()->CreateActor<TakeInOutGoldPopup>();
+	GoldTakeInPopup_->CreateTakePopup(TakeInOutPopupType::TakeIn, TakeInOutPopCreateType::PLAYER, float4(-100.f, 50.f), 0);
+
+	GoldDropPopup_ = GetLevel()->CreateActor<TakeInOutGoldPopup>();
+	GoldDropPopup_->CreateTakePopup(TakeInOutPopupType::Drop, TakeInOutPopCreateType::PLAYER, float4(-100.f, 50.f), 0);
+
+	GoldButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	GoldButton_->CreateAnimation("GoldIconBtn_Default.png", "Default", 0, 0, 0.1f, false);
+	GoldButton_->CreateAnimation("GoldIconBtn_Click.png", "Click", 0, 0, 0.1f, false);
+	GoldButton_->GetTransform()->SetLocalScaling(float4(20.f, 18.f));
+	GoldButton_->GetTransform()->SetLocalPosition(float4(95.f, -160.f));
+	GoldButton_->SetChangeAnimation("Default");
+
+	GoldButtonCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	GoldButtonCol_->GetTransform()->SetLocalScaling(GoldButton_->GetTransform()->GetLocalScaling());
+	GoldButtonCol_->GetTransform()->SetLocalPosition(GoldButton_->GetTransform()->GetLocalPosition());
+
+	CurHaveGoldText_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	CurHaveGoldText_->SetImage("InvTestTileImage.png");
+	CurHaveGoldText_->TextSetting("diablo", std::to_string(0), 12.f, FW1_LEFT | FW1_VCENTER, float4::WHITE, float4(-42.f, 0.f));
+	CurHaveGoldText_->GetTransform()->SetLocalScaling(float4(90.f, 15.f));
+	CurHaveGoldText_->GetTransform()->SetLocalPosition(float4(152.f, -160.f));
+	CurHaveGoldText_->SetAlpha(0.f);
 
 	Off();
 }
@@ -225,6 +265,8 @@ void InventoryView::Update(float _DeltaTime)
 	{
 		GetLevel()->UIPushDebugRender(InvStoreCol_[i]->GetTransform(), CollisionType::Rect);
 	}
+
+	GetLevel()->UIPushDebugRender(GoldButtonCol_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
 #pragma region 종료버튼충돌 및 클릭체크
@@ -241,6 +283,16 @@ void InventoryView::Update(float _DeltaTime)
 
 				// 스킬창 비활성화
 				GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->KeyInputViewProcess(1);
+			}
+
+			// 골드팝업이 열려있다면 골드팝업을 비활성화한다.
+			if (true == GoldTakeInPopup_->IsUpdate())
+			{
+				GoldTakeInPopup_->TakeInOutGoldPopupInactive();
+			}
+			if (true == GoldDropPopup_->IsUpdate())
+			{
+				GoldDropPopup_->TakeInOutGoldPopupInactive();
 			}
 
 			CloseButtonState_ = Button_State::Normal;
@@ -262,6 +314,22 @@ void InventoryView::Update(float _DeltaTime)
 	{
 		InvStoreCol_[i]->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::StoreTileBoxClick, this, std::placeholders::_1, i));
 	}
+#pragma endregion
+
+#pragma region 골드팝업활성화버튼 충돌체크
+	if (GoldButtonState_ == Button_State::Click)
+	{
+		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+		{
+			// 골드팝업 활성화 처리
+			GoldPopupActive();
+
+			GoldButtonState_ = Button_State::Normal;
+			GoldButton_->SetChangeAnimation("Default");
+		}
+	}
+
+	GoldButtonCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&InventoryView::GoldPopupButtonClick, this, std::placeholders::_1));
 #pragma endregion
 }
 
@@ -320,6 +388,97 @@ void InventoryView::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 			GetLevel()->SetLevelActorMove(_NextLevel, InvArrItemList_[i]);
 		}
 	}
+
+	// 골드팝업
+	if (nullptr != GoldTakeInPopup_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, GoldTakeInPopup_);
+	}
+
+	if (nullptr != GoldDropPopup_)
+	{
+		GetLevel()->SetLevelActorMove(_NextLevel, GoldDropPopup_);
+	}
+}
+
+void InventoryView::GoldPopupButtonClick(GameEngineCollision* _Other)
+{
+	// 
+	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
+	{
+		GoldButton_->SetChangeAnimation("Click");
+
+		GoldButtonState_ = Button_State::Click;
+	}
+	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
+	{
+		GoldButton_->SetChangeAnimation("Default");
+	}
+}
+
+void InventoryView::GoldPopupActive()
+{
+	// 창고오브젝트와의 상호작용을 통한 창고창이 활성화 상태라면 저장용 GoldTakeInPopup_ 활성화
+	if (nullptr != GlobalValue::Storehouse)
+	{
+		// 창고창이 활성화되어있을때
+		if (true == GlobalValue::Storehouse->GetStoreView()->IsUpdate())
+		{
+			// 골드 드랍용 팝업이 열려있다면 비활성화
+			if (true == GoldDropPopup_->IsUpdate())
+			{
+				GoldDropPopup_->TakeInOutGoldPopupInactive();
+			}
+
+			// 창고창의 골드 꺼내기용 팝업이 열려있다면 비활성화
+			if (true == GlobalValue::Storehouse->GetStoreView()->GetTakeOutGoldPopup()->IsUpdate())
+			{
+				GlobalValue::Storehouse->GetStoreView()->GetTakeOutGoldPopup()->TakeInOutGoldPopupInactive();
+			}
+
+			// 골드 저장용 팝업창 활성화
+			GoldTakeInPopup_->TakeInOutGoldPopupActive(GlobalValue::CurPlayer->GetCurHaveGold());
+		}
+		// 창고창이 비활성되어있을때
+		else
+		{
+			// 골드 저장용 팝업이 열려있다면 비활성 후
+			if (true == GoldTakeInPopup_->IsUpdate())
+			{
+				GoldTakeInPopup_->TakeInOutGoldPopupInactive();
+			}
+
+			// 골드 드랍용 팝업 활성화
+			GoldDropPopup_->TakeInOutGoldPopupActive(GlobalValue::CurPlayer->GetCurHaveGold());
+		}
+	}
+	// 창고창이 존재하지않다면
+	else
+	{
+		// 골드 저장용 팝업이 열려있다면 비활성화 후
+		if (true == GoldTakeInPopup_->IsUpdate())
+		{
+			GoldTakeInPopup_->TakeInOutGoldPopupInactive();
+		}
+
+		// 골드 드랍용 팝업을 활성화
+		GoldDropPopup_->TakeInOutGoldPopupActive(GlobalValue::CurPlayer->GetCurHaveGold());
+	}
+}
+
+void InventoryView::HaveGoldUpdate(int _CurGold)
+{
+	CurHaveGoldText_->SetPrintText(std::to_string(_CurGold));
+}
+
+TakeInOutGoldPopup* InventoryView::GetTakeInGoldPopup() const
+{
+	return GoldTakeInPopup_;
+}
+
+TakeInOutGoldPopup* InventoryView::GetDropGoldPopup() const
+{
+	return GoldDropPopup_;
 }
 
 bool InventoryView::GetInvenCurEquipState(ItemLocType _LocType)
@@ -415,6 +574,12 @@ void InventoryView::InitInventoryView()
 	// 2. 현재 생성되는 게임의 메인플레이어정보를 이용하여
 	//    소유하고있는 아이템 목록을 인벤창에 배치
 	PlayerItemListArrangement();
+
+	// 3. 현재 플레이어 골드량 갱신
+	if (nullptr != CurHaveGoldText_)
+	{
+		CurHaveGoldText_->SetPrintText(std::to_string(GlobalValue::CurPlayer->GetCurHaveGold()));
+	}
 }
 
 void InventoryView::CreateInvTile()

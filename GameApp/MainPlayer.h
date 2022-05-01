@@ -281,6 +281,7 @@ public: // 상태관련
 	int GetCurrentEXP() const;
 	int GetPrevLevel() const;
 	int GetCurrentLevel() const;
+	int GetCurHaveGold() const;
 
 public: // UI Flag관련 
 	bool GetIsInventory() const;
@@ -295,8 +296,8 @@ public: // UI 객체관련
 	BottomStateBar* GetBottomStateBar() const;
 	StatView* GetStatView() const;
 	SkillView* GetSkillView() const;
+	InventoryView* GetInventoryView() const;
 	GameEndMenuView* GetGameEndMenuView() const;
-
 #pragma endregion
 
 #pragma region SetFunction

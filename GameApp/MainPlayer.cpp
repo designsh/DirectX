@@ -437,6 +437,12 @@ void MainPlayer::PlayerMoveKeyCheck()
 		{
 			return;
 		}
+
+		// 현재 활성화된 팝업과 충돌중이라면 이동불가
+		if (true == GlobalValue::CurMouse->GetUIPopupCollision())
+		{
+			return;
+		}
 #pragma endregion
 
 #pragma region NPC UI

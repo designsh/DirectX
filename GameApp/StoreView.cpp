@@ -18,7 +18,7 @@
 
 StoreView::StoreView() :
 	StoreViewActive_(false),
-	StoredGold_(0),
+	StoredGold_(10000),
 	StoredMaxGold_(2500000),
 	StoreViewPanel_(nullptr),
 	StoreViewPanelCol_(nullptr),
@@ -136,7 +136,9 @@ void StoreView::Start()
 			StoreViewInfo_.ArrangeTiles_[Index].TileRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
 			StoreViewInfo_.ArrangeTiles_[Index].TileRenderer_->SetImage("InvTestTileImage.png");
 			StoreViewInfo_.ArrangeTiles_[Index].TileRenderer_->SetResultColor(float4(0.f, 0.f, 1.f, 0.f));
+#ifdef _DEBUG
 			StoreViewInfo_.ArrangeTiles_[Index].TileRenderer_->TextSetting("diablo", std::to_string(Index), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
+#endif // _DEBUG
 			StoreViewInfo_.ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalPosition(TilePos);
 			StoreViewInfo_.ArrangeTiles_[Index].TileRenderer_->GetTransform()->SetLocalScaling(TileScale);
 		}
@@ -228,7 +230,8 @@ void StoreView::Update(float _DeltaTime)
 			if (nullptr != StoreViewInfo_.StoreArrTileCols_[i])
 			{
 #ifdef _DEBUG
-				if (false == TakeOutGoldPopup_->IsUpdate()) // 골드팝업창이 활성화되면 충돌체 렌더러 표시안함
+				// 어떠한 골드팝업창이라도 활성화되어있다면 충돌체 렌더러 표시안함
+				if (false == TakeOutGoldPopup_->IsUpdate() && (nullptr != GlobalValue::CurPlayer && false == GlobalValue::CurPlayer->GetInventoryView()->GetTakeInGoldPopup()->IsUpdate()))
 				{
 					GetLevel()->UIPushDebugRender(StoreViewInfo_.StoreArrTileCols_[i]->GetTransform(), CollisionType::Rect);
 				}
@@ -299,6 +302,12 @@ void StoreView::PrivateStoreViewActive()
 
 		// 플레이어의 하단상태바의 미니메뉴를 비활성화 시킨다.
 		GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->SetMiniMenuActiveFlag(true);
+
+		// 플레이어의 골드 저장용 팝업이 열려있다면 비활성화 시킨다.
+		if (true == GlobalValue::CurPlayer->GetInventoryView()->GetTakeInGoldPopup()->IsUpdate())
+		{
+			GlobalValue::CurPlayer->GetInventoryView()->GetTakeInGoldPopup()->TakeInOutGoldPopupInactive();
+		}
 	}
 }
 
@@ -306,14 +315,31 @@ void StoreView::GoldPopupViewActive()
 {
 	// 골드꺼내기 팝업 활성화(현재 저장된 골드량 전달하여 팝업 리셋)
 	TakeOutGoldPopup_->TakeInOutGoldPopupActive(StoredGold_);
+
+	// 만약 플레이어의 골드팝업이 열려있다면 비활성화 처리
+	if (true == GlobalValue::CurPlayer->GetInventoryView()->GetTakeInGoldPopup()->IsUpdate())
+	{
+		GlobalValue::CurPlayer->GetInventoryView()->GetTakeInGoldPopup()->TakeInOutGoldPopupInactive();
+	}
+	if (true == GlobalValue::CurPlayer->GetInventoryView()->GetDropGoldPopup()->IsUpdate())
+	{
+		GlobalValue::CurPlayer->GetInventoryView()->GetDropGoldPopup()->TakeInOutGoldPopupInactive();
+	}
+
 }
 
 void StoreView::ArrangeTileClick(GameEngineCollision* _Other, int _Index)
 {
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
-		// 골드팝업창이 활성화되면 아이템배치 못하도록 처리
+		// 골드팝업창이 활성화되어있다면 아이템배치 못하도록 처리
 		if (true == TakeOutGoldPopup_->IsUpdate())
+		{
+			return;
+		}
+
+		// 플레이어의 골드팝업창이 활성화되어있다면 아이템배치 못하도록 처리
+		if (nullptr != GlobalValue::CurPlayer && true == GlobalValue::CurPlayer->GetInventoryView()->GetTakeInGoldPopup()->IsUpdate())
 		{
 			return;
 		}
@@ -1240,6 +1266,12 @@ void StoreView::StoreViewOn()
 
 		// 플레이어의 하단상태바의 미니메뉴를 비활성화 시킨다.
 		GlobalValue::CurPlayer->GetBottomStateBar()->GetMiniMenuControl()->SetMiniMenuActiveFlag(false);
+
+		// 플레이어의 골드 드랍용 팝업이 열려있다면 비활성화
+		if (true == GlobalValue::CurPlayer->GetInventoryView()->GetDropGoldPopup()->IsUpdate())
+		{
+			GlobalValue::CurPlayer->GetInventoryView()->GetDropGoldPopup()->TakeInOutGoldPopupInactive();
+		}
 
 		// 2. 창고창 활성화 시킨다.
 		On();

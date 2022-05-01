@@ -20,6 +20,7 @@ class GameEngineUIRenderer;
 class GameEngineCollision;
 class InventoryTileBox;
 class InvArrangementItemInfo;
+class TakeInOutGoldPopup;
 class GameEngineLevel;
 class InventoryView : public GameEngineActor
 {
@@ -49,6 +50,16 @@ private:
 	std::vector<InvArrangementItemInfo*> InvArrItemList_;		// 인벤창에 배치되어있는 아이템정보 목록
 #pragma endregion
 
+#pragma region 인벤창 골드관련
+private:
+	TakeInOutGoldPopup* GoldTakeInPopup_;						// 골드 창고저장 팝업(창고창활성화시 해당
+	TakeInOutGoldPopup* GoldDropPopup_;							// 골드 드랍용 팝업
+	GameEngineUIRenderer* GoldButton_;							// 골드팝업 활성화 버튼렌더러
+	GameEngineCollision* GoldButtonCol_;						// 골드팝업 활성화 버튼충돌체
+	Button_State GoldButtonState_;								// 골드팝업 활성화 버튼상태
+	GameEngineUIRenderer* CurHaveGoldText_;						// 현재 플레이어가 보유하고있는 골드량 텍스트 렌더러
+#pragma endregion
+
 public:
 	InventoryView();
 	~InventoryView();
@@ -70,6 +81,15 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void LevelChangeEndEvent(GameEngineLevel* _NextLevel) override;
+
+private:
+	void GoldPopupButtonClick(GameEngineCollision* _Other);
+	void GoldPopupActive();
+
+public:
+	void HaveGoldUpdate(int _CurGold);
+	TakeInOutGoldPopup* GetTakeInGoldPopup() const;
+	TakeInOutGoldPopup* GetDropGoldPopup() const;
 
 public:
 	bool GetInvenCurEquipState(ItemLocType _LocType = ItemLocType::Inven_Weapon);

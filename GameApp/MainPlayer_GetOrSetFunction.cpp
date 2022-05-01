@@ -66,6 +66,11 @@ int MainPlayer::GetCurrentLevel() const
 	return CurLevel_;
 }
 
+int MainPlayer::GetCurHaveGold() const
+{
+	return HaveGold_;
+}
+
 #pragma endregion
 
 #pragma region UI Flag°ü·Ã (GET)
@@ -122,6 +127,11 @@ StatView* MainPlayer::GetStatView() const
 SkillView* MainPlayer::GetSkillView() const
 {
 	return SkillView_;
+}
+
+InventoryView* MainPlayer::GetInventoryView() const
+{
+	return InventoryView_;
 }
 
 GameEndMenuView* MainPlayer::GetGameEndMenuView() const

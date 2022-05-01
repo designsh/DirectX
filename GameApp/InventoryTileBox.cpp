@@ -98,7 +98,9 @@ void InventoryTileBox::CreateNormalTileBox(bool _ArrangementFlag, ItemLocType _B
 	TileBoxRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
 	TileBoxRenderer_->SetImage("InvTestTileImage.png");
 	TileBoxRenderer_->SetResultColor(float4(1.f, 1.f, 1.f, 0.f));
+#ifdef _DEBUG
 	TileBoxRenderer_->TextSetting("diablo", std::to_string(Index_), 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
+#endif // _DEBUG
 	TileBoxRenderer_->GetTransform()->SetLocalPosition(Pos_);
 	TileBoxRenderer_->GetTransform()->SetLocalScaling(Scale_);
 	TileBoxRenderer_->Off();

@@ -1,12 +1,23 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+// Äü½½·Ô Á¤º¸
+struct QuickSlotInfo
+{
+
+};
+
 // ºĞ·ù : 
 // ¿ëµµ : 
 // ¼³¸í : 
+class GameEngineUIRenderer;
+class GameEngineCollision;
 class MainPlayer_QuickSlot : public GameEngineActor
 {
-private: // Äü½½·Ô ÀåÂø»óÅÂ
+private:
+
+private:
+	QuickSlotInfo QuitSlotInfo_;
 
 public:
 	MainPlayer_QuickSlot();
