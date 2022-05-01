@@ -1,8 +1,9 @@
 #pragma once
+#include <GameEngineBase/GameEngineRandom.h>
+
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineTextureManager.h>
 #include "TileMap_Common.h"
-
 
 // 바닥타일 렌더링타입
 enum class FloorRenderingType
@@ -58,6 +59,19 @@ struct WallTileRender
 class GameEngineTileMapRenderer;
 class EditorTileMap : public GameEngineActor
 {
+#pragma region 랜덤맵관련
+private:
+	static bool FirstRandomLoad_;
+	static std::vector<int> IgnoreRange;
+	static std::vector<std::vector<float4>> RandomRange;
+	static std::vector<std::vector<int>> RandomReversRange;
+	static std::vector<std::vector<int>> RandomNextRange;
+
+private:
+	GameEngineRandom Random_;
+	std::vector<float4> RandomStartPos_;
+#pragma endregion
+
 #pragma region 실질적인 타일정보
 private: // 실질적으로 저장되는 타일정보(값형)
 	std::vector<std::vector<FloorTileInfo>> FloorTileInfo_;
@@ -300,8 +314,8 @@ public:
 	void CreatedAfterLoading_ObjectTiles();
 
 #pragma region 랜덤맵관련
-	
-
+public:
+	void RandomRoad(int _Count, bool _Multidirectional = false);
 #pragma endregion
 };
 
