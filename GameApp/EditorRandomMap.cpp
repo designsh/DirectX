@@ -1,9 +1,10 @@
 #include "PreCompile.h"
 #include "EditorRandomMap.h"
 
-#include "Dungeon.h"
+#include <GameEngine/GameEngineTileMapRenderer.h>
 
-EditorRandomMap::EditorRandomMap()
+EditorRandomMap::EditorRandomMap() :
+	RootDungeonGride_(nullptr)
 {
 }
 
@@ -88,41 +89,20 @@ TileIndex EditorRandomMap::GetWallTileIndex(float4 _Pos)
 	return Index;
 }
 
-void EditorRandomMap::CreateSplitDungeon(int _Width, int _Height)
+float4 EditorRandomMap::GetFloorTileIndexToPos(TileIndex _TileIndex)
 {
-	// 최초 던전 생성
+	float4 TilePos = float4::ZERO;
+	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.x;
+	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.y;
 
-
-	// 최초 던전에서부터 분할 시작
-
+	return TilePos;
 }
 
-void EditorRandomMap::CreateRoomintheDungeon()
+float4 EditorRandomMap::GetWallTileIndexToPos(TileIndex _TileIndex)
 {
-	// 던전 분할이 완료되었으므로 분할된 던전내에 룸을 생성
+	float4 TilePos = float4::ZERO;
+	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.halffloat4().halffloat4().x;
+	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.halffloat4().halffloat4().y;
 
+	return TilePos;
 }
-
-void EditorRandomMap::ConnectTheRoom()
-{
-	// 모든 룸이 생성완료되었으므로 모든 룸을 연결
-
-
-}
-
-void EditorRandomMap::CreateWall()
-{
-	// 룸과 복도가 생성되었으므로 바닥타일정보를 이용하여 벽타일정보를 생성
-
-
-
-}
-
-void EditorRandomMap::RandomMapTileMatching()
-{
-	// 모든 타일정보가 생성완료되었으므로 각 타일의 타입에 맞게 디폴트텍스쳐 매칭하여 렌더링 시작
-
-
-
-}
-

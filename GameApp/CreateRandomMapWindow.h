@@ -11,10 +11,13 @@ class CreateRandomMapWindow : public GameEngineGUIWindow
 public:	// member Var
 	EditorRandomMap* RandomMap_;
 
-public:
+public: // 카메라관련
 	float Zoom_;
 	float ZoomMin_;
 	float ZoomMax_;
+
+private:
+
 
 public:
 	CreateRandomMapWindow();

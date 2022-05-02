@@ -419,7 +419,4 @@ void MapEditorLevel::RandomMapControlMode()
 {
 	// 랜덤맵 윈도우가 활성화 되어있고 현재 에디터 모드가 RandomMode일때 사용되는 컨트롤
 
-
-
-
 }

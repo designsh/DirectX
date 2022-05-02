@@ -56,8 +56,5 @@ void CreateRandomMapWindow::OnGUI()
 
 
 
-
-
-
 #pragma endregion
 }
