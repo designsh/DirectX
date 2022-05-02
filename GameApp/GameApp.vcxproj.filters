@@ -272,9 +272,6 @@
     <ClCompile Include="ChandleryNPC_FSMState.cpp">
       <Filter>Object\Actor\00.Global\02.NPC\03.ChandleryNPC</Filter>
     </ClCompile>
-    <ClCompile Include="EditorTileMap.cpp">
-      <Filter>Object\Actor\99.Editor</Filter>
-    </ClCompile>
     <ClCompile Include="CreateTileMapWindow.cpp">
       <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
     </ClCompile>
@@ -305,14 +302,17 @@
     <ClCompile Include="TakeInOutGoldPopup.cpp">
       <Filter>Object\Actor\00.Global\99.Popup\01.TakeInOutGoldPopup</Filter>
     </ClCompile>
-    <ClCompile Include="EditorRandomMap.cpp">
-      <Filter>Object\Actor\99.Editor</Filter>
-    </ClCompile>
     <ClCompile Include="EditorModeSelectWindow.cpp">
       <Filter>Object\Actor\99.Editor\00.EditorModeSelectWindow</Filter>
     </ClCompile>
     <ClCompile Include="CreateRandomMapWindow.cpp">
       <Filter>Object\Actor\99.Editor\02.CreateRandomMapWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorTileMap.cpp">
+      <Filter>Object\Actor\99.Editor\03.Map\01.FixedMap</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorRandomMap.cpp">
+      <Filter>Object\Actor\99.Editor\03.Map\02.RandomMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -766,6 +766,15 @@
     <Filter Include="Object\Actor\99.Editor\02.CreateRandomMapWindow">
       <UniqueIdentifier>{cb440aaa-6283-4a43-93fe-5041665f97a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\99.Editor\03.Map">
+      <UniqueIdentifier>{f886c05e-7d8b-4e36-8a29-36f53cf4f1a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\99.Editor\03.Map\01.FixedMap">
+      <UniqueIdentifier>{559a685c-b8d2-4073-b20b-10244a8a9763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\99.Editor\03.Map\02.RandomMap">
+      <UniqueIdentifier>{3836c82b-7d83-4478-8133-39f1c68db3dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -990,9 +999,6 @@
     <ClInclude Include="ChandleryNPC.h">
       <Filter>Object\Actor\00.Global\02.NPC\03.ChandleryNPC</Filter>
     </ClInclude>
-    <ClInclude Include="EditorTileMap.h">
-      <Filter>Object\Actor\99.Editor</Filter>
-    </ClInclude>
     <ClInclude Include="CreateTileMapWindow.h">
       <Filter>Object\Actor\99.Editor\01.CreateTileMapWindow</Filter>
     </ClInclude>
@@ -1026,9 +1032,6 @@
     <ClInclude Include="TakeInOutGoldPopup.h">
       <Filter>Object\Actor\00.Global\99.Popup\01.TakeInOutGoldPopup</Filter>
     </ClInclude>
-    <ClInclude Include="EditorRandomMap.h">
-      <Filter>Object\Actor\99.Editor</Filter>
-    </ClInclude>
     <ClInclude Include="EditorModeSelectWindow.h">
       <Filter>Object\Actor\99.Editor\00.EditorModeSelectWindow</Filter>
     </ClInclude>
@@ -1037,6 +1040,12 @@
     </ClInclude>
     <ClInclude Include="RandomTileMap_Common.h">
       <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorTileMap.h">
+      <Filter>Object\Actor\99.Editor\03.Map\01.FixedMap</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorRandomMap.h">
+      <Filter>Object\Actor\99.Editor\03.Map\02.RandomMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
