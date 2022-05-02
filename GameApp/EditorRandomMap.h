@@ -55,7 +55,7 @@ public:
 	TileIndex GetWallTileIndex(float4 _Pos);
 
 public: // 바닥타일정보 생성(그리드 표시)
-	void CreateSplitDungeon(int _TotalMapSizeX, int _TotalMapSizeY);	// 분할된 던전 생성(생성되는 맵의 최대크기를 인자로 얻어온다.) -> 분할완료시 화면에 그리드형태로 렌더링
+	void CreateSplitDungeon(int _Width, int _Height);					// 분할된 던전 생성(생성되는 맵의 최대크기를 인자로 얻어온다.) -> 분할완료시 화면에 그리드형태로 렌더링
 	void CreateRoomintheDungeon();										// 분할된 던전내에 룸생성(던전기준 타일2개 안쪽으로 룸이 생성) -> 룸 배치완료시 화면에 그리드형태로 렌더링
 	void ConnectTheRoom();												// 룸과 룸을 연결 -> 모든 룸연결완료시 화면에 그리드형태로 렌더링
 
