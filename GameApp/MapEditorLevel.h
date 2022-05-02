@@ -5,6 +5,7 @@
 // 용도 : 
 // 설명 : 
 class EditorTileMap;
+class EditorRandomMap;
 class CreateTileMapWindow;
 class MapEditorLevel : public GameEngineLevel
 {
@@ -13,6 +14,7 @@ private:
 
 private:	// member Var
 	EditorTileMap* EditorTileMap_;
+	EditorRandomMap* EditorRandomMap_;
 
 private: // Window
 	CreateTileMapWindow* TileMapWindow_;

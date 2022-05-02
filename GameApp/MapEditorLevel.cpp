@@ -3,6 +3,7 @@
 
 #include "CreateTileMapWindow.h"
 #include "EditorTileMap.h"
+#include "EditorRandomMap.h"
 #include "UserGame.h"
 
 #include <GameEngine/CameraComponent.h>
@@ -15,6 +16,7 @@ bool MapEditorLevel::ResourceLoadEndCheck = false;
 
 MapEditorLevel::MapEditorLevel() :
 	EditorTileMap_(nullptr),
+	EditorRandomMap_(nullptr),
 	TileMapWindow_(nullptr),
 	MoveSpeed_(1000.f)
 {
@@ -95,12 +97,24 @@ void MapEditorLevel::CreateLevelActor()
 
 #pragma endregion
 
-#pragma region IsoTileMap Create & Setting
+#pragma region IsoFixedTileMap Create & Setting
 	EditorTileMap_ = CreateActor<EditorTileMap>();
 	TileMapWindow_->TileMap_ = EditorTileMap_;
 	EditorTileMap_->SetFloorTileTexture("Town_Floor.png");
 	EditorTileMap_->SetWallTileTexture("Town_Wall.png");
 	EditorTileMap_->SetObjectTileTexture("Town_Object.png");
+#pragma endregion
+
+#pragma region RandomMap Create & Setting
+	EditorRandomMap_ = CreateActor<EditorRandomMap>();
+	TileMapWindow_->RandomMap_ = EditorRandomMap_;
+
+
+
+
+
+
+
 #pragma endregion
 }
 

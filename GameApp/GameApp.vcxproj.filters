@@ -305,6 +305,9 @@
     <ClCompile Include="TakeInOutGoldPopup.cpp">
       <Filter>Object\Actor\00.Global\99.Popup\01.TakeInOutGoldPopup</Filter>
     </ClCompile>
+    <ClCompile Include="EditorRandomMap.cpp">
+      <Filter>Object\Actor\99.Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -1010,6 +1013,9 @@
     </ClInclude>
     <ClInclude Include="TakeInOutGoldPopup.h">
       <Filter>Object\Actor\00.Global\99.Popup\01.TakeInOutGoldPopup</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorRandomMap.h">
+      <Filter>Object\Actor\99.Editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

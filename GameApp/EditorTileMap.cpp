@@ -10,12 +10,6 @@
 
 #include "GlobalEnumClass.h"
 
-bool EditorTileMap::FirstRandomLoad_ = false;
-std::vector<int> EditorTileMap::IgnoreRange;
-std::vector<std::vector<float4>> EditorTileMap::RandomRange;
-std::vector<std::vector<int>> EditorTileMap::RandomReversRange;
-std::vector<std::vector<int>> EditorTileMap::RandomNextRange;
-
 EditorTileMap::EditorTileMap() :
 	FloorRenderingType_(FloorRenderingType::TILE),
 	WallRenderingType_(WallRenderingType::TILE1),
@@ -71,23 +65,6 @@ void EditorTileMap::Start()
 
 	ObjectTileImageSizeHalf_ = ObjectTileImageSize_.halffloat4();
 	ObjectTileIndexPivotPos_ = { 0.0f, TileSize_.y };
-
-#pragma region RandomLoad 관련
-	RandomStartPos_.clear();
-	RandomStartPos_ = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
-
-	IgnoreRange.resize(4);
-	RandomNextRange.resize(4);
-	RandomRange = { {float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN},
-					{float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN},
-					{float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN},
-					{float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN}, };
-	RandomReversRange = { {1, 0, 3, 2},
-						  {1, 0, 3, 2},
-						  {1, 0, 3, 2},
-						  {1, 0, 3, 2}, };
-
-#pragma endregion
 }
 
 void EditorTileMap::FloorGridesSwitching()
@@ -1923,13 +1900,6 @@ void EditorTileMap::AutoModeTileAllClear()
 {
 	// 자동으로 생성한 맵 정보 및 그리드, 타일렌더 모두 클리어
 	AllClear();
-
-	// 랜덤맵 시작인덱스 초기화
-	int RandomStartPosCnt = static_cast<int>(RandomStartPos_.size());
-	for (int i = 0; i < RandomStartPosCnt; ++i)
-	{
-		RandomStartPos_[i] = float4::ZERO;
-	}
 }
 
 #pragma endregion
@@ -2759,146 +2729,3 @@ void EditorTileMap::CreatedAfterLoading_ObjectTiles()
 		}
 	}
 }
-void EditorTileMap::RandomRoad(int _Count, bool _Multidirectional)
-{
-	if (false == _Multidirectional) // 한방향 랜덤 로드(길) 생성
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			if (i == IgnoreRange[0])
-			{
-				continue;
-			}
-
-			RandomNextRange[0].push_back(i);
-		}
-
-		int DirIndex = RandomNextRange[0][Random_.RandomInt(0, static_cast<int>(RandomNextRange[0].size()) - 1)];
-
-		float4 Dir = RandomRange[0][DirIndex];
-
-		for (size_t i = 0; i < _Count; i++)
-		{
-			SetFloorTile(TileIndex{ RandomStartPos_[0].ix(), RandomStartPos_[0].iy() }, 0);
-			RandomStartPos_[0] += Dir;
-		}
-
-		IgnoreRange[0] = RandomReversRange[0][DirIndex];
-		RandomNextRange[0].clear();
-	}
-	else // 다방향 랜덤 로드(길) 생성
-	{
-		if (false == FirstRandomLoad_)
-		{
-			// 최초 생성 Flag On
-			FirstRandomLoad_ = true;
-
-			// 최초 생성되었으므로 최대 4방향 랜덤 로드 생성
-			for (int i = 0; i < 4; ++i)
-			{
-				RandomNextRange[i].push_back(i);
-			}
-
-			std::vector<int> DirIndex = { {-1}, {-1}, {-1}, {-1}, };
-			std::vector<float4> Dir = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
-
-			for (int i = 0; i < 4; ++i)
-			{
-				DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
-				Dir[i] = RandomRange[i][DirIndex[i]];
-				SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() }, 0);
-				RandomStartPos_[i] += Dir[i];
-			}
-
-			for (int i = 0; i < 4; ++i)
-			{
-				IgnoreRange[i] = RandomReversRange[i][DirIndex[i]];
-				RandomNextRange[i].clear();
-			}
-
-			DirIndex.clear();
-			Dir.clear();
-		}
-		else
-		{
-			// 최대 3방향 랜덤 로드 생성
-			for (int i = 0; i < 4; ++i)
-			{
-				for (int j = 0; j < 3; j++)
-				{
-					if (j == IgnoreRange[i])
-					{
-						continue;
-					}
-
-					RandomNextRange[i].push_back(j);
-				}
-			}
-
-			std::vector<int> DirIndex = { {-1}, {-1}, {-1}, {-1}, };
-			std::vector<float4> Dir = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
-
-			for (int i = 0; i < 4; ++i)
-			{
-				DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
-				Dir[i] = RandomRange[i][DirIndex[i]];
-				SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() }, 0);
-				RandomStartPos_[i] += Dir[i];
-
-				IgnoreRange[i] = RandomReversRange[i][DirIndex[i]];
-				RandomNextRange[i].clear();
-			}
-
-			DirIndex.clear();
-			Dir.clear();
-		}
-	}
-}
-
-void EditorTileMap::CreateRandomMapTotalGrides(int _IndexX, int _IndexY)
-{
-	// 시작점(0,0)을 기준으로 해당 타일인덱스 갯수만큼의 크기를 가지는 그리드 생성
-
-
-
-}
-
-void EditorTileMap::RamdomMapDivisionStart()
-{
-	// 그리드 분할 시작!!!!
-
-
-}
-
-void EditorTileMap::CreateRamdomMapRoom()
-{
-	// 분할된 그리드 내에 룸을 생성
-
-
-}
-
-void EditorTileMap::RamdomMapRoomConnection()
-{
-	// 생성된 모든 룸을 연결(복도생성)
-
-
-
-}
-
-void EditorTileMap::CreateRamdomMapWall()
-{
-	// 벽정보 생성 시작
-
-
-
-}
-
-void EditorTileMap::RandomMapRender()
-{
-	// 렌더링
-
-
-
-}
-
-

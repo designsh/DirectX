@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "CreateTileMapWindow.h"
 #include "EditorTileMap.h"
+#include "EditorRandomMap.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
@@ -8,6 +9,7 @@
 
 CreateTileMapWindow::CreateTileMapWindow() :
 	TileMap_(nullptr),
+	RandomMap_(nullptr),
 	Zoom_(1.0f),
 	ZoomMin_(0.1f),
 	ZoomMax_(5.0f),
@@ -571,7 +573,7 @@ void CreateTileMapWindow::OnGUI()
 	{
 		GameEngineRandom Random;
 
-		TileMap_->RandomRoad(Random.RandomInt(3, 10));
+		RandomMap_->RandomRoad(Random.RandomInt(3, 10));
 	}
 
 	ImGui::SameLine();
@@ -580,15 +582,8 @@ void CreateTileMapWindow::OnGUI()
 	{
 		GameEngineRandom Random;
 
-		TileMap_->RandomRoad(Random.RandomInt(3, 10), true);
+		RandomMap_->RandomRoad(Random.RandomInt(3, 10), true);
 	}
-
-
-
-
-
-
-
 
 #pragma endregion
 

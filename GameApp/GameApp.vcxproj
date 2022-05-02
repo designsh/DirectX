@@ -102,6 +102,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EditorRandomMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <SubType>
       </SubType>
@@ -450,6 +454,10 @@
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="Diablo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EditorRandomMap.h">
       <SubType>
       </SubType>
     </ClInclude>
