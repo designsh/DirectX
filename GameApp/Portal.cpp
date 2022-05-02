@@ -9,7 +9,7 @@
 #include "UserGame.h"
 #include "MainPlayer.h"
 
-#include "TileMap_Common.h"
+#include "FixedTileMap_Common.h"
 #include "TownMap.h"
 #include "RandomMap.h"
 

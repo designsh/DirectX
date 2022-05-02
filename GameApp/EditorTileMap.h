@@ -3,7 +3,7 @@
 
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineTextureManager.h>
-#include "TileMap_Common.h"
+#include "FixedTileMap_Common.h"
 
 // 바닥타일 렌더링타입
 enum class FloorRenderingType

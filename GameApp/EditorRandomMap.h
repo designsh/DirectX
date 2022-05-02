@@ -39,5 +39,9 @@ private:
 
 public:
 	void RandomRoad(int _Count, bool _Multidirectional = false);
+
+public: // 罚待 带傈 积己 包访
+
+
 };
 

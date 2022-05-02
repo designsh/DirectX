@@ -1011,7 +1011,7 @@
     <ClInclude Include="Navigation_Common.h">
       <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap_Common.h">
+    <ClInclude Include="FixedTileMap_Common.h">
       <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
     </ClInclude>
     <ClInclude Include="StoreView.h">
@@ -1034,6 +1034,9 @@
     </ClInclude>
     <ClInclude Include="CreateRandomMapWindow.h">
       <Filter>Object\Actor\99.Editor\02.CreateRandomMapWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomTileMap_Common.h">
+      <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -611,6 +611,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="RandomTileMap_Common.h" />
     <ClInclude Include="SkillView.h">
       <SubType>
       </SubType>
@@ -684,7 +685,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TileMap_Common.h" />
+    <ClInclude Include="FixedTileMap_Common.h" />
     <ClInclude Include="TitleBackDrop.h">
       <SubType>
       </SubType>

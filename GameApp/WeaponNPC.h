@@ -4,7 +4,7 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
-#include "TileMap_Common.h"
+#include "FixedTileMap_Common.h"
 #include "Navigation_Common.h"
 
 enum class WeaponNPC_MoveDir

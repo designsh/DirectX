@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameEnginePathFind.h>
 #include <GameEngine/GameEngineActor.h>
-#include "TileMap_Common.h"
+#include "FixedTileMap_Common.h"
 #include "Navigation_Common.h"
 
 // ºÐ·ù : ¸Ê(MAP)
