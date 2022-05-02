@@ -1,6 +1,13 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
 
+enum class EditorMode
+{
+	None = -1,
+	Fixed,
+	Random,
+};
+
 // 분류 : 맵에디터 레벨
 // 용도 : 
 // 설명 : 
@@ -14,8 +21,11 @@ class MapEditorLevel : public GameEngineLevel
 private:
 	static bool ResourceLoadEndCheck;
 
+public:
+	static EditorMode CurEditorMode;
+
 private:	// member Var
-	EditorTileMap* EditorTileMap_;
+	EditorTileMap* EditorFixedMap_;
 	EditorRandomMap* EditorRandomMap_;
 
 private: // Window
@@ -46,5 +56,9 @@ public:
 	virtual void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) override;
 	virtual void LevelStart() override;
 	virtual void LevelUpdate(float _DeltaTime) override;
+
+private:
+	void FixedMapControlMode();
+	void RandomMapControlMode();
 };
 

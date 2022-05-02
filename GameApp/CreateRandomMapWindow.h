@@ -4,9 +4,17 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class CameraComponent;
+class EditorRandomMap;
 class CreateRandomMapWindow : public GameEngineGUIWindow
 {
-private:	// member Var
+public:	// member Var
+	EditorRandomMap* RandomMap_;
+
+public:
+	float Zoom_;
+	float ZoomMin_;
+	float ZoomMax_;
 
 public:
 	CreateRandomMapWindow();

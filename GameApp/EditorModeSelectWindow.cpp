@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "EditorModeSelectWindow.h"
 
+#include "MapEditorLevel.h"
+
 EditorModeSelectWindow::EditorModeSelectWindow()
 {
 }
@@ -25,6 +27,8 @@ void EditorModeSelectWindow::OnGUI()
 		{
 			RandomPtr->Off();
 		}
+
+		MapEditorLevel::CurEditorMode = EditorMode::Fixed;
 	}
 
 	ImGui::SameLine();
@@ -43,5 +47,7 @@ void EditorModeSelectWindow::OnGUI()
 		{
 			RandomPtr->On();
 		}
+
+		MapEditorLevel::CurEditorMode = EditorMode::Random;
 	}
 }

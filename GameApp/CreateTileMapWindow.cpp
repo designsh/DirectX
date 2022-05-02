@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "CreateTileMapWindow.h"
 #include "EditorTileMap.h"
-#include "EditorRandomMap.h"
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/CameraActor.h>
@@ -9,7 +8,6 @@
 
 CreateTileMapWindow::CreateTileMapWindow() :
 	TileMap_(nullptr),
-	RandomMap_(nullptr),
 	Zoom_(1.0f),
 	ZoomMin_(0.1f),
 	ZoomMax_(5.0f),

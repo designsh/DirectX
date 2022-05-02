@@ -16,9 +16,10 @@
 #include <GameEngine/GameEngineTexture.h>
 
 bool MapEditorLevel::ResourceLoadEndCheck = false;
+EditorMode MapEditorLevel::CurEditorMode = EditorMode::None;
 
 MapEditorLevel::MapEditorLevel() :
-	EditorTileMap_(nullptr),
+	EditorFixedMap_(nullptr),
 	EditorRandomMap_(nullptr),
 	EditorModeSelWindow_(nullptr),
 	TileMapWindow_(nullptr),
@@ -34,12 +35,22 @@ MapEditorLevel::~MapEditorLevel()
 void MapEditorLevel::CreateLevelActor()
 {
 #pragma region TileTexture Cutting
+
+	// 마을맵 텍스쳐
 	GameEngineTexture* FloorTile = GameEngineTextureManager::GetInst().Find("Town_Floor.png");
 	FloorTile->Cut(5, 37);
 	GameEngineTexture* WallTile = GameEngineTextureManager::GetInst().Find("Town_Wall.png");
 	WallTile->Cut(31, 1);
 	GameEngineTexture* ObjectTile = GameEngineTextureManager::GetInst().Find("Town_Object.png");
 	ObjectTile->Cut(53, 1);
+
+	// 카타콤맵 텍스쳐
+
+
+	// 카오스생츄어리 텍스쳐
+
+
+
 
 	// 일반그리드
 	GameEngineTexture* FloorGridNor = GameEngineTextureManager::GetInst().Find("FloorGrid_Normal.png");
@@ -99,25 +110,19 @@ void MapEditorLevel::CreateLevelActor()
 	// OBJECT
 	GameEngineTexture* ObjectGrid = GameEngineTextureManager::GetInst().Find("ObjectGrid_Object.png");
 	ObjectGrid->Cut(1, 1);
-
 #pragma endregion
 
 #pragma region IsoFixedTileMap Create & Setting
-	EditorTileMap_ = CreateActor<EditorTileMap>();
-	TileMapWindow_->TileMap_ = EditorTileMap_;
-	EditorTileMap_->SetFloorTileTexture("Town_Floor.png");
-	EditorTileMap_->SetWallTileTexture("Town_Wall.png");
-	EditorTileMap_->SetObjectTileTexture("Town_Object.png");
+	EditorFixedMap_ = CreateActor<EditorTileMap>();
+	TileMapWindow_->TileMap_ = EditorFixedMap_;
+	EditorFixedMap_->SetFloorTileTexture("Town_Floor.png");
+	EditorFixedMap_->SetWallTileTexture("Town_Wall.png");
+	EditorFixedMap_->SetObjectTileTexture("Town_Object.png");
 #pragma endregion
 
 #pragma region RandomMap Create & Setting
 	EditorRandomMap_ = CreateActor<EditorRandomMap>();
-	TileMapWindow_->RandomMap_ = EditorRandomMap_;
-
-
-
-
-
+	RandomMapWindow_->RandomMap_ = EditorRandomMap_;
 
 
 #pragma endregion
@@ -227,35 +232,6 @@ void MapEditorLevel::LevelStart()
 
 void MapEditorLevel::LevelUpdate(float _DeltaTime)
 {
-#pragma region 그리드 ON/OFF
-	// 바닥타일 그리드 On/Off
-	if (true == GameEngineInput::GetInst().Down("FloorGrideSwitching"))
-	{
-		if (nullptr != EditorTileMap_)
-		{
-			EditorTileMap_->FloorGridesSwitching();
-		}
-	}
-
-	// 벽타일 그리드 On/Off
-	if (true == GameEngineInput::GetInst().Down("WallGrideSwitching"))
-	{
-		if (nullptr != EditorTileMap_)
-		{
-			EditorTileMap_->WallGridesSwitching();
-		}
-	}
-
-	// 오브젝트타일 그리드 On/Off
-	if (true == GameEngineInput::GetInst().Down("ObjectGrideSwitching"))
-	{
-		if (nullptr != EditorTileMap_)
-		{
-			EditorTileMap_->ObjectGridesSwitching();
-		}
-	}
-#pragma endregion
-
 #pragma region ResourceLoadingEndCheck
 	// 이미지 로딩이 완료되면 액터생성
 	if (false == ResourceLoadEndCheck && 0 >= UserGame::LoadingImageFolder)
@@ -269,6 +245,17 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 	{
 		return;
 	}
+
+#pragma region EditorModeCheck
+	if (EditorMode::Fixed == CurEditorMode)
+	{
+		FixedMapControlMode();
+	}
+	else if (EditorMode::Random == CurEditorMode)
+	{
+		RandomMapControlMode();
+	}
+#pragma endregion
 
 #pragma region 카메라이동 키체크
 	
@@ -292,34 +279,46 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		GetMainCameraActor()->GetTransform()->SetWorldMove(float4::RIGHT * MoveSpeed_ * _DeltaTime);
 	}
 #pragma endregion
+}
+
+void MapEditorLevel::FixedMapControlMode()
+{
+	// 고정맵 윈도우가 활성화 되어있고 현재 에디터 모드가 FixedMode일때 사용되는 컨트롤
+
+#pragma region 그리드 ON/OFF
+	// 바닥타일 그리드 On/Off
+	if (true == GameEngineInput::GetInst().Down("FloorGrideSwitching"))
+	{
+		if (nullptr != EditorFixedMap_)
+		{
+			EditorFixedMap_->FloorGridesSwitching();
+		}
+	}
+
+	// 벽타일 그리드 On/Off
+	if (true == GameEngineInput::GetInst().Down("WallGrideSwitching"))
+	{
+		if (nullptr != EditorFixedMap_)
+		{
+			EditorFixedMap_->WallGridesSwitching();
+		}
+	}
+
+	// 오브젝트타일 그리드 On/Off
+	if (true == GameEngineInput::GetInst().Down("ObjectGrideSwitching"))
+	{
+		if (nullptr != EditorFixedMap_)
+		{
+			EditorFixedMap_->ObjectGridesSwitching();
+		}
+	}
+#pragma endregion
 
 #pragma region 매뉴얼맵생성모드관련
 	// 타일생성
 	if (true == GameEngineInput::GetInst().Press("MouseLButton"))
 	{
 		CreateTileMapWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow<CreateTileMapWindow>("CreateTileMapWindow");
-
-		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
-
-		if (0 > WindowPos.x)
-		{
-			return;
-		}
-
-		if (0 > WindowPos.y)
-		{
-			return;
-		}
-
-		if (WindowPos.x > GameEngineWindow::GetInst().GetSize().x)
-		{
-			return;
-		}
-
-		if (WindowPos.y > GameEngineWindow::GetInst().GetSize().y)
-		{
-			return;
-		}
 
 		// 카메라 이동을 더한다.
 		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
@@ -328,37 +327,37 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		{
 			case TileType::FLOOR:
 			{
-				if (FloorRenderingType::TILE == EditorTileMap_->GetCurFloorRenderType())
+				if (FloorRenderingType::TILE == EditorFixedMap_->GetCurFloorRenderType())
 				{
-					EditorTileMap_->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorFixedMap_->SetFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				else
 				{
-					EditorTileMap_->SetFloorGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorFixedMap_->SetFloorGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				break;
 			}
 			case TileType::WALL:
 			{
-				if (WallRenderingType::TILE1 == EditorTileMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == EditorTileMap_->GetCurWallRenderType())
+				if (WallRenderingType::TILE1 == EditorFixedMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == EditorFixedMap_->GetCurWallRenderType())
 				{
-					EditorTileMap_->SetWallTile((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorFixedMap_->SetWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				else
 				{
-					EditorTileMap_->SetWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorFixedMap_->SetWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				break;
 			}
 			case TileType::OBJECT:
 			{
-				if (ObjectRenderingType::TILE == EditorTileMap_->GetCurObjectRenderType())
+				if (ObjectRenderingType::TILE == EditorFixedMap_->GetCurObjectRenderType())
 				{
-					EditorTileMap_->SetObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorFixedMap_->SetObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				else
 				{
-					EditorTileMap_->SetObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
+					EditorFixedMap_->SetObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos, Ptr->SelectTileIndex_);
 				}
 				break;
 			}
@@ -369,27 +368,6 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 	if (true == GameEngineInput::GetInst().Press("MouseRButton"))
 	{
 		CreateTileMapWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow<CreateTileMapWindow>("CreateTileMapWindow");
-		float4 WindowPos = GameEngineInput::GetInst().GetMousePos();
-
-		if (0 > WindowPos.x)
-		{
-			return;
-		}
-
-		if (0 > WindowPos.y)
-		{
-			return;
-		}
-
-		if (WindowPos.x > GameEngineWindow::GetInst().GetSize().x)
-		{
-			return;
-		}
-
-		if (WindowPos.y > GameEngineWindow::GetInst().GetSize().y)
-		{
-			return;
-		}
 
 		// 해당 위치의 인덱스 타일 목록에서 제거
 		float4 TilePos = GameEngineInput::GetInst().GetMouse3DPos();
@@ -398,42 +376,50 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		{
 			case TileType::FLOOR:
 			{
-				if (FloorRenderingType::TILE == EditorTileMap_->GetCurFloorRenderType())
+				if (FloorRenderingType::TILE == EditorFixedMap_->GetCurFloorRenderType())
 				{
-					EditorTileMap_->DelFloorTile((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorFixedMap_->DelFloorTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				else
 				{
-					EditorTileMap_->DelFloorGird((TilePos* GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorFixedMap_->DelFloorGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				break;
 			}
 			case TileType::WALL:
 			{
-				if (WallRenderingType::TILE1 == EditorTileMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == EditorTileMap_->GetCurWallRenderType())
+				if (WallRenderingType::TILE1 == EditorFixedMap_->GetCurWallRenderType() || WallRenderingType::TILE2 == EditorFixedMap_->GetCurWallRenderType())
 				{
-					EditorTileMap_->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorFixedMap_->DelWallTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				else
 				{
-					EditorTileMap_->DelWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorFixedMap_->DelWallGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				break;
 			}
 			case TileType::OBJECT:
 			{
-				if (ObjectRenderingType::TILE == EditorTileMap_->GetCurObjectRenderType())
+				if (ObjectRenderingType::TILE == EditorFixedMap_->GetCurObjectRenderType())
 				{
-					EditorTileMap_->DelObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorFixedMap_->DelObjectTile((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				else
 				{
-					EditorTileMap_->DelObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
+					EditorFixedMap_->DelObjectGird((TilePos * GetMainCamera()->GetZoomValue()) + CameraPos);
 				}
 				break;
 			}
 		}
 	}
-
 #pragma endregion
+}
+
+void MapEditorLevel::RandomMapControlMode()
+{
+	// 랜덤맵 윈도우가 활성화 되어있고 현재 에디터 모드가 RandomMode일때 사용되는 컨트롤
+
+
+
+
 }

@@ -1,12 +1,6 @@
 #include "PreCompile.h"
 #include "EditorRandomMap.h"
 
-bool EditorRandomMap::FirstRandomLoad_ = false;
-std::vector<int> EditorRandomMap::IgnoreRange;
-std::vector<std::vector<float4>> EditorRandomMap::RandomRange;
-std::vector<std::vector<int>> EditorRandomMap::RandomReversRange;
-std::vector<std::vector<int>> EditorRandomMap::RandomNextRange;
-
 EditorRandomMap::EditorRandomMap()
 {
 }
@@ -17,115 +11,101 @@ EditorRandomMap::~EditorRandomMap()
 
 void EditorRandomMap::Start()
 {
-	RandomStartPos_.clear();
-	RandomStartPos_ = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
+	// 타일
+	TileSize_ = float4(160.f, 80.f);
+	TileSizeHalf_ = TileSize_.halffloat4();
+	TileSizeHHalf_ = TileSizeHalf_.halffloat4();
 
-	IgnoreRange.resize(4);
-	RandomNextRange.resize(4);
-	RandomRange = { {float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN},
-					{float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN},
-					{float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN},
-					{float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN}, };
-	RandomReversRange = { {1, 0, 3, 2},
-						  {1, 0, 3, 2},
-						  {1, 0, 3, 2},
-						  {1, 0, 3, 2}, };
+	// 바닥타일
+	FloorTileImageSize_ = { 160.0f, 80.f };
+	FloorTileImageSizeHalf_ = FloorTileImageSize_.halffloat4();
+	FloorTileIndexPivotPos_ = { 0.0f, -TileSizeHalf_.y };
+
+	// 벽타일
+	WallTileImageSize_ = { 160.0f, 320.f };
+	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
+	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y };
+
+	// 오브젝트타일
+	ObjectTileImageSize_ = { 160.0f, 320.f };
+	ObjectTileImageSizeHalf_ = ObjectTileImageSize_.halffloat4();
+	ObjectTileIndexPivotPos_ = { 0.0f, TileSize_.y };
 }
 
-
-void EditorRandomMap::RandomRoad(int _Count, bool _Multidirectional)
+TileIndex EditorRandomMap::GetFloorTileIndex(float4 _Pos)
 {
-	//if (false == _Multidirectional) // 한방향 랜덤 로드(길) 생성
-	//{
-	//	for (int i = 0; i < 4; i++)
-	//	{
-	//		if (i == IgnoreRange[0])
-	//		{
-	//			continue;
-	//		}
+	TileIndex Index = {};
 
-	//		RandomNextRange[0].push_back(i);
-	//	}
+	float RatioX = ((_Pos.x / TileSizeHalf_.x) - (_Pos.y / TileSizeHalf_.y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSizeHalf_.y) + (_Pos.x / TileSizeHalf_.x)) / -2.0f;
 
-	//	int DirIndex = RandomNextRange[0][Random_.RandomInt(0, static_cast<int>(RandomNextRange[0].size()) - 1)];
+	if (0 > RatioX)
+	{
+		RatioX += -1.f;
+	}
 
-	//	float4 Dir = RandomRange[0][DirIndex];
+	if (0 > RatioY)
+	{
+		RatioY += -1.f;
+	}
 
-	//	for (size_t i = 0; i < _Count; i++)
-	//	{
-	//		SetFloorTile(TileIndex{ RandomStartPos_[0].ix(), RandomStartPos_[0].iy() }, 0);
-	//		RandomStartPos_[0] += Dir;
-	//	}
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
 
-	//	IgnoreRange[0] = RandomReversRange[0][DirIndex];
-	//	RandomNextRange[0].clear();
-	//}
-	//else // 다방향 랜덤 로드(길) 생성
-	//{
-	//	if (false == FirstRandomLoad_)
-	//	{
-	//		// 최초 생성 Flag On
-	//		FirstRandomLoad_ = true;
+	return Index;
+}
 
-	//		// 최초 생성되었으므로 최대 4방향 랜덤 로드 생성
-	//		for (int i = 0; i < 4; ++i)
-	//		{
-	//			RandomNextRange[i].push_back(i);
-	//		}
+TileIndex EditorRandomMap::GetWallTileIndex(float4 _Pos)
+{
+	TileIndex Index = {};
 
-	//		std::vector<int> DirIndex = { {-1}, {-1}, {-1}, {-1}, };
-	//		std::vector<float4> Dir = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
+	float RatioX = ((_Pos.x / TileSizeHHalf_.x) - (_Pos.y / TileSizeHHalf_.y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSizeHHalf_.y) + (_Pos.x / TileSizeHHalf_.x)) / -2.0f;
 
-	//		for (int i = 0; i < 4; ++i)
-	//		{
-	//			DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
-	//			Dir[i] = RandomRange[i][DirIndex[i]];
-	//			SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() }, 0);
-	//			RandomStartPos_[i] += Dir[i];
-	//		}
+	if (0 > RatioX)
+	{
+		RatioX += -0.5f;
+	}
+	else
+	{
+		RatioX += 0.5f;
+	}
 
-	//		for (int i = 0; i < 4; ++i)
-	//		{
-	//			IgnoreRange[i] = RandomReversRange[i][DirIndex[i]];
-	//			RandomNextRange[i].clear();
-	//		}
+	if (0 > RatioY)
+	{
+		RatioY += -0.5f;
+	}
+	else
+	{
+		RatioY += 0.5f;
+	}
 
-	//		DirIndex.clear();
-	//		Dir.clear();
-	//	}
-	//	else
-	//	{
-	//		// 최대 3방향 랜덤 로드 생성
-	//		for (int i = 0; i < 4; ++i)
-	//		{
-	//			for (int j = 0; j < 3; j++)
-	//			{
-	//				if (j == IgnoreRange[i])
-	//				{
-	//					continue;
-	//				}
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
 
-	//				RandomNextRange[i].push_back(j);
-	//			}
-	//		}
+	return Index;
+}
 
-	//		std::vector<int> DirIndex = { {-1}, {-1}, {-1}, {-1}, };
-	//		std::vector<float4> Dir = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
+void EditorRandomMap::CreateSplitDungeon(int _TotalMapSizeX, int _TotalMapSizeY)
+{
 
-	//		for (int i = 0; i < 4; ++i)
-	//		{
-	//			DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
-	//			Dir[i] = RandomRange[i][DirIndex[i]];
-	//			SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() }, 0);
-	//			RandomStartPos_[i] += Dir[i];
 
-	//			IgnoreRange[i] = RandomReversRange[i][DirIndex[i]];
-	//			RandomNextRange[i].clear();
-	//		}
 
-	//		DirIndex.clear();
-	//		Dir.clear();
-	//	}
-	//}
+}
+
+void EditorRandomMap::CreateRoomintheDungeon()
+{
+}
+
+void EditorRandomMap::ConnectTheRoom()
+{
+}
+
+void EditorRandomMap::CreateWall()
+{
+}
+
+void EditorRandomMap::RandomMapTileMatching()
+{
 }
 

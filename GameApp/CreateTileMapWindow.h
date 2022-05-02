@@ -14,12 +14,10 @@ enum class TileType
 // Ό³Έν : 
 class CameraComponent;
 class EditorTileMap;
-class EditorRandomMap;
 class CreateTileMapWindow : public GameEngineGUIWindow
 {
 public:
 	EditorTileMap* TileMap_;
-	EditorRandomMap* RandomMap_;
 
 public:
 	float Zoom_;
