@@ -105,5 +105,6 @@ public:
 
 public: // 
 	void RandomRoad(int _Count, bool _Multidirectional = false);
+	void RandomRoom(int _minIndexX, int _maxIndexX, int _minIndexY, int _maxIndexY);
 };
 

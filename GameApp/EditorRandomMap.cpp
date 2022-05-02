@@ -299,3 +299,8 @@ void EditorRandomMap::RandomRoad(int _Count, bool _Multidirectional)
 		}
 	}
 }
+
+void EditorRandomMap::RandomRoom(int _minIndexX, int _maxIndexX, int _minIndexY, int _maxIndexY)
+{
+
+}
