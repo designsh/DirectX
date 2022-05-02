@@ -6,7 +6,9 @@
 // Ό³Έν : 
 class EditorTileMap;
 class EditorRandomMap;
+class EditorModeSelectWindow;
 class CreateTileMapWindow;
+class CreateRandomMapWindow;
 class MapEditorLevel : public GameEngineLevel
 {
 private:
@@ -17,7 +19,9 @@ private:	// member Var
 	EditorRandomMap* EditorRandomMap_;
 
 private: // Window
+	EditorModeSelectWindow* EditorModeSelWindow_;
 	CreateTileMapWindow* TileMapWindow_;
+	CreateRandomMapWindow* RandomMapWindow_;
 
 private:
 	float MoveSpeed_;

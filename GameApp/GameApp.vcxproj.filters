@@ -308,6 +308,12 @@
     <ClCompile Include="EditorRandomMap.cpp">
       <Filter>Object\Actor\99.Editor</Filter>
     </ClCompile>
+    <ClCompile Include="EditorModeSelectWindow.cpp">
+      <Filter>Object\Actor\99.Editor\00.EditorModeSelectWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateRandomMapWindow.cpp">
+      <Filter>Object\Actor\99.Editor\02.CreateRandomMapWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -754,6 +760,12 @@
     <Filter Include="Object\Actor\00.Global\99.Popup\01.TakeInOutGoldPopup">
       <UniqueIdentifier>{e11a90a8-cf8d-4da9-af1d-93173a3b9243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\99.Editor\00.EditorModeSelectWindow">
+      <UniqueIdentifier>{485e5195-274b-4062-98c2-ccf77b690793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\99.Editor\02.CreateRandomMapWindow">
+      <UniqueIdentifier>{cb440aaa-6283-4a43-93fe-5041665f97a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -1016,6 +1028,12 @@
     </ClInclude>
     <ClInclude Include="EditorRandomMap.h">
       <Filter>Object\Actor\99.Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorModeSelectWindow.h">
+      <Filter>Object\Actor\99.Editor\00.EditorModeSelectWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateRandomMapWindow.h">
+      <Filter>Object\Actor\99.Editor\02.CreateRandomMapWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

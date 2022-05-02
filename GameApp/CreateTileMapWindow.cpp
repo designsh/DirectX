@@ -566,29 +566,6 @@ void CreateTileMapWindow::OnGUI()
 
 	ImGui::Text("");
 
-#pragma region 랜덤맵생성모드관련
-	ImGui::Text("<<< Create RandomMap Mode Related >>>");
-
-	if (true == ImGui::Button("Random_OneRoad", ImVec2(140.f, 30.f)))
-	{
-		GameEngineRandom Random;
-
-		RandomMap_->RandomRoad(Random.RandomInt(3, 10));
-	}
-
-	ImGui::SameLine();
-
-	if (true == ImGui::Button("Random_MultiRoad", ImVec2(140.f, 30.f)))
-	{
-		GameEngineRandom Random;
-
-		RandomMap_->RandomRoad(Random.RandomInt(3, 10), true);
-	}
-
-#pragma endregion
-
-	ImGui::Text("");
-
 #pragma region 맵파일저장/로드 관련
 	ImGui::Text("<<< MAP FILE SAVE & LOAD >>>");
 	if (true == ImGui::Button("SAVE", ImVec2(140.f, 20.f)))

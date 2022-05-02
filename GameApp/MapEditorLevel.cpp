@@ -1,7 +1,10 @@
 #include "PreCompile.h"
 #include "MapEditorLevel.h"
 
+#include "EditorModeSelectWindow.h"
 #include "CreateTileMapWindow.h"
+#include "CreateRandomMapWindow.h"
+
 #include "EditorTileMap.h"
 #include "EditorRandomMap.h"
 #include "UserGame.h"
@@ -17,7 +20,9 @@ bool MapEditorLevel::ResourceLoadEndCheck = false;
 MapEditorLevel::MapEditorLevel() :
 	EditorTileMap_(nullptr),
 	EditorRandomMap_(nullptr),
+	EditorModeSelWindow_(nullptr),
 	TileMapWindow_(nullptr),
+	RandomMapWindow_(nullptr),
 	MoveSpeed_(1000.f)
 {
 }
@@ -120,19 +125,39 @@ void MapEditorLevel::CreateLevelActor()
 
 void MapEditorLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
-	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
-	if (nullptr != Ptr)
 	{
-		Ptr->Off();
+		GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("EditorModeSelectWindow");
+		if (nullptr != Ptr)
+		{
+			Ptr->Off();
+		}
+	}
+
+	{
+		GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
+		if (nullptr != Ptr)
+		{
+			Ptr->Off();
+		}
+	}
+
+	{
+		GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateRandomMapWindow");
+		if (nullptr != Ptr)
+		{
+			Ptr->Off();
+		}
 	}
 }
 
 void MapEditorLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
-	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("CreateTileMapWindow");
-	if (nullptr != Ptr)
 	{
-		Ptr->On();
+		GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("EditorModeSelectWindow");
+		if (nullptr != Ptr)
+		{
+			Ptr->On();
+		}
 	}
 }
 
@@ -143,10 +168,18 @@ void MapEditorLevel::LevelStart()
 	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
 #pragma endregion
 
-#pragma region Editor Window
+#pragma region Editor Windows
+	// Edit Mode Select Window
+	EditorModeSelWindow_ = GameEngineGUI::GetInst()->CreateGUIWindow<EditorModeSelectWindow>("EditorModeSelectWindow");
+	EditorModeSelWindow_->Off();
+
 	// CreateTileMap Window
 	TileMapWindow_ = GameEngineGUI::GetInst()->CreateGUIWindow<CreateTileMapWindow>("CreateTileMapWindow");
 	TileMapWindow_->Off();
+
+	// CreateRandomMap Window
+	RandomMapWindow_ = GameEngineGUI::GetInst()->CreateGUIWindow<CreateRandomMapWindow>("CreateRandomMapWindow");
+	RandomMapWindow_->Off();
 #pragma endregion
 
 #pragma region CreateKey
