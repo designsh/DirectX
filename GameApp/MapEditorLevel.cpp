@@ -204,14 +204,6 @@ void MapEditorLevel::LevelStart()
 	}
 #pragma endregion
 
-#pragma region 테스트키
-	//// 테스트키 생성
-	//if (false == GameEngineInput::GetInst().IsKey("FreeCamera"))
-	//{
-	//	GameEngineInput::GetInst().CreateKey("FreeCamera", 'p');
-	//}
-#pragma endregion
-
 #pragma region 그리드 ON/OFF
 	// 바닥타일 그리드 On/Off
 	if (false == GameEngineInput::GetInst().IsKey("FloorGrideSwitching"))
@@ -299,7 +291,6 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 	{
 		GetMainCameraActor()->GetTransform()->SetWorldMove(float4::RIGHT * MoveSpeed_ * _DeltaTime);
 	}
-
 #pragma endregion
 
 #pragma region 매뉴얼맵생성모드관련
@@ -444,30 +435,5 @@ void MapEditorLevel::LevelUpdate(float _DeltaTime)
 		}
 	}
 
-#pragma endregion
-
-#pragma region 자동맵생성모드관련
-
-
-
-
-
-#pragma endregion
-
-#pragma region 랜덤맵생성모드관련
-
-
-
-
-
-
-
-#pragma endregion
-
-#pragma region 테스트키
-	if (true == GameEngineInput::GetInst().Down("FreeCamera"))
-	{
-		//GetMainCameraActor()->FreeCameraModeSwitch();
-	}
 #pragma endregion
 }
