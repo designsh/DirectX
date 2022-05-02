@@ -37,20 +37,26 @@ void MapEditorLevel::CreateLevelActor()
 #pragma region TileTexture Cutting
 
 	// 마을맵 텍스쳐
-	GameEngineTexture* FloorTile = GameEngineTextureManager::GetInst().Find("Town_Floor.png");
-	FloorTile->Cut(5, 37);
-	GameEngineTexture* WallTile = GameEngineTextureManager::GetInst().Find("Town_Wall.png");
-	WallTile->Cut(31, 1);
-	GameEngineTexture* ObjectTile = GameEngineTextureManager::GetInst().Find("Town_Object.png");
-	ObjectTile->Cut(53, 1);
+	GameEngineTexture* TownFloorTile = GameEngineTextureManager::GetInst().Find("Town_Floor.png");
+	TownFloorTile->Cut(5, 37);
+	GameEngineTexture* TownWallTile = GameEngineTextureManager::GetInst().Find("Town_Wall.png");
+	TownWallTile->Cut(31, 1);
+	GameEngineTexture* TownObjectTile = GameEngineTextureManager::GetInst().Find("Town_Object.png");
+	TownObjectTile->Cut(53, 1);
 
 	// 카타콤맵 텍스쳐
-
+	GameEngineTexture* CatacombsFloorTile = GameEngineTextureManager::GetInst().Find("Catacombs_Floor.png");
+	CatacombsFloorTile->Cut(5, 15);
+	GameEngineTexture* CatacombsWallTile = GameEngineTextureManager::GetInst().Find("Catacombs_Wall.png");
+	CatacombsWallTile->Cut(47, 1);
+	GameEngineTexture* CatacombsObjectTile = GameEngineTextureManager::GetInst().Find("Catacombs_Object.png");
+	CatacombsObjectTile->Cut(25, 1);
 
 	// 카오스생츄어리 텍스쳐
-
-
-
+	GameEngineTexture* ChaosSanctuaryFloorTile = GameEngineTextureManager::GetInst().Find("ChaosSanctuary_Floor.png");
+	ChaosSanctuaryFloorTile->Cut(5, 59);
+	GameEngineTexture* ChaosSanctuaryWallTile = GameEngineTextureManager::GetInst().Find("ChaosSanctuary_Wall.png");
+	ChaosSanctuaryWallTile->Cut(47, 1);
 
 	// 일반그리드
 	GameEngineTexture* FloorGridNor = GameEngineTextureManager::GetInst().Find("FloorGrid_Normal.png");
