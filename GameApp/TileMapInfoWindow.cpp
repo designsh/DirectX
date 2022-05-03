@@ -3,7 +3,7 @@
 
 #include <GameEngine/GameEngineCore.h>
 
-#include "TileMap_Common.h"
+#include "FixedTileMap_Common.h"
 #include "GlobalValue.h"
 #include "TownMap.h"
 
