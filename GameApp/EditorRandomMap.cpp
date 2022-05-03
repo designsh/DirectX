@@ -433,6 +433,12 @@ bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex)
 	if (MapInfo_.minIndexX_ <= RoomStartX && MapInfo_.maxIndexX_ > RoomEndX &&
 		MapInfo_.minIndexY_ <= RoomStartY && MapInfo_.maxIndexY_ > RoomEndY)
 	{
+		// 이전 룸과 겹쳐지지않는 인덱스 목록이라면 생성가능
+
+
+
+
+
 		// 룸에 정보 저장
 		RandomRoomInfo NewRoom = {};
 		NewRoom.TileType_ = RandomMapTileType::ROOM;
