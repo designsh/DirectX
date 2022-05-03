@@ -3,17 +3,28 @@
 
 #include <GameEngine/GameEngineTileMapRenderer.h>
 
+// Catacombs / ChaosSanctuary
+LevelType EditorRandomMap::CurLevelType = LevelType::None;
+
 bool EditorRandomMap::FirstRandomLoad_ = false;
 std::vector<int> EditorRandomMap::IgnoreRange;
 std::vector<std::vector<float4>> EditorRandomMap::RandomRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomReversRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomNextRange;
 
-LevelType EditorRandomMap::CurLevelType = LevelType::None;
-
 EditorRandomMap::EditorRandomMap() :
 	SelectFloorTileIndex_(0),
-	SelectWallTileIndex_(0)
+	SelectWallTileIndex_(0),
+	MapInfo_(),
+	MapMinIndexX_(),
+	MapMinIndexY_(),
+	MapMaxIndexX_(),
+	MapMaxIndexY_(),
+	RoomCnt_(0),
+	minIndexX_(0),
+	minIndexY_(0),
+	maxIndexX_(0),
+	maxIndexY_(0)
 {
 }
 
@@ -215,7 +226,7 @@ void EditorRandomMap::RandomRoad(int _Count, bool _Multidirectional)
 			RandomNextRange[0].push_back(i);
 		}
 
-		int DirIndex = RandomNextRange[0][Random_.RandomInt(0, static_cast<int>(RandomNextRange[0].size()) - 1)];
+		int DirIndex = RandomNextRange[0][RoadRandom_.RandomInt(0, static_cast<int>(RandomNextRange[0].size()) - 1)];
 
 		float4 Dir = RandomRange[0][DirIndex];
 
@@ -248,7 +259,7 @@ void EditorRandomMap::RandomRoad(int _Count, bool _Multidirectional)
 			{
 				for (int j = 0; j < _Count; ++j)
 				{
-					DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
+					DirIndex[i] = RandomNextRange[i][RoadRandom_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
 					Dir[i] = RandomRange[i][DirIndex[i]];
 					SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() }, SelectFloorTileIndex_);
 					RandomStartPos_[i] += Dir[i];
@@ -287,7 +298,7 @@ void EditorRandomMap::RandomRoad(int _Count, bool _Multidirectional)
 			{
 				for (int j = 0; j < _Count; ++j)
 				{
-					DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
+					DirIndex[i] = RandomNextRange[i][RoadRandom_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
 					Dir[i] = RandomRange[i][DirIndex[i]];
 					SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() }, SelectFloorTileIndex_);
 					RandomStartPos_[i] += Dir[i];
@@ -306,14 +317,253 @@ void EditorRandomMap::RandomRoad(int _Count, bool _Multidirectional)
 	}
 }
 
-void EditorRandomMap::RandomRoom(int _minIndexX, int _maxIndexX, int _minIndexY, int _maxIndexY)
+void EditorRandomMap::TotalMapScale(int _MaxIndexX, int _MaxIndexY)
 {
-	// min ~ max까지 랜덤으로 방의 크기를 결정
+	// 인덱스를 이용하여 현재 맵의 범위를 계산
+	
+	// 기존 맵범위 그리드 Clear
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsStartIter = MapMaxScale_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsEndIter = MapMaxScale_.end();
+	for (; GridsStartIter != GridsEndIter; ++GridsStartIter)
+	{
+		// 세컨드 데스처리
+		(*GridsStartIter).second->Death();
+	}
+	MapMaxScale_.clear();
 
+	// 맵 정보 저장
+	if (_MaxIndexX % 2 == 0)
+	{
+		MapInfo_.minIndexY_ = -(_MaxIndexX / 2);
+		MapInfo_.maxIndexY_ = _MaxIndexX / 2;
+	}
+	else
+	{
+		MapInfo_.minIndexY_ = -(_MaxIndexX / 2);
+		MapInfo_.maxIndexY_ = (_MaxIndexX / 2) + 1;
+	}
 
+	if (_MaxIndexY % 2 == 0)
+	{
+		MapInfo_.minIndexX_ = -(_MaxIndexY / 2);
+		MapInfo_.maxIndexX_ = _MaxIndexY / 2;
+	}
+	else
+	{
+		MapInfo_.minIndexX_ = -(_MaxIndexY / 2);
+		MapInfo_.maxIndexX_ = (_MaxIndexY / 2) + 1;
+	}
 
+	// 현재 맵 범위의 그리드로 렌더링
+	for (int y = MapInfo_.minIndexY_; y < MapInfo_.maxIndexY_; ++y)
+	{
+		for (int x = MapInfo_.minIndexX_; x < MapInfo_.maxIndexX_; ++x)
+		{
+			float4 Pos = float4::ZERO;
+			Pos.x = (x - y) * TileSizeHalf_.x;
+			Pos.y = (x + y) * -TileSizeHalf_.y;
 
+			GameEngineTileMapRenderer* MapMaxRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+			MapMaxRenderer->SetImage("RandomMapGrid.png");
+			MapMaxRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+			MapMaxRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+			MapMaxScale_.insert(std::make_pair(TileIndex(x, y).Index_, MapMaxRenderer));
+		}
+	}
+}
 
+void EditorRandomMap::RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex)
+{
+	// 생성하려는 룸 갯수에 따라 처리
+	if (0 >= _RoomCnt)
+	{
+		// 사용자가 원하는 시점에 방생성
+		CreateRoomManual(_WidthIndex, _HeightIndex);
+	}
+	else
+	{
+		// 사용자의 한번의 동작으로 모든 룸을 생성 및 배치
+		RoomCnt_ = _RoomCnt;
+		CreateRoomAuto(_WidthIndex, _HeightIndex);
+	}
+}
 
+bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex)
+{
+	// 너비/높이 랜덤 지정(최소 맵크기 2x2)
+	int RandomWidth = RoomRandom_.RandomInt(2, _WidthIndex);
+	int RandomHeight = RoomRandom_.RandomInt(2, _HeightIndex);
 
+	// 현재 맵 제한 범위의 랜덤한 위치에 룸의 센터 생성
+	int CenterIndexX = RoomRandom_.RandomInt(MapInfo_.minIndexX_, MapInfo_.maxIndexX_);
+	int CenterIndexY = RoomRandom_.RandomInt(MapInfo_.minIndexY_, MapInfo_.maxIndexY_);
+
+	// 현재 지정된 센터 인덱스를 기준으로 너비/높이의 방의 크기가 배치가능한지 판단
+	int RoomStartX = 0;
+	int RoomEndX = 0;
+	int RoomStartY = 0;
+	int RoomEndY = 0;
+	if (RandomWidth % 2 == 0)
+	{
+		RoomStartY = -(RandomWidth / 2);
+		RoomEndY = RandomWidth / 2;
+	}
+	else
+	{
+		RoomStartY = -(RandomWidth / 2);
+		RoomEndY = (RandomWidth / 2) + 1;
+	}
+
+	if (RandomHeight % 2 == 0)
+	{
+		RoomStartX = -(RandomHeight / 2);
+		RoomEndX = RandomHeight / 2;
+	}
+	else
+	{
+		RoomStartX = -(RandomHeight / 2);
+		RoomEndX = (RandomHeight / 2) + 1;
+	}
+
+	// 현재 생성한 룸의센터 기준인덱스로 변환
+	RoomStartX += CenterIndexX;
+	RoomEndX += CenterIndexX;
+	RoomStartY += CenterIndexY;
+	RoomEndY += CenterIndexY;
+	if (MapInfo_.minIndexX_ <= RoomStartX && MapInfo_.maxIndexX_ > RoomEndX &&
+		MapInfo_.minIndexY_ <= RoomStartY && MapInfo_.maxIndexY_ > RoomEndY)
+	{
+		// 룸에 정보 저장
+		RandomRoomInfo NewRoom = {};
+		NewRoom.TileType_ = RandomMapTileType::ROOM;
+		NewRoom.RoomNo_ = RoomCnt_ + 1;
+
+		// 현재 생성된 룸의 범위
+		NewRoom.minIndexX_ = RoomStartX;
+		NewRoom.maxIndexX_ = RoomEndX;
+		NewRoom.minIndexY_ = RoomStartY;
+		NewRoom.maxIndexY_ = RoomEndY;
+
+		// 현재 생성된 룸의 센터
+		NewRoom.RoomCenterIndex_ = TileIndex(CenterIndexX, CenterIndexY);
+
+		// 현재 생성된 룸의 크기
+		NewRoom.WidthIndex_ = RandomWidth;
+		NewRoom.HeightIndex_ = RandomHeight;
+
+		MapInfo_.RoomInfo_.push_back(NewRoom);
+
+		return true;
+	}
+
+	return false;
+}
+
+void EditorRandomMap::CreateRoomAuto(int _WidthIndex, int _HeightIndex)
+{
+	int RoomCnt = RoomCnt_;
+	while (0 < RoomCnt)
+	{
+		// 자동으로 룸 갯수만큼 생성
+		if(false == RoomArrangeCheck(_WidthIndex, _HeightIndex))
+		{
+			// 룸 생성 실패로 리턴
+			continue;
+		}
+
+		--RoomCnt;
+	}
+
+	// 자동으로 생성된 룸을 화면에 렌더링
+
+}
+
+void EditorRandomMap::RenderingAutoRoom()
+{
+}
+
+void EditorRandomMap::CreateRoomManual(int _WidthIndex, int _HeightIndex)
+{
+	// 동작마다 룸 생성
+
+	// 현재 생성되는 룸이 현재 맵의 제한범위내 존재하는지 체크
+	if(false == RoomArrangeCheck(_WidthIndex, _HeightIndex))
+	{
+		// 룸 생성 실패로 리턴
+		return;
+	}
+
+	// 생성된 룸의 정보를 이용하여 화면에 렌더링
+	RenderingManualRoom();
+
+	// 생성된 룸갯수 갱신
+	++RoomCnt_;
+}
+
+void EditorRandomMap::RenderingManualRoom()
+{
+	// 룸정보를 이용하여 화면에 렌더링
+	RoomRender NewRoomRenderer = {};
+
+	RandomRoomInfo CurRoomInfo = MapInfo_.RoomInfo_[RoomCnt_];
+	for (int y = CurRoomInfo.minIndexY_; y < CurRoomInfo.maxIndexY_; ++y)
+	{
+		for (int x = CurRoomInfo.minIndexX_; x < CurRoomInfo.maxIndexX_; ++x)
+		{
+			float4 Pos = float4::ZERO;
+			Pos.x = (x - y) * TileSizeHalf_.x;
+			Pos.y = (x + y) * -TileSizeHalf_.y;
+
+			GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+			NewRenderer->SetImage(FloorTileTextureName_);
+			NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+			NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+			NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
+			NewRenderer->SetIndex(SelectFloorTileIndex_);
+			NewRoomRenderer.TileRenderer_.insert(std::make_pair(TileIndex(x, y).Index_, NewRenderer));
+		}
+	}
+
+	RoomRenderer_.push_back(NewRoomRenderer);
+}
+
+void EditorRandomMap::AllRoomClear()
+{
+	// 방정보 제거
+	std::vector<RandomRoomInfo>::iterator StartIter = MapInfo_.RoomInfo_.begin();
+	std::vector<RandomRoomInfo>::iterator EndIter = MapInfo_.RoomInfo_.end();
+	for (; StartIter != EndIter;)
+	{
+		MapInfo_.RoomInfo_.erase(StartIter);
+		StartIter = MapInfo_.RoomInfo_.begin();
+		EndIter = MapInfo_.RoomInfo_.end();
+	}
+	MapInfo_.RoomInfo_.clear();
+
+	// 방 렌더러 제거
+	for (int i = 0; i < static_cast<int>(RoomRenderer_.size()); ++i)
+	{
+		// 렌더러 삭제
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = RoomRenderer_[i].TileRenderer_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = RoomRenderer_[i].TileRenderer_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			// 세컨드 데스처리
+			(*StartIter).second->Death();
+		}
+		RoomRenderer_[i].TileRenderer_.clear();
+	}
+
+	std::vector<RoomRender>::iterator RendererStartIter = RoomRenderer_.begin();
+	std::vector<RoomRender>::iterator RendererEndIter = RoomRenderer_.end();
+	for (; RendererStartIter != RendererEndIter;)
+	{
+		RoomRenderer_.erase(RendererStartIter);
+		RendererStartIter = RoomRenderer_.begin();
+		RendererEndIter = RoomRenderer_.end();
+	}
+	RoomRenderer_.clear();
+
+	// 룸 갯수 초기화
+	RoomCnt_ = 0;
 }

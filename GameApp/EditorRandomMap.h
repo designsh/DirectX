@@ -11,12 +11,21 @@ enum class LevelType
 	ChaosSanctuary,
 };
 
+class GameEngineTileMapRenderer;
+struct RoomRender
+{
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> TileRenderer_;
+};
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
 class GameEngineTileMapRenderer;
 class EditorRandomMap : public GameEngineActor
 {
+public:
+	static LevelType CurLevelType;
+
 private:
 	static bool FirstRandomLoad_;
 	static std::vector<int> IgnoreRange;
@@ -25,11 +34,27 @@ private:
 	static std::vector<std::vector<int>> RandomNextRange;
 
 private:
-	GameEngineRandom Random_;
+	GameEngineRandom RoadRandom_;
 	std::vector<float4> RandomStartPos_;
 
-public:
-	static LevelType CurLevelType;
+private: // 랜덤맵 정보관련
+	RandomMapInfo MapInfo_;
+
+private: // 맵 크기관련
+	TileIndex MapMinIndexX_;
+	TileIndex MapMaxIndexX_;
+	TileIndex MapMinIndexY_;
+	TileIndex MapMaxIndexY_;
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> MapMaxScale_;
+
+private: // 룸 생성관련
+	GameEngineRandom RoomRandom_;
+	int RoomCnt_;
+	int minIndexX_;
+	int minIndexY_;
+	int maxIndexX_;
+	int maxIndexY_;
+	std::vector<RoomRender> RoomRenderer_;
 
 public:
 	int SelectFloorTileIndex_;
@@ -78,7 +103,7 @@ public: // 텍스쳐 셋팅
 	void CatacombsTextrueSetting();
 	void ChaosSanctuaryTextrueSetting();
 
-public:
+public: // 텍스쳐 Get
 	inline GameEngineTexture* GetFloorTileTexture()
 	{
 		return GameEngineTextureManager::GetInst().Find(FloorTileTextureName_);
@@ -105,6 +130,23 @@ public:
 
 public: // 
 	void RandomRoad(int _Count, bool _Multidirectional = false);
-	void RandomRoom(int _minIndexX, int _maxIndexX, int _minIndexY, int _maxIndexY);
+
+public: // 랜덤맵 제한범위 관련
+	void TotalMapScale(int _MaxIndexX, int _MaxIndexY);										// 현재 생성하려는 맵의 크기를 결정
+
+public: // 룸 관련
+	void RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex);						// 현재 생성하려는 맵의 방을 배치하기 위하여 기본정보 저장
+	bool RoomArrangeCheck(int _WidthIndex, int _HeightIndex);								// 현재 생성하려는 룸이 생성가능한지 체크하여 가능하다면 인덱스반환
+
+	// 룸 자동생성
+	void CreateRoomAuto(int _WidthIndex, int _HeightIndex);									// _RoomCnt가 0이 아니면 자동으로 갯수만큼 생성(정보생성)
+	void RenderingAutoRoom();																// 자동으로 생성된 룸을 모두 렌더링
+
+	// 룸 수동생성
+	void CreateRoomManual(int _WidthIndex, int _HeightIndex);								// _RoomCnt가 0이면 해당 동작 수행할때마다 룸을 생성(정보생성)
+	void RenderingManualRoom();																// 화면에서 확인하기 위하여 생성된 룸 정보를 이용하여 화면에 렌더링
+
+	// 모든 룸 정보 및 렌더러 제거
+	void AllRoomClear();																	// 
 };
 

@@ -59,6 +59,8 @@ void MapEditorLevel::CreateLevelActor()
 	ChaosSanctuaryWallTile->Cut(47, 1);
 
 	// 일반그리드
+	GameEngineTexture* MapGridNor = GameEngineTextureManager::GetInst().Find("RandomMapGrid.png");
+	MapGridNor->Cut(1, 1);
 	GameEngineTexture* FloorGridNor = GameEngineTextureManager::GetInst().Find("FloorGrid_Normal.png");
 	FloorGridNor->Cut(1, 1);
 	GameEngineTexture* WallGridNor = GameEngineTextureManager::GetInst().Find("WallGrid_Normal.png");

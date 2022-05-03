@@ -11,7 +11,12 @@ CreateRandomMapWindow::CreateRandomMapWindow() :
 	RandomMap_(nullptr),
 	Zoom_(1.0f),
 	ZoomMin_(0.1f),
-	ZoomMax_(5.0f)
+	ZoomMax_(5.0f),
+	MaxIndexX_(0),
+	MaxIndexY_(0),
+	RoomCnt_(0),
+	RoomWidth_(0),
+	RoomHeight_(0)
 {
 }
 
@@ -53,6 +58,13 @@ void CreateRandomMapWindow::OnGUI()
 
 #pragma region 랜덤맵생성관련
 	ImGui::Text("<<< Create RandomMap Function >>>");
+
+	ImGui::Text("");
+	ImGui::Text("0. All Room Clear");
+	if (true == ImGui::Button("RoomAllClear", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->AllRoomClear();
+	}
 
 	ImGui::Text("");
 	ImGui::Text("1. Select Texture Setting");
@@ -148,23 +160,62 @@ void CreateRandomMapWindow::OnGUI()
 	}
 #pragma endregion
 
+	// 220503 SJH 임시주석처리
+	//ImGui::Text("");
+	//ImGui::Text("2. Create Random Road");
+	//if (true == ImGui::Button("CreateRoad", ImVec2(200.f, 20.f)))
+	//{
+	//	RandomMap_->RandomRoad(5, true);
+	//}
+
 	ImGui::Text("");
-	ImGui::Text("2. Create Random Road");
-	if (true == ImGui::Button("CreateRoad", ImVec2(200.f, 20.f)))
+	ImGui::Text("2. Create Random Room");
+
+	// 생성하려는 맵의 최대 크기
+	ImGui::Text("1) Map Max Size Setting");
+	ImGui::Text("MaxIndex X :");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100.f);
+	ImGui::InputInt("##MaxIndexX", &MaxIndexX_);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+	ImGui::Text("MapMaxHeight :");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100.f);
+	ImGui::InputInt("##MaxIndexY", &MaxIndexY_);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+	if (true == ImGui::Button("MapSize Setting", ImVec2(200.f, 20.f)))
 	{
-		RandomMap_->RandomRoad(5, true);
+		RandomMap_->TotalMapScale(MaxIndexX_, MaxIndexY_);
 	}
 
 	ImGui::Text("");
-	ImGui::Text("3. Create Random Room");
+	ImGui::Text("2) Room Info Setting");
+	ImGui::Text("Room Count :");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100.f);
+	ImGui::InputInt("##RoomCount", &RoomCnt_);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
+	ImGui::Text("Room Width :");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100.f);
+	ImGui::InputInt("##RoomWidth", &RoomWidth_);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
+	ImGui::Text("Room Height :");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100.f);
+	ImGui::InputInt("##RoomHeight", &RoomHeight_);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
 	if (true == ImGui::Button("CreateRoom", ImVec2(200.f, 20.f)))
 	{
-		
+		RandomMap_->RandomRoom(RoomCnt_, RoomWidth_, RoomHeight_);
 	}
-
-
-
-
-
 #pragma endregion
 }

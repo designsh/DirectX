@@ -16,8 +16,14 @@ public: // 카메라관련
 	float ZoomMin_;
 	float ZoomMax_;
 
-private:
+private: // 현재 생성하려는 맵의 전체 인덱스
+	int MaxIndexX_;
+	int MaxIndexY_;
 
+private: // 자동 생성하려는 룸의 갯수, 가로/세로 인덱스(크기)
+	int RoomCnt_;
+	int RoomWidth_;
+	int RoomHeight_;
 
 public:
 	CreateRandomMapWindow();
