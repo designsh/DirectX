@@ -283,13 +283,19 @@ void EditorRandomMap::RandomRoad(int _Count, bool _Multidirectional)
 			std::vector<int> DirIndex = { {-1}, {-1}, {-1}, {-1}, };
 			std::vector<float4> Dir = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
 
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < _Count; ++j)
+				{
+					DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
+					Dir[i] = RandomRange[i][DirIndex[i]];
+					SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() }, SelectFloorTileIndex_);
+					RandomStartPos_[i] += Dir[i];
+				}
+			}
+
 			for (int i = 0; i < 4; ++i)
 			{
-				DirIndex[i] = RandomNextRange[i][Random_.RandomInt(0, static_cast<int>(RandomNextRange[i].size()) - 1)];
-				Dir[i] = RandomRange[i][DirIndex[i]];
-				SetFloorTile(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() }, SelectFloorTileIndex_);
-				RandomStartPos_[i] += Dir[i];
-
 				IgnoreRange[i] = RandomReversRange[i][DirIndex[i]];
 				RandomNextRange[i].clear();
 			}
@@ -302,6 +308,11 @@ void EditorRandomMap::RandomRoad(int _Count, bool _Multidirectional)
 
 void EditorRandomMap::RandomRoom(int _minIndexX, int _maxIndexX, int _minIndexY, int _maxIndexY)
 {
+	// min ~ max까지 랜덤으로 방의 크기를 결정
+
+
+
+
 
 
 

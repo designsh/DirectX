@@ -157,9 +157,6 @@ void CreateRandomMapWindow::OnGUI()
 
 	ImGui::Text("");
 	ImGui::Text("3. Create Random Room");
-
-
-
 	if (true == ImGui::Button("CreateRoom", ImVec2(200.f, 20.f)))
 	{
 		
