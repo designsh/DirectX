@@ -475,11 +475,16 @@ void EditorRandomMap::CreateRoomAuto(int _WidthIndex, int _HeightIndex)
 	}
 
 	// 자동으로 생성된 룸을 화면에 렌더링
-
+	RenderingAutoRoom();
 }
 
 void EditorRandomMap::RenderingAutoRoom()
 {
+	// 룸을 한번에 렌더링
+
+
+
+
 }
 
 void EditorRandomMap::CreateRoomManual(int _WidthIndex, int _HeightIndex)
