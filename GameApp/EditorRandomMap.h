@@ -46,6 +46,7 @@ private: // 甘 农扁包访
 	TileIndex MapMinIndexY_;
 	TileIndex MapMaxIndexY_;
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> MapMaxScale_;
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> MapMaxWall_;
 
 private: // 冯 积己包访
 	GameEngineRandom RoomRandom_;

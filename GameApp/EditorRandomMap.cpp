@@ -370,6 +370,26 @@ void EditorRandomMap::TotalMapScale(int _MaxIndexX, int _MaxIndexY)
 			MapMaxScale_.insert(std::make_pair(TileIndex(x, y).Index_, MapMaxRenderer));
 		}
 	}
+
+	// 현재 맵 범위의 벽정보를 생성(Normal) - 추후 벽렌더링 및 길찾기용도로 사용
+	// MapMaxWall_;
+
+	/*
+	// 인덱스 및 타입정보
+	int WallIndexX;
+	int WallIndexY;
+	int WallTile1ImageIndex;
+	int WallTile2ImageIndex;
+	WallBasicType WallBasicType;
+	WallDetailType WallDetailType;
+
+	// 렌더링 정보
+	std::string WallTextureName;
+	float4 WallTileSize;
+	float4 WallRenderSize;
+	float4 WallRenderPivotPos;
+	*/
+
 }
 
 void EditorRandomMap::RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex)
@@ -433,7 +453,7 @@ bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex)
 	if (MapInfo_.minIndexX_ <= RoomStartX && MapInfo_.maxIndexX_ > RoomEndX &&
 		MapInfo_.minIndexY_ <= RoomStartY && MapInfo_.maxIndexY_ > RoomEndY)
 	{
-		// 이전 룸과 겹쳐지지않는 인덱스 목록이라면 생성가능
+		// 겹치지않게 생성하도록 조건 설정
 
 
 

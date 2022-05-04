@@ -86,8 +86,6 @@ struct RandomMapInfo
 	int maxIndexX_;									// 랜덤맵의 최대 X인덱스
 	int minIndexY_;									// 랜덤맵의 최소 Y인덱스
 	int maxIndexY_;									// 랜덤맵의 최대 Y인덱스
-	float4 MinPos_;									// 랜덤맵의 최소 위치
-	float4 MaxPos_;									// 랜덤맵의 최대 위치
 
 	// 룸 관련 정보
 	std::vector<RandomRoomInfo> RoomInfo_;			// 해당 맵의 룸 목록
@@ -95,9 +93,9 @@ struct RandomMapInfo
 	// 복도 관련 정보
 
 
-
-	// 벽 관련 정보(룸의벽->복도의벽)
-
+	// 벽 관련 정보
+	// => 맵크기의벽정보 -> 룸의벽정보갱신 -> 복도의벽정보갱신
+	std::vector<WallTileInfo> WallInfo_;			// 해당 맵의 전체크기만큼 생성되는 벽정보
 
 	// 문 관련 정보
 
