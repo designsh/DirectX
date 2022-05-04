@@ -75,7 +75,7 @@ struct RandomRoomInfo
 	int WidthIndex_;								// 룸의 크기 가로(타일의 Y인덱스) 인덱스
 	int HeightIndex_;								// 룸의 크기 세로(타일의 X인덱스) 인덱스
 	
-	std::vector<DoorPositionType> DoorInfo_;		// 룸이 가지는 문 정보
+	//std::vector<DoorPositionType> DoorInfo_;		// 룸이 가지는 문 정보
 };
 
 // 랜덤맵 정보

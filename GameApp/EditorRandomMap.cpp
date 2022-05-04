@@ -436,10 +436,15 @@ bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex)
 		MapInfo_.minIndexY_ <= RoomStartY && MapInfo_.maxIndexY_ > RoomEndY)
 	{
 		// 겹치지않게 생성하도록 조건 설정
-
-
-
-
+		int CurRoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+		for (int i = 0; i < CurRoomCnt; ++i)
+		{
+			// 먼저 생성된 룸정보를 이용하여 룸 한개라도 겹친다면 리턴???
+			//if (MapInfo_.RoomInfo_[i].minIndexX_ == RoomStartX && )
+			//{
+			//	return;
+			//}
+		}
 
 		// 룸에 정보 저장
 		RandomRoomInfo NewRoom = {};
