@@ -430,6 +430,8 @@ bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex)
 	RoomEndX += CenterIndexX;
 	RoomStartY += CenterIndexY;
 	RoomEndY += CenterIndexY;
+
+	// 현재 생성된 제한된 범위내에 존재하는 룸일때만 생성
 	if (MapInfo_.minIndexX_ <= RoomStartX && MapInfo_.maxIndexX_ > RoomEndX &&
 		MapInfo_.minIndexY_ <= RoomStartY && MapInfo_.maxIndexY_ > RoomEndY)
 	{
