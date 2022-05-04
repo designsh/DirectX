@@ -487,10 +487,31 @@ void EditorRandomMap::CreateRoomAuto(int _WidthIndex, int _HeightIndex)
 void EditorRandomMap::RenderingAutoRoom()
 {
 	// ·ëÀ» ÇÑ¹ø¿¡ ·»´õ¸µ
+	for (int i = 0; i < RoomCnt_; ++i)
+	{
+		RoomRender NewRoomRenderer = {};
 
+		RandomRoomInfo CurRoomInfo = MapInfo_.RoomInfo_[i];
+		for (int y = CurRoomInfo.minIndexY_; y < CurRoomInfo.maxIndexY_; ++y)
+		{
+			for (int x = CurRoomInfo.minIndexX_; x < CurRoomInfo.maxIndexX_; ++x)
+			{
+				float4 Pos = float4::ZERO;
+				Pos.x = (x - y) * TileSizeHalf_.x;
+				Pos.y = (x + y) * -TileSizeHalf_.y;
 
+				GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+				NewRenderer->SetImage(FloorTileTextureName_);
+				NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+				NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+				NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
+				NewRenderer->SetIndex(SelectFloorTileIndex_);
+				NewRoomRenderer.TileRenderer_.insert(std::make_pair(TileIndex(x, y).Index_, NewRenderer));
+			}
+		}
 
-
+		RoomRenderer_.push_back(NewRoomRenderer);
+	}
 }
 
 void EditorRandomMap::CreateRoomManual(int _WidthIndex, int _HeightIndex)
