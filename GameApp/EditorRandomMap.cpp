@@ -626,11 +626,28 @@ void EditorRandomMap::RenderingManualRoom()
 void EditorRandomMap::RoomPushOut()
 {
 	// 현재 생성된 룸들을 검사하여 룸이 서로 겹치는 룸은 서로 밀어내기
-	for (auto& Room : MapInfo_.RoomInfo_)
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCnt; ++i)
 	{
-		// 현재 검사하는 룸과 겹치는 룸이있는지 검사
+		// 룸 한개 선택
+		RandomRoomInfo CurRoomInfo = MapInfo_.RoomInfo_[i];
+
+		// 현재 선택된 룸과 겹쳐있는 룸이있는지 탐색
+		int SearchRoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+		for (int j = 0; j < SearchRoomCnt; ++j)
+		{
+			// 본인룸은 제외
+			if (CurRoomInfo.RoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+			{
+				continue;
+			}
+
+			// 아니라면 겹쳐있는지 검사하여 겹쳐있다면 현재 선택한 룸을 랜덤한 방향으로 이동시작
 
 
+
+
+		}
 	}
 }
 
