@@ -149,5 +149,8 @@ public: // 룸 관련
 
 	// 모든 룸 정보 및 렌더러 제거
 	void AllRoomClear();																	// 
+
+public: // 복도 연결
+	void RoomConnection();																	// 생성된 룸을 모두 연결
 };
 

@@ -606,3 +606,11 @@ void EditorRandomMap::AllRoomClear()
 	// 룸 갯수 초기화
 	RoomCnt_ = 0;
 }
+
+void EditorRandomMap::RoomConnection()
+{
+	// 복도 연결
+
+
+
+}

@@ -160,6 +160,7 @@ void CreateRandomMapWindow::OnGUI()
 	}
 #pragma endregion
 
+#pragma region 복도생성
 	// 220503 SJH 임시주석처리
 	//ImGui::Text("");
 	//ImGui::Text("2. Create Random Road");
@@ -167,6 +168,7 @@ void CreateRandomMapWindow::OnGUI()
 	//{
 	//	RandomMap_->RandomRoad(5, true);
 	//}
+#pragma endregion
 
 	ImGui::Text("");
 	ImGui::Text("2. Create Random Room");
@@ -212,10 +214,18 @@ void CreateRandomMapWindow::OnGUI()
 	ImGui::InputInt("##RoomHeight", &RoomHeight_);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
-
 	if (true == ImGui::Button("CreateRoom", ImVec2(200.f, 20.f)))
 	{
 		RandomMap_->RandomRoom(RoomCnt_, RoomWidth_, RoomHeight_);
 	}
+
+	// 복도연결
+	ImGui::Text("");
+	ImGui::Text("3. Room Connection");
+	if (true == ImGui::Button("RoomConnection", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->RoomConnection();
+	}
+
 #pragma endregion
 }
