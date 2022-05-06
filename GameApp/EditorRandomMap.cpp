@@ -625,7 +625,10 @@ void EditorRandomMap::RenderingManualRoom()
 
 void EditorRandomMap::RoomPushOut()
 {
-	// 현재 생성된 룸들을 검사하여 룸이 서로 겹치는 룸은 서로 밀어내기
+	// 기존의 룸을 렌더링한 정보를 모두 날려버리고,
+
+
+	// 현재 생성된 룸정보들을 검사하여 룸이 서로 겹치는 룸은 서로 밀어내기 처리
 	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCnt; ++i)
 	{
@@ -643,6 +646,7 @@ void EditorRandomMap::RoomPushOut()
 			}
 
 			// 아니라면 겹쳐있는지 검사하여 겹쳐있다면 현재 선택한 룸을 랜덤한 방향으로 이동시작
+			// 이동완료 후 
 
 
 
