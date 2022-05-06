@@ -136,8 +136,10 @@ public: // 랜덤맵 제한범위 관련
 	void TotalMapScale(int _MaxIndexX, int _MaxIndexY);										// 현재 생성하려는 맵의 크기를 결정
 
 public: // 룸 관련
+	void AllRoomClear();																	// 모든 룸 정보 및 렌더러 제거
+
 	void RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex);						// 현재 생성하려는 맵의 방을 배치하기 위하여 기본정보 저장
-	bool RoomArrangeCheck(int _WidthIndex, int _HeightIndex);								// 현재 생성하려는 룸이 생성가능한지 체크하여 가능하다면 인덱스반환
+	bool RoomArrangeCheck(int _WidthIndex, int _HeightIndex, int _RoomCnt);					// 현재 생성하려는 룸이 생성가능한지 체크하여 가능하다면 인덱스반환
 
 	// 룸 자동생성
 	void CreateRoomAuto(int _WidthIndex, int _HeightIndex);									// _RoomCnt가 0이 아니면 자동으로 갯수만큼 생성(정보생성)
@@ -147,8 +149,8 @@ public: // 룸 관련
 	void CreateRoomManual(int _WidthIndex, int _HeightIndex);								// _RoomCnt가 0이면 해당 동작 수행할때마다 룸을 생성(정보생성)
 	void RenderingManualRoom();																// 화면에서 확인하기 위하여 생성된 룸 정보를 이용하여 화면에 렌더링
 
-	// 모든 룸 정보 및 렌더러 제거
-	void AllRoomClear();																	// 
+	// 현재 생성완료된 룸목록에서 겹치는 룸을 서로 밀어내는 구문
+	void RoomPushOut();																		// 
 
 public: // 복도 연결
 	void RoomConnection();																	// 생성된 룸을 모두 연결

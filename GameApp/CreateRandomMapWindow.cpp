@@ -219,6 +219,14 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->RandomRoom(RoomCnt_, RoomWidth_, RoomHeight_);
 	}
 
+	// 룸 밀어내기
+	ImGui::Text("");
+	ImGui::Text("3) Room Push Out");
+	if (true == ImGui::Button("RoomPushOut", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->RoomPushOut();
+	}
+
 	// 복도연결
 	ImGui::Text("");
 	ImGui::Text("3. Room Connection");

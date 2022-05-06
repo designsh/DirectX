@@ -372,6 +372,47 @@ void EditorRandomMap::TotalMapScale(int _MaxIndexX, int _MaxIndexY)
 	}
 }
 
+void EditorRandomMap::AllRoomClear()
+{
+	// 방정보 제거
+	std::vector<RandomRoomInfo>::iterator StartIter = MapInfo_.RoomInfo_.begin();
+	std::vector<RandomRoomInfo>::iterator EndIter = MapInfo_.RoomInfo_.end();
+	for (; StartIter != EndIter;)
+	{
+		MapInfo_.RoomInfo_.erase(StartIter);
+		StartIter = MapInfo_.RoomInfo_.begin();
+		EndIter = MapInfo_.RoomInfo_.end();
+	}
+	MapInfo_.RoomInfo_.clear();
+
+	// 방 렌더러 제거
+	for (int i = 0; i < static_cast<int>(RoomRenderer_.size()); ++i)
+	{
+		// 렌더러 삭제
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = RoomRenderer_[i].TileRenderer_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = RoomRenderer_[i].TileRenderer_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			// 세컨드 데스처리
+			(*StartIter).second->Death();
+		}
+		RoomRenderer_[i].TileRenderer_.clear();
+	}
+
+	std::vector<RoomRender>::iterator RendererStartIter = RoomRenderer_.begin();
+	std::vector<RoomRender>::iterator RendererEndIter = RoomRenderer_.end();
+	for (; RendererStartIter != RendererEndIter;)
+	{
+		RoomRenderer_.erase(RendererStartIter);
+		RendererStartIter = RoomRenderer_.begin();
+		RendererEndIter = RoomRenderer_.end();
+	}
+	RoomRenderer_.clear();
+
+	// 룸 갯수 초기화
+	RoomCnt_ = 0;
+}
+
 void EditorRandomMap::RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex)
 {
 	// 생성하려는 룸 갯수에 따라 처리
@@ -388,7 +429,7 @@ void EditorRandomMap::RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex
 	}
 }
 
-bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex)
+bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex, int _RoomCnt)
 {
 	// 너비/높이 랜덤 지정(최소 맵크기 2x2)
 	int RandomWidth = RoomRandom_.RandomInt(2, _WidthIndex);
@@ -435,21 +476,27 @@ bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex)
 	if (MapInfo_.minIndexX_ <= RoomStartX && MapInfo_.maxIndexX_ > RoomEndX &&
 		MapInfo_.minIndexY_ <= RoomStartY && MapInfo_.maxIndexY_ > RoomEndY)
 	{
-		// 겹치지않게 생성하도록 조건 설정
-		int CurRoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
-		for (int i = 0; i < CurRoomCnt; ++i)
-		{
-			// 먼저 생성된 룸정보를 이용하여 룸 한개라도 겹친다면 리턴???
-			//if (MapInfo_.RoomInfo_[i].minIndexX_ == RoomStartX && )
-			//{
-			//	return;
-			//}
-		}
-
+		//// 현재 생성된 제한된 범위내에 존재하지만 다른 룸과 겹치는 경우 생성실패
+		//int PrevRoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+		//for (int i = 0; i < PrevRoomCnt; ++i)
+		//{
+		//	int CurRoomTileListsCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
+		//	for (int j = 0; j < CurRoomTileListsCnt; ++j)
+		//	{
+		//		if (MapInfo_.RoomInfo_[i].AllIndexLists_[j].X_ == RoomStartX ||
+		//			MapInfo_.RoomInfo_[i].AllIndexLists_[j].X_ == RoomEndX ||
+		//			MapInfo_.RoomInfo_[i].AllIndexLists_[j].Y_ == RoomStartY ||
+		//			MapInfo_.RoomInfo_[i].AllIndexLists_[j].Y_ == RoomEndY)
+		//		{
+		//			return false;
+		//		}
+		//	}
+		//}
+		
 		// 룸에 정보 저장
 		RandomRoomInfo NewRoom = {};
 		NewRoom.TileType_ = RandomMapTileType::ROOM;
-		NewRoom.RoomNo_ = RoomCnt_ + 1;
+		NewRoom.RoomNo_ = _RoomCnt + 1;
 
 		// 현재 생성된 룸의 범위
 		NewRoom.minIndexX_ = RoomStartX;
@@ -463,6 +510,16 @@ bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex)
 		// 현재 생성된 룸의 크기
 		NewRoom.WidthIndex_ = RandomWidth;
 		NewRoom.HeightIndex_ = RandomHeight;
+
+		// 현재 생성된 룸의 모든 타일인덱스 저장
+		for (int y = NewRoom.minIndexY_; y < NewRoom.maxIndexY_; ++y)
+		{
+			for (int x = NewRoom.minIndexX_; x < NewRoom.maxIndexX_; ++x)
+			{
+				TileIndex CurTile = TileIndex(x, y);
+				NewRoom.AllIndexLists_.push_back(CurTile);
+			}
+		}
 
 		MapInfo_.RoomInfo_.push_back(NewRoom);
 
@@ -478,7 +535,7 @@ void EditorRandomMap::CreateRoomAuto(int _WidthIndex, int _HeightIndex)
 	while (0 < RoomCnt)
 	{
 		// 자동으로 룸 갯수만큼 생성
-		if(false == RoomArrangeCheck(_WidthIndex, _HeightIndex))
+		if(false == RoomArrangeCheck(_WidthIndex, _HeightIndex, RoomCnt_ - RoomCnt))
 		{
 			// 룸 생성 실패로 리턴
 			continue;
@@ -494,7 +551,7 @@ void EditorRandomMap::CreateRoomAuto(int _WidthIndex, int _HeightIndex)
 void EditorRandomMap::RenderingAutoRoom()
 {
 	// 룸을 한번에 렌더링
-	for (int i = 0; i < RoomCnt_; ++i)
+	for (int i = 0; i < static_cast<int>(MapInfo_.RoomInfo_.size()); ++i)
 	{
 		RoomRender NewRoomRenderer = {};
 
@@ -526,7 +583,7 @@ void EditorRandomMap::CreateRoomManual(int _WidthIndex, int _HeightIndex)
 	// 동작마다 룸 생성
 
 	// 현재 생성되는 룸이 현재 맵의 제한범위내 존재하는지 체크
-	if(false == RoomArrangeCheck(_WidthIndex, _HeightIndex))
+	if(false == RoomArrangeCheck(_WidthIndex, _HeightIndex, RoomCnt_))
 	{
 		// 룸 생성 실패로 리턴
 		return;
@@ -566,45 +623,15 @@ void EditorRandomMap::RenderingManualRoom()
 	RoomRenderer_.push_back(NewRoomRenderer);
 }
 
-void EditorRandomMap::AllRoomClear()
+void EditorRandomMap::RoomPushOut()
 {
-	// 방정보 제거
-	std::vector<RandomRoomInfo>::iterator StartIter = MapInfo_.RoomInfo_.begin();
-	std::vector<RandomRoomInfo>::iterator EndIter = MapInfo_.RoomInfo_.end();
-	for (; StartIter != EndIter;)
+	// 현재 생성된 룸들을 검사하여 룸이 서로 겹치는 룸은 서로 밀어내기
+	for (auto& Room : MapInfo_.RoomInfo_)
 	{
-		MapInfo_.RoomInfo_.erase(StartIter);
-		StartIter = MapInfo_.RoomInfo_.begin();
-		EndIter = MapInfo_.RoomInfo_.end();
-	}
-	MapInfo_.RoomInfo_.clear();
+		// 현재 검사하는 룸과 겹치는 룸이있는지 검사
 
-	// 방 렌더러 제거
-	for (int i = 0; i < static_cast<int>(RoomRenderer_.size()); ++i)
-	{
-		// 렌더러 삭제
-		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = RoomRenderer_[i].TileRenderer_.begin();
-		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = RoomRenderer_[i].TileRenderer_.end();
-		for (; StartIter != EndIter; ++StartIter)
-		{
-			// 세컨드 데스처리
-			(*StartIter).second->Death();
-		}
-		RoomRenderer_[i].TileRenderer_.clear();
-	}
 
-	std::vector<RoomRender>::iterator RendererStartIter = RoomRenderer_.begin();
-	std::vector<RoomRender>::iterator RendererEndIter = RoomRenderer_.end();
-	for (; RendererStartIter != RendererEndIter;)
-	{
-		RoomRenderer_.erase(RendererStartIter);
-		RendererStartIter = RoomRenderer_.begin();
-		RendererEndIter = RoomRenderer_.end();
 	}
-	RoomRenderer_.clear();
-
-	// 룸 갯수 초기화
-	RoomCnt_ = 0;
 }
 
 void EditorRandomMap::RoomConnection()
