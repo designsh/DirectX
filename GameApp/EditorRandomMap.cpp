@@ -713,47 +713,14 @@ void EditorRandomMap::RoomPushOut()
 		// 모든 룸을 검사하여 겹쳐지지않는곳까지 이동
 		if (true == RoomIntersectsMoveCheck(i, TileMoveDir))
 		{
-			// 현재 충돌처리가 끝난 룸을 렌더링
-			RoomRender NewRoomRenderer = {};
+			// 룸 교차 검사가 완료된 룸의 센터인덱스를 재계산(복도연결용으로 사용)
 
-			RandomRoomInfo CurRoomInfo = MapInfo_.RoomInfo_[i];
-			for (int y = CurRoomInfo.minIndexY_; y < CurRoomInfo.maxIndexY_; ++y)
-			{
-				for (int x = CurRoomInfo.minIndexX_; x < CurRoomInfo.maxIndexX_; ++x)
-				{
-					float4 Pos = float4::ZERO;
-					Pos.x = (x - y) * TileSizeHalf_.x;
-					Pos.y = (x + y) * -TileSizeHalf_.y;
 
-					GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
-
-					if (i == 0)
-					{
-						NewRenderer->SetImage("FloorGrid_Center.png");
-						NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-						NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-						NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
-						NewRenderer->SetIndex(0);
-						NewRoomRenderer.TileRenderer_.insert(std::make_pair(TileIndex(x, y).Index_, NewRenderer));
-					}
-					else
-					{
-						NewRenderer->SetImage(FloorTileTextureName_);
-						NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-						NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-						NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
-						NewRenderer->SetIndex(SelectFloorTileIndex_);
-						NewRoomRenderer.TileRenderer_.insert(std::make_pair(TileIndex(x, y).Index_, NewRenderer));
-					}
-				}
-			}
-
-			RoomRenderer_.push_back(NewRoomRenderer);
 		}
 	}
 
 	// 현재 검사가 종료된 모든 룸 렌더링
-	//RenderingAutoRoom();
+	RenderingAutoRoom();
 }
 
 bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
@@ -781,11 +748,13 @@ bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
 			{
 				for (int j = 0; j < CompareRoomTileListsCnt; ++j)
 				{
+					// 현재 룸타일의 이동방향을 비교대상에게 더해주어 1칸씩 벌어지도록 체크
 					if (MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_[i].X_ == MapInfo_.RoomInfo_[k].AllIndexLists_[j].X_ + _Dir.ix() &&
 						MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_[i].Y_ == MapInfo_.RoomInfo_[k].AllIndexLists_[j].Y_ + _Dir.iy() )
 					{
 						MoveChkFlag = true;
 
+						// 타일을 2칸씩 이동
 						MapInfo_.RoomInfo_[_CurIndex].minIndexX_ += (_Dir.ix() * 2);
 						MapInfo_.RoomInfo_[_CurIndex].maxIndexX_ += (_Dir.ix() * 2);
 						MapInfo_.RoomInfo_[_CurIndex].minIndexY_ += (_Dir.iy() * 2);
