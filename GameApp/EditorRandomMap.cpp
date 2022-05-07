@@ -713,9 +713,6 @@ void EditorRandomMap::RoomPushOut()
 		// 모든 룸을 검사하여 겹쳐지지않는곳까지 이동
 		if (true == RoomIntersectsMoveCheck(i, TileMoveDir))
 		{
-			// 룸 교차 검사가 완료된 룸의 센터인덱스를 재계산(복도연결용으로 사용)
-
-
 		}
 	}
 
@@ -760,6 +757,9 @@ bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
 						MapInfo_.RoomInfo_[_CurIndex].minIndexY_ += (_Dir.iy() * 2);
 						MapInfo_.RoomInfo_[_CurIndex].maxIndexY_ += (_Dir.iy() * 2);
 
+						// 현재 룸의 센터위치 재설정
+						MapInfo_.RoomInfo_[_CurIndex].RoomCenterIndex_ = MapInfo_.RoomInfo_[_CurIndex].RoomCenterIndex_ + TileIndex((_Dir.ix() * 2), (_Dir.iy() * 2));
+
 						// 현재 타일의 인덱스 정보 갱신
 						MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_.clear();
 						for (int y = MapInfo_.RoomInfo_[_CurIndex].minIndexY_; y < MapInfo_.RoomInfo_[_CurIndex].maxIndexY_; ++y)
@@ -792,6 +792,11 @@ void EditorRandomMap::RoomConnection()
 {
 	// 룸센터-룸센터 복도 연결
 	// 룸의 센터인덱스정보를 이용하여 룸과룸의 센터를 연결하는 복도 생성
+
+	// 룸의 순서대로 룸을 연결한다.
+
+
+
 
 
 
