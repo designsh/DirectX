@@ -43,23 +43,6 @@ enum class RandomMapDoorType
 	RB_R_B,											// 룸 센터기준 우단 우하단방향 문의 아래쪽 텍스쳐
 };
 
-// 랜덤맵 복도정보
-struct RandomCorridorInfo
-{
-	CorridorDirType DirType_;						// 복도 진행방향(우상단/우하단)
-};
-
-// 랜덤맵 문정보
-struct RandomDoorInfo
-{
-	int IndexX;										// X 인덱스
-	int IndexY;										// Y 인덱스
-
-	RandomMapTileType TileType_;					// 타일타입(문)
-	int Direction_;									// 룸 센터기준 생성된 위치(상/하/좌/우)
-	RandomMapDoorType DoorType_;					// 문의 렌더링 타입
-};
-
 // 랜덤맵 룸정보
 struct RandomRoomInfo
 {
@@ -77,31 +60,45 @@ struct RandomRoomInfo
 
 	// 현재 생성된 룸의 모든 인덱스
 	std::vector<TileIndex> AllIndexLists_;			// 
-	
-	//std::vector<DoorPositionType> DoorInfo_;		// 룸이 가지는 문 정보
+};
+
+// 랜덤맵 복도정보
+struct RandomCorridorInfo
+{
+	CorridorDirType DirType_;						// 복도 진행방향(우상단/우하단)
+};
+
+// 랜덤맵 문정보
+struct RandomDoorInfo
+{
+	int IndexX;										// X 인덱스
+	int IndexY;										// Y 인덱스
+
+	RandomMapTileType TileType_;					// 타일타입(문)
+	int Direction_;									// 룸 센터기준 생성된 위치(상/하/좌/우)
+	RandomMapDoorType DoorType_;					// 문의 렌더링 타입
 };
 
 // 랜덤맵 정보
 struct RandomMapInfo
 {
-	// 맵정보
+	// 맵정보(초기 룸생성에 사용)
 	int minIndexX_;									// 랜덤맵의 최소 X인덱스
 	int maxIndexX_;									// 랜덤맵의 최대 X인덱스
 	int minIndexY_;									// 랜덤맵의 최소 Y인덱스
 	int maxIndexY_;									// 랜덤맵의 최대 Y인덱스
 
-	// 룸 관련 정보
+	// 룸 관련 정보(겹치지않는 룸생성에 사용)
 	std::vector<RandomRoomInfo> RoomInfo_;			// 해당 맵의 룸 목록
 
-	// 복도 관련 정보
+	// 복도 관련 정보(룸간의 연결에 사용)
+	std::vector<RandomCorridorInfo> CorridorInfo_;	// 해당 맵의 복도 목록
 
-
-	// 벽 관련 정보
-	// => 맵크기의벽정보 -> 룸의벽정보갱신 -> 복도의벽정보갱신
-	std::vector<WallTileInfo> WallInfo_;			// 해당 맵의 전체크기만큼 생성되는 벽정보
+	// 벽 관련 정보(네비게이션 정보로 사용)
+	std::vector<WallTileInfo> WallInfo_;			// 해당 맵의 벽 목록
 
 	// 문 관련 정보
-
+	std::vector<RandomDoorInfo> DoorInfo_;			// 해당 맵의 문 목록
 };
 
 // 바닥타일정보

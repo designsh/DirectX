@@ -235,5 +235,11 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->RoomConnection();
 	}
 
+	// 룸/복도 벽정보 생성
+
+
+	// 문정보 생성
+
+
 #pragma endregion
 }

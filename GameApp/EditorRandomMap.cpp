@@ -579,22 +579,11 @@ void EditorRandomMap::RenderingAutoRoom()
 
 				GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
-				if (i == 0)
-				{
-					NewRenderer->SetImage("FloorGrid_Center.png");
-					NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-					NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-					NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
-					NewRenderer->SetIndex(0);
-				}
-				else
-				{
-					NewRenderer->SetImage(FloorTileTextureName_);
-					NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-					NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-					NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
-					NewRenderer->SetIndex(SelectFloorTileIndex_);
-				}
+				NewRenderer->SetImage(FloorTileTextureName_);
+				NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+				NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+				NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
+				NewRenderer->SetIndex(SelectFloorTileIndex_);
 				NewRoomRenderer.TileRenderer_.insert(std::make_pair(TileIndex(x, y).Index_, NewRenderer));
 			}
 		}
