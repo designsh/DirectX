@@ -34,6 +34,9 @@ private:
 	static std::vector<std::vector<int>> RandomNextRange;
 
 private:
+	static bool Compare(std::pair<int, float>& _First, std::pair<int, float>& _Second);
+
+private:
 	GameEngineRandom RoadRandom_;
 	std::vector<float4> RandomStartPos_;
 
@@ -46,7 +49,6 @@ private: // 맵 크기관련
 	TileIndex MapMinIndexY_;
 	TileIndex MapMaxIndexY_;
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> MapMaxScale_;
-	std::unordered_map<__int64, GameEngineTileMapRenderer*> MapMaxWall_;
 
 private: // 룸 생성관련
 	GameEngineRandom RoomRandom_;
@@ -134,6 +136,7 @@ public: //
 
 public: // 랜덤맵 제한범위 관련
 	void TotalMapScale(int _MaxIndexX, int _MaxIndexY);										// 현재 생성하려는 맵의 크기를 결정
+	void TotalMapRendererClear();															// 현재 생성하려는 맵의 크기를 나타내는 렌더러 목록 제거기능(룸 재배치완료시 호출)
 
 public: // 룸 관련
 	void AllRoomClear();																	// 모든 룸 정보 및 렌더러 제거
@@ -156,8 +159,13 @@ public: // 룸 관련
 	void RoomPushOut();																		// 
 	bool RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir = float4(0, 0));				// 현재 검사하는 방과 모든 룸을 체크하여 겹쳐지지않을때까지 이동
 
+	// 현재 생성 및 재배치완료된 룸정보를 이용하여 복도생성에 필요한 정보 셋팅
+	void RoomDistanceMeasurement();															// 각 룸의 센터정보를 이용하여 룸간의 거리를 측정 후 가장 멀리있는 룸을 알아내고, 가장 가까운 룸을 알아낸다.
+	void SearchRoomDistance(int _CheckIndex);												// 
+	
 public: // 복도 연결
 	void RoomConnection();																	// 생성된 룸을 모두 연결
+	void RoomConnectionStart(int _CurIndex, int _ConnectionIndex);							// 룸 연결 시작
 
 public: // 룸/복도 벽생성
 	void CreateWall();																		// 

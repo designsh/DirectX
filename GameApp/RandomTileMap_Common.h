@@ -3,20 +3,13 @@
 
 // 랜덤맵 공통 정보 헤더
 
-// 랜덤맵 문 위치 타입(룸센터기준)
-enum class DoorPositionType
+// 룸 센터인덱스 기준 방향
+enum class RoomCenterDirType
 {
 	DIRTC_T,										// 룸의 센터기준 상단
 	DIRTC_B,										// 룸의 센터기준 하단
 	DIRTC_L,										// 룸의 센터기준 좌단
 	DIRTC_R											// 룸의 센터기준 우단
-};
-
-// 랜덤맵 복도 방향
-enum class CorridorDirType
-{
-	RT,
-	RB
 };
 
 // 랜덤맵 타일 타입(바닥타일기준)
@@ -58,15 +51,18 @@ struct RandomRoomInfo
 	int HeightIndex_;								// 룸의 크기 세로(타일의 X인덱스) 인덱스
 
 	std::vector<TileIndex> AllIndexLists_;			// 현재 생성된 룸의 모든 타일 인덱스(겹치는 룸 체크용도, 렌더링용도)
+
+	// 다른 룸과의 관계
+	int AdjacentRoomNo_;							// 가장 인접한 룸 번호(복도생성시 사용)
+	int NotadjacentRoomNo_;							// 가장 멀리있는 룸 번호(액터생성시 사용 : Ex)플레이어 생성된 룸에서 가장먼 룸위치에 보스가 생성)
+	RoomCenterDirType CenterType_;					// 룸의 센터인덱스 기준 복도가 연결되는방향과 문이 생성되어야하는 방향
+	std::vector<int> ConnectionRoomList_;			// 연결된 룸 번호(이미연결한 룸을 다시 연결하는것을 막기위해 연결된 룸목록을 관리 - 복도생성시 체크용)
 };
 
 // 랜덤맵 복도정보(바닥타일기준 2개타일로 복도생성 - 이유 : 복도 진입점에 문을 설치해야하기 때문에)
 struct RandomCorridorInfo
 {
-	CorridorDirType DirType_;						// 복도 진행방향(우상단/우하단)
-
-	
-
+	RandomMapTileType CorridorType_;				// 타일타입(복도)
 	std::vector<TileIndex> AllIndexLists_;			// 현재 생성된 복도의 모든 타일 인덱스(렌더링용도)
 };
 

@@ -12,6 +12,11 @@ std::vector<std::vector<float4>> EditorRandomMap::RandomRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomReversRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomNextRange;
 
+bool EditorRandomMap::Compare(std::pair<int, float>& _First, std::pair<int, float>& _Second)
+{
+	return _First.second < _Second.second;
+}
+
 EditorRandomMap::EditorRandomMap() :
 	SelectFloorTileIndex_(0),
 	SelectWallTileIndex_(0),
@@ -443,6 +448,19 @@ void EditorRandomMap::AllRoomInfomationClear()
 	RoomCnt_ = 0;
 }
 
+void EditorRandomMap::TotalMapRendererClear()
+{
+	// 임시주석
+	//std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsStartIter = MapMaxScale_.begin();
+	//std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridsEndIter = MapMaxScale_.end();
+	//for (; GridsStartIter != GridsEndIter; ++GridsStartIter)
+	//{
+	//	// 세컨드 데스처리
+	//	(*GridsStartIter).second->Death();
+	//}
+	//MapMaxScale_.clear();
+}
+
 void EditorRandomMap::RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex)
 {
 	// 생성하려는 룸 갯수에 따라 처리
@@ -461,9 +479,9 @@ void EditorRandomMap::RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex
 
 bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex, int _RoomCnt)
 {
-	// 너비/높이 랜덤 지정(최소 맵크기 2x2)
-	int RandomWidth = RoomRandom_.RandomInt(2, _WidthIndex);
-	int RandomHeight = RoomRandom_.RandomInt(2, _HeightIndex);
+	// 너비/높이 랜덤 지정(최소 맵크기 3x3)
+	int RandomWidth = RoomRandom_.RandomInt(3, _WidthIndex);
+	int RandomHeight = RoomRandom_.RandomInt(3, _HeightIndex);
 
 	// 현재 맵 제한 범위의 랜덤한 위치에 룸의 센터 생성
 	int CenterIndexX = RoomRandom_.RandomInt(MapInfo_.minIndexX_, MapInfo_.maxIndexX_);
@@ -579,11 +597,44 @@ void EditorRandomMap::RenderingAutoRoom()
 
 				GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 
-				NewRenderer->SetImage(FloorTileTextureName_);
-				NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-				NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-				NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
-				NewRenderer->SetIndex(SelectFloorTileIndex_);
+				if (i == 0)
+				{
+					if (TileIndex(x, y) == CurRoomInfo.RoomCenterIndex_)
+					{
+						NewRenderer->SetImage("FloorGrid_Center.png");
+						NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+						NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+						NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
+						NewRenderer->SetIndex(0);
+					}
+					else
+					{
+						NewRenderer->SetImage("WallGrid_Center.png");
+						NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+						NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+						NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
+						NewRenderer->SetIndex(0);
+					}
+				}
+				else
+				{
+					if (TileIndex(x, y) == CurRoomInfo.RoomCenterIndex_)
+					{
+						NewRenderer->SetImage("FloorGrid_Center.png");
+						NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+						NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+						NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
+						NewRenderer->SetIndex(0);
+					}
+					else
+					{
+						NewRenderer->SetImage(FloorTileTextureName_);
+						NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+						NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+						NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
+						NewRenderer->SetIndex(SelectFloorTileIndex_);
+					}
+				}
 				NewRoomRenderer.TileRenderer_.insert(std::make_pair(TileIndex(x, y).Index_, NewRenderer));
 			}
 		}
@@ -705,6 +756,9 @@ void EditorRandomMap::RoomPushOut()
 		}
 	}
 
+	// 재배치 룸정보 모두 완료시 전체맵 제한 렌더링 삭제
+	TotalMapRendererClear();
+
 	// 현재 검사가 종료된 모든 룸 렌더링
 	RenderingAutoRoom();
 }
@@ -777,18 +831,291 @@ bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
 	return false;
 }
 
+void EditorRandomMap::RoomDistanceMeasurement()
+{
+	// 방과방 간의 거리를 측정하여 정보를 셋팅
+	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCount; ++i)
+	{
+		// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
+		SearchRoomDistance(i);
+	}
+}
+
+void EditorRandomMap::SearchRoomDistance(int _CheckIndex)
+{
+	std::map<int, float> RoomDistanceMap;
+
+	float4 CurRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[_CheckIndex].RoomCenterIndex_);
+
+	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCount; ++i)
+	{
+		// 본인 룸 제외
+		if (MapInfo_.RoomInfo_[_CheckIndex].RoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+		{
+			continue;
+		}
+
+		// 모든 룸과의 거리 측정(각 룸의 센터인덱스 기준)
+		float4 CheckRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_);
+
+		// 기준 인덱스의 위치와 현재 거리체크하는 인덱스의 거리를 계산
+		// => 두 벡터사이의 거리측정 후 목록에 저장
+		float Length = float4::Distance(CurRoomPos, CheckRoomPos);
+		RoomDistanceMap.insert(std::make_pair(MapInfo_.RoomInfo_[i].RoomNo_, Length));
+	}
+
+	// 키로 정렬되어있는 거리체크맵을 Value로 재정렬
+	std::vector<std::pair<int, float>> ReSortVector(RoomDistanceMap.begin(), RoomDistanceMap.end());
+	std::sort(ReSortVector.begin(), ReSortVector.end(), EditorRandomMap::Compare);
+
+	// 정렬되었으므로 벡터의 0번째가 가장 인접한 룸
+	MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ = ReSortVector[0].first;
+
+	// 마지막번째가 가장 멀리있는 룸
+	int VectorSize = static_cast<int>(ReSortVector.size());
+	if (0 != VectorSize)
+	{
+		MapInfo_.RoomInfo_[_CheckIndex].NotadjacentRoomNo_ = ReSortVector[VectorSize - 1].first;
+	}
+}
+
 void EditorRandomMap::RoomConnection()
 {
 	// 룸센터-룸센터 복도 연결
 	// 룸의 센터인덱스정보를 이용하여 룸과룸의 센터를 연결하는 복도 생성
+	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCount; ++i)
+	{
+		// 룸 선택
+		RandomRoomInfo CurRoomInfo = MapInfo_.RoomInfo_[i];
 
-	// 룸의 순서대로 룸을 연결한다.
+		// 룸(방)이 가장 인접한 룸을 알고있기 때문에 가장 인접한 룸과 연결을 하고,
+		// 연결된 룸의 번호를 목록(ConnectionRoomList_)에 저장한다.
+		RoomConnectionStart(CurRoomInfo.RoomNo_ - 1, CurRoomInfo.AdjacentRoomNo_ - 1);
+	}
+}
+
+void EditorRandomMap::RoomConnectionStart(int _CurIndex, int _ConnectionIndex)
+{
+	// 현재 연결하려는 룸과 이미 연결되어있는지 체크
+	int ConnectionRoomCnt = static_cast<int>(MapInfo_.RoomInfo_[_ConnectionIndex].ConnectionRoomList_.size());
+	for (int i = 0; i < ConnectionRoomCnt; ++i)
+	{
+		// 이미 연결되어있다면 리턴
+		if (MapInfo_.RoomInfo_[_ConnectionIndex].ConnectionRoomList_[i] == MapInfo_.RoomInfo_[_CurIndex].RoomNo_)
+		{
+			return;
+		}
+	}
+
+	// 현재 룸의 센터와 연결하려는 룸의 센터의 방향을 알아낸다.
+	float4 CurRoomCenter = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[_CurIndex].RoomCenterIndex_);
+	float4 ConnectionRoomCenter = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[_ConnectionIndex].RoomCenterIndex_);
+	float4 Dir = (ConnectionRoomCenter - CurRoomCenter).NormalizeReturn3D();
+
+	// 연결하려는 룸의 위치에따라 현재 룸에서 복도를 뚫은 구간을 선택
+	if (Dir.x >= 0.f && Dir.y >= 0.f)
+	{
+		// 우상단에 연결룸 존재할때
+
+		// 1) 완전히 우단(y값이 동일할때)
+		if (CurRoomCenter.y == ConnectionRoomCenter.y)
+		{
+			MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_R;
+		}
+		// 2) 완전히 상단(x값이 동일할때)
+		else if (CurRoomCenter.x == ConnectionRoomCenter.x)
+		{
+			MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_T;
+		}
+		// 3) 우상단(1,2 아닌경우)
+		else
+		{
+			// 우단 or 상단 랜덤
+			GameEngineRandom Random;
+			int Dir = Random.RandomInt(0, 1);
+			if (0 == Dir)
+			{
+				MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_R;
+			}
+			else
+			{
+				MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_T;
+			}
+		}
+	}
+	else if (Dir.x < 0.f && Dir.y < 0.f)
+	{
+		// 좌하단에 연결룸 존재할때
+
+		// 1) 완전히 좌단
+		if (CurRoomCenter.y == ConnectionRoomCenter.y)
+		{
+			MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_L;
+		}
+		// 2) 완전히 하단
+		else if (CurRoomCenter.x == ConnectionRoomCenter.x)
+		{
+			MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_B;
+		}
+		// 3) 좌하단
+		else
+		{
+			// 좌단 or 하단 랜덤
+			GameEngineRandom Random;
+			int Dir = Random.RandomInt(0, 1);
+			if (0 == Dir)
+			{
+				MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_L;
+			}
+			else
+			{
+				MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_B;
+			}
+		}
+
+	}
+	else if (Dir.x >= 0.f && Dir.y < 0.f)
+	{
+		// 우하단에 연결룸 존재할때
+
+		// 1) 완전히 우단
+		if (CurRoomCenter.y == ConnectionRoomCenter.y)
+		{
+			MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_R;
+		}
+		// 2) 완전히 하단
+		else if (CurRoomCenter.x == ConnectionRoomCenter.x)
+		{
+			MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_B;
+		}
+		// 3) 우하단
+		else
+		{
+			// 좌단 or 하단 랜덤
+			GameEngineRandom Random;
+			int Dir = Random.RandomInt(0, 1);
+			if (0 == Dir)
+			{
+				MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_R;
+			}
+			else
+			{
+				MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_B;
+			}
+		}
+	}
+	else if (Dir.x < 0.f && Dir.y >= 0.f)
+	{
+		// 좌상단에 연결룸 존재할때
+
+		// 1) 완전히 좌단
+		if (CurRoomCenter.y == ConnectionRoomCenter.y)
+		{
+			MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_L;
+		}
+		// 2) 완전히 상단
+		else if (CurRoomCenter.x == ConnectionRoomCenter.x)
+		{
+			MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_T;
+		}
+		// 3) 좌상단
+		else
+		{
+			// 좌단 or 하단 랜덤
+			GameEngineRandom Random;
+			int Dir = Random.RandomInt(0, 1);
+			if (0 == Dir)
+			{
+				MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_L;
+			}
+			else
+			{
+				MapInfo_.RoomInfo_[_CurIndex].CenterType_ = RoomCenterDirType::DIRTC_T;
+			}
+		}
+
+	}
+
+	// 목표인덱스(연결하려는 룸의 센터인덱스)까지 연결될때까지 반복
+	while (true)
+	{
+		// 진행 방향 결정 완료되었으므로 현재룸에서 연결하려는 룸의 센터까지 연결시작
+		RandomCorridorInfo NewCorridorInfo = {};
+
+		NewCorridorInfo.CorridorType_ = RandomMapTileType::CORRIDOR;
+		RoomCenterDirType CenterType = MapInfo_.RoomInfo_[_CurIndex].CenterType_;
+
+		TileIndex CorridorTileIndex = MapInfo_.RoomInfo_[_CurIndex].RoomCenterIndex_;
+		switch (CenterType)
+		{
+			case RoomCenterDirType::DIRTC_T:
+			{
+				// 1. x인덱스 감소(목표타일 위치까지), y인덱스 현재룸의 센터 인덱스와 동일
 
 
+				// 2. 목표타일 위치까지 x인덱스가 모두 감소하였다면 y인덱스를 목표 인덱스까지 이동
 
 
+				// 3. 모두 완료되었다면 연결된 복도를 2줄로 만든다
+
+				break;
+			}
+			case RoomCenterDirType::DIRTC_B:
+			{
+				// 1. x인덱스 증가(목표타일 위치까지), y인덱스 현재룸의 센터 인덱스와 동일
 
 
+				// 2. 목표타일 위치까지 x인덱스가 모두 감소하였다면 y인덱스를 목표 인덱스까지 이동
+
+
+				// 3. 모두 완료되었다면 연결된 복도를 2줄로 만든다
+
+				break;
+			}
+			case RoomCenterDirType::DIRTC_L:
+			{
+				// 1. y인덱스 증가(목표타일 위치까지), x인덱스 현재룸의 센터 인덱스와 동일
+
+
+				// 2. 목표타일 위치까지 y인덱스가 모두 감소하였다면 x인덱스를 목표 인덱스까지 이동
+
+
+				// 3. 모두 완료되었다면 연결된 복도를 2줄로 만든다
+
+				break;
+			}
+			case RoomCenterDirType::DIRTC_R:
+			{
+				// 1. y인덱스 감소(목표타일 위치까지), x인덱스 현재룸의 센터 인덱스와 동일
+
+
+				// 2. 목표타일 위치까지 y인덱스가 모두 감소하였다면 x인덱스를 목표 인덱스까지 이동
+
+
+				// 3. 모두 완료되었다면 연결된 복도를 2줄로 만든다
+
+				break;
+			}
+		}
+
+		// 현재 생성된 복도타일의 인덱스가 목표타일인덱스와 동일하면 반복문 중단
+		if (CorridorTileIndex == MapInfo_.RoomInfo_[_ConnectionIndex].RoomCenterIndex_)
+		{
+			break;
+		}
+
+		// 타일 정보 저장
+		NewCorridorInfo.AllIndexLists_.push_back(CorridorTileIndex);
+		MapInfo_.CorridorInfo_.push_back(NewCorridorInfo);
+	}
+
+	int a = 0;
+
+	// 연결 완료되었다면 연결된 룸의 번호를 목록(ConnectionRoomList_)에 저장
+	MapInfo_.RoomInfo_[_CurIndex].ConnectionRoomList_.push_back(MapInfo_.RoomInfo_[_ConnectionIndex].RoomNo_);
 }
 
 void EditorRandomMap::CreateWall()

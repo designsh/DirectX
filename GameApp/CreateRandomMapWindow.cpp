@@ -227,6 +227,14 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->RoomPushOut();
 	}
 
+	// 룸과룸 거리측정 및 정보 저장
+	ImGui::Text("");
+	ImGui::Text("4) Room Distance Measurement");
+	if (true == ImGui::Button("RoomDistance", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->RoomDistanceMeasurement();
+	}
+
 	// 복도연결
 	ImGui::Text("");
 	ImGui::Text("3. Room Connection");
