@@ -139,6 +139,7 @@ public: // 룸 관련
 	void AllRoomClear();																	// 모든 룸 정보 및 렌더러 제거
 	void AllRoomInfomationClear();															// 모든 룸의 정보 제거
 	void AllRoomRendererClear();															// 모든 룸의 렌더러 제거
+	void RoomRenderClear(int _Index);														// 현재 선택된 인덱스의 렌더러 제거
 
 	void RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex);						// 현재 생성하려는 맵의 방을 배치하기 위하여 기본정보 저장
 	bool RoomArrangeCheck(int _WidthIndex, int _HeightIndex, int _RoomCnt);					// 현재 생성하려는 룸이 생성가능한지 체크하여 가능하다면 인덱스반환
@@ -153,9 +154,15 @@ public: // 룸 관련
 
 	// 현재 생성완료된 룸목록에서 겹치는 룸을 서로 밀어내는 구문
 	void RoomPushOut();																		// 
-	void RoomMoveCheck(int _CurIndex, int _IntersectsIndex, float4 _Dir = float4(0, 0));	// 현재 검사하는 방이 겹쳐진 방이 존재하지않을때까지 이동
+	bool RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir = float4(0, 0));				// 현재 검사하는 방과 모든 룸을 체크하여 겹쳐지지않을때까지 이동
 
 public: // 복도 연결
 	void RoomConnection();																	// 생성된 룸을 모두 연결
+
+public: // 룸/복도 벽생성
+	void CreateWall();																		// 
+
+public: // 룸-복도-룸의 연결부분에 문 생성
+	void CreateDoor();																		// 
 };
 
