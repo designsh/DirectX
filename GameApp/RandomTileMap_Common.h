@@ -60,7 +60,7 @@ struct RandomRoomInfo
 	std::vector<TileIndex> AllIndexLists_;			// 현재 생성된 룸의 모든 타일 인덱스(겹치는 룸 체크용도, 렌더링용도)
 };
 
-// 랜덤맵 복도정보(바닥타일기준 2개타일로 복도생성)
+// 랜덤맵 복도정보(바닥타일기준 2개타일로 복도생성 - 이유 : 복도 진입점에 문을 설치해야하기 때문에)
 struct RandomCorridorInfo
 {
 	CorridorDirType DirType_;						// 복도 진행방향(우상단/우하단)
