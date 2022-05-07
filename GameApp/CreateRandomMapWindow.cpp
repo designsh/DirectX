@@ -60,10 +60,20 @@ void CreateRandomMapWindow::OnGUI()
 	ImGui::Text("<<< Create RandomMap Function >>>");
 
 	ImGui::Text("");
-	ImGui::Text("0. All Room Clear");
+	ImGui::Text("0. All Clear");
+	if (true == ImGui::Button("AllClear", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->AllClear();
+	}
+	ImGui::SameLine();
 	if (true == ImGui::Button("RoomAllClear", ImVec2(200.f, 20.f)))
 	{
 		RandomMap_->AllRoomClear();
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("CorridorAllClear", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->AllCorridorClear();
 	}
 
 	ImGui::Text("");

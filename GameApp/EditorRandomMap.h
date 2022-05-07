@@ -59,6 +59,9 @@ private: // 룸 생성관련
 	int maxIndexY_;
 	std::vector<RoomRender> RoomRenderer_;
 
+private: // 복도 생성관련
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> CorridorRenderer_;
+
 public:
 	int SelectFloorTileIndex_;
 	int SelectWallTileIndex_;
@@ -138,11 +141,19 @@ public: // 랜덤맵 제한범위 관련
 	void TotalMapScale(int _MaxIndexX, int _MaxIndexY);										// 현재 생성하려는 맵의 크기를 결정
 	void TotalMapRendererClear();															// 현재 생성하려는 맵의 크기를 나타내는 렌더러 목록 제거기능(룸 재배치완료시 호출)
 
-public: // 룸 관련
+public: // 정리 관련
+	void AllClear();																		// 현재 생성된 랜덤맵관련 정보 및 렌더러 제거
+
+	// 룸관련정보
 	void AllRoomClear();																	// 모든 룸 정보 및 렌더러 제거
 	void AllRoomInfomationClear();															// 모든 룸의 정보 제거
 	void AllRoomRendererClear();															// 모든 룸의 렌더러 제거
 	void RoomRenderClear(int _Index);														// 현재 선택된 인덱스의 렌더러 제거
+
+	// 복도관련정보
+	void AllCorridorClear();																// 모든 복도 정보 및 렌더러 제거
+	void AllCorridorInfomationClear();														// 모든 복도의 정보 제거
+	void AllCorridorRendererClear();														// 모든 복도의 렌더러 제거
 
 	void RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex);						// 현재 생성하려는 맵의 방을 배치하기 위하여 기본정보 저장
 	bool RoomArrangeCheck(int _WidthIndex, int _HeightIndex, int _RoomCnt);					// 현재 생성하려는 룸이 생성가능한지 체크하여 가능하다면 인덱스반환
@@ -166,6 +177,10 @@ public: // 룸 관련
 public: // 복도 연결
 	void RoomConnection();																	// 생성된 룸을 모두 연결
 	void RoomConnectionStart(int _CurIndex, int _ConnectionIndex);							// 룸 연결 시작
+	void ConnectRoomDir(int _CurIndex, int _ConnectionIndex);								// 연결하려는 룸의 위치를 이용하여 현재 룸에서 복도를 뚫을 위치를 결정
+	void SetCorridorTile(int _CurIndex, int _ConnectionIndex);								// 현재 룸의 센터에서 목표 룸의 센터인덱스까지 복도타일 정보 생성
+	void CorridorRendering(int _Index);														// 생성된 복도 렌더링(생성마다 호출)
+	void AllCorridorRendering();															// 모든 복도 렌더링(전체 생성완료후 호출)
 
 public: // 룸/복도 벽생성
 	void CreateWall();																		// 
