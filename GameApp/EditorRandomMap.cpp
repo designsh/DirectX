@@ -375,16 +375,17 @@ void EditorRandomMap::TotalMapScale(int _MaxIndexX, int _MaxIndexY)
 void EditorRandomMap::AllRoomClear()
 {
 	// 방정보 제거
-	std::vector<RandomRoomInfo>::iterator StartIter = MapInfo_.RoomInfo_.begin();
-	std::vector<RandomRoomInfo>::iterator EndIter = MapInfo_.RoomInfo_.end();
-	for (; StartIter != EndIter;)
-	{
-		MapInfo_.RoomInfo_.erase(StartIter);
-		StartIter = MapInfo_.RoomInfo_.begin();
-		EndIter = MapInfo_.RoomInfo_.end();
-	}
-	MapInfo_.RoomInfo_.clear();
+	AllRoomInfomationClear();
 
+	// 방 렌더러 제거
+	AllRoomRendererClear();
+
+	// 룸 갯수 초기화
+	RoomCnt_ = 0;
+}
+
+void EditorRandomMap::AllRoomRendererClear()
+{
 	// 방 렌더러 제거
 	for (int i = 0; i < static_cast<int>(RoomRenderer_.size()); ++i)
 	{
@@ -408,6 +409,20 @@ void EditorRandomMap::AllRoomClear()
 		RendererEndIter = RoomRenderer_.end();
 	}
 	RoomRenderer_.clear();
+}
+
+void EditorRandomMap::AllRoomInfomationClear()
+{
+	// 방정보 제거
+	std::vector<RandomRoomInfo>::iterator StartIter = MapInfo_.RoomInfo_.begin();
+	std::vector<RandomRoomInfo>::iterator EndIter = MapInfo_.RoomInfo_.end();
+	for (; StartIter != EndIter;)
+	{
+		MapInfo_.RoomInfo_.erase(StartIter);
+		StartIter = MapInfo_.RoomInfo_.begin();
+		EndIter = MapInfo_.RoomInfo_.end();
+	}
+	MapInfo_.RoomInfo_.clear();
 
 	// 룸 갯수 초기화
 	RoomCnt_ = 0;
@@ -476,23 +491,6 @@ bool EditorRandomMap::RoomArrangeCheck(int _WidthIndex, int _HeightIndex, int _R
 	if (MapInfo_.minIndexX_ <= RoomStartX && MapInfo_.maxIndexX_ > RoomEndX &&
 		MapInfo_.minIndexY_ <= RoomStartY && MapInfo_.maxIndexY_ > RoomEndY)
 	{
-		//// 현재 생성된 제한된 범위내에 존재하지만 다른 룸과 겹치는 경우 생성실패
-		//int PrevRoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
-		//for (int i = 0; i < PrevRoomCnt; ++i)
-		//{
-		//	int CurRoomTileListsCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
-		//	for (int j = 0; j < CurRoomTileListsCnt; ++j)
-		//	{
-		//		if (MapInfo_.RoomInfo_[i].AllIndexLists_[j].X_ == RoomStartX ||
-		//			MapInfo_.RoomInfo_[i].AllIndexLists_[j].X_ == RoomEndX ||
-		//			MapInfo_.RoomInfo_[i].AllIndexLists_[j].Y_ == RoomStartY ||
-		//			MapInfo_.RoomInfo_[i].AllIndexLists_[j].Y_ == RoomEndY)
-		//		{
-		//			return false;
-		//		}
-		//	}
-		//}
-		
 		// 룸에 정보 저장
 		RandomRoomInfo NewRoom = {};
 		NewRoom.TileType_ = RandomMapTileType::ROOM;
@@ -625,8 +623,8 @@ void EditorRandomMap::RenderingManualRoom()
 
 void EditorRandomMap::RoomPushOut()
 {
-	// 기존의 룸을 렌더링한 정보를 모두 날려버리고,
-
+	// 기존의 룸 렌더링 삭제
+	AllRoomRendererClear();
 
 	// 현재 생성된 룸정보들을 검사하여 룸이 서로 겹치는 룸은 서로 밀어내기 처리
 	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
@@ -635,24 +633,139 @@ void EditorRandomMap::RoomPushOut()
 		// 룸 한개 선택
 		RandomRoomInfo CurRoomInfo = MapInfo_.RoomInfo_[i];
 
+#pragma region 이동방향결정
+		float4 TileMoveDir = float4::ZERO;
+		GameEngineRandom RandomDir;
+		int Dir = RandomDir.RandomInt(0, 7);
+		switch (Dir)
+		{
+			case 0: // TOP
+			{
+				TileMoveDir = float4(-1, -1);
+				break;
+			}
+			case 1: // RIGHT TOP
+			{
+				TileMoveDir = float4(0, -1);
+				break;
+			}
+			case 2: // RIGHT
+			{
+				TileMoveDir = float4(1, -1);
+				break;
+			}
+			case 3: // RIGHT BOTTOM
+			{
+				TileMoveDir = float4(1, 0);
+				break;
+			}
+			case 4: // BOTTOM
+			{
+				TileMoveDir = float4(1, 1);
+				break;
+			}
+			case 5: // LEFT BOTTOM
+			{
+				TileMoveDir = float4(0, 1);
+				break;
+			}
+			case 6: // LEFT
+			{
+				TileMoveDir = float4(-1, 1);
+				break;
+			}
+			case 7: // LEFT TOP
+			{
+				TileMoveDir = float4(-1, 0);
+				break;
+			}
+		}
+#pragma endregion
+
 		// 현재 선택된 룸과 겹쳐있는 룸이있는지 탐색
 		int SearchRoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 		for (int j = 0; j < SearchRoomCnt; ++j)
 		{
 			// 본인룸은 제외
-			if (CurRoomInfo.RoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+			if (CurRoomInfo.RoomNo_ == MapInfo_.RoomInfo_[j].RoomNo_)
 			{
 				continue;
 			}
 
-			// 아니라면 겹쳐있는지 검사하여 겹쳐있다면 현재 선택한 룸을 랜덤한 방향으로 이동시작
-			// 이동완료 후 
+			// 겹쳐진 룸이 없을때까지 반복 이동
+			RoomMoveCheck(i, j, TileMoveDir);
+		}
 
+		// 현재 검사하는 룸이 이동완료로 갱신된 정보로 다시 렌더링
+		RoomRender NewRoomRenderer = {};
+		for (int y = CurRoomInfo.minIndexY_; y < CurRoomInfo.maxIndexY_; ++y)
+		{
+			for (int x = CurRoomInfo.minIndexX_; x < CurRoomInfo.maxIndexX_; ++x)
+			{
+				float4 Pos = float4::ZERO;
+				Pos.x = (x - y) * TileSizeHalf_.x;
+				Pos.y = (x + y) * -TileSizeHalf_.y;
 
+				GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+				NewRenderer->SetImage(FloorTileTextureName_);
+				NewRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+				NewRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+				NewRenderer->GetTransform()->SetLocalZOrder(-10.f);
+				NewRenderer->SetIndex(SelectFloorTileIndex_);
+				NewRoomRenderer.TileRenderer_.insert(std::make_pair(TileIndex(x, y).Index_, NewRenderer));
+			}
+		}
 
+		RoomRenderer_.push_back(NewRoomRenderer);
+	}
+}
 
+void EditorRandomMap::RoomMoveCheck(int _CurIndex, int _IntersectsIndex, float4 _Dir)
+{
+	// 검사시작!!!!!!!
+	while (1)
+	{
+		// 이동완료 체크 : 룸이 현재 비교하는 룸에서 벗어나면 이동반복 종료
+		bool MoveChkFlag = false;
+		int StandardRoomTileListsCnt = static_cast<int>(MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_.size());
+		int CompareRoomTileListsCnt = static_cast<int>(MapInfo_.RoomInfo_[_IntersectsIndex].AllIndexLists_.size());
+		for (int i = 0; i < StandardRoomTileListsCnt; ++i)
+		{
+			for (int j = 0; j < CompareRoomTileListsCnt; ++j)
+			{
+				if (MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_[i].X_ == MapInfo_.RoomInfo_[_IntersectsIndex].AllIndexLists_[j].X_ + _Dir.ix() &&
+					MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_[i].Y_ == MapInfo_.RoomInfo_[_IntersectsIndex].AllIndexLists_[j].Y_ - _Dir.iy())
+				{
+					MoveChkFlag = true;
+
+					MapInfo_.RoomInfo_[_CurIndex].minIndexX_ += _Dir.ix();
+					MapInfo_.RoomInfo_[_CurIndex].maxIndexX_ += _Dir.ix();
+					MapInfo_.RoomInfo_[_CurIndex].minIndexY_ += _Dir.iy();
+					MapInfo_.RoomInfo_[_CurIndex].maxIndexY_ += _Dir.iy();
+
+					// 현재 타일의 인덱스 정보 갱신
+					MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_.clear();
+					for (int y = MapInfo_.RoomInfo_[_CurIndex].minIndexY_; y < MapInfo_.RoomInfo_[_CurIndex].maxIndexY_; ++y)
+					{
+						for (int x = MapInfo_.RoomInfo_[_CurIndex].minIndexX_; x < MapInfo_.RoomInfo_[_CurIndex].maxIndexX_; ++x)
+						{
+							MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_.push_back(TileIndex(x, y));
+						}
+					}
+
+					break;
+				}
+			}
+		}
+
+		// 이동
+		if (false == MoveChkFlag)
+		{
+			return;
 		}
 	}
+
+	return;
 }
 
 void EditorRandomMap::RoomConnection()
