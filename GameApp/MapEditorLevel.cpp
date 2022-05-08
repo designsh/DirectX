@@ -24,7 +24,7 @@ MapEditorLevel::MapEditorLevel() :
 	EditorModeSelWindow_(nullptr),
 	TileMapWindow_(nullptr),
 	RandomMapWindow_(nullptr),
-	MoveSpeed_(1000.f)
+	MoveSpeed_(10000.f)
 {
 }
 

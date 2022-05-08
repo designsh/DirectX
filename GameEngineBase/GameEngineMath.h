@@ -35,7 +35,7 @@ public:
 	// 거리 : 두 벡터간의 거리
 	static float Distance(float4 _Left, float4 _Right)
 	{
-		return static_cast<float>(sqrt(pow(std::abs(_Left.x) - std::abs(_Right.x), 2) + pow(std::abs(_Left.y) - std::abs(_Right.y), 2)));
+		return static_cast<float>(sqrt(pow(_Left.x - _Right.x, 2) + pow(_Left.y - _Right.y, 2)));
 	}
 
 	// 외적 : 두 벡터를 외적(두 벡터를 외적하면 두 벡터에 모두 수직인 벡터 도출)

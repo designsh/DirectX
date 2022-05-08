@@ -774,6 +774,8 @@ void EditorRandomMap::RoomPushOut()
 				break;
 			}
 		}
+
+		TileMoveDir *= 4.f;
 #pragma endregion
 
 		// 모든 룸을 검사하여 겹쳐지지않는곳까지 이동
@@ -814,20 +816,20 @@ bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
 			{
 				for (int j = 0; j < CompareRoomTileListsCnt; ++j)
 				{
-					// 현재 룸타일의 이동방향을 비교대상에게 더해주어 1칸씩 벌어지도록 체크
+					// 현재 룸의 이동방향에 따라 
 					if (MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_[i].X_ == MapInfo_.RoomInfo_[k].AllIndexLists_[j].X_ + _Dir.ix() &&
-						MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_[i].Y_ == MapInfo_.RoomInfo_[k].AllIndexLists_[j].Y_ + _Dir.iy() )
+						MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_[i].Y_ == MapInfo_.RoomInfo_[k].AllIndexLists_[j].Y_ + _Dir.iy())
 					{
 						MoveChkFlag = true;
 
 						// 타일을 2칸씩 이동
-						MapInfo_.RoomInfo_[_CurIndex].minIndexX_ += (_Dir.ix() * 2);
-						MapInfo_.RoomInfo_[_CurIndex].maxIndexX_ += (_Dir.ix() * 2);
-						MapInfo_.RoomInfo_[_CurIndex].minIndexY_ += (_Dir.iy() * 2);
-						MapInfo_.RoomInfo_[_CurIndex].maxIndexY_ += (_Dir.iy() * 2);
+						MapInfo_.RoomInfo_[_CurIndex].minIndexX_ += _Dir.ix();
+						MapInfo_.RoomInfo_[_CurIndex].maxIndexX_ += _Dir.ix();
+						MapInfo_.RoomInfo_[_CurIndex].minIndexY_ += _Dir.iy();
+						MapInfo_.RoomInfo_[_CurIndex].maxIndexY_ += _Dir.iy();
 
 						// 현재 룸의 센터위치 재설정
-						MapInfo_.RoomInfo_[_CurIndex].RoomCenterIndex_ = MapInfo_.RoomInfo_[_CurIndex].RoomCenterIndex_ + TileIndex((_Dir.ix() * 2), (_Dir.iy() * 2));
+						MapInfo_.RoomInfo_[_CurIndex].RoomCenterIndex_ = MapInfo_.RoomInfo_[_CurIndex].RoomCenterIndex_ + TileIndex(_Dir.ix(), _Dir.iy());
 
 						// 현재 타일의 인덱스 정보 갱신
 						MapInfo_.RoomInfo_[_CurIndex].AllIndexLists_.clear();
@@ -859,50 +861,52 @@ bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
 
 void EditorRandomMap::RoomDistanceMeasurement()
 {
-	// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
-	SearchRoomDistance();
+	// 방과방 간의 거리를 측정하여 정보를 셋팅
+	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCount; ++i)
+	{
+		// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
+		SearchRoomDistance(i);
+	}
 }
 
-void EditorRandomMap::SearchRoomDistance()
+void EditorRandomMap::SearchRoomDistance(int _CheckIndex)
 {
-	// 1번룸에서 가장 인접한 룸을 찾아낸 뒤 그 인접한 룸과 2번째로 인접한 룸을 찾아서 설정
-	// 이와 같은 처리를 룸의 갯수만큼 반복처리하여 모든 룸을 연결
-
 	std::map<int, float> RoomDistanceMap;
-	float4 CurRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[0].RoomCenterIndex_);
-	for (int j = 0; j < static_cast<int>(MapInfo_.RoomInfo_.size()); ++j)
+
+	float4 CurRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[_CheckIndex].RoomCenterIndex_);
+
+	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCount; ++i)
 	{
 		// 본인 룸 제외
-		if (MapInfo_.RoomInfo_[0].RoomNo_ == MapInfo_.RoomInfo_[j].RoomNo_)
+		if (MapInfo_.RoomInfo_[_CheckIndex].RoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
 		{
 			continue;
 		}
 
 		// 모든 룸과의 거리 측정(각 룸의 센터인덱스 기준)
-		float4 CheckRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[j].RoomCenterIndex_);
+		float4 CheckRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_);
 
 		// 기준 인덱스의 위치와 현재 거리체크하는 인덱스의 거리를 계산
 		// => 두 벡터사이의 거리측정 후 목록에 저장
 		float Length = float4::Distance(CurRoomPos, CheckRoomPos);
-		RoomDistanceMap.insert(std::make_pair(MapInfo_.RoomInfo_[j].RoomNo_, Length));
+		RoomDistanceMap.insert(std::make_pair(MapInfo_.RoomInfo_[i].RoomNo_, Length));
 	}
 
 	// 키로 정렬되어있는 거리체크맵을 Value로 재정렬
 	std::vector<std::pair<int, float>> ReSortVector(RoomDistanceMap.begin(), RoomDistanceMap.end());
 	std::sort(ReSortVector.begin(), ReSortVector.end(), EditorRandomMap::Compare);
 
-	// 첫번째 룸의 인접한 룸을 찾아냄
-	MapInfo_.RoomInfo_[0].AdjacentRoomNo_ = ReSortVector[0].first;
+	// 정렬되었으므로 벡터의 0번째가 가장 인접한 룸
+	MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ = ReSortVector[0].first;
 
+	// 마지막번째가 가장 멀리있는 룸
 	int VectorSize = static_cast<int>(ReSortVector.size());
 	if (0 != VectorSize)
 	{
-		MapInfo_.RoomInfo_[0].NotadjacentRoomNo_ = ReSortVector[VectorSize - 1].first;
+		MapInfo_.RoomInfo_[_CheckIndex].NotadjacentRoomNo_ = ReSortVector[VectorSize - 1].first;
 	}
-
-	// 1번과 연결되는 룸의 가장 인접한 룸을 탐색
-
-
 }
 
 void EditorRandomMap::RoomConnection()
