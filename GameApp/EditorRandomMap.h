@@ -172,7 +172,7 @@ public: // 정리 관련
 
 	// 현재 생성 및 재배치완료된 룸정보를 이용하여 복도생성에 필요한 정보 셋팅
 	void RoomDistanceMeasurement();															// 각 룸의 센터정보를 이용하여 룸간의 거리를 측정 후 가장 멀리있는 룸을 알아내고, 가장 가까운 룸을 알아낸다.
-	void SearchRoomDistance(int _CheckIndex);												// 
+	void SearchRoomDistance();																// 각각의 기준룸과 다른룸의 거리중 가장 인접한 거리를 가지는 룸과 가장 멀리있는 룸을 탐색
 	
 public: // 복도 연결
 	void RoomConnection();																	// 생성된 룸을 모두 연결
