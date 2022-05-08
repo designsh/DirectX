@@ -861,21 +861,56 @@ bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
 
 void EditorRandomMap::RoomDistanceMeasurement()
 {
-	// 방과방 간의 거리를 측정하여 정보를 셋팅
+	// 1번룸에서의 모든 룸과의 거리를 측정하고
+	// 1번룸이 직통으로(중간에 룸이없는곳) 연결가능한 룸을 모두 연결
+	std::map<int, float> RoomDistanceMap;
+	float4 CurRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[0].RoomCenterIndex_);
+
 	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCount; ++i)
 	{
-		// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
-		SearchRoomDistance(i);
+		// 본인 룸 제외
+		if (MapInfo_.RoomInfo_[0].RoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+		{
+			continue;
+		}
+
+		// 모든 룸과의 거리 측정(각 룸의 센터인덱스 기준)
+		float4 CheckRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_);
+
+		// 기준 인덱스의 위치와 현재 거리체크하는 인덱스의 거리를 계산
+		// => 두 벡터사이의 거리측정 후 목록에 저장
+		float Length = float4::Distance(CurRoomPos, CheckRoomPos);
+		RoomDistanceMap.insert(std::make_pair(MapInfo_.RoomInfo_[i].RoomNo_, Length));
 	}
+
+	// 키로 정렬되어있는 거리체크맵을 Value로 재정렬
+	std::vector<std::pair<int, float>> ReSortVector(RoomDistanceMap.begin(), RoomDistanceMap.end());
+	std::sort(ReSortVector.begin(), ReSortVector.end(), EditorRandomMap::Compare);
+
+	// 
+
+
+
+
+
+
+
+
+
+	//// 방과방 간의 거리를 측정하여 정보를 셋팅
+	//int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
+	//for (int i = 0; i < RoomCount; ++i)
+	//{
+	//	// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
+	//	SearchRoomDistance(i);
+	//}
 }
 
 void EditorRandomMap::SearchRoomDistance(int _CheckIndex)
 {
 	std::map<int, float> RoomDistanceMap;
-
 	float4 CurRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[_CheckIndex].RoomCenterIndex_);
-
 	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCount; ++i)
 	{
