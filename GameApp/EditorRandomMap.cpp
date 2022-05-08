@@ -861,12 +861,44 @@ bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
 
 void EditorRandomMap::RoomDistanceMeasurement()
 {
-	// 방과방 간의 거리를 측정하여 정보를 셋팅
+	// 각 룸에서의 다른 룸과의 거리 목록을 생성
 	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCount; ++i)
 	{
 		// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
 		SearchRoomDistance(i);
+	}
+
+	// 모든 룸의 거리목록을 이용하여 현재룸의 인접룸과 가장 멀리떨어져있는 룸을 찾아내서 저장
+	for (int i = 0; i < RoomCount; ++i)
+	{
+		// 현재 체크하는 룸 Get
+		RandomRoomInfo CurCheckRoom = MapInfo_.RoomInfo_[i];
+
+		// 연결가능한 모든 룸을 탐색 후 인접룸, 가장멀리 있는 룸 셋팅
+
+
+		
+
+
+
+
+
+
+		// 220509 SJH 임시용
+		// 정렬되었으므로 벡터의 0번째가 가장 인접한 룸
+		MapInfo_.RoomInfo_[i].AdjacentRoomNo_ = CurCheckRoom.AllRoomDistList_[0].first;
+
+		// 마지막번째가 가장 멀리있는 룸
+		int VectorSize = static_cast<int>(CurCheckRoom.AllRoomDistList_.size());
+		if (0 != VectorSize)
+		{
+			MapInfo_.RoomInfo_[i].NotadjacentRoomNo_ = CurCheckRoom.AllRoomDistList_[VectorSize - 1].first;
+		}
+
+
+
+		int a = 0;
 	}
 }
 
@@ -892,37 +924,12 @@ void EditorRandomMap::SearchRoomDistance(int _CheckIndex)
 		RoomDistanceMap.insert(std::make_pair(MapInfo_.RoomInfo_[i].RoomNo_, Length));
 	}
 
-	// 키로 정렬되어있는 거리체크맵을 Value로 재정렬
+	// 룸번호로 정렬한 작성된 목록을 거리를 이용하여 재정렬
 	std::vector<std::pair<int, float>> ReSortVector(RoomDistanceMap.begin(), RoomDistanceMap.end());
 	std::sort(ReSortVector.begin(), ReSortVector.end(), EditorRandomMap::Compare);
 
-	// 거리별 측정이 완료되었으므로 연결하려는 방향과 연결하려는 룸의 위치를 이용하여
-	// 연결가능한지 조건체크하여 직통연결이 가능한 룸을 가장 인접한 룸으로 설정
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// 220508 SJH 임시주석처리 : 인접조건변경중
-
-	//// 정렬되었으므로 벡터의 0번째가 가장 인접한 룸
-	//MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ = ReSortVector[0].first;
-
-	//// 마지막번째가 가장 멀리있는 룸
-	//int VectorSize = static_cast<int>(ReSortVector.size());
-	//if (0 != VectorSize)
-	//{
-	//	MapInfo_.RoomInfo_[_CheckIndex].NotadjacentRoomNo_ = ReSortVector[VectorSize - 1].first;
-	//}
+	// 현재 체크하는 룸과 각각의 모든 룸과의 거리를 측정하여 목록 저장
+	MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_ = ReSortVector;
 }
 
 void EditorRandomMap::RoomConnection()
