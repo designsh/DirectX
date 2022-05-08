@@ -861,50 +861,13 @@ bool EditorRandomMap::RoomIntersectsMoveCheck(int _CurIndex, float4 _Dir)
 
 void EditorRandomMap::RoomDistanceMeasurement()
 {
-	// 1번룸에서의 모든 룸과의 거리를 측정하고
-	// 1번룸이 직통으로(중간에 룸이없는곳) 연결가능한 룸을 모두 연결
-	std::map<int, float> RoomDistanceMap;
-	float4 CurRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[0].RoomCenterIndex_);
-
+	// 방과방 간의 거리를 측정하여 정보를 셋팅
 	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCount; ++i)
 	{
-		// 본인 룸 제외
-		if (MapInfo_.RoomInfo_[0].RoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
-		{
-			continue;
-		}
-
-		// 모든 룸과의 거리 측정(각 룸의 센터인덱스 기준)
-		float4 CheckRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_);
-
-		// 기준 인덱스의 위치와 현재 거리체크하는 인덱스의 거리를 계산
-		// => 두 벡터사이의 거리측정 후 목록에 저장
-		float Length = float4::Distance(CurRoomPos, CheckRoomPos);
-		RoomDistanceMap.insert(std::make_pair(MapInfo_.RoomInfo_[i].RoomNo_, Length));
+		// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
+		SearchRoomDistance(i);
 	}
-
-	// 키로 정렬되어있는 거리체크맵을 Value로 재정렬
-	std::vector<std::pair<int, float>> ReSortVector(RoomDistanceMap.begin(), RoomDistanceMap.end());
-	std::sort(ReSortVector.begin(), ReSortVector.end(), EditorRandomMap::Compare);
-
-	// 
-
-
-
-
-
-
-
-
-
-	//// 방과방 간의 거리를 측정하여 정보를 셋팅
-	//int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
-	//for (int i = 0; i < RoomCount; ++i)
-	//{
-	//	// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
-	//	SearchRoomDistance(i);
-	//}
 }
 
 void EditorRandomMap::SearchRoomDistance(int _CheckIndex)
@@ -933,15 +896,33 @@ void EditorRandomMap::SearchRoomDistance(int _CheckIndex)
 	std::vector<std::pair<int, float>> ReSortVector(RoomDistanceMap.begin(), RoomDistanceMap.end());
 	std::sort(ReSortVector.begin(), ReSortVector.end(), EditorRandomMap::Compare);
 
-	// 정렬되었으므로 벡터의 0번째가 가장 인접한 룸
-	MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ = ReSortVector[0].first;
+	// 거리별 측정이 완료되었으므로 연결하려는 방향과 연결하려는 룸의 위치를 이용하여
+	// 연결가능한지 조건체크하여 직통연결이 가능한 룸을 가장 인접한 룸으로 설정
 
-	// 마지막번째가 가장 멀리있는 룸
-	int VectorSize = static_cast<int>(ReSortVector.size());
-	if (0 != VectorSize)
-	{
-		MapInfo_.RoomInfo_[_CheckIndex].NotadjacentRoomNo_ = ReSortVector[VectorSize - 1].first;
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// 220508 SJH 임시주석처리 : 인접조건변경중
+
+	//// 정렬되었으므로 벡터의 0번째가 가장 인접한 룸
+	//MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ = ReSortVector[0].first;
+
+	//// 마지막번째가 가장 멀리있는 룸
+	//int VectorSize = static_cast<int>(ReSortVector.size());
+	//if (0 != VectorSize)
+	//{
+	//	MapInfo_.RoomInfo_[_CheckIndex].NotadjacentRoomNo_ = ReSortVector[VectorSize - 1].first;
+	//}
 }
 
 void EditorRandomMap::RoomConnection()
