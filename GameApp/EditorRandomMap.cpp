@@ -896,8 +896,6 @@ void EditorRandomMap::RoomDistanceMeasurement()
 			MapInfo_.RoomInfo_[i].NotadjacentRoomNo_ = CurCheckRoom.AllRoomDistList_[VectorSize - 1].first;
 		}
 
-
-
 		int a = 0;
 	}
 }
