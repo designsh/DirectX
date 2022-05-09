@@ -561,22 +561,22 @@ void EditorRandomMap::CreateWallInfo()
 	}
 	
 	// 2. 복도의 벽정보 생성
-	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
-	for (int i = 0; i < CorridorTileCnt; ++i)
-	{
-		TileIndex CurTileIndex;
+	//int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+	//for (int i = 0; i < CorridorTileCnt; ++i)
+	//{
+	//	TileIndex CurTileIndex;
 
-		
-		RandomWallInfo NewWall = {};
+	//	
+	//	RandomWallInfo NewWall = {};
 
-		// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
-		if (true == WallOverlapCheck(CurTileIndex))
-		{
-			continue;
-		}
+	//	// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
+	//	if (true == WallOverlapCheck(CurTileIndex))
+	//	{
+	//		continue;
+	//	}
 
-		MapInfo_.WallInfo_.push_back(NewWall);
-	}
+	//	MapInfo_.WallInfo_.push_back(NewWall);
+	//}
 
 	// 3. 조건에 따라 벽의 기본타입과 상세타입을 결정한다.
 
