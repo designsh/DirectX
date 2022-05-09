@@ -155,6 +155,9 @@ public: // 정리 관련
 	void AllCorridorInfomationClear();														// 모든 복도의 정보 제거
 	void AllCorridorRendererClear();														// 모든 복도의 렌더러 제거
 
+	// 랜덤복도관련
+	void AllRandomRoadClear();																// 랜덤으로 설치한 복도 렌더러 제거
+
 	void RandomRoom(int _RoomCnt, int _WidthIndex, int _HeightIndex);						// 현재 생성하려는 맵의 방을 배치하기 위하여 기본정보 저장
 	bool RoomArrangeCheck(int _WidthIndex, int _HeightIndex, int _RoomCnt);					// 현재 생성하려는 룸이 생성가능한지 체크하여 가능하다면 인덱스반환
 

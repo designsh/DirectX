@@ -66,6 +66,11 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->AllClear();
 	}
 	ImGui::SameLine();
+	if (true == ImGui::Button("RandomRoadClear", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->AllRandomRoadClear();
+	}
+	ImGui::SameLine();
 	if (true == ImGui::Button("RoomAllClear", ImVec2(200.f, 20.f)))
 	{
 		RandomMap_->AllRoomClear();
@@ -170,14 +175,13 @@ void CreateRandomMapWindow::OnGUI()
 	}
 #pragma endregion
 
-#pragma region 복도생성
-	// 220503 SJH 임시주석처리
-	//ImGui::Text("");
-	//ImGui::Text("2. Create Random Road");
-	//if (true == ImGui::Button("CreateRoad", ImVec2(200.f, 20.f)))
-	//{
-	//	RandomMap_->RandomRoad(5, true);
-	//}
+#pragma region 랜덤복도생성
+	ImGui::Text("");
+	ImGui::Text("0000. Create Random Road");
+	if (true == ImGui::Button("CreateRoad", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->RandomRoad(5, true);
+	}
 #pragma endregion
 
 	ImGui::Text("");

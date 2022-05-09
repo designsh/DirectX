@@ -496,6 +496,18 @@ void EditorRandomMap::AllCorridorRendererClear()
 	CorridorRenderer_.clear();
 }
 
+void EditorRandomMap::AllRandomRoadClear()
+{
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = FloorTiles_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = FloorTiles_.end();
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		// 세컨드 데스처리
+		(*StartIter).second->Death();
+	}
+	FloorTiles_.clear();
+}
+
 void EditorRandomMap::TotalMapRendererClear()
 {
 	// 임시주석
@@ -868,36 +880,6 @@ void EditorRandomMap::RoomDistanceMeasurement()
 		// 가장 인접한 룸과 가장 멀리있는 룸의 No를 저장
 		SearchRoomDistance(i);
 	}
-
-	// 모든 룸의 거리목록을 이용하여 현재룸의 인접룸과 가장 멀리떨어져있는 룸을 찾아내서 저장
-	for (int i = 0; i < RoomCount; ++i)
-	{
-		// 현재 체크하는 룸 Get
-		RandomRoomInfo CurCheckRoom = MapInfo_.RoomInfo_[i];
-
-		// 연결가능한 모든 룸을 탐색 후 인접룸, 가장멀리 있는 룸 셋팅
-
-
-		
-
-
-
-
-
-
-		// 220509 SJH 임시용
-		// 정렬되었으므로 벡터의 0번째가 가장 인접한 룸
-		MapInfo_.RoomInfo_[i].AdjacentRoomNo_ = CurCheckRoom.AllRoomDistList_[0].first;
-
-		// 마지막번째가 가장 멀리있는 룸
-		int VectorSize = static_cast<int>(CurCheckRoom.AllRoomDistList_.size());
-		if (0 != VectorSize)
-		{
-			MapInfo_.RoomInfo_[i].NotadjacentRoomNo_ = CurCheckRoom.AllRoomDistList_[VectorSize - 1].first;
-		}
-
-		int a = 0;
-	}
 }
 
 void EditorRandomMap::SearchRoomDistance(int _CheckIndex)
@@ -928,12 +910,71 @@ void EditorRandomMap::SearchRoomDistance(int _CheckIndex)
 
 	// 현재 체크하는 룸과 각각의 모든 룸과의 거리를 측정하여 목록 저장
 	MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_ = ReSortVector;
+
+	// 현재 가장 가까운룸을 연결룸으로 설정
+	// 단, 내 연결목록에 상대가 이미 존재한다면 상호연결을 배제하기위하여
+	// 내 연결목록에 존재하지않으면서 인접한룸으로 설정
+	bool Search = false;
+	int ConnectionListCnt = static_cast<int>(MapInfo_.RoomInfo_[_CheckIndex].ConnectionRoomList_.size());
+	for (int i = 0; i < ConnectionListCnt; ++i)
+	{
+		// 이미 내 목록에 연결할 룸이 존재
+		if (MapInfo_.RoomInfo_[_CheckIndex].ConnectionRoomList_[i] == MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_[0].first)
+		{
+			Search = true;
+			break;
+		}
+	}
+
+	if (false == Search)
+	{
+		MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ = MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_[0].first;
+	}
+	else
+	{
+		// 이미 존재할때 연결목록에 이미 존재하는 룸을 제외하고 가장 인접한룸으로 연결룸 설정
+		MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ = MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_[1].first;
+
+
+		//bool SearchEnd = false;
+		//int AllRoomDistListCnt = static_cast<int>(MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_.size());
+		//for (int i = 0; i < AllRoomDistListCnt; ++i)
+		//{
+		//	int ConnectionListCnt = static_cast<int>(MapInfo_.RoomInfo_[_CheckIndex].ConnectionRoomList_.size());
+		//	for (int j = 0; j < ConnectionListCnt; ++j)
+		//	{
+		//		if (MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_[i].first != MapInfo_.RoomInfo_[_CheckIndex].ConnectionRoomList_[j])
+		//		{
+		//			SearchEnd = true;
+		//			MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ = MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_[i].first;
+		//			break;
+		//		}
+		//	}
+
+		//	if (true == SearchEnd)
+		//	{
+		//		break;
+		//	}
+		//}
+	}
+
+	// 현재 가장 멀리있는 룸을 설정
+	int VectorSize = static_cast<int>(MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_.size());
+	if (0 != VectorSize)
+	{
+		MapInfo_.RoomInfo_[_CheckIndex].NotadjacentRoomNo_ = MapInfo_.RoomInfo_[_CheckIndex].AllRoomDistList_[VectorSize - 1].first;
+	}
+
+	// 내 연결목록에 상대룸을 추가, 상대룸의 연결목록에 내룸번호 추가
+	MapInfo_.RoomInfo_[_CheckIndex].ConnectionRoomList_.push_back(MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_);
+	MapInfo_.RoomInfo_[MapInfo_.RoomInfo_[_CheckIndex].AdjacentRoomNo_ - 1].ConnectionRoomList_.push_back(MapInfo_.RoomInfo_[_CheckIndex].RoomNo_);
 }
 
 void EditorRandomMap::RoomConnection()
 {
 	// 룸센터-룸센터 복도 연결
-	// 룸의 센터인덱스정보를 이용하여 룸과룸의 센터를 연결하는 복도 생성
+	
+	// 각 룸의 거리별 인접룸판단목록을 이용하여 연결시작
 	int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCount; ++i)
 	{
@@ -954,17 +995,6 @@ void EditorRandomMap::RoomConnection()
 
 void EditorRandomMap::RoomConnectionStart(int _CurIndex, int _ConnectionIndex)
 {
-	// 현재 연결하려는 룸과 이미 연결되어있는지 체크
-	int ConnectionRoomCnt = static_cast<int>(MapInfo_.RoomInfo_[_ConnectionIndex].ConnectionRoomList_.size());
-	for (int i = 0; i < ConnectionRoomCnt; ++i)
-	{
-		// 이미 연결되어있다면 리턴
-		if (MapInfo_.RoomInfo_[_ConnectionIndex].ConnectionRoomList_[i] == MapInfo_.RoomInfo_[_CurIndex].RoomNo_)
-		{
-			return;
-		}
-	}
-
 	// 연결하려는 룸의 위치에따라 현재 룸에서 복도를 뚫은 구간을 선택
 	ConnectRoomDir(_CurIndex, _ConnectionIndex);
 
