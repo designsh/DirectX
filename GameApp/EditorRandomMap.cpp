@@ -387,21 +387,33 @@ void EditorRandomMap::RoadRendering()
 }
 
 // 2. 복도를 기준으로 룸정보 생성
-void EditorRandomMap::CreateRoomArrange()
+void EditorRandomMap::CreateRoomArrange(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex)
 {
 	// 룸 배치 정보 생성
-	CreateRoomArrangeInfo();
+	CreateRoomArrangeInfo(_RoomCount, _MaxWidthIndex, _MaxHeightIndex);
 
 	// 룸 배치정보를 이용하여 화면에 렌더링
 	RoomRendering();
 }
 
-void EditorRandomMap::CreateRoomArrangeInfo()
+void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex)
 {
 	// 복도 정보를 이용하여 룸배치
+	GameEngineRandom RoomRandom;
 
-	// 1. 룸의 크기는 랜덤으로 정해진다
+	// 0. 배치하려는 룸갯수만큼 반복
+	for (int i = 0; i < _RoomCount; ++i)
+	{
+		// 1. 룸의 크기는 랜덤으로 정해진다(최소 3x3의 룸크기를 만들어낸다.
+		int RandomWidthIndex = RoomRandom.RandomInt(3, _MaxWidthIndex);
+		int RandomHeightIndex = RoomRandom.RandomInt(3, _MaxHeightIndex);
 
+		// 2. 복도타일정보를 이용하여 랜덤한 타일위치에 룸을 배치
+
+
+
+
+	}
 }
 
 void EditorRandomMap::RoomRendering()

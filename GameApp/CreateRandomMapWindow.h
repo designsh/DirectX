@@ -32,7 +32,10 @@ private: // 랜덤맵관련
 	int CorridorLenCnt_;
 	int CorridorDirCnt_;
 
-	// 룸
+	// 룸(복도타일 기준으로 생성)
+	int RoomCount_;
+	int RoomMaxWidthIndex_;
+	int RoomMaxHeightIndex_;
 
 
 public:

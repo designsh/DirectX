@@ -179,9 +179,8 @@ void CreateRandomMapWindow::OnGUI()
 
 	// 1. 랜덤방향 복도 생성
 	ImGui::Text("");
-	ImGui::Text("2. Create Random Corridor");
-
 	ImGui::Text("");
+	ImGui::Text("2. Create Random Corridor");
 	ImGui::Text("Create Count :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
@@ -211,11 +210,31 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->CreateRandomRoad(CreateCorridorCnt_, CorridorThick_, CorridorLenCnt_, CorridorDirCnt_);
 	}
 
-	// 2. 복도 주변에 룸 생성
-
-
-
-
+	// 2. 룸 배치(복도 주변 or 복도 내부)
+	ImGui::Text("");
+	ImGui::Text("3. Room Arrangement");
+	ImGui::Text("Create Room Count :");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100.f);
+	ImGui::InputInt("##CreateRoomCount", &RoomCount_);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+	ImGui::Text("Max Width Index :");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100.f);
+	ImGui::InputInt("##RoomMaxWidthIndex", &RoomMaxWidthIndex_);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+	ImGui::Text("Max Height Index :");
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100.f);
+	ImGui::InputInt("##RoomMaxHeightIndex", &RoomMaxHeightIndex_);
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+	if (true == ImGui::Button("RoomArrange", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->CreateRoomArrange(RoomCount_, RoomMaxWidthIndex_, RoomMaxHeightIndex_);
+	}
 
 	// 3. 복도 내에 룸을 배치할 공간이 있으면 룸생성
 

@@ -132,8 +132,8 @@ public: // 랜덤맵 생성 관련
 	void RoadRendering();
 
 	// 2. 복도를 기준으로 룸정보 생성
-	void CreateRoomArrange();
-	void CreateRoomArrangeInfo();
+	void CreateRoomArrange(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
+	void CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
 	void RoomRendering();
 
 	// 3. 복도/룸 정보를 이용하여 벽/문 정보 생성
