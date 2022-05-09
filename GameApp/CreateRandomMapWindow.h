@@ -25,6 +25,16 @@ private: // 자동 생성하려는 룸의 갯수, 가로/세로 인덱스(크기)
 	int RoomWidth_;
 	int RoomHeight_;
 
+private: // 랜덤맵관련
+	// 복도(생성반복횟수, 복도두께, 생성시타일갯수, 방랜덤방향)
+	int CreateCorridorCnt_;
+	int CorridorThick_;
+	int CorridorLenCnt_;
+	int CorridorDirCnt_;
+
+	// 룸
+
+
 public:
 	CreateRandomMapWindow();
 	~CreateRandomMapWindow();

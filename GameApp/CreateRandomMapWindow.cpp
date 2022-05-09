@@ -66,9 +66,9 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->AllClear();
 	}
 	ImGui::SameLine();
-	if (true == ImGui::Button("RandomRoadClear", ImVec2(200.f, 20.f)))
+	if (true == ImGui::Button("CorridorAllClear", ImVec2(200.f, 20.f)))
 	{
-		RandomMap_->AllRandomRoadClear();
+		RandomMap_->AllCorridorClear();
 	}
 	ImGui::SameLine();
 	if (true == ImGui::Button("RoomAllClear", ImVec2(200.f, 20.f)))
@@ -76,9 +76,9 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->AllRoomClear();
 	}
 	ImGui::SameLine();
-	if (true == ImGui::Button("CorridorAllClear", ImVec2(200.f, 20.f)))
+	if (true == ImGui::Button("WallAllClear", ImVec2(200.f, 20.f)))
 	{
-		RandomMap_->AllCorridorClear();
+		RandomMap_->AllWallClear();
 	}
 
 	ImGui::Text("");
@@ -175,93 +175,63 @@ void CreateRandomMapWindow::OnGUI()
 	}
 #pragma endregion
 
-#pragma region 랜덤복도생성
+#pragma region 랜덤맵 생성(복도->룸->벽/문으로 변경중)
+
+	// 1. 랜덤방향 복도 생성
 	ImGui::Text("");
-	ImGui::Text("0000. Create Random Road");
-	if (true == ImGui::Button("CreateRoad", ImVec2(200.f, 20.f)))
-	{
-		RandomMap_->RandomRoad(5, true);
-	}
-#pragma endregion
+	ImGui::Text("2. Create Random Corridor");
 
 	ImGui::Text("");
-	ImGui::Text("2. Create Random Room");
-
-	// 생성하려는 맵의 최대 크기
-	ImGui::Text("1) Map Max Size Setting");
-	ImGui::Text("MaxIndex X :");
+	ImGui::Text("Create Count :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
-	ImGui::InputInt("##MaxIndexX", &MaxIndexX_);
+	ImGui::InputInt("##CreateCount", &CreateCorridorCnt_);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
-	ImGui::Text("MapMaxHeight :");
+	ImGui::Text("Corridor Thick :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
-	ImGui::InputInt("##MaxIndexY", &MaxIndexY_);
+	ImGui::InputInt("##CorridorThick", &CorridorThick_);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
-	if (true == ImGui::Button("MapSize Setting", ImVec2(200.f, 20.f)))
-	{
-		RandomMap_->TotalMapScale(MaxIndexX_, MaxIndexY_);
-	}
-
-	ImGui::Text("");
-	ImGui::Text("2) Room Info Setting");
-	ImGui::Text("Room Count :");
+	ImGui::Text("Length Count :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
-	ImGui::InputInt("##RoomCount", &RoomCnt_);
+	ImGui::InputInt("##LengthCount", &CorridorLenCnt_);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
-
-	ImGui::Text("Room Width :");
+	ImGui::Text("Dir Count :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
-	ImGui::InputInt("##RoomWidth", &RoomWidth_);
+	ImGui::InputInt("##DirCount", &CorridorDirCnt_);
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
-
-	ImGui::Text("Room Height :");
-	ImGui::SameLine();
-	ImGui::PushItemWidth(100.f);
-	ImGui::InputInt("##RoomHeight", &RoomHeight_);
-	ImGui::PopItemWidth();
-	ImGui::SameLine();
-	if (true == ImGui::Button("CreateRoom", ImVec2(200.f, 20.f)))
+	if (true == ImGui::Button("CreateCorridor", ImVec2(200.f, 20.f)))
 	{
-		RandomMap_->RandomRoom(RoomCnt_, RoomWidth_, RoomHeight_);
+		RandomMap_->CreateRandomRoad(CreateCorridorCnt_, CorridorThick_, CorridorLenCnt_, CorridorDirCnt_);
 	}
 
-	// 룸 밀어내기
-	ImGui::Text("");
-	ImGui::Text("3) Room Push Out");
-	if (true == ImGui::Button("RoomPushOut", ImVec2(200.f, 20.f)))
-	{
-		RandomMap_->RoomPushOut();
-	}
-
-	// 룸과룸 거리측정 및 정보 저장
-	ImGui::Text("");
-	ImGui::Text("4) Room Distance Measurement");
-	if (true == ImGui::Button("RoomDistance", ImVec2(200.f, 20.f)))
-	{
-		RandomMap_->RoomDistanceMeasurement();
-	}
-
-	// 복도연결
-	ImGui::Text("");
-	ImGui::Text("3. Room Connection");
-	if (true == ImGui::Button("RoomConnection", ImVec2(200.f, 20.f)))
-	{
-		RandomMap_->RoomConnection();
-	}
-
-	// 룸/복도 벽정보 생성
+	// 2. 복도 주변에 룸 생성
 
 
-	// 문정보 생성
+
+
+
+	// 3. 복도 내에 룸을 배치할 공간이 있으면 룸생성
+
+
+
+
+	// 4. 조건체크하여 벽과 문을 세움
+
+
+
+
+
+	// 5. 
+
 
 
 #pragma endregion
+
 }
