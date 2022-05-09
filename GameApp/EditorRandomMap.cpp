@@ -404,21 +404,37 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 	// 0. 배치하려는 룸갯수만큼 반복
 	for (int i = 0; i < _RoomCount; ++i)
 	{
+		// 0. 룸의 기본정보 셋팅
+		RandomRoomInfo NewRoom = {};
+
+		NewRoom.TileType_ = RandomMapTileType::ROOM;
+		NewRoom.RoomNo_ = i + 1;
+
 		// 1. 룸의 크기는 랜덤으로 정해진다(최소 3x3의 룸크기를 만들어낸다.
 		int RandomWidthIndex = RoomRandom.RandomInt(3, _MaxWidthIndex);
 		int RandomHeightIndex = RoomRandom.RandomInt(3, _MaxHeightIndex);
+		NewRoom.WidthIndex_ = RandomWidthIndex;
+		NewRoom.HeightIndex_ = RandomHeightIndex;
 
-		// 2. 복도타일정보를 이용하여 랜덤한 타일위치에 룸을 배치
-
-
-
+		// 2. 복도타일정보를 이용하여 랜덤한 타일위치에 룸을 배치하여
+		//    룸의 최소/최대 x,y 인덱스와 센터인덱스를 계산 후 저장
 
 	}
 }
 
 void EditorRandomMap::RoomRendering()
 {
-	
+	// 생성된 룸정보를 이용하여 화면에 렌더링
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		// 룸의 X,Y 최소/최대 인덱스와 룸의 센터를 통하여 화면에 렌더링
+
+
+
+
+
+	}
 }
 
 // 3. 복도/룸 정보를 이용하여 벽/문 정보 생성
