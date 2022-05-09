@@ -207,10 +207,10 @@ void CreateRandomMapWindow::OnGUI()
 	ImGui::SameLine();
 	if (true == ImGui::Button("CreateCorridor", ImVec2(200.f, 20.f)))
 	{
-		RandomMap_->CreateRandomRoad(CreateCorridorCnt_, CorridorThick_, CorridorLenCnt_, CorridorDirCnt_);
+		RandomMap_->CreateRandomCorridor(CreateCorridorCnt_, CorridorThick_, CorridorLenCnt_, CorridorDirCnt_);
 	}
 
-	// 2. 룸 배치(복도 주변 or 복도 내부)
+	// 2. 룸 배치(복도 내부)
 	ImGui::Text("");
 	ImGui::Text("3. Room Arrangement");
 	ImGui::Text("Create Room Count :");
@@ -236,20 +236,13 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->CreateRoomArrange(RoomCount_, RoomMaxWidthIndex_, RoomMaxHeightIndex_);
 	}
 
-	// 3. 복도 내에 룸을 배치할 공간이 있으면 룸생성
-
-
-
-
-	// 4. 조건체크하여 벽과 문을 세움
-
-
-
-
-
-	// 5. 
-
-
+	// 3. 벽과 문을 설치
+	ImGui::Text("");
+	ImGui::Text("3. Wall Arrangement");
+	if (true == ImGui::Button("WallArrange", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->CreateWall();
+	}
 
 #pragma endregion
 

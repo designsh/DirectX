@@ -287,16 +287,16 @@ void EditorRandomMap::AllWallClear()
 }
 
 // 1. 랜덤 복도 생성
-void EditorRandomMap::CreateRandomRoad(int _Create, int _Thickness, int _LenTileCount, int _DirCnt)
+void EditorRandomMap::CreateRandomCorridor(int _Create, int _Thickness, int _LenTileCount, int _DirCnt)
 {
 	// 복도 정보 생성
-	CreateRandomRoadInfo(_Create, _Thickness, _LenTileCount, _DirCnt);
+	CreateRandomCorridorInfo(_Create, _Thickness, _LenTileCount, _DirCnt);
 
 	// 복도 정보를 이용하여 화면에 렌더링
-	RoadRendering();
+	CorridorRendering();
 }
 
-void EditorRandomMap::CreateRandomRoadInfo(int _Create, int _Thickness, int _LenTileCount, int _DirCnt)
+void EditorRandomMap::CreateRandomCorridorInfo(int _Create, int _Thickness, int _LenTileCount, int _DirCnt)
 {
 	// 타일타입 셋팅(복도)
 	MapInfo_.CorridorInfo_.CorridorType_ = RandomMapTileType::CORRIDOR;
@@ -329,13 +329,20 @@ void EditorRandomMap::CreateRandomRoadInfo(int _Create, int _Thickness, int _Len
 			{
 				for (int m = 0; m < _Thickness; ++m)
 				{
+					// 조건1 : 이미 존재하는 타일은 추가하지않는다.
 					if (Dir[i] == float4::UP || Dir[i] == float4::DOWN)
 					{
-						MapInfo_.CorridorInfo_.AllIndexLists_.push_back(TileIndex{ RandomStartPos_[i].ix() + m, RandomStartPos_[i].iy() });
+						if (false == CorridorOverlapCheck(TileIndex{ RandomStartPos_[i].ix() + m, RandomStartPos_[i].iy() }))
+						{
+							MapInfo_.CorridorInfo_.AllIndexLists_.push_back(TileIndex{ RandomStartPos_[i].ix() + m, RandomStartPos_[i].iy() });
+						}
 					}
 					else
 					{
-						MapInfo_.CorridorInfo_.AllIndexLists_.push_back(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() + m });
+						if (false == CorridorOverlapCheck(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() + m }))
+						{
+							MapInfo_.CorridorInfo_.AllIndexLists_.push_back(TileIndex{ RandomStartPos_[i].ix(), RandomStartPos_[i].iy() + m });
+						}
 					}
 				}
 
@@ -360,7 +367,21 @@ void EditorRandomMap::CreateRandomRoadInfo(int _Create, int _Thickness, int _Len
 	}
 }
 
-void EditorRandomMap::RoadRendering()
+bool EditorRandomMap::CorridorOverlapCheck(TileIndex _TileIndex)
+{
+	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+	for (int i = 0; i < CorridorTileCnt; ++i)
+	{
+		if (MapInfo_.CorridorInfo_.AllIndexLists_[i] == _TileIndex)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void EditorRandomMap::CorridorRendering()
 {
 	// 복도 정보를 이용하여 렌더링
 	// 단, 동일한 타일인덱스가 존재한다면 다시 렌더링 안함
@@ -387,25 +408,40 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 	GameEngineRandom RoomRandom;
 
 	// 0. 배치하려는 룸갯수만큼 반복
-	for (int i = 0; i < _RoomCount; ++i)
+	int RoomCnt = 0;
+	for (;;)
 	{
-		// 0. 룸의 기본정보 셋팅
+		if (_RoomCount < RoomCnt)
+		{
+			break;
+		}
+
+		// 0. 복도타일정보를 이용하여 룸의 중심타일을 설정
+		int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+
+		// 조건1: 룸의 센터인덱스가 겹치면 재검색
+		TileIndex CenterTile = MapInfo_.CorridorInfo_.AllIndexLists_[RoomRandom.RandomInt(0, CorridorTileCnt) - 1];
+		if (true == RoomOvelapCheck(CenterTile))
+		{
+			continue;
+		}
+
+		// 2. 룸의 기본정보 셋팅
 		RandomRoomInfo NewRoom = {};
 
 		NewRoom.TileType_ = RandomMapTileType::ROOM;
-		NewRoom.RoomNo_ = i + 1;
+		NewRoom.RoomNo_ = RoomCnt + 1;
 
-		// 1. 룸의 크기는 랜덤으로 정해진다(최소 3x3의 룸크기를 만들어낸다.
+		// 3. 룸의 크기는 랜덤으로 정해진다(최소 3x3의 룸크기를 만들어낸다.
 		int RandomWidthIndex = RoomRandom.RandomInt(3, _MaxWidthIndex);
 		int RandomHeightIndex = RoomRandom.RandomInt(3, _MaxHeightIndex);
 		NewRoom.WidthIndex_ = RandomWidthIndex;
 		NewRoom.HeightIndex_ = RandomHeightIndex;
 
-		// 2. 복도타일정보를 이용하여 룸의 중심타일을 설정
-		int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
-		NewRoom.RoomCenterIndex_ = MapInfo_.CorridorInfo_.AllIndexLists_[RoomRandom.RandomInt(0, CorridorTileCnt) - 1];
+		// 4. 룸의 중심 설정
+		NewRoom.RoomCenterIndex_ = CenterTile;
 
-		// 3. 룸의 중심을 기준으로 룸의 X,Y 최소/최대인덱스를 계산 후 저장
+		// 5. 룸의 중심을 기준으로 룸의 X,Y 최소/최대인덱스를 계산 후 저장
 		int RoomStartX = 0;
 		int RoomEndX = 0;
 		int RoomStartY = 0;
@@ -432,7 +468,7 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 			RoomEndX = (NewRoom.HeightIndex_ / 2) + 1;
 		}
 
-		// 현재 생성한 룸의센터 기준인덱스로 변환
+		// 6. 현재 생성한 룸의센터 기준인덱스로 변환
 		RoomStartX += NewRoom.RoomCenterIndex_.X_;
 		RoomEndX += NewRoom.RoomCenterIndex_.X_;
 		RoomStartY += NewRoom.RoomCenterIndex_.Y_;
@@ -443,7 +479,7 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 		NewRoom.minIndexY_ = RoomStartY;
 		NewRoom.maxIndexY_ = RoomEndY;
 
-		// 4. 룸이 차지하는 모든 타일인덱스를 저장
+		// 7. 룸이 차지하는 모든 타일인덱스를 저장
 		for (int y = NewRoom.minIndexY_; y < NewRoom.maxIndexY_; ++y)
 		{
 			for (int x = NewRoom.minIndexX_; x < NewRoom.maxIndexX_; ++x)
@@ -453,7 +489,24 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 		}
 
 		MapInfo_.RoomInfo_.push_back(NewRoom);
+
+		// 8. CurRoom Cnt 증가
+		++RoomCnt;
 	}
+}
+
+bool EditorRandomMap::RoomOvelapCheck(TileIndex _CenterTile)
+{
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		if (MapInfo_.RoomInfo_[i].RoomCenterIndex_ == _CenterTile)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void EditorRandomMap::RoomRendering()
@@ -482,11 +535,22 @@ void EditorRandomMap::CreateWall()
 
 void EditorRandomMap::CreateWallInfo()
 {
+	// 1. 룸의 벽과 문정보 생성
 
+	
+	
+	// 2. 복도의 벽정보 생성
+
+
+	// 
 }
 
 void EditorRandomMap::WallRendering()
 {
-
+	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallCnt; ++i)
+	{
+		
+	}
 }
 #pragma endregion

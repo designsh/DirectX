@@ -127,13 +127,15 @@ public: // 정보 클리어관련
 	
 public: // 랜덤맵 생성 관련
 	// 1. 랜덤방향 복도정보 생성
-	void CreateRandomRoad(int _Create, int _Thickness, int _LenTileCount, int _DirCnt);
-	void CreateRandomRoadInfo(int _Create, int _Thickness, int _LenTileCount, int _DirCnt);
-	void RoadRendering();
+	void CreateRandomCorridor(int _Create, int _Thickness, int _LenTileCount, int _DirCnt);
+	void CreateRandomCorridorInfo(int _Create, int _Thickness, int _LenTileCount, int _DirCnt);
+	bool CorridorOverlapCheck(TileIndex _TileIndex);
+	void CorridorRendering();
 
 	// 2. 복도를 기준으로 룸정보 생성
 	void CreateRoomArrange(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
 	void CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
+	bool RoomOvelapCheck(TileIndex _CenterTile);
 	void RoomRendering();
 
 	// 3. 복도/룸 정보를 이용하여 벽/문 정보 생성
