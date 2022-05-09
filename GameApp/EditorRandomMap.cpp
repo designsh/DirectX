@@ -254,6 +254,30 @@ void EditorRandomMap::AllRoomClear()
 {
 	// 룸은 바닥타일
 
+	// 룸 렌더링 제거
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
+		for (int j = 0; j < RoomTileCnt; ++j)
+		{
+			TileIndex CurTile = MapInfo_.RoomInfo_[i].AllIndexLists_[j];
+
+			// 해당 타일 제거
+			std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator DelTile = FloorTiles_.find(CurTile.Index_);
+			if (FloorTiles_.end() != DelTile)
+			{
+				// 렌더러 죽이고
+				(*DelTile).second->Death();
+
+				// 목록에서 제거
+				FloorTiles_.erase(DelTile);
+			}
+		}
+	}
+
+	// 룸정보 제거
+	MapInfo_.RoomInfo_.clear();
 }
 
 void EditorRandomMap::AllWallClear()
@@ -278,45 +302,6 @@ void EditorRandomMap::CreateRandomRoadInfo(int _Create, int _Thickness, int _Len
 	MapInfo_.CorridorInfo_.CorridorType_ = RandomMapTileType::CORRIDOR;
 
 	// 복도 정보 생성
-
-
-	/*
-		static int IgnoreRange = 0;
-	static std::vector<float4> Range = { float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN };
-	static std::vector<int> ReversRange = { 1, 0, 3, 2 };
-	static std::vector<int> NextRange;
-
-	for (size_t i = 0; i < 4; i++)
-	{
-		if (i == IgnoreRange)
-		{
-			continue;
-		}
-
-		NextRange.push_back(i);
-	}
-
-	int DirIndex = NextRange[Random.RandomInt(0, NextRange.size() -1)];
-
-	float4 Dir = Range[DirIndex];
-
-	for (size_t i = 0; i < _Count; i++)
-	{
-		SetTile(TileIndex{ RandomStart.ix(), RandomStart.iy() });
-		RandomStart += Dir;
-	}
-
-	IgnoreRange = ReversRange[DirIndex];
-	// 왼쪽으로 간다고 결정남.
-
-
-	NextRange.clear();
-	*/
-
-
-
-
-
 	for (int k = 0; k < _Create; ++k) // 생성반복
 	{
 		for (int i = 0; i < _DirCnt; ++i)
@@ -416,9 +401,58 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 		NewRoom.WidthIndex_ = RandomWidthIndex;
 		NewRoom.HeightIndex_ = RandomHeightIndex;
 
-		// 2. 복도타일정보를 이용하여 랜덤한 타일위치에 룸을 배치하여
-		//    룸의 최소/최대 x,y 인덱스와 센터인덱스를 계산 후 저장
+		// 2. 복도타일정보를 이용하여 룸의 중심타일을 설정
+		int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+		NewRoom.RoomCenterIndex_ = MapInfo_.CorridorInfo_.AllIndexLists_[RoomRandom.RandomInt(0, CorridorTileCnt) - 1];
 
+		// 3. 룸의 중심을 기준으로 룸의 X,Y 최소/최대인덱스를 계산 후 저장
+		int RoomStartX = 0;
+		int RoomEndX = 0;
+		int RoomStartY = 0;
+		int RoomEndY = 0;
+		if (NewRoom.WidthIndex_ % 2 == 0)
+		{
+			RoomStartY = -(NewRoom.WidthIndex_ / 2);
+			RoomEndY = NewRoom.WidthIndex_ / 2;
+		}
+		else
+		{
+			RoomStartY = -(NewRoom.WidthIndex_ / 2);
+			RoomEndY = (NewRoom.WidthIndex_ / 2) + 1;
+		}
+
+		if (NewRoom.HeightIndex_ % 2 == 0)
+		{
+			RoomStartX = -(NewRoom.HeightIndex_ / 2);
+			RoomEndX = NewRoom.HeightIndex_ / 2;
+		}
+		else
+		{
+			RoomStartX = -(NewRoom.HeightIndex_ / 2);
+			RoomEndX = (NewRoom.HeightIndex_ / 2) + 1;
+		}
+
+		// 현재 생성한 룸의센터 기준인덱스로 변환
+		RoomStartX += NewRoom.RoomCenterIndex_.X_;
+		RoomEndX += NewRoom.RoomCenterIndex_.X_;
+		RoomStartY += NewRoom.RoomCenterIndex_.Y_;
+		RoomEndY += NewRoom.RoomCenterIndex_.Y_;
+
+		NewRoom.minIndexX_ = RoomStartX;
+		NewRoom.maxIndexX_ = RoomEndX;
+		NewRoom.minIndexY_ = RoomStartY;
+		NewRoom.maxIndexY_ = RoomEndY;
+
+		// 4. 룸이 차지하는 모든 타일인덱스를 저장
+		for (int y = NewRoom.minIndexY_; y < NewRoom.maxIndexY_; ++y)
+		{
+			for (int x = NewRoom.minIndexX_; x < NewRoom.maxIndexX_; ++x)
+			{
+				NewRoom.AllIndexLists_.push_back(TileIndex(x, y));
+			}
+		}
+
+		MapInfo_.RoomInfo_.push_back(NewRoom);
 	}
 }
 
@@ -428,12 +462,11 @@ void EditorRandomMap::RoomRendering()
 	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCnt; ++i)
 	{
-		// 룸의 X,Y 최소/최대 인덱스와 룸의 센터를 통하여 화면에 렌더링
-
-
-
-
-
+		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
+		for (int j = 0; j < RoomTileCnt; ++j)
+		{
+			SetFloorTile(MapInfo_.RoomInfo_[i].AllIndexLists_[j], 13);
+		}
 	}
 }
 

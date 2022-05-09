@@ -57,6 +57,7 @@ struct RandomRoomInfo
 	int minIndexY_;											// 룸이 차지하는 인덱스 X의 최소 인덱스
 	int maxIndexY_;											// 룸이 차지하는 인덱스 Y의 최대 인덱스
 	TileIndex RoomCenterIndex_;								// 룸의 센터 인덱스
+	std::vector<TileIndex> AllIndexLists_;					// 현재 생성된 룸의 모든 타일 인덱스
 };
 
 // 랜덤맵 문정보
