@@ -81,7 +81,7 @@ struct RandomMapInfo
 	std::vector<RandomRoomInfo> RoomInfo_;					// 해당 맵의 룸 목록
 
 	// 벽 관련 정보(네비게이션 정보로 사용)
-	std::vector<WallTileInfo> WallInfo_;					// 해당 맵의 벽 목록
+	std::vector<WallTileInfo> WallInfo_;					// 해당 맵의 벽 목록 - 복도가 깔리면서 벽 렌더링정보가 생성(복도의 타일에 영향을 받는다.)
 
 	// 문 관련 정보
 	std::vector<RandomDoorInfo> DoorInfo_;					// 해당 맵의 문 목록
