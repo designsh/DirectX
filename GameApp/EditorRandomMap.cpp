@@ -421,7 +421,7 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 
 		// 조건1: 룸의 센터인덱스가 겹치면 재검색
 		TileIndex CenterTile = MapInfo_.CorridorInfo_.AllIndexLists_[RoomRandom.RandomInt(0, CorridorTileCnt) - 1];
-		if (true == RoomOvelapCheck(CenterTile))
+		if (true == RoomOverlapCheck(CenterTile))
 		{
 			continue;
 		}
@@ -495,7 +495,7 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 	}
 }
 
-bool EditorRandomMap::RoomOvelapCheck(TileIndex _CenterTile)
+bool EditorRandomMap::RoomOverlapCheck(TileIndex _CenterTile)
 {
 	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCnt; ++i)
@@ -536,13 +536,64 @@ void EditorRandomMap::CreateWall()
 void EditorRandomMap::CreateWallInfo()
 {
 	// 1. 룸의 벽과 문정보 생성
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
+		for (int j = 0; j < RoomTileCnt; ++j)
+		{
+			TileIndex CurTileIndex = MapInfo_.RoomInfo_[i].AllIndexLists_[j];
 
-	
+			// 바닥타일 1개기준 벽타일은 3x3개 생성
+			
+
+
+			RandomWallInfo NewWall = {};
+
+			// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
+			if (true == WallOverlapCheck(CurTileIndex))
+			{
+				continue;
+			}
+
+			MapInfo_.WallInfo_.push_back(NewWall);
+		}
+	}
 	
 	// 2. 복도의 벽정보 생성
+	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+	for (int i = 0; i < CorridorTileCnt; ++i)
+	{
+		TileIndex CurTileIndex;
 
+		
+		RandomWallInfo NewWall = {};
 
-	// 
+		// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
+		if (true == WallOverlapCheck(CurTileIndex))
+		{
+			continue;
+		}
+
+		MapInfo_.WallInfo_.push_back(NewWall);
+	}
+
+	// 3. 조건에 따라 벽의 기본타입과 상세타입을 결정한다.
+
+}
+
+bool EditorRandomMap::WallOverlapCheck(TileIndex _WallTileIndex)
+{
+	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallCnt; ++i)
+	{
+		if (MapInfo_.WallInfo_[i].WallTileIndex_ == _WallTileIndex)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void EditorRandomMap::WallRendering()
@@ -550,7 +601,7 @@ void EditorRandomMap::WallRendering()
 	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallCnt; ++i)
 	{
-		
+		SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, SelectWallTileIndex_);
 	}
 }
 #pragma endregion
