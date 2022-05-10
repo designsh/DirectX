@@ -686,12 +686,29 @@ void EditorRandomMap::CreateWallInfo()
 	//		WL_RB_R_TE,							// 좌상단방향으로 오른쪽벽의 끝(BENT와 연결되는 벽)
 	//		WL_BENT_MULTI,						// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우상단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
 	//		WL_BENT_SINGLE,						// 꺽이는벽(렌더러를 1개 가진다) - 중심기준(0,0) 좌하단꺽이는벽 => RT_B_LE와 RB_L_BE가 만나려고하는 벽(단독렌더러)
+	int AllWallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < AllWallCnt; ++i)
+	{
+		// 현재 벽타일인덱스 Get
+		TileIndex CurWallTile = MapInfo_.WallInfo_[i].WallTileIndex_;
+
+		// 현재 타일인덱스의 주변타일을 검사하여 바닥타일이 존재하지않을때를 찾아낸다.
+		// 1) 상단 타일만 없는경우(x-1) => RT_T
+		
+
+		// 2) 하단 타일만 없는경우(x+1) => RT_B
 
 
+		// 3) 좌단 타일만 없는경우(y+1) => RB_L
 
 
+		// 4) 우단 타일만 없는경우(y-1) => RB_R
 
 
+		// 5) 그외
+
+
+	}
 
 	// 2) 룸의 벽을 설정
 	// 단, 이미 Normal or None Type이라면 벽을 설치안함
@@ -702,12 +719,14 @@ void EditorRandomMap::CreateWallInfo()
 
 
 
-	// 
+	// 3) 룸과 복도를 연결하는 문을 설정
 
 
 
 
 
+
+	// 4) 랜덤맵의 내부를 다시 쪼갬
 
 }
 
