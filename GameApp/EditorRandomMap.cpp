@@ -582,17 +582,13 @@ void EditorRandomMap::CreateWallInfo()
 			float4 FloorCenterPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].AllIndexLists_[j]);
 
 			// 바닥타일 1개기준 벽타일은 3x3개 생성
-			
+			TileIndex WallTileIndex = GetWallTileIndex(FloorCenterPos);
+
 			// 벽타일은 타일의 상단점이 0,0
-			for (int y = -1; y < 2; ++y)
+			for (int y = 0; y < 3; ++y)
 			{
-				TileIndex WallTileIndex = GetWallTileIndex(FloorCenterPos);
-				WallTileIndex.Y_ += y;
-
-				for (int x = -1; x < 2; ++x)
+				for (int x = 0; x < 3; ++x)
 				{
-					WallTileIndex.X_ += x;
-
 					RandomWallInfo NewWall = {};
 
 					// 벽은 바닥타일의 중심을 기점으로 8방향 +1 or -1로 찍힌다.
@@ -615,7 +611,12 @@ void EditorRandomMap::CreateWallInfo()
 					}
 
 					MapInfo_.WallInfo_.push_back(NewWall);
+
+					WallTileIndex.X_ += 1;
 				}
+
+				WallTileIndex.X_ = GetWallTileIndex(FloorCenterPos).X_;
+				WallTileIndex.Y_ += 1;
 			}
 		}
 	}
