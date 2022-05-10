@@ -584,12 +584,12 @@ void EditorRandomMap::CreateWallInfo()
 			// 바닥타일 1개기준 벽타일은 3x3개 생성
 			
 			// 벽타일은 타일의 상단점이 0,0
-			for (int y = 0; y < 3; ++y)
+			for (int y = -1; y < 2; ++y)
 			{
 				TileIndex WallTileIndex = GetWallTileIndex(FloorCenterPos);
 				WallTileIndex.Y_ += y;
 
-				for (int x = 0; x < 3; ++x)
+				for (int x = -1; x < 2; ++x)
 				{
 					WallTileIndex.X_ += x;
 
