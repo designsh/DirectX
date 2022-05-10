@@ -34,6 +34,12 @@ void EditorRandomMap::Start()
 	FloorTileImageSizeHalf_ = FloorTileImageSize_.halffloat4();
 	FloorTileIndexPivotPos_ = { 0.0f, -TileSizeHalf_.y };
 
+	// 벽타일
+	WallTileImageSize_ = { 160.0f, 320.f };
+	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
+	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y };
+
+	// 랜덤 복도 생성관련 초기화
 	RandomStartPos_.clear();
 	RandomStartPos_ = { {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, {float4::ZERO}, };
 
@@ -145,11 +151,18 @@ void EditorRandomMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
 
 	GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
-	NewRenderer->SetImage(WallTileTextureName_);
-	NewRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
-	NewRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-	NewRenderer->GetTransform()->SetLocalZOrder(-2.f);
-	NewRenderer->SetIndex(CurTileIndex_);
+	NewRenderer->SetImage("WallGrid_Normal.png");
+	NewRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
+	NewRenderer->GetTransform()->SetLocalPosition(Pos);
+	NewRenderer->GetTransform()->SetLocalZOrder(-15.f);
+	NewRenderer->SetIndex(0);
+
+
+	//NewRenderer->SetImage(WallTileTextureName_);
+	//NewRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
+	//NewRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+	//NewRenderer->GetTransform()->SetLocalZOrder(-2.f);
+	//NewRenderer->SetIndex(CurTileIndex_);
 	WallTiles_.insert(std::make_pair(_Index.Index_, NewRenderer));
 }
 
@@ -283,7 +296,16 @@ void EditorRandomMap::AllRoomClear()
 void EditorRandomMap::AllWallClear()
 {
 	// 벽/문은 벽타일
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallTiles_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallTiles_.end();
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		(*StartIter).second->Death();
+	}
+	WallTiles_.clear();
 
+	// 벽/문 정보 삭제
+	MapInfo_.WallInfo_.clear();
 }
 
 // 1. 랜덤 복도 생성
@@ -411,7 +433,7 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 	int RoomCnt = 0;
 	for (;;)
 	{
-		if (_RoomCount < RoomCnt)
+		if (_RoomCount <= RoomCnt)
 		{
 			break;
 		}
@@ -419,8 +441,15 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 		// 0. 복도타일정보를 이용하여 룸의 중심타일을 설정
 		int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
 
-		// 조건1: 룸의 센터인덱스가 겹치면 재검색
-		TileIndex CenterTile = MapInfo_.CorridorInfo_.AllIndexLists_[RoomRandom.RandomInt(0, CorridorTileCnt) - 1];
+		// 조건1: 복도타일정보가 1개만 존재할때
+		int RandomIndex = RoomRandom.RandomInt(0, CorridorTileCnt) - 1;
+		if (RandomIndex < 0)
+		{
+			RandomIndex = 0;
+		}
+
+		// 조건2: 룸의 센터인덱스가 겹치면 재검색
+		TileIndex CenterTile = MapInfo_.CorridorInfo_.AllIndexLists_[RandomIndex];
 		if (true == RoomOverlapCheck(CenterTile))
 		{
 			continue;
@@ -432,9 +461,9 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 		NewRoom.TileType_ = RandomMapTileType::ROOM;
 		NewRoom.RoomNo_ = RoomCnt + 1;
 
-		// 3. 룸의 크기는 랜덤으로 정해진다(최소 3x3의 룸크기를 만들어낸다.
-		int RandomWidthIndex = RoomRandom.RandomInt(3, _MaxWidthIndex);
-		int RandomHeightIndex = RoomRandom.RandomInt(3, _MaxHeightIndex);
+		// 3. 룸의 크기는 랜덤으로 정해진다(최소 1x1의 룸크기를 만들어낸다.
+		int RandomWidthIndex = RoomRandom.RandomInt(1, _MaxWidthIndex);
+		int RandomHeightIndex = RoomRandom.RandomInt(1, _MaxHeightIndex);
 		NewRoom.WidthIndex_ = RandomWidthIndex;
 		NewRoom.HeightIndex_ = RandomHeightIndex;
 
@@ -518,7 +547,14 @@ void EditorRandomMap::RoomRendering()
 		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
 		for (int j = 0; j < RoomTileCnt; ++j)
 		{
-			SetFloorTile(MapInfo_.RoomInfo_[i].AllIndexLists_[j], 13);
+			if (MapInfo_.RoomInfo_[i].AllIndexLists_[j] == MapInfo_.RoomInfo_[i].RoomCenterIndex_)
+			{
+				SetFloorTile(MapInfo_.RoomInfo_[i].AllIndexLists_[j], 1);
+			}
+			else
+			{
+				SetFloorTile(MapInfo_.RoomInfo_[i].AllIndexLists_[j], 13);
+			}
 		}
 	}
 }
@@ -542,21 +578,45 @@ void EditorRandomMap::CreateWallInfo()
 		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
 		for (int j = 0; j < RoomTileCnt; ++j)
 		{
-			TileIndex CurTileIndex = MapInfo_.RoomInfo_[i].AllIndexLists_[j];
+			// 바닥타일은 타일의 중심이 0,0
+			float4 FloorCenterPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].AllIndexLists_[j]);
 
 			// 바닥타일 1개기준 벽타일은 3x3개 생성
 			
-
-
-			RandomWallInfo NewWall = {};
-
-			// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
-			if (true == WallOverlapCheck(CurTileIndex))
+			// 벽타일은 타일의 상단점이 0,0
+			for (int y = 0; y < 3; ++y)
 			{
-				continue;
-			}
+				TileIndex WallTileIndex = GetWallTileIndex(FloorCenterPos);
+				WallTileIndex.Y_ += y;
 
-			MapInfo_.WallInfo_.push_back(NewWall);
+				for (int x = 0; x < 3; ++x)
+				{
+					WallTileIndex.X_ += x;
+
+					RandomWallInfo NewWall = {};
+
+					// 벽은 바닥타일의 중심을 기점으로 8방향 +1 or -1로 찍힌다.
+					NewWall.WallTileIndex_ = WallTileIndex;
+
+					NewWall.WallBasicType_ = RandomWallBasicType::WALL;
+					NewWall.WallDetailType_ = RandomWallDetailType::NORMAL; // 초기생성시 Normal타입으로 생성
+
+					NewWall.WallTile1ImageIndex = 0;
+					NewWall.WallTile2ImageIndex = 0;
+					NewWall.WallTextureName = WallTileTextureName_;
+					NewWall.WallTileSize = TileSize_;
+					NewWall.WallRenderSize = WallTileImageSize_;
+					NewWall.WallRenderPivotPos = WallTileIndexPivotPos_;
+
+					// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
+					if (true == WallOverlapCheck(NewWall.WallTileIndex_))
+					{
+						continue;
+					}
+
+					MapInfo_.WallInfo_.push_back(NewWall);
+				}
+			}
 		}
 	}
 	
