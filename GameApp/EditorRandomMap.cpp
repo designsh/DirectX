@@ -157,7 +157,7 @@ void EditorRandomMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	NewRenderer->GetTransform()->SetLocalZOrder(-15.f);
 	NewRenderer->SetIndex(0);
 
-
+	// SJH 임시주석
 	//NewRenderer->SetImage(WallTileTextureName_);
 	//NewRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
 	//NewRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
@@ -200,8 +200,8 @@ TileIndex EditorRandomMap::GetWallTileIndex(float4 _Pos)
 float4 EditorRandomMap::GetFloorTileIndexToPos(TileIndex _TileIndex)
 {
 	float4 TilePos = float4::ZERO;
-	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.x;
-	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.y;
+	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSizeHalf_.x;
+	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSizeHalf_.y;
 
 	return TilePos;
 }
@@ -578,7 +578,7 @@ void EditorRandomMap::CreateWallInfo()
 		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
 		for (int j = 0; j < RoomTileCnt; ++j)
 		{
-			// 바닥타일은 타일의 중심이 0,0
+			// 바닥타일은 타일의 중심좌표가 0,0
 			float4 FloorCenterPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].AllIndexLists_[j]);
 
 			// 바닥타일 1개기준 벽타일은 3x3개 생성
@@ -589,6 +589,13 @@ void EditorRandomMap::CreateWallInfo()
 			{
 				for (int x = 0; x < 3; ++x)
 				{
+					// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
+					if (true == WallOverlapCheck(WallTileIndex))
+					{
+						WallTileIndex.X_ += 1;
+						continue;
+					}
+
 					RandomWallInfo NewWall = {};
 
 					// 벽은 바닥타일의 중심을 기점으로 8방향 +1 or -1로 찍힌다.
@@ -604,12 +611,6 @@ void EditorRandomMap::CreateWallInfo()
 					NewWall.WallRenderSize = WallTileImageSize_;
 					NewWall.WallRenderPivotPos = WallTileIndexPivotPos_;
 
-					// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
-					if (true == WallOverlapCheck(NewWall.WallTileIndex_))
-					{
-						continue;
-					}
-
 					MapInfo_.WallInfo_.push_back(NewWall);
 
 					WallTileIndex.X_ += 1;
@@ -622,24 +623,91 @@ void EditorRandomMap::CreateWallInfo()
 	}
 	
 	// 2. 복도의 벽정보 생성
-	//int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
-	//for (int i = 0; i < CorridorTileCnt; ++i)
-	//{
-	//	TileIndex CurTileIndex;
+	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+	for (int i = 0; i < CorridorTileCnt; ++i)
+	{
+		// 바닥타일은 타일의 중심좌표가 0,0
+		float4 FloorCenterPos = GetFloorTileIndexToPos(MapInfo_.CorridorInfo_.AllIndexLists_[i]);
 
-	//	
-	//	RandomWallInfo NewWall = {};
+		// 바닥타일 1개기준 벽타일은 3x3개 생성
+		TileIndex WallTileIndex = GetWallTileIndex(FloorCenterPos);
 
-	//	// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
-	//	if (true == WallOverlapCheck(CurTileIndex))
-	//	{
-	//		continue;
-	//	}
+		// 벽타일은 타일의 상단점이 0,0
+		for (int y = 0; y < 3; ++y)
+		{
+			for (int x = 0; x < 3; ++x)
+			{
+				// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
+				if (true == WallOverlapCheck(WallTileIndex))
+				{
+					WallTileIndex.X_ += 1;
+					continue;
+				}
 
-	//	MapInfo_.WallInfo_.push_back(NewWall);
-	//}
+				RandomWallInfo NewWall = {};
+
+				// 벽은 바닥타일의 중심을 기점으로 8방향 +1 or -1로 찍힌다.
+				NewWall.WallTileIndex_ = WallTileIndex;
+
+				NewWall.WallBasicType_ = RandomWallBasicType::WALL;
+				NewWall.WallDetailType_ = RandomWallDetailType::NORMAL; // 초기생성시 Normal타입으로 생성
+
+				NewWall.WallTile1ImageIndex = 0;
+				NewWall.WallTile2ImageIndex = 0;
+				NewWall.WallTextureName = WallTileTextureName_;
+				NewWall.WallTileSize = TileSize_;
+				NewWall.WallRenderSize = WallTileImageSize_;
+				NewWall.WallRenderPivotPos = WallTileIndexPivotPos_;
+
+				MapInfo_.WallInfo_.push_back(NewWall);
+
+				WallTileIndex.X_ += 1;
+			}
+
+			WallTileIndex.X_ = GetWallTileIndex(FloorCenterPos).X_;
+			WallTileIndex.Y_ += 1;
+		}
+	}
 
 	// 3. 조건에 따라 벽의 기본타입과 상세타입을 결정한다.
+
+	// 1) 복도를 따라서 외곽벽을 설정
+	//		WL_RT_T,							// 우상단(좌하단)방향(연속된벽) - 중심기준(0,0) 윗벽
+	//		WL_RT_T_RE,							// 우상단방향으로 윗벽의 끝(BENT와 연결되는 벽)
+	//		WL_RT_T_LE,							// 좌하단방향으로 윗벽의 끝(BENT직전에 RT가 끝)
+	//		WL_RT_B,							// 우상단(좌하단)방향(연속된벽) - 중심기준(0,0) 아랫벽
+	//		WL_RT_B_RE,							// 우상단방향으로 아랫벽의 끝(BENT가 끝)
+	//		WL_RT_B_LE,							// 좌하단방향으로 아랫벽의 끝(BENT직전에 RT가 끝)
+	//		WL_RB_L,							// 우하단(좌상단)방향(연속된벽) - 중심기준(0,0) 왼쪽벽
+	//		WL_RB_L_BE,							// 우하단방향으로 왼쪽벽의 끝(BENT직전에 RB가 끝)
+	//		WL_RB_L_TE,							// 좌상단방향으로 왼쪽벽의 끝(BENT가 끝)
+	//		WL_RB_R,							// 우하단(좌상단)방향(연속된벽) - 중심기준(0,0) 오른쪽벽
+	//		WL_RB_R_BE,							// 우하단방향으로 오른쪽벽의 끝(BENT직전에 RB가 끝)
+	//		WL_RB_R_TE,							// 좌상단방향으로 오른쪽벽의 끝(BENT와 연결되는 벽)
+	//		WL_BENT_MULTI,						// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우상단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
+	//		WL_BENT_SINGLE,						// 꺽이는벽(렌더러를 1개 가진다) - 중심기준(0,0) 좌하단꺽이는벽 => RT_B_LE와 RB_L_BE가 만나려고하는 벽(단독렌더러)
+
+
+
+
+
+
+
+	// 2) 룸의 벽을 설정
+	// 단, 이미 Normal or None Type이라면 벽을 설치안함
+
+
+
+
+
+
+
+	// 
+
+
+
+
+
 
 }
 
