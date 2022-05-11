@@ -1084,7 +1084,7 @@ void EditorRandomMap::CreateWallInfo()
 		// L:	TileIndex( 0,  1)
 		// LT:	TileIndex(-1,  1)
 
-		// 타일인덱스에 따라 체크 인덱스 계산이 달라진다.
+		// 타일인덱스의 위치에따라 체크 인덱스 계산이 달라진다.
 
 
 		float4 WallTopTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, 0));
