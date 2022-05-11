@@ -3,6 +3,15 @@
 
 // 랜덤맵 공통 정보 헤더
 
+// 랜덤맵 벽타일 검사방향
+enum class RandomWallCheckDir
+{
+	CHK_T,		// X-1 방향의 타일
+	CHK_R,		// Y-1 방향의 타일
+	CHK_B,		// X+1 방향의 타일
+	CHK_L		// Y+1 방향의 타일
+};
+
 // 랜덤맵 타일 타입(바닥타일기준)
 enum class RandomMapTileType
 {
@@ -77,20 +86,24 @@ struct RandomRoomInfo
 // 랜덤맵 벽정보
 struct RandomWallInfo
 {
-	// 타일정보
+	// 타일 기본관련
 	TileIndex WallTileIndex_;									// 타일인덱스
 
-	// 타입
+	// 타일 타입관련(T,R,B,L)
+	std::vector<bool> SearchTileFlag_;							// 현재 벽의 타일기준 4방향 타일을 체크하여 
+																// 바닥타일 존재여부에 따라 Flag를 저장
+
 	RandomWallBasicType WallBasicType_;							// 벽 or 문
 	RandomWallDetailType WallDetailType_;						// 벽 or 문 상세 타입
 
-	// 텍스쳐 정보
-	int WallTile1ImageIndex;									// 일반적인 벽은 한개의 렌더링만 가짐
-	int WallTile2ImageIndex;									// 특수한 벽은 2개의 렌더링을 가짐
-	std::string WallTextureName;								// 벽텍스쳐 이름
-	float4 WallTileSize;										// 벽타일 크기
-	float4 WallRenderSize;										// 벽타일 렌더링크기
-	float4 WallRenderPivotPos;									// 벽타일 렌더링 피벗
+	// 타일 텍스쳐 정보
+	bool WallMultiRender_;
+	int WallTile1ImageIndex_;									// 일반적인 벽은 한개의 렌더링만 가짐
+	int WallTile2ImageIndex_;									// 특수한 벽은 2개의 렌더링을 가짐
+	std::string WallTextureName_;								// 벽텍스쳐 이름
+	float4 WallTileSize_;										// 벽타일 크기
+	float4 WallRenderSize_;										// 벽타일 렌더링크기
+	float4 WallRenderPivotPos_;									// 벽타일 렌더링 피벗
 };
 
 // 랜덤맵 정보

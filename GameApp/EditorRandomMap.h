@@ -161,6 +161,7 @@ public: // 랜덤맵 생성 관련
 	void CreateWall();
 	void CreateWallInfo();
 	bool WallOverlapCheck(TileIndex _WallTileIndex);
+	bool WallToFloorTileCheck(TileIndex _TileIndex);
 	void WallGridRendering();
 
 	// 4. 모든 타일타입과 텍스쳐매칭에 따른 타일 렌더링
