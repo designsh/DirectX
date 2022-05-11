@@ -11,12 +11,6 @@ enum class LevelType
 	ChaosSanctuary,
 };
 
-class GameEngineTileMapRenderer;
-struct RoomRender
-{
-	std::unordered_map<__int64, GameEngineTileMapRenderer*> TileRenderer_;
-};
-
 // 분류 : 
 // 용도 : 
 // 설명 : 
