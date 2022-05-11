@@ -10,7 +10,7 @@ enum class RandomMapTileType
 	ROOM,														// 방
 };
 
-// 벽 기본 타입(
+// 벽 기본 타입
 enum class RandomWallBasicType
 {
 	WALL,														// 일반벽
@@ -36,24 +36,22 @@ enum class RandomWallDetailType
 	WL_RB_R,													// 우하단(좌상단)방향(연속된벽) - 중심기준(0,0) 오른쪽벽
 	WL_RB_R_BE,													// 우하단방향으로 오른쪽벽의 끝(BENT직전에 RB가 끝)
 	WL_RB_R_TE,													// 좌상단방향으로 오른쪽벽의 끝(BENT와 연결되는 벽)
-	WL_BENT_MULTI,												// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우상단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
+	WL_BENT_MULTI1,												// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우상단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
+	WL_BENT_MULTI2,												// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우하단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
 	WL_BENT_SINGLE,												// 꺽이는벽(렌더러를 1개 가진다) - 중심기준(0,0) 좌하단꺽이는벽 => RT_B_LE와 RB_L_BE가 만나려고하는 벽(단독렌더러)
 
 	// 기본타입이 문일때
-	DR_RT_T_L,													// 룸 센터기준 상단 우상단방향 문의 왼쪽 텍스쳐
-	DR_RT_T_R,													// 룸 센터기준 상단 우상단방향 문의 오른쪽 텍스쳐
-	DR_RT_B_L,													// 룸 센터기준 하단 우상단방향 문의 왼쪽 텍스쳐
-	DR_RT_B_R,													// 룸 센터기준 하단 우상단방향 문의 오른쪽 텍스쳐
-	DR_RB_L_T,													// 룸 센터기준 좌단 우하단방향 문의 위쪽 텍스쳐
-	DR_RB_L_B,													// 룸 센터기준 좌단 우하단방향 문의 아래쪽 텍스쳐
-	DR_RB_R_T,													// 룸 센터기준 우단 우하단방향 문의 위쪽 텍스쳐
-	DR_RB_R_B,													// 룸 센터기준 우단 우하단방향 문의 아래쪽 텍스쳐
+	DR_RT_L,													// 룸 센터기준 상단 우상단방향 문의 왼쪽 텍스쳐
+	DR_RT_R,													// 룸 센터기준 상단 우상단방향 문의 오른쪽 텍스쳐
+	DR_RB_T,													// 룸 센터기준 좌단 우하단방향 문의 위쪽 텍스쳐
+	DR_RB_B,													// 룸 센터기준 좌단 우하단방향 문의 아래쪽 텍스쳐
 };
 
 // 랜덤맵 복도정보
 struct RandomCorridorInfo
 {
 	RandomMapTileType CorridorType_;							// 타일타입(복도)
+	int TileImageIndex;											// 복도 타일의 인덱스
 	std::vector<TileIndex> AllIndexLists_;						// 현재 생성된 복도의 모든 타일 인덱스(렌더링용도)
 };
 
@@ -62,6 +60,8 @@ struct RandomRoomInfo
 {
 	RandomMapTileType TileType_;								// 타일타입(룸)
 	int RoomNo_;												// 룸 번호(생성번호)
+
+	int TileImageIndex;											// 룸 타일의 인덱스
 
 	int WidthIndex_;											// 룸의 크기 가로(타일의 Y인덱스) 인덱스
 	int HeightIndex_;											// 룸의 크기 세로(타일의 X인덱스) 인덱스
@@ -96,6 +96,10 @@ struct RandomWallInfo
 // 랜덤맵 정보
 struct RandomMapInfo
 {
+	// 맵 텍스쳐관련
+	std::string FloorTileTextureName_;							// 바닥타일 텍스쳐명
+	std::string WallTileTextureName_;							// 벽타일 텍스쳐명
+
 	// 복도 관련 정보
 	RandomCorridorInfo CorridorInfo_;							// 해당 맵의 복도 목록
 

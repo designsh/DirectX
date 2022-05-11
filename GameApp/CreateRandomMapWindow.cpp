@@ -12,11 +12,13 @@ CreateRandomMapWindow::CreateRandomMapWindow() :
 	Zoom_(1.0f),
 	ZoomMin_(0.1f),
 	ZoomMax_(5.0f),
-	MaxIndexX_(0),
-	MaxIndexY_(0),
-	RoomCnt_(0),
-	RoomWidth_(0),
-	RoomHeight_(0)
+	CreateCorridorCnt_(0),
+	CorridorThick_(0),
+	CorridorLenCnt_(0),
+	CorridorDirCnt_(0),
+	RoomCount_(0),
+	RoomMaxWidthIndex_(0),
+	RoomMaxHeightIndex_(0)
 {
 }
 
@@ -47,11 +49,22 @@ void CreateRandomMapWindow::OnGUI()
 	CameraPosText += CameraPos.ToString();
 	ImGui::Text(CameraPosText.c_str());
 
+	ImGui::Text("ZOOM");
+	ImGui::SameLine();
 	ImGui::PushItemWidth(308.f); // 크기 고정
-	ImGui::SliderFloat("Zoom", &Zoom_, ZoomMin_, ZoomMax_, "%f", 1.0f);
+	ImGui::SliderFloat("##Zoom", &Zoom_, ZoomMin_, ZoomMax_, "%f", 1.0f);
 	ImGui::PopItemWidth();
 
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom_);
+
+	// 줌인/아웃 리셋
+	ImGui::SameLine();
+	if (true == ImGui::Button("RESET", ImVec2(200.f, 20.f)))
+	{
+		Zoom_ = 1.f;
+		GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom_);
+	}
+
 #pragma endregion
 
 	ImGui::Text("");
@@ -176,6 +189,8 @@ void CreateRandomMapWindow::OnGUI()
 #pragma endregion
 
 #pragma region 랜덤맵 생성(복도->룸->벽/문으로 변경중)
+	// 1~3. 정보 및 그리드렌더러 생성
+	// 4. 타입에 맞는 텍스쳐 매칭하여 타일 렌더러 생성
 
 	// 1. 랜덤방향 복도 생성
 	ImGui::Text("");
@@ -185,24 +200,44 @@ void CreateRandomMapWindow::OnGUI()
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
 	ImGui::InputInt("##CreateCount", &CreateCorridorCnt_);
+	if (0 >= CreateCorridorCnt_)
+	{
+		CreateCorridorCnt_ = 0;
+	}
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	ImGui::Text("Corridor Thick :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
 	ImGui::InputInt("##CorridorThick", &CorridorThick_);
+	if (0 >= CorridorThick_)
+	{
+		CorridorThick_ = 0;
+	}
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	ImGui::Text("Length Count :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
 	ImGui::InputInt("##LengthCount", &CorridorLenCnt_);
+	if (0 >= CorridorLenCnt_)
+	{
+		CorridorLenCnt_ = 0;
+	}
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	ImGui::Text("Dir Count :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
 	ImGui::InputInt("##DirCount", &CorridorDirCnt_);
+	if (4 <= CorridorDirCnt_)
+	{
+		CorridorDirCnt_ = 4;
+	}
+	else if (CorridorDirCnt_ <= 0)
+	{
+		CorridorDirCnt_ = 0;
+	}
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	if (true == ImGui::Button("CreateCorridor", ImVec2(200.f, 20.f)))
@@ -217,18 +252,30 @@ void CreateRandomMapWindow::OnGUI()
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
 	ImGui::InputInt("##CreateRoomCount", &RoomCount_);
+	if (0 >= RoomCount_)
+	{
+		RoomCount_ = 0;
+	}
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	ImGui::Text("Max Width Index :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
 	ImGui::InputInt("##RoomMaxWidthIndex", &RoomMaxWidthIndex_);
+	if (0 >= RoomMaxWidthIndex_)
+	{
+		RoomMaxWidthIndex_ = 0;
+	}
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	ImGui::Text("Max Height Index :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
 	ImGui::InputInt("##RoomMaxHeightIndex", &RoomMaxHeightIndex_);
+	if (0 >= RoomMaxHeightIndex_)
+	{
+		RoomMaxHeightIndex_ = 0;
+	}
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 	if (true == ImGui::Button("RoomArrange", ImVec2(200.f, 20.f)))
@@ -243,6 +290,9 @@ void CreateRandomMapWindow::OnGUI()
 	{
 		RandomMap_->CreateWall();
 	}
+
+	// 4. 현재맵에 각 정보생성 및 타일타입셋팅이 완료되었으므로
+	//    각 타입에 맞게 모든 타일 렌더러 생성(타일)
 
 #pragma endregion
 

@@ -61,6 +61,20 @@ void EditorRandomMap::CatacombsTextrueSetting()
 	FloorTileTextureName_ = "Catacombs_Floor.png";
 	WallTileTextureName_ = "Catacombs_Wall.png";
 
+	// 맵정보 갱신
+	MapInfo_.FloorTileTextureName_ = FloorTileTextureName_;
+	MapInfo_.WallTileTextureName_ = WallTileTextureName_;
+
+	// 타일
+	TileSize_ = float4(160.f, 80.f);
+	TileSizeHalf_ = TileSize_.halffloat4();
+	TileSizeHHalf_ = TileSizeHalf_.halffloat4();
+
+	// 바닥타일
+	FloorTileImageSize_ = { 160.0f, 80.f };
+	FloorTileImageSizeHalf_ = FloorTileImageSize_.halffloat4();
+	FloorTileIndexPivotPos_ = { 0.0f, -TileSizeHalf_.y };
+
 	// 벽타일
 	WallTileImageSize_ = { 160.0f, 320.f };
 	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
@@ -76,8 +90,22 @@ void EditorRandomMap::ChaosSanctuaryTextrueSetting()
 	FloorTileTextureName_ = "ChaosSanctuary_Floor.png";
 	WallTileTextureName_ = "ChaosSanctuary_Wall.png";
 
+	// 맵정보 갱신
+	MapInfo_.FloorTileTextureName_ = FloorTileTextureName_;
+	MapInfo_.WallTileTextureName_ = WallTileTextureName_;
+
+	// 타일
+	TileSize_ = float4(160.f, 80.f);
+	TileSizeHalf_ = TileSize_.halffloat4();
+	TileSizeHHalf_ = TileSizeHalf_.halffloat4();
+
+	// 바닥타일
+	FloorTileImageSize_ = { 160.0f, 80.f };
+	FloorTileImageSizeHalf_ = FloorTileImageSize_.halffloat4();
+	FloorTileIndexPivotPos_ = { 0.0f, -TileSizeHalf_.y };
+
 	// 벽타일
-	WallTileImageSize_ = { 160.0f, 480.f };
+	WallTileImageSize_ = { 160.0f, 320.f };
 	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
 	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y };
 
@@ -151,19 +179,186 @@ void EditorRandomMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
 
 	GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
-	NewRenderer->SetImage("WallGrid_Normal.png");
+	NewRenderer->SetImage(WallTileTextureName_);
+	NewRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
+	NewRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+	NewRenderer->GetTransform()->SetLocalZOrder(-2.f);
+	NewRenderer->SetIndex(CurTileIndex_);
+	WallTiles_.insert(std::make_pair(_Index.Index_, NewRenderer));
+}
+
+void EditorRandomMap::SetFloorGrid(float4 _Pos, RandomMapTileType _TileType, bool _CenterFlag)
+{
+	SetFloorGrid(GetFloorTileIndex(_Pos), _TileType, _CenterFlag);
+}
+
+void EditorRandomMap::SetFloorGrid(TileIndex _Index, RandomMapTileType _TileType, bool _CenterFlag)
+{
+	if (FloorGrides_.end() != FloorGrides_.find(_Index.Index_))
+	{
+		return;
+	}
+
+	float4 Pos = float4::ZERO;
+	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHalf_.x;
+	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHalf_.y;
+
+	GameEngineTileMapRenderer* FloorGirdRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+	// 1. 복도타입의 타일인 경우
+	if (_TileType == RandomMapTileType::CORRIDOR)
+	{
+		FloorGirdRenderer->SetImage("FloorGrid_Corridor.png");
+	}
+	// 2. 룸타입의 타일인 경우
+	else if (_TileType == RandomMapTileType::ROOM)
+	{
+		// 1) 룸타입의 센터타일인 경우
+		if (true == _CenterFlag)
+		{
+			FloorGirdRenderer->SetImage("FloorGrid_Center.png");
+		}
+		// 2) 아닌경우
+		else
+		{
+			FloorGirdRenderer->SetImage("FloorGrid_Normal.png");
+		}
+	}
+	
+	FloorGirdRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+	FloorGirdRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+	FloorGirdRenderer->SetIndex(0);
+	FloorGrides_.insert(std::make_pair(_Index.Index_, FloorGirdRenderer));
+}
+
+void EditorRandomMap::SetWallGrid(float4 _Pos, RandomWallBasicType _BasicType, RandomWallDetailType _DetailType)
+{
+	SetWallGrid(GetWallTileIndex(_Pos), _BasicType, _DetailType);
+}
+
+void EditorRandomMap::SetWallGrid(TileIndex _Index, RandomWallBasicType _BasicType, RandomWallDetailType _DetailType)
+{
+	if (WallGrides_.end() != WallGrides_.find(_Index.Index_))
+	{
+		return;
+	}
+
+	float4 Pos = float4::ZERO;
+	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
+	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
+
+	GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
+
+	// 각 타일의 타입에 따른 텍스쳐 변경
+
+	// 1. 벽인 경우
+	if (_BasicType == RandomWallBasicType::WALL)
+	{
+		// 각 방향별 텍스쳐 셋팅
+
+		if (_DetailType == RandomWallDetailType::NORMAL)
+		{
+			NewRenderer->SetImage("WallGrid_Normal.png");
+		}
+		else if (_DetailType == RandomWallDetailType::NONE)
+		{
+			NewRenderer->SetImage("WallGrid_None.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RT_T)
+		{
+			NewRenderer->SetImage("WallGrid_RT_T.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RT_T_RE)
+		{
+			NewRenderer->SetImage("WallGrid_RT_T_RE.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RT_T_LE)
+		{
+			NewRenderer->SetImage("WallGrid_RT_T_LE.png");
+		}
+		// RT_B
+		else if (_DetailType == RandomWallDetailType::WL_RT_B)
+		{
+			NewRenderer->SetImage("WallGrid_RT_B.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RT_B_RE)
+		{
+			NewRenderer->SetImage("WallGrid_RT_B_RE.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RT_B_LE)
+		{
+			NewRenderer->SetImage("WallGrid_RT_B_LE.png");
+		}
+		// RB_L
+		else if (_DetailType == RandomWallDetailType::WL_RB_L)
+		{
+			NewRenderer->SetImage("WallGrid_RB_L.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RB_L_BE)
+		{
+			NewRenderer->SetImage("WallGrid_RB_L_BE.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RB_L_TE)
+		{
+			NewRenderer->SetImage("WallGrid_RB_L_TE.png");
+		}
+		// RB_R
+		else if (_DetailType == RandomWallDetailType::WL_RB_R)
+		{
+			NewRenderer->SetImage("WallGrid_RB_R.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RB_R_BE)
+		{
+			NewRenderer->SetImage("WallGrid_RB_R_BE.png");
+		}
+		else if (_DetailType == RandomWallDetailType::WL_RB_R_TE)
+		{
+			NewRenderer->SetImage("WallGrid_RB_R_TE.png");
+		}
+		// BENT_SINGLE
+		else if (_DetailType == RandomWallDetailType::WL_BENT_SINGLE)
+		{
+			NewRenderer->SetImage("WallGrid_Bent_Single.png");
+		}
+		// BENT_MULTI1 or BENT_MULTI2
+		else if (_DetailType == RandomWallDetailType::WL_BENT_MULTI1 ||
+			_DetailType == RandomWallDetailType::WL_BENT_MULTI2)
+		{
+			NewRenderer->SetImage("WallGrid_Bent_Multi.png");
+		}
+	}
+	// 2. 문인 경우
+	else if (_BasicType == RandomWallBasicType::DOOR)
+	{
+		// 각 방향별 텍스쳐 셋팅
+		
+		// 1) 룸 센터기준 상단 우상단방향 문의 왼쪽 텍스쳐(DR_RT_L)
+		if(_DetailType == RandomWallDetailType::DR_RT_L)
+		{
+			NewRenderer->SetImage("DoorGrid_RT_L.png");
+		}
+		// 2) 룸 센터기준 상단 우상단방향 문의 오른쪽 텍스쳐(DR_RT_R)
+		else if (_DetailType == RandomWallDetailType::DR_RT_R)
+		{
+			NewRenderer->SetImage("DoorGrid_RT_R.png");
+		}
+		// 3) 룸 센터기준 좌단 우하단방향 문의 위쪽 텍스쳐(DR_RB_T)
+		else if (_DetailType == RandomWallDetailType::DR_RB_T)
+		{
+			NewRenderer->SetImage("DoorGrid_RB_T.png");
+		}
+		// 4) 룸 센터기준 좌단 우하단방향 문의 아래쪽 텍스쳐(DR_RB_B)
+		else if (_DetailType == RandomWallDetailType::DR_RB_B)
+		{
+			NewRenderer->SetImage("DoorGrid_RB_B.png");
+		}
+	}
+
 	NewRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
 	NewRenderer->GetTransform()->SetLocalPosition(Pos);
 	NewRenderer->GetTransform()->SetLocalZOrder(-15.f);
 	NewRenderer->SetIndex(0);
-
-	// SJH 임시주석
-	//NewRenderer->SetImage(WallTileTextureName_);
-	//NewRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
-	//NewRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-	//NewRenderer->GetTransform()->SetLocalZOrder(-2.f);
-	//NewRenderer->SetIndex(CurTileIndex_);
-	WallTiles_.insert(std::make_pair(_Index.Index_, NewRenderer));
+	WallGrides_.insert(std::make_pair(_Index.Index_, NewRenderer));
 }
 
 TileIndex EditorRandomMap::GetWallTileIndex(float4 _Pos)
@@ -234,7 +429,7 @@ void EditorRandomMap::AllCorridorClear()
 {
 	// 복도는 바닥타일
 
-	// 복도 렌더링 제거
+	// 복도 타일 렌더러 제거
 	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
 	for (int i = 0; i < CorridorTileCnt; ++i)
 	{
@@ -249,6 +444,24 @@ void EditorRandomMap::AllCorridorClear()
 
 			// 목록에서 제거
 			FloorTiles_.erase(DelTile);
+		}
+	}
+
+	// 복도 그리드 렌더러 제거
+	int CorridorGridCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+	for (int i = 0; i < CorridorGridCnt; ++i)
+	{
+		TileIndex CurTile = MapInfo_.CorridorInfo_.AllIndexLists_[i];
+
+		// 해당 타일 제거
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator DelTile = FloorGrides_.find(CurTile.Index_);
+		if (FloorGrides_.end() != DelTile)
+		{
+			// 렌더러 죽이고
+			(*DelTile).second->Death();
+
+			// 목록에서 제거
+			FloorGrides_.erase(DelTile);
 		}
 	}
 
@@ -267,7 +480,7 @@ void EditorRandomMap::AllRoomClear()
 {
 	// 룸은 바닥타일
 
-	// 룸 렌더링 제거
+	// 룸 타일 렌더러 제거
 	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCnt; ++i)
 	{
@@ -289,13 +502,34 @@ void EditorRandomMap::AllRoomClear()
 		}
 	}
 
+	// 룸 그리드 렌더러 제거
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
+		for (int j = 0; j < RoomTileCnt; ++j)
+		{
+			TileIndex CurTile = MapInfo_.RoomInfo_[i].AllIndexLists_[j];
+
+			// 해당 타일 제거
+			std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator DelTile = FloorGrides_.find(CurTile.Index_);
+			if (FloorGrides_.end() != DelTile)
+			{
+				// 렌더러 죽이고
+				(*DelTile).second->Death();
+
+				// 목록에서 제거
+				FloorGrides_.erase(DelTile);
+			}
+		}
+	}
+
 	// 룸정보 제거
 	MapInfo_.RoomInfo_.clear();
 }
 
 void EditorRandomMap::AllWallClear()
 {
-	// 벽/문은 벽타일
+	// 벽/문은 벽타일 렌더러 제거
 	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallTiles_.begin();
 	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallTiles_.end();
 	for (; StartIter != EndIter; ++StartIter)
@@ -303,6 +537,15 @@ void EditorRandomMap::AllWallClear()
 		(*StartIter).second->Death();
 	}
 	WallTiles_.clear();
+
+	// 벽/문은 벽타일 그리드 렌더러 제거
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridesStartIter = WallGrides_.begin();
+	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator GridesEndIter = WallGrides_.end();
+	for (; GridesStartIter != GridesEndIter; ++GridesStartIter)
+	{
+		(*GridesStartIter).second->Death();
+	}
+	WallGrides_.clear();
 
 	// 벽/문 정보 삭제
 	MapInfo_.WallInfo_.clear();
@@ -315,14 +558,15 @@ void EditorRandomMap::CreateRandomCorridor(int _Create, int _Thickness, int _Len
 	CreateRandomCorridorInfo(_Create, _Thickness, _LenTileCount, _DirCnt);
 
 	// 복도 정보를 이용하여 화면에 렌더링
-	CorridorRendering();
+	CorridorGridRendering();
 }
 
 void EditorRandomMap::CreateRandomCorridorInfo(int _Create, int _Thickness, int _LenTileCount, int _DirCnt)
 {
 	// 타일타입 셋팅(복도)
 	MapInfo_.CorridorInfo_.CorridorType_ = RandomMapTileType::CORRIDOR;
-
+	MapInfo_.CorridorInfo_.TileImageIndex = SelectFloorTileIndex_;
+	
 	// 복도 정보 생성
 	for (int k = 0; k < _Create; ++k) // 생성반복
 	{
@@ -403,14 +647,14 @@ bool EditorRandomMap::CorridorOverlapCheck(TileIndex _TileIndex)
 	return false;
 }
 
-void EditorRandomMap::CorridorRendering()
+void EditorRandomMap::CorridorGridRendering()
 {
 	// 복도 정보를 이용하여 렌더링
 	// 단, 동일한 타일인덱스가 존재한다면 다시 렌더링 안함
 	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
 	for (int i = 0; i < CorridorTileCnt; ++i)
 	{
-		SetFloorTile(MapInfo_.CorridorInfo_.AllIndexLists_[i], SelectFloorTileIndex_);
+		SetFloorGrid(MapInfo_.CorridorInfo_.AllIndexLists_[i], MapInfo_.CorridorInfo_.CorridorType_);
 	}
 }
 
@@ -421,7 +665,7 @@ void EditorRandomMap::CreateRoomArrange(int _RoomCount, int _MaxWidthIndex, int 
 	CreateRoomArrangeInfo(_RoomCount, _MaxWidthIndex, _MaxHeightIndex);
 
 	// 룸 배치정보를 이용하여 화면에 렌더링
-	RoomRendering();
+	RoomGridRendering();
 }
 
 void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex)
@@ -460,6 +704,7 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 
 		NewRoom.TileType_ = RandomMapTileType::ROOM;
 		NewRoom.RoomNo_ = RoomCnt + 1;
+		NewRoom.TileImageIndex = SelectFloorTileIndex_;
 
 		// 3. 룸의 크기는 랜덤으로 정해진다(최소 1x1의 룸크기를 만들어낸다.
 		int RandomWidthIndex = RoomRandom.RandomInt(1, _MaxWidthIndex);
@@ -538,7 +783,16 @@ bool EditorRandomMap::RoomOverlapCheck(TileIndex _CenterTile)
 	return false;
 }
 
-void EditorRandomMap::RoomRendering()
+bool EditorRandomMap::CorridorOverlapTileIndexCheck(TileIndex _TileIndex)
+{
+	// 룸 설치시 복도 타일목록에 동일한 타일이 존재하면 복도타일목록에서 제거 후
+	// 룸을 설치
+	
+
+	return false;
+}
+
+void EditorRandomMap::RoomGridRendering()
 {
 	// 생성된 룸정보를 이용하여 화면에 렌더링
 	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
@@ -547,13 +801,14 @@ void EditorRandomMap::RoomRendering()
 		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
 		for (int j = 0; j < RoomTileCnt; ++j)
 		{
+			// 룸의 센터타일인 경우
 			if (MapInfo_.RoomInfo_[i].AllIndexLists_[j] == MapInfo_.RoomInfo_[i].RoomCenterIndex_)
 			{
-				SetFloorTile(MapInfo_.RoomInfo_[i].AllIndexLists_[j], 1);
+				SetFloorGrid(MapInfo_.RoomInfo_[i].AllIndexLists_[j], MapInfo_.RoomInfo_[i].TileType_, true);
 			}
 			else
 			{
-				SetFloorTile(MapInfo_.RoomInfo_[i].AllIndexLists_[j], 13);
+				SetFloorGrid(MapInfo_.RoomInfo_[i].AllIndexLists_[j], MapInfo_.RoomInfo_[i].TileType_);
 			}
 		}
 	}
@@ -566,7 +821,7 @@ void EditorRandomMap::CreateWall()
 	CreateWallInfo();
 
 	// 벽/문 정보를 이용하여 화면에 렌더링
-	WallRendering();
+	WallGridRendering();
 }
 
 void EditorRandomMap::CreateWallInfo()
@@ -684,7 +939,8 @@ void EditorRandomMap::CreateWallInfo()
 	//		WL_RB_R,							// 우하단(좌상단)방향(연속된벽) - 중심기준(0,0) 오른쪽벽
 	//		WL_RB_R_BE,							// 우하단방향으로 오른쪽벽의 끝(BENT직전에 RB가 끝)
 	//		WL_RB_R_TE,							// 좌상단방향으로 오른쪽벽의 끝(BENT와 연결되는 벽)
-	//		WL_BENT_MULTI,						// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우상단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
+	//		WL_BENT_MULTI1,						// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우상단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
+	//		WL_BENT_MULTI2,						// 꺽이는벽(렌더러를 2개 가진다) - 중심기준(0,0) 우상단꺽이는벽 => RT_T_RE와 RB_R_TE가 만나려고하는 벽(멀티렌더러)
 	//		WL_BENT_SINGLE,						// 꺽이는벽(렌더러를 1개 가진다) - 중심기준(0,0) 좌하단꺽이는벽 => RT_B_LE와 RB_L_BE가 만나려고하는 벽(단독렌더러)
 	int AllWallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < AllWallCnt; ++i)
@@ -744,12 +1000,28 @@ bool EditorRandomMap::WallOverlapCheck(TileIndex _WallTileIndex)
 	return false;
 }
 
-void EditorRandomMap::WallRendering()
+void EditorRandomMap::WallGridRendering()
 {
 	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallCnt; ++i)
 	{
-		SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, SelectWallTileIndex_);
+		SetWallGrid(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallBasicType_, MapInfo_.WallInfo_[i].WallDetailType_);
 	}
+}
+
+void EditorRandomMap::TextureMatchingTileRendering()
+{
+	// 위의 과정에서 현재맵의 모든 정보 및 타일의 타입이 결정났으므로 지정된 텍스쳐와 텍스쳐인덱스로
+	// 타일을 렌더링
+
+
+	// 1. 바닥타일 매칭
+
+
+
+	// 2. 벽타일 매칭
+
+
+
 }
 #pragma endregion

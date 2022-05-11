@@ -63,9 +63,13 @@ private: // 벽타일정보
 	float4 WallTileImageSize_;
 	float4 WallTileIndexPivotPos_;
 
-private: // 랜덤맵 생성관련
-	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorTiles_;	// 복도/룸 렌더러
-	std::unordered_map<__int64, GameEngineTileMapRenderer*> WallTiles_;		// 벽/문 렌더러
+private: // 랜덤맵 타일렌더러 생성관련
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorTiles_;	// 복도/룸 타일 렌더러
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> WallTiles_;		// 벽/문 타일 렌더러
+
+private: // 랜덤맵 그리드렌더러 생성관련
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorGrides_;	// 복도/룸 그리드 렌더러
+	std::unordered_map<__int64, GameEngineTileMapRenderer*> WallGrides_;	// 벽/문 그리드 렌더러
 
 public:
 	EditorRandomMap();
@@ -105,11 +109,17 @@ public:
 	float4 GetFloorTileIndexToPos(TileIndex _TileIndex);
 	float4 GetWallTileIndexToPos(TileIndex _TileIndex);
 
-public:
+public: // 타일 렌더러 생성관련
 	void SetFloorTile(float4 _Pos, int CurTileIndex_);
 	void SetFloorTile(TileIndex _Index, int CurTileIndex_);
 	void SetWallTile(float4 _Pos, int CurTileIndex_);
 	void SetWallTile(TileIndex _Index, int CurTileIndex_);
+
+public: // 그리드 렌더러 생성관련
+	void SetFloorGrid(float4 _Pos, RandomMapTileType _TileType, bool _CenterFlag = false);
+	void SetFloorGrid(TileIndex _Index, RandomMapTileType _TileType, bool _CenterFlag = false);
+	void SetWallGrid(float4 _Pos, RandomWallBasicType _BasicType = RandomWallBasicType::WALL, RandomWallDetailType _DetailType = RandomWallDetailType::NORMAL);
+	void SetWallGrid(TileIndex _Index, RandomWallBasicType _BasicType = RandomWallBasicType::WALL, RandomWallDetailType _DetailType = RandomWallDetailType::NORMAL);
 
 public: // 정보 클리어관련
 
@@ -130,18 +140,22 @@ public: // 랜덤맵 생성 관련
 	void CreateRandomCorridor(int _Create, int _Thickness, int _LenTileCount, int _DirCnt);
 	void CreateRandomCorridorInfo(int _Create, int _Thickness, int _LenTileCount, int _DirCnt);
 	bool CorridorOverlapCheck(TileIndex _TileIndex);
-	void CorridorRendering();
+	void CorridorGridRendering();
 
 	// 2. 복도를 기준으로 룸정보 생성
 	void CreateRoomArrange(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
 	void CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
 	bool RoomOverlapCheck(TileIndex _CenterTile);
-	void RoomRendering();
+	bool CorridorOverlapTileIndexCheck(TileIndex _TileIndex);
+	void RoomGridRendering();
 
 	// 3. 복도/룸 정보를 이용하여 벽/문 정보 생성
 	void CreateWall();
 	void CreateWallInfo();
 	bool WallOverlapCheck(TileIndex _WallTileIndex);
-	void WallRendering();
+	void WallGridRendering();
+
+	// 4. 모든 타일타입과 텍스쳐매칭에 따른 타일 렌더링
+	void TextureMatchingTileRendering();
 };
 
