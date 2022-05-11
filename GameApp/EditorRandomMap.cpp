@@ -1286,7 +1286,7 @@ void EditorRandomMap::CreateWallInfo()
 				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 27;
 				MapInfo_.WallInfo_[i].WallTile2ImageIndex_ = 28;
 			}
-			// 그외?
+			// 싱글(좌하단꺽이는벽)
 			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
@@ -1315,10 +1315,34 @@ void EditorRandomMap::CreateWallInfo()
 
 			// 아랫벽 우단 끝
 			// 우단끝 : 우하단 벤트타일이 아랫벽 우단 끝
-
+			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_B_RE;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 16;
+			}
 			// 왼벽 상단 끝
 			// 상단끝 : 좌상단 벤트타일이 왼벽 상단 끝
-
+			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RB_L_TE;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 15;
+			}
 			// 왼벽 하단 끝
 			// 하단끝 (X - 2, Y) : 좌하단 벤트에서 X축으로 -2 타일이 왼벽 하단 끝
 
@@ -1338,21 +1362,6 @@ void EditorRandomMap::CreateWallInfo()
 			// LB:	TileIndex( 1,  1) => 6
 			// L:	TileIndex( 0,  1) => 7
 			// LT:	TileIndex(-1,  1) => 8
-
-
-			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
-			{
-				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_B_RE;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 16;
-			}
 			
 		}
 
