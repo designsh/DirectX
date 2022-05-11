@@ -11,6 +11,13 @@ enum class LevelType
 	ChaosSanctuary,
 };
 
+class GameEngineTileMapRenderer;
+struct RandomMapWallRenderer
+{
+	GameEngineTileMapRenderer* Tiles1_;
+	GameEngineTileMapRenderer* Tiles2_;
+};
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -64,7 +71,7 @@ private: // 벽타일정보
 
 private: // 랜덤맵 타일렌더러 생성관련
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorTiles_;	// 복도/룸 타일 렌더러
-	std::unordered_map<__int64, GameEngineTileMapRenderer*> WallTiles_;		// 벽/문 타일 렌더러
+	std::unordered_map<__int64, RandomMapWallRenderer> WallTiles_;			// 벽/문 타일 렌더러
 
 private: // 랜덤맵 그리드렌더러 생성관련
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> FloorGrides_;	// 복도/룸 그리드 렌더러
@@ -120,8 +127,8 @@ public:
 public: // 타일 렌더러 생성관련
 	void SetFloorTile(float4 _Pos, int CurTileIndex_);
 	void SetFloorTile(TileIndex _Index, int CurTileIndex_);
-	void SetWallTile(float4 _Pos, int CurTileIndex_);
-	void SetWallTile(TileIndex _Index, int CurTileIndex_);
+	void SetWallTile(float4 _Pos, int CurTileIndex_, RandomWallDetailType _Type, int _Multi2TileIndex = 0);
+	void SetWallTile(TileIndex _Index, int CurTileIndex_, RandomWallDetailType _Type, int _Multi2TileIndex = 0);
 
 public: // 그리드 렌더러 생성관련
 	void SetFloorGrid(float4 _Pos, RandomMapTileType _TileType, bool _CenterFlag = false);

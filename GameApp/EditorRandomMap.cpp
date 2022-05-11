@@ -250,28 +250,86 @@ void EditorRandomMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 	FloorTileRenderer->SetImage(FloorTileTextureName_);
 	FloorTileRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
 	FloorTileRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+	FloorTileRenderer->GetTransform()->SetLocalZOrder(100.f);
 	FloorTileRenderer->SetIndex(CurTileIndex_);
 	FloorTiles_.insert(std::make_pair(_Index.Index_, FloorTileRenderer));
 }
 
-void EditorRandomMap::SetWallTile(float4 _Pos, int CurTileIndex_)
+void EditorRandomMap::SetWallTile(float4 _Pos, int CurTileIndex_, RandomWallDetailType _Type, int _Multi2TileIndex)
 {
-	SetWallTile(GetWallTileIndex(_Pos), CurTileIndex_);
+	SetWallTile(GetWallTileIndex(_Pos), CurTileIndex_, _Type, _Multi2TileIndex);
 }
 
-void EditorRandomMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
+void EditorRandomMap::SetWallTile(TileIndex _Index, int CurTileIndex_, RandomWallDetailType _Type, int _Multi2TileIndex)
 {
 	float4 Pos = float4::ZERO;
 	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
 	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
 
-	GameEngineTileMapRenderer* NewRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
-	NewRenderer->SetImage(WallTileTextureName_);
-	NewRenderer->GetTransform()->SetLocalScaling(WallTileImageSize_);
-	NewRenderer->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-	NewRenderer->GetTransform()->SetLocalZOrder(-2.f);
-	NewRenderer->SetIndex(CurTileIndex_);
-	WallTiles_.insert(std::make_pair(_Index.Index_, NewRenderer));
+	RandomMapWallRenderer NewWallRenderer = {};
+
+	NewWallRenderer.Tiles1_ = CreateTransformComponent<GameEngineTileMapRenderer>();
+	NewWallRenderer.Tiles1_->SetImage(WallTileTextureName_);
+	NewWallRenderer.Tiles1_->GetTransform()->SetLocalScaling(WallTileImageSize_);
+	NewWallRenderer.Tiles1_->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+
+	NewWallRenderer.Tiles2_ = nullptr;
+
+	if (_Type == RandomWallDetailType::WL_BENT_MULTI)
+	{
+		NewWallRenderer.Tiles1_->SetIndex(CurTileIndex_);
+
+		NewWallRenderer.Tiles2_ = CreateTransformComponent<GameEngineTileMapRenderer>();
+		NewWallRenderer.Tiles2_->SetImage(WallTileTextureName_);
+		NewWallRenderer.Tiles2_->GetTransform()->SetLocalScaling(WallTileImageSize_);
+		NewWallRenderer.Tiles2_->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
+		NewWallRenderer.Tiles2_->GetTransform()->SetLocalZOrder(99.f);
+		NewWallRenderer.Tiles2_->SetIndex(_Multi2TileIndex);
+
+		WallTiles_.insert(std::make_pair(_Index.Index_, NewWallRenderer));
+	}
+	else
+	{
+		// 벽타입별 깊이값 설정 :	RT_B -> RB_R
+		//							 -> BENT_S -> RB_L -> RT_T
+		if (_Type == RandomWallDetailType::WL_RT_T ||
+			_Type == RandomWallDetailType::WL_RT_T_LE ||
+			_Type == RandomWallDetailType::WL_RT_T_RE)
+		{
+			NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder(99.f);
+		}
+		else if (_Type == RandomWallDetailType::WL_RT_B ||
+			_Type == RandomWallDetailType::WL_RT_B_LE ||
+			_Type == RandomWallDetailType::WL_RT_B_RE)
+		{
+		}
+		else if (_Type == RandomWallDetailType::WL_RB_L ||
+			_Type == RandomWallDetailType::WL_RB_L_TE ||
+			_Type == RandomWallDetailType::WL_RB_L_BE)
+		{
+		}
+		else if (_Type == RandomWallDetailType::WL_RB_R ||
+			_Type == RandomWallDetailType::WL_RB_R_TE ||
+			_Type == RandomWallDetailType::WL_RB_R_BE)
+		{
+			NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder(99.f);
+		}
+		else if (_Type == RandomWallDetailType::WL_BENT_MULTI)
+		{
+			NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder(99.f);
+		}
+		else if (_Type == RandomWallDetailType::WL_BENT_SINGLE)
+		{
+			NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder(96.f);
+		}
+		else // 그외
+		{
+			NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder(99.f);
+		}
+
+		NewWallRenderer.Tiles1_->SetIndex(CurTileIndex_);
+		WallTiles_.insert(std::make_pair(_Index.Index_, NewWallRenderer));
+	}
 }
 
 void EditorRandomMap::SetFloorGrid(float4 _Pos, RandomMapTileType _TileType, bool _CenterFlag)
@@ -639,11 +697,16 @@ void EditorRandomMap::AllRoomClear()
 void EditorRandomMap::AllWallClear()
 {
 	// 벽/문은 벽타일 렌더러 제거
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallTiles_.begin();
-	std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallTiles_.end();
+	std::unordered_map<__int64, RandomMapWallRenderer>::iterator StartIter = WallTiles_.begin();
+	std::unordered_map<__int64, RandomMapWallRenderer>::iterator EndIter = WallTiles_.end();
 	for (; StartIter != EndIter; ++StartIter)
 	{
-		(*StartIter).second->Death();
+		(*StartIter).second.Tiles1_->Death();
+
+		if (nullptr != (*StartIter).second.Tiles2_)
+		{
+			(*StartIter).second.Tiles2_->Death();
+		}
 	}
 	WallTiles_.clear();
 
@@ -1108,7 +1171,7 @@ void EditorRandomMap::CreateWallInfo()
 			if (MapInfo_.WallInfo_[i].WallTileIndex_.Y_ % 2 == 0)
 			{
 				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_T;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 21;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 26;
 			}
 			else
 			{
@@ -1130,7 +1193,7 @@ void EditorRandomMap::CreateWallInfo()
 			if (MapInfo_.WallInfo_[i].WallTileIndex_.Y_ % 2 == 0)
 			{
 				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_B;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 21;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 26;
 			}
 			else
 			{
@@ -1152,7 +1215,7 @@ void EditorRandomMap::CreateWallInfo()
 			if (MapInfo_.WallInfo_[i].WallTileIndex_.X_ % 2 == 0)
 			{
 				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RB_L;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 20;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 25;
 			}
 			else
 			{
@@ -1174,7 +1237,7 @@ void EditorRandomMap::CreateWallInfo()
 			if (MapInfo_.WallInfo_[i].WallTileIndex_.X_ % 2 == 0)
 			{
 				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RB_R;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 20;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 25;
 			}
 			else
 			{
@@ -1191,8 +1254,9 @@ void EditorRandomMap::CreateWallInfo()
 			// RB_L_TE, RB_L_BE => 왼벽 양끝
 			// RB_R_TE, RB_R_BE => 오른벽 양끝
 
+			// 꺽이는벽
+
 			// 우상단 꺽이는벽
-			// 본인, L, LB, B : TRUE
 			if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
@@ -1204,41 +1268,25 @@ void EditorRandomMap::CreateWallInfo()
 				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
 			{
 				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 15;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 16;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 27;
+				MapInfo_.WallInfo_[i].WallTile2ImageIndex_ = 28;
 			}
-			// 우하단 꺽이는벽
-			// 본인, L, LT, T : TRUE
+			// 우상단 꺽이는벽
 			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
-			{
-				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_SINGLE;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 1;
-			}
-			// 좌상단 꺽이는벽
-			// 본인, R, RB, B : TRUE
-			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
 			{
-				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_SINGLE;
-				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 1;
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 27;
+				MapInfo_.WallInfo_[i].WallTile2ImageIndex_ = 28;
 			}
-			// 좌하단 꺽이는벽
-			// 본인, T, RT, R : TRUE
+			// 그외?
 			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
@@ -1252,60 +1300,61 @@ void EditorRandomMap::CreateWallInfo()
 				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_SINGLE;
 				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 1;
 			}
+
+
+
+
+			// 윗벽 좌단 끝
+			// 좌단끝 (X, Y - 2) : 좌상단 벤트에서 Y축으로 -2 타일이 윗벽 좌단 끝
+			
+			// 윗벽 우단 끝
+			// 좌단끝 (X, Y + 2) : 좌상단 벤트에서 Y축으로 +2 타일이 윗벽 우단 끝
+
+			// 아랫벽 좌단 끝
+			// 좌단끝 (X, Y - 2) : 좌하단 벤트에서 Y축으로 -2 타일이 아랫벽 좌단 끝
+
+			// 아랫벽 우단 끝
+			// 우단끝 : 우하단 벤트타일이 아랫벽 우단 끝
+
+			// 왼벽 상단 끝
+			// 상단끝 : 좌상단 벤트타일이 왼벽 상단 끝
+
+			// 왼벽 하단 끝
+			// 하단끝 (X - 2, Y) : 좌하단 벤트에서 X축으로 -2 타일이 왼벽 하단 끝
+
+			// 오른벽 상단 끝
+			// 상단끝 (X + 2, Y) : 우상단 벤트에서 X축으로 +2 타일이 오른벽 상단 끝
+
+			// 오른벽 하단 끝
+			// 하단끝 (X - 2, Y) : 우하단 벤트에서 X축으로 -2 타일이 오른벽 하단 끝
+
+
+			//		TileIndex( 0,  0) => 0
+			// T:	TileIndex(-1,  0) => 1
+			// RT:	TileIndex(-1, -1) => 2
+			// R:	TileIndex( 0, -1) => 3
+			// RB:	TileIndex( 1, -1) => 4
+			// B:	TileIndex( 1,  0) => 5
+			// LB:	TileIndex( 1,  1) => 6
+			// L:	TileIndex( 0,  1) => 7
+			// LT:	TileIndex(-1,  1) => 8
+
+
+			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_B_RE;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 16;
+			}
+			
 		}
-
-
-		/*
-		//		TileIndex( 0,  0) => 0
-		// T:	TileIndex(-1,  0) => 1
-		// RT:	TileIndex(-1, -1) => 2
-		// R:	TileIndex( 0, -1) => 3
-		// RB:	TileIndex( 1, -1) => 4
-		// B:	TileIndex( 1,  0) => 5
-		// LB:	TileIndex( 1,  1) => 6
-		// L:	TileIndex( 0,  1) => 7
-		// LT:	TileIndex(-1,  1) => 8
-		*/
-
-
-		//// 윗벽 오른쪽 끝벽
-		//// 본인 L, B, LB 타일 존재
-		//if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
-		//{
-		//	MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_T_RE;
-		//	MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 22;
-		//}
-		//// 위벽 왼쪽 끝벽
-		//// 본인, R, RB, B 타일 존재
-		//else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[4] == true &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false &&
-		//	MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
-		//{
-		//	MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_T_LE;
-		//	MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 22;
-		//}
-		// 아랫벽 오른쪽 끝벽
-		// 본인, 
-
-
-		// 아랫벽 왼쪽 끝벽
-	
-
-
 
 
 	}
@@ -1396,7 +1445,7 @@ void EditorRandomMap::WallTileTextureMatching()
 		if (MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NORMAL &&
 			MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NONE)
 		{
-			SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_);
+			SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_, MapInfo_.WallInfo_[i].WallDetailType_, MapInfo_.WallInfo_[i].WallTile2ImageIndex_);
 		}
 	}
 }
@@ -1411,7 +1460,7 @@ void EditorRandomMap::DoorTileTextureMatching()
 		// 문타일 타입인 정보만 렌더링
 		if (MapInfo_.WallInfo_[i].WallBasicType_ == RandomWallBasicType::DOOR)
 		{
-			SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_);
+			//SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_, MapInfo_.WallInfo_[i].WallDetailType_, MapInfo_.WallInfo_[i].WallTile2ImageIndex_);
 		}
 	}
 }
