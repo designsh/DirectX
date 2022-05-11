@@ -94,106 +94,11 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->AllWallClear();
 	}
 
-	ImGui::Text("");
-	ImGui::Text("1. Select Texture Setting");
-	if (true == ImGui::Button("Catacombs", ImVec2(200.f, 20.f)))
-	{
-		RandomMap_->CatacombsTextrueSetting();
-	}
-	ImGui::SameLine();
-	if (true == ImGui::Button("ChaosSanctuary", ImVec2(200.f, 20.f)))
-	{
-		RandomMap_->ChaosSanctuaryTextrueSetting();
-	}
-
-#pragma region 바탁타일목록
-	if (nullptr != RandomMap_->GetFloorTileTexture())
-	{
-		ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("FloorTile")), { 500, 200 });
-
-		GameEngineTexture* FloorTileImage = RandomMap_->GetFloorTileTexture();
-		ImTextureID FloorTileId = reinterpret_cast<ImTextureID>(*FloorTileImage->GetShaderResourcesView());
-		float4 FloorTileSize = { 80.f, 40.f };
-
-		int LineCount = 5;
-		for (int i = 0; i < static_cast<int>(FloorTileImage->GetCutCount()); i++)
-		{
-			float4 FloorTileCutData = FloorTileImage->GetCutData(i);
-			__int64 FloorImageBtnID = reinterpret_cast<__int64>(FloorTileId);
-			FloorImageBtnID += i;
-			ImGui::PushID(static_cast<int>(FloorImageBtnID));
-			if (true == ImGui::ImageButton(FloorTileId, { FloorTileSize.x, FloorTileSize.y }, { FloorTileCutData.x, FloorTileCutData.y }, { FloorTileCutData.x + FloorTileCutData.z, FloorTileCutData.y + FloorTileCutData.w }))
-			{
-				// 현재 선택된 타일의 인덱스로 변경
-				RandomMap_->SelectFloorTileIndex_ = i;
-			}
-			ImGui::PopID();
-
-			--LineCount;
-
-			if (0 != LineCount)
-			{
-				ImGui::SameLine();
-			}
-
-			if (0 == LineCount)
-			{
-				LineCount = 5;
-			}
-		}
-
-		ImGui::EndChildFrame();
-	}
-	ImGui::SameLine();
-#pragma endregion
-
-#pragma region 벽타일목록
-	if (nullptr != RandomMap_->GetWallTileTexture())
-	{
-		ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("WallTile")), { 500, 200 });
-
-		// 벽
-		GameEngineTexture* WallTileImage = RandomMap_->GetWallTileTexture();
-		ImTextureID WallTileId = reinterpret_cast<ImTextureID>(*WallTileImage->GetShaderResourcesView());
-		float4 WallTileSize = { 80.f, 160.f };
-
-		int WallTileLineCount = 5;
-		for (int i = 0; i < static_cast<int>(WallTileImage->GetCutCount()); i++)
-		{
-			float4 WallCutData = WallTileImage->GetCutData(i);
-			__int64 WallImageBtnID = reinterpret_cast<__int64>(WallTileId);
-			WallImageBtnID += i;
-			ImGui::PushID(static_cast<int>(WallImageBtnID));
-			if (true == ImGui::ImageButton(WallTileId, { WallTileSize.x, WallTileSize.y }, { WallCutData.x, WallCutData.y }, { WallCutData.x + WallCutData.z, WallCutData.y + WallCutData.w }))
-			{
-				// 현재 선택된 타일의 인덱스로 변경
-				RandomMap_->SelectWallTileIndex_ = i;
-			}
-			ImGui::PopID();
-
-			--WallTileLineCount;
-
-			if (0 != WallTileLineCount)
-			{
-				ImGui::SameLine();
-			}
-
-			if (0 == WallTileLineCount)
-			{
-				WallTileLineCount = 5;
-			}
-		}
-
-		ImGui::EndChildFrame();
-	}
-#pragma endregion
-
 #pragma region 랜덤맵 생성(복도->룸->벽/문으로 변경중)
 	// 1~3. 정보 및 그리드렌더러 생성
 	// 4. 타입에 맞는 텍스쳐 매칭하여 타일 렌더러 생성
 
 	// 1. 랜덤방향 복도 생성
-	ImGui::Text("");
 	ImGui::Text("");
 	ImGui::Text("2. Create Random Corridor");
 	ImGui::Text("Create Count :");
@@ -291,9 +196,118 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->CreateWall();
 	}
 
-	// 4. 현재맵에 각 정보생성 및 타일타입셋팅이 완료되었으므로
-	//    각 타입에 맞게 모든 타일 렌더러 생성(타일)
-
 #pragma endregion
 
+	ImGui::Text("");
+	ImGui::Text("1. Select Texture Setting");
+	if (true == ImGui::Button("Catacombs", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->CatacombsTextrueSetting();
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("ChaosSanctuary", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->ChaosSanctuaryTextrueSetting();
+	}
+
+#pragma region 바탁타일목록
+	if (nullptr != RandomMap_->GetFloorTileTexture())
+	{
+		ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("FloorTile")), { 500, 200 });
+
+		GameEngineTexture* FloorTileImage = RandomMap_->GetFloorTileTexture();
+		ImTextureID FloorTileId = reinterpret_cast<ImTextureID>(*FloorTileImage->GetShaderResourcesView());
+		float4 FloorTileSize = { 80.f, 40.f };
+
+		int LineCount = 5;
+		for (int i = 0; i < static_cast<int>(FloorTileImage->GetCutCount()); i++)
+		{
+			float4 FloorTileCutData = FloorTileImage->GetCutData(i);
+			__int64 FloorImageBtnID = reinterpret_cast<__int64>(FloorTileId);
+			FloorImageBtnID += i;
+			ImGui::PushID(static_cast<int>(FloorImageBtnID));
+			if (true == ImGui::ImageButton(FloorTileId, { FloorTileSize.x, FloorTileSize.y }, { FloorTileCutData.x, FloorTileCutData.y }, { FloorTileCutData.x + FloorTileCutData.z, FloorTileCutData.y + FloorTileCutData.w }))
+			{
+				// 현재 선택된 타일의 인덱스로 변경
+				RandomMap_->SetSelectFloorTileIndex(i);
+			}
+			ImGui::PopID();
+
+			--LineCount;
+
+			if (0 != LineCount)
+			{
+				ImGui::SameLine();
+			}
+
+			if (0 == LineCount)
+			{
+				LineCount = 5;
+			}
+		}
+
+		ImGui::EndChildFrame();
+	}
+	ImGui::SameLine();
+#pragma endregion
+
+#pragma region 벽타일목록
+	if (nullptr != RandomMap_->GetWallTileTexture())
+	{
+		ImGui::BeginChildFrame(static_cast<ImGuiID>(reinterpret_cast<uint64_t>("WallTile")), { 500, 200 });
+
+		// 벽
+		GameEngineTexture* WallTileImage = RandomMap_->GetWallTileTexture();
+		ImTextureID WallTileId = reinterpret_cast<ImTextureID>(*WallTileImage->GetShaderResourcesView());
+		float4 WallTileSize = { 80.f, 160.f };
+
+		int WallTileLineCount = 5;
+		for (int i = 0; i < static_cast<int>(WallTileImage->GetCutCount()); i++)
+		{
+			float4 WallCutData = WallTileImage->GetCutData(i);
+			__int64 WallImageBtnID = reinterpret_cast<__int64>(WallTileId);
+			WallImageBtnID += i;
+			ImGui::PushID(static_cast<int>(WallImageBtnID));
+			if (true == ImGui::ImageButton(WallTileId, { WallTileSize.x, WallTileSize.y }, { WallCutData.x, WallCutData.y }, { WallCutData.x + WallCutData.z, WallCutData.y + WallCutData.w }))
+			{
+				// 현재 선택된 타일의 인덱스로 변경
+				RandomMap_->SetSelectWallTile1Index(i);
+			}
+			ImGui::PopID();
+
+			--WallTileLineCount;
+
+			if (0 != WallTileLineCount)
+			{
+				ImGui::SameLine();
+			}
+
+			if (0 == WallTileLineCount)
+			{
+				WallTileLineCount = 5;
+			}
+		}
+
+		ImGui::EndChildFrame();
+	}
+#pragma endregion
+	ImGui::Text("");
+
+	// 4. 각 타일들을 텍스쳐와 매칭
+	ImGui::Text("");
+	ImGui::Text("4. Tile Texture Matching");
+	if (true == ImGui::Button("FLOOR MATCHING", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->FloorTileTextureMatching();
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("WALL MATCHING", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->WallTileTextureMatching();
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("DOOR MATCHING", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->DoorTileTextureMatching();
+	}
 }

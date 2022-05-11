@@ -428,5 +428,24 @@ void MapEditorLevel::FixedMapControlMode()
 void MapEditorLevel::RandomMapControlMode()
 {
 	// 랜덤맵 윈도우가 활성화 되어있고 현재 에디터 모드가 RandomMode일때 사용되는 컨트롤
+	
+	// 바닥타일 그리드 On/Off
+	if (true == GameEngineInput::GetInst().Down("FloorGrideSwitching"))
+	{
+		if (nullptr != EditorRandomMap_)
+		{
+			EditorRandomMap_->FloorGridesSwitching();
+		}
+	}
+
+	// 벽타일 그리드 On/Off
+	if (true == GameEngineInput::GetInst().Down("WallGrideSwitching"))
+	{
+		if (nullptr != EditorRandomMap_)
+		{
+			EditorRandomMap_->WallGridesSwitching();
+		}
+	}
+
 
 }

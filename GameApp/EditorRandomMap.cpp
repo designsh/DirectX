@@ -12,8 +12,10 @@ std::vector<std::vector<int>> EditorRandomMap::RandomReversRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomNextRange;
 
 EditorRandomMap::EditorRandomMap() :
+	FloorGridesActive_(true),
+	WallGridesActive_(true),
 	SelectFloorTileIndex_(0),
-	SelectWallTileIndex_(0),
+	SelectWallTile1Index_(0),
 	MapInfo_()
 {
 }
@@ -113,6 +115,97 @@ void EditorRandomMap::ChaosSanctuaryTextrueSetting()
 	CurLevelType = LevelType::ChaosSanctuary;
 }
 
+void EditorRandomMap::SetSelectFloorTileIndex(int _Index)
+{
+	SelectFloorTileIndex_ = _Index;
+
+	// 복도목록
+	MapInfo_.CorridorInfo_.TileImageIndex = SelectFloorTileIndex_;
+
+	// 룸목록
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		MapInfo_.RoomInfo_[i].TileImageIndex = SelectFloorTileIndex_;
+	}
+}
+
+void EditorRandomMap::SetSelectWallTile1Index(int _Index)
+{
+	SelectWallTile1Index_ = _Index;
+
+	// 벽목록
+	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallCnt; ++i)
+	{
+		MapInfo_.WallInfo_[i].WallTile1ImageIndex = _Index;
+	}
+}
+
+void EditorRandomMap::SetSelectWallTile2Index(int _Index)
+{
+	SelectWallTile2Index_ = _Index;
+
+	// 벽목록
+	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallCnt; ++i)
+	{
+		MapInfo_.WallInfo_[i].WallTile2ImageIndex = _Index;
+	}
+}
+
+void EditorRandomMap::FloorGridesSwitching()
+{
+	if (false == FloorGridesActive_)
+	{
+		FloorGridesActive_ = true;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = FloorGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = FloorGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->On();
+		}
+	}
+	else
+	{
+		FloorGridesActive_ = false;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = FloorGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = FloorGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->Off();
+		}
+	}
+}
+
+void EditorRandomMap::WallGridesSwitching()
+{
+	if (false == WallGridesActive_)
+	{
+		WallGridesActive_ = true;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->On();
+		}
+	}
+	else
+	{
+		WallGridesActive_ = false;
+
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = WallGrides_.begin();
+		std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = WallGrides_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			(*StartIter).second->Off();
+		}
+	}
+}
+
 TileIndex EditorRandomMap::GetFloorTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
@@ -196,6 +289,28 @@ void EditorRandomMap::SetFloorGrid(TileIndex _Index, RandomMapTileType _TileType
 {
 	if (FloorGrides_.end() != FloorGrides_.find(_Index.Index_))
 	{
+		// 이미 존재하는 타일이라면 타입에 따라 텍스쳐 변경
+		
+		// 1. 복도타입의 타일인 경우
+		if (_TileType == RandomMapTileType::CORRIDOR)
+		{
+			FloorGrides_.find(_Index.Index_)->second->SetImage("FloorGrid_Corridor.png");
+		}
+		// 2. 룸타입의 타일인 경우
+		else if (_TileType == RandomMapTileType::ROOM)
+		{
+			// 1) 룸타입의 센터타일인 경우
+			if (true == _CenterFlag)
+			{
+				FloorGrides_.find(_Index.Index_)->second->SetImage("FloorGrid_Center.png");
+			}
+			// 2) 아닌경우
+			else
+			{
+				FloorGrides_.find(_Index.Index_)->second->SetImage("FloorGrid_Normal.png");
+			}
+		}
+
 		return;
 	}
 
@@ -227,6 +342,7 @@ void EditorRandomMap::SetFloorGrid(TileIndex _Index, RandomMapTileType _TileType
 	
 	FloorGirdRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
 	FloorGirdRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+	FloorGirdRenderer->GetTransform()->SetLocalZOrder(-1.f);
 	FloorGirdRenderer->SetIndex(0);
 	FloorGrides_.insert(std::make_pair(_Index.Index_, FloorGirdRenderer));
 }
@@ -356,7 +472,7 @@ void EditorRandomMap::SetWallGrid(TileIndex _Index, RandomWallBasicType _BasicTy
 
 	NewRenderer->GetTransform()->SetLocalScaling(TileSizeHalf_);
 	NewRenderer->GetTransform()->SetLocalPosition(Pos);
-	NewRenderer->GetTransform()->SetLocalZOrder(-15.f);
+	NewRenderer->GetTransform()->SetLocalZOrder(-3.f);
 	NewRenderer->SetIndex(0);
 	WallGrides_.insert(std::make_pair(_Index.Index_, NewRenderer));
 }
@@ -706,9 +822,9 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 		NewRoom.RoomNo_ = RoomCnt + 1;
 		NewRoom.TileImageIndex = SelectFloorTileIndex_;
 
-		// 3. 룸의 크기는 랜덤으로 정해진다(최소 1x1의 룸크기를 만들어낸다.
-		int RandomWidthIndex = RoomRandom.RandomInt(1, _MaxWidthIndex);
-		int RandomHeightIndex = RoomRandom.RandomInt(1, _MaxHeightIndex);
+		// 3. 룸의 크기는 랜덤으로 정해진다(최소 3x3의 룸크기를 만들어낸다.
+		int RandomWidthIndex = RoomRandom.RandomInt(3, _MaxWidthIndex);
+		int RandomHeightIndex = RoomRandom.RandomInt(3, _MaxHeightIndex);
 		NewRoom.WidthIndex_ = RandomWidthIndex;
 		NewRoom.HeightIndex_ = RandomHeightIndex;
 
@@ -758,7 +874,20 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 		{
 			for (int x = NewRoom.minIndexX_; x < NewRoom.maxIndexX_; ++x)
 			{
-				NewRoom.AllIndexLists_.push_back(TileIndex(x, y));
+				TileIndex CurTile = TileIndex(x, y);
+
+				// 복도타일목록에 동일한 타일이 존재할때 복도목록에서 해당 타일제거
+				CorridorOverlapTileIndexCheck(CurTile);
+				
+				// 센터타일이라면 이미지 인덱스 변경
+				if (CurTile == NewRoom.RoomCenterIndex_)
+				{
+					NewRoom.TileImageIndex = 1;
+				}
+
+				// 룸의 타일목록 추가
+				NewRoom.AllIndexLists_.push_back(CurTile);
+				
 			}
 		}
 
@@ -783,13 +912,19 @@ bool EditorRandomMap::RoomOverlapCheck(TileIndex _CenterTile)
 	return false;
 }
 
-bool EditorRandomMap::CorridorOverlapTileIndexCheck(TileIndex _TileIndex)
+void EditorRandomMap::CorridorOverlapTileIndexCheck(TileIndex _TileIndex)
 {
-	// 룸 설치시 복도 타일목록에 동일한 타일이 존재하면 복도타일목록에서 제거 후
-	// 룸을 설치
-	
-
-	return false;
+	// 룸 설치시 복도 타일목록에 동일한 타일이 존재하면 복도타일목록에서 제거
+	int CorridorCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+	for (int i = 0; i < CorridorCnt; ++i)
+	{
+		if (MapInfo_.CorridorInfo_.AllIndexLists_[i] == _TileIndex)
+		{
+			std::vector<TileIndex>::iterator FindListIter = MapInfo_.CorridorInfo_.AllIndexLists_.begin() + i;
+			MapInfo_.CorridorInfo_.AllIndexLists_.erase(FindListIter);
+			break;
+		}
+	}
 }
 
 void EditorRandomMap::RoomGridRendering()
@@ -1009,19 +1144,53 @@ void EditorRandomMap::WallGridRendering()
 	}
 }
 
-void EditorRandomMap::TextureMatchingTileRendering()
+void EditorRandomMap::FloorTileTextureMatching()
 {
-	// 위의 과정에서 현재맵의 모든 정보 및 타일의 타입이 결정났으므로 지정된 텍스쳐와 텍스쳐인덱스로
-	// 타일을 렌더링
+	// 복도
+	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+	for (int i = 0; i < CorridorTileCnt; ++i)
+	{
+		SetFloorTile(MapInfo_.CorridorInfo_.AllIndexLists_[i], MapInfo_.CorridorInfo_.TileImageIndex);
+	}
 
-
-	// 1. 바닥타일 매칭
-
-
-
-	// 2. 벽타일 매칭
-
-
-
+	// 룸
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
+		for (int j = 0; j < RoomTileCnt; ++j)
+		{
+			SetFloorTile(MapInfo_.RoomInfo_[i].AllIndexLists_[j], MapInfo_.RoomInfo_[i].TileImageIndex);
+		}
+	}
 }
+
+void EditorRandomMap::WallTileTextureMatching()
+{
+	// 디폴트 텍스쳐 인덱스 셋팅???
+
+
+	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallCnt; ++i)
+	{
+		SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex);
+		//SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile2ImageIndex);
+	}
+}
+
+void EditorRandomMap::DoorTileTextureMatching()
+{
+	// 디폴트 텍스쳐 인덱스 셋팅???
+
+	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallCnt; ++i)
+	{
+		// 문타일 타입인 정보만 렌더링
+		if (MapInfo_.WallInfo_[i].WallBasicType_ == RandomWallBasicType::DOOR)
+		{
+			SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex);
+		}
+	}
+}
+
 #pragma endregion

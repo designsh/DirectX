@@ -33,15 +33,20 @@ private:
 	static std::vector<std::vector<int>> RandomNextRange;
 
 private:
+	bool FloorGridesActive_;
+	bool WallGridesActive_;
+
+private:
 	GameEngineRandom RoadRandom_;
 	std::vector<float4> RandomStartPos_;
 
 private: // 랜덤맵 정보관련
 	RandomMapInfo MapInfo_;
 
-public:
+private:
 	int SelectFloorTileIndex_;
-	int SelectWallTileIndex_;
+	int SelectWallTile1Index_;
+	int SelectWallTile2Index_;
 
 private:
 	std::string FloorTileTextureName_;
@@ -89,6 +94,15 @@ private:
 public: // 텍스쳐 셋팅
 	void CatacombsTextrueSetting();
 	void ChaosSanctuaryTextrueSetting();
+
+public: // 타일인덱스 셋팅
+	void SetSelectFloorTileIndex(int _Index = 0);
+	void SetSelectWallTile1Index(int _Index = 0);
+	void SetSelectWallTile2Index(int _Index = 0);
+
+public:
+	void FloorGridesSwitching();
+	void WallGridesSwitching();
 
 public: // 텍스쳐 Get
 	inline GameEngineTexture* GetFloorTileTexture()
@@ -146,7 +160,7 @@ public: // 랜덤맵 생성 관련
 	void CreateRoomArrange(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
 	void CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
 	bool RoomOverlapCheck(TileIndex _CenterTile);
-	bool CorridorOverlapTileIndexCheck(TileIndex _TileIndex);
+	void CorridorOverlapTileIndexCheck(TileIndex _TileIndex);
 	void RoomGridRendering();
 
 	// 3. 복도/룸 정보를 이용하여 벽/문 정보 생성
@@ -156,6 +170,8 @@ public: // 랜덤맵 생성 관련
 	void WallGridRendering();
 
 	// 4. 모든 타일타입과 텍스쳐매칭에 따른 타일 렌더링
-	void TextureMatchingTileRendering();
+	void FloorTileTextureMatching();
+	void WallTileTextureMatching();
+	void DoorTileTextureMatching();
 };
 
