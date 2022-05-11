@@ -261,12 +261,6 @@ void EditorRandomMap::SetWallTile(float4 _Pos, int CurTileIndex_)
 
 void EditorRandomMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 {
-	if (WallTiles_.end() != WallTiles_.find(_Index.Index_))
-	{
-		WallTiles_.find(_Index.Index_)->second->SetIndex(CurTileIndex_);
-		return;
-	}
-
 	float4 Pos = float4::ZERO;
 	Pos.x = (_Index.X_ - _Index.Y_) * TileSizeHHalf_.x;
 	Pos.y = (_Index.X_ + _Index.Y_) * -TileSizeHHalf_.y;
@@ -437,8 +431,7 @@ void EditorRandomMap::SetWallGrid(TileIndex _Index, RandomWallBasicType _BasicTy
 			NewRenderer->SetImage("WallGrid_Bent_Single.png");
 		}
 		// BENT_MULTI1 or BENT_MULTI2
-		else if (_DetailType == RandomWallDetailType::WL_BENT_MULTI1 ||
-			_DetailType == RandomWallDetailType::WL_BENT_MULTI2)
+		else if (_DetailType == RandomWallDetailType::WL_BENT_MULTI)
 		{
 			NewRenderer->SetImage("WallGrid_Bent_Multi.png");
 		}
@@ -520,8 +513,8 @@ float4 EditorRandomMap::GetFloorTileIndexToPos(TileIndex _TileIndex)
 float4 EditorRandomMap::GetWallTileIndexToPos(TileIndex _TileIndex)
 {
 	float4 TilePos = float4::ZERO;
-	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.halffloat4().halffloat4().x;
-	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.halffloat4().halffloat4().y;
+	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSizeHHalf_.x;
+	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSizeHHalf_.y;
 
 	return TilePos;
 }
@@ -994,12 +987,9 @@ void EditorRandomMap::CreateWallInfo()
 					}
 
 					RandomWallInfo NewWall = {};
-
-					// 벽은 바닥타일의 중심을 기점으로 8방향 +1 or -1로 찍힌다.
 					NewWall.WallTileIndex_ = WallTileIndex;
-
 					NewWall.SearchTileFlag_.clear();
-					NewWall.SearchTileFlag_.resize(8);
+					NewWall.SearchTileFlag_.resize(9);
 					NewWall.WallBasicType_ = RandomWallBasicType::WALL;
 					NewWall.WallDetailType_ = RandomWallDetailType::NORMAL; // 초기생성시 Normal타입으로 생성
 
@@ -1044,12 +1034,9 @@ void EditorRandomMap::CreateWallInfo()
 				}
 
 				RandomWallInfo NewWall = {};
-
-				// 벽은 바닥타일의 중심을 기점으로 8방향 +1 or -1로 찍힌다.
 				NewWall.WallTileIndex_ = WallTileIndex;
-
 				NewWall.SearchTileFlag_.clear();
-				NewWall.SearchTileFlag_.resize(8);
+				NewWall.SearchTileFlag_.resize(9);
 				NewWall.WallBasicType_ = RandomWallBasicType::WALL;
 				NewWall.WallDetailType_ = RandomWallDetailType::NORMAL; // 초기생성시 Normal타입으로 생성
 
@@ -1074,83 +1061,251 @@ void EditorRandomMap::CreateWallInfo()
 	int WallTileCount = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallTileCount; ++i)
 	{
-		// 8방향 체크
-		// T:	TileIndex(-1,  0)
-		// RT:	TileIndex(-1, -1)
-		// R:	TileIndex( 0, -1)
-		// RB:	TileIndex( 1, -1)
-		// B:	TileIndex( 1,  0)
-		// LB:	TileIndex( 1,  1)
-		// L:	TileIndex( 0,  1)
-		// LT:	TileIndex(-1,  1)
+		//		TileIndex( 0,  0) => 0
+		// T:	TileIndex(-1,  0) => 1
+		// RT:	TileIndex(-1, -1) => 2
+		// R:	TileIndex( 0, -1) => 3
+		// RB:	TileIndex( 1, -1) => 4
+		// B:	TileIndex( 1,  0) => 5
+		// LB:	TileIndex( 1,  1) => 6
+		// L:	TileIndex( 0,  1) => 7
+		// LT:	TileIndex(-1,  1) => 8
+		TileIndex CurWallTile = MapInfo_.WallInfo_[i].WallTileIndex_;
+		TileIndex TopTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, 0);
+		TileIndex RightTopTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, -1);
+		TileIndex RightTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(0, -1);
+		TileIndex RightBottomTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(1, -1);
+		TileIndex BottomTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(1, 0);
+		TileIndex LeftBottomTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(1, 1);
+		TileIndex LeftTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(0, 1);
+		TileIndex LeftTopTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, 1);
 
-		// 타일인덱스의 위치에따라 체크 인덱스 계산이 달라진다.
+		// 본인포함 8방향 탐색하여 타일이 존재하는지 판단
+		MapInfo_.WallInfo_[i].SearchTileFlag_[0] = Wall8WaySearch(CurWallTile);
+		MapInfo_.WallInfo_[i].SearchTileFlag_[1] = Wall8WaySearch(TopTile);
+		MapInfo_.WallInfo_[i].SearchTileFlag_[2] = Wall8WaySearch(RightTopTile);
+		MapInfo_.WallInfo_[i].SearchTileFlag_[3] = Wall8WaySearch(RightTile);
+		MapInfo_.WallInfo_[i].SearchTileFlag_[4] = Wall8WaySearch(RightBottomTile);
+		MapInfo_.WallInfo_[i].SearchTileFlag_[5] = Wall8WaySearch(BottomTile);
+		MapInfo_.WallInfo_[i].SearchTileFlag_[6] = Wall8WaySearch(LeftBottomTile);
+		MapInfo_.WallInfo_[i].SearchTileFlag_[7] = Wall8WaySearch(LeftTile);
+		MapInfo_.WallInfo_[i].SearchTileFlag_[8] = Wall8WaySearch(LeftTopTile);
 
+		// 1) 연속된 벽을 탐색하여 타입 셋팅
 
-		float4 WallTopTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, 0));
-		MapInfo_.WallInfo_[i].SearchTileFlag_[0] = WallToFloorTileCheck(GetFloorTileIndex(WallTopTilePos));
-
-		float4 WallRightTopTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, -1));
-		MapInfo_.WallInfo_[i].SearchTileFlag_[1] = WallToFloorTileCheck(GetFloorTileIndex(WallRightTopTilePos));
-
-		float4 WallRightTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(0, -1));
-		MapInfo_.WallInfo_[i].SearchTileFlag_[2] = WallToFloorTileCheck(GetFloorTileIndex(WallRightTilePos));
-
-		float4 WallRightBottomTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(1, -1));
-		MapInfo_.WallInfo_[i].SearchTileFlag_[3] = WallToFloorTileCheck(GetFloorTileIndex(WallRightBottomTilePos));
-
-		float4 WallBottomTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(1, 0));
-		MapInfo_.WallInfo_[i].SearchTileFlag_[4] = WallToFloorTileCheck(GetFloorTileIndex(WallBottomTilePos));
-
-		float4 WallLeftTopTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(1, 1));
-		MapInfo_.WallInfo_[i].SearchTileFlag_[5] = WallToFloorTileCheck(GetFloorTileIndex(WallLeftTopTilePos));
-
-		float4 WallLeftTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(0, 1));
-		MapInfo_.WallInfo_[i].SearchTileFlag_[6] = WallToFloorTileCheck(GetFloorTileIndex(WallLeftTilePos));
-
-		float4 WallLeftBottomTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, 1));
-		MapInfo_.WallInfo_[i].SearchTileFlag_[7] = WallToFloorTileCheck(GetFloorTileIndex(WallLeftBottomTilePos));
-
-		// 8방향 탐색 Tile Flag에 따라 벽의 타입이 설정
-		// T	RT	R	RB	B	LB	L	LT
-		// 0	1	2	3	4	5	6	7
-
-		// 모든 상태가 true이면 벽이 아님
+		// 연속된 윗벽
+		// L, 본인, R, LB, B, RB 타일이 존재하고, LT, T, RT타일이 없을때
 		if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[4] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+		{
+			if (MapInfo_.WallInfo_[i].WallTileIndex_.Y_ % 2 == 0)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_T;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 21;
+			}
+			else
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::NONE;
+			}
+		}
+		// 연속된 아랫벽
+		// L, 본인, R, LT, T, RT 타일이 존재하고, LB, B, RB타일이 없을때
+		else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
+		{
+			if (MapInfo_.WallInfo_[i].WallTileIndex_.Y_ % 2 == 0)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_B;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 21;
+			}
+			else
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::NONE;
+			}
+		}
+		// 연속된 왼벽
+		// 본인, T, RT, R, RB, B 타일이 존재하고 LT, L, LB타일이 없을때
+		else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
 			MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
 			MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
 			MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
 			MapInfo_.WallInfo_[i].SearchTileFlag_[4] == true &&
 			MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
-			MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
-			MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true )
+			MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
 		{
-			MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::NORMAL;
+			if (MapInfo_.WallInfo_[i].WallTileIndex_.X_ % 2 == 0)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RB_L;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 20;
+			}
+			else
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::NONE;
+			}
 		}
-		// 연속적인 윗벽인경우 : LEFT, RIGHT, BOTTOM, LEFTBOTTOM, RIGHTBOTTOM, 
-		else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == false &&
+		// 연속된 오른벽
+		// 본인, T, LT, L, LB, B 타일이 존재하고 RT, R, RB타일이 없을때
+		else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+			MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
+		{
+			if (MapInfo_.WallInfo_[i].WallTileIndex_.X_ % 2 == 0)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RB_R;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 20;
+			}
+			else
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::NONE;
+			}
+		}
+		else
+		{
+			// 2) 특수한 벽을 탐색하여 타입 셋팅
+			// BENT_MULTI       => 우상단꺽이는벽
+			// BENT_SINGLE      => 우상단 꺽이는벽을 제외한 모든 꺽이는벽
+			// RT_T_RE, RT_T_LE => 윗벽 양끝
+			// RT_B_RE, RT_B_LE => 아랫벽 양끝
+			// RB_L_TE, RB_L_BE => 왼벽 양끝
+			// RB_R_TE, RB_R_BE => 오른벽 양끝
+
+			// 우상단 꺽이는벽
+			// 본인, L, LB, B : TRUE
+			if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 15;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 16;
+			}
+			// 우하단 꺽이는벽
+			// 본인, L, LT, T : TRUE
+			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_SINGLE;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 1;
+			}
+			// 좌상단 꺽이는벽
+			// 본인, R, RB, B : TRUE
+			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
-				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false)
-		{
-			MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_T;
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_SINGLE;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 1;
+			}
+			// 좌하단 꺽이는벽
+			// 본인, T, RT, R : TRUE
+			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_SINGLE;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 1;
+			}
 		}
 
 
+		/*
+		//		TileIndex( 0,  0) => 0
+		// T:	TileIndex(-1,  0) => 1
+		// RT:	TileIndex(-1, -1) => 2
+		// R:	TileIndex( 0, -1) => 3
+		// RB:	TileIndex( 1, -1) => 4
+		// B:	TileIndex( 1,  0) => 5
+		// LB:	TileIndex( 1,  1) => 6
+		// L:	TileIndex( 0,  1) => 7
+		// LT:	TileIndex(-1,  1) => 8
+		*/
 
 
+		//// 윗벽 오른쪽 끝벽
+		//// 본인 L, B, LB 타일 존재
+		//if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[3] == false &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+		//{
+		//	MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_T_RE;
+		//	MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 22;
+		//}
+		//// 위벽 왼쪽 끝벽
+		//// 본인, R, RB, B 타일 존재
+		//else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[1] == false &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[4] == true &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false &&
+		//	MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+		//{
+		//	MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_RT_T_LE;
+		//	MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 22;
+		//}
+		// 아랫벽 오른쪽 끝벽
+		// 본인, 
 
 
+		// 아랫벽 왼쪽 끝벽
+	
 
 
-		else
-		{
-			MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::NONE;
-		}
 
 
 	}
@@ -1188,31 +1343,15 @@ bool EditorRandomMap::WallOverlapCheck(TileIndex _WallTileIndex)
 	return false;
 }
 
-bool EditorRandomMap::WallToFloorTileCheck(TileIndex _TileIndex)
+bool EditorRandomMap::Wall8WaySearch(TileIndex _TileIndex)
 {
-	// 벽타일이 속한 바닥타일의 인덱스를 받아온다.
-
-	// 복도 체크
-	int CorridorCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
-	for (int i = 0; i < CorridorCnt; ++i)
+	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallCnt; ++i)
 	{
-		if (MapInfo_.CorridorInfo_.AllIndexLists_[i] == _TileIndex)
+		// 타일이 존재한다면 true 반환
+		if (MapInfo_.WallInfo_[i].WallTileIndex_ == _TileIndex)
 		{
 			return true;
-		}
-	}
-
-	// 룸체크
-	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
-	for (int i = 0; i < RoomCnt; ++i)
-	{
-		int AllRoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
-		for (int j = 0; j < AllRoomTileCnt; ++j)
-		{
-			if (MapInfo_.RoomInfo_[i].AllIndexLists_[j] == _TileIndex)
-			{
-				return true;
-			}
 		}
 	}
 
@@ -1251,14 +1390,14 @@ void EditorRandomMap::FloorTileTextureMatching()
 
 void EditorRandomMap::WallTileTextureMatching()
 {
-	// 디폴트 텍스쳐 인덱스 셋팅???
-
-
 	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallCnt; ++i)
 	{
-		SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_);
-		//SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile2ImageIndex);
+		if (MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NORMAL &&
+			MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NONE)
+		{
+			SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_);
+		}
 	}
 }
 
