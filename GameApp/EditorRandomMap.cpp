@@ -1552,8 +1552,6 @@ void EditorRandomMap::CreateWallInfo()
 			// 1) 룸의 모든 타일인덱스의 8방향 탐색하여 조건에 따라 벽을 설정
 			TileIndex CurChkTile = MapInfo_.RoomInfo_[i].AllIndexLists_[j];
 
-
-
 			// (1) 윗벽
 
 
