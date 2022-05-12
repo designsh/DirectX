@@ -16,7 +16,7 @@ CameraComponent::CameraComponent() :
 	FovAngleY_(90.0f),
 	CamSize_(GameEngineWindow::GetInst().GetSize()),
 	NearZ_(0.1f),
-	FarZ_(1000.0f),
+	FarZ_(10000000.0f),
 	DebugRenderCount_(0),
 	CameraBufferTarget_(nullptr)
 {

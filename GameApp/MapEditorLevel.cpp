@@ -180,7 +180,7 @@ void MapEditorLevel::LevelStart()
 {
 #pragma region SetMainCamera
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
+	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -300.f));
 #pragma endregion
 
 #pragma region Editor Windows

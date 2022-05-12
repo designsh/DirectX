@@ -34,6 +34,9 @@ private:
 	static std::vector<std::vector<int>> RandomNextRange;
 
 private:
+	static bool Compare(RandomWallInfo& _First, RandomWallInfo& _Second);
+
+private:
 	bool FloorGridesActive_;
 	bool WallGridesActive_;
 
