@@ -124,11 +124,11 @@ void EditorRandomMap::SetSelectFloorTileIndex(int _Index)
 	MapInfo_.CorridorInfo_.TileImageIndex = SelectFloorTileIndex_;
 
 	// ·ë¸ñ·Ï
-	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
-	for (int i = 0; i < RoomCnt; ++i)
-	{
-		MapInfo_.RoomInfo_[i].TileImageIndex = SelectFloorTileIndex_;
-	}
+	//int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	//for (int i = 0; i < RoomCnt; ++i)
+	//{
+	//	MapInfo_.RoomInfo_[i].TileImageIndex = SelectFloorTileIndex_;
+	//}
 }
 
 void EditorRandomMap::SetSelectWallTile1Index(int _Index)
@@ -841,7 +841,7 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 
 		NewRoom.TileType_ = RandomMapTileType::ROOM;
 		NewRoom.RoomNo_ = RoomCnt + 1;
-		NewRoom.TileImageIndex = SelectFloorTileIndex_;
+		NewRoom.TileImageIndex = 16;
 
 		// 3. ·ëÀÇ Å©±â´Â ·£´ýÀ¸·Î Á¤ÇØÁø´Ù(ÃÖ¼Ò 3x3ÀÇ ·ëÅ©±â¸¦ ¸¸µé¾î³½´Ù.
 		int RandomWidthIndex = RoomRandom.RandomInt(3, _MaxWidthIndex);
@@ -904,9 +904,8 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 				}
 				else
 				{
-					NewRoom.TileImageIndex = 0;
+					NewRoom.TileImageIndex = 16;
 				}
-
 
 				// ·ëÀÇ Å¸ÀÏ¸ñ·Ï Ãß°¡
 				NewRoom.AllIndexLists_.push_back(CurTile);
@@ -1537,13 +1536,6 @@ void EditorRandomMap::CreateWallInfo()
 	// 3. ·ëÀÇ º®°ü·Ã Å¸ÀÏÁ¤º¸ °»½Å
 	for (int i = 0; i < RoomCnt; ++i)
 	{
-		// ÇöÀç·ë°ú °¡Àå °¡±î¿î ·ëÀ» Ã£¾Æ³½´Ù.
-		// 
-
-
-		// 
-
-
 		int RoomTileIndex = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
 		for (int j = 0; j < RoomTileIndex; ++j)
 		{
@@ -1559,21 +1551,21 @@ void EditorRandomMap::CreateWallInfo()
 
 
 
+
+
+
 			// ·ëÀÇ À­º®
 
 
 			// ·ëÀÇ ¾Æ·§º®
 
+			// ·ëÀÇ ¿Þº®
+
+
+			// ·ëÀÇ ¿À¸¥º®
+
 		}
 	}
-
-	// 5. ·£´ý¸ÊÀÇ ³»ºÎ¸¦ ´Ù½Ã ÂÉ°·
-
-
-
-
-
-
 }
 
 bool EditorRandomMap::WallOverlapCheck(TileIndex _WallTileIndex)
