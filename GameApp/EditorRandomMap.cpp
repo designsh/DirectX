@@ -1465,6 +1465,20 @@ void EditorRandomMap::CreateWallInfo()
 				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 28;
+				MapInfo_.WallInfo_[i].WallTile2ImageIndex_ = 27;
+			}
+			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == false &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == false &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == false &&
