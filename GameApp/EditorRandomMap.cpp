@@ -11,11 +11,6 @@ std::vector<std::vector<float4>> EditorRandomMap::RandomRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomReversRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomNextRange;
 
-bool EditorRandomMap::Compare(RandomWallInfo& _First, RandomWallInfo& _Second)
-{
-	return _First.WallTileIndex_.Index_ < _Second.WallTileIndex_.Index_;
-}
-
 EditorRandomMap::EditorRandomMap() :
 	FloorGridesActive_(true),
 	WallGridesActive_(true),
@@ -291,21 +286,13 @@ void EditorRandomMap::SetWallTile(TileIndex _Index, int CurTileIndex_, RandomWal
 		NewWallRenderer.Tiles2_->SetImage(WallTileTextureName_);
 		NewWallRenderer.Tiles2_->GetTransform()->SetLocalScaling(WallTileImageSize_);
 		NewWallRenderer.Tiles2_->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-		NewWallRenderer.Tiles2_->GetTransform()->SetLocalZOrder(Pos.y);
+		NewWallRenderer.Tiles2_->GetTransform()->SetLocalZOrder((WallTileIndexPivotPos_ + Pos).y);
 		NewWallRenderer.Tiles2_->SetIndex(_Multi2TileIndex);
 
 		WallTiles_.insert(std::make_pair(_Index.Index_, NewWallRenderer));
 	}
-	else if (_Type == RandomWallDetailType::WL_RT_T)
-	{
-		NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder(99.f);
-	}
-	else if (_Type == RandomWallDetailType::WL_RT_B)
-	{
-		NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder(-1.f);
-	}
 
-	NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder(Pos.y);
+	NewWallRenderer.Tiles1_->GetTransform()->SetLocalZOrder((WallTileIndexPivotPos_ + Pos).y);
 	NewWallRenderer.Tiles1_->SetIndex(CurTileIndex_);
 	WallTiles_.insert(std::make_pair(_Index.Index_, NewWallRenderer));
 }
@@ -903,16 +890,13 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 		NewRoom.minIndexY_ = RoomStartY;
 		NewRoom.maxIndexY_ = RoomEndY;
 
-		// 7. 룸이 차지하는 모든 타일인덱스를 저장
+		// 7. 모든 타일인덱스를 저장
 		for (int y = NewRoom.minIndexY_; y < NewRoom.maxIndexY_; ++y)
 		{
 			for (int x = NewRoom.minIndexX_; x < NewRoom.maxIndexX_; ++x)
 			{
 				TileIndex CurTile = TileIndex(x, y);
 
-				// 복도타일목록에 동일한 타일이 존재할때 복도목록에서 해당 타일제거
-				CorridorOverlapTileIndexCheck(CurTile);
-				
 				// 센터타일이라면 이미지 인덱스 변경
 				if (CurTile == NewRoom.RoomCenterIndex_)
 				{
@@ -926,15 +910,48 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 
 				// 룸의 타일목록 추가
 				NewRoom.AllIndexLists_.push_back(CurTile);
-				
+
 			}
 		}
 
-		MapInfo_.RoomInfo_.push_back(NewRoom);
+		// 8. 현재 룸이 차지하는 모든 타일이 다른룸의 모든타일과 겹치지않는다면
+		if (false == RoomIntersectsCheck(NewRoom.AllIndexLists_))
+		{
+			// 9. 복도타일목록에 동일한 타일이 존재할때 복도목록에서 해당 타일제거
+			for (int y = NewRoom.minIndexY_; y < NewRoom.maxIndexY_; ++y)
+			{
+				for (int x = NewRoom.minIndexX_; x < NewRoom.maxIndexX_; ++x)
+				{
+					CorridorOverlapTileIndexCheck(TileIndex(x, y));
+				}
+			}
 
-		// 8. CurRoom Cnt 증가
-		++RoomCnt;
+			// 10. 룸정보 저장 완료
+			MapInfo_.RoomInfo_.push_back(NewRoom);
+			++RoomCnt;
+		}
 	}
+}
+
+bool EditorRandomMap::RoomIntersectsCheck(const std::vector<TileIndex>& _TileList)
+{
+	for (auto& CheckTile : _TileList)
+	{
+		int RoomCount = static_cast<int>(MapInfo_.RoomInfo_.size());
+		for (int i = 0; i < RoomCount; ++i)
+		{
+			int RoomTileCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
+			for (int j = 0; j < RoomTileCnt; ++j)
+			{
+				if (MapInfo_.RoomInfo_[i].AllIndexLists_[j] == CheckTile)
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
 }
 
 bool EditorRandomMap::RoomOverlapCheck(TileIndex _CenterTile)
@@ -1469,6 +1486,20 @@ void EditorRandomMap::CreateWallInfo()
 				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
 				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == false)
+			{
+				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
+				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 28;
+				MapInfo_.WallInfo_[i].WallTile2ImageIndex_ = 27;
+			}
+			else if (MapInfo_.WallInfo_[i].SearchTileFlag_[0] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[1] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[2] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[3] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[4] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[5] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[6] == false &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[7] == true &&
+				MapInfo_.WallInfo_[i].SearchTileFlag_[8] == true)
 			{
 				MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
 				MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 28;
