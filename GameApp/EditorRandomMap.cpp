@@ -1100,15 +1100,6 @@ void EditorRandomMap::CreateWallInfo()
 	int WallTileCount = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallTileCount; ++i)
 	{
-		//		TileIndex( 0,  0) => 0
-		// T:	TileIndex(-1,  0) => 1
-		// RT:	TileIndex(-1, -1) => 2
-		// R:	TileIndex( 0, -1) => 3
-		// RB:	TileIndex( 1, -1) => 4
-		// B:	TileIndex( 1,  0) => 5
-		// LB:	TileIndex( 1,  1) => 6
-		// L:	TileIndex( 0,  1) => 7
-		// LT:	TileIndex(-1,  1) => 8
 		TileIndex CurWallTile = MapInfo_.WallInfo_[i].WallTileIndex_;
 		TileIndex TopTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, 0);
 		TileIndex RightTopTile = MapInfo_.WallInfo_[i].WallTileIndex_ + TileIndex(-1, -1);
