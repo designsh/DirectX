@@ -1568,7 +1568,7 @@ void EditorRandomMap::CreateWallInfo()
 		}
 	}
 
-	// 5. 맵의 외곽벽 설치
+	// 5. 외곽벽 모두 설치
 	for (int i = 0; i < WallTileCount; ++i)
 	{
 		TileIndex CurWallTile = MapInfo_.WallInfo_[i].WallTileIndex_;
@@ -1810,264 +1810,17 @@ void EditorRandomMap::CreateWallInfo()
 		}
 	}
 
-	// 6. 룸의 벽을 설치
-	
-
-
-
-
-	//for (auto& WallTile : MapInfo_.WallInfo_)
+	// 6. 남은 NONE타입의 벽타일(룸의 벽타일)을 모두 조건 체크하여 정보 갱신
+	//for (int i = 0; i < WallTileCount; ++i)
 	//{
-	//	// 현재 NONE타입은 타일만을 검사한다.
-	//	if (WallTile.WallDetailType_ == RandomWallDetailType::NONE)
+	//	if (MapInfo_.WallInfo_[i].WallDetailType_ == RandomWallDetailType::NONE)
 	//	{
-	//		std::vector<bool> SearchNormalTileFlag;
-	//		SearchNormalTileFlag.clear();
-	//		SearchNormalTileFlag.resize(9);
+	//		// 
 
-	//		// 현재 타일 Get
-	//		TileIndex ChkWallTile = WallTile.WallTileIndex_;
-
-	//		// 현재 타일의 본이타일 포함 8방향의 타일을 탐색(총 9타일)
-	//		//		TileIndex( 0,  0) => 0
-	//		// T:	TileIndex(-1,  0) => 1
-	//		// RT:	TileIndex(-1, -1) => 2
-	//		// R:	TileIndex( 0, -1) => 3
-	//		// RB:	TileIndex( 1, -1) => 4
-	//		// B:	TileIndex( 1,  0) => 5
-	//		// LB:	TileIndex( 1,  1) => 6
-	//		// L:	TileIndex( 0,  1) => 7
-	//		// LT:	TileIndex(-1,  1) => 8
-	//		TileIndex CurWallTile = ChkWallTile;
-	//		TileIndex TopTile = ChkWallTile + TileIndex(-1, 0);
-	//		TileIndex RightTopTile = ChkWallTile + TileIndex(-1, -1);
-	//		TileIndex RightTile = ChkWallTile + TileIndex(0, -1);
-	//		TileIndex RightBottomTile = ChkWallTile + TileIndex(1, -1);
-	//		TileIndex BottomTile = ChkWallTile + TileIndex(1, 0);
-	//		TileIndex LeftBottomTile = ChkWallTile + TileIndex(1, 1);
-	//		TileIndex LeftTile = ChkWallTile + TileIndex(0, 1);
-	//		TileIndex LeftTopTile = ChkWallTile + TileIndex(-1, 1);
-
-	//		// 현재 타일을 포함한 8방향의 타일의 타입을 알아낸다.
-	//		SearchNormalTileFlag[0] = RoomWall8WaySearch(CurWallTile);
-	//		SearchNormalTileFlag[1] = RoomWall8WaySearch(TopTile);
-	//		SearchNormalTileFlag[2] = RoomWall8WaySearch(RightTopTile);
-	//		SearchNormalTileFlag[3] = RoomWall8WaySearch(RightTile);
-	//		SearchNormalTileFlag[4] = RoomWall8WaySearch(RightBottomTile);
-	//		SearchNormalTileFlag[5] = RoomWall8WaySearch(BottomTile);
-	//		SearchNormalTileFlag[6] = RoomWall8WaySearch(LeftBottomTile);
-	//		SearchNormalTileFlag[7] = RoomWall8WaySearch(LeftTile);
-	//		SearchNormalTileFlag[8] = RoomWall8WaySearch(LeftTopTile);
-
-	//		// (1) 우상단
-	//		// 본인, L, B이 NONE타입 나머지 NORMAL
-	//		if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == true &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == true &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == false &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == false &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
-	//			WallTile.WallTile1ImageIndex_ = 28;
-	//			WallTile.WallTile2ImageIndex_ = 27;
-	//		}
-	//		// 본인, T, L, B FALSE
-	//		else if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == false &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == true &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == false &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == false &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
-	//			WallTile.WallTile1ImageIndex_ = 28;
-	//			WallTile.WallTile2ImageIndex_ = 27;
-	//		}
-	//		// 본인, L, B
-	//		else if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == true &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == true &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == false &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == false &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
-	//			WallTile.WallTile1ImageIndex_ = 28;
-	//			WallTile.WallTile2ImageIndex_ = 27;
-	//		}
-	//		// 본인, L, T, R
-	//		else if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == false &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == false &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == true &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == false &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
-	//			WallTile.WallTile1ImageIndex_ = 28;
-	//			WallTile.WallTile2ImageIndex_ = 27;
-	//		}
-	//		// 본인, L, B, R
-	//		else if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == true &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == false &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == false &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == false &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
-	//			WallTile.WallTile1ImageIndex_ = 28;
-	//			WallTile.WallTile2ImageIndex_ = 27;
-	//		}
-	//		// 1)본인, T, L, B, R
-	//		else if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == false &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == false &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == false &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == false &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
-	//			WallTile.WallTile1ImageIndex_ = 28;
-	//			WallTile.WallTile2ImageIndex_ = 27;
-	//		}
-	//		// (2) 우하단(RT_B_RE)
-	//		// 본인, L, T이 NONE타입 나머지 NORMAL
-	//		else if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == false &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == true &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == true &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == false &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_RT_B_RE;
-	//			WallTile.WallTile1ImageIndex_ = 16;
-	//		}
-	//		// (3) 좌하단(BENT_SINGLE)
-	//		// 본인, T, R이 NONE타입 나머지 NORMAL
-	//		else if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == false &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == false &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == true &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == true &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_BENT_SINGLE;
-	//			WallTile.WallTile1ImageIndex_ = 1;
-	//		}
-	//		// (4) 좌상단
-	//		// 본인, R, B이 NONE타입 나머지 NORMAL
-	//		else if (SearchNormalTileFlag[0] == false &&
-	//			SearchNormalTileFlag[1] == true &&
-	//			SearchNormalTileFlag[2] == true &&
-	//			SearchNormalTileFlag[3] == false &&
-	//			SearchNormalTileFlag[4] == true &&
-	//			SearchNormalTileFlag[5] == false &&
-	//			SearchNormalTileFlag[6] == true &&
-	//			SearchNormalTileFlag[7] == true &&
-	//			SearchNormalTileFlag[8] == true)
-	//		{
-	//			WallTile.WallDetailType_ = RandomWallDetailType::WL_RB_L_TE;
-	//			WallTile.WallTile1ImageIndex_ = 15;
-	//		}
-
-	//		else
-	//		{
-	//			if (WallTile.WallTileIndex_.Y_ % 2 == 0)
-	//			{
-	//				// (1) 기본적인 연속벽 판단
-
-	//				// 우상단방향 연속벽
-	//				// 본인, L, R NONE 나머지 NORMAL
-	//				if (SearchNormalTileFlag[0] == false &&
-	//					SearchNormalTileFlag[1] == true &&
-	//					SearchNormalTileFlag[2] == true &&
-	//					SearchNormalTileFlag[3] == false &&
-	//					SearchNormalTileFlag[4] == true &&
-	//					SearchNormalTileFlag[5] == true &&
-	//					SearchNormalTileFlag[6] == true &&
-	//					SearchNormalTileFlag[7] == false &&
-	//					SearchNormalTileFlag[8] == true)
-	//				{
-	//					WallTile.WallDetailType_ = RandomWallDetailType::WL_RT_T;
-	//					WallTile.WallTile1ImageIndex_ = 26;
-	//				}
-	//				// 본인, L FALSE
-	//				else if (SearchNormalTileFlag[0] == false &&
-	//					SearchNormalTileFlag[1] == true &&
-	//					SearchNormalTileFlag[2] == true &&
-	//					SearchNormalTileFlag[3] == true &&
-	//					SearchNormalTileFlag[4] == true &&
-	//					SearchNormalTileFlag[5] == true &&
-	//					SearchNormalTileFlag[6] == true &&
-	//					SearchNormalTileFlag[7] == false &&
-	//					SearchNormalTileFlag[8] == true)
-	//				{
-	//					WallTile.WallDetailType_ = RandomWallDetailType::WL_RT_T;
-	//					WallTile.WallTile1ImageIndex_ = 26;
-	//				}
-	//				// 본인, R, T, L FALSE
-	//				else if (SearchNormalTileFlag[0] == false &&
-	//					SearchNormalTileFlag[1] == false &&
-	//					SearchNormalTileFlag[2] == true &&
-	//					SearchNormalTileFlag[3] == false &&
-	//					SearchNormalTileFlag[4] == true &&
-	//					SearchNormalTileFlag[5] == true &&
-	//					SearchNormalTileFlag[6] == true &&
-	//					SearchNormalTileFlag[7] == false &&
-	//					SearchNormalTileFlag[8] == true)
-	//				{
-	//					WallTile.WallDetailType_ = RandomWallDetailType::WL_RT_T;
-	//					WallTile.WallTile1ImageIndex_ = 26;
-	//				}
-	//			}
-
-	//			if (WallTile.WallTileIndex_.X_ % 2 == 0)
-	//			{
-	//				if (SearchNormalTileFlag[0] == false &&
-	//					SearchNormalTileFlag[1] == false &&
-	//					SearchNormalTileFlag[2] == true &&
-	//					SearchNormalTileFlag[3] == true &&
-	//					SearchNormalTileFlag[4] == true &&
-	//					SearchNormalTileFlag[5] == false &&
-	//					SearchNormalTileFlag[6] == true &&
-	//					SearchNormalTileFlag[7] == true &&
-	//					SearchNormalTileFlag[8] == true)
-	//				{
-	//					WallTile.WallDetailType_ = RandomWallDetailType::WL_RB_L;
-	//					WallTile.WallTile1ImageIndex_ = 25;
-	//				}
-	//			}
-
-	//		}
 
 	//	}
 	//}
+	
 
 	// 6. 룸<->룸 연결 or 룸<->복도 연결하는 문을 셋팅
 	//    룸의 센터인덱스를 기준으로 각 방향을 탐색하여 룸 or 복도가 있으면
@@ -2112,21 +1865,44 @@ bool EditorRandomMap::Wall8WaySearch(TileIndex _TileIndex)
 	return false;
 }
 
-bool EditorRandomMap::RoomWall8WaySearch(TileIndex _TileIndex)
+RandomMapTileType EditorRandomMap::RoomWall8WaySearch(TileIndex _TileIndex)
 {
-	// 해당 타일이 NORMAL타입인지 판단
+	// 해당 벽타일이 어떠한 바닥타일에 속하고, 속한 바닥타일의 타입을 반한다.
 	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallCnt; ++i)
 	{
 		// 해당 타일이 NORMAL타입이면 TRUE 반환
-		if (MapInfo_.WallInfo_[i].WallTileIndex_ == _TileIndex &&
-			MapInfo_.WallInfo_[i].WallDetailType_ == RandomWallDetailType::NORMAL)
+		if (MapInfo_.WallInfo_[i].WallTileIndex_ == _TileIndex)
 		{
-			return true;
+			float4 WallTilePos = GetWallTileIndexToPos(MapInfo_.WallInfo_[i].WallTileIndex_);
+
+			TileIndex FloorTileIndex = GetFloorTileIndex(WallTilePos);
+
+			// 해당 타일을 목록에서 찾았다면 해당 타일의 위치값을 이용하여 
+			// 룸 목록에서 해당 타일이 속한 바닥타일을 탐색
+			for (auto& RoomInfo : MapInfo_.RoomInfo_)
+			{
+				for (auto& RoomTile : RoomInfo.AllIndexLists_)
+				{
+					if (RoomTile == FloorTileIndex)
+					{
+						return RoomInfo.TileType_;
+					}
+				}
+			}
+
+			// 복도 목록에서 해당 타일이 속한 바닥타일을 탐색
+			for (auto& CorridorTile : MapInfo_.CorridorInfo_.AllIndexLists_)
+			{
+				if (CorridorTile == FloorTileIndex)
+				{
+					return MapInfo_.CorridorInfo_.CorridorType_;
+				}
+			}
 		}
 	}
 
-	return false;
+	return RandomMapTileType::NONE;
 }
 
 void EditorRandomMap::WallGridRendering()

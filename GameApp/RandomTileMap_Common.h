@@ -15,6 +15,7 @@ enum class RandomWallCheckDir
 // 랜덤맵 타일 타입(바닥타일기준)
 enum class RandomMapTileType
 {
+	NONE,														// 타일없음
 	CORRIDOR,													// 복도
 	ROOM,														// 방
 };
