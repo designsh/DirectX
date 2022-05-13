@@ -158,6 +158,7 @@ public: // 랜덤맵 생성 관련
 	void CreateRandomCorridor(int _Create, int _Thickness, int _LenTileCount, int _DirCnt);
 	void CreateRandomCorridorInfo(int _Create, int _Thickness, int _LenTileCount, int _DirCnt);
 	bool CorridorOverlapCheck(TileIndex _TileIndex);
+	bool Corridor8WaySearch(TileIndex _CheckTileIndex);
 	void CorridorGridRendering();
 
 	// 2. 복도를 기준으로 룸정보 생성
@@ -173,7 +174,6 @@ public: // 랜덤맵 생성 관련
 	void CreateWallInfo();
 	bool WallOverlapCheck(TileIndex _WallTileIndex);
 	bool Wall8WaySearch(TileIndex _TileIndex);
-	RandomMapTileType RoomWall8WaySearch(TileIndex _TileIndex);
 	void WallGridRendering();
 
 	// 4. 모든 타일타입과 텍스쳐매칭에 따른 타일 렌더링
