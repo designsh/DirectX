@@ -117,6 +117,16 @@ void MapEditorLevel::CreateLevelActor()
 	GameEngineTexture* WallGridBentSingle = GameEngineTextureManager::GetInst().Find("WallGrid_Bent_Single.png");
 	WallGridBentSingle->Cut(1, 1);
 
+	// DOOR
+	GameEngineTexture* DoorGrid_RB_B = GameEngineTextureManager::GetInst().Find("DoorGrid_RB_B.png");
+	DoorGrid_RB_B->Cut(1, 1);
+	GameEngineTexture* DoorGrid_RB_T = GameEngineTextureManager::GetInst().Find("DoorGrid_RB_T.png");
+	DoorGrid_RB_T->Cut(1, 1);
+	GameEngineTexture* DoorGrid_RT_L = GameEngineTextureManager::GetInst().Find("DoorGrid_RT_L.png");
+	DoorGrid_RT_L->Cut(1, 1);
+	GameEngineTexture* DoorGrid_RT_R = GameEngineTextureManager::GetInst().Find("DoorGrid_RT_R.png");
+	DoorGrid_RT_R->Cut(1, 1);
+
 	// OBJECT
 	GameEngineTexture* ObjectGrid = GameEngineTextureManager::GetInst().Find("ObjectGrid_Object.png");
 	ObjectGrid->Cut(1, 1);

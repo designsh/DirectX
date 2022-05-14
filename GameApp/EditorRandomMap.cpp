@@ -2151,23 +2151,89 @@ void EditorRandomMap::CreateDoorInfo()
 
 		// 4방향 탐색하여 복도와 연결되거나, 나와 다른 룸과 연결되는 구간을 찾아낸다.
 		std::vector<TileIndex> CheckTileIndex;
-		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].minIndexX_, 0));	// 상단
-		CheckTileIndex.push_back(TileIndex(0, MapInfo_.RoomInfo_[i].minIndexY_));	// 우단
-		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].maxIndexX_, 0));	// 하단
-		CheckTileIndex.push_back(TileIndex(0, MapInfo_.RoomInfo_[i].maxIndexY_));	// 좌단
+		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].minIndexX_, RoomCenterTileIndex.Y_) + TileIndex(-1,  0));	// 상단
+		CheckTileIndex.push_back(TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].minIndexY_) + TileIndex( 0, -1));	// 우단
+		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].maxIndexX_, RoomCenterTileIndex.Y_) + TileIndex( 1,  0));	// 하단
+		CheckTileIndex.push_back(TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].maxIndexY_) + TileIndex( 0,  1));	// 좌단
 
 		for (int j = 0; j < static_cast<int>(CheckTileIndex.size()); ++j)
 		{
 			// 각 방향별 문연결 가능 여부에 따라 문으로 설정/미설정
 			// 단, 상/하단 문으로 설정되었다면 L/R 타입의 도어타입이 설정되고
 			//     좌/우단 문으로 설정되었다면 T/B 타입의 도어타입이 설정된다.
-			TileIndex CurChkTile = RoomCenterTileIndex + CheckTileIndex[j];
-			if (true == DoorInfoSettingCheck(CurChkTile))
+			if (true == DoorInfoSettingCheck(CheckTileIndex[j], MapInfo_.RoomInfo_[i].RoomNo_))
 			{
-				
+				TileIndex DoorTileIndex;
+
+				// 상단
+				if (j == 0)
+				{
+					DoorTileIndex = TileIndex(MapInfo_.RoomInfo_[i].minIndexX_, RoomCenterTileIndex.Y_);
+
+					// 해당 타일에 속하는 모든 벽타일을 찾아내서 타입을 변경
+					float4 CurFloorTilePos = GetFloorTileIndexToPos(DoorTileIndex);
+					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
+
+					for (int y = 0; y < 3; ++y)
+					{
+						for (auto& WallTile : MapInfo_.WallInfo_)
+						{
+							if (WallTile.WallTileIndex_ == WallTileIndex)
+							{
+								if (WallTile.WallTileIndex_.Y_ % 2 == 0)
+								{
+									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
+									WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_L;
+									WallTile.WallTile1ImageIndex_ = 5;
+								}
+								break;
+							}
+						}
+
+						WallTileIndex = WallTileIndex + TileIndex(0, 1);
+					}
+				}
+				// 우단
+				else if (j == 1)
+				{
+					DoorTileIndex = TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].minIndexY_);
+
+					// 해당 타일의 위치를 Get
+					float4 CheckPos = GetFloorTileIndexToPos(DoorTileIndex);
+
+					// 해당 타일에 속하는 모든 벽타일을 찾아내서 타입을 변경
+
+
+
+				}
+				// 하단
+				else if (j == 2)
+				{
+					DoorTileIndex = TileIndex(MapInfo_.RoomInfo_[i].maxIndexX_, RoomCenterTileIndex.Y_);
+
+					// 해당 타일의 위치를 Get
+					float4 CheckPos = GetFloorTileIndexToPos(DoorTileIndex);
+
+					// 해당 타일에 속하는 모든 벽타일을 찾아내서 타입을 변경
+
+
+
+				}
+				// 좌단
+				else if (j == 3)
+				{
+					DoorTileIndex = TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].maxIndexY_);
+
+					// 해당 타일의 위치를 Get
+					float4 CheckPos = GetFloorTileIndexToPos(DoorTileIndex);
+
+					// 해당 타일에 속하는 모든 벽타일을 찾아내서 타입을 변경
+
+
+
+				}
 			}
 		}
-
 	}
 }
 
@@ -2200,17 +2266,40 @@ bool EditorRandomMap::Wall8WaySearch(TileIndex _TileIndex)
 	return false;
 }
 
-bool EditorRandomMap::DoorInfoSettingCheck(TileIndex _CheckTile)
+bool EditorRandomMap::DoorInfoSettingCheck(TileIndex _CheckTile, int _CurRoomNo)
 {
+	// 룸/복도 타일 목록을 탐색하여 해당 타일의 타입을 알아낸다.
+	// 단, 타일이 존재하지않으면 문으로 설정 불가 판정
 
+	// 복도 목록 탐색
+	for (auto& CorridorTile : MapInfo_.CorridorInfo_.AllIndexLists_)
+	{
+		if (CorridorTile == _CheckTile)
+		{
+			// 해당 타일을 찾았다면 해당 타일을 복도이므로 문으로 연결가능 판단
+			return true;
+		}
+	}
 
+	// 룸 목록 탐색
+	for (auto& Room : MapInfo_.RoomInfo_)
+	{
+		for (auto& RoomTile : Room.AllIndexLists_)
+		{
+			if (RoomTile == _CheckTile)
+			{
+				// 해당 타일을 찾았다면 해당 타일은 룸이므로 문으로 연결가능 판단
+				// 단, 현재 체크하는 룸의 번호와 다를 경우에만 문으로 연결가능 판단
+				if (Room.RoomNo_ != _CurRoomNo)
+				{
+					return true;
+				}
 
+				return false;
+			}
+		}
+	}
 
-
-
-
-
-	
 	return false;
 }
 
@@ -2249,10 +2338,13 @@ void EditorRandomMap::WallTileTextureMatching()
 	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallCnt; ++i)
 	{
-		if (MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NORMAL &&
-			MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NONE)
+		if (MapInfo_.WallInfo_[i].WallBasicType_ == RandomWallBasicType::WALL)
 		{
-			SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_, MapInfo_.WallInfo_[i].WallDetailType_, MapInfo_.WallInfo_[i].WallTile2ImageIndex_);
+			if (MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NORMAL &&
+				MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NONE)
+			{
+				SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_, MapInfo_.WallInfo_[i].WallDetailType_, MapInfo_.WallInfo_[i].WallTile2ImageIndex_);
+			}
 		}
 	}
 }
