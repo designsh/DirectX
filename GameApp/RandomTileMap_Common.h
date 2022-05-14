@@ -84,7 +84,7 @@ struct RandomRoomInfo
 	TileIndex RoomCenterIndex_;									// 룸의 센터 인덱스
 	std::vector<TileIndex> AllIndexLists_;						// 현재 생성된 룸의 모든 타일 인덱스
 
-	// 거리 측정 정보
+	// 다름 룸과의 관계
 	int TheFarthestRoomNo_;										// 현재 룸과 가장 멀리 떨어져있는 룸번호
 																// 플레이어 생성위치와 가장멀리 떨어져있는 곳에 보스생성을 위해 셋팅
 };
