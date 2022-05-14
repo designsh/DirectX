@@ -2153,8 +2153,8 @@ void EditorRandomMap::CreateDoorInfo()
 		std::vector<TileIndex> CheckTileIndex;
 		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].minIndexX_, RoomCenterTileIndex.Y_) + TileIndex(-1,  0));	// 상단
 		CheckTileIndex.push_back(TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].minIndexY_) + TileIndex( 0, -1));	// 우단
-		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].maxIndexX_, RoomCenterTileIndex.Y_) + TileIndex( 1,  0));	// 하단
-		CheckTileIndex.push_back(TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].maxIndexY_) + TileIndex( 0,  1));	// 좌단
+		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].maxIndexX_ - 1, RoomCenterTileIndex.Y_) + TileIndex( 1,  0));	// 하단
+		CheckTileIndex.push_back(TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].maxIndexY_ - 1) + TileIndex( 0,  1));	// 좌단
 
 		for (int j = 0; j < static_cast<int>(CheckTileIndex.size()); ++j)
 		{
@@ -2174,6 +2174,7 @@ void EditorRandomMap::CreateDoorInfo()
 					float4 CurFloorTilePos = GetFloorTileIndexToPos(DoorTileIndex);
 					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
 
+					bool Flag = false;
 					for (int y = 0; y < 3; ++y)
 					{
 						for (auto& WallTile : MapInfo_.WallInfo_)
@@ -2183,8 +2184,17 @@ void EditorRandomMap::CreateDoorInfo()
 								if (WallTile.WallTileIndex_.Y_ % 2 == 0)
 								{
 									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
-									WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_L;
-									WallTile.WallTile1ImageIndex_ = 5;
+									if (false == Flag)
+									{
+										WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_R;
+										WallTile.WallTile1ImageIndex_ = 10;
+										Flag = true;
+									}
+									else
+									{
+										WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_L;
+										WallTile.WallTile1ImageIndex_ = 11;
+									}
 								}
 								break;
 							}
@@ -2198,39 +2208,113 @@ void EditorRandomMap::CreateDoorInfo()
 				{
 					DoorTileIndex = TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].minIndexY_);
 
-					// 해당 타일의 위치를 Get
-					float4 CheckPos = GetFloorTileIndexToPos(DoorTileIndex);
+					float4 CurFloorTilePos = GetFloorTileIndexToPos(DoorTileIndex);
+					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
 
-					// 해당 타일에 속하는 모든 벽타일을 찾아내서 타입을 변경
+					bool Flag = false;
+					for (int x = 0; x < 3; ++x)
+					{
+						for (auto& WallTile : MapInfo_.WallInfo_)
+						{
+							if (WallTile.WallTileIndex_ == WallTileIndex)
+							{
+								if (WallTile.WallTileIndex_.X_ % 2 == 0)
+								{
+									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
+									if (false == Flag)
+									{
+										WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_T;
+										WallTile.WallTile1ImageIndex_ = 3;
+										Flag = true;
+									}
+									else
+									{
+										WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_B;
+										WallTile.WallTile1ImageIndex_ = 2;
+									}
+								}
+								break;
+							}
+						}
 
-
-
+						WallTileIndex = WallTileIndex + TileIndex(1, 0);
+					}
 				}
 				// 하단
 				else if (j == 2)
 				{
-					DoorTileIndex = TileIndex(MapInfo_.RoomInfo_[i].maxIndexX_, RoomCenterTileIndex.Y_);
+					DoorTileIndex = TileIndex(MapInfo_.RoomInfo_[i].maxIndexX_ - 1, RoomCenterTileIndex.Y_);
 
-					// 해당 타일의 위치를 Get
-					float4 CheckPos = GetFloorTileIndexToPos(DoorTileIndex);
+					float4 CurFloorTilePos = GetFloorTileIndexToPos(DoorTileIndex);
+					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
+					WallTileIndex.X_ += 2;
 
-					// 해당 타일에 속하는 모든 벽타일을 찾아내서 타입을 변경
+					bool Flag = false;
+					for (int y = 0; y < 3; ++y)
+					{
+						for (auto& WallTile : MapInfo_.WallInfo_)
+						{
+							if (WallTile.WallTileIndex_ == WallTileIndex)
+							{
+								if (WallTile.WallTileIndex_.Y_ % 2 == 0)
+								{
+									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
+									if (false == Flag)
+									{
+										WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_R;
+										WallTile.WallTile1ImageIndex_ = 10;
+										Flag = true;
+									}
+									else
+									{
+										WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_L;
+										WallTile.WallTile1ImageIndex_ = 11;
+									}
+								}
+								break;
+							}
+						}
 
-
-
+						WallTileIndex = WallTileIndex + TileIndex(0, 1);
+					}
 				}
 				// 좌단
 				else if (j == 3)
 				{
-					DoorTileIndex = TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].maxIndexY_);
+					DoorTileIndex = TileIndex(RoomCenterTileIndex.X_, MapInfo_.RoomInfo_[i].maxIndexY_ - 1);
 
-					// 해당 타일의 위치를 Get
-					float4 CheckPos = GetFloorTileIndexToPos(DoorTileIndex);
+					float4 CurFloorTilePos = GetFloorTileIndexToPos(DoorTileIndex);
+					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
+					WallTileIndex.Y_ += 2;
 
-					// 해당 타일에 속하는 모든 벽타일을 찾아내서 타입을 변경
+					bool Flag = false;
+					for (int x = 0; x < 3; ++x)
+					{
+						for (auto& WallTile : MapInfo_.WallInfo_)
+						{
+							if (WallTile.WallTileIndex_ == WallTileIndex)
+							{
+								if (WallTile.WallTileIndex_.X_ % 2 == 0)
+								{
+									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
+									if (false == Flag)
+									{
+										WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_T;
+										WallTile.WallTile1ImageIndex_ = 3;
+										Flag = true;
+									}
+									else
+									{
+										WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_B;
+										WallTile.WallTile1ImageIndex_ = 2;
+									}
+								}
+								break;
+							}
+						}
 
-
-
+						WallTileIndex = WallTileIndex + TileIndex(1, 0);
+					}
 				}
 			}
 		}
