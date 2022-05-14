@@ -34,7 +34,7 @@ private:
 	static std::vector<std::vector<int>> RandomNextRange;
 
 private:
-	static bool Compare(RandomWallInfo& _First, RandomWallInfo& _Second);
+	static bool Compare(std::pair<int, float>& _First, std::pair<int, float>& _Second);
 
 private:
 	bool FloorGridesActive_;
@@ -164,6 +164,7 @@ public: // 랜덤맵 생성 관련
 	// 2. 복도를 기준으로 룸정보 생성
 	void CreateRoomArrange(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
 	void CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, int _MaxHeightIndex);
+	void SetTheFarthestRoom(int _CheckRoomIndex);
 	bool RoomIntersectsCheck(const std::vector<TileIndex>& _TileList);
 	bool RoomOverlapCheck(TileIndex _CenterTile);
 	void CorridorOverlapTileIndexCheck(TileIndex _TileIndex);

@@ -11,6 +11,11 @@ std::vector<std::vector<float4>> EditorRandomMap::RandomRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomReversRange;
 std::vector<std::vector<int>> EditorRandomMap::RandomNextRange;
 
+bool EditorRandomMap::Compare(std::pair<int, float>& _First, std::pair<int, float>& _Second)
+{
+	return _First.second < _Second.second;
+}
+
 EditorRandomMap::EditorRandomMap() :
 	FloorGridesActive_(true),
 	WallGridesActive_(true),
@@ -943,6 +948,50 @@ void EditorRandomMap::CreateRoomArrangeInfo(int _RoomCount, int _MaxWidthIndex, 
 			MapInfo_.RoomInfo_.push_back(NewRoom);
 			++RoomCnt;
 		}
+	}
+
+	// 모든 룸을 배치완료하였으므로 각 룸에가 가장 멀리떨어져있는 룸을 저장
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		SetTheFarthestRoom(i);
+	}
+}
+
+void EditorRandomMap::SetTheFarthestRoom(int _CheckRoomIndex)
+{
+	// 거리측정 맵 생성
+	std::map<int, float> RoomDistanceMap;
+
+	// 현재 룸의 센터 위치
+	float4 CurRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[_CheckRoomIndex].RoomCenterIndex_);
+
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+	for (int i = 0; i < RoomCnt; ++i)
+	{
+		// 본인 룸 제외
+		if (MapInfo_.RoomInfo_[_CheckRoomIndex].RoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+		{
+			continue;
+		}
+
+		// 모든 룸과의 거리 측정(각 룸의 센터인덱스 기준)
+		float4 CheckRoomPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_);
+
+		// 기준 인덱스의 위치와 현재 거리체크하는 인덱스의 거리를 계산
+		// => 두 벡터사이의 거리측정 후 목록에 저장
+		float Length = float4::Distance(CurRoomPos, CheckRoomPos);
+		RoomDistanceMap.insert(std::make_pair(MapInfo_.RoomInfo_[i].RoomNo_, Length));
+	}
+
+	// 룸번호로 정렬한 작성된 목록을 거리를 이용하여 재정렬
+	std::vector<std::pair<int, float>> ReSortVector(RoomDistanceMap.begin(), RoomDistanceMap.end());
+	std::sort(ReSortVector.begin(), ReSortVector.end(), EditorRandomMap::Compare);
+
+	// 재정렬완료되었으므로 현재 벡터의 마지막인덱스가 가장 멀리있는 룸이다.
+	int SortVectorCnt = static_cast<int>(ReSortVector.size());
+	if (0 < SortVectorCnt)
+	{
+		MapInfo_.RoomInfo_[_CheckRoomIndex].TheFarthestRoomNo_ = ReSortVector[SortVectorCnt - 1].first;
 	}
 }
 
