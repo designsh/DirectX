@@ -469,8 +469,12 @@ void EditorRandomMap::SetWallGrid(TileIndex _Index, RandomWallBasicType _BasicTy
 	{
 		// 각 방향별 텍스쳐 셋팅
 		
+		if (_DetailType == RandomWallDetailType::NORMAL)
+		{
+			NewRenderer->SetImage("WallGrid_Normal.png");
+		}
 		// 1) 룸 센터기준 상단 우상단방향 문의 왼쪽 텍스쳐(DR_RT_L)
-		if(_DetailType == RandomWallDetailType::DR_RT_L)
+		else if(_DetailType == RandomWallDetailType::DR_RT_L)
 		{
 			NewRenderer->SetImage("DoorGrid_RT_L.png");
 		}
@@ -2181,9 +2185,9 @@ void EditorRandomMap::CreateDoorInfo()
 						{
 							if (WallTile.WallTileIndex_ == WallTileIndex)
 							{
+								WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
 								if (WallTile.WallTileIndex_.Y_ % 2 == 0)
 								{
-									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
 									if (false == Flag)
 									{
 										WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_R;
@@ -2195,6 +2199,10 @@ void EditorRandomMap::CreateDoorInfo()
 										WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_L;
 										WallTile.WallTile1ImageIndex_ = 11;
 									}
+								}
+								else
+								{
+									WallTile.WallDetailType_ = RandomWallDetailType::NORMAL;
 								}
 								break;
 							}
@@ -2218,9 +2226,9 @@ void EditorRandomMap::CreateDoorInfo()
 						{
 							if (WallTile.WallTileIndex_ == WallTileIndex)
 							{
+								WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
 								if (WallTile.WallTileIndex_.X_ % 2 == 0)
 								{
-									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
 									if (false == Flag)
 									{
 										WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_T;
@@ -2232,6 +2240,10 @@ void EditorRandomMap::CreateDoorInfo()
 										WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_B;
 										WallTile.WallTile1ImageIndex_ = 2;
 									}
+								}
+								else
+								{
+									WallTile.WallDetailType_ = RandomWallDetailType::NORMAL;
 								}
 								break;
 							}
@@ -2256,9 +2268,9 @@ void EditorRandomMap::CreateDoorInfo()
 						{
 							if (WallTile.WallTileIndex_ == WallTileIndex)
 							{
+								WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
 								if (WallTile.WallTileIndex_.Y_ % 2 == 0)
 								{
-									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
 									if (false == Flag)
 									{
 										WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_R;
@@ -2270,6 +2282,10 @@ void EditorRandomMap::CreateDoorInfo()
 										WallTile.WallDetailType_ = RandomWallDetailType::DR_RT_L;
 										WallTile.WallTile1ImageIndex_ = 11;
 									}
+								}
+								else
+								{
+									WallTile.WallDetailType_ = RandomWallDetailType::NORMAL;
 								}
 								break;
 							}
@@ -2294,9 +2310,9 @@ void EditorRandomMap::CreateDoorInfo()
 						{
 							if (WallTile.WallTileIndex_ == WallTileIndex)
 							{
+								WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
 								if (WallTile.WallTileIndex_.X_ % 2 == 0)
 								{
-									WallTile.WallBasicType_ = RandomWallBasicType::DOOR;
 									if (false == Flag)
 									{
 										WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_T;
@@ -2308,6 +2324,10 @@ void EditorRandomMap::CreateDoorInfo()
 										WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_B;
 										WallTile.WallTile1ImageIndex_ = 2;
 									}
+								}
+								else
+								{
+									WallTile.WallDetailType_ = RandomWallDetailType::NORMAL;
 								}
 								break;
 							}
@@ -2441,7 +2461,11 @@ void EditorRandomMap::DoorTileTextureMatching()
 		// 문타일 타입인 정보만 렌더링
 		if (MapInfo_.WallInfo_[i].WallBasicType_ == RandomWallBasicType::DOOR)
 		{
-			SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_, MapInfo_.WallInfo_[i].WallDetailType_, MapInfo_.WallInfo_[i].WallTile2ImageIndex_);
+			if (MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NORMAL &&
+				MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NONE)
+			{
+				SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_, MapInfo_.WallInfo_[i].WallDetailType_, MapInfo_.WallInfo_[i].WallTile2ImageIndex_);
+			}
 		}
 	}
 }
