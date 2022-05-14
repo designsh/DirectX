@@ -172,8 +172,16 @@ public: // 랜덤맵 생성 관련
 	// 3. 복도/룸 정보를 이용하여 벽/문 정보 생성
 	void CreateWall();
 	void CreateWallInfo();
+	void CreateOutWallInfo();
+	void CreateRoomWallInfo();
+	void SearchOutWall();
+	void UpdateOutWallInfo();
+	void UpdateRoomWallInfo();
+	void RemainingWallTreatment();
+	void CreateDoorInfo();
 	bool WallOverlapCheck(TileIndex _WallTileIndex);
 	bool Wall8WaySearch(TileIndex _TileIndex);
+	bool DoorInfoSettingCheck(TileIndex _CheckTile);
 	void WallGridRendering();
 
 	// 4. 모든 타일타입과 텍스쳐매칭에 따른 타일 렌더링

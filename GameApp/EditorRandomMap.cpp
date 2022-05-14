@@ -1031,6 +1031,82 @@ void EditorRandomMap::CreateWall()
 void EditorRandomMap::CreateWallInfo()
 {
 	// 1. 룸의 벽정보 생성
+	CreateRoomWallInfo();
+
+	// 2. 복도의 벽정보 생성
+	CreateOutWallInfo();
+
+	// 3. 외곽벽정보 갱신
+	SearchOutWall();
+
+	// 4. 외곽벽 모두 설치
+	UpdateOutWallInfo();
+
+	// 5. 룸의 연속벽관련 벽타일정보 갱신
+	UpdateRoomWallInfo();
+
+	// 6. 연결되지않은 벽을 찾아내어 모두 연결
+	RemainingWallTreatment();
+
+	// 7. 룸<->룸 연결 or 룸<->복도 연결하는 문을 셋팅
+	//    룸의 센터인덱스를 기준으로 각 방향을 탐색하여 룸 or 복도가 있으면
+	//    문으로 셋팅된다.
+	//    단, 항상 문은 센터타일을 기준으로 2개 바닥타일을 이용한다.
+	//    RIGHT or Left => DOOR_T & DOOR_B
+	//    TOP or Bottom => DOOR_L & DOOR_R
+	CreateDoorInfo();
+}
+
+void EditorRandomMap::CreateOutWallInfo()
+{
+	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
+	for (int i = 0; i < CorridorTileCnt; ++i)
+	{
+		// 바닥타일은 타일의 중심좌표가 0,0
+		float4 FloorCenterPos = GetFloorTileIndexToPos(MapInfo_.CorridorInfo_.AllIndexLists_[i]);
+
+		// 바닥타일 1개기준 벽타일은 3x3개 생성
+		TileIndex WallTileIndex = GetWallTileIndex(FloorCenterPos);
+
+		// 벽타일은 타일의 상단점이 0,0
+		for (int y = 0; y < 3; ++y)
+		{
+			for (int x = 0; x < 3; ++x)
+			{
+				// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
+				if (true == WallOverlapCheck(WallTileIndex))
+				{
+					WallTileIndex.X_ += 1;
+					continue;
+				}
+
+				RandomWallInfo NewWall = {};
+				NewWall.WallTileIndex_ = WallTileIndex;
+				NewWall.SearchTileFlag_.clear();
+				NewWall.SearchTileFlag_.resize(9);
+				NewWall.WallBasicType_ = RandomWallBasicType::WALL;
+				NewWall.WallDetailType_ = RandomWallDetailType::NORMAL; // 초기생성시 Normal타입으로 생성
+
+				NewWall.WallTile1ImageIndex_ = 0;
+				NewWall.WallTile2ImageIndex_ = 0;
+				NewWall.WallTextureName_ = WallTileTextureName_;
+				NewWall.WallTileSize_ = TileSize_;
+				NewWall.WallRenderSize_ = WallTileImageSize_;
+				NewWall.WallRenderPivotPos_ = WallTileIndexPivotPos_;
+
+				MapInfo_.WallInfo_.push_back(NewWall);
+
+				WallTileIndex.X_ += 1;
+			}
+
+			WallTileIndex.X_ = GetWallTileIndex(FloorCenterPos).X_;
+			WallTileIndex.Y_ += 1;
+		}
+	}
+}
+
+void EditorRandomMap::CreateRoomWallInfo()
+{
 	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCnt; ++i)
 	{
@@ -1079,54 +1155,10 @@ void EditorRandomMap::CreateWallInfo()
 			}
 		}
 	}
+}
 
-	// 2. 복도의 벽정보 생성
-	int CorridorTileCnt = static_cast<int>(MapInfo_.CorridorInfo_.AllIndexLists_.size());
-	for (int i = 0; i < CorridorTileCnt; ++i)
-	{
-		// 바닥타일은 타일의 중심좌표가 0,0
-		float4 FloorCenterPos = GetFloorTileIndexToPos(MapInfo_.CorridorInfo_.AllIndexLists_[i]);
-
-		// 바닥타일 1개기준 벽타일은 3x3개 생성
-		TileIndex WallTileIndex = GetWallTileIndex(FloorCenterPos);
-
-		// 벽타일은 타일의 상단점이 0,0
-		for (int y = 0; y < 3; ++y)
-		{
-			for (int x = 0; x < 3; ++x)
-			{
-				// 조건1: 이미 존재하는 타일인덱스는 목록에 추가하지않는다.
-				if (true == WallOverlapCheck(WallTileIndex))
-				{
-					WallTileIndex.X_ += 1;
-					continue;
-				}
-
-				RandomWallInfo NewWall = {};
-				NewWall.WallTileIndex_ = WallTileIndex;
-				NewWall.SearchTileFlag_.clear();
-				NewWall.SearchTileFlag_.resize(9);
-				NewWall.WallBasicType_ = RandomWallBasicType::WALL;
-				NewWall.WallDetailType_ = RandomWallDetailType::NORMAL; // 초기생성시 Normal타입으로 생성
-
-				NewWall.WallTile1ImageIndex_ = 0;
-				NewWall.WallTile2ImageIndex_ = 0;
-				NewWall.WallTextureName_ = WallTileTextureName_;
-				NewWall.WallTileSize_ = TileSize_;
-				NewWall.WallRenderSize_ = WallTileImageSize_;
-				NewWall.WallRenderPivotPos_ = WallTileIndexPivotPos_;
-
-				MapInfo_.WallInfo_.push_back(NewWall);
-
-				WallTileIndex.X_ += 1;
-			}
-
-			WallTileIndex.X_ = GetWallTileIndex(FloorCenterPos).X_;
-			WallTileIndex.Y_ += 1;
-		}
-	}
-
-	// 3. 외곽벽정보 갱신
+void EditorRandomMap::SearchOutWall()
+{
 	int WallTileCount = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallTileCount; ++i)
 	{
@@ -1478,8 +1510,11 @@ void EditorRandomMap::CreateWallInfo()
 			MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::NONE;
 		}
 	}
+}
 
-	// 4. 외곽벽 모두 설치
+void EditorRandomMap::UpdateOutWallInfo()
+{
+	int WallTileCount = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallTileCount; ++i)
 	{
 		TileIndex CurWallTile = MapInfo_.WallInfo_[i].WallTileIndex_;
@@ -1720,8 +1755,11 @@ void EditorRandomMap::CreateWallInfo()
 			}
 		}
 	}
+}
 
-	// 5. 룸의 연속벽관련 벽타일정보 갱신
+void EditorRandomMap::UpdateRoomWallInfo()
+{
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCnt; ++i)
 	{
 		// 1) 룸의 외곽 바닥 타일을 모두 탐색
@@ -1929,12 +1967,15 @@ void EditorRandomMap::CreateWallInfo()
 
 		}
 	}
+}
 
-	// 6. 연결되지않은 벽을 찾아내어 모두 연결
+void EditorRandomMap::RemainingWallTreatment()
+{
+	int WallTileCount = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallTileCount; ++i)
 	{
 		// 각 벽타입별 조건 체크
-		
+
 		// (1) RT_B
 		if (MapInfo_.WallInfo_[i].WallDetailType_ == RandomWallDetailType::WL_RT_B)
 		{
@@ -2018,7 +2059,7 @@ void EditorRandomMap::CreateWallInfo()
 			{
 				if (WallTile.WallTileIndex_ == LeftCheckTile)
 				{
-					if (WallTile.WallDetailType_ == RandomWallDetailType::WL_RT_T || 
+					if (WallTile.WallDetailType_ == RandomWallDetailType::WL_RT_T ||
 						WallTile.WallDetailType_ == RandomWallDetailType::WL_RT_B)
 					{
 						MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
@@ -2038,7 +2079,8 @@ void EditorRandomMap::CreateWallInfo()
 			{
 				if (WallTile.WallTileIndex_ == BottomCheckTile)
 				{
-					if (WallTile.WallDetailType_ == RandomWallDetailType::WL_RB_R)
+					if (WallTile.WallDetailType_ == RandomWallDetailType::WL_RB_R ||
+						WallTile.WallDetailType_ == RandomWallDetailType::WL_RB_L)
 					{
 						MapInfo_.WallInfo_[i].WallDetailType_ = RandomWallDetailType::WL_BENT_MULTI;
 						MapInfo_.WallInfo_[i].WallTile1ImageIndex_ = 28;
@@ -2049,22 +2091,33 @@ void EditorRandomMap::CreateWallInfo()
 			}
 		}
 	}
+}
 
-	// 7. 룸<->룸 연결 or 룸<->복도 연결하는 문을 셋팅
-	//    룸의 센터인덱스를 기준으로 각 방향을 탐색하여 룸 or 복도가 있으면
-	//    문으로 셋팅된다.
-	//    단, 항상 문은 센터타일을 기준으로 2개 바닥타일을 이용한다.
-	//    RIGHT or Left => DOOR_T & DOOR_B
-	//    TOP or Bottom => DOOR_L & DOOR_R
+void EditorRandomMap::CreateDoorInfo()
+{
+	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCnt; ++i)
 	{
 		TileIndex RoomCenterTileIndex = MapInfo_.RoomInfo_[i].RoomCenterIndex_;
 
+		// 4방향 탐색하여 복도와 연결되거나, 나와 다른 룸과 연결되는 구간을 찾아낸다.
+		std::vector<TileIndex> CheckTileIndex;
+		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].minIndexX_, 0));	// 상단
+		CheckTileIndex.push_back(TileIndex(0, MapInfo_.RoomInfo_[i].minIndexY_));	// 우단
+		CheckTileIndex.push_back(TileIndex(MapInfo_.RoomInfo_[i].maxIndexX_, 0));	// 하단
+		CheckTileIndex.push_back(TileIndex(0, MapInfo_.RoomInfo_[i].maxIndexY_));	// 좌단
 
-
-
-
-
+		for (int j = 0; j < static_cast<int>(CheckTileIndex.size()); ++j)
+		{
+			// 각 방향별 문연결 가능 여부에 따라 문으로 설정/미설정
+			// 단, 상/하단 문으로 설정되었다면 L/R 타입의 도어타입이 설정되고
+			//     좌/우단 문으로 설정되었다면 T/B 타입의 도어타입이 설정된다.
+			TileIndex CurChkTile = RoomCenterTileIndex + CheckTileIndex[j];
+			if (true == DoorInfoSettingCheck(CurChkTile))
+			{
+				
+			}
+		}
 
 	}
 }
@@ -2095,6 +2148,20 @@ bool EditorRandomMap::Wall8WaySearch(TileIndex _TileIndex)
 		}
 	}
 
+	return false;
+}
+
+bool EditorRandomMap::DoorInfoSettingCheck(TileIndex _CheckTile)
+{
+
+
+
+
+
+
+
+
+	
 	return false;
 }
 
@@ -2143,15 +2210,13 @@ void EditorRandomMap::WallTileTextureMatching()
 
 void EditorRandomMap::DoorTileTextureMatching()
 {
-	// 디폴트 텍스쳐 인덱스 셋팅???
-
 	int WallCnt = static_cast<int>(MapInfo_.WallInfo_.size());
 	for (int i = 0; i < WallCnt; ++i)
 	{
 		// 문타일 타입인 정보만 렌더링
 		if (MapInfo_.WallInfo_[i].WallBasicType_ == RandomWallBasicType::DOOR)
 		{
-			//SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_, MapInfo_.WallInfo_[i].WallDetailType_, MapInfo_.WallInfo_[i].WallTile2ImageIndex_);
+			SetWallTile(MapInfo_.WallInfo_[i].WallTileIndex_, MapInfo_.WallInfo_[i].WallTile1ImageIndex_, MapInfo_.WallInfo_[i].WallDetailType_, MapInfo_.WallInfo_[i].WallTile2ImageIndex_);
 		}
 	}
 }
