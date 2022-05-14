@@ -23,6 +23,7 @@ ChandleryNPC* GlobalValue::ChandleryNPC = nullptr;
 
 // 맵관련
 TownMap* GlobalValue::TownMap = nullptr;
+CatacombsMap* GlobalValue::CatacombsMap = nullptr;
 
 // 오브젝트관련
 // 공통(레벨이 변경될때마다 변경된다.)

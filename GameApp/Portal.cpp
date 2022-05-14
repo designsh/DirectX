@@ -11,7 +11,7 @@
 
 #include "FixedTileMap_Common.h"
 #include "TownMap.h"
-#include "RandomMap.h"
+#include "CatacombsMap.h"
 
 Portal::Portal() :
 	PortalType_(PortalType::TOWN),

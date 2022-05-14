@@ -13,6 +13,7 @@ class ChandleryNPC;
 class TownMap;
 class Portal;
 class Storehouse;
+class CatacombsMap;
 class GlobalValue
 {
 public: // 플레이어 관련
@@ -32,6 +33,7 @@ public: // NPC 관련
 
 public: // 맵관련
 	static TownMap* TownMap;
+	static CatacombsMap* CatacombsMap;
 
 public: // 오브젝트관련
 	// 공통
@@ -41,6 +43,7 @@ public: // 오브젝트관련
 	static Storehouse* Storehouse;
 
 	// 카타콤맵
+	
 
 	// 카오스생츄어리맵
 };

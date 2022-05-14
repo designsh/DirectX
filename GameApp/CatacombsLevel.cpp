@@ -9,12 +9,15 @@
 
 #include "GlobalValue.h"
 #include "MainPlayerInfomation.h"
+
+#include "CatacombsMap.h"
 #include "MainPlayer.h"
 #include "MouseObject.h"
 
 bool CatacombsLevel::ResourceLoadEndCheck = false;
 
 CatacombsLevel::CatacombsLevel() :
+	CatacombsMap_(nullptr),
 	MainPlayer_(nullptr),
 	MainMouse_(nullptr)
 {
@@ -27,6 +30,9 @@ CatacombsLevel::~CatacombsLevel()
 void CatacombsLevel::CreateLevelActor()
 {
 	// 맵로딩(타일맵 - 랜덤맵)
+	CatacombsMap_ = CreateActor<CatacombsMap>();
+	CatacombsMap_->CatacombsMapLoad();
+	GlobalValue::CatacombsMap = CatacombsMap_;
 
 	// 플레이어 생성 및 메인플레이어 지정
 	if (nullptr == GlobalValue::CurPlayer)

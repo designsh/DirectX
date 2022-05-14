@@ -6,12 +6,14 @@
 // Ό³Έν : 
 class MainPlayer;
 class MouseObject;
+class CatacombsMap;
 class CatacombsLevel : public GameEngineLevel
 {
 private:
 	static bool ResourceLoadEndCheck;
 
 private:	// member Var
+	CatacombsMap* CatacombsMap_;
 	MainPlayer* MainPlayer_;
 	MouseObject* MainMouse_;
 

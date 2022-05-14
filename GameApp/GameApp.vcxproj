@@ -256,7 +256,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="RandomMap.cpp">
+    <ClCompile Include="CatacombsMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -607,7 +607,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="RandomMap.h">
+    <ClInclude Include="CatacombsMap.h">
       <SubType>
       </SubType>
     </ClInclude>

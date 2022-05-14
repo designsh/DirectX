@@ -284,9 +284,6 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Object\Actor\00.Global\03.Object\04.Portal</Filter>
     </ClCompile>
-    <ClCompile Include="RandomMap.cpp">
-      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
-    </ClCompile>
     <ClCompile Include="MainPlayer_CreateCollision.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\Collision</Filter>
     </ClCompile>
@@ -313,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="EditorRandomMap.cpp">
       <Filter>Object\Actor\99.Editor\03.Map\02.RandomMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CatacombsMap.cpp">
+      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -775,6 +775,9 @@
     <Filter Include="Object\Actor\99.Editor\03.Map\02.RandomMap">
       <UniqueIdentifier>{3836c82b-7d83-4478-8133-39f1c68db3dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap">
+      <UniqueIdentifier>{1a76ad47-bd90-42cb-942b-2be6c015a285}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -1011,9 +1014,6 @@
     <ClInclude Include="Portal.h">
       <Filter>Object\Actor\00.Global\03.Object\04.Portal</Filter>
     </ClInclude>
-    <ClInclude Include="RandomMap.h">
-      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
-    </ClInclude>
     <ClInclude Include="Navigation_Common.h">
       <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
     </ClInclude>
@@ -1046,6 +1046,9 @@
     </ClInclude>
     <ClInclude Include="EditorRandomMap.h">
       <Filter>Object\Actor\99.Editor\03.Map\02.RandomMap</Filter>
+    </ClInclude>
+    <ClInclude Include="CatacombsMap.h">
+      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

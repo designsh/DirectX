@@ -5,7 +5,7 @@
 
 #include "GlobalValue.h"
 #include "TownMap.h"
-#include "RandomMap.h"
+#include "CatacombsMap.h"
 
 void MainPlayer::ChangeCheckProcess()
 {
