@@ -94,6 +94,9 @@ private:
 	void DoorTileTextureMatching();
 
 private:
+	void MainPlayerRoomArrange();
+
+private:
 	void CreateNavigationInfo();
 
 private:

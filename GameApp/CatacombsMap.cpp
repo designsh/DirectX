@@ -3,6 +3,10 @@
 
 #include <GameEngine/GameEngineTileMapRenderer.h>
 
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
+#include "MainPlayer.h"
+
 CatacombsMap::CatacombsMap() :
 	MapInfo_{},
 	Navigation_(nullptr)
@@ -453,6 +457,9 @@ void CatacombsMap::CatacombsMapLoad()
 	// 정보를이용하여 렌더링 시작
 	MapRendering();
 
+	// 플레이어 위치 갱신
+	MainPlayerRoomArrange();
+
 	// 네비게이션 정보 생성
 	CreateNavigationInfo();
 }
@@ -523,14 +530,37 @@ void CatacombsMap::DoorTileTextureMatching()
 	}
 }
 
+void CatacombsMap::MainPlayerRoomArrange()
+{
+	// 현재 맵의 룸 중에 랜덤으로 룸을 결정하여 플레이어 위치 결정 및 정보갱신
+	// 정보 : 이동용 네비게이션맵, 위치정보, ...
+
+
+
+
+
+
+
+
+
+
+}
+
 void CatacombsMap::CreateNavigationInfo()
 {
 	// 네비게이션정보생성
-
-
-
-
-
+	int WallInfoCnt = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallInfoCnt; ++i)
+	{
+		if (MapInfo_.WallInfo_[i].WallDetailType_ == RandomWallDetailType::NORMAL)
+		{
+			NavCatacombsMap_.insert(std::make_pair(MapInfo_.WallInfo_[i].WallTileIndex_.Index_, NavigationType::NOR));
+		}
+		else
+		{
+			NavCatacombsMap_.insert(std::make_pair(MapInfo_.WallInfo_[i].WallTileIndex_.Index_, NavigationType::WALL));
+		}
+	}
 
 	// 네비게이션 생성
 	Navigation_ = new GameEnginePathFind();
