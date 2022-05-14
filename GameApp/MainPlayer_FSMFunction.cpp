@@ -177,6 +177,12 @@ void MainPlayer::StartFieldNatural()
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
+
+	// 관련 사운드 시작
+
+
+	// 기타
+
 }
 
 void MainPlayer::UpdateFieldNatural()
@@ -196,7 +202,7 @@ void MainPlayer::EndFieldNatural()
 
 // ============================ 걷기 ============================ //
 void MainPlayer::StartFieldWalk()
-{
+{	
 	// 현재 상태 저장
 	PrevState_ = CurState_;
 	CurState_ = PlayerState::STAT_WL;
@@ -207,6 +213,23 @@ void MainPlayer::StartFieldWalk()
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
+
+	// 이동위치 결정(마을맵기준)
+	if (false == MovePath_.empty())
+	{
+		// 다음 이동타일인덱스 Get
+		MoveTargetIndex_.Index_ = MovePath_.front().Index_;
+
+		// 타겟위치로 지정된 경로의 인덱스제거
+		MovePath_.pop_front();
+
+		// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
+		// 플레이어의 이동방향을 설정한다.
+		float4 DirPos = GlobalValue::CatacombsMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+		MoveTargetDir_ = DirPos.NormalizeReturn3D();
+	}
+
+	MoveSpeed_ = 200.f;
 }
 
 void MainPlayer::UpdateFieldWalk()
@@ -214,8 +237,41 @@ void MainPlayer::UpdateFieldWalk()
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
 
+	// 이동처리
+	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 
+	// 이동타겟 타일인덱스 도달시 이동경로가 남아있다면 타겟위치 재설정 후 재이동
+	// 더이상의 이동경로가 존재하지않는다면 대기상태 돌입
+	if (MoveTargetIndex_.Index_ == GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition()).Index_)
+	{
+		if (false == MovePath_.empty())
+		{
+			// 타겟타일 인덱스 변경
+			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
+			float4 DirPos = GlobalValue::CatacombsMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+			// 타겟위치로 지정된 경로의 인덱스제거
+			MovePath_.pop_front();
+		}
+		else
+		{
+			// 이동완료이므로 이동 Flag 해제
+			IsMove_ = false;
+
+			// 더 이상 이동할 이유가 없으므로 플레이어 대기상태 돌입
+			ChangeFSMState("Natural_Field");
+
+			// 혹시 잔존하는 경로가 있다면 클리어
+			if (false == MovePath_.empty())
+			{
+				MovePath_.clear();
+			}
+
+			return;
+		}
+	}
 }
 
 void MainPlayer::EndFieldWalk()
@@ -408,7 +464,8 @@ void MainPlayer::StartRun()
 		}
 		else
 		{
-
+			float4 DirPos = GlobalValue::CatacombsMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			MoveTargetDir_ = DirPos.NormalizeReturn3D();
 		}
 	}
 
@@ -426,51 +483,72 @@ void MainPlayer::UpdateRun()
 
 	// 이동타겟 타일인덱스 도달시 이동경로가 남아있다면 타겟위치 재설정 후 재이동
 	// 더이상의 이동경로가 존재하지않는다면 대기상태 돌입
-	if (MoveTargetIndex_.Index_ == GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()).Index_)
+	if (true == IsTown_)
 	{
-		if (false == MovePath_.empty())
+		if (MoveTargetIndex_.Index_ == GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition()).Index_)
 		{
-			// 타겟타일 인덱스 변경
-			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
-
-			if (true == IsTown_)
-			{
-				float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
-				MoveTargetDir_ = DirPos.NormalizeReturn3D();
-			}
-			else
-			{
-
-			}
-
-			// 타겟위치로 지정된 경로의 인덱스제거
-			MovePath_.pop_front();
-		}
-		else
-		{
-			// 이동완료이므로 이동 Flag 해제
-			IsMove_ = false;
-
-			// 더 이상 이동할 이유가 없으므로 플레이어 대기상태 돌입
-			if (true == IsTown_)
-			{
-				ChangeFSMState("Natural_Town");
-			}
-			else
-			{
-				ChangeFSMState("Natural_Field");
-			}
-
-			// 혹시 잔존하는 경로가 있다면 클리어
 			if (false == MovePath_.empty())
 			{
-				MovePath_.clear();
-			}
+				// 타겟타일 인덱스 변경
+				MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
-			return;
+				float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+				MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+				// 타겟위치로 지정된 경로의 인덱스제거
+				MovePath_.pop_front();
+			}
+			else
+			{
+				// 이동완료이므로 이동 Flag 해제
+				IsMove_ = false;
+
+				// 더 이상 이동할 이유가 없으므로 플레이어 대기상태 돌입
+				ChangeFSMState("Natural_Town");
+
+				// 혹시 잔존하는 경로가 있다면 클리어
+				if (false == MovePath_.empty())
+				{
+					MovePath_.clear();
+				}
+
+				return;
+			}
 		}
 	}
+	else
+	{
+		if (MoveTargetIndex_.Index_ == GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition()).Index_)
+		{
+			if (false == MovePath_.empty())
+			{
+				// 타겟타일 인덱스 변경
+				MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
+				float4 DirPos = GlobalValue::CatacombsMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+				MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+				// 타겟위치로 지정된 경로의 인덱스제거
+				MovePath_.pop_front();
+			}
+			else
+			{
+				// 이동완료이므로 이동 Flag 해제
+				IsMove_ = false;
+
+				// 더 이상 이동할 이유가 없으므로 플레이어 대기상태 돌입
+				ChangeFSMState("Natural_Field");
+
+				// 혹시 잔존하는 경로가 있다면 클리어
+				if (false == MovePath_.empty())
+				{
+					MovePath_.clear();
+				}
+
+				return;
+			}
+		}
+	}
 }
 
 void MainPlayer::EndRun()

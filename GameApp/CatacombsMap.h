@@ -65,9 +65,10 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-private:
+public:
 	TileIndex GetFloorTileIndex(float4 _Pos);
 	TileIndex GetWallTileIndex(float4 _Pos);
+	float4 GetTileIndexToPos(TileIndex _TileIndex);
 
 private:
 	void SetFloorTile(float4 _Pos, int CurTileIndex_);

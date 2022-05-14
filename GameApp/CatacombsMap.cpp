@@ -106,6 +106,16 @@ TileIndex CatacombsMap::GetWallTileIndex(float4 _Pos)
 	return Index;
 }
 
+float4 CatacombsMap::GetTileIndexToPos(TileIndex _TileIndex)
+{
+	// 네비게이션 타일인덱스를 월드상의 위치값으로 변환해서 반환
+	float4 TilePos = float4::ZERO;
+	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.halffloat4().halffloat4().x;
+	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.halffloat4().halffloat4().y;
+
+	return TilePos;
+}
+
 void CatacombsMap::SetFloorTile(float4 _Pos, int CurTileIndex_)
 {
 	SetFloorTile(GetFloorTileIndex(_Pos), CurTileIndex_);
