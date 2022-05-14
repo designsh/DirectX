@@ -194,7 +194,7 @@ public: // ·£´ý¸Ê »ý¼º °ü·Ã
 	void DoorTileTextureMatching();
 
 	// 6. Save & Load
-	void RandomMapSave();
-	void RandomMapLoad();
+	void RandomMapSave(const std::string& _FileName);
+	void RandomMapLoad(const std::string& _FileName);
 };
 

@@ -28,6 +28,9 @@ private: // 랜덤맵관련
 	int RoomMaxWidthIndex_;
 	int RoomMaxHeightIndex_;
 
+private: // 저장 및 로드 관련
+	char FileName_[256];
+
 public:
 	CreateRandomMapWindow();
 	~CreateRandomMapWindow();

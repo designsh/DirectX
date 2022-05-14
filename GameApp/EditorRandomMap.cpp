@@ -2627,11 +2627,16 @@ void EditorRandomMap::DoorTileTextureMatching()
 
 #pragma endregion
 
-void EditorRandomMap::RandomMapSave()
+void EditorRandomMap::RandomMapSave(const std::string& _FileName)
 {
 	// 맵 저장
 	// 랜덤맵이나 레벨전환시 로딩하게되면 많은 프레임을 먹기때문에 저장해서 사용할예정
+	if (true == _FileName.empty())
+	{
+		return;
+	}
 
+	int a = 0;
 	// 파일생성 위치로 디렉터리 이동
 	GameEngineDirectory DataFileDir;
 	DataFileDir.MoveParent("DirectX");
@@ -2639,7 +2644,8 @@ void EditorRandomMap::RandomMapSave()
 	DataFileDir.MoveChild("MapFile");
 	std::string FullPath = DataFileDir.GetFullPath();
 	FullPath += "\\";
-	FullPath += "CatacombsLevel_Map.dat";
+	FullPath += _FileName;
+	FullPath += ".dat";
 
 	// 파일 열기
 	GameEngineFile pFile = GameEngineFile(FullPath, "wb");
@@ -2793,7 +2799,7 @@ void EditorRandomMap::RandomMapSave()
 	pFile.Close();
 }
 
-void EditorRandomMap::RandomMapLoad()
+void EditorRandomMap::RandomMapLoad(const std::string& _FileName)
 {
 	// 기존 정보 ALL CLEAR
 	AllClear();
@@ -2805,11 +2811,12 @@ void EditorRandomMap::RandomMapLoad()
 	DataFileDir.MoveChild("MapFile");
 	std::string FullPath = DataFileDir.GetFullPath();
 	FullPath += "\\";
-	FullPath += "CatacombsLevel_Map.dat";
+	FullPath += _FileName;
+	FullPath += ".dat";
 
-	// 파일 열기
+	// 파일 열기(파일을 못찾으면 터짐)
 	GameEngineFile pFile = GameEngineFile(FullPath, "rb");
-
+	
 	// 0. 랜덤맵 기본정보 저장
 
 	// 바닥타일 텍스쳐명

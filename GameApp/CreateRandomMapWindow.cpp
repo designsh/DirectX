@@ -18,7 +18,8 @@ CreateRandomMapWindow::CreateRandomMapWindow() :
 	CorridorDirCnt_(0),
 	RoomCount_(0),
 	RoomMaxWidthIndex_(0),
-	RoomMaxHeightIndex_(0)
+	RoomMaxHeightIndex_(0),
+	FileName_{}
 {
 }
 
@@ -314,13 +315,30 @@ void CreateRandomMapWindow::OnGUI()
 	// 5. 랜덤맵 저장
 	ImGui::Text("");
 	ImGui::Text("5. RandomMap Save & Load");
+
+	ImGui::PushItemWidth(300.f);
+	ImGui::InputText("##", FileName_, sizeof(FileName_));
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
 	if (true == ImGui::Button("SAVE", ImVec2(200.f, 20.f)))
 	{
-		RandomMap_->RandomMapSave();
+		// 문자열 편집
+		std::string FileName;
+		FileName.clear();
+		FileName = FileName_;
+		
+		// 해당 파일명으로 파일 저장
+		RandomMap_->RandomMapSave(FileName);
 	}
 	ImGui::SameLine();
 	if (true == ImGui::Button("LOAD", ImVec2(200.f, 20.f)))
 	{
-		RandomMap_->RandomMapLoad();
+		// 문자열 편집
+		std::string FileName(FileName_);
+		FileName.clear();
+		FileName = FileName_;
+
+		// 해당 파일명으로 파일 로드
+		RandomMap_->RandomMapLoad(FileName);
 	}
 }
