@@ -188,7 +188,7 @@ void CreateRandomMapWindow::OnGUI()
 		RandomMap_->CreateRoomArrange(RoomCount_, RoomMaxWidthIndex_, RoomMaxHeightIndex_);
 	}
 
-	// 3. 벽과 문을 설치
+	// 3. 벽을 설치
 	ImGui::Text("");
 	ImGui::Text("3. Wall Arrangement");
 	if (true == ImGui::Button("WallArrange", ImVec2(200.f, 20.f)))
@@ -309,5 +309,18 @@ void CreateRandomMapWindow::OnGUI()
 	if (true == ImGui::Button("DOOR MATCHING", ImVec2(200.f, 20.f)))
 	{
 		RandomMap_->DoorTileTextureMatching();
+	}
+
+	// 5. 랜덤맵 저장
+	ImGui::Text("");
+	ImGui::Text("5. RandomMap Save & Load");
+	if (true == ImGui::Button("SAVE", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->RandomMapSave();
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("LOAD", ImVec2(200.f, 20.f)))
+	{
+		RandomMap_->RandomMapLoad();
 	}
 }

@@ -170,7 +170,7 @@ public: // 랜덤맵 생성 관련
 	void CorridorOverlapTileIndexCheck(TileIndex _TileIndex);
 	void RoomGridRendering();
 
-	// 3. 복도/룸 정보를 이용하여 벽/문 정보 생성
+	// 3. 복도/룸 정보를 이용하여 벽정보 생성
 	void CreateWall();
 	void CreateWallInfo();
 	void CreateOutWallInfo();
@@ -179,15 +179,22 @@ public: // 랜덤맵 생성 관련
 	void UpdateOutWallInfo();
 	void UpdateRoomWallInfo();
 	void RemainingWallTreatment();
-	void CreateDoorInfo();
 	bool WallOverlapCheck(TileIndex _WallTileIndex);
 	bool Wall8WaySearch(TileIndex _TileIndex);
-	RandomMapTileType DoorInfoSettingCheck(TileIndex _CheckTile, int _CurRoomNo);
 	void WallGridRendering();
 
-	// 4. 모든 타일타입과 텍스쳐매칭에 따른 타일 렌더링
+	// 4. 복도<->룸 or 룸<->룸 연결 문정보 생성
+	void CreateDoorInfo();
+	bool Door8WaySearch(TileIndex _DoorTileIndex, RandomWallCheckDir _CheckDir);
+	RandomMapTileType DoorInfoSettingCheck(TileIndex _CheckTile, int _CurRoomNo);
+
+	// 5. 모든 타일타입과 텍스쳐매칭에 따른 타일 렌더링
 	void FloorTileTextureMatching();
 	void WallTileTextureMatching();
 	void DoorTileTextureMatching();
+
+	// 6. Save & Load
+	void RandomMapSave();
+	void RandomMapLoad();
 };
 

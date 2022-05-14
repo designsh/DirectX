@@ -103,7 +103,6 @@ struct RandomWallInfo
 	RandomWallDetailType WallDetailType_;						// 벽 or 문 상세 타입
 
 	// 타일 텍스쳐 정보
-	bool WallMultiRender_;
 	int WallTile1ImageIndex_;									// 일반적인 벽은 한개의 렌더링만 가짐
 	int WallTile2ImageIndex_;									// 특수한 벽은 2개의 렌더링을 가짐
 	std::string WallTextureName_;								// 벽텍스쳐 이름
