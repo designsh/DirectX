@@ -12,6 +12,9 @@ void MainPlayer::CreateCollision()
 	BodyCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Player));
 	BodyCollider_->GetTransform()->SetLocalScaling(float4(60.f, 90.f));
 	BodyCollider_->GetTransform()->SetLocalPosition(GetTransform()->GetWorldPosition());
+
+	//BodyCollider_->GetTransform()->SetLocalPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
+
 	BodyCollider_->GetTransform()->SetWorldZOrder(-99.f);
 }
 
