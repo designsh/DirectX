@@ -107,10 +107,6 @@ void MainPlayer::MoveStart(const float4& _MousePos)
 		MovePath_ = GlobalValue::CatacombsMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
 		//MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(GetTransform()->GetWorldPosition(), _MousePos);
 	}
-	else if (std::string::npos != GetLevel()->GetName().find("ChaosSanctuaryLevel"))
-	{
-
-	}
 	else
 	{
 		// 맵이 존재하지않으면 이동 불가
