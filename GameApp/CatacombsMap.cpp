@@ -581,7 +581,7 @@ void CatacombsMap::MainPlayerRoomArrange()
 			if (GlobalValue::CurPlayer->ArrangeRoomNo_ != MapInfo_.RoomInfo_[i].RoomNo_)
 			{
 				// 플레이어가 최초 배치된 룸과 가장멀리 떨어져있는 룸이라면
-				if (MapInfo_.RoomInfo_[GlobalValue::CurPlayer->ArrangeRoomNo_].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+				if (MapInfo_.RoomInfo_[GlobalValue::CurPlayer->ArrangeRoomNo_ - 1].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
 				{
 					// 보스 배치
 

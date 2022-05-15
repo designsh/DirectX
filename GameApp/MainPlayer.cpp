@@ -191,6 +191,9 @@ void MainPlayer::Update(float _DeltaTime)
 	}
 #pragma endregion
 
+	// 좌표상의 Y값 정렬
+	GetTransform()->SetWorldZOrder(std::abs(GetTransform()->GetLocalPosition().y));
+
 	// 카메라는 플레이어를 따라 다닌다.
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y));
 }

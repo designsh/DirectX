@@ -85,6 +85,9 @@ void CatacombsLevel::LevelStart()
 {	
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -300.0f));
+
+	// 프리카메라
+
 }
 
 void CatacombsLevel::LevelUpdate(float _DeltaTime)

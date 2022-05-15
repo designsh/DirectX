@@ -107,7 +107,7 @@ void MainPlayer::StartTownWalk()
 
 		// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
 		// 플레이어의 이동방향을 설정한다.
-		float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+		float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 		MoveTargetDir_ = DirPos.NormalizeReturn3D();
 	}
 
@@ -131,14 +131,11 @@ void MainPlayer::UpdateTownWalk()
 			// 타겟타일 인덱스 변경
 			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
-			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 			MoveTargetDir_ = DirPos.NormalizeReturn3D();
 
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
-
-			// Z Order 변경
-			//GetTransform()->SetWorldZOrder(-GetTransform()->GetLocalPosition().y);
 		}
 		else
 		{
@@ -228,7 +225,7 @@ void MainPlayer::StartFieldWalk()
 
 		// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
 		// 플레이어의 이동방향을 설정한다.
-		float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+		float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 		MoveTargetDir_ = DirPos.NormalizeReturn3D();
 	}
 
@@ -252,14 +249,11 @@ void MainPlayer::UpdateFieldWalk()
 			// 타겟타일 인덱스 변경
 			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
-			float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 			MoveTargetDir_ = DirPos.NormalizeReturn3D();
 
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
-
-			// Z Order 변경
-			//GetTransform()->SetWorldZOrder(-GetTransform()->GetLocalPosition().y);
 		}
 		else
 		{
@@ -465,12 +459,12 @@ void MainPlayer::StartRun()
 		{
 			// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
 			// 플레이어의 이동방향을 설정한다.
-			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 			MoveTargetDir_ = DirPos.NormalizeReturn3D();
 		}
 		else
 		{
-			float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+			float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 			MoveTargetDir_ = DirPos.NormalizeReturn3D();
 		}
 	}
@@ -498,7 +492,7 @@ void MainPlayer::UpdateRun()
 				// 타겟타일 인덱스 변경
 				MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
-				float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+				float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 				MoveTargetDir_ = DirPos.NormalizeReturn3D();
 
 				// 타겟위치로 지정된 경로의 인덱스제거
@@ -531,7 +525,7 @@ void MainPlayer::UpdateRun()
 				// 타겟타일 인덱스 변경
 				MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
-				float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - GetTransform()->GetWorldPosition();
+				float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 				MoveTargetDir_ = DirPos.NormalizeReturn3D();
 
 				// 타겟위치로 지정된 경로의 인덱스제거
