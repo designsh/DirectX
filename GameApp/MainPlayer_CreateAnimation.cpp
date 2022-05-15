@@ -46,17 +46,6 @@ void MainPlayer::CreateAnimation()
 	CreateTNAnimation();
 	CreateTWAnimation();
 	CreateWLAnimation();
-
-	// ∑ª¥ı∑Ø πﬂπÿ¿∏∑Œ ¿Ãµø?
-	//int PartCnt = static_cast<int>(PartRenderer_.size());
-	//for (int i = 0; i < PartCnt; ++i)
-	//{
-	//	for (int j = 0; j < 2; ++j)
-	//	{
-	//		float4 ActorPos = GetTransform()->GetWorldPosition();
-	//		PartRenderer_[i].Renderer_[j]->GetTransform()->SetLocalPosition(float4(ActorPos.x, ActorPos.y - 53.f));
-	//	}
-	//}
 }
 
 void MainPlayer::CreateA1Animation()
