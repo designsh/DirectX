@@ -144,6 +144,9 @@ class GameEngineImageRenderer;
 class GameEngineLevel;
 class MainPlayer : public GameEngineActor
 {
+public:
+	static int ArrangeRoomNo_;
+
 #pragma region PlayerFlag
 private: // 플레이어상태관련 Flag
 	bool IsTown_;											// 마을/필드 존재 여부(true : 마을)

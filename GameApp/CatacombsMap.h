@@ -68,7 +68,8 @@ private:
 public:
 	TileIndex GetFloorTileIndex(float4 _Pos);
 	TileIndex GetWallTileIndex(float4 _Pos);
-	float4 GetTileIndexToPos(TileIndex _TileIndex);
+	float4 GetWallTileIndexToPos(TileIndex _TileIndex);
+	float4 GetFloorTileIndexToPos(TileIndex _TileIndex);
 
 private:
 	void SetFloorTile(float4 _Pos, int CurTileIndex_);

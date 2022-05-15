@@ -127,13 +127,6 @@ void EditorRandomMap::SetSelectFloorTileIndex(int _Index)
 
 	// 복도목록
 	MapInfo_.CorridorInfo_.TileImageIndex = SelectFloorTileIndex_;
-
-	// 룸목록
-	//int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
-	//for (int i = 0; i < RoomCnt; ++i)
-	//{
-	//	MapInfo_.RoomInfo_[i].TileImageIndex = SelectFloorTileIndex_;
-	//}
 }
 
 void EditorRandomMap::SetSelectWallTile1Index(int _Index)
@@ -472,6 +465,10 @@ void EditorRandomMap::SetWallGrid(TileIndex _Index, RandomWallBasicType _BasicTy
 		if (_DetailType == RandomWallDetailType::NORMAL)
 		{
 			NewRenderer->SetImage("WallGrid_Normal.png");
+		}
+		else if (_DetailType == RandomWallDetailType::NONE)
+		{
+			NewRenderer->SetImage("WallGrid_None.png");
 		}
 		// 1) 룸 센터기준 상단 우상단방향 문의 왼쪽 텍스쳐(DR_RT_L)
 		else if(_DetailType == RandomWallDetailType::DR_RT_L)
@@ -2296,10 +2293,6 @@ void EditorRandomMap::CreateDoorInfo()
 											WallTile.WallTile1ImageIndex_ = 11;
 										}
 									}
-									else
-									{
-										WallTile.WallDetailType_ = RandomWallDetailType::NORMAL;
-									}
 									break;
 								}
 							}
@@ -2350,10 +2343,6 @@ void EditorRandomMap::CreateDoorInfo()
 											WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_B;
 											WallTile.WallTile1ImageIndex_ = 2;
 										}
-									}
-									else
-									{
-										WallTile.WallDetailType_ = RandomWallDetailType::NORMAL;
 									}
 									break;
 								}
@@ -2409,10 +2398,6 @@ void EditorRandomMap::CreateDoorInfo()
 											WallTile.WallTile1ImageIndex_ = 11;
 										}
 									}
-									else
-									{
-										WallTile.WallDetailType_ = RandomWallDetailType::NORMAL;
-									}
 									break;
 								}
 							}
@@ -2466,10 +2451,6 @@ void EditorRandomMap::CreateDoorInfo()
 											WallTile.WallDetailType_ = RandomWallDetailType::DR_RB_B;
 											WallTile.WallTile1ImageIndex_ = 2;
 										}
-									}
-									else
-									{
-										WallTile.WallDetailType_ = RandomWallDetailType::NORMAL;
 									}
 									break;
 								}

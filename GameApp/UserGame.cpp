@@ -68,7 +68,6 @@ void UserGame::Initialize()
 	LevelCreate<MapEditorLevel>("MapEditorLevel");
 	
 	LevelChange("TitleLevel");
-	//LevelChange("TownLevel");
 
 
 	// 테스트용 키생성

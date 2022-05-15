@@ -84,7 +84,7 @@ void CatacombsLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 void CatacombsLevel::LevelStart()
 {	
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -300.0f));
 }
 
 void CatacombsLevel::LevelUpdate(float _DeltaTime)

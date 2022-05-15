@@ -214,5 +214,5 @@ void GameEngineDevice::CreateSwapChain()
 
 	// BackBuffer Texture 생성 및 RenderTarget 지정
 	GameEngineTextureManager::GetInst().Create("BackBuffer", BackBufferTexture);
-	BackBufferTarget_ = GameEngineRenderTargetManager::GetInst().Create("BackBuffer", "BackBuffer", float4::BLUE);
+	BackBufferTarget_ = GameEngineRenderTargetManager::GetInst().Create("BackBuffer", "BackBuffer", float4::BLACK);
 }

@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "CatacombsMap.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineTileMapRenderer.h>
+#include <GameEngine/GameEngineImageRenderer.h>
 
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
@@ -106,12 +108,21 @@ TileIndex CatacombsMap::GetWallTileIndex(float4 _Pos)
 	return Index;
 }
 
-float4 CatacombsMap::GetTileIndexToPos(TileIndex _TileIndex)
+float4 CatacombsMap::GetWallTileIndexToPos(TileIndex _TileIndex)
 {
 	// 네비게이션 타일인덱스를 월드상의 위치값으로 변환해서 반환
 	float4 TilePos = float4::ZERO;
 	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.halffloat4().halffloat4().x;
 	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.halffloat4().halffloat4().y;
+
+	return TilePos;
+}
+
+float4 CatacombsMap::GetFloorTileIndexToPos(TileIndex _TileIndex)
+{
+	float4 TilePos = float4::ZERO;
+	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.halffloat4().x;
+	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.halffloat4().y;
 
 	return TilePos;
 }
@@ -545,15 +556,52 @@ void CatacombsMap::MainPlayerRoomArrange()
 	// 현재 맵의 룸 중에 랜덤으로 룸을 결정하여 플레이어 위치 결정 및 정보갱신
 	// 정보 : 이동용 네비게이션맵, 위치정보, ...
 
-	
+	// 최초 플레이어 배치 룸번호 결정(랜덤)
+	GameEngineRandom RandomRoom;
+	int PlayerArrRoomNo = RandomRoom.RandomInt(0, static_cast<int>(MapInfo_.RoomInfo_.size() - 1));
+
+	// 플레이어 존재시 플레이어를 랜덤한 룸의 센터에 배치
+	if (nullptr != GlobalValue::CurPlayer)
+	{
+		// 최초 플레이어 배치 룸번호 저장
+		GlobalValue::CurPlayer->ArrangeRoomNo_ = MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_;
+
+		// 플레이어 랜덤한 룸의 센터로 이동
+		float4 PlayerPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_);
+		GlobalValue::CurPlayer->GetTransform()->SetWorldPosition(PlayerPos);
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetWorldPosition(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition());
+
+		// 플레이어가 배치된 룸을 제외한 모든룸에 몬스터 배치
+		// 플레이어가 배치된 룸과 가장멀리 떨어져있는 룸에 보스몬스터 배치s
+		int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
+		for (int i = 0; i < RoomCnt; ++i)
+		{
+			// 플레이어가 배치된 룸을 제외한 모든룸에 몬스터 배치 처리
+			if (GlobalValue::CurPlayer->ArrangeRoomNo_ != MapInfo_.RoomInfo_[i].RoomNo_)
+			{
+				// 플레이어가 최초 배치된 룸과 가장멀리 떨어져있는 룸이라면
+				if (MapInfo_.RoomInfo_[GlobalValue::CurPlayer->ArrangeRoomNo_ - 1].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+				{
+					// 보스 배치
+
+
+					int a = 0;
+				}
+				// 아닌경우
+				else
+				{
 
 
 
-
-
-
-
-
+					int a = 0;
+				}
+			}
+			else
+			{
+				int a = 0;
+			}
+		}
+	}
 }
 
 void CatacombsMap::CreateNavigationInfo()
@@ -563,6 +611,14 @@ void CatacombsMap::CreateNavigationInfo()
 	for (int i = 0; i < WallInfoCnt; ++i)
 	{
 		if (MapInfo_.WallInfo_[i].WallDetailType_ == RandomWallDetailType::NORMAL)
+		{
+			NavCatacombsMap_.insert(std::make_pair(MapInfo_.WallInfo_[i].WallTileIndex_.Index_, NavigationType::NOR));
+		}
+		else if (MapInfo_.WallInfo_[i].WallDetailType_ == RandomWallDetailType::DR_RT_L)
+		{
+			NavCatacombsMap_.insert(std::make_pair(MapInfo_.WallInfo_[i].WallTileIndex_.Index_, NavigationType::NOR));
+		}
+		else if (MapInfo_.WallInfo_[i].WallDetailType_ == RandomWallDetailType::DR_RB_B)
 		{
 			NavCatacombsMap_.insert(std::make_pair(MapInfo_.WallInfo_[i].WallTileIndex_.Index_, NavigationType::NOR));
 		}

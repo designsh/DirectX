@@ -320,6 +320,7 @@ void EditorTileMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 		FloorTileRenderer->SetImage(FloorTileTextureName_);
 		FloorTileRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
 		FloorTileRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+		FloorTileRenderer->GetTransform()->SetLocalZOrder(100.f);
 		FloorTileRenderer->SetIndex(CurTileIndex_);
 		FloorTiles_.insert(std::make_pair(_Index.Index_, FloorTileRenderer));
 
@@ -411,7 +412,7 @@ void EditorTileMap::SetWallTile(TileIndex _Index, int CurTileIndex_)
 		NewRenderer.Tiles1_->SetImage(WallTileTextureName_);
 		NewRenderer.Tiles1_->GetTransform()->SetLocalScaling(WallTileImageSize_);
 		NewRenderer.Tiles1_->GetTransform()->SetLocalPosition(WallTileIndexPivotPos_ + Pos);
-		NewRenderer.Tiles1_->GetTransform()->SetLocalZOrder(-2.f);
+		NewRenderer.Tiles1_->GetTransform()->SetLocalZOrder(99.f);
 		NewRenderer.Tiles1_->SetIndex(CurTileIndex_);
 
 		WallTiles_.insert(std::make_pair(_Index.Index_, NewRenderer));

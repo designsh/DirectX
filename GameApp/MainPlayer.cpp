@@ -31,6 +31,8 @@
 #include "Storehouse.h"
 #include "StoreView.h"
 
+int MainPlayer::ArrangeRoomNo_ = -1;
+
 MainPlayer::MainPlayer() :
 	IsTown_(true),
 	IsRun_(false),
@@ -248,8 +250,27 @@ void MainPlayer::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	}
 
 	// 메인플레이어
-	GetLevel()->SetLevelActorMove(_NextLevel, this);
-	_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0f, -100.0f));
+	if (std::string::npos != _NextLevel->GetName().find("TownLevel"))
+	{
+		// 기존 이동경로 초기화 및 이동 Flag 해제
+		MovePath_.clear();
+		IsMove_ = false;
+		ChangeFSMState("Natural_Town");
+
+		GetLevel()->SetLevelActorMove(_NextLevel, this);
+		_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0f, -100.0f));
+	}
+	else if (std::string::npos != _NextLevel->GetName().find("CatacombsLevel"))
+	{
+		// 기존 이동경로 초기화
+		MovePath_.clear();
+		IsMove_ = false;
+		ChangeFSMState("Natural_Field");
+
+		GetTransform()->SetLocalZOrder(-53.f);
+		GetLevel()->SetLevelActorMove(_NextLevel, this);
+		_NextLevel->GetMainCameraActor()->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(0.0f, 0.0f, -300.0f));
+	}
 }
 
 void MainPlayer::TownMapObjectCheck(const float4& _MousePos)
