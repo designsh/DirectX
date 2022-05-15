@@ -38,7 +38,7 @@ void CatacombsLevel::CreateLevelActor()
 	if (nullptr == GlobalValue::CurPlayer)
 	{
 		MainPlayer_ = CreateActor<MainPlayer>();
-		GetMainCameraActor()->GetTransform()->SetWorldPosition(MainPlayer_->GetTransform()->GetLocalPosition());
+		GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(MainPlayer_->GetTransform()->GetLocalPosition().x, MainPlayer_->GetTransform()->GetLocalPosition().y));
 		GlobalValue::CurPlayer = MainPlayer_;
 
 		// 메인플레이어 정보 생성되었는지 체크
@@ -77,7 +77,7 @@ void CatacombsLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 	{
 		GlobalValue::CurPlayer->SetIsTown(false);
 		GlobalValue::CurPlayer->GetTransform()->SetWorldPosition(float4(0.f, 0.f));
-		GetMainCameraActor()->GetTransform()->SetLocalPosition(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition());
+		GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition().x, GlobalValue::CurPlayer->GetTransform()->GetLocalPosition().y));
 	}
 }
 

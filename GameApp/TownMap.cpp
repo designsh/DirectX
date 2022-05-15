@@ -353,7 +353,11 @@ void TownMap::CreatedAfterFloorTiles()
 			Renderer->SetImage(TownMap_FloorTileInfo_[y][x].FloorTextureName);
 			Renderer->GetTransform()->SetLocalScaling(TownMap_FloorTileInfo_[y][x].FloorRenderSize);
 			Renderer->GetTransform()->SetLocalPosition(TownMap_FloorTileInfo_[y][x].FloorRenderPivotPos + Pos);
-			Renderer->GetTransform()->SetLocalZOrder(100.f);
+
+			float4 FloorPos = TownMap_FloorTileInfo_[y][x].FloorRenderPivotPos + Pos;
+			FloorPos.z = 9000000.f;
+			Renderer->GetTransform()->SetLocalPosition(FloorPos);
+
 			Renderer->SetIndex(TownMap_FloorTileInfo_[y][x].FloorImageIndex);
 			FloorTiles_.insert(std::make_pair(Index.Index_, Renderer));
 		}

@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineBase/GameEnginePathFind.h>
 #include <GameEngine/GameEngineActor.h>
 
 // 분류 : 보스몬스터
