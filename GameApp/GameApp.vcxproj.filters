@@ -32,9 +32,6 @@
     <ClCompile Include="CatacombsLevel.cpp">
       <Filter>Object\Level\06.CatacombsLevel</Filter>
     </ClCompile>
-    <ClCompile Include="ChaosSanctuaryLevel.cpp">
-      <Filter>Object\Level\07.ChaosSanctuaryLevel</Filter>
-    </ClCompile>
     <ClCompile Include="TitleBackDrop.cpp">
       <Filter>Object\Actor\01.Title\00.BackDrop</Filter>
     </ClCompile>
@@ -96,7 +93,7 @@
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar</Filter>
     </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
-      <Filter>Object\Level\08.EndingLevel</Filter>
+      <Filter>Object\Level\07.EndingLevel</Filter>
     </ClCompile>
     <ClCompile Include="MouseObject.cpp">
       <Filter>Object\Actor\00.Global\04.Mouse</Filter>
@@ -121,9 +118,6 @@
     </ClCompile>
     <ClCompile Include="Andariel.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel</Filter>
-    </ClCompile>
-    <ClCompile Include="Diablo.cpp">
-      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\01.Diablo</Filter>
     </ClCompile>
     <ClCompile Include="BoxObject.cpp">
       <Filter>Object\Actor\00.Global\03.Object\01.Box</Filter>
@@ -343,9 +337,6 @@
     <Filter Include="Object\Level\06.CatacombsLevel">
       <UniqueIdentifier>{22c76e74-51b0-412c-8580-3a856b90e82e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Level\07.ChaosSanctuaryLevel">
-      <UniqueIdentifier>{7121fc10-9576-40bd-92a6-379e4128af78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\01.Title">
       <UniqueIdentifier>{633d8bad-7c78-48f1-b19c-699d8d29029b}</UniqueIdentifier>
     </Filter>
@@ -357,9 +348,6 @@
     </Filter>
     <Filter Include="Object\Actor\06.Catacombs">
       <UniqueIdentifier>{1a6707aa-ad94-47c7-ab06-a58da929c982}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\07.ChaosSanctuary">
-      <UniqueIdentifier>{1432a695-8a1d-4eac-ac88-026520e47e26}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Actor\00.Global">
       <UniqueIdentifier>{6d4bf183-faf7-479b-bb99-faa755f85b30}</UniqueIdentifier>
@@ -499,21 +487,6 @@
     <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\03.POS">
       <UniqueIdentifier>{89fb5e35-bc4e-4107-a3e4-cbcbc7cf698f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Level\08.EndingLevel">
-      <UniqueIdentifier>{8a25709c-464f-4d3c-bb69-09b18a1ac49d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\08.Ending">
-      <UniqueIdentifier>{45877efa-abbd-40a0-aaae-97e0b1781d05}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\08.Ending\00.BackDrop">
-      <UniqueIdentifier>{a2172a5e-2a37-4a4b-b479-151904e3bc9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\08.Ending\01.FadeActor">
-      <UniqueIdentifier>{c3fb772b-9bbd-4719-a369-f0e8723463b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\08.Ending\02.CreditText">
-      <UniqueIdentifier>{d4c8cf75-c2ea-4822-b6c6-e4b1910c77f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\03.Object">
       <UniqueIdentifier>{813786d2-b77a-44f4-b8d3-59ee22af0ec5}</UniqueIdentifier>
     </Filter>
@@ -561,9 +534,6 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel">
       <UniqueIdentifier>{4dc47355-c999-48d6-af8e-6e1bff9123a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\02.Boss\01.Diablo">
-      <UniqueIdentifier>{3eef5d4b-22a7-4ba0-85c4-9527ef88d602}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\GlobalValue\GlobalEnum">
       <UniqueIdentifier>{0aa58a24-b9fc-473f-b489-061c697c4258}</UniqueIdentifier>
@@ -778,6 +748,21 @@
     <Filter Include="Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap">
       <UniqueIdentifier>{1a76ad47-bd90-42cb-942b-2be6c015a285}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\07.Ending">
+      <UniqueIdentifier>{45877efa-abbd-40a0-aaae-97e0b1781d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\07.Ending\00.BackDrop">
+      <UniqueIdentifier>{a2172a5e-2a37-4a4b-b479-151904e3bc9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\07.Ending\01.FadeActor">
+      <UniqueIdentifier>{c3fb772b-9bbd-4719-a369-f0e8723463b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\07.Ending\02.CreditText">
+      <UniqueIdentifier>{d4c8cf75-c2ea-4822-b6c6-e4b1910c77f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\07.EndingLevel">
+      <UniqueIdentifier>{8a25709c-464f-4d3c-bb69-09b18a1ac49d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -809,9 +794,6 @@
     </ClInclude>
     <ClInclude Include="CatacombsLevel.h">
       <Filter>Object\Level\06.CatacombsLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="ChaosSanctuaryLevel.h">
-      <Filter>Object\Level\07.ChaosSanctuaryLevel</Filter>
     </ClInclude>
     <ClInclude Include="TitleBackDrop.h">
       <Filter>Object\Actor\01.Title\00.BackDrop</Filter>
@@ -874,7 +856,7 @@
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar</Filter>
     </ClInclude>
     <ClInclude Include="EndingLevel.h">
-      <Filter>Object\Level\08.EndingLevel</Filter>
+      <Filter>Object\Level\07.EndingLevel</Filter>
     </ClInclude>
     <ClInclude Include="MouseObject.h">
       <Filter>Object\Actor\00.Global\04.Mouse</Filter>
@@ -899,9 +881,6 @@
     </ClInclude>
     <ClInclude Include="Andariel.h">
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel</Filter>
-    </ClInclude>
-    <ClInclude Include="Diablo.h">
-      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\01.Diablo</Filter>
     </ClInclude>
     <ClInclude Include="BoxObject.h">
       <Filter>Object\Actor\00.Global\03.Object\01.Box</Filter>

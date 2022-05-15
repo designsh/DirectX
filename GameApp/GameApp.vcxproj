@@ -54,10 +54,6 @@
     </ClCompile>
     <ClCompile Include="ChandleryNPC_Create.cpp" />
     <ClCompile Include="ChandleryNPC_FSMState.cpp" />
-    <ClCompile Include="ChaosSanctuaryLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="CharacterDeleteButton.cpp">
       <SubType>
       </SubType>
@@ -99,10 +95,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CurPlayerGameStartButton.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Diablo.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -416,10 +408,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ChaosSanctuaryLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="CharacterDeleteButton.h">
       <SubType>
       </SubType>
@@ -465,10 +453,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
-    <ClInclude Include="Diablo.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="EditorModeSelectWindow.h">
       <SubType>
       </SubType>

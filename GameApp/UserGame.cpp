@@ -10,7 +10,6 @@
 #include "LoadingLevel.h"
 #include "TownLevel.h"
 #include "CatacombsLevel.h"
-#include "ChaosSanctuaryLevel.h"
 #include "EndingLevel.h"
 #include "MapEditorLevel.h"
 
@@ -54,21 +53,20 @@ void UserGame::Initialize()
 	// 조건없이 선택레벨로 이동하는 윈도우창 생성
 	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
 
-	// 씬구성 : 타이틀-캐릭터생성-캐릭터선택(보류)-로딩-마을-카타콤-카오스생츄어리
+	// 씬구성 : 타이틀-캐릭터생성-캐릭터선택(보류)-로딩-마을-카타콤(보스처치)-엔딩
 	LevelCreate<TitleLevel>("TitleLevel");
 	LevelCreate<CreateCharacterLevel>("CreateCharacterLevel");
 	LevelCreate<SelectCharacterLevel>("SelectCharacterLevel");
 	LevelCreate<LoadingLevel>("LoadingLevel");
 	LevelCreate<TownLevel>("TownLevel");
 	LevelCreate<CatacombsLevel>("CatacombsLevel");
-	LevelCreate<ChaosSanctuaryLevel>("ChaosSanctuaryLevel");
 	LevelCreate<EndingLevel>("EndingLevel");
 
 	// 그외 : 타일맵에디터
 	LevelCreate<MapEditorLevel>("MapEditorLevel");
 	
+	// 최초화면 셋팅
 	LevelChange("TitleLevel");
-
 
 	// 테스트용 키생성
 	if (false == GameEngineInput::GetInst().IsKey("NextScene"))
