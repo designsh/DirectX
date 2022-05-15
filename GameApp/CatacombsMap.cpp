@@ -572,7 +572,7 @@ void CatacombsMap::MainPlayerRoomArrange()
 		GetLevel()->GetMainCameraActor()->GetTransform()->SetWorldPosition(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition());
 
 		// 플레이어가 배치된 룸을 제외한 모든룸에 몬스터 배치
-		// 플레이어가 배치된 룸과 가장멀리 떨어져있는 룸에 보스몬스터 배치s
+		// 플레이어가 배치된 룸과 가장멀리 떨어져있는 룸에 보스몬스터 배치
 		int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 		for (int i = 0; i < RoomCnt; ++i)
 		{
@@ -580,7 +580,7 @@ void CatacombsMap::MainPlayerRoomArrange()
 			if (GlobalValue::CurPlayer->ArrangeRoomNo_ != MapInfo_.RoomInfo_[i].RoomNo_)
 			{
 				// 플레이어가 최초 배치된 룸과 가장멀리 떨어져있는 룸이라면
-				if (MapInfo_.RoomInfo_[PlayerArrRoomNo].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+				if (MapInfo_.RoomInfo_[GlobalValue::CurPlayer->ArrangeRoomNo_].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
 				{
 					// 보스 배치
 
