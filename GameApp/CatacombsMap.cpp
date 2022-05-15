@@ -148,10 +148,14 @@ void CatacombsMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 	GameEngineTileMapRenderer* FloorTileRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 	FloorTileRenderer->SetImage(FloorTileTextureName_);
 	FloorTileRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
+	//FloorTileRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
+	//FloorTileRenderer->GetTransform()->SetLocalZOrder(-static_cast<float>(_Index.X_ + _Index.Y_));
 
 	float4 FloorPos = FloorTileIndexPivotPos_ + Pos;
 	FloorPos.z = 9000000.f;
 	FloorTileRenderer->GetTransform()->SetLocalPosition(FloorPos);
+
+
 	FloorTileRenderer->SetIndex(CurTileIndex_);
 	FloorTiles_.insert(std::make_pair(_Index.Index_, FloorTileRenderer));
 }
