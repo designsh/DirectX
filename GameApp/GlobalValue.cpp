@@ -34,4 +34,8 @@ Storehouse* GlobalValue::Storehouse = nullptr;
 
 // 카타콤맵(해당 맵에만 존재하는 오브젝트)
 
-// 카오스생츄어리맵(해당 맵에만 존재하는 오브젝트)
+
+// 몬스터관련
+
+// 보스
+Andariel* GlobalValue::Andariel = nullptr;

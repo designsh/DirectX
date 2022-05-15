@@ -8,6 +8,7 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 #include "MainPlayer.h"
+#include "Andariel.h"
 
 CatacombsMap::CatacombsMap() :
 	MapInfo_{},
@@ -585,12 +586,18 @@ void CatacombsMap::MainPlayerRoomArrange()
 					// 보스 배치
 
 
+					// GlobalValue::Andariel
+
+
+					// 일반 몬스터 배치
+
+
 					int a = 0;
 				}
 				// 아닌경우
 				else
 				{
-
+					// 일반몬스터 배치
 
 
 					int a = 0;

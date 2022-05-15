@@ -14,6 +14,7 @@ class TownMap;
 class Portal;
 class Storehouse;
 class CatacombsMap;
+class Andariel;
 class GlobalValue
 {
 public: // 플레이어 관련
@@ -45,6 +46,7 @@ public: // 오브젝트관련
 	// 카타콤맵
 	
 
-	// 카오스생츄어리맵
+public: // 몬스터관련
+	static Andariel* Andariel;
 };
 

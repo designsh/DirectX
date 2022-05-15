@@ -9,10 +9,16 @@
 //            사망이펙트 종료시 Boss Portal(Auto)를 스폰하여 플레이어가 다음 레벨로 진입할 수 있게 제공한다.
 //            사망이펙트와 동시에 대량의 아이템 or 골드를 드랍한다.
 class GameEngineImageRenderer;
+class GameEngineCollision;
 class Andariel : public GameEngineActor
 {
 private:	// member Var
 	GameEngineImageRenderer* Andariel_;
+	GameEngineCollision* BodyCollider_;
+	GameEngineCollision* AttackCollider_;
+
+private:
+	std::list<PathIndex> MovePath_;
 
 public:
 	Andariel();
