@@ -191,9 +191,6 @@ void MainPlayer::Update(float _DeltaTime)
 	}
 #pragma endregion
 
-	// Z Order 변경
-	//GetTransform()->SetLocalZOrder(-GetTransform()->GetLocalPosition().y);
-
 	// 카메라는 플레이어를 따라 다닌다.
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y));
 }

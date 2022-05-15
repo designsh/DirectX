@@ -136,6 +136,9 @@ void MainPlayer::UpdateTownWalk()
 
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
+
+			// Z Order 변경
+			//GetTransform()->SetWorldZOrder(-GetTransform()->GetLocalPosition().y);
 		}
 		else
 		{
@@ -254,6 +257,9 @@ void MainPlayer::UpdateFieldWalk()
 
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
+
+			// Z Order 변경
+			//GetTransform()->SetWorldZOrder(-GetTransform()->GetLocalPosition().y);
 		}
 		else
 		{
