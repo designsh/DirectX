@@ -65,6 +65,9 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+private: // 플레이어 주변 벽타일 투명화작업
+	void AdjustTheTransparencyAroundThePlayer();
+
 public:
 	TileIndex GetFloorTileIndex(float4 _Pos);
 	TileIndex GetWallTileIndex(float4 _Pos);
