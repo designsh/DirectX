@@ -542,7 +542,7 @@ void CatacombsMap::CatacombsMapLoad()
 	MapRendering();
 
 	// 플레이어 위치 갱신
-	MainPlayerRoomArrange();
+	CurLevelActorRoomArrange();
 
 	// 네비게이션 정보 생성
 	CreateNavigationInfo();
@@ -614,10 +614,9 @@ void CatacombsMap::DoorTileTextureMatching()
 	}
 }
 
-void CatacombsMap::MainPlayerRoomArrange()
+void CatacombsMap::CurLevelActorRoomArrange()
 {
-	// 현재 맵의 룸 중에 랜덤으로 룸을 결정하여 플레이어 위치 결정 및 정보갱신
-	// 정보 : 이동용 네비게이션맵, 위치정보, ...
+	// 현재 맵에 스폰하는 모든 액터관련 생성 및 랜덤한 룸에 배치
 
 	// 최초 플레이어 배치 룸번호 결정(랜덤)
 	GameEngineRandom RandomRoom;
@@ -640,6 +639,7 @@ void CatacombsMap::MainPlayerRoomArrange()
 		for (int i = 0; i < RoomCnt; ++i)
 		{
 			// 플레이어가 배치된 룸을 제외한 모든룸에 몬스터 배치 처리
+			// 단, 플레이어가 위치한 룸에는 어떠한 몬스터도 배치불가 판정
 			if (GlobalValue::CurPlayer->ArrangeRoomNo_ != MapInfo_.RoomInfo_[i].RoomNo_)
 			{
 				// 플레이어가 최초 배치된 룸과 가장멀리 떨어져있는 룸이라면
@@ -664,10 +664,6 @@ void CatacombsMap::MainPlayerRoomArrange()
 
 					int a = 0;
 				}
-			}
-			else
-			{
-				int a = 0;
 			}
 		}
 	}

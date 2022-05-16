@@ -99,7 +99,7 @@ private:
 	void DoorTileTextureMatching();
 
 private:
-	void MainPlayerRoomArrange();
+	void CurLevelActorRoomArrange();
 
 private:
 	void CreateNavigationInfo();
