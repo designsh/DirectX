@@ -7,8 +7,14 @@
 
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
+
 #include "MainPlayer.h"
+
 #include "Andariel.h"
+#include "Fallen.h"
+#include "SpikeFiend.h"
+#include "Tainted.h"
+#include "Zombie.h"
 
 CatacombsMap::CatacombsMap() :
 	MapInfo_{},
@@ -206,9 +212,6 @@ void CatacombsMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 	GameEngineTileMapRenderer* FloorTileRenderer = CreateTransformComponent<GameEngineTileMapRenderer>();
 	FloorTileRenderer->SetImage(FloorTileTextureName_);
 	FloorTileRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
-	//FloorTileRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-	//FloorTileRenderer->GetTransform()->SetLocalZOrder(-static_cast<float>(_Index.X_ + _Index.Y_));
-
 	float4 FloorPos = FloorTileIndexPivotPos_ + Pos;
 	FloorPos.z = 9000000.f;
 	FloorTileRenderer->GetTransform()->SetLocalPosition(FloorPos);
