@@ -308,6 +308,12 @@
     <ClCompile Include="CatacombsMap.cpp">
       <Filter>Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap</Filter>
     </ClCompile>
+    <ClCompile Include="Tainted_Create.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted</Filter>
+    </ClCompile>
+    <ClCompile Include="Tainted_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">

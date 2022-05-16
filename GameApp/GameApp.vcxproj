@@ -326,6 +326,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Tainted_Create.cpp" />
+    <ClCompile Include="Tainted_FSMState.cpp" />
     <ClCompile Include="TakeInOutGoldPopup.cpp">
       <SubType>
       </SubType>

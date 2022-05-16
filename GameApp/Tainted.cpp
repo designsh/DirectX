@@ -1,9 +1,20 @@
 #include "PreCompile.h"
 #include "Tainted.h"
 
+#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
+
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
+
+#include "MainPlayer.h"
+
 Tainted::Tainted() :
 	Tainted_(nullptr),
-	SpecialAttack_(false)
+	BodyCollider_(nullptr),
+	AttackCollider_(nullptr),
+	State_(),
+	SkillDelayTime_(20.f)
 {
 }
 

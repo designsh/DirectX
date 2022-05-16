@@ -94,9 +94,6 @@ private:
 private: // 상태/방향별 체크가하여 애니메이션 변경
 	void ChangeAnimationCheck(const std::string& _StateName);
 
-private: // 목표타일까지의 경로탐색
-	std::list<PathIndex> SearchMovePath(WeaponNPC_MoveDir _MoveDir);
-
 private:
 	// 대기상태
 	void StartIdle();
