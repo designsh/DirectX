@@ -634,7 +634,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 		GetLevel()->GetMainCameraActor()->GetTransform()->SetWorldPosition(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition());
 
 		// 플레이어가 배치된 룸을 제외한 모든룸에 몬스터 배치
-		// 플레이어가 배치된 룸과 가장멀리 떨어져있는 룸에 보스몬스터 배치
+		// 플레이어가 배치된 룸과 가장멀리 떨어져있는 룸에 보스몬스터 배치z
 		int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 		for (int i = 0; i < RoomCnt; ++i)
 		{

@@ -48,6 +48,12 @@ private:		//delete operator
 	GameEngineRenderTarget& operator=(const GameEngineRenderTarget&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	inline void ClearColorChange(const float4& _ClearColor)
+	{
+		ClearColor_[0] = _ClearColor;
+	}
+
+public:
 	inline ID3D11ShaderResourceView* GetShaderResourcesView(size_t _Index)
 	{
 		return ShaderResourcesViews_[_Index];

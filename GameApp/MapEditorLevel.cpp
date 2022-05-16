@@ -171,6 +171,9 @@ void MapEditorLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 			Ptr->Off();
 		}
 	}
+
+	// 스왑체인이 가지는 백버퍼의 클리어 컬러를 변경
+	GameEngineDevice::GetInst().GetBackBufferTarget()->ClearColorChange(float4::BLACK);
 }
 
 void MapEditorLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
@@ -182,6 +185,9 @@ void MapEditorLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 			Ptr->On();
 		}
 	}
+
+	// 스왑체인이 가지는 백버퍼의 클리어 컬러를 변경
+	GameEngineDevice::GetInst().GetBackBufferTarget()->ClearColorChange(float4::BLUE);
 }
 
 void MapEditorLevel::LevelStart()
