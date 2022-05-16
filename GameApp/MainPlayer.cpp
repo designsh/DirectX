@@ -31,6 +31,9 @@
 #include "Storehouse.h"
 #include "StoreView.h"
 
+#include "TownMap.h"
+#include "CatacombsMap.h"
+
 int MainPlayer::ArrangeRoomNo_ = -1;
 
 MainPlayer::MainPlayer() :
@@ -155,6 +158,18 @@ void MainPlayer::Start()
 
 void MainPlayer::Update(float _DeltaTime)
 {
+	// 현재 마우스 위치가 화면을 벗어나면 키입력 불가
+	if (true == GameEngineWindow::GetInst().IsWindowRangeOut(GameEngineInput::GetInst().GetMousePos()))
+	{
+		return;
+	}
+
+	// 현재 프리카메라모드이면 입력처리 불가
+	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
+	{
+		return;
+	}
+
 	// 플레이어 UI활성화관련 키체크
 	PlayerUIActiveKeyCheck();
 
@@ -191,8 +206,14 @@ void MainPlayer::Update(float _DeltaTime)
 	}
 #pragma endregion
 
-	// 좌표상의 Y값 정렬
-	GetTransform()->SetWorldZOrder(std::abs(GetTransform()->GetLocalPosition().y));
+#pragma region 좌표상의 Y값 정렬
+	if (false == IsTown_)
+	{
+		float4 CurPlayerPos = GetTransform()->GetWorldPosition();
+		TileIndex CurPlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(CurPlayerPos.x, CurPlayerPos.y - 53.f));
+		GetTransform()->SetLocalZOrder(-static_cast<float>(CurPlayerTileIndex.X_ + CurPlayerTileIndex.Y_));
+	}
+#pragma endregion
 
 	// 카메라는 플레이어를 따라 다닌다.
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y));

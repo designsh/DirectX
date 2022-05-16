@@ -87,7 +87,10 @@ void CatacombsLevel::LevelStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -300.0f));
 
 	// 프리카메라
-
+	if (false == GameEngineInput::GetInst().IsKey("FREECAMERA"))
+	{
+		GameEngineInput::GetInst().CreateKey("FREECAMERA", 'L');
+	}
 }
 
 void CatacombsLevel::LevelUpdate(float _DeltaTime)
@@ -100,4 +103,10 @@ void CatacombsLevel::LevelUpdate(float _DeltaTime)
 		ResourceLoadEndCheck = true;
 	}
 #pragma endregion
+
+	if (true == GameEngineInput::GetInst().Down("FREECAMERA"))
+	{
+		// 프리 카메라 모드 실행
+		GetMainCameraActor()->FreeCameraModeSwitch();
+	}
 }

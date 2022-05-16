@@ -378,6 +378,7 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
 	}
 
+	// ============================================= 타일맵 관련 ============================================= //
 	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TileMap");
 		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
@@ -388,6 +389,7 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetRasterizer("EngineBaseRasterizer");
 		Pipe->SetPixelShader("TileMap_PS");
 		Pipe->SetOutputMergerBlend("EngineAlphaBlend");
+		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
 	}
 
 	// ============================================= 특수기능 UI 관련 ============================================= //

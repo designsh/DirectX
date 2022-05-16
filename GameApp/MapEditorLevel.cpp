@@ -143,8 +143,6 @@ void MapEditorLevel::CreateLevelActor()
 #pragma region RandomMap Create & Setting
 	EditorRandomMap_ = CreateActor<EditorRandomMap>();
 	RandomMapWindow_->RandomMap_ = EditorRandomMap_;
-
-
 #pragma endregion
 }
 
