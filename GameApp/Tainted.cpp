@@ -24,8 +24,12 @@ Tainted::~Tainted()
 
 void Tainted::Start()
 {
+
 }
 
 void Tainted::Update(float _DeltaTime)
 {
+
+
+
 }
