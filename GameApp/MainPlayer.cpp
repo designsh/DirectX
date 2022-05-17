@@ -598,19 +598,20 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 		// 마을에서 사용 불가
 		if (false == IsTown_)
 		{
-
-
-
-			int a = 0;
+			// 현재 선택된 스킬이 기본공격이아니라면 스킬공격 모션으로 전환
+			if (0 != CurRightSkill_)
+			{
+				ChangeFSMState("Special_Attack");
+			}
 		}
 	}
 }
 
-void MainPlayer::GolemSummons(int _SkillCode, const float4& _MouseClickPos)
+void MainPlayer::GolemSummons(const float4& _MouseClickPos)
 {
 	// 스킬별 소환 골렘이 달라짐
 	// 단, 어떠한 타입의 골렘이든 한개의 골렘만 가짐
-	switch (_SkillCode)
+	switch (CurRightSkill_)
 	{
 		case 75: // ClayGolem 소환
 		{
@@ -635,19 +636,23 @@ void MainPlayer::GolemSummons(int _SkillCode, const float4& _MouseClickPos)
 	}
 }
 
-void MainPlayer::SkeletonWarriorSummons(int _SkillCode, const float4& _MouseClickPos)
+void MainPlayer::SkeletonWarriorSummons(const float4& _MouseClickPos)
 {
+	// 현재 마우스가 몬스터와 충돌중이고, 해당 몬스터가 시체상태일때 시전 가능 판정
+
 	// 스켈텔론(전사) 소환
-	if (_SkillCode == 70)
+	if (CurRightSkill_ == 70)
 	{
 
 	}
 }
 
-void MainPlayer::SkeletonWizardSummons(int _SkillCode, const float4& _MouseClickPos)
+void MainPlayer::SkeletonWizardSummons(const float4& _MouseClickPos)
 {
+	// 현재 마우스가 몬스터와 충돌중이고, 해당 몬스터가 시체상태일때 시전 가능 판정
+
 	// 스켈텔론(마법사) 소환
-	if (_SkillCode == 80)
+	if (CurRightSkill_ == 80)
 	{
 
 	}

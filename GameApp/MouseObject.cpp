@@ -20,6 +20,8 @@ MouseObject::MouseObject() :
 	NPCUI_TopMenuBarCol_(false),
 	NPCUI_BuySellViewCol_(false),
 	UI_PopupCol_(nullptr),
+	MonsterCol_(false),
+	CurMonsterCol_(nullptr),
 	IsItemHold_(false),
 	HoldItemName_(),
 	ItemRenderer_(nullptr),
@@ -74,8 +76,12 @@ void MouseObject::Start()
 void MouseObject::Update(float _DeltaTime)
 {
 #pragma region 마우스충돌체크
+	// UI관련
 	MouseCollider_->Collision(CollisionType::CirCle, CollisionType::Rect, static_cast<int>(UIRenderOrder::UIMoveabledCheckCol), std::bind(&MouseObject::MouseUICollision, this, std::placeholders::_1), std::bind(&MouseObject::MouseUICollisionEnd, this, std::placeholders::_1));
 	MouseCollider_->Collision(CollisionType::CirCle, CollisionType::Rect, static_cast<int>(UIRenderOrder::Popup_Action_Col), std::bind(&MouseObject::PopupUICollision, this, std::placeholders::_1), std::bind(&MouseObject::PopupUICollisionEnd, this, std::placeholders::_1));
+
+	// Monster 관련
+	MouseCollider_->Collision(CollisionType::CirCle, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&MouseObject::MonsterCollision, this, std::placeholders::_1), std::bind(&MouseObject::MonsterCollisionEnd, this, std::placeholders::_1));
 #pragma endregion
 
 	float4 PrevPos = GameEngineInput::GetInst().GetPrevMouse3DPos();
@@ -264,6 +270,30 @@ void MouseObject::PopupUICollisionEnd(GameEngineCollision* _Other)
 {
 	// 팝업창과 충돌종료시 호출
 	UI_PopupCol_ = false;
+}
+
+void MouseObject::MonsterCollision(GameEngineCollision* _Other)
+{
+	if (false == MonsterCol_)
+	{
+		// 몬스터와 충돌시작 & 충돌중시 호출
+		MonsterCol_ = true;
+
+		// 충돌중인 몬스터 저장
+		CurMonsterCol_ = _Other;
+	}
+}
+
+void MouseObject::MonsterCollisionEnd(GameEngineCollision* _Other)
+{
+	if (true == MonsterCol_)
+	{
+		// 몬스터와 충돌종료시 호출
+		MonsterCol_ = false;
+
+		// 충돌중인 몬스터 초기화
+		CurMonsterCol_ = nullptr;
+	}
 }
 
 void MouseObject::ItemHold(const std::string& _ItemName, const float4& _ItemSize)

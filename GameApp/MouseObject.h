@@ -34,6 +34,10 @@ private: // NPC UI 충돌체크
 private: // 팝업창 충돌체크
 	bool UI_PopupCol_;
 
+private: // 몬스터 충돌체크
+	bool MonsterCol_;
+	GameEngineCollision* CurMonsterCol_;
+
 private:
 	bool IsItemHold_;
 	std::string HoldItemName_;
@@ -72,6 +76,10 @@ private:
 private:
 	void PopupUICollision(GameEngineCollision* _Other);
 	void PopupUICollisionEnd(GameEngineCollision* _Other);
+
+private:
+	void MonsterCollision(GameEngineCollision* _Other);
+	void MonsterCollisionEnd(GameEngineCollision* _Other);
 
 public: // 마우스 상태 Get
 	MouseState GetMouseState() const
@@ -169,6 +177,18 @@ public: // UI 팝업창 체크 Flag
 	{
 		UI_PopupCol_ = false;
 	}
+
+public: // 몬스터와 충돌 체크 Flag
+	inline bool GetMonsterCollision() const
+	{
+		return MonsterCol_;
+	}
+
+	inline GameEngineCollision* GetCurCollisionMonster() const
+	{
+		return CurMonsterCol_;
+	}
+
 
 public: // 아이템들기관련
 	void ItemHold(const std::string& _ItemName, const float4& _ItemSize);

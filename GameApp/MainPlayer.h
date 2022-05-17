@@ -181,6 +181,12 @@ private: // 플레이어 아이템착용관련 Flag
 															// 방패 착용여부 Flag(true : 착용) - 인벤토리창의 방패부분에 장착시 활성화(HVY_상태가된다.) - 왼쪽무기
 #pragma endregion
 
+#pragma region 소환스킬로 소환된 소환수관련
+private:
+
+
+#pragma endregion
+
 #pragma region GamePlay Player Basic Info
 private:
 	int CurHP_;												// 플레이어 현재 체력(100 기준)
@@ -533,9 +539,9 @@ private:
 
 #pragma region 소환스킬
 private:
-	void GolemSummons(int _SkillCode, const float4& _MouseClickPos);
-	void SkeletonWarriorSummons(int _SkillCode, const float4& _MouseClickPos);
-	void SkeletonWizardSummons(int _SkillCode, const float4& _MouseClickPos);
+	void GolemSummons(const float4& _MouseClickPos);
+	void SkeletonWarriorSummons(const float4& _MouseClickPos);
+	void SkeletonWizardSummons(const float4& _MouseClickPos);
 #pragma endregion
 
 #pragma region 애니메이션종료시점호출함수

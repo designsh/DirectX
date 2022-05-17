@@ -228,41 +228,105 @@ bool MainPlayer::RenderDirectCheck(std::string& _AnimationName)
 // 각 애니메이션 종료 시점 호출 함수
 void MainPlayer::Attack1AnimationEnd()
 {
-
+	// 대기상태로 전환
+	ChangeFSMState("Natural_Field");
 }
 
 void MainPlayer::Attack2AnimationEnd()
 {
-
+	// 대기상태로 전환
+	ChangeFSMState("Natural_Field");
 }
 
 void MainPlayer::BlockAnimationEnd()
 {
-
+	// 대기상태로 전환
+	ChangeFSMState("Natural_Field");
 }
 
 void MainPlayer::DeathAnimationEnd()
 {
-
+	// 대기상태로 전환
+	ChangeFSMState("Natural_Field");
 }
 
 void MainPlayer::GetHitAnimationEnd()
 {
-
+	// 대기상태로 전환
+	ChangeFSMState("Natural_Field");
 }
 
 void MainPlayer::KickAnimationEnd()
 {
-
+	// 대기상태로 전환
+	ChangeFSMState("Natural_Field");
 }
 
 void MainPlayer::SkillAttackAnimationEnd()
 {
+	// 현재 선택된 오른쪽무기스킬에 따라 스킬 시전 후 대기 상태 전환
+	switch (CurRightSkill_)
+	{
+		case 0: // 기본공격
+		{
 
+			break;
+		}
+		case 75: // ClayGolem 소환
+		case 85: // BloodGolem 소환
+		case 90: // IronGolem 소환
+		case 94: // FireGolem 소환
+		{
+
+			break;
+		}
+		case 70: // Skeleton(전사타입) 소환
+		{
+
+			break;
+		}
+		case 80: // Skeleton(마법사타입) 소환
+		{
+
+			break;
+		}
+	}
+
+	// 대기상태로 전환
+	ChangeFSMState("Natural_Field");
 }
 
 void MainPlayer::SkillCastingAnimationEnd()
 {
+	// 현재 선택된 오른쪽무기스킬에 따라 스킬 시전 후 대기 상태 전환
+	switch (CurRightSkill_)
+	{
+		case 0: // 기본공격
+		{
 
+			break;
+		}
+		case 75: // ClayGolem 소환
+		case 85: // BloodGolem 소환
+		case 90: // IronGolem 소환
+		case 94: // FireGolem 소환
+		{
+
+			break;
+		}
+		case 70: // Skeleton(전사타입) 소환
+		{
+
+			break;
+		}
+		case 80: // Skeleton(마법사타입) 소환
+		{
+
+			break;
+		}
+	}
+
+	// 대기상태로 전환
+	ChangeFSMState("Natural_Field");
 }
 
