@@ -26,3 +26,19 @@ void Tainted::MouseCollisionEnd(GameEngineCollision* _Other)
 	// 화면 상단 HP가 표시되어있었다면 Off 상태로 전환
 	GlobalValue::TopHPBar->CurMonsterTopHPBarOff();
 }
+
+// 2. 적과의 충돌시 호출되는 함수
+void Tainted::EnemyCollision(GameEngineCollision* _Other)
+{
+	// 충돌시 공격 상태로 전환
+	if (CurState_ != Tainted_FSMState::ST_NORMALATTACK)
+	{
+		State_.ChangeState("Tainted_ATTACK");
+		EnemyCol_ = true;
+	}
+}
+
+void Tainted::EnemyCollisionEnd(GameEngineCollision* _Other)
+{
+	EnemyCol_ = false;
+}

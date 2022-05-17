@@ -160,7 +160,6 @@ void Tainted::SetCheckTileList(TileIndex _CurTileIndex)
 	CheckTileList_.clear();
 
 	// 적감지 체크타일목록 작성(현재타일의 +- 8)
-	CheckTileList_.insert(std::make_pair((_CurTileIndex).Index_, Tainted_TileCheckType::MOVE));								// 본인위치 타일포함
 	for (int i = 1; i <= 10; ++i)
 	{
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( 0,  i)).Index_, Tainted_TileCheckType::MOVE));		// 좌단
@@ -172,20 +171,6 @@ void Tainted::SetCheckTileList(TileIndex _CurTileIndex)
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( i,  0)).Index_, Tainted_TileCheckType::MOVE));		// 하단
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( i,  i)).Index_, Tainted_TileCheckType::MOVE));		// 좌하단
 	}
-
-	// 일반공격 체크타일목록 작성(현재타일의 +- 1)
-	CheckTileList_.find((_CurTileIndex).Index_)->second = Tainted_TileCheckType::ATTACK;								// 본인위치 타일포함
-	for (int i = 1; i <= 1; ++i)
-	{
-		CheckTileList_.find((_CurTileIndex + TileIndex( 0,  i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 좌단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i,  i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 좌상단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i,  0)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 상단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i, -i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 우상단
-		CheckTileList_.find((_CurTileIndex + TileIndex( 0, -i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 우단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i, -i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 우하단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i,  0)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 하단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i,  i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 좌하단
-	}
 }
 
 // 적이 체크리스트에 들어오는지 체크 후 상태전환
@@ -196,13 +181,23 @@ void Tainted::CheckChangeState(TileIndex _PlayerTileIndex)
 		return;
 	}
 
-	if (Tainted_TileCheckType::MOVE == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
+	if (CurState_ == Tainted_FSMState::ST_WALK)
 	{
-		State_.ChangeState("Tainted_MOVE");
+		if (Tainted_TileCheckType::ATTACK == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
+		{
+			State_.ChangeState("Tainted_ATTACK");
+		}
 	}
-	else if (Tainted_TileCheckType::ATTACK == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
+	else
 	{
-		State_.ChangeState("Tainted_ATTACK");
+		if (Tainted_TileCheckType::MOVE == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
+		{
+			State_.ChangeState("Tainted_MOVE");
+		}
+		else if (Tainted_TileCheckType::ATTACK == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
+		{
+			State_.ChangeState("Tainted_ATTACK");
+		}
 	}
 }
 
@@ -313,6 +308,9 @@ void Tainted::UpdateMove()
 			// 타겟타일 인덱스 변경
 			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
+			// 현재 위치의 체크리스트 갱신
+			SetCheckTileList(GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition()));
+
 			MoveTargetDir_ = (GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y)).NormalizeReturn3D();
 
 			// 타겟위치로 지정된 경로의 인덱스제거
@@ -333,7 +331,7 @@ void Tainted::UpdateMove()
 		}
 	}
 
-	// 타겟 위치까지 이동
+	// 현재 타겟위치까지 이동
 	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 }
 
@@ -431,6 +429,12 @@ void Tainted::EndDead()
 
 void Tainted::NormalAttackEnd()
 {
+	// 공격모션 종료시 적의 충돌체와 충돌중이라면 적에게 데미지를 입힌다.
+	if (true == EnemyCol_)
+	{
+		GlobalValue::CurPlayer->DelCurrentHP(MonsterInfo_.Damage);
+	}
+
 	// 대기상태로 전환
 	State_.ChangeState("Tainted_IDLE");
 }

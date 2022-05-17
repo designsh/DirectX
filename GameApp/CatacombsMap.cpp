@@ -701,7 +701,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 				Tainted* NewTainted = GetLevel()->CreateActor<Tainted>();
 				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
 				NewTainted->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-				//NewTainted->SpawnToDeath();
+				NewTainted->SpawnToDeath();
 				TaintedList_.push_back(NewTainted);
 
 				// Zombie

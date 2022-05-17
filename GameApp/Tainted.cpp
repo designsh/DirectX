@@ -13,7 +13,7 @@
 int Tainted::TaintedCnt = 0;
 
 Tainted::Tainted() :
-	MouseColStart_(false),
+	EnemyCol_(false),
 	MonsterInfo_{},
 	SpawnTile_(),
 	SpawnRoomNo_(-1),
@@ -68,6 +68,7 @@ void Tainted::Update(float _DeltaTime)
 
 	// 충돌처리
 	BodyCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&Tainted::MouseCollision, this, std::placeholders::_1), std::bind(&Tainted::MouseCollisionEnd, this, std::placeholders::_1));
+	BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&Tainted::EnemyCollision, this, std::placeholders::_1), std::bind(&Tainted::EnemyCollisionEnd, this, std::placeholders::_1));
 }
 
 void Tainted::SetEnemyDetectionList(int _SpawnRoomNo)

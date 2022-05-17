@@ -401,6 +401,7 @@ private:
 	void PlayerUIActiveKeyCheck();
 	bool PlayerUIActiveConditionCheck();
 	void PlayerMoveKeyCheck();
+	void PlayerSkillCastKeyCheck();
 #pragma endregion
 
 #pragma region ChangeState
@@ -519,5 +520,11 @@ private:
 	void RandomMapObjectCheck(const float4& _MousePos);
 #pragma endregion
 
+#pragma region 소환스킬
+private:
+	void GolemSummons(int _SkillCode, const float4& _MouseClickPos);
+	void SkeletonWarriorSummons(int _SkillCode, const float4& _MouseClickPos);
+	void SkeletonWizardSummons(int _SkillCode, const float4& _MouseClickPos);
+#pragma endregion
 };
 

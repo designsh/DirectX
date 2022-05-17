@@ -466,39 +466,6 @@
     <Filter Include="Object\Actor\00.Global\00.Player\02.Skill\00.BoneSpirit">
       <UniqueIdentifier>{b6fcfa81-93d3-4f93-8ae7-e979f82c312e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\00.BloodGolem">
-      <UniqueIdentifier>{84ba3766-1cfd-4292-839a-17b15ce25db9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\01.ClayGolem">
-      <UniqueIdentifier>{be81a313-5eb8-41b0-8f6f-d95500c35e46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\02.FireGolem">
-      <UniqueIdentifier>{183d923b-2c84-4bf2-8133-21aeefd197ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\03.IronGolem">
-      <UniqueIdentifier>{f72700e7-2628-469d-879d-45484170564c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon">
-      <UniqueIdentifier>{779ade46-5bb4-42f5-a2ea-8826f6b641d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\00.Warrior">
-      <UniqueIdentifier>{749e6bc8-2adb-4671-8f65-64660f91bdf1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard">
-      <UniqueIdentifier>{6f2baad5-ae35-463a-a707-4f75e20d1440}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\00.COD">
-      <UniqueIdentifier>{48e57005-bdef-4771-934b-c38e2dd635d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\01.FIR">
-      <UniqueIdentifier>{4253d85d-13c3-4175-9532-ad145b54c734}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\02.LHT">
-      <UniqueIdentifier>{99394069-ca50-4c0b-9b66-45e18cc2bc1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\04.Sketelon\01.Wizard\03.POS">
-      <UniqueIdentifier>{89fb5e35-bc4e-4107-a3e4-cbcbc7cf698f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\03.Object">
       <UniqueIdentifier>{813786d2-b77a-44f4-b8d3-59ee22af0ec5}</UniqueIdentifier>
     </Filter>
@@ -777,6 +744,15 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\06.TopHPBar">
       <UniqueIdentifier>{416bb0f3-da97-4196-833b-8fd4c2d62f0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\00.Golem">
+      <UniqueIdentifier>{f61e7f87-e273-48d3-8b3f-beb061bb95a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\01.SketelonWarrior">
+      <UniqueIdentifier>{779ade46-5bb4-42f5-a2ea-8826f6b641d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard">
+      <UniqueIdentifier>{f8de4e02-f256-485c-bc2a-61e471b102af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

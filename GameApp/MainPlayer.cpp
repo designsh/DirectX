@@ -178,6 +178,9 @@ void MainPlayer::Update(float _DeltaTime)
 	// 플레이어 이동관련 키체크
 	PlayerMoveKeyCheck();
 
+	// 플레이어 스킬관련 키체크
+	PlayerSkillCastKeyCheck();
+
 	// 상태별 행동패턴 처리
 	State_.Update();
 
@@ -201,8 +204,15 @@ void MainPlayer::Update(float _DeltaTime)
 	if (nullptr != BodyCollider_)
 	{
 #ifdef _DEBUG
-		GetLevel()->PushDebugRender(BodyCollider_->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(BodyCollider_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
+
+		// 충돌체 위치 갱신
+		float4 MyPos = GetTransform()->GetLocalPosition();
+		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+		MyPos.z = 0.f;
+		CamPos.z = 0.f;
+		BodyCollider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
 		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Object), std::bind(&MainPlayer::PlayerBodyCollision, this, std::placeholders::_1));
 	}
@@ -455,7 +465,7 @@ void MainPlayer::PlayerMoveKeyCheck()
 		}
 	}
 
-	// 마우스 왼쪽버튼(추후 충돌시 호출로 변경예정)
+	// 마우스 왼쪽버튼
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 #pragma region 게임화면을 벗어나면 이동불가 판단
@@ -577,5 +587,68 @@ void MainPlayer::PlayerMoveKeyCheck()
 			// 이동 시작
 			MoveStart(MousePos);
 		}
+	}
+}
+
+void MainPlayer::PlayerSkillCastKeyCheck()
+{
+	// 마우스 오른쪽버튼
+	if (true == GameEngineInput::GetInst().Down("MouseRButton"))
+	{
+		// 마을에서 사용 불가
+		if (false == IsTown_)
+		{
+
+
+
+			int a = 0;
+		}
+	}
+}
+
+void MainPlayer::GolemSummons(int _SkillCode, const float4& _MouseClickPos)
+{
+	// 스킬별 소환 골렘이 달라짐
+	// 단, 어떠한 타입의 골렘이든 한개의 골렘만 가짐
+	switch (_SkillCode)
+	{
+		case 75: // ClayGolem 소환
+		{
+
+			break;
+		}
+		case 85: // BloodGolem 소환
+		{
+
+			break;
+		}
+		case 90: // IronGolem 소환
+		{
+
+			break;
+		}
+		case 94: // FireGolem 소환
+		{
+
+			break;
+		}
+	}
+}
+
+void MainPlayer::SkeletonWarriorSummons(int _SkillCode, const float4& _MouseClickPos)
+{
+	// 스켈텔론(전사) 소환
+	if (_SkillCode == 0)
+	{
+
+	}
+}
+
+void MainPlayer::SkeletonWizardSummons(int _SkillCode, const float4& _MouseClickPos)
+{
+	// 스켈텔론(마법사) 소환
+	if (_SkillCode == 0)
+	{
+
 	}
 }

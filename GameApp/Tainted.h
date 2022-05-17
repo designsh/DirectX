@@ -52,8 +52,8 @@ class Tainted : public GameEngineActor
 public: // 생성갯수 = 네비게이션 인덱스
 	static int TaintedCnt;
 
-private:
-	bool MouseColStart_;
+private: // 충돌상태
+	bool EnemyCol_;
 
 private:
 	AllMonsterInfo MonsterInfo_;
@@ -118,6 +118,10 @@ private:
 private: // 마우스와 충돌
 	void MouseCollision(GameEngineCollision* _Other);
 	void MouseCollisionEnd(GameEngineCollision* _Other);
+
+private: // 적과의 충돌
+	void EnemyCollision(GameEngineCollision* _Other);
+	void EnemyCollisionEnd(GameEngineCollision* _Other);
 
 private: // 해당 몬스터 초기화 및 생성
 	void InitTainted();
