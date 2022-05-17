@@ -55,6 +55,9 @@ void CatacombsMap::Start()
 	WallTileImageSize_ = { 160.0f, 320.f };
 	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
 	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y };
+
+	// 현재맵을 글로벌 변수에 저장
+	GlobalValue::CatacombsMap = this;
 }
 
 void CatacombsMap::Update(float _DeltaTime)
@@ -634,7 +637,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 		// 플레이어 랜덤한 룸의 센터로 이동
 		float4 PlayerPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_);
 		GlobalValue::CurPlayer->GetTransform()->SetWorldPosition(PlayerPos);
-		GetLevel()->GetMainCameraActor()->GetTransform()->SetWorldPosition(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition());
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetWorldPosition(float4(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition().x, GlobalValue::CurPlayer->GetTransform()->GetLocalPosition().y));
 
 		// 플레이어가 배치된 룸을 제외한 모든룸에 몬스터 배치
 		// 플레이어가 배치된 룸과 가장멀리 떨어져있는 룸에 보스몬스터 배치z
@@ -646,7 +649,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 			if (GlobalValue::CurPlayer->ArrangeRoomNo_ != MapInfo_.RoomInfo_[i].RoomNo_)
 			{
 				// 플레이어가 최초 배치된 룸과 가장멀리 떨어져있는 룸이라면
-				if (MapInfo_.RoomInfo_[GlobalValue::CurPlayer->ArrangeRoomNo_ - 1].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
+				if (MapInfo_.RoomInfo_[PlayerArrRoomNo].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
 				{
 					// 보스 배치
 
@@ -667,6 +670,13 @@ void CatacombsMap::CurLevelActorRoomArrange()
 
 					int a = 0;
 				}
+			}
+			else
+			{
+				// 테스트용
+				Tainted* Monster = GetLevel()->CreateActor<Tainted>();
+				Monster->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+				Monster->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
 			}
 		}
 	}

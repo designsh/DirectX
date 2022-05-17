@@ -104,8 +104,8 @@ void MainPlayer::MoveStart(const float4& _MousePos)
 	}
 	else if(std::string::npos != GetLevel()->GetName().find("CatacombsLevel"))
 	{
-		MovePath_ = GlobalValue::CatacombsMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
-		//MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(GetTransform()->GetWorldPosition(), _MousePos);
+		//MovePath_ = GlobalValue::CatacombsMap->NavgationFind4Way(GetTransform()->GetWorldPosition(), _MousePos);
+		MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(GetTransform()->GetWorldPosition(), _MousePos);
 	}
 	else
 	{

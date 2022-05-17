@@ -4,6 +4,45 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
+#include "AllMonsterInfomation.h"
+
+#include "FixedTileMap_Common.h"
+#include "RandomTileMap_Common.h"
+
+// 이동방향
+enum class Tainted_Dir
+{
+	TT_LB,
+	TT_LT,
+	TT_RT,
+	TT_RB,
+	TT_B,
+	TT_L,
+	TT_T,
+	TT_R
+};
+
+// 상태관련
+enum class Tainted_FSMState
+{
+	ST_ROOMDETECT,				// 룸진입 적 체크 상태
+	ST_IDLE,					// 대기상태
+	ST_WALK,					// 타겟까지 이동상태
+	ST_NORMALATTACK,			// 일반공격범위내 적 진입
+	ST_SKILLATTACK,				// 스킬공격범위내 적 진입, 스킬쿨타임 젠
+	ST_GETHIT,					// 피격 상태(적이 공격하여 전환)
+	ST_DEATH,					// 사망 상태(몬스터 체력 0)
+	ST_DEAD,					// 시체 상태(마우스와 충돌중이며, 플레이가 소환스킬시전 체크)
+};
+
+// 상태전환 타일목록 타입
+enum class Tainted_TileCheckType
+{
+	MOVE,
+	NORMALATTACK,
+	SKILLATTACK,
+};
+
 // 분류 : 일반몬스터
 // 용도 : 
 // 설명 : 
@@ -11,7 +50,14 @@ class GameEngineImageRenderer;
 class GameEngineCollision;
 class Tainted : public GameEngineActor
 {
-private:	// member Var
+private:
+	AllMonsterInfo MonsterInfo_;
+
+private: // 생성관련
+	TileIndex SpawnTile_;
+	int SpawnRoomNo_;
+
+private:
 	GameEngineImageRenderer* Tainted_;
 	GameEngineCollision* BodyCollider_;
 	GameEngineCollision* AttackCollider_;
@@ -19,8 +65,28 @@ private:	// member Var
 private:
 	GameEngineFSM State_;
 
-private: 
-	float SkillDelayTime_;			// 스킬공격 쿨타임
+private: // 이동관련
+	float4 TargetPos_;
+	float4 CurPos_;
+	float MoveSpeed_;
+
+private: // 방향관련
+	Tainted_Dir PrevDir_;
+	Tainted_Dir CurDir_;
+
+private: // 적감지관련
+	bool RoomDetect_;
+	std::vector<TileIndex> RoomDetectList_;						// 최초 적의 룸진입체크 타일목록
+	std::map<__int64, Tainted_TileCheckType> CheckTileList_;	// 이동, 일반공격, 스킬공격 전환 체크타일목록
+
+private: // 상태관련
+	Tainted_FSMState PrevState_;
+	Tainted_FSMState CurState_;
+
+private: // 공격관련
+	std::vector<TileIndex> AttackList_;	// 공격가능 범위
+	std::vector<TileIndex> SkillList_;	// 스킬공격 가능범위
+	float SkillDelayTime_;				// 스킬공격 쿨타임
 
 public:
 	Tainted();
@@ -44,19 +110,28 @@ private:
 	void CreateAnimation();
 	void CreateFSMState();
 	void CreateCollision();
+	void CreateInfomation();
 
 private:
-	// 대기상태(적탐지상태)
+	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);
+	void ChangeAnimationCheck(const std::string& _StateName);
+
+private: // 체크타일목록 생성 및 체크후 상태전환
+	void SetCheckTileList(TileIndex _CurTileIndex);
+	void CheckChangeState(TileIndex _PlayerTileIndex);
+
+private:
+	// 최초 적탐지 상태
+	void StartRoomDetect();
+	void UpdateRoomDetect();
+	void EndRoomDetect();
+
+	// 대기상태
 	void StartIdle();
 	void UpdateIdle();
 	void EndIdle();
 
-	// 적감지상태
-	void StartEnemyDetect();
-	void UpdateEnemyDetect();
-	void EndEnemyDetect();
-
-	// 이동상태
+	// 이동상태(적감지상태)
 	void StartMove();
 	void UpdateMove();
 	void EndMove();
@@ -87,5 +162,6 @@ private:
 	void EndDead();
 	
 public:
+	void SetEnemyDetectionList(int _SpawnRoomNo);
 };
 

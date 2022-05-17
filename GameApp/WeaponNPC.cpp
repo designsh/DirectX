@@ -12,6 +12,8 @@
 #include "NPC_TopMenuBar.h"
 #include "NPC_BuySellView.h"
 
+#include "TownMap.h"
+
 bool WeaponNPC::FirstInteraction = false;
 bool WeaponNPC::InteractionFlag = false;
 
@@ -80,6 +82,12 @@ void WeaponNPC::Update(float _DeltaTime)
 #ifdef _DEBUG
 	GetLevel()->UIPushDebugRender(WeaponNPCCollision_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
+
+#pragma region 좌표상의 Y값 정렬
+	//float4 CurWeaponNPCPos = GetTransform()->GetWorldPosition();
+	//TileIndex CurNPCTileIndex = GlobalValue::TownMap->GetPosToTileIndex(float4(CurWeaponNPCPos.x, CurWeaponNPCPos.y - 53.f));
+	//GetTransform()->SetLocalZOrder(-static_cast<float>(CurNPCTileIndex.X_ + CurNPCTileIndex.Y_));
+#pragma endregion
 }
 
 NPC_BuySellView* WeaponNPC::GetWeaponShop()

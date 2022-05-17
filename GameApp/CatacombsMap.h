@@ -33,7 +33,6 @@ private: // 타일정보
 	float4 TileSize_;
 	float4 TileSizeHalf_;
 	float4 TileSizeHHalf_;
-	float4 TileSizeHHHalf_;
 
 private: // 바닥타일정보
 	float4 FloorTileImageSizeHalf_;
@@ -67,6 +66,12 @@ private:
 
 private: // 플레이어 주변 벽타일 투명화작업
 	void AdjustTheTransparencyAroundThePlayer();
+
+public:
+	inline const RandomMapInfo& GetRandomMapInfo()
+	{
+		return MapInfo_;
+	}
 
 public:
 	TileIndex GetFloorTileIndex(float4 _Pos);

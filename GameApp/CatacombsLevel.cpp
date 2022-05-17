@@ -32,7 +32,6 @@ void CatacombsLevel::CreateLevelActor()
 	// 맵로딩(타일맵 - 랜덤맵)
 	CatacombsMap_ = CreateActor<CatacombsMap>();
 	CatacombsMap_->CatacombsMapLoad();
-	GlobalValue::CatacombsMap = CatacombsMap_;
 
 	// 플레이어 생성 및 메인플레이어 지정
 	if (nullptr == GlobalValue::CurPlayer)

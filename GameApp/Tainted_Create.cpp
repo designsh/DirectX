@@ -6,6 +6,9 @@
 
 void Tainted::InitTainted()
 {
+	// 몬스터정보 생성
+	CreateInfomation();
+
 	// 애니메이션 관련 텍스쳐 컷팅
 	TextureCutting();
 
@@ -17,6 +20,12 @@ void Tainted::InitTainted()
 
 	// FSM 상태관련
 	CreateFSMState();
+}
+
+void Tainted::CreateInfomation()
+{
+	// 해당 몬스터의 정보를 생성
+	AllMonsterInfomation::GetInst().MonsterInfoFind(MonsterClassType::Tainted, MonsterInfo_);
 }
 
 void Tainted::TextureCutting()
@@ -76,54 +85,54 @@ void Tainted::CreateAnimation()
 	Tainted_->CreateAnimation("Tainted_Walk.png", "Walk_R", 56, 63, 0.1f);
 
 	// 기본공격상태
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_LB", 0, 9, 0.1f);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_LT", 10, 19, 0.1f);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_RT", 20, 29, 0.1f);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_RB", 30, 39, 0.1f);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_B", 40, 49, 0.1f);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_L", 50, 59, 0.1f);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_T", 60, 69, 0.1f);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_R", 70, 79, 0.1f);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_LB", 0, 9, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_LT", 10, 19, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_RT", 20, 29, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_RB", 30, 39, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_B", 40, 49, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_L", 50, 59, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_T", 60, 69, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_R", 70, 79, 0.1f, false);
 
 	// 스킬공격상태
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_LB", 0, 9, 0.1f);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_LT", 10, 19, 0.1f);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_RT", 20, 29, 0.1f);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_RB", 30, 39, 0.1f);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_B", 40, 49, 0.1f);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_L", 50, 59, 0.1f);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_T", 60, 69, 0.1f);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_R", 70, 79, 0.1f);
+	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_LB", 0, 9, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_LT", 10, 19, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_RT", 20, 29, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_RB", 30, 39, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_B", 40, 49, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_L", 50, 59, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_T", 60, 69, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_R", 70, 79, 0.1f, false);
 
 	// 피격상태
-	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_LB", 0, 7, 0.1f);
-	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_LT", 8, 15, 0.1f);
-	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_RT", 16, 23, 0.1f);
-	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_RB", 24, 31, 0.1f);
-	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_B", 32, 39, 0.1f);
-	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_L", 40, 47, 0.1f);
-	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_T", 48, 55, 0.1f);
-	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_R", 56, 63, 0.1f);
+	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_LB", 0, 7, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_LT", 8, 15, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_RT", 16, 23, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_RB", 24, 31, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_B", 32, 39, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_L", 40, 47, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_T", 48, 55, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_R", 56, 63, 0.1f, false);
 
 	// 사망상태
-	Tainted_->CreateAnimation("Tainted_Death.png", "Death_LB", 0, 18, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Death.png", "Death_LT", 19, 37, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Death.png", "Death_RT", 38, 56, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Death.png", "Death_RB", 57, 75, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Death.png", "Death_B", 76, 94, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Death.png", "Death_L", 95, 113, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Death.png", "Death_T", 114, 132, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Death.png", "Death_R", 133, 151, 0.1f);
+	Tainted_->CreateAnimation("Tainted_Death.png", "Death_LB", 0, 18, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Death.png", "Death_LT", 19, 37, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Death.png", "Death_RT", 38, 56, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Death.png", "Death_RB", 57, 75, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Death.png", "Death_B", 76, 94, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Death.png", "Death_L", 95, 113, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Death.png", "Death_T", 114, 132, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Death.png", "Death_R", 133, 151, 0.1f, false);
 
 	// 시체상태
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_LB", 0, 7, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_LT", 8, 15, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_RT", 16, 23, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_RB", 24, 31, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_B", 32, 39, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_L", 40, 47, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_T", 48, 55, 0.1f);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_R", 56, 63, 0.1f);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_LB", 0, 7, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_LT", 8, 15, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_RT", 16, 23, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_RB", 24, 31, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_B", 32, 39, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_L", 40, 47, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_T", 48, 55, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_R", 56, 63, 0.1f, false);
 
 	// 초기상태
 	Tainted_->SetChangeAnimation("Idle_B");
@@ -131,13 +140,13 @@ void Tainted::CreateAnimation()
 
 void Tainted::CreateFSMState()
 {
-	// 대기상태(적탐지상태)
+	// 적탐지상태(최초 적이 룸에 진입체크상태)
+	State_.CreateState("Tainted_ROOMDETECT", std::bind(&Tainted::UpdateRoomDetect, this), std::bind(&Tainted::StartRoomDetect, this), std::bind(&Tainted::EndRoomDetect, this));
+
+	// 대기상태
 	State_.CreateState("Tainted_IDLE", std::bind(&Tainted::UpdateIdle, this), std::bind(&Tainted::StartIdle, this), std::bind(&Tainted::EndIdle, this));
 
-	// 적감지상태
-	State_.CreateState("Tainted_DETECT", std::bind(&Tainted::UpdateEnemyDetect, this), std::bind(&Tainted::StartEnemyDetect, this), std::bind(&Tainted::EndEnemyDetect, this));
-
-	// 이동상태
+	// 이동상태(적감지상태)
 	State_.CreateState("Tainted_MOVE", std::bind(&Tainted::UpdateMove, this), std::bind(&Tainted::StartMove, this), std::bind(&Tainted::EndMove, this));
 
 	// 기본공격상태
@@ -153,10 +162,10 @@ void Tainted::CreateFSMState()
 	State_.CreateState("Tainted_DEATH", std::bind(&Tainted::UpdateDeath, this), std::bind(&Tainted::StartDeath, this), std::bind(&Tainted::EndDeath, this));
 
 	// 시체상태
-	State_.CreateState("Tainted_DEATH", std::bind(&Tainted::UpdateDead, this), std::bind(&Tainted::StartDead, this), std::bind(&Tainted::EndDead, this));
+	State_.CreateState("Tainted_DEAD", std::bind(&Tainted::UpdateDead, this), std::bind(&Tainted::StartDead, this), std::bind(&Tainted::EndDead, this));
 
 	// 초기상태 지정
-	State_.ChangeState("Tainted_IDLE");
+	State_.ChangeState("Tainted_ROOMDETECT");
 }
 
 void Tainted::CreateCollision()
