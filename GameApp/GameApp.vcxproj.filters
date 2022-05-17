@@ -320,6 +320,12 @@
     <ClCompile Include="MonsterTopHPBar.cpp">
       <Filter>Object\Actor\00.Global\06.TopHPBar</Filter>
     </ClCompile>
+    <ClCompile Include="SummonsGolem.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\00.Golem</Filter>
+    </ClCompile>
+    <ClCompile Include="SummonsGolem_Create.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\00.Golem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -1022,6 +1028,9 @@
     </ClInclude>
     <ClInclude Include="MonsterTopHPBar.h">
       <Filter>Object\Actor\00.Global\06.TopHPBar</Filter>
+    </ClInclude>
+    <ClInclude Include="SummonsGolem.h">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\00.Golem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

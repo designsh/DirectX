@@ -169,6 +169,19 @@ bool MainPlayerInfomation::PlayerLeftSkillUseCheck(int _SkillCode)
 	return UseFlag;
 }
 
+void MainPlayerInfomation::GetSkillInfo(int _SkillCode, SkillList& _SkillInfo)
+{
+	int SkillCnt = static_cast<int>(MainPlayerInfo_.SkillInfo.size());
+	for (int i = 0; i < SkillCnt; ++i)
+	{
+		if (_SkillCode == MainPlayerInfo_.SkillInfo[i].SkillCode)
+		{
+			_SkillInfo = MainPlayerInfo_.SkillInfo[i];
+			return;
+		}
+	}
+}
+
 void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType)
 {
 	// 캐릭터생성화면에서 메인플레이어 정보를 생성

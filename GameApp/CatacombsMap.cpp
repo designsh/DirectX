@@ -697,9 +697,9 @@ void CatacombsMap::CurLevelActorRoomArrange()
 				//NewSpikeFiend->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
 				//SpikeFiendList_.push_back(NewSpikeFiend);
 
-				// Tainted
+				// Tainted - 220518 SJH 테스트용 생성
 				Tainted* NewTainted = GetLevel()->CreateActor<Tainted>();
-				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_ + TileIndex(2, 2)));
 				NewTainted->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
 				NewTainted->SpawnToDeath();
 				TaintedList_.push_back(NewTainted);

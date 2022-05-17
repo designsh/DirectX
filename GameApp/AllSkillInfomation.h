@@ -5,8 +5,8 @@
 struct AllSkillInfo
 {
 	std::string							ClassName;			// 클래스명(직업명) : 영어
-	JobType								ClassType;				// 클래스(직업 타입)
-	std::vector<SkillList>		SkillList;					// 클래스별 스킬목록
+	JobType								ClassType;			// 클래스(직업 타입)
+	std::vector<SkillList>				SkillList;			// 클래스별 스킬목록
 };
 
 // 분류 : 정보

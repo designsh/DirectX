@@ -267,27 +267,22 @@ void MainPlayer::SkillAttackAnimationEnd()
 	// 현재 선택된 오른쪽무기스킬에 따라 스킬 시전 후 대기 상태 전환
 	switch (CurRightSkill_)
 	{
-		case 0: // 기본공격
-		{
-
-			break;
-		}
 		case 75: // ClayGolem 소환
 		case 85: // BloodGolem 소환
 		case 90: // IronGolem 소환
 		case 94: // FireGolem 소환
 		{
-
+			GolemSummons();
 			break;
 		}
 		case 70: // Skeleton(전사타입) 소환
 		{
-
+			SkeletonWarriorSummons();
 			break;
 		}
 		case 80: // Skeleton(마법사타입) 소환
 		{
-
+			SkeletonWizardSummons();
 			break;
 		}
 	}
@@ -301,27 +296,22 @@ void MainPlayer::SkillCastingAnimationEnd()
 	// 현재 선택된 오른쪽무기스킬에 따라 스킬 시전 후 대기 상태 전환
 	switch (CurRightSkill_)
 	{
-		case 0: // 기본공격
-		{
-
-			break;
-		}
 		case 75: // ClayGolem 소환
 		case 85: // BloodGolem 소환
 		case 90: // IronGolem 소환
 		case 94: // FireGolem 소환
 		{
-
+			GolemSummons();
 			break;
 		}
 		case 70: // Skeleton(전사타입) 소환
 		{
-
+			SkeletonWarriorSummons();
 			break;
 		}
 		case 80: // Skeleton(마법사타입) 소환
 		{
-
+			SkeletonWizardSummons();
 			break;
 		}
 	}

@@ -301,6 +301,9 @@ public:
 public:
 	bool PlayerLeftSkillUseCheck(int _SkillCode);
 
+public:
+	void GetSkillInfo(int _SkillCode, SkillList& _SkillInfo);
+
 public: // CreateMainPlayerInfo : 캐릭터생성화면에서 생성하여 해당 정보 파일로 저장한 후 생성
 	void CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType);										// 메인플레이어 정보 초기생성
 	MainPlayerInfo InformationByClass(JobType _JobType);															// 클래스별 스탯정보 생성

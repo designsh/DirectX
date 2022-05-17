@@ -22,17 +22,23 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+// 맵 관련
+#include "TownMap.h"
+#include "CatacombsMap.h"
+
+// NPC 관련
 #include "WeaponNPC.h"
 #include "ChandleryNPC.h"
 #include "NPC_TopMenuBar.h"
 #include "NPC_BuySellView.h"
 
+// 오브젝트 관련
 #include "Portal.h"
 #include "Storehouse.h"
 #include "StoreView.h"
 
-#include "TownMap.h"
-#include "CatacombsMap.h"
+// 소환수관련
+#include "SummonsGolem.h"
 
 int MainPlayer::ArrangeRoomNo_ = -1;
 int MainPlayer::CurLeftSkill_ = 0;
@@ -51,6 +57,8 @@ MainPlayer::MainPlayer() :
 	IsMove_(false),
 	IsDefaultZOrderChangeChk_(false),
 	IsFrameZOrderChangeChk_(false),
+	SkillCastPos_(float4::ZERO),
+	SummonsGolem_(nullptr),
 	CurHP_(100),
 	CurMP_(100),
 	PrevEXP_(0),
@@ -595,48 +603,67 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 	// 마우스 오른쪽버튼
 	if (true == GameEngineInput::GetInst().Down("MouseRButton"))
 	{
-		// 마을에서 사용 불가
-		if (false == IsTown_)
+		if (nullptr != GlobalValue::CurMouse)
 		{
-			// 현재 선택된 스킬이 기본공격이아니라면 스킬공격 모션으로 전환
-			if (0 != CurRightSkill_)
+			// 마을에서 사용 불가
+			if (false == IsTown_)
 			{
-				ChangeFSMState("Special_Attack");
+				// 스킬시전 위치 저장
+				SkillCastPos_ = GlobalValue::CurMouse->GetTransform()->GetWorldPosition() + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+
+				// 현재 선택된 스킬이 기본공격이아니라면 스킬공격 모션으로 전환
+				if (0 != CurRightSkill_)
+				{
+					// 스킬공격 모션 종료시 현재 선택된 스킬 시전
+					ChangeFSMState("Special_Attack");
+				}
 			}
 		}
 	}
 }
 
-void MainPlayer::GolemSummons(const float4& _MouseClickPos)
+void MainPlayer::GolemSummons()
 {
 	// 스킬별 소환 골렘이 달라짐
 	// 단, 어떠한 타입의 골렘이든 한개의 골렘만 가짐
+	
+	// 현재 소환된 골렘이 존재한다면 해당 골렘을 먼저 죽인다.
+	if (nullptr != SummonsGolem_)
+	{
+		SummonsGolem_->CurGolemDeath();
+		SummonsGolem_ = nullptr;
+	}
+
 	switch (CurRightSkill_)
 	{
 		case 75: // ClayGolem 소환
 		{
-
+			SummonsGolem_ = GetLevel()->CreateActor<SummonsGolem>();
+			SummonsGolem_->SpawnGolem(GolemType::CLAY, SkillCastPos_);
 			break;
 		}
 		case 85: // BloodGolem 소환
 		{
-
+			SummonsGolem_ = GetLevel()->CreateActor<SummonsGolem>();
+			SummonsGolem_->SpawnGolem(GolemType::BLOOD, SkillCastPos_);
 			break;
 		}
 		case 90: // IronGolem 소환
 		{
-
+			SummonsGolem_ = GetLevel()->CreateActor<SummonsGolem>();
+			SummonsGolem_->SpawnGolem(GolemType::IRON, SkillCastPos_);
 			break;
 		}
 		case 94: // FireGolem 소환
 		{
-
+			SummonsGolem_ = GetLevel()->CreateActor<SummonsGolem>();
+			SummonsGolem_->SpawnGolem(GolemType::FIRE, SkillCastPos_);
 			break;
 		}
 	}
 }
 
-void MainPlayer::SkeletonWarriorSummons(const float4& _MouseClickPos)
+void MainPlayer::SkeletonWarriorSummons()
 {
 	// 현재 마우스가 몬스터와 충돌중이고, 해당 몬스터가 시체상태일때 시전 가능 판정
 
@@ -647,7 +674,7 @@ void MainPlayer::SkeletonWarriorSummons(const float4& _MouseClickPos)
 	}
 }
 
-void MainPlayer::SkeletonWizardSummons(const float4& _MouseClickPos)
+void MainPlayer::SkeletonWizardSummons()
 {
 	// 현재 마우스가 몬스터와 충돌중이고, 해당 몬스터가 시체상태일때 시전 가능 판정
 

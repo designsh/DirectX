@@ -142,6 +142,7 @@ class InventoryView;
 class GameEndMenuView;
 class GameEngineImageRenderer;
 class GameEngineLevel;
+class SummonsGolem;
 class MainPlayer : public GameEngineActor
 {
 public:
@@ -183,6 +184,8 @@ private: // 플레이어 아이템착용관련 Flag
 
 #pragma region 소환스킬로 소환된 소환수관련
 private:
+	float4 SkillCastPos_;									// 스킬 시전 마우스 클릭지점
+	SummonsGolem* SummonsGolem_;							// 골렘(타입에 관계없이 1개의 골렘만을 소환가능)
 
 
 #pragma endregion
@@ -539,9 +542,9 @@ private:
 
 #pragma region 소환스킬
 private:
-	void GolemSummons(const float4& _MouseClickPos);
-	void SkeletonWarriorSummons(const float4& _MouseClickPos);
-	void SkeletonWizardSummons(const float4& _MouseClickPos);
+	void GolemSummons();
+	void SkeletonWarriorSummons();
+	void SkeletonWizardSummons();
 #pragma endregion
 
 #pragma region 애니메이션종료시점호출함수
