@@ -386,6 +386,17 @@ private: // 애니메이션 생성관련
 	void CreateTWAnimation();						// 마을_걷기모션
 	void CreateWLAnimation();						// 필드_걷기모션
 
+private: // 특정 애니메이션 종료시점 호출함수 등록
+	void SetAnimationEnd();
+	void SetAttack1AnimationEnd();
+	void SetAttack2AnimationEnd();
+	void SetBlockAnimationEnd();
+	void SetDeathAnimationEnd();
+	void SetGetHitAnimationEnd();
+	void SetKickAnimationEnd();
+	void SetSkillAttackAnimationEnd();
+	void SetSkillCastingAnimationEnd();
+
 private: // FSM 생성 및 상태이름 
 	void CreatePlayerStateFSM();					// FSM 상태 생성
 
@@ -525,6 +536,18 @@ private:
 	void GolemSummons(int _SkillCode, const float4& _MouseClickPos);
 	void SkeletonWarriorSummons(int _SkillCode, const float4& _MouseClickPos);
 	void SkeletonWizardSummons(int _SkillCode, const float4& _MouseClickPos);
+#pragma endregion
+
+#pragma region 애니메이션종료시점호출함수
+private:
+	void Attack1AnimationEnd();
+	void Attack2AnimationEnd();
+	void BlockAnimationEnd();
+	void DeathAnimationEnd();
+	void GetHitAnimationEnd();
+	void KickAnimationEnd();
+	void SkillAttackAnimationEnd();
+	void SkillCastingAnimationEnd();
 #pragma endregion
 };
 

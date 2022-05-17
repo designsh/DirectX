@@ -638,7 +638,7 @@ void MainPlayer::GolemSummons(int _SkillCode, const float4& _MouseClickPos)
 void MainPlayer::SkeletonWarriorSummons(int _SkillCode, const float4& _MouseClickPos)
 {
 	// 스켈텔론(전사) 소환
-	if (_SkillCode == 0)
+	if (_SkillCode == 70)
 	{
 
 	}
@@ -647,7 +647,7 @@ void MainPlayer::SkeletonWarriorSummons(int _SkillCode, const float4& _MouseClic
 void MainPlayer::SkeletonWizardSummons(int _SkillCode, const float4& _MouseClickPos)
 {
 	// 스켈텔론(마법사) 소환
-	if (_SkillCode == 0)
+	if (_SkillCode == 80)
 	{
 
 	}

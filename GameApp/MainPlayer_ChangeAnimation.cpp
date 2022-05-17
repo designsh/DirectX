@@ -224,3 +224,45 @@ bool MainPlayer::RenderDirectCheck(std::string& _AnimationName)
 
 	return true;
 }
+
+// 각 애니메이션 종료 시점 호출 함수
+void MainPlayer::Attack1AnimationEnd()
+{
+
+}
+
+void MainPlayer::Attack2AnimationEnd()
+{
+
+}
+
+void MainPlayer::BlockAnimationEnd()
+{
+
+}
+
+void MainPlayer::DeathAnimationEnd()
+{
+
+}
+
+void MainPlayer::GetHitAnimationEnd()
+{
+
+}
+
+void MainPlayer::KickAnimationEnd()
+{
+
+}
+
+void MainPlayer::SkillAttackAnimationEnd()
+{
+
+}
+
+void MainPlayer::SkillCastingAnimationEnd()
+{
+
+}
+

@@ -46,6 +46,9 @@ void MainPlayer::CreateAnimation()
 	CreateTNAnimation();
 	CreateTWAnimation();
 	CreateWLAnimation();
+
+	// 각 애니메이션의 종료시점 호출함수 셋팅
+	SetAnimationEnd();
 }
 
 void MainPlayer::CreateA1Animation()
@@ -2016,4 +2019,1160 @@ void MainPlayer::CreateWLAnimation()
 	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->CreateAnimation("HVY_Walk_Field_SH.png", "HVY_Walk_Field_SH_L", 40, 47, 0.1f);
 	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->CreateAnimation("HVY_Walk_Field_SH.png", "HVY_Walk_Field_SH_T", 48, 55, 0.1f);
 	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->CreateAnimation("HVY_Walk_Field_SH.png", "HVY_Walk_Field_SH_R", 56, 63, 0.1f);
+}
+
+void MainPlayer::SetAnimationEnd()
+{
+	// 공격모션 1
+	SetAttack1AnimationEnd();
+
+	// 공격모션 2
+	SetAttack2AnimationEnd();
+
+	// 방어모션 
+	SetBlockAnimationEnd();
+
+	// 사망모션
+	SetDeathAnimationEnd();
+	
+	// 피격모션
+	SetGetHitAnimationEnd();
+
+	// 킥모션
+	SetKickAnimationEnd();
+
+	// 스킬공격모션
+	SetSkillAttackAnimationEnd();
+	
+	// 스킬캐스팅모션
+	SetSkillCastingAnimationEnd();
+}
+
+void MainPlayer::SetAttack1AnimationEnd()
+{
+	// =============================== LIT =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_HD_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_HD_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_HD_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_HD_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_HD_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_HD_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_HD_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_HD_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LA_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LA_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LA_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LA_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LA_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LA_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LA_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LA_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LG_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LG_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LG_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LG_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LG_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LG_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LG_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_LG_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RA_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RA_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RA_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RA_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RA_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RA_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RA_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RA_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RH_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RH_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RH_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RH_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RH_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RH_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RH_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_RH_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S1_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S1_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S1_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S1_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S1_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S1_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S1_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S1_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S2_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S2_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S2_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S2_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S2_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S2_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S2_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_S2_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_TR_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_TR_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_TR_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_TR_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_TR_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_TR_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_TR_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack1_TR_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	// =============================== HVY =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_HD_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_HD_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_HD_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_HD_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_HD_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_HD_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_HD_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_HD_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LA_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LA_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LA_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LA_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LA_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LA_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LA_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LA_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LG_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LG_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LG_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LG_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LG_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LG_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LG_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_LG_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RA_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RA_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RA_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RA_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RA_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RA_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RA_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RA_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RH_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RH_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RH_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RH_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RH_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RH_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RH_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_RH_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S1_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S1_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S1_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S1_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S1_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S1_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S1_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S1_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S2_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S2_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S2_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S2_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S2_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S2_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S2_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_S2_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_TR_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_TR_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_TR_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_TR_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_TR_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_TR_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_TR_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_TR_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_SH_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_SH_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_SH_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_SH_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_SH_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_SH_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_SH_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack1_SH_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+}
+
+void MainPlayer::SetAttack2AnimationEnd()
+{
+	// =============================== LIT =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_HD_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_HD_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_HD_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_HD_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_HD_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_HD_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_HD_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_HD_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LA_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LA_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LA_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LA_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LA_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LA_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LA_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LA_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LG_LB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LG_LT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LG_RT", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LG_RB", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LG_B", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LG_L", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LG_T", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_LG_R", std::bind(&MainPlayer::Attack1AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RA_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RA_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RA_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RA_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RA_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RA_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RA_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RA_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RH_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RH_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RH_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RH_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RH_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RH_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RH_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_RH_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S1_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S1_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S1_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S1_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S1_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S1_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S1_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S1_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S2_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S2_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S2_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S2_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S2_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S2_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S2_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_S2_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_TR_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_TR_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_TR_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_TR_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_TR_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_TR_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_TR_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Attack2_TR_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	// =============================== HVY =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_HD_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_HD_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_HD_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_HD_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_HD_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_HD_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_HD_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_HD_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LA_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LA_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LA_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LA_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LA_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LA_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LA_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LA_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LG_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LG_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LG_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LG_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LG_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LG_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LG_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_LG_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RA_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RA_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RA_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RA_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RA_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RA_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RA_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RA_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RH_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RH_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RH_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RH_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RH_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RH_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RH_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_RH_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S1_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S1_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S1_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S1_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S1_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S1_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S1_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S1_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S2_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S2_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S2_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S2_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S2_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S2_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S2_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_S2_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_TR_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_TR_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_TR_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_TR_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_TR_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_TR_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_TR_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_TR_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_SH_LB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_SH_LT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_SH_RT", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_SH_RB", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_SH_B", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_SH_L", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_SH_T", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Attack2_SH_R", std::bind(&MainPlayer::Attack2AnimationEnd, this));
+}
+
+void MainPlayer::SetBlockAnimationEnd()
+{
+	// =============================== LIT =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_HD_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_HD_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_HD_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_HD_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_HD_B",  std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_HD_L",  std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_HD_T",  std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_HD_R",  std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LA_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LA_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LA_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LA_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LA_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LA_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LA_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LA_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LG_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LG_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LG_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LG_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LG_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LG_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LG_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_LG_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RA_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RA_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RA_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RA_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RA_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RA_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RA_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RA_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RH_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RH_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RH_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RH_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RH_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RH_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RH_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_RH_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S1_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S1_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S1_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S1_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S1_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S1_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S1_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S1_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S2_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S2_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S2_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S2_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S2_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S2_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S2_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_S2_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_TR_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_TR_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_TR_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_TR_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_TR_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_TR_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_TR_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Block_TR_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	// =============================== HVY =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_HD_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_HD_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_HD_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_HD_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_HD_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_HD_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_HD_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_HD_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LA_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LA_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LA_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));;
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LA_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));;
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LA_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LA_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LA_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LA_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LG_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LG_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LG_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LG_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LG_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LG_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LG_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_LG_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RA_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RA_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RA_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RA_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RA_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RA_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RA_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RA_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RH_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RH_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RH_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RH_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RH_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RH_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RH_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_RH_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S1_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S1_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S1_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S1_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S1_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S1_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S1_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S1_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S2_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S2_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S2_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S2_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S2_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S2_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S2_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_S2_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_TR_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_TR_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_TR_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_TR_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_TR_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_TR_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_TR_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_TR_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_SH_LB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_SH_LT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_SH_RT", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_SH_RB", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_SH_B", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_SH_L", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_SH_T", std::bind(&MainPlayer::BlockAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Block_SH_R", std::bind(&MainPlayer::BlockAnimationEnd, this));
+}
+
+void MainPlayer::SetDeathAnimationEnd()
+{
+	// =============================== LIT =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Death_TR_LB", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Death_TR_LT", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Death_TR_RT", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Death_TR_RB", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Death_TR_B", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Death_TR_L", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Death_TR_T", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Death_TR_R", std::bind(&MainPlayer::DeathAnimationEnd, this));
+
+	// =============================== HVY =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Death_TR_LB", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Death_TR_LT", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Death_TR_RT", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Death_TR_RB", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Death_TR_B", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Death_TR_L", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Death_TR_T", std::bind(&MainPlayer::DeathAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Death_TR_R", std::bind(&MainPlayer::DeathAnimationEnd, this));
+}
+
+void MainPlayer::SetGetHitAnimationEnd()
+{
+	// =============================== LIT =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_HD_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_HD_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_HD_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_HD_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_HD_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_HD_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_HD_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_HD_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LA_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LA_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LA_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LA_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LA_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LA_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LA_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LA_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LG_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LG_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LG_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LG_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LG_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LG_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LG_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_LG_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RA_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RA_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RA_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RA_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RA_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RA_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RA_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RA_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RH_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RH_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RH_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RH_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RH_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RH_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RH_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_RH_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S1_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S1_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S1_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S1_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S1_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S1_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S1_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S1_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S2_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S2_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S2_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S2_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S2_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S2_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S2_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_S2_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_TR_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_TR_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_TR_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_TR_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_TR_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_TR_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_TR_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Gethit_TR_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	// =============================== HVY =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_HD_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_HD_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_HD_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_HD_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_HD_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_HD_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_HD_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_HD_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LA_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LA_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LA_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LA_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LA_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LA_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LA_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LA_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LG_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LG_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LG_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LG_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LG_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LG_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LG_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_LG_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RA_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RA_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RA_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RA_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RA_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RA_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RA_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RA_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RH_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RH_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RH_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RH_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RH_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RH_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RH_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_RH_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S1_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S1_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S1_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S1_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S1_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S1_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S1_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S1_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S2_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S2_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S2_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S2_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S2_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S2_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S2_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_S2_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_TR_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_TR_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_TR_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_TR_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_TR_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_TR_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_TR_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_TR_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_SH_LB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_SH_LT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_SH_RT", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_SH_RB", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_SH_B", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_SH_L", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_SH_T", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Gethit_SH_R", std::bind(&MainPlayer::GetHitAnimationEnd, this));
+}
+
+void MainPlayer::SetKickAnimationEnd()
+{
+	// =============================== LIT =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_HD_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_HD_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_HD_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_HD_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_HD_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_HD_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_HD_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_HD_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LA_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LA_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LA_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LA_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LA_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LA_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LA_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LA_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LG_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LG_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LG_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LG_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LG_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LG_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LG_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_LG_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RA_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RA_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RA_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RA_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RA_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RA_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RA_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RA_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RH_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RH_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RH_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RH_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RH_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RH_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RH_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_RH_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S1_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S1_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S1_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S1_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S1_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S1_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S1_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S1_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S2_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S2_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S2_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S2_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S2_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S2_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S2_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_S2_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_TR_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_TR_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_TR_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_TR_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_TR_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_TR_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_TR_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Kick_TR_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	// =============================== HVY =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_HD_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_HD_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_HD_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_HD_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_HD_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_HD_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_HD_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_HD_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LA_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LA_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LA_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LA_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LA_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LA_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LA_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LA_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LG_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LG_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LG_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LG_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LG_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LG_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LG_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_LG_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RA_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RA_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RA_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RA_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RA_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RA_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RA_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RA_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RH_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RH_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RH_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RH_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RH_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RH_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RH_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_RH_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S1_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S1_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S1_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S1_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S1_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S1_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S1_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S1_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S2_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S2_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S2_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S2_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S2_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S2_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S2_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_S2_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_TR_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_TR_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_TR_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_TR_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_TR_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_TR_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_TR_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_TR_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_SH_LB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_SH_LT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_SH_RT", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_SH_RB", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_SH_B", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_SH_L", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_SH_T", std::bind(&MainPlayer::KickAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Kick_SH_R", std::bind(&MainPlayer::KickAnimationEnd, this));
+}
+
+void MainPlayer::SetSkillAttackAnimationEnd()
+{
+	// =============================== LIT =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_HD_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_HD_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_HD_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_HD_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_HD_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_HD_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_HD_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_HD_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LA_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LA_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LA_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LA_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LA_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LA_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LA_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LA_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LG_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LG_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LG_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LG_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LG_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LG_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LG_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_LG_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RA_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RA_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RA_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RA_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RA_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RA_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RA_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RA_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RH_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RH_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RH_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RH_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RH_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RH_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RH_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_RH_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S1_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S1_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S1_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S1_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S1_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S1_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S1_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S1_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S2_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S2_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S2_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S2_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S2_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S2_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S2_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_S2_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_TR_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_TR_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_TR_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_TR_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_TR_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_TR_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_TR_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Attack_TR_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	// =============================== HVY =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_HD_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_HD_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_HD_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_HD_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_HD_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_HD_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_HD_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_HD_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LA_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LA_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LA_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LA_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LA_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LA_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LA_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LA_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LG_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LG_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LG_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LG_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LG_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LG_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LG_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_LG_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RA_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RA_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RA_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RA_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RA_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RA_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RA_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RA_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RH_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RH_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RH_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RH_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RH_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RH_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RH_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_RH_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S1_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S1_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S1_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S1_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S1_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S1_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S1_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S1_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S2_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S2_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S2_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S2_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S2_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S2_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S2_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_S2_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_TR_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_TR_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_TR_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_TR_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_TR_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_TR_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_TR_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_TR_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_SH_LB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_SH_LT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_SH_RT", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_SH_RB", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_SH_B", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_SH_L", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_SH_T", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Attack_SH_R", std::bind(&MainPlayer::SkillAttackAnimationEnd, this));
+}
+
+void MainPlayer::SetSkillCastingAnimationEnd()
+{
+	// =============================== LIT =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_HD_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_HD_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_HD_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_HD_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_HD_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_HD_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_HD_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_HD_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LA_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LA_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LA_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LA_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LA_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LA_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LA_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LA_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LG_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LG_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LG_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LG_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LG_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LG_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LG_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_LG_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RA_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RA_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RA_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RA_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RA_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RA_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RA_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RA_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RH_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RH_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RH_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RH_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RH_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RH_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RH_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_RH_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S1_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S1_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S1_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S1_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S1_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S1_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S1_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S1_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S2_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S2_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S2_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S2_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S2_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S2_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S2_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_S2_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_TR_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_TR_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_TR_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_TR_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_TR_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_TR_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_TR_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->SetEndCallBack("LIT_Special_Cast_TR_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	// =============================== HVY =============================== //
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_HD_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_HD_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_HD_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_HD_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_HD_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_HD_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_HD_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_HD)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_HD_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LA_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LA_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LA_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LA_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LA_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LA_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LA_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LA_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LG_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LG_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LG_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LG_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LG_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LG_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LG_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_LG)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_LG_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RA_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RA_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RA_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RA_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RA_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RA_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RA_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RA)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RA_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RH_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RH_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RH_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RH_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RH_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RH_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RH_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_RH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_RH_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S1_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S1_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S1_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S1_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S1_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S1_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S1_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S1)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S1_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S2_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S2_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S2_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S2_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S2_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S2_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S2_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_S2)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_S2_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_TR_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_TR_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_TR_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_TR_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_TR_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_TR_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_TR_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_TR)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_TR_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_SH_LB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_SH_LT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_SH_RT", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_SH_RB", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_SH_B", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_SH_L", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_SH_T", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
+	PartRenderer_[static_cast<int>(RendererPartType::PART_SH)].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->SetEndCallBack("HVY_Special_Cast_SH_R", std::bind(&MainPlayer::SkillCastingAnimationEnd, this));
 }

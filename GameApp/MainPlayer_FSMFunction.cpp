@@ -576,9 +576,6 @@ void MainPlayer::UpdateSkillAttack()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
-
 }
 
 void MainPlayer::EndSkillAttack()
@@ -607,7 +604,7 @@ void MainPlayer::UpdateSkillCasting()
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
 
-	// 현재 선택된 오른쪽무기 스킬에 의해 처리(기본공격 제외)
+	
 
 
 
