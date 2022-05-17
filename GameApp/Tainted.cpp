@@ -10,16 +10,16 @@
 
 #include "CatacombsMap.h"
 
-int Tainted::TantedCnt = 0;
+int Tainted::TaintedCnt = 0;
 
 Tainted::Tainted() :
+	MouseColStart_(false),
 	MonsterInfo_{},
 	SpawnTile_(),
 	SpawnRoomNo_(-1),
 	NavigationIndex_(-1),
 	Tainted_(nullptr),
 	BodyCollider_(nullptr),
-	AttackCollider_(nullptr),
 	State_(),
 	TargetPos_(float4::ZERO),
 	CurPos_(float4::ZERO),
@@ -29,10 +29,13 @@ Tainted::Tainted() :
 	RoomDetect_(false),
 	PrevState_(Tainted_FSMState::ST_IDLE),
 	CurState_(Tainted_FSMState::ST_IDLE),
-	SkillDelayTime_(20.f)
+	SkillDelayTime_(20.f),
+	CurHP_(0),
+	MapHP_(0),
+	DropGold_(0)
 {
-	NavigationIndex_ = TantedCnt;
-	++TantedCnt;
+	NavigationIndex_ = TaintedCnt;
+	++TaintedCnt;
 }
 
 Tainted::~Tainted()
@@ -47,11 +50,24 @@ void Tainted::Start()
 
 void Tainted::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(BodyCollider_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
+	// 상태 갱신
 	State_.Update();
 
 	// Z Order 갱신
 	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 55.f));
-	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 15.f);
+
+	// 충돌체 위치 갱신
+	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	BodyCollider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+
+	// 충돌처리
+	BodyCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&Tainted::MouseCollision, this, std::placeholders::_1), std::bind(&Tainted::MouseCollisionEnd, this, std::placeholders::_1));
 }
 
 void Tainted::SetEnemyDetectionList(int _SpawnRoomNo)
@@ -85,4 +101,22 @@ void Tainted::SetEnemyDetectionList(int _SpawnRoomNo)
 			WallTileIndex.Y_ += 1;
 		}
 	}
+}
+
+void Tainted::GetHitDamage(int _Damage)
+{
+	CurHP_ -= _Damage;
+	if (0 >= CurHP_)
+	{
+		CurHP_ = 0;
+		State_.ChangeState("Tainted_DEATH");
+	}
+}
+
+void Tainted::SpawnToDeath()
+{
+	// 스킬시전용으로 사용하려는 시체로 생성
+	// => 스폰과 동시에 사망처리
+	CurHP_ = 0;
+	State_.ChangeState("Tainted_DEATH");
 }

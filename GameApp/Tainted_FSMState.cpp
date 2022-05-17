@@ -160,7 +160,8 @@ void Tainted::SetCheckTileList(TileIndex _CurTileIndex)
 	CheckTileList_.clear();
 
 	// 적감지 체크타일목록 작성(현재타일의 +- 8)
-	for (int i = 1; i <= 8; ++i)
+	CheckTileList_.insert(std::make_pair((_CurTileIndex).Index_, Tainted_TileCheckType::MOVE));								// 본인위치 타일포함
+	for (int i = 1; i <= 10; ++i)
 	{
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( 0,  i)).Index_, Tainted_TileCheckType::MOVE));		// 좌단
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex(-i,  i)).Index_, Tainted_TileCheckType::MOVE));		// 좌상단
@@ -173,16 +174,17 @@ void Tainted::SetCheckTileList(TileIndex _CurTileIndex)
 	}
 
 	// 일반공격 체크타일목록 작성(현재타일의 +- 1)
+	CheckTileList_.find((_CurTileIndex).Index_)->second = Tainted_TileCheckType::ATTACK;								// 본인위치 타일포함
 	for (int i = 1; i <= 1; ++i)
 	{
-		CheckTileList_.find((_CurTileIndex + TileIndex( 0,  i)).Index_)->second = Tainted_TileCheckType::NORMALATTACK;		// 좌단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i,  i)).Index_)->second = Tainted_TileCheckType::NORMALATTACK;		// 좌상단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i,  0)).Index_)->second = Tainted_TileCheckType::NORMALATTACK;		// 상단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i, -i)).Index_)->second = Tainted_TileCheckType::NORMALATTACK;		// 우상단
-		CheckTileList_.find((_CurTileIndex + TileIndex( 0, -i)).Index_)->second = Tainted_TileCheckType::NORMALATTACK;		// 우단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i, -i)).Index_)->second = Tainted_TileCheckType::NORMALATTACK;		// 우하단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i,  0)).Index_)->second = Tainted_TileCheckType::NORMALATTACK;		// 하단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i,  i)).Index_)->second = Tainted_TileCheckType::NORMALATTACK;		// 좌하단
+		CheckTileList_.find((_CurTileIndex + TileIndex( 0,  i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 좌단
+		CheckTileList_.find((_CurTileIndex + TileIndex(-i,  i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 좌상단
+		CheckTileList_.find((_CurTileIndex + TileIndex(-i,  0)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 상단
+		CheckTileList_.find((_CurTileIndex + TileIndex(-i, -i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 우상단
+		CheckTileList_.find((_CurTileIndex + TileIndex( 0, -i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 우단
+		CheckTileList_.find((_CurTileIndex + TileIndex( i, -i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 우하단
+		CheckTileList_.find((_CurTileIndex + TileIndex( i,  0)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 하단
+		CheckTileList_.find((_CurTileIndex + TileIndex( i,  i)).Index_)->second = Tainted_TileCheckType::ATTACK;		// 좌하단
 	}
 }
 
@@ -198,7 +200,7 @@ void Tainted::CheckChangeState(TileIndex _PlayerTileIndex)
 	{
 		State_.ChangeState("Tainted_MOVE");
 	}
-	else if (Tainted_TileCheckType::NORMALATTACK == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
+	else if (Tainted_TileCheckType::ATTACK == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
 	{
 		State_.ChangeState("Tainted_ATTACK");
 	}
@@ -303,9 +305,6 @@ void Tainted::StartMove()
 
 void Tainted::UpdateMove()
 {
-	// 타겟 위치까지 이동
-	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
-
 	// 현재 경로 타겟위치까지 이동 완료시
 	if (MoveTargetIndex_.Index_ == GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition()).Index_)
 	{
@@ -333,6 +332,9 @@ void Tainted::UpdateMove()
 			return;
 		}
 	}
+
+	// 타겟 위치까지 이동
+	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 }
 
 void Tainted::EndMove()
@@ -349,14 +351,15 @@ void Tainted::StartNormalAttack()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Tainted_FSMState::ST_NORMALATTACK;
+
+	// 타겟의 본체 충돌체와 나의 공격충돌체가 충돌하고있었다면 타겟에게 데미지를 입힌다.
+	
 }
 
 void Tainted::UpdateNormalAttack()
 {
-	// 타겟 공격
+	
 
-
-	// 타겟 체력 소모
 
 }
 
@@ -382,9 +385,6 @@ void Tainted::UpdateGetHit()
 
 void Tainted::EndGetHit()
 {
-	// 현재 몬스터 체력 소모
-
-	// 
 }
 
 // 사망상태
@@ -420,8 +420,6 @@ void Tainted::StartDead()
 
 void Tainted::UpdateDead()
 {
-	// 마우스와 충돌상태이며, 플레이어가 해당 시체에 소환스킬 시전시 해당 몬스터는 완전한 사망
-
 }
 
 void Tainted::EndDead()
@@ -432,12 +430,6 @@ void Tainted::EndDead()
 #pragma region 애니메이션종료시점호출함수
 
 void Tainted::NormalAttackEnd()
-{
-	// 대기상태로 전환
-	State_.ChangeState("Tainted_IDLE");
-}
-
-void Tainted::SkillAttackEnd()
 {
 	// 대기상태로 전환
 	State_.ChangeState("Tainted_IDLE");

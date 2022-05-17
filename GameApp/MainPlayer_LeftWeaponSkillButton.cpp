@@ -272,6 +272,7 @@ void MainPlayer_LeftWeaponSkillButton::CurSkillChange(int _SkillID, const std::s
 
 	// 현재 선택된 스킬코드 저장
 	CurSkillCode_ = _SkillID;
+	GlobalValue::CurPlayer->CurLeftSkill_ = CurSkillCode_;
 
 	// 텍스쳐 이름 편집
 	std::string DefaultTexture = _TextureName;

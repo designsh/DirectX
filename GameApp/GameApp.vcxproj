@@ -228,6 +228,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MonsterTopHPBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Portal.cpp">
       <SubType>
       </SubType>
@@ -326,6 +330,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Tainted_Collision.cpp" />
     <ClCompile Include="Tainted_Create.cpp" />
     <ClCompile Include="Tainted_FSMState.cpp" />
     <ClCompile Include="TakeInOutGoldPopup.cpp">
@@ -569,6 +574,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainPlayer_WeaponSkillButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MonsterTopHPBar.h">
       <SubType>
       </SubType>
     </ClInclude>

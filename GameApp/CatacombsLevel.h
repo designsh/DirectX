@@ -7,6 +7,7 @@
 class MainPlayer;
 class MouseObject;
 class CatacombsMap;
+class MonsterTopHPBar;
 class CatacombsLevel : public GameEngineLevel
 {
 private:
@@ -16,6 +17,9 @@ private:	// member Var
 	CatacombsMap* CatacombsMap_;
 	MainPlayer* MainPlayer_;
 	MouseObject* MainMouse_;
+
+private:
+	MonsterTopHPBar* TopHPBar_;
 
 public:
 	CatacombsLevel();

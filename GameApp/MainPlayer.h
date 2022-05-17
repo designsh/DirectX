@@ -146,6 +146,8 @@ class MainPlayer : public GameEngineActor
 {
 public:
 	static int ArrangeRoomNo_;
+	static int CurLeftSkill_;								// 현재 왼쪽무기 스킬목록
+	static int CurRightSkill_;								// 현재 오른쪽무기 스킬목록
 
 #pragma region PlayerFlag
 private: // 플레이어상태관련 Flag
@@ -191,7 +193,6 @@ private:
 	int CurLevel_;											// 플레이어 현재 레벨
 
 	int HaveGold_;											// 플레이어 현재 보유골드량
-
 #pragma endregion
 
 #pragma region PlayerFSMState

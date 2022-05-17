@@ -314,6 +314,12 @@
     <ClCompile Include="Tainted_FSMState.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted</Filter>
     </ClCompile>
+    <ClCompile Include="Tainted_Collision.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterTopHPBar.cpp">
+      <Filter>Object\Actor\00.Global\06.TopHPBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -769,8 +775,8 @@
     <Filter Include="Object\Level\07.EndingLevel">
       <UniqueIdentifier>{8a25709c-464f-4d3c-bb69-09b18a1ac49d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted\00.TaintedSkill">
-      <UniqueIdentifier>{65b1b6f6-92c2-44c8-aac3-155f900350fa}</UniqueIdentifier>
+    <Filter Include="Object\Actor\00.Global\06.TopHPBar">
+      <UniqueIdentifier>{416bb0f3-da97-4196-833b-8fd4c2d62f0b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1037,6 +1043,9 @@
     </ClInclude>
     <ClInclude Include="CatacombsMap.h">
       <Filter>Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterTopHPBar.h">
+      <Filter>Object\Actor\00.Global\06.TopHPBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Tainted.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -29,6 +31,15 @@ void Tainted::CreateInfomation()
 {
 	// 해당 몬스터의 정보를 생성
 	AllMonsterInfomation::GetInst().MonsterInfoFind(MonsterClassType::Tainted, MonsterInfo_);
+
+	// 현재 체력 셋팅(랜덤)
+	GameEngineRandom HPRandom;
+	CurHP_ = HPRandom.RandomInt(MonsterInfo_.MinHP, MonsterInfo_.MaxHP);
+	MapHP_ = CurHP_;
+
+	// 드랍골드량 셋팅
+	GameEngineRandom GoldRandom;
+	DropGold_ = GoldRandom.RandomInt(MonsterInfo_.DropGoldMin, MonsterInfo_.DropGoldMax);
 }
 
 void Tainted::TextureCutting()
@@ -114,14 +125,14 @@ void Tainted::CreateAnimation()
 	Tainted_->CreateAnimation("Tainted_Death.png", "Death_R", 133, 151, 0.1f, false);
 
 	// 시체상태
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_LB", 0, 7, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_LT", 8, 15, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_RT", 16, 23, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_RB", 24, 31, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_B", 32, 39, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_L", 40, 47, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_T", 48, 55, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_R", 56, 63, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_LB", 0, 0, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_LT", 1, 1, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_RT", 2, 2, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_RB", 3, 3, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_B", 4, 4, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_L", 5, 5, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_T", 6, 6, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_Dead.png", "Dead_R", 7, 7, 0.1f, false);
 
 	// 초기상태
 	Tainted_->SetChangeAnimation("Idle_B");
@@ -189,21 +200,9 @@ void Tainted::CreateFSMState()
 
 void Tainted::CreateCollision()
 {
-	//// 본체 충돌체(피격판정용)
-	//BodyCollider_ = CreateTransformComponent<GameEngineCollision>();
-	//BodyCollider_->GetTransform()->SetLocalScaling(float4(32.f, 75.f));
-
-	//float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
-	//BodyCollider_->GetTransform()->SetLocalPosition(Tainted_->GetTransform()->GetLocalPosition() - CamPos);
-
-	//BodyCollider_->GetTransform()->SetWorldZOrder(-99.f);
-
-	//// 공격 충돌체(공격판정용)
-	//AttackCollider_ = CreateTransformComponent<GameEngineCollision>();
-	//AttackCollider_->GetTransform()->SetLocalScaling(float4(32.f, 75.f));
-
-	//float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
-	//AttackCollider_->GetTransform()->SetLocalPosition(Tainted_->GetTransform()->GetLocalPosition() - CamPos);
-
-	//AttackCollider_->GetTransform()->SetWorldZOrder(-99.f);
+	// 본체 충돌체(피격판정용)
+	BodyCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Monster));
+	BodyCollider_->GetTransform()->SetLocalScaling(float4(60.f, 90.f));
+	BodyCollider_->GetTransform()->SetLocalPosition(GetTransform()->GetWorldPosition());
+	BodyCollider_->GetTransform()->SetWorldZOrder(-99.f);
 }

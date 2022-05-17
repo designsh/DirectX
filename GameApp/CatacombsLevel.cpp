@@ -13,13 +13,15 @@
 #include "CatacombsMap.h"
 #include "MainPlayer.h"
 #include "MouseObject.h"
+#include "MonsterTopHPBar.h"
 
 bool CatacombsLevel::ResourceLoadEndCheck = false;
 
 CatacombsLevel::CatacombsLevel() :
 	CatacombsMap_(nullptr),
 	MainPlayer_(nullptr),
-	MainMouse_(nullptr)
+	MainMouse_(nullptr),
+	TopHPBar_(nullptr)
 {
 }
 
@@ -51,8 +53,6 @@ void CatacombsLevel::CreateLevelActor()
 		}
 	}
 
-	// 몬스터 생성
-
 	// 마우스
 	if (nullptr == GlobalValue::CurMouse)
 	{
@@ -60,6 +60,9 @@ void CatacombsLevel::CreateLevelActor()
 		MainMouse_->GetTransform()->SetWorldPosition(GameEngineInput::GetInst().GetMouse3DPos());
 		GlobalValue::CurMouse = MainMouse_;
 	}
+
+	// 상단 UI 생성(상단 HPBar)
+	TopHPBar_ = CreateActor<MonsterTopHPBar>();
 }
 
 void CatacombsLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)

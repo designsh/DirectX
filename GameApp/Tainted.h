@@ -39,7 +39,7 @@ enum class Tainted_FSMState
 enum class Tainted_TileCheckType
 {
 	MOVE,
-	NORMALATTACK,
+	ATTACK,
 };
 
 // 분류 : 일반몬스터
@@ -50,10 +50,16 @@ class GameEngineCollision;
 class Tainted : public GameEngineActor
 {
 public: // 생성갯수 = 네비게이션 인덱스
-	static int TantedCnt;
+	static int TaintedCnt;
+
+private:
+	bool MouseColStart_;
 
 private:
 	AllMonsterInfo MonsterInfo_;
+	int CurHP_;
+	int MapHP_;
+	int DropGold_;
 
 private: // 생성관련
 	TileIndex SpawnTile_;
@@ -63,7 +69,6 @@ private: // 생성관련
 private:
 	GameEngineImageRenderer* Tainted_;
 	GameEngineCollision* BodyCollider_;
-	GameEngineCollision* AttackCollider_;
 
 private:
 	GameEngineFSM State_;
@@ -110,6 +115,10 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+private: // 마우스와 충돌
+	void MouseCollision(GameEngineCollision* _Other);
+	void MouseCollisionEnd(GameEngineCollision* _Other);
+
 private: // 해당 몬스터 초기화 및 생성
 	void InitTainted();
 	void TextureCutting();
@@ -129,7 +138,6 @@ private: // 체크타일목록 생성 및 체크후 상태전환
 
 private: // 애니메이션 종료시점 호출함수
 	void NormalAttackEnd();
-	void SkillAttackEnd();
 	void GetHitEnd();
 	void DeathEnd();
 
@@ -157,11 +165,6 @@ private:
 	void UpdateNormalAttack();
 	void EndNormalAttack();
 
-	// 스킬공격상태
-	void StartSpecialAttack();
-	void UpdateSpecialAttack();
-	void EndSpecialAttack();
-
 	// 피격상태
 	void StartGetHit();
 	void UpdateGetHit();
@@ -178,6 +181,7 @@ private:
 	void EndDead();
 
 public:
-
+	void GetHitDamage(int _Damage);
+	void SpawnToDeath();
 };
 

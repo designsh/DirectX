@@ -35,6 +35,8 @@
 #include "CatacombsMap.h"
 
 int MainPlayer::ArrangeRoomNo_ = -1;
+int MainPlayer::CurLeftSkill_ = 0;
+int MainPlayer::CurRightSkill_ = 0;
 
 MainPlayer::MainPlayer() :
 	IsTown_(true),
