@@ -2,6 +2,7 @@
 #include <GameEngineBase/GameEnginePathFind.h>
 #include <GameEngine/GameEngineActor.h>
 
+#include "GlobalEnumClass.h"
 #include "RandomTileMap_Common.h"
 #include "Navigation_Common.h"
 
@@ -16,15 +17,27 @@ struct RandomMapWallRenderer
 // 용도 : 
 // 설명 : 에디터에서 랜덤생성 후 플레이레벨에서 로드하여 사용
 class GameEngineTileMapRenderer;
+class Fallen;
+class SpikeFiend;
+class Tainted;
+class Zombie;
+class Andariel;
 class CatacombsMap : public GameEngineActor
 {
 private:	// member Var
 	RandomMapInfo MapInfo_;
 
 private:
-	GameEnginePathFind* Navigation_;
+	std::map<NavigationObjectType, std::vector<GameEnginePathFind*>> Navigation_;
 	std::unordered_map<__int64, NavigationType> NavCatacombsMap_;
 
+private: // 현재 맵에 존재하는 모든 몬스터, 오브젝트 목록
+	std::vector<Fallen*> FallenList_;
+	std::vector<SpikeFiend*> SpikeFiendList_;
+	std::vector<Tainted*> TaintedList_;
+	std::vector<Zombie*> ZombieList_;
+	std::vector<Andariel*> AndarielList_;
+	
 private:
 	std::string FloorTileTextureName_;
 	std::string WallTileTextureName_;
@@ -114,7 +127,7 @@ private:
 	bool Moveable8WaysCheck(PathIndex _PathIndex);
 
 public:
-	std::list<PathIndex> NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos);
-	std::list<PathIndex> NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos);
+	std::list<PathIndex> NavgationFind4Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos);
+	std::list<PathIndex> NavgationFind8Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos);
 };
 

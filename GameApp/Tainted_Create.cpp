@@ -15,11 +15,14 @@ void Tainted::InitTainted()
 	// 애니메이션 생성관련
 	CreateAnimation();
 
-	// 충돌체 생성
-	CreateCollision();
+	// 애니메이션 종료시점 호출함수 관련
+	CreateAnimationEndFunction();
 
 	// FSM 상태관련
 	CreateFSMState();
+
+	// 충돌체 생성
+	CreateCollision();
 }
 
 void Tainted::CreateInfomation()
@@ -136,6 +139,49 @@ void Tainted::CreateAnimation()
 
 	// 초기상태
 	Tainted_->SetChangeAnimation("Idle_B");
+}
+
+void Tainted::CreateAnimationEndFunction()
+{
+	// 일반공격모션 종료
+	Tainted_->SetEndCallBack("NormalAttack_LB", std::bind(&Tainted::NormalAttackEnd, this));
+	Tainted_->SetEndCallBack("NormalAttack_LT", std::bind(&Tainted::NormalAttackEnd, this));
+	Tainted_->SetEndCallBack("NormalAttack_RT", std::bind(&Tainted::NormalAttackEnd, this));
+	Tainted_->SetEndCallBack("NormalAttack_RB", std::bind(&Tainted::NormalAttackEnd, this));
+	Tainted_->SetEndCallBack("NormalAttack_B", std::bind(&Tainted::NormalAttackEnd, this));
+	Tainted_->SetEndCallBack("NormalAttack_L", std::bind(&Tainted::NormalAttackEnd, this));
+	Tainted_->SetEndCallBack("NormalAttack_T", std::bind(&Tainted::NormalAttackEnd, this));
+	Tainted_->SetEndCallBack("NormalAttack_R", std::bind(&Tainted::NormalAttackEnd, this));
+
+	// 스킬공격모션 종료
+	Tainted_->SetEndCallBack("SpecialAttack_LB", std::bind(&Tainted::SkillAttackEnd, this));
+	Tainted_->SetEndCallBack("SpecialAttack_LT", std::bind(&Tainted::SkillAttackEnd, this));
+	Tainted_->SetEndCallBack("SpecialAttack_RT", std::bind(&Tainted::SkillAttackEnd, this));
+	Tainted_->SetEndCallBack("SpecialAttack_RB", std::bind(&Tainted::SkillAttackEnd, this));
+	Tainted_->SetEndCallBack("SpecialAttack_B", std::bind(&Tainted::SkillAttackEnd, this));
+	Tainted_->SetEndCallBack("SpecialAttack_L", std::bind(&Tainted::SkillAttackEnd, this));
+	Tainted_->SetEndCallBack("SpecialAttack_T", std::bind(&Tainted::SkillAttackEnd, this));
+	Tainted_->SetEndCallBack("SpecialAttack_R", std::bind(&Tainted::SkillAttackEnd, this));
+
+	// 피격모션 종료
+	Tainted_->SetEndCallBack("GetHit_LB", std::bind(&Tainted::GetHitEnd, this));
+	Tainted_->SetEndCallBack("GetHit_LT", std::bind(&Tainted::GetHitEnd, this));
+	Tainted_->SetEndCallBack("GetHit_RT", std::bind(&Tainted::GetHitEnd, this));
+	Tainted_->SetEndCallBack("GetHit_RB", std::bind(&Tainted::GetHitEnd, this));
+	Tainted_->SetEndCallBack("GetHit_B", std::bind(&Tainted::GetHitEnd, this));
+	Tainted_->SetEndCallBack("GetHit_L", std::bind(&Tainted::GetHitEnd, this));
+	Tainted_->SetEndCallBack("GetHit_T", std::bind(&Tainted::GetHitEnd, this));
+	Tainted_->SetEndCallBack("GetHit_R", std::bind(&Tainted::GetHitEnd, this));
+
+	// 사망모션 종료
+	Tainted_->SetEndCallBack("Death_LB", std::bind(&Tainted::DeathEnd, this));
+	Tainted_->SetEndCallBack("Death_LT", std::bind(&Tainted::DeathEnd, this));
+	Tainted_->SetEndCallBack("Death_RT", std::bind(&Tainted::DeathEnd, this));
+	Tainted_->SetEndCallBack("Death_RB", std::bind(&Tainted::DeathEnd, this));
+	Tainted_->SetEndCallBack("Death_B", std::bind(&Tainted::DeathEnd, this));
+	Tainted_->SetEndCallBack("Death_L", std::bind(&Tainted::DeathEnd, this));
+	Tainted_->SetEndCallBack("Death_T", std::bind(&Tainted::DeathEnd, this));
+	Tainted_->SetEndCallBack("Death_R", std::bind(&Tainted::DeathEnd, this));
 }
 
 void Tainted::CreateFSMState()

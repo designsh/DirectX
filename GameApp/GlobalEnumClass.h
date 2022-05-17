@@ -132,3 +132,14 @@ enum class SkillPageNo
 	MAX
 };
 
+// 오브젝트 네비게이션 타입
+enum class NavigationObjectType
+{
+	Player,
+	Fallen,
+	SpikeFiend,
+	Tainted,
+	Zombie,
+	Andariel
+};
+

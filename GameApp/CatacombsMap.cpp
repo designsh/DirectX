@@ -5,7 +5,6 @@
 #include <GameEngine/GameEngineTileMapRenderer.h>
 #include <GameEngine/GameEngineImageRenderer.h>
 
-#include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
 #include "MainPlayer.h"
@@ -17,18 +16,24 @@
 #include "Zombie.h"
 
 CatacombsMap::CatacombsMap() :
-	MapInfo_{},
-	Navigation_(nullptr)
+	MapInfo_{}
 {
 }
 
 CatacombsMap::~CatacombsMap()
 {
-	if (nullptr != Navigation_)
+	std::map<NavigationObjectType, std::vector<GameEnginePathFind*>>::iterator StartIter = Navigation_.begin();
+	std::map<NavigationObjectType, std::vector<GameEnginePathFind*>>::iterator EndIter = Navigation_.end();
+	for (; StartIter != EndIter; ++StartIter)
 	{
-		delete Navigation_;
-		Navigation_ = nullptr;
+		int NavigationCnt = static_cast<int>((*StartIter).second.size());
+		for (int i = 0; i < NavigationCnt; ++i)
+		{
+			delete (*StartIter).second[i];
+			(*StartIter).second[i] = nullptr;
+		}
 	}
+	Navigation_.clear();
 }
 
 void CatacombsMap::Start()
@@ -673,13 +678,77 @@ void CatacombsMap::CurLevelActorRoomArrange()
 			}
 			else
 			{
-				// 테스트용
-				Tainted* Monster = GetLevel()->CreateActor<Tainted>();
-				Monster->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
-				Monster->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+				// 플레이어 생성 룸에는 각 몬스터의 시체 배치
+				//std::vector<Fallen*> FallenList_;
+				//std::vector<SpikeFiend*> SpikeFiendList_;
+				//std::vector<Tainted*> TaintedList_;
+				//std::vector<Zombie*> ZombieList_;
+				//std::vector<Andariel*> AndarielList_;
+
+				// Fallen
+				//Fallen* NewFallen = GetLevel()->CreateActor<Fallen>();
+				//NewFallen->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+				//NewFallen->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+				//FallenList_.push_back(NewFallen);
+
+				// SpikeFiend
+				//SpikeFiend* NewSpikeFiend = GetLevel()->CreateActor<SpikeFiend>();
+				//NewSpikeFiend->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+				//NewSpikeFiend->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+				//SpikeFiendList_.push_back(NewSpikeFiend);
+
+				// Tainted
+				Tainted* NewTainted = GetLevel()->CreateActor<Tainted>();
+				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+				NewTainted->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+				TaintedList_.push_back(NewTainted);
+
+				// Zombie
+				//Zombie* NewZombie = GetLevel()->CreateActor<Zombie>();
+				//NewZombie->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+				//NewZombie->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+				//ZombieList_.push_back(NewZombie);
 			}
 		}
 	}
+
+	// 각각의 몬스터, 오브젝트 배치완료 후 각 네비게이션 생성
+	
+	// Fallen
+	std::vector<GameEnginePathFind*> FallenNav;
+	int FallenCnt = static_cast<int>(FallenList_.size());
+	for (int i = 0; i < FallenCnt; ++i)
+	{
+		FallenNav.push_back(new GameEnginePathFind());
+	}
+	Navigation_[NavigationObjectType::Fallen] = FallenNav;
+
+	// SpikeFiend
+	std::vector<GameEnginePathFind*> SpikeFiendNav;
+	int SpikeFiendCnt = static_cast<int>(SpikeFiendList_.size());
+	for (int i = 0; i < SpikeFiendCnt; ++i)
+	{
+		SpikeFiendNav.push_back(new GameEnginePathFind());
+	}
+	Navigation_[NavigationObjectType::SpikeFiend] = SpikeFiendNav;
+
+	// Tainted
+	std::vector<GameEnginePathFind*> TaintedNav;
+	int TaintedCnt = static_cast<int>(TaintedList_.size());
+	for (int i = 0; i < TaintedCnt; ++i)
+	{
+		TaintedNav.push_back(new GameEnginePathFind());
+	}
+	Navigation_[NavigationObjectType::Tainted] = TaintedNav;
+
+	// Zombie
+	std::vector<GameEnginePathFind*> ZombieNav;
+	int ZombieCnt = static_cast<int>(ZombieList_.size());
+	for (int i = 0; i < ZombieCnt; ++i)
+	{
+		ZombieNav.push_back(new GameEnginePathFind());
+	}
+	Navigation_[NavigationObjectType::Zombie] = ZombieNav;
 }
 
 void CatacombsMap::CreateNavigationInfo()
@@ -706,8 +775,10 @@ void CatacombsMap::CreateNavigationInfo()
 		}
 	}
 
-	// 네비게이션 생성
-	Navigation_ = new GameEnginePathFind();
+	// 네비게이션 생성(최초 1개 생성 - 플레이어 사용)
+	std::vector<GameEnginePathFind*> NewPathFind;
+	NewPathFind.push_back(new GameEnginePathFind());
+	Navigation_[NavigationObjectType::Player] = NewPathFind;
 }
 
 bool CatacombsMap::Moveable4WaysCheck(PathIndex _PathIndex)
@@ -746,35 +817,31 @@ bool CatacombsMap::Moveable8WaysCheck(PathIndex _PathIndex)
 	return false;
 }
 
-std::list<PathIndex> CatacombsMap::NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos)
+std::list<PathIndex> CatacombsMap::NavgationFind4Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos)
 {
-	if (nullptr != Navigation_)
+	if (nullptr != Navigation_[_ObjectType][_NavigationNo])
 	{
-		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
 		TileIndex StartIndex = GetWallTileIndex(_StartPos);
 
-		// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
 		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 		TileIndex TargetIndex = GetWallTileIndex(_MouseClickPos + CamPos);
 
-		return Navigation_->AStarFind4Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&CatacombsMap::Moveable4WaysCheck, this, std::placeholders::_1));
+		return Navigation_[_ObjectType][_NavigationNo]->AStarFind4Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&CatacombsMap::Moveable4WaysCheck, this, std::placeholders::_1));
 	}
 
 	return std::list<PathIndex>();
 }
 
-std::list<PathIndex> CatacombsMap::NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos)
+std::list<PathIndex> CatacombsMap::NavgationFind8Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos)
 {
-	if (nullptr != Navigation_)
+	if (nullptr != Navigation_[_ObjectType][_NavigationNo])
 	{
-		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
 		TileIndex StartIndex = GetWallTileIndex(_StartPos);
 
-		// 마우스왼쪽버튼클릭 위치를 이용하여 타일인덱스 계산
 		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 		TileIndex TargetIndex = GetWallTileIndex(_MouseClickPos + CamPos);
 
-		return Navigation_->AStarFind8Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&CatacombsMap::Moveable8WaysCheck, this, std::placeholders::_1));
+		return Navigation_[_ObjectType][_NavigationNo]->AStarFind8Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&CatacombsMap::Moveable8WaysCheck, this, std::placeholders::_1));
 	}
 
 	return std::list<PathIndex>();

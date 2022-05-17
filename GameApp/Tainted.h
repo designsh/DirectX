@@ -4,6 +4,7 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
+#include "GlobalEnumClass.h"
 #include "AllMonsterInfomation.h"
 
 #include "FixedTileMap_Common.h"
@@ -50,12 +51,16 @@ class GameEngineImageRenderer;
 class GameEngineCollision;
 class Tainted : public GameEngineActor
 {
+public: // 생성갯수 = 네비게이션 인덱스
+	static int TantedCnt;
+
 private:
 	AllMonsterInfo MonsterInfo_;
 
 private: // 생성관련
 	TileIndex SpawnTile_;
 	int SpawnRoomNo_;
+	int NavigationIndex_;
 
 private:
 	GameEngineImageRenderer* Tainted_;
@@ -69,6 +74,9 @@ private: // 이동관련
 	float4 TargetPos_;
 	float4 CurPos_;
 	float MoveSpeed_;
+	std::list<PathIndex> MovePath_;
+	float4 MoveTargetDir_;
+	TileIndex MoveTargetIndex_;
 
 private: // 방향관련
 	Tainted_Dir PrevDir_;
@@ -104,21 +112,31 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-private:
+private: // 해당 몬스터 초기화 및 생성
 	void InitTainted();
 	void TextureCutting();
 	void CreateAnimation();
+	void CreateAnimationEndFunction();
 	void CreateFSMState();
 	void CreateCollision();
 	void CreateInfomation();
 
-private:
+private: // 방향체크
 	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);
 	void ChangeAnimationCheck(const std::string& _StateName);
 
 private: // 체크타일목록 생성 및 체크후 상태전환
 	void SetCheckTileList(TileIndex _CurTileIndex);
 	void CheckChangeState(TileIndex _PlayerTileIndex);
+
+private: // 애니메이션 종료시점 호출함수
+	void NormalAttackEnd();
+	void SkillAttackEnd();
+	void GetHitEnd();
+	void DeathEnd();
+
+public: // 룸진입 체크타일목록 작성
+	void SetEnemyDetectionList(int _SpawnRoomNo);
 
 private:
 	// 최초 적탐지 상태
@@ -160,8 +178,8 @@ private:
 	void StartDead();
 	void UpdateDead();
 	void EndDead();
-	
+
 public:
-	void SetEnemyDetectionList(int _SpawnRoomNo);
+
 };
 

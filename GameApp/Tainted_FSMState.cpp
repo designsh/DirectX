@@ -112,70 +112,42 @@ void Tainted::ChangeAnimationCheck(const std::string& _StateName)
 		{
 			AnimationName += "_LT";
 			Tainted_->SetChangeAnimation(AnimationName);
-
-			// 방향 전환
-			CurDir_ = Tainted_Dir::TT_LT;
-
 			break;
 		}
 		case Tainted_Dir::TT_RT:
 		{
 			AnimationName += "_RT";
 			Tainted_->SetChangeAnimation(AnimationName);
-
-			// 방향 전환
-			CurDir_ = Tainted_Dir::TT_RT;
-
 			break;
 		}
 		case Tainted_Dir::TT_RB:
 		{
 			AnimationName += "_RB";
 			Tainted_->SetChangeAnimation(AnimationName);
-
-			// 방향 전환
-			CurDir_ = Tainted_Dir::TT_RB;
-
 			break;
 		}
 		case Tainted_Dir::TT_B:
 		{
 			AnimationName += "_B";
 			Tainted_->SetChangeAnimation(AnimationName);
-
-			// 방향 전환
-			CurDir_ = Tainted_Dir::TT_B;
-
 			break;
 		}
 		case Tainted_Dir::TT_L:
 		{
 			AnimationName += "_L";
 			Tainted_->SetChangeAnimation(AnimationName);
-
-			// 방향 전환
-			CurDir_ = Tainted_Dir::TT_L;
-
 			break;
 		}
 		case Tainted_Dir::TT_T:
 		{
 			AnimationName += "_T";
 			Tainted_->SetChangeAnimation(AnimationName);
-
-			// 방향 전환
-			CurDir_ = Tainted_Dir::TT_T;
-
 			break;
 		}
 		case Tainted_Dir::TT_R:
 		{
 			AnimationName += "_R";
 			Tainted_->SetChangeAnimation(AnimationName);
-
-			// 방향 전환
-			CurDir_ = Tainted_Dir::TT_R;
-
 			break;
 		}
 	}
@@ -185,12 +157,6 @@ void Tainted::ChangeAnimationCheck(const std::string& _StateName)
 void Tainted::SetCheckTileList(TileIndex _CurTileIndex)
 {
 	// 기존 체크타일목록 삭제
-	std::map<__int64, Tainted_TileCheckType>::iterator StartIter = CheckTileList_.begin();
-	std::map<__int64, Tainted_TileCheckType>::iterator EndIter = CheckTileList_.end();
-	for (; StartIter != EndIter; ++StartIter)
-	{
-		CheckTileList_.erase(StartIter);
-	}
 	CheckTileList_.clear();
 
 	// 적감지 체크타일목록 작성(현재타일의 +- 6)
@@ -335,26 +301,55 @@ void Tainted::StartMove()
 	PrevState_ = CurState_;
 	CurState_ = Tainted_FSMState::ST_WALK;
 
-	// 플레이어의 현재 타일을 타겟위치로 설정
+	// 이동 경로 생성
+	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+	MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::Tainted, NavigationIndex_, CurPos_, TargetPos_ - CamPos);
+	if(false == MovePath_.empty())
+	{
+		// 다음 이동타일인덱스 Get
+		MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
+		// 타겟위치로 지정된 경로의 인덱스제거
+		MovePath_.pop_front();
 
-	// 타겟을 향한 방향으로 애니메이션 변경
-
-
-	// 
-
+		// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
+		// 플레이어의 이동방향을 설정한다.
+		MoveTargetDir_ = (GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y)).NormalizeReturn3D();
+	}
 }
 
 void Tainted::UpdateMove()
 {
-	// 일반공격 범위내에 플레이어 진입시 일반공격상태로 전환
+	// 타겟 위치까지 이동
+	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 
+	// 현재 경로 타겟위치까지 이동 완료시
+	if (MoveTargetIndex_.Index_ == GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition()).Index_)
+	{
+		if (false == MovePath_.empty())
+		{
+			// 타겟타일 인덱스 변경
+			MoveTargetIndex_.Index_ = MovePath_.front().Index_;
 
+			MoveTargetDir_ = (GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y)).NormalizeReturn3D();
 
-	// 스킬공격 범위내에 플레이어 진입과 동시에 쿨타임 초기화시 스킬공격상태로 전환
+			// 타겟위치로 지정된 경로의 인덱스제거
+			MovePath_.pop_front();
+		}
+		else
+		{
+			// 더 이상 이동할 이유가 없으므로 플레이어 대기상태 돌입
+			State_.ChangeState("Tainted_IDLE");
 
+			// 혹시 잔존하는 경로가 있다면 클리어
+			if (false == MovePath_.empty())
+			{
+				MovePath_.clear();
+			}
 
-
+			return;
+		}
+	}
 }
 
 void Tainted::EndMove()
@@ -375,6 +370,10 @@ void Tainted::StartNormalAttack()
 
 void Tainted::UpdateNormalAttack()
 {
+	// 타겟 공격
+
+
+	// 타겟 체력 소모
 
 }
 
@@ -396,6 +395,10 @@ void Tainted::StartSpecialAttack()
 
 void Tainted::UpdateSpecialAttack()
 {
+	// 타겟 공격
+
+
+	// 타겟 체력 소모
 
 }
 
@@ -417,12 +420,13 @@ void Tainted::StartGetHit()
 
 void Tainted::UpdateGetHit()
 {
-
 }
 
 void Tainted::EndGetHit()
 {
+	// 현재 몬스터 체력 소모
 
+	// 
 }
 
 // 사망상태
@@ -438,8 +442,6 @@ void Tainted::StartDeath()
 
 void Tainted::UpdateDeath()
 {
-	// 사망모션 종료시 시체상태로 전환
-
 }
 
 void Tainted::EndDeath()
@@ -468,3 +470,31 @@ void Tainted::EndDead()
 {
 
 }
+
+#pragma region 애니메이션종료시점호출함수
+
+void Tainted::NormalAttackEnd()
+{
+	// 대기상태로 전환
+	State_.ChangeState("Tainted_IDLE");
+}
+
+void Tainted::SkillAttackEnd()
+{
+	// 대기상태로 전환
+	State_.ChangeState("Tainted_IDLE");
+}
+
+void Tainted::GetHitEnd()
+{
+	// 대기상태로 전환
+	State_.ChangeState("Tainted_IDLE");
+}
+
+void Tainted::DeathEnd()
+{
+	// 시체상태로 전환
+	State_.ChangeState("Tainted_DEAD");
+}
+
+#pragma endregion

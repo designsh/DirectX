@@ -13,11 +13,18 @@ TownMap::TownMap() :
 
 TownMap::~TownMap()
 {
-	if (nullptr != Navigation_)
+	std::map<NavigationObjectType, std::vector<GameEnginePathFind*>>::iterator StartIter = Navigation_.begin();
+	std::map<NavigationObjectType, std::vector<GameEnginePathFind*>>::iterator EndIter = Navigation_.end();
+	for (; StartIter != EndIter; ++StartIter)
 	{
-		delete Navigation_;
-		Navigation_ = nullptr;
+		int NavigationCnt = static_cast<int>((*StartIter).second.size());
+		for (int i = 0; i < NavigationCnt; ++i)
+		{
+			delete (*StartIter).second[i];
+			(*StartIter).second[i] = nullptr;
+		}
 	}
+	Navigation_.clear();
 }
 
 void TownMap::Start()
@@ -32,21 +39,6 @@ void TownMap::Start()
 
 void TownMap::Update(float _DeltaTime)
 {
-#pragma region 디버그렌더러
-	TownLevelNavigationDebugRender();
-
-	if (true == GameEngineInput::GetInst().Down("NavigationSwitch"))
-	{
-		if (false == DebugRendererFlag_)
-		{
-			DebugRendererFlag_ = true;
-		}
-		else
-		{
-			DebugRendererFlag_ = false;
-		}
-	}
-#pragma endregion
 }
 
 float4 TownMap::GetTileIndexToPos(TileIndex _TileIndex)
@@ -461,7 +453,6 @@ void TownMap::CreatedAfterWallTiles()
 void TownMap::CreatedAfterObjectTiles()
 {
 	// 오브젝트렌더러 생성
-	//std::unordered_map<__int64, GameEngineTileMapRenderer*> ObjectTiles_;
 	int YInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_.size());
 	int XInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_[YInfoCnt - 1].size());
 	for (int y = 0; y < YInfoCnt; ++y)
@@ -562,25 +553,10 @@ void TownMap::CreateNavigationInfo()
 		}
 	}
 
-	// 네비게이션 생성
-	Navigation_ = new GameEnginePathFind();
-}
-
-void TownMap::TownLevelNavigationDebugRender()
-{
-	// 릴리즈빌드에서도 확인용으로 사용
-	if (true == DebugRendererFlag_)
-	{
-		//if (false == ObjectTiles_.empty())
-		//{
-			//std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator StartIter = ObjectTiles_.begin();
-			//std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator EndIter = ObjectTiles_.end();
-			//for (; StartIter != EndIter; ++StartIter)
-			//{
-			//	GetLevel()->PushDebugRender((*StartIter).second->GetTransform(), CollisionType::Rect);
-			//}
-		//}
-	}
+	// 네비게이션 생성(최초 한개생성 - 플레이어 용도)
+	std::vector<GameEnginePathFind*> NewPathFind;
+	NewPathFind.push_back(new GameEnginePathFind());
+	Navigation_[NavigationObjectType::Player] = NewPathFind;
 }
 
 TileIndex TownMap::GetFloorTileIndex(float4 _MousePos)
@@ -691,9 +667,9 @@ bool TownMap::Moveable8WaysCheck(PathIndex _PathIndex)
 	return false;
 }
 
-std::list<PathIndex> TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos)
+std::list<PathIndex> TownMap::NavgationFind4Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos)
 {
-	if (nullptr != Navigation_)
+	if (nullptr != Navigation_[_ObjectType][_NavigationNo])
 	{
 		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
 		TileIndex StartIndex = GetPosToTileIndex(_StartPos);
@@ -702,15 +678,15 @@ std::list<PathIndex> TownMap::NavgationFind4Way(float4 _StartPos, float4 _MouseC
 		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 		TileIndex TargetIndex = GetPosToTileIndex(_MouseClickPos + CamPos);
 
-		return Navigation_->AStarFind4Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable4WaysCheck, this, std::placeholders::_1));
+		return Navigation_[_ObjectType][_NavigationNo]->AStarFind4Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable4WaysCheck, this, std::placeholders::_1));
 	}
 
 	return std::list<PathIndex>();
 }
 
-std::list<PathIndex> TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos)
+std::list<PathIndex> TownMap::NavgationFind8Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos)
 {
-	if (nullptr != Navigation_)
+	if (nullptr != Navigation_[_ObjectType][_NavigationNo])
 	{
 		// 플레이어의 현재위치를 이용하여 타일인덱스 계산
 		TileIndex StartIndex = GetPosToTileIndex(_StartPos);
@@ -719,7 +695,7 @@ std::list<PathIndex> TownMap::NavgationFind8Way(float4 _StartPos, float4 _MouseC
 		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 		TileIndex TargetIndex = GetPosToTileIndex(_MouseClickPos + CamPos);
 
-		return Navigation_->AStarFind8Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable8WaysCheck, this, std::placeholders::_1));
+		return Navigation_[_ObjectType][_NavigationNo]->AStarFind8Way(PathIndex(StartIndex.X_, StartIndex.Y_), PathIndex(TargetIndex.X_, TargetIndex.Y_), std::bind(&TownMap::Moveable8WaysCheck, this, std::placeholders::_1));
 	}
 
 	return std::list<PathIndex>();

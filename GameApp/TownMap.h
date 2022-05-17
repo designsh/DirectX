@@ -3,6 +3,7 @@
 #include <GameEngine/GameEngineActor.h>
 #include "FixedTileMap_Common.h"
 #include "Navigation_Common.h"
+#include "GlobalEnumClass.h"
 
 // 분류 : 맵(MAP)
 // 용도 : 고정맵
@@ -38,7 +39,7 @@ private: // 타일 렌더러
 	std::unordered_map<__int64, GameEngineTileMapRenderer*> ObjectTiles_;
 
 private: // 해당 맵의 네비게이션 정보(벽정보 + 오브젝트정보)
-	GameEnginePathFind* Navigation_;
+	std::map<NavigationObjectType, std::vector<GameEnginePathFind*>> Navigation_;
 	std::unordered_map<__int64, NavigationType> NavTownMap_;
 
 private: // 타일크기(인덱스 계산용)
@@ -87,9 +88,6 @@ private:
 
 private: // 네비게이션정보생성
 	void CreateNavigationInfo();
-
-private: // 디버그렌더러 표시/표시안함
-	void TownLevelNavigationDebugRender();
 #pragma endregion
 
 #pragma region 확인용
@@ -104,7 +102,10 @@ private:
 	bool Moveable8WaysCheck(PathIndex _PathIndex);
 
 public:
-	std::list<PathIndex> NavgationFind4Way(float4 _StartPos, float4 _MouseClickPos);
-	std::list<PathIndex> NavgationFind8Way(float4 _StartPos, float4 _MouseClickPos);
+	std::list<PathIndex> NavgationFind4Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos);
+	std::list<PathIndex> NavgationFind8Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos);
+
+public: // 네비게이션 생성
+	
 };
 

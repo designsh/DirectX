@@ -4,17 +4,19 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
-#include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
 #include "MainPlayer.h"
 
 #include "CatacombsMap.h"
 
+int Tainted::TantedCnt = 0;
+
 Tainted::Tainted() :
 	MonsterInfo_{},
 	SpawnTile_(),
 	SpawnRoomNo_(-1),
+	NavigationIndex_(-1),
 	Tainted_(nullptr),
 	BodyCollider_(nullptr),
 	AttackCollider_(nullptr),
@@ -29,6 +31,8 @@ Tainted::Tainted() :
 	CurState_(Tainted_FSMState::ST_IDLE),
 	SkillDelayTime_(20.f)
 {
+	NavigationIndex_ = TantedCnt;
+	++TantedCnt;
 }
 
 Tainted::~Tainted()
