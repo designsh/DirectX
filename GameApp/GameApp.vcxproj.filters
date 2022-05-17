@@ -769,6 +769,9 @@
     <Filter Include="Object\Level\07.EndingLevel">
       <UniqueIdentifier>{8a25709c-464f-4d3c-bb69-09b18a1ac49d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted\00.TaintedSkill">
+      <UniqueIdentifier>{65b1b6f6-92c2-44c8-aac3-155f900350fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

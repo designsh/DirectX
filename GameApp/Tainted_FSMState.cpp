@@ -159,8 +159,8 @@ void Tainted::SetCheckTileList(TileIndex _CurTileIndex)
 	// 기존 체크타일목록 삭제
 	CheckTileList_.clear();
 
-	// 적감지 체크타일목록 작성(현재타일의 +- 6)
-	for (int i = 1; i <= 6; ++i)
+	// 적감지 체크타일목록 작성(현재타일의 +- 8)
+	for (int i = 1; i <= 8; ++i)
 	{
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( 0,  i)).Index_, Tainted_TileCheckType::MOVE));		// 좌단
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex(-i,  i)).Index_, Tainted_TileCheckType::MOVE));		// 좌상단
@@ -170,19 +170,6 @@ void Tainted::SetCheckTileList(TileIndex _CurTileIndex)
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( i, -i)).Index_, Tainted_TileCheckType::MOVE));		// 우하단
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( i,  0)).Index_, Tainted_TileCheckType::MOVE));		// 하단
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( i,  i)).Index_, Tainted_TileCheckType::MOVE));		// 좌하단
-	}
-
-	// 스킬공격 체크타일목록 작성(현재타일의 +- 2)
-	for (int i = 1; i <= 2; ++i)
-	{
-		CheckTileList_.find((_CurTileIndex + TileIndex( 0,  i)).Index_)->second = Tainted_TileCheckType::SKILLATTACK;		// 좌단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i,  i)).Index_)->second = Tainted_TileCheckType::SKILLATTACK;		// 좌상단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i,  0)).Index_)->second = Tainted_TileCheckType::SKILLATTACK;		// 상단
-		CheckTileList_.find((_CurTileIndex + TileIndex(-i, -i)).Index_)->second = Tainted_TileCheckType::SKILLATTACK;		// 우상단
-		CheckTileList_.find((_CurTileIndex + TileIndex( 0, -i)).Index_)->second = Tainted_TileCheckType::SKILLATTACK;		// 우단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i, -i)).Index_)->second = Tainted_TileCheckType::SKILLATTACK;		// 우하단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i,  0)).Index_)->second = Tainted_TileCheckType::SKILLATTACK;		// 하단
-		CheckTileList_.find((_CurTileIndex + TileIndex( i,  i)).Index_)->second = Tainted_TileCheckType::SKILLATTACK;		// 좌하단
 	}
 
 	// 일반공격 체크타일목록 작성(현재타일의 +- 1)
@@ -214,10 +201,6 @@ void Tainted::CheckChangeState(TileIndex _PlayerTileIndex)
 	else if (Tainted_TileCheckType::NORMALATTACK == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
 	{
 		State_.ChangeState("Tainted_ATTACK");
-	}
-	else if (Tainted_TileCheckType::SKILLATTACK == CheckTileList_.find(_PlayerTileIndex.Index_)->second)
-	{
-		State_.ChangeState("Tainted_SKILL");
 	}
 }
 
@@ -378,31 +361,6 @@ void Tainted::UpdateNormalAttack()
 }
 
 void Tainted::EndNormalAttack()
-{
-
-}
-
-// 스킬공격상태
-void Tainted::StartSpecialAttack()
-{
-	// 적방향 체크하여 애니메이션 및 방향설정
-	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "SpecialAttack");
-
-	// 현재 상태 전환
-	PrevState_ = CurState_;
-	CurState_ = Tainted_FSMState::ST_SKILLATTACK;
-}
-
-void Tainted::UpdateSpecialAttack()
-{
-	// 타겟 공격
-
-
-	// 타겟 체력 소모
-
-}
-
-void Tainted::EndSpecialAttack()
 {
 
 }

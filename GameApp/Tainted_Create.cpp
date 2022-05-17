@@ -45,10 +45,6 @@ void Tainted::TextureCutting()
 	GameEngineTexture* Tainted_NormalAttack = GameEngineTextureManager::GetInst().Find("Tainted_NormalAttack.png");
 	Tainted_NormalAttack->Cut(10, 8);
 
-	// 스킬공격상태(Tainted_SpecialAttack.png)
-	GameEngineTexture* Tainted_SpecialAttack = GameEngineTextureManager::GetInst().Find("Tainted_SpecialAttack.png");
-	Tainted_SpecialAttack->Cut(10, 8);
-
 	// 피격상태(Tainted_GetHit.png)
 	GameEngineTexture* Tainted_GetHit = GameEngineTextureManager::GetInst().Find("Tainted_GetHit.png");
 	Tainted_GetHit->Cut(8, 8);
@@ -96,17 +92,7 @@ void Tainted::CreateAnimation()
 	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_L", 50, 59, 0.1f, false);
 	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_T", 60, 69, 0.1f, false);
 	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_R", 70, 79, 0.1f, false);
-
-	// 스킬공격상태
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_LB", 0, 9, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_LT", 10, 19, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_RT", 20, 29, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_RB", 30, 39, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_B", 40, 49, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_L", 50, 59, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_T", 60, 69, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_SpecialAttack.png", "SpecialAttack_R", 70, 79, 0.1f, false);
-
+	
 	// 피격상태
 	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_LB", 0, 7, 0.1f, false);
 	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_LT", 8, 15, 0.1f, false);
@@ -153,16 +139,6 @@ void Tainted::CreateAnimationEndFunction()
 	Tainted_->SetEndCallBack("NormalAttack_T", std::bind(&Tainted::NormalAttackEnd, this));
 	Tainted_->SetEndCallBack("NormalAttack_R", std::bind(&Tainted::NormalAttackEnd, this));
 
-	// 스킬공격모션 종료
-	Tainted_->SetEndCallBack("SpecialAttack_LB", std::bind(&Tainted::SkillAttackEnd, this));
-	Tainted_->SetEndCallBack("SpecialAttack_LT", std::bind(&Tainted::SkillAttackEnd, this));
-	Tainted_->SetEndCallBack("SpecialAttack_RT", std::bind(&Tainted::SkillAttackEnd, this));
-	Tainted_->SetEndCallBack("SpecialAttack_RB", std::bind(&Tainted::SkillAttackEnd, this));
-	Tainted_->SetEndCallBack("SpecialAttack_B", std::bind(&Tainted::SkillAttackEnd, this));
-	Tainted_->SetEndCallBack("SpecialAttack_L", std::bind(&Tainted::SkillAttackEnd, this));
-	Tainted_->SetEndCallBack("SpecialAttack_T", std::bind(&Tainted::SkillAttackEnd, this));
-	Tainted_->SetEndCallBack("SpecialAttack_R", std::bind(&Tainted::SkillAttackEnd, this));
-
 	// 피격모션 종료
 	Tainted_->SetEndCallBack("GetHit_LB", std::bind(&Tainted::GetHitEnd, this));
 	Tainted_->SetEndCallBack("GetHit_LT", std::bind(&Tainted::GetHitEnd, this));
@@ -197,9 +173,6 @@ void Tainted::CreateFSMState()
 
 	// 기본공격상태
 	State_.CreateState("Tainted_ATTACK", std::bind(&Tainted::UpdateNormalAttack, this), std::bind(&Tainted::StartNormalAttack, this), std::bind(&Tainted::EndNormalAttack, this));
-
-	// 스킬공격상태
-	State_.CreateState("Tainted_SKILL", std::bind(&Tainted::UpdateSpecialAttack, this), std::bind(&Tainted::StartSpecialAttack, this), std::bind(&Tainted::EndSpecialAttack, this));
 
 	// 피격상태
 	State_.CreateState("Tainted_GETHIT", std::bind(&Tainted::UpdateGetHit, this), std::bind(&Tainted::StartGetHit, this), std::bind(&Tainted::EndGetHit, this));

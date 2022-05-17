@@ -30,7 +30,6 @@ enum class Tainted_FSMState
 	ST_IDLE,					// 대기상태
 	ST_WALK,					// 타겟까지 이동상태
 	ST_NORMALATTACK,			// 일반공격범위내 적 진입
-	ST_SKILLATTACK,				// 스킬공격범위내 적 진입, 스킬쿨타임 젠
 	ST_GETHIT,					// 피격 상태(적이 공격하여 전환)
 	ST_DEATH,					// 사망 상태(몬스터 체력 0)
 	ST_DEAD,					// 시체 상태(마우스와 충돌중이며, 플레이가 소환스킬시전 체크)
@@ -41,7 +40,6 @@ enum class Tainted_TileCheckType
 {
 	MOVE,
 	NORMALATTACK,
-	SKILLATTACK,
 };
 
 // 분류 : 일반몬스터
