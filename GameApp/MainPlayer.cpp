@@ -609,7 +609,7 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 			if (false == IsTown_)
 			{
 				// 스킬시전 위치 저장
-				SkillCastPos_ = GlobalValue::CurMouse->GetTransform()->GetWorldPosition() + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+				SkillCastPos_ = GlobalValue::CurMouse->GetTransform()->GetWorldPosition();
 
 				// 현재 선택된 스킬이 기본공격이아니라면 스킬공격 모션으로 전환
 				if (0 != CurRightSkill_)
