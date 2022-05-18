@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineFSM.h>
 
 #include "FixedTileMap_Common.h"
 #include "MainPlayerInfomation.h"
@@ -27,6 +28,16 @@ enum class GolemType
 	FIRE,
 };
 
+// 골렘 상태
+enum class GolemState
+{
+	SPAWN,
+	IDLE,
+	WALK,
+	ATTACK,
+	DEATH
+};
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -39,6 +50,9 @@ private:
 	GameEngineCollision* BodyCollider_;
 
 private:
+	GameEngineFSM State_;
+
+private:
 	SkillList GolemInfo_;
 
 private:
@@ -49,6 +63,10 @@ private:
 	std::vector<TileIndex> MoveRange_;				// 플레이어기준 이동가능범위(타일목록)
 	GolemTargetDir PrevDir_;						// 이전 방향
 	GolemTargetDir CurDir_;							// 현재 방향
+
+private:
+	GolemState PrevState_;
+	GolemState CurState_;
 
 public:
 	SummonsGolem();
@@ -69,14 +87,50 @@ private:
 private:
 	void InitGolem();
 	void TextureCutting();
-	void CreateFSMState();
 	void CreateCollision();
+
+private:
+	void TargetDirCheck();
 
 public:
 	void SpawnGolem(GolemType _GolemType, const float4& _SpawnPos);
-	void CreateGolemInfo();
-	void CreateAnimation();
-	void CreateAnimationEndFunction();
+
+private:
+	void CreateClayGolem();
+	void CreateBloodGolem();
+	void CreateIronGolem();
+	void CreateFireGolem();
+
+private:
+	void SpawnAnimationEnd();
+	void AttackAnimationEnd();
+	void DeathAnimationEnd();
+
+private:
+	// 소환상태
+	void StartSpawnState();
+	void UpdateSpawnState();
+	void EndSpawnState();
+
+	// 대기상태
+	void StartIdleState();
+	void UpdateIdleState();
+	void EndIdleState();
+
+	// 이동상태
+	void StartWalkState();
+	void UpdateWalkState();
+	void EndWalkState();
+
+	// 공격상태
+	void StartAttackState();
+	void UpdateAttackState();
+	void EndAttackState();
+
+	// 사망상태
+	void StartDeathState();
+	void UpdateDeathState();
+	void EndDeathState();
 
 public:
 	void CurGolemDeath();

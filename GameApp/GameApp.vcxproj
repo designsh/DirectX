@@ -327,6 +327,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="SummonsGolem_Create.cpp" />
+    <ClCompile Include="SummonsGolem_FSMState.cpp" />
     <ClCompile Include="Tainted.cpp">
       <SubType>
       </SubType>

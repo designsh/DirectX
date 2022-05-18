@@ -326,6 +326,9 @@
     <ClCompile Include="SummonsGolem_Create.cpp">
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\00.Golem</Filter>
     </ClCompile>
+    <ClCompile Include="SummonsGolem_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\00.Golem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
