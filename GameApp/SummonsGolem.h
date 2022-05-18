@@ -60,7 +60,7 @@ private:
 	float4 SpawnPos_;
 
 private:
-	std::vector<TileIndex> MoveRange_;				// 플레이어기준 이동가능범위(타일목록)
+	std::vector<TileIndex> MaxMoveRange_;			// 플레이어기준 이동가능범위(타일목록)
 	float4 TargetPos_;								// 타겟 위치
 	GolemTargetDir PrevDir_;						// 이전 방향
 	GolemTargetDir CurDir_;							// 현재 방향
@@ -93,6 +93,10 @@ private:
 private:
 	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);
 	void ChangeAnimationCheck(const std::string& _StateName);
+
+private: // 이동제한범위셋팅
+	void SetMoveRange();
+	bool CheckMoveRange();
 
 public:
 	void SpawnGolem(GolemType _GolemType, const float4& _SpawnPos);

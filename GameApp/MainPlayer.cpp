@@ -589,7 +589,7 @@ void MainPlayer::PlayerMoveKeyCheck()
 			}
 		}
 
-		// 현재 방향 전환 및 이동 Flag On
+		// 현재 방향 전환
 		if (true == MoveDirectCheck(MousePos))
 		{
 			// 이동 시작
@@ -610,12 +610,14 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 			{
 				// 스킬시전 위치 저장
 				SkillCastPos_ = GlobalValue::CurMouse->GetTransform()->GetWorldPosition();
-
-				// 현재 선택된 스킬이 기본공격이아니라면 스킬공격 모션으로 전환
-				if (0 != CurRightSkill_)
+				if (true == MoveDirectCheck(SkillCastPos_))
 				{
-					// 스킬공격 모션 종료시 현재 선택된 스킬 시전
-					ChangeFSMState("Special_Attack");
+					// 현재 선택된 스킬이 기본공격이아니라면 스킬공격 모션으로 전환
+					if (0 != CurRightSkill_)
+					{
+						// 스킬공격 모션 종료시 현재 선택된 스킬 시전
+						ChangeFSMState("Special_Attack");
+					}
 				}
 			}
 		}

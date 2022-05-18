@@ -138,8 +138,6 @@ void SummonsGolem::ChangeAnimationCheck(const std::string& _StateName)
 // 소환상태
 void SummonsGolem::StartSpawnState()
 {
-	ChangeAnimationCheck("Spawn");
-
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = GolemState::SPAWN;
@@ -169,6 +167,10 @@ void SummonsGolem::StartIdleState()
 
 void SummonsGolem::UpdateIdleState()
 {
+	// 골렘의 이동제한범위의 타일중 랜덤한타일을 목표타일로 설정 후 
+	// 이동상태로 전환
+
+
 
 }
 
@@ -185,11 +187,26 @@ void SummonsGolem::StartWalkState()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = GolemState::WALK;
+
+	// 
+
 }
 
 void SummonsGolem::UpdateWalkState()
 {
+	// 플레이어 주변 일정범위내에서 이동
 
+
+
+	// 이동 중 적감지시 적을 공격
+	// 단, 이동범위를 벗어났다면 플레이어 자리로 워프
+
+
+
+
+
+
+	
 }
 
 void SummonsGolem::EndWalkState()
@@ -209,7 +226,7 @@ void SummonsGolem::StartAttackState()
 
 void SummonsGolem::UpdateAttackState()
 {
-
+	
 }
 
 void SummonsGolem::EndAttackState()

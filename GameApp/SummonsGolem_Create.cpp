@@ -223,7 +223,7 @@ void SummonsGolem::CreateBloodGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
-	GolemRenderer_->GetTransform()->SetLocalPosition(SpawnPos_);
+	GetTransform()->SetLocalPosition(SpawnPos_);
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(85, GolemInfo_);
