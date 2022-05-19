@@ -19,8 +19,12 @@
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngine/GameEngineLevel.h>
 
+// 공통
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
+
+// UI 관련
+#include "SummonsEmblem.h"
 
 // 맵 관련
 #include "TownMap.h"
@@ -39,6 +43,7 @@
 
 // 소환수관련
 #include "SummonsGolem.h"
+#include "SketelonWarrior.h"
 
 int MainPlayer::ArrangeRoomNo_ = -1;
 int MainPlayer::CurLeftSkill_ = 0;
@@ -59,6 +64,7 @@ MainPlayer::MainPlayer() :
 	IsFrameZOrderChangeChk_(false),
 	SkillCastPos_(float4::ZERO),
 	SummonsGolem_(nullptr),
+	DeathMonster_(nullptr),
 	CurHP_(100),
 	CurMP_(100),
 	PrevEXP_(0),
@@ -615,8 +621,24 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 					// 현재 선택된 스킬이 기본공격이아니라면 스킬공격 모션으로 전환
 					if (0 != CurRightSkill_)
 					{
-						// 스킬공격 모션 종료시 현재 선택된 스킬 시전
-						ChangeFSMState("Special_Attack");
+						// 스켈텔론 소환 스킬일때는 마우스와 몬스터의 시체가 충돌중인지 체크한다.
+						if (70 == CurRightSkill_ || 80 == CurRightSkill_)
+						{
+							// 몬스터와 마우스가 충돌중(몬스터 시체와 충돌중이여야만 가능)
+							if (true == GlobalValue::CurMouse->GetMonsterCollision())
+							{
+								// 사용하려는 시체의 몬스터를 가지고있는다.ㄴ
+								DeathMonster_ = GlobalValue::CurMouse->GetCurCollisionMonster();
+
+								// 스킬공격 모션 종료시 현재 선택된 스킬 시전
+								ChangeFSMState("Special_Attack");
+							}
+						}
+						else
+						{
+							// 스킬공격 모션 종료시 현재 선택된 스킬 시전
+							ChangeFSMState("Special_Attack");
+						}
 					}
 				}
 			}
@@ -642,24 +664,32 @@ void MainPlayer::GolemSummons()
 		{
 			SummonsGolem_ = GetLevel()->CreateActor<SummonsGolem>();
 			SummonsGolem_->SpawnGolem(GolemType::CLAY, SkillCastPos_);
+
+			GlobalValue::Emblem->GolemEmblemUpdate(GolemType::CLAY);
 			break;
 		}
 		case 85: // BloodGolem 소환
 		{
 			SummonsGolem_ = GetLevel()->CreateActor<SummonsGolem>();
 			SummonsGolem_->SpawnGolem(GolemType::BLOOD, SkillCastPos_);
+
+			GlobalValue::Emblem->GolemEmblemUpdate(GolemType::BLOOD);
 			break;
 		}
 		case 90: // IronGolem 소환
 		{
 			SummonsGolem_ = GetLevel()->CreateActor<SummonsGolem>();
 			SummonsGolem_->SpawnGolem(GolemType::IRON, SkillCastPos_);
+
+			GlobalValue::Emblem->GolemEmblemUpdate(GolemType::IRON);
 			break;
 		}
 		case 94: // FireGolem 소환
 		{
 			SummonsGolem_ = GetLevel()->CreateActor<SummonsGolem>();
 			SummonsGolem_->SpawnGolem(GolemType::FIRE, SkillCastPos_);
+
+			GlobalValue::Emblem->GolemEmblemUpdate(GolemType::FIRE);
 			break;
 		}
 	}
@@ -672,7 +702,41 @@ void MainPlayer::SkeletonWarriorSummons()
 	// 스켈텔론(전사) 소환
 	if (CurRightSkill_ == 70)
 	{
+		// 최대 소환갯수 초과시 가장 첫번째 생성된 스켈텔론(전사형) 사망 처리 후
+		if (SummonsWarrior <= static_cast<int>(SummonsSketelonWarrior_.size()))
+		{
+			// 사망 처리
+			SketelonWarrior* DeathSketelon = SummonsSketelonWarrior_.front();
+			DeathSketelon->CurSkeletonDeath();
 
+			// 생성 갯수 감소
+			SketelonWarrior::WarriorCnt -= 1;
+			
+			// 목록에서 제거
+			SummonsSketelonWarrior_.pop_front();
+
+			// 현재 목록에 존재하는 소환수들의 네비게이션 인덱스를 감소
+			for (auto& CurSketelon : SummonsSketelonWarrior_)
+			{
+				CurSketelon->DecreaseNavationIndex();
+			}
+		}
+
+		// 해당 스킬에 사용된 몬스터는 실질적으로 사망처리되며, 스켈텔론이 생성된다.
+		if (nullptr != DeathMonster_)
+		{
+			// 현재 마우스가 선택한 몬스터를 사망처리
+			DeathMonster_->GetActor()->Death();
+			DeathMonster_ = nullptr;
+
+			// 새로운 스켈텔론 생성 후 목록에 추가
+			SketelonWarrior* NewSketelon = GetLevel()->CreateActor<SketelonWarrior>();
+			NewSketelon->SpawnSketelonWarrior(SkillCastPos_);
+			SummonsSketelonWarrior_.push_back(NewSketelon);
+
+			// 엠블럼 업데이트
+			GlobalValue::Emblem->SketelonWarriorUpdate(SketelonWarrior::WarriorCnt);
+		}
 	}
 }
 
@@ -684,5 +748,20 @@ void MainPlayer::SkeletonWizardSummons()
 	if (CurRightSkill_ == 80)
 	{
 
+	}
+}
+
+void MainPlayer::SkeletonWarriorDeath(SketelonWarrior* _DeathWarrior)
+{
+	std::list<SketelonWarrior*>::iterator StartIter = SummonsSketelonWarrior_.begin();
+	std::list<SketelonWarrior*>::iterator EndIter = SummonsSketelonWarrior_.end();
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		if ((*StartIter) == _DeathWarrior)
+		{
+			SummonsSketelonWarrior_.erase(StartIter);
+			_DeathWarrior->Death();
+			break;
+		}
 	}
 }

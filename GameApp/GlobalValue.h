@@ -16,10 +16,12 @@ class Portal;
 class Storehouse;
 class CatacombsMap;
 class Andariel;
+class SummonsEmblem;
 class GlobalValue
 {
 public: // 공통UI 관련
 	static MonsterTopHPBar* TopHPBar;
+	static SummonsEmblem* Emblem;
 
 public: // 플레이어 관련
 	static MainPlayer* CurPlayer;

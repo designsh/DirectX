@@ -758,7 +758,8 @@ void CatacombsMap::CurLevelActorRoomArrange()
 			}
 			else
 			{
-				// 플레이어 생성 룸에는 각 몬스터의 시체 배치
+				// 플레이어 생성 룸에는 각 몬스터의 시체 배치(총 40마리 : 전사 20마리 소환용, 마법사 20마리 소환용)
+				
 				//std::vector<Fallen*> FallenList_;
 				//std::vector<SpikeFiend*> SpikeFiendList_;
 				//std::vector<Tainted*> TaintedList_;
@@ -782,7 +783,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 				NewTainted->SetName("Tainted" + std::to_string(TaintedList_.size()));
 				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_ + TileIndex(2, 2)));
 				NewTainted->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-				//NewTainted->SpawnToDeath();
+				NewTainted->SpawnToDeath();
 				TaintedList_.push_back(NewTainted);
 
 				// Zombie

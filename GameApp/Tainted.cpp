@@ -9,6 +9,7 @@
 #include "MainPlayer.h"
 
 #include "CatacombsMap.h"
+#include "MonsterTopHPBar.h"
 
 int Tainted::TaintedCnt = 0;
 

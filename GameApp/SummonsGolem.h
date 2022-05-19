@@ -81,7 +81,7 @@ private:
 	float CheckTime_;								// 대기상태에서 다음상태전환까지 대기시간
 
 private:
-	GameEngineActor* DetectMonster_;				// 현재 감지성공한 몬스터충돌체
+	GameEngineActor* DetectMonster_;				// 현재 감지성공한 몬스터
 
 public:
 	SummonsGolem();

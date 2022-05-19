@@ -3,6 +3,7 @@
 
 // 공통 UI관련
 MonsterTopHPBar* GlobalValue::TopHPBar = nullptr;
+SummonsEmblem* GlobalValue::Emblem = nullptr;
 
 // 현재 생성된 게임의 메인플레이어
 MainPlayer* GlobalValue::CurPlayer = nullptr;

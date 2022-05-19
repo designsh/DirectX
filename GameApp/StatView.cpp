@@ -75,7 +75,7 @@ void StatView::Start()
 	float4 ImageHarfSize = PanelTexture->GetTextureSize().halffloat4();
 
 	// MainPlayer StateView Panel Setting
-	PanelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
+	PanelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1));
 	PanelRenderer_->SetImage("Player_StateView_Panel.png");
 	PanelRenderer_->GetTransform()->SetLocalPosition(float4(ImageHarfSize.x - WindowHarfSize.x, 24.f));
 
@@ -87,158 +87,158 @@ void StatView::Start()
 
 	// MainPlayer Infomation String Setting
 	// 상태창 ID
-	IDRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	IDRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	IDRenderer_->GetTransform()->SetLocalPosition(float4(-220.f, 222.f));
 
 	// 상태창 직업명
-	JobClassRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	JobClassRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	JobClassRenderer_->GetTransform()->SetLocalPosition(float4(-70.f, 222.f));
 
 	// 상태창 현재 레벨
-	GameEngineUIRenderer* LevelName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* LevelName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	LevelName->GetTransform()->SetLocalPosition(float4(-288.f, 198.f));
 	LevelName->TextSetting("diablo", "레벨", 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	CurLevelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	CurLevelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	CurLevelRenderer_->GetTransform()->SetLocalPosition(float4(-288.f, 184.f));
 
 	// 상태창 경험치
-	GameEngineUIRenderer* ExpName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* ExpName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	ExpName->GetTransform()->SetLocalPosition(float4(-198.f, 198.f));
 	ExpName->TextSetting("diablo", "경험치", 12, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	CurExpRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	CurExpRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	CurExpRenderer_->GetTransform()->SetLocalPosition(float4(-198.f, 184.f));
 
 	// 상태창 힘
-	GameEngineUIRenderer* StrengthName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* StrengthName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	StrengthName->GetTransform()->SetLocalPosition(float4(-278.f, 148.f));
 	StrengthName->TextSetting("diablo", "힘", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	StrengthRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	StrengthRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	StrengthRenderer_->GetTransform()->SetLocalPosition(float4(-224.f, 148.f));
 
 	// 상태창 민첩
-	GameEngineUIRenderer* DexterityName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* DexterityName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	DexterityName->GetTransform()->SetLocalPosition(float4(-278.f, 86.f));
 	DexterityName->TextSetting("diablo", "민첩", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	DexterityRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	DexterityRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	DexterityRenderer_->GetTransform()->SetLocalPosition(float4(-224.f, 86.f));
 
 	// 상태창 생명력
-	GameEngineUIRenderer* VitalityName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* VitalityName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	VitalityName->GetTransform()->SetLocalPosition(float4(-278.f, 0.f));
 	VitalityName->TextSetting("diablo", "생명력", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	VitalityRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	VitalityRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	VitalityRenderer_->GetTransform()->SetLocalPosition(float4(-224.f, 0.f));
 
 	// 상태창 에너지
-	GameEngineUIRenderer* EnergyName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* EnergyName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	EnergyName->GetTransform()->SetLocalPosition(float4(-278.f, -62.f));
 	EnergyName->TextSetting("diablo", "에너지", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	EnergyRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	EnergyRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	EnergyRenderer_->GetTransform()->SetLocalPosition(float4(-224.f, -62.f));
 
 	// 상태창 공격데미지(최소)-상태창 공격데미지(최대)
-	GameEngineUIRenderer* AttackName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* AttackName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	AttackName->GetTransform()->SetLocalPosition(float4(-110.f, 150.f));
 	AttackName->TextSetting("diablo", "공격", 9, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	GameEngineUIRenderer* DamageName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* DamageName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	DamageName->GetTransform()->SetLocalPosition(float4(-110.f, 142.f));
 	DamageName->TextSetting("diablo", "데미지", 9, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	DamageRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	DamageRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	DamageRenderer_->GetTransform()->SetLocalPosition(float4(-34.f, 148.f));
 	
 	// 상태창 공격등급
-	GameEngineUIRenderer* RatingAttackName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* RatingAttackName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	RatingAttackName->GetTransform()->SetLocalPosition(float4(-110.f, 90.f));
 	RatingAttackName->TextSetting("diablo", "공격", 9, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	GameEngineUIRenderer* RatingName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* RatingName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	RatingName->GetTransform()->SetLocalPosition(float4(-110.f, 82.f));
 	RatingName->TextSetting("diablo", "등급", 9, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	AttackRatingRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	AttackRatingRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	AttackRatingRenderer_->GetTransform()->SetLocalPosition(float4(-30.f, 86.f));
 
 	// 상태창 방어
-	GameEngineUIRenderer* DefenseName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* DefenseName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	DefenseName->GetTransform()->SetLocalPosition(float4(-110.f, 38.f));
 	DefenseName->TextSetting("diablo", "방어", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	DefenseRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	DefenseRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	DefenseRenderer_->GetTransform()->SetLocalPosition(float4(-30.f, 38.f));
 
 	// 상태창 스태미나
-	GameEngineUIRenderer* StaminaName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* StaminaName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	StaminaName->GetTransform()->SetLocalPosition(float4(-126.f, -2.f));
 	StaminaName->TextSetting("diablo", "스태미나", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	StaminaRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	StaminaRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	StaminaRenderer_->GetTransform()->SetLocalPosition(float4(-70.f, 0.f));
 
 	// 상태창 라이프
-	GameEngineUIRenderer* LifeName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* LifeName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	LifeName->GetTransform()->SetLocalPosition(float4(-126.f, -26.f));
 	LifeName->TextSetting("diablo", "라이프", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	LifeRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	LifeRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	LifeRenderer_->GetTransform()->SetLocalPosition(float4(-70.f, -24.f));
 
 	// 상태창 마나
-	GameEngineUIRenderer* ManaName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* ManaName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	ManaName->GetTransform()->SetLocalPosition(float4(-126.f, -64.f));
 	ManaName->TextSetting("diablo", "마나", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	ManaRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	ManaRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	ManaRenderer_->GetTransform()->SetLocalPosition(float4(-70.f, -62.f));
 
 	// 상태창 파이어 저항력
-	GameEngineUIRenderer* FireResistanceName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* FireResistanceName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	FireResistanceName->GetTransform()->SetLocalPosition(float4(-98.f, -102.f));
 	FireResistanceName->TextSetting("diablo", "파이어 저항력", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	FireResistanceRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	FireResistanceRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	FireResistanceRenderer_->GetTransform()->SetLocalPosition(float4(-30.f, -102.f));
 
 	// 상태창 콜드 저항력
-	GameEngineUIRenderer* ColdResistanceName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* ColdResistanceName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	ColdResistanceName->GetTransform()->SetLocalPosition(float4(-98.f, -126.f));
 	ColdResistanceName->TextSetting("diablo", "콜드 저항력", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	ColdResistanceRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	ColdResistanceRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	ColdResistanceRenderer_->GetTransform()->SetLocalPosition(float4(-30.f, -126.f));
 
 	// 상태창 라이트닝 저항력
-	GameEngineUIRenderer* LightningResistanceName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* LightningResistanceName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	LightningResistanceName->GetTransform()->SetLocalPosition(float4(-98.f, -150.f));
 	LightningResistanceName->TextSetting("diablo", "라이트닝 저항력", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	LightningResistanceRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	LightningResistanceRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	LightningResistanceRenderer_->GetTransform()->SetLocalPosition(float4(-30.f, -150.f));
 
 	// 상태창 포이즌 저항력
-	GameEngineUIRenderer* PoisonResistanceName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	GameEngineUIRenderer* PoisonResistanceName = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	PoisonResistanceName->GetTransform()->SetLocalPosition(float4(-98.f, -174.f));
 	PoisonResistanceName->TextSetting("diablo", "포이즌 저항력", 10, FW1_VCENTER | FW1_CENTER, float4::WHITE);
 
-	PoisonResistanceRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Text));
+	PoisonResistanceRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Text));
 	PoisonResistanceRenderer_->GetTransform()->SetLocalPosition(float4(-30.f, -174.f));
 
 	// 종료버튼
-	CloseButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	CloseButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
 	CloseButton_->CreateAnimation("CloseButton_Default.png", "Default", 0, 0, 0.1f, false);
 	CloseButton_->CreateAnimation("CloseButton_Click.png", "Click", 0, 0, 0.1f, false);
 	CloseButton_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.f));
 	CloseButton_->GetTransform()->SetLocalPosition(float4(-176.f, -166.f));
 	CloseButton_->SetChangeAnimation("Default");
 
-	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
 	MainCollider_->GetTransform()->SetLocalScaling(float4(32.f, 32.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(CloseButton_->GetTransform()->GetLocalPosition());
 
@@ -253,7 +253,7 @@ void StatView::Start()
 	PointBtnDisabled->Cut(1, 1);
 
 	// 힘
-	STRPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	STRPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
 	STRPointUpButton_->CreateAnimation("LevelUpButton_Default.png", "Default", 0, 0, 0.1f, false);
 	STRPointUpButton_->CreateAnimation("LevelUpButton_Click.png", "Click", 0, 0, 0.1f, false);
 	STRPointUpButton_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.f));
@@ -261,13 +261,13 @@ void StatView::Start()
 	STRPointUpButton_->SetChangeAnimation("Default");
 	STRPointUpButton_->Off();
 
-	STRPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	STRPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
 	STRPointUpButtonCollider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.0f));
 	STRPointUpButtonCollider_->GetTransform()->SetLocalPosition(STRPointUpButton_->GetTransform()->GetLocalPosition());
 	STRPointUpButtonCollider_->Off();
 
 	// 민첩
-	DEXPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	DEXPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
 	DEXPointUpButton_->CreateAnimation("LevelUpButton_Default.png", "Default", 0, 0, 0.1f, false);
 	DEXPointUpButton_->CreateAnimation("LevelUpButton_Click.png", "Click", 0, 0, 0.1f, false);
 	DEXPointUpButton_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.f));
@@ -275,13 +275,13 @@ void StatView::Start()
 	DEXPointUpButton_->SetChangeAnimation("Default");
 	DEXPointUpButton_->Off();
 
-	DEXPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	DEXPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
 	DEXPointUpButtonCollider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.0f));
 	DEXPointUpButtonCollider_->GetTransform()->SetLocalPosition(DEXPointUpButton_->GetTransform()->GetLocalPosition());
 	DEXPointUpButtonCollider_->Off();
 
 	// 생명력
-	VITPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	VITPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
 	VITPointUpButton_->CreateAnimation("LevelUpButton_Default.png", "Default", 0, 0, 0.1f, false);
 	VITPointUpButton_->CreateAnimation("LevelUpButton_Click.png", "Click", 0, 0, 0.1f, false);
 	VITPointUpButton_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.f));
@@ -289,13 +289,13 @@ void StatView::Start()
 	VITPointUpButton_->SetChangeAnimation("Default");
 	VITPointUpButton_->Off();
 
-	VITPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	VITPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
 	VITPointUpButtonCollider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.0f));
 	VITPointUpButtonCollider_->GetTransform()->SetLocalPosition(VITPointUpButton_->GetTransform()->GetLocalPosition());
 	VITPointUpButtonCollider_->Off();
 
 	// 에너지
-	ENRPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0_Button));
+	ENRPointUpButton_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI1_Button));
 	ENRPointUpButton_->CreateAnimation("LevelUpButton_Default.png", "Default", 0, 0, 0.1f, false);
 	ENRPointUpButton_->CreateAnimation("LevelUpButton_Click.png", "Click", 0, 0, 0.1f, false);
 	ENRPointUpButton_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.f));
@@ -303,7 +303,7 @@ void StatView::Start()
 	ENRPointUpButton_->SetChangeAnimation("Default");
 	ENRPointUpButton_->Off();
 
-	ENRPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
+	ENRPointUpButtonCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI1_Collider));
 	ENRPointUpButtonCollider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f, 1.0f));
 	ENRPointUpButtonCollider_->GetTransform()->SetLocalPosition(ENRPointUpButton_->GetTransform()->GetLocalPosition());
 	ENRPointUpButtonCollider_->Off();

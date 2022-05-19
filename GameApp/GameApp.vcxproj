@@ -256,6 +256,12 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SketelonWarrior.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SketelonWarrior_Create.cpp" />
+    <ClCompile Include="SketelonWarrior_FSMState.cpp" />
     <ClCompile Include="SkillView.cpp">
       <SubType>
       </SubType>
@@ -319,6 +325,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="StoreView.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SummonsEmblem.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -613,6 +623,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="RandomTileMap_Common.h" />
+    <ClInclude Include="SketelonWarrior.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SkillView.h">
       <SubType>
       </SubType>
@@ -667,6 +681,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="StoreView.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SummonsEmblem.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -1,13 +1,14 @@
 #include "PreCompile.h"
 #include "MouseObject.h"
 
+#include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
+
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
 #include "Portal.h"
-
-#include <GameEngine/GameEngineUIRenderer.h>
-#include <GameEngine/GameEngineCollision.h>
+#include "MonsterTopHPBar.h"
 
 MouseObject::MouseObject() :
 	PlayerUI_BottomStateBarCol_(false),
@@ -293,6 +294,9 @@ void MouseObject::MonsterCollisionEnd(GameEngineCollision* _Other)
 
 		// 충돌중인 몬스터 초기화
 		CurMonsterCol_ = nullptr;
+		
+		// 상단 HP Bar Off
+		GlobalValue::TopHPBar->CurMonsterTopHPBarOff();
 	}
 }
 

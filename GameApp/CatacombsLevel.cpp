@@ -14,6 +14,7 @@
 #include "MainPlayer.h"
 #include "MouseObject.h"
 #include "MonsterTopHPBar.h"
+#include "SummonsEmblem.h"
 
 bool CatacombsLevel::ResourceLoadEndCheck = false;
 
@@ -21,7 +22,8 @@ CatacombsLevel::CatacombsLevel() :
 	CatacombsMap_(nullptr),
 	MainPlayer_(nullptr),
 	MainMouse_(nullptr),
-	TopHPBar_(nullptr)
+	TopHPBar_(nullptr),
+	SummonsEmblem_(nullptr)
 {
 }
 
@@ -63,6 +65,11 @@ void CatacombsLevel::CreateLevelActor()
 
 	// 상단 UI 생성(상단 HPBar)
 	TopHPBar_ = CreateActor<MonsterTopHPBar>();
+	GlobalValue::TopHPBar = TopHPBar_;
+
+	// 좌상단 플레이어 소환수 엠블럼
+	SummonsEmblem_ = CreateActor<SummonsEmblem>();
+	GlobalValue::Emblem = SummonsEmblem_;
 }
 
 void CatacombsLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)

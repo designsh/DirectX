@@ -42,6 +42,7 @@ void MonsterTopHPBar::Start()
 
 void MonsterTopHPBar::Update(float _DeltaTime)
 {
+
 }
 
 void MonsterTopHPBar::SetCurMonster(const std::string& _MonsterName, int _MaxHP, int _HP, const float4& _TextColor)

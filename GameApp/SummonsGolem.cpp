@@ -158,31 +158,36 @@ void SummonsGolem::SpawnAnimationEnd()
 void SummonsGolem::AttackAnimationEnd()
 {
 	// 현재 충돌한 몬스터(적)에게 피해를 입히고
-	std::string DetectActor = DetectMonster_->GetName();
-	if (std::string::npos != DetectActor.find("Fallen"))
+	if (nullptr != DetectMonster_)
 	{
-		Fallen* CurAttackMonster = (Fallen*)DetectMonster_;
+		std::string DetectActor = DetectMonster_->GetName();
+		if (std::string::npos != DetectActor.find("Fallen"))
+		{
+			Fallen* CurAttackMonster = (Fallen*)DetectMonster_;
 
-	}
-	else if (std::string::npos != DetectActor.find("SpikeFiend"))
-	{
-		SpikeFiend* CurAttackMonster = (SpikeFiend*)DetectMonster_;
+		}
+		else if (std::string::npos != DetectActor.find("SpikeFiend"))
+		{
+			SpikeFiend* CurAttackMonster = (SpikeFiend*)DetectMonster_;
 
-	}
-	else if (std::string::npos != DetectActor.find("Tainted"))
-	{
-		Tainted* CurAttackMonster = (Tainted*)DetectMonster_;
-		CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
-	}
-	else if (std::string::npos != DetectActor.find("Zombie"))
-	{
-		Zombie* CurAttackMonster = (Zombie*)DetectMonster_;
+		}
+		else if (std::string::npos != DetectActor.find("Tainted"))
+		{
+			Tainted* CurAttackMonster = (Tainted*)DetectMonster_;
+			CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
+		}
+		else if (std::string::npos != DetectActor.find("Zombie"))
+		{
+			Zombie* CurAttackMonster = (Zombie*)DetectMonster_;
 
-	}
-	else if (std::string::npos != DetectActor.find("Andariel"))
-	{
-		Andariel* CurAttackMonster = (Andariel*)DetectMonster_;
+		}
+		else if (std::string::npos != DetectActor.find("Andariel"))
+		{
+			Andariel* CurAttackMonster = (Andariel*)DetectMonster_;
 
+		}
+
+		DetectMonster_ = nullptr;
 	}
 
 	// 대기상태로 전환
