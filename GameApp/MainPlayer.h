@@ -9,7 +9,7 @@
 #include "MainPlayerInfomation.h"
 
 // 스켈텔론 소환수 최대수
-#define SummonsWarrior 3
+#define SummonsWarrior 20
 #define SummonsWizard 20
 
 #pragma region Player_Direct
@@ -148,6 +148,7 @@ class GameEngineImageRenderer;
 class GameEngineLevel;
 class SummonsGolem;
 class SketelonWarrior;
+class SketelonWizard;
 class MainPlayer : public GameEngineActor
 {
 public:
@@ -192,10 +193,10 @@ private:
 	float4 SkillCastPos_;									// 스킬 시전 마우스 클릭지점
 	SummonsGolem* SummonsGolem_;							// 골렘(타입에 관계없이 1개의 골렘만을 소환가능)
 	std::list<SketelonWarrior*> SummonsSketelonWarrior_;	// 스켈레톤(전사형) - 최대 20마리 소환
+	std::list<SketelonWizard*> SummonsSketelonWizard_;		// 스켈레톤(마법사형) - 최대 20마리 소환
 
 private:
 	GameEngineCollision* DeathMonster_;
-
 
 #pragma endregion
 
@@ -571,7 +572,7 @@ private:
 #pragma region 소환수관리관련
 public:
 	void SkeletonWarriorDeath(SketelonWarrior* _DeathWarrior);
-	//void SkeletonWizardDeath(SketelonWarrior* _DeathWarrior);
+	void SkeletonWizardDeath(SketelonWizard* _DeathWizard);
 
 #pragma endregion
 };

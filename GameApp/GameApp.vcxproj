@@ -262,6 +262,12 @@
     </ClCompile>
     <ClCompile Include="SketelonWarrior_Create.cpp" />
     <ClCompile Include="SketelonWarrior_FSMState.cpp" />
+    <ClCompile Include="SketelonWizard.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SketelonWizard_Create.cpp" />
+    <ClCompile Include="SketelonWizard_FSMState.cpp" />
     <ClCompile Include="SkillView.cpp">
       <SubType>
       </SubType>
@@ -624,6 +630,10 @@
     </ClInclude>
     <ClInclude Include="RandomTileMap_Common.h" />
     <ClInclude Include="SketelonWarrior.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SketelonWizard.h">
       <SubType>
       </SubType>
     </ClInclude>

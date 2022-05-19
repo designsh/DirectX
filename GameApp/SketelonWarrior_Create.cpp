@@ -42,7 +42,6 @@ void SketelonWarrior::TextureCutting()
 
 void SketelonWarrior::CreateCollision()
 {
-
 }
 
 void SketelonWarrior::CreateAnimation()

@@ -7,8 +7,8 @@
 #include "FixedTileMap_Common.h"
 #include "MainPlayerInfomation.h"
 
-// 스켈텔론(전사형) 타겟방향
-enum class SketelonWarrior_TargetDir
+// 스켈텔론(마법사형) 타겟방향
+enum class SketelonWizard_TargetDir
 {
 	SW_LB,
 	SW_LT,
@@ -20,8 +20,8 @@ enum class SketelonWarrior_TargetDir
 	SW_R,
 };
 
-// 스켈텔론(전사형) 상태
-enum class SketelonWarriorState
+// 스켈텔론(마법사형) 상태
+enum class SketelonWizardState
 {
 	SPAWN,
 	IDLE,
@@ -32,32 +32,43 @@ enum class SketelonWarriorState
 	DEATH
 };
 
+// 소환된 스켈레톤(마법사형) 타입
+enum class SkeletonWizardType
+{
+	NONE = -1,
+	COLD,
+	FIRE,
+	LIGHTNING,
+	POISON,
+};
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
 class GameEngineImageRenderer;
 class GameEngineCollision;
-class SketelonWarrior : public GameEngineActor
+class SketelonWizard : public GameEngineActor
 {
 public:
-	static int WarriorCnt;
+	static int WizardCnt;
 
 private:
-	GameEngineImageRenderer* WarriorRenderer_;
+	GameEngineImageRenderer* WizardRenderer_;
 	GameEngineCollision* BodyCollider_;
 
 private: // 현재 감지성공한 몬스터(공격후 nullptr 초기화)
 	GameEngineActor* DetectMonster_;
 
 private:
-	SkillList SketelonWarriorInfo_;
+	SkillList SketelonWizardInfo_;
 	GameEngineFSM State_;
-	SketelonWarriorState PrevState_;
-	SketelonWarriorState CurState_;
+	SketelonWizardState PrevState_;
+	SketelonWizardState CurState_;
 	float4 SpawnPos_;
-	int WarriorNavigationIndex_;
+	int WizardNavigationIndex_;
 
 private:
+	SkeletonWizardType WizardType_;
 	float CheckTime_;
 	int CurHP_;
 
@@ -70,20 +81,20 @@ private:
 	float MoveSpeed_;								// 이동속도
 
 private:
-	SketelonWarrior_TargetDir PrevDir_;				// 이전 방향
-	SketelonWarrior_TargetDir CurDir_;				// 현재 방향
+	SketelonWizard_TargetDir PrevDir_;				// 이전 방향
+	SketelonWizard_TargetDir CurDir_;				// 현재 방향
 
 public:
-	SketelonWarrior();
-	~SketelonWarrior();
+	SketelonWizard();
+	~SketelonWizard();
 
 protected:		// delete constructer
-	SketelonWarrior(const SketelonWarrior& _other) = delete;
-	SketelonWarrior(SketelonWarrior&& _other) noexcept = delete;
+	SketelonWizard(const SketelonWizard& _other) = delete;
+	SketelonWizard(SketelonWizard&& _other) noexcept = delete;
 
 private:		//delete operator
-	SketelonWarrior& operator=(const SketelonWarrior& _other) = delete;
-	SketelonWarrior& operator=(const SketelonWarrior&& _other) = delete;
+	SketelonWizard& operator=(const SketelonWizard& _other) = delete;
+	SketelonWizard& operator=(const SketelonWizard&& _other) = delete;
 
 private:
 	void Start() override;
@@ -93,14 +104,20 @@ private:
 public:
 	inline void DecreaseNavationIndex()
 	{
-		WarriorNavigationIndex_ -= 1;
+		WizardNavigationIndex_ -= 1;
 	}
 
 private:
-	void InitSketelonWarrior();
+	void InitSketelonWizard();
 	void TextureCutting();
 	void CreateCollision();
+
+private:
 	void CreateAnimation();
+	void CreateWizardColdType();
+	void CreateWizardFireType();
+	void CreateWizardLightningType();
+	void CreateWizardPoisonType();
 	void CreateAnimationEndCallbackFunction();
 	void CreateFSMState();
 
@@ -159,6 +176,6 @@ public:
 	void CurSkeletonDeath();
 
 public:
-	void SpawnSketelonWarrior(const float4& _SpawnPos);
+	void SpawnSketelonWizard(SkeletonWizardType _WizardType, const float4& _SpawnPos);
 };
 

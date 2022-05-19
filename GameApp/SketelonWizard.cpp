@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "SketelonWarrior.h"
+#include "SketelonWizard.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
@@ -12,43 +12,43 @@
 
 #include "CatacombsMap.h"
 
-// 생성 인덱스
-int SketelonWarrior::WarriorCnt = 0;
+int SketelonWizard::WizardCnt = 0;
 
-SketelonWarrior::SketelonWarrior() :
-	WarriorRenderer_(nullptr),
+SketelonWizard::SketelonWizard() :
+	WizardRenderer_(nullptr),
 	BodyCollider_(nullptr),
 	DetectMonster_(nullptr),
-	SketelonWarriorInfo_{},
+	SketelonWizardInfo_{},
 	State_(),
-	PrevState_(SketelonWarriorState::SPAWN),
-	CurState_(SketelonWarriorState::SPAWN),
+	PrevState_(SketelonWizardState::SPAWN),
+	CurState_(SketelonWizardState::SPAWN),
 	SpawnPos_(float4::ZERO),
-	WarriorNavigationIndex_(-1),
+	WizardNavigationIndex_(-1),
+	WizardType_(SkeletonWizardType::NONE),
 	CheckTime_(1.f),
 	CurHP_(100),
 	MoveTargetTile_(),
 	TargetPos_(float4::ZERO),
 	MoveTargetDir_(float4::ZERO),
 	MoveSpeed_(100.f),
-	PrevDir_(SketelonWarrior_TargetDir::SW_B),
-	CurDir_(SketelonWarrior_TargetDir::SW_B)
+	PrevDir_(SketelonWizard_TargetDir::SW_B),
+	CurDir_(SketelonWizard_TargetDir::SW_B)
 {
-	WarriorNavigationIndex_ = WarriorCnt;
-	++WarriorCnt;
+	WizardNavigationIndex_ = WizardCnt;
+	++WizardCnt;
 }
 
-SketelonWarrior::~SketelonWarrior()
+SketelonWizard::~SketelonWizard()
 {
 }
 
-void SketelonWarrior::Start()
+void SketelonWizard::Start()
 {
-	// 스켈텔론(전사형) 관련 초기화
-	InitSketelonWarrior();
+	// 스켈텔론 마법사형 관련 초기화
+	InitSketelonWizard();
 }
 
-void SketelonWarrior::Update(float _DeltaTime)
+void SketelonWizard::Update(float _DeltaTime)
 {
 	// 상태업데이트
 	State_.Update();
@@ -58,7 +58,7 @@ void SketelonWarrior::Update(float _DeltaTime)
 	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 20.f);
 }
 
-void SketelonWarrior::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
+void SketelonWizard::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	// 타이틀 화면 or 로딩화면 or 캐릭터생성화면 or 캐릭터선택화면 or 엔딩화면 이동시 액터이동없음
 	if (std::string::npos != _NextLevel->GetName().find("TitleLevel"))
@@ -85,14 +85,16 @@ void SketelonWarrior::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 
 }
 
-void SketelonWarrior::CurSkeletonDeath()
+void SketelonWizard::CurSkeletonDeath()
 {
 	// 해당 스켈텔론을 사망상태로 전환
 	State_.ChangeState("Death");
 }
 
-void SketelonWarrior::SpawnSketelonWarrior(const float4& _SpawnPos)
+void SketelonWizard::SpawnSketelonWizard(SkeletonWizardType _WizardType, const float4& _SpawnPos)
 {
+	// 기본 정보 저장
+	WizardType_ = _WizardType;
 	SpawnPos_ = _SpawnPos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 
 	// 최초 이동범위 셋팅
@@ -115,13 +117,13 @@ void SketelonWarrior::SpawnSketelonWarrior(const float4& _SpawnPos)
 	ChangeAnimationCheck("Spawn");
 
 	// 스킬정보 = 소환수정보
-	MainPlayerInfomation::GetInst().GetSkillInfo(70, SketelonWarriorInfo_);
+	MainPlayerInfomation::GetInst().GetSkillInfo(80, SketelonWizardInfo_);
 
 	// 네비게이션 생성
-	GlobalValue::CatacombsMap->CreateNavitaion(NavigationObjectType::Player_SketelonWarrior, WarriorNavigationIndex_);
+	GlobalValue::CatacombsMap->CreateNavitaion(NavigationObjectType::Player_SketelonWizard, WizardNavigationIndex_);
 }
 
-void SketelonWarrior::SetMoveRange()
+void SketelonWizard::SetMoveRange()
 {
 	// 플레이어가 현재 위치한 타일 기준으로 현재 소환된 소환수의 이동범위를 설정한다.
 	TileIndex PlayerTile = GlobalValue::CatacombsMap->GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());

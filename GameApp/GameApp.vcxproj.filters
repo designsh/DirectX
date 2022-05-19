@@ -341,6 +341,15 @@
     <ClCompile Include="SummonsEmblem.cpp">
       <Filter>Object\Actor\00.Global\06.CommonGlobal\01.SummonsEmblem</Filter>
     </ClCompile>
+    <ClCompile Include="SketelonWizard.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard</Filter>
+    </ClCompile>
+    <ClCompile Include="SketelonWizard_Create.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard</Filter>
+    </ClCompile>
+    <ClCompile Include="SketelonWizard_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -1058,6 +1067,9 @@
     </ClInclude>
     <ClInclude Include="SummonsEmblem.h">
       <Filter>Object\Actor\00.Global\06.CommonGlobal\01.SummonsEmblem</Filter>
+    </ClInclude>
+    <ClInclude Include="SketelonWizard.h">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

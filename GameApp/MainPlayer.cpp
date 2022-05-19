@@ -1,9 +1,16 @@
 #include "PreCompile.h"
 #include "MainPlayer.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
+
+#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
+#include <GameEngine/GameEngineLevel.h>
+
 #include "MainPlayerInfomation.h"
 #include "MouseObject.h"
 
+// 플레이어 전용 UI 관련
 #include "BottomStateBar.h"
 #include "MainPlayer_MiniMenu.h"
 #include "MainPlayer_Stamina.h"
@@ -15,15 +22,11 @@
 #include "InventoryView.h"
 #include "GameEndMenuView.h"
 
-#include <GameEngine/GameEngineImageRenderer.h>
-#include <GameEngine/GameEngineCollision.h>
-#include <GameEngine/GameEngineLevel.h>
-
 // 공통
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
-// UI 관련
+// 전체 UI 관련
 #include "SummonsEmblem.h"
 
 // 맵 관련
@@ -44,6 +47,7 @@
 // 소환수관련
 #include "SummonsGolem.h"
 #include "SketelonWarrior.h"
+#include "SketelonWizard.h"
 
 int MainPlayer::ArrangeRoomNo_ = -1;
 int MainPlayer::CurLeftSkill_ = 0;
@@ -747,7 +751,43 @@ void MainPlayer::SkeletonWizardSummons()
 	// 스켈텔론(마법사) 소환
 	if (CurRightSkill_ == 80)
 	{
+		// 최대 소환갯수 초과시 가장 첫번째 생성된 스켈텔론(전사형) 사망 처리 후
+		if (SummonsWizard <= static_cast<int>(SummonsSketelonWizard_.size()))
+		{
+			// 사망 처리
+			SketelonWizard* DeathSketelon = SummonsSketelonWizard_.front();
+			DeathSketelon->CurSkeletonDeath();
 
+			// 생성 갯수 감소
+			SketelonWizard::WizardCnt -= 1;
+
+			// 목록에서 제거
+			SummonsSketelonWizard_.pop_front();
+
+			// 현재 목록에 존재하는 소환수들의 네비게이션 인덱스를 감소
+			for (auto& CurSketelon : SummonsSketelonWizard_)
+			{
+				CurSketelon->DecreaseNavationIndex();
+			}
+		}
+
+		// 해당 스킬에 사용된 몬스터는 실질적으로 사망처리되며, 스켈텔론이 생성된다.
+		if (nullptr != DeathMonster_)
+		{
+			// 현재 마우스가 선택한 몬스터를 사망처리
+			DeathMonster_->GetActor()->Death();
+			DeathMonster_ = nullptr;
+
+			// 새로운 스켈텔론 생성 후 목록에 추가
+			GameEngineRandom TypeRandom;
+			SkeletonWizardType RandType = static_cast<SkeletonWizardType>(TypeRandom.RandomInt(0, 3));
+			SketelonWizard* NewSketelon = GetLevel()->CreateActor<SketelonWizard>();
+			NewSketelon->SpawnSketelonWizard(RandType, SkillCastPos_);
+			SummonsSketelonWizard_.push_back(NewSketelon);
+
+			// 엠블럼 업데이트
+			GlobalValue::Emblem->SketelonWizardUpdate(SketelonWizard::WizardCnt);
+		}
 	}
 }
 
@@ -761,6 +801,21 @@ void MainPlayer::SkeletonWarriorDeath(SketelonWarrior* _DeathWarrior)
 		{
 			SummonsSketelonWarrior_.erase(StartIter);
 			_DeathWarrior->Death();
+			break;
+		}
+	}
+}
+
+void MainPlayer::SkeletonWizardDeath(SketelonWizard* _DeathWizard)
+{
+	std::list<SketelonWizard*>::iterator StartIter = SummonsSketelonWizard_.begin();
+	std::list<SketelonWizard*>::iterator EndIter = SummonsSketelonWizard_.end();
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		if ((*StartIter) == _DeathWizard)
+		{
+			SummonsSketelonWizard_.erase(StartIter);
+			_DeathWizard->Death();
 			break;
 		}
 	}
