@@ -1,4 +1,6 @@
 #pragma once
+#include <GameEngineBase/GameEnginePathFind.h>
+
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
@@ -33,8 +35,10 @@ enum class GolemState
 {
 	SPAWN,
 	IDLE,
+	WARP,
 	WALK,
 	ATTACK,
+	GETHIT,
 	DEATH
 };
 
@@ -61,13 +65,23 @@ private:
 
 private:
 	std::vector<TileIndex> MaxMoveRange_;			// 플레이어기준 이동가능범위(타일목록)
+	float MoveSpeed_;								// 
+	TileIndex MoveTargetTile_;						// 이동목표 타일
 	float4 TargetPos_;								// 타겟 위치
+	std::list<PathIndex> MovePath_;					// 이동경로
+	float4 MoveTargetDir_;							// 실질적인 이동방향
 	GolemTargetDir PrevDir_;						// 이전 방향
 	GolemTargetDir CurDir_;							// 현재 방향
 
 private:
 	GolemState PrevState_;
 	GolemState CurState_;
+
+private:
+	float CheckTime_;								// 대기상태에서 다음상태전환까지 대기시간
+
+private:
+	GameEngineActor* DetectMonster_;				// 현재 감지성공한 몬스터충돌체
 
 public:
 	SummonsGolem();
@@ -94,9 +108,10 @@ private:
 	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);
 	void ChangeAnimationCheck(const std::string& _StateName);
 
-private: // 이동제한범위셋팅
-	void SetMoveRange();
-	bool CheckMoveRange();
+private: // 상태전환 체크관련
+	void SetMoveRange();			// 플레이어 위치기준 10x10 타일범위의 이동범위
+	bool CheckWarpStart();			// 이동제한 범위체크(TRUE : 대기상태전환 -> 워프상태로 전환됨)
+	bool MonsterDetect();				// TRUE : 적이 범위내에 존재, FALSE : 적이존재하지않음
 
 public:
 	void SpawnGolem(GolemType _GolemType, const float4& _SpawnPos);
@@ -128,10 +143,20 @@ private:
 	void UpdateWalkState();
 	void EndWalkState();
 
+	// 워프상태
+	void StartWarpState();
+	void UpdateWarpState();
+	void EndWarpState();
+
 	// 공격상태
 	void StartAttackState();
 	void UpdateAttackState();
 	void EndAttackState();
+
+	// 피격상태
+	void StartGetHitState();
+	void UpdateGetHitState();
+	void EndGetHitState();
 
 	// 사망상태
 	void StartDeathState();

@@ -118,7 +118,6 @@ void SummonsGolem::CreateClayGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
-	GolemRenderer_->GetTransform()->SetLocalPosition(SpawnPos_);
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(75, GolemInfo_);
@@ -176,46 +175,8 @@ void SummonsGolem::CreateClayGolem()
 	GolemRenderer_->CreateAnimation("ClayGolem_Death.png", "Death_R" , 0, 15, 0.1f, false);
 #pragma endregion
 
-#pragma region 애니메이션종료시점 호출함수 셋팅
-	// 소환상태
-	GolemRenderer_->SetEndCallBack("Spawn_LB", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_LT", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_RT", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_RB", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_B" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_L" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_T" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_R" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-
-	// 공격상태
-	GolemRenderer_->SetEndCallBack("Attack_LB", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_LT", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_RT", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_RB", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_B" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_L" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_T" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_R" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-
-	// 사망상태
-	GolemRenderer_->SetEndCallBack("Death_LB", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_LT", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_RT", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_RB", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_B" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_L" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_T" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_R" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-#pragma endregion
-
-#pragma region FSM 생성
-	State_.CreateState("Spawn", std::bind(&SummonsGolem::UpdateSpawnState, this), std::bind(&SummonsGolem::StartSpawnState, this), std::bind(&SummonsGolem::EndSpawnState, this));
-	State_.CreateState("Idle", std::bind(&SummonsGolem::UpdateIdleState, this), std::bind(&SummonsGolem::StartIdleState, this), std::bind(&SummonsGolem::EndIdleState, this));
-	State_.CreateState("Walk", std::bind(&SummonsGolem::UpdateWalkState, this), std::bind(&SummonsGolem::StartWalkState, this), std::bind(&SummonsGolem::EndWalkState, this));
-	State_.CreateState("Attack", std::bind(&SummonsGolem::UpdateAttackState, this), std::bind(&SummonsGolem::StartAttackState, this), std::bind(&SummonsGolem::EndAttackState, this));
-	State_.CreateState("Death", std::bind(&SummonsGolem::UpdateDeathState, this), std::bind(&SummonsGolem::StartDeathState, this), std::bind(&SummonsGolem::EndDeathState, this));
-	State_.ChangeState("Spawn");
-#pragma endregion
+	// 액터 위치 셋팅
+	GetTransform()->SetLocalPosition(SpawnPos_);
 }
 
 void SummonsGolem::CreateBloodGolem()
@@ -223,7 +184,6 @@ void SummonsGolem::CreateBloodGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
-	GetTransform()->SetLocalPosition(SpawnPos_);
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(85, GolemInfo_);
@@ -281,46 +241,8 @@ void SummonsGolem::CreateBloodGolem()
 	GolemRenderer_->CreateAnimation("BloodGolem_Death.png", "Death_R" , 112, 127, 0.1f, false);
 #pragma endregion
 
-#pragma region 애니메이션종료시점 호출함수 셋팅
-	// 소환상태
-	GolemRenderer_->SetEndCallBack("Spawn_LB", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_LT", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_RT", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_RB", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_B" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_L" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_T" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_R" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-
-	// 공격상태
-	GolemRenderer_->SetEndCallBack("Attack_LB", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_LT", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_RT", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_RB", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_B" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_L" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_T" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_R" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-
-	// 사망상태
-	GolemRenderer_->SetEndCallBack("Death_LB", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_LT", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_RT", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_RB", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_B" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_L" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_T" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_R" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-#pragma endregion
-
-#pragma region FSM 생성
-	State_.CreateState("Spawn", std::bind(&SummonsGolem::UpdateSpawnState, this), std::bind(&SummonsGolem::StartSpawnState, this), std::bind(&SummonsGolem::EndSpawnState, this));
-	State_.CreateState("Idle", std::bind(&SummonsGolem::UpdateIdleState, this), std::bind(&SummonsGolem::StartIdleState, this), std::bind(&SummonsGolem::EndIdleState, this));
-	State_.CreateState("Walk", std::bind(&SummonsGolem::UpdateWalkState, this), std::bind(&SummonsGolem::StartWalkState, this), std::bind(&SummonsGolem::EndWalkState, this));
-	State_.CreateState("Attack", std::bind(&SummonsGolem::UpdateAttackState, this), std::bind(&SummonsGolem::StartAttackState, this), std::bind(&SummonsGolem::EndAttackState, this));
-	State_.CreateState("Death", std::bind(&SummonsGolem::UpdateDeathState, this), std::bind(&SummonsGolem::StartDeathState, this), std::bind(&SummonsGolem::EndDeathState, this));
-	State_.ChangeState("Spawn");
-#pragma endregion
+	// 액터 위치 셋팅
+	GetTransform()->SetLocalPosition(SpawnPos_);
 }
 
 void SummonsGolem::CreateIronGolem()
@@ -328,7 +250,6 @@ void SummonsGolem::CreateIronGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
-	GolemRenderer_->GetTransform()->SetLocalPosition(SpawnPos_);
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(90, GolemInfo_);
@@ -386,46 +307,8 @@ void SummonsGolem::CreateIronGolem()
 	GolemRenderer_->CreateAnimation("IronGolem_Death.png", "Death_R" , 140, 159, 0.1f, false);
 #pragma endregion
 
-#pragma region 애니메이션종료시점 호출함수 셋팅
-	// 소환상태
-	GolemRenderer_->SetEndCallBack("Spawn_LB", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_LT", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_RT", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_RB", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_B" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_L" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_T" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_R" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-
-	// 공격상태
-	GolemRenderer_->SetEndCallBack("Attack_LB", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_LT", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_RT", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_RB", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_B" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_L" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_T" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_R" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-
-	// 사망상태
-	GolemRenderer_->SetEndCallBack("Death_LB", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_LT", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_RT", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_RB", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_B" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_L" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_T" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_R" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-#pragma endregion
-
-#pragma region FSM 생성
-	State_.CreateState("Spawn", std::bind(&SummonsGolem::UpdateSpawnState, this), std::bind(&SummonsGolem::StartSpawnState, this), std::bind(&SummonsGolem::EndSpawnState, this));
-	State_.CreateState("Idle", std::bind(&SummonsGolem::UpdateIdleState, this), std::bind(&SummonsGolem::StartIdleState, this), std::bind(&SummonsGolem::EndIdleState, this));
-	State_.CreateState("Walk", std::bind(&SummonsGolem::UpdateWalkState, this), std::bind(&SummonsGolem::StartWalkState, this), std::bind(&SummonsGolem::EndWalkState, this));
-	State_.CreateState("Attack", std::bind(&SummonsGolem::UpdateAttackState, this), std::bind(&SummonsGolem::StartAttackState, this), std::bind(&SummonsGolem::EndAttackState, this));
-	State_.CreateState("Death", std::bind(&SummonsGolem::UpdateDeathState, this), std::bind(&SummonsGolem::StartDeathState, this), std::bind(&SummonsGolem::EndDeathState, this));
-	State_.ChangeState("Spawn");
-#pragma endregion
+	// 액터 위치 셋팅
+	GetTransform()->SetLocalPosition(SpawnPos_);
 }
 
 void SummonsGolem::CreateFireGolem()
@@ -433,7 +316,6 @@ void SummonsGolem::CreateFireGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(240.f, 240.f));
-	GolemRenderer_->GetTransform()->SetLocalPosition(SpawnPos_);
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(94, GolemInfo_);
@@ -491,44 +373,6 @@ void SummonsGolem::CreateFireGolem()
 	GolemRenderer_->CreateAnimation("FireGolem_Death.png", "Death_R" , 0, 18, 0.1f, false);
 #pragma endregion
 
-#pragma region 애니메이션종료시점 호출함수 셋팅
-	// 소환상태
-	GolemRenderer_->SetEndCallBack("Spawn_LB", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_LT", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_RT", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_RB", std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_B" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_L" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_T" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Spawn_R" , std::bind(&SummonsGolem::SpawnAnimationEnd, this));
-
-	// 공격상태
-	GolemRenderer_->SetEndCallBack("Attack_LB", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_LT", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_RT", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_RB", std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_B" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_L" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_T" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Attack_R" , std::bind(&SummonsGolem::AttackAnimationEnd, this));
-
-	// 사망상태
-	GolemRenderer_->SetEndCallBack("Death_LB", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_LT", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_RT", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_RB", std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_B" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_L" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_T" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-	GolemRenderer_->SetEndCallBack("Death_R" , std::bind(&SummonsGolem::DeathAnimationEnd, this));
-#pragma endregion
-
-#pragma region FSM 생성
-	State_.CreateState("Spawn", std::bind(&SummonsGolem::UpdateSpawnState, this), std::bind(&SummonsGolem::StartSpawnState, this), std::bind(&SummonsGolem::EndSpawnState, this));
-	State_.CreateState("Idle", std::bind(&SummonsGolem::UpdateIdleState, this), std::bind(&SummonsGolem::StartIdleState, this), std::bind(&SummonsGolem::EndIdleState, this));
-	State_.CreateState("Walk", std::bind(&SummonsGolem::UpdateWalkState, this), std::bind(&SummonsGolem::StartWalkState, this), std::bind(&SummonsGolem::EndWalkState, this));
-	State_.CreateState("Attack", std::bind(&SummonsGolem::UpdateAttackState, this), std::bind(&SummonsGolem::StartAttackState, this), std::bind(&SummonsGolem::EndAttackState, this));
-	State_.CreateState("Death", std::bind(&SummonsGolem::UpdateDeathState, this), std::bind(&SummonsGolem::StartDeathState, this), std::bind(&SummonsGolem::EndDeathState, this));
-	State_.ChangeState("Spawn");
-#pragma endregion
+	// 액터 위치 셋팅
+	GetTransform()->SetLocalPosition(SpawnPos_);
 }

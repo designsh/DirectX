@@ -127,6 +127,86 @@ void CatacombsMap::AdjustTheTransparencyAroundThePlayer()
 	}
 }
 
+GameEngineActor* CatacombsMap::MonsterTileIndexCheck(TileIndex _CheckTile)
+{
+	for (auto& Fallen : FallenList_)
+	{
+		TileIndex FallenTile = GetWallTileIndex(Fallen->GetTransform()->GetWorldPosition());
+		if (FallenTile == _CheckTile)
+		{
+			//if (Fallen_FSMState::ST_DEAD != Fallen->GetCurState() &&
+			//	Fallen_FSMState::ST_DEATH != Fallen->GetCurState())
+			//{
+			//	return Fallen;
+			//}
+
+			return nullptr;
+		}
+	}
+
+	for (auto& SpikeFiend : SpikeFiendList_)
+	{
+		TileIndex SpikeFiendTile = GetWallTileIndex(SpikeFiend->GetTransform()->GetWorldPosition());
+		if (SpikeFiendTile == _CheckTile)
+		{
+			//if (SpikeFiend_FSMState::ST_DEAD != SpikeFiend->GetCurState() &&
+			//	SpikeFiend_FSMState::ST_DEATH != SpikeFiend->GetCurState())
+			//{
+			//	return SpikeFiend;
+			//}
+
+			return nullptr;
+		}
+	}
+
+	for (auto& Tainted : TaintedList_)
+	{
+		TileIndex TaintedTile = GetWallTileIndex(Tainted->GetTransform()->GetWorldPosition());
+		if (TaintedTile == _CheckTile)
+		{
+			if (Tainted_FSMState::ST_DEAD != Tainted->GetCurState() &&
+				Tainted_FSMState::ST_DEATH != Tainted->GetCurState())
+			{
+				return Tainted;
+			}
+
+			return nullptr;
+		}
+	}
+
+	for (auto& Zombie : ZombieList_)
+	{
+		TileIndex ZombieTile = GetWallTileIndex(Zombie->GetTransform()->GetWorldPosition());
+		if (ZombieTile == _CheckTile)
+		{
+			//if (Zombie_FSMState::ST_DEAD != Zombie->GetCurState() &&
+			//	Zombie_FSMState::ST_DEATH != Zombie->GetCurState())
+			//{
+			//	return Zombie;
+			//}
+
+			return nullptr;
+		}
+	}
+
+	for (auto& Andariel : AndarielList_)
+	{
+		TileIndex AndarielTile = GetWallTileIndex(Andariel->GetTransform()->GetWorldPosition());
+		if (AndarielTile == _CheckTile)
+		{
+			//if (Andariel_FSMState::ST_DEAD != Andariel->GetCurState() &&
+			//	Andariel_FSMState::ST_DEATH != Andariel->GetCurState())
+			//{
+			//	return Andariel;
+			//}
+
+			return nullptr;
+		}
+	}
+
+	return nullptr;
+}
+
 TileIndex CatacombsMap::GetFloorTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
@@ -699,9 +779,10 @@ void CatacombsMap::CurLevelActorRoomArrange()
 
 				// Tainted - 220518 SJH 테스트용 생성
 				Tainted* NewTainted = GetLevel()->CreateActor<Tainted>();
+				NewTainted->SetName("Tainted" + std::to_string(TaintedList_.size()));
 				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_ + TileIndex(2, 2)));
 				NewTainted->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-				NewTainted->SpawnToDeath();
+				//NewTainted->SpawnToDeath();
 				TaintedList_.push_back(NewTainted);
 
 				// Zombie
@@ -846,4 +927,16 @@ std::list<PathIndex> CatacombsMap::NavgationFind8Way(NavigationObjectType _Objec
 	}
 
 	return std::list<PathIndex>();
+}
+
+void CatacombsMap::CreateNavitaion(NavigationObjectType _ObjectType, int _NavigationNo)
+{
+	int CurNaviSize = static_cast<int>(Navigation_[_ObjectType].size());
+	if (_NavigationNo <= CurNaviSize - 1)
+	{
+		return;
+	}
+
+	// 해당 네비게이션 객체 생성
+	Navigation_[_ObjectType].push_back(new GameEnginePathFind());
 }

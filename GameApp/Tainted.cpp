@@ -112,6 +112,10 @@ void Tainted::GetHitDamage(int _Damage)
 		CurHP_ = 0;
 		State_.ChangeState("Tainted_DEATH");
 	}
+	else
+	{
+		State_.ChangeState("Tainted_GETHIT");
+	}
 }
 
 void Tainted::SpawnToDeath()

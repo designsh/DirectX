@@ -115,6 +115,12 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+public:
+	inline Tainted_FSMState GetCurState() const
+	{
+		return CurState_;
+	}
+
 private: // 마우스와 충돌
 	void MouseCollision(GameEngineCollision* _Other);
 	void MouseCollisionEnd(GameEngineCollision* _Other);

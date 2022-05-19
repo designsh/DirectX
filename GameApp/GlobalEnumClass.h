@@ -137,6 +137,9 @@ enum class SkillPageNo
 enum class NavigationObjectType
 {
 	Player,
+	Player_Golem,
+	Player_SketelonWarrior,
+	Player_SketelonWizard,
 	Fallen,
 	SpikeFiend,
 	Tainted,

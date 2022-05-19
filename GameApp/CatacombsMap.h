@@ -80,6 +80,9 @@ private:
 private: // 플레이어 주변 벽타일 투명화작업
 	void AdjustTheTransparencyAroundThePlayer();
 
+public: // 몬스터(적) 타일 체크
+	GameEngineActor* MonsterTileIndexCheck(TileIndex _CheckTile);
+
 public:
 	inline const RandomMapInfo& GetRandomMapInfo()
 	{
@@ -129,5 +132,8 @@ private:
 public:
 	std::list<PathIndex> NavgationFind4Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos);
 	std::list<PathIndex> NavgationFind8Way(NavigationObjectType _ObjectType, int _NavigationNo, float4 _StartPos, float4 _MouseClickPos);
+
+public:
+	void CreateNavitaion(NavigationObjectType _ObjectType, int _NavigationNo);
 };
 
