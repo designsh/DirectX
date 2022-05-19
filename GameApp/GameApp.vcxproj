@@ -399,6 +399,10 @@
     </ClCompile>
     <ClCompile Include="WeaponNPC_Create.cpp" />
     <ClCompile Include="WeaponNPC_FSMState.cpp" />
+    <ClCompile Include="WizardProjectile.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Zombie.cpp">
       <SubType>
       </SubType>
@@ -749,6 +753,10 @@
     </ClInclude>
     <ClInclude Include="UserGame_Resources_Shader.h" />
     <ClInclude Include="WeaponNPC.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WizardProjectile.h">
       <SubType>
       </SubType>
     </ClInclude>

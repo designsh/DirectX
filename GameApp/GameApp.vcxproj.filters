@@ -350,6 +350,9 @@
     <ClCompile Include="SketelonWizard_FSMState.cpp">
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard</Filter>
     </ClCompile>
+    <ClCompile Include="WizardProjectile.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard\00.Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -790,6 +793,9 @@
     <Filter Include="Object\Actor\00.Global\06.CommonGlobal\01.SummonsEmblem">
       <UniqueIdentifier>{bd3c4563-43bc-4522-a58e-06ed44387cfb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard\00.Projectile">
+      <UniqueIdentifier>{f8a3e42c-cd65-4271-b042-8b3e55fe29f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -1070,6 +1076,9 @@
     </ClInclude>
     <ClInclude Include="SketelonWizard.h">
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard</Filter>
+    </ClInclude>
+    <ClInclude Include="WizardProjectile.h">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard\00.Projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

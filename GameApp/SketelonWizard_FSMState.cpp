@@ -157,9 +157,9 @@ bool SketelonWizard::MonsterDetect()
 {
 	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition());
 
-	for (int y = -1; y <= 1; ++y)
+	for (int y = -5; y <= 5; ++y)
 	{
-		for (int x = -1; x <= 1; ++x)
+		for (int x = -5; x <= 5; ++x)
 		{
 			TileIndex CheckTileIndex = CurTileIndex + TileIndex(x, y);
 			DetectMonster_ = GlobalValue::CatacombsMap->MonsterTileIndexCheck(CheckTileIndex);
