@@ -341,7 +341,6 @@ void SummonsGolem::EndWarpState()
 void SummonsGolem::StartAttackState()
 {
 	// 현재 감지된 몬스터의 위치
-
 	TargetDirCheck(DetectMonster_->GetTransform()->GetWorldPosition(), "Attack");
 
 	// 현재 상태 전환
