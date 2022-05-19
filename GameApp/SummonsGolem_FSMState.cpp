@@ -218,7 +218,29 @@ void SummonsGolem::UpdateIdleState()
 			// 아니라면 이동상태로 전환
 			else
 			{
-				State_.ChangeState("Walk");
+				// 이동타겟 타일 결정
+				GameEngineRandom Random;
+				MoveTargetTile_ = MaxMoveRange_[Random.RandomInt(0, static_cast<int>(MaxMoveRange_.size()) - 1)];
+				TargetPos_ = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_);
+
+				MovePath_.clear();
+				float4 CurTargetPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_) - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+				MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::Player_Golem, 0, GetTransform()->GetWorldPosition(), CurTargetPos);
+				if (false == MovePath_.empty())
+				{
+					// 다음 이동타일인덱스 Get
+					MoveTargetTile_.Index_ = MovePath_.front().Index_;
+
+					// 타겟위치로 지정된 경로의 인덱스제거
+					MovePath_.pop_front();
+
+					// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
+					// 플레이어의 이동방향을 설정한다.
+					float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
+					MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+					State_.ChangeState("Walk");
+				}
 			}
 		}
 
@@ -236,28 +258,6 @@ void SummonsGolem::StartWalkState()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = GolemState::WALK;
-
-	// 이동타겟 타일 결정
-	GameEngineRandom Random;
-	MoveTargetTile_ = MaxMoveRange_[Random.RandomInt(0, static_cast<int>(MaxMoveRange_.size()) - 1)];
-	TargetPos_ = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_);
-
-	MovePath_.clear();
-	float4 CurTargetPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_) - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
-	MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::Player_Golem, 0, GetTransform()->GetWorldPosition(), CurTargetPos);
-	if (false == MovePath_.empty())
-	{
-		// 다음 이동타일인덱스 Get
-		MoveTargetTile_.Index_ = MovePath_.front().Index_;
-
-		// 타겟위치로 지정된 경로의 인덱스제거
-		MovePath_.pop_front();
-
-		// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
-		// 플레이어의 이동방향을 설정한다.
-		float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
-		MoveTargetDir_ = DirPos.NormalizeReturn3D();
-	}
 
 	// 현재 이동방향 및 애니메이션 변경
 	TargetDirCheck(TargetPos_, "Walk");

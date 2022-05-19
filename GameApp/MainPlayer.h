@@ -186,7 +186,7 @@ private: // 플레이어 아이템착용관련 Flag
 private:
 	float4 SkillCastPos_;									// 스킬 시전 마우스 클릭지점
 	SummonsGolem* SummonsGolem_;							// 골렘(타입에 관계없이 1개의 골렘만을 소환가능)
-
+	
 
 #pragma endregion
 
