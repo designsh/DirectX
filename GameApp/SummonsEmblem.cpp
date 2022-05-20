@@ -9,7 +9,7 @@
 #include "MainPlayer.h"
 #include "SummonsGolem.h"
 #include "SketelonWarrior.h"
-//#include "SketelonWizard.h"
+#include "SketelonWizard.h"
 
 SummonsEmblem::SummonsEmblem() :
 	GolemEmblem_(nullptr),
@@ -81,6 +81,7 @@ void SummonsEmblem::GolemEmblemUpdate(GolemType _SpawnGolemType)
 		GolemEmblem_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 		GolemEmblem_->GetTransform()->SetLocalScaling(float4(46.f, 41.f));
 		GolemEmblem_->GetTransform()->SetLocalPosition(float4(30.f - ScreenHarfSize.x, ScreenHarfSize.y - 30.f));
+		GolemEmblem_->SetAlpha(0.7f);
 		GolemEmblem_->On();
 	}
 
@@ -122,6 +123,7 @@ void SummonsEmblem::SketelonWarriorUpdate(int _CurCount)
 		// 최초 스폰으로 렌더러 생성
 		SketelonWarriorEmblem_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 		SketelonWarriorEmblem_->SetImage("Skeleton_Warrior.png");
+		SketelonWarriorEmblem_->SetAlpha(0.7f);
 		SketelonWarriorEmblem_->GetTransform()->SetLocalScaling(float4(46.f, 41.f));
 		SketelonWarriorEmblem_->GetTransform()->SetLocalPosition(float4(90.f - ScreenHarfSize.x, ScreenHarfSize.y - 30.f));
 		SketelonWarriorEmblem_->TextSetting("diablo", std::to_string(WarriorCnt_), 10, FW1_RIGHT | FW1_VCENTER, float4::WHITE, float4(23.f, 19.f));
@@ -143,6 +145,7 @@ void SummonsEmblem::SketelonWizardUpdate(int _CurCount)
 		// 최초 스폰으로 렌더러 생성
 		SketelonWizardEmblem_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::UI0));
 		SketelonWizardEmblem_->SetImage("Skeleton_Wizard.png");
+		SketelonWizardEmblem_->SetAlpha(0.7f);
 		SketelonWizardEmblem_->GetTransform()->SetLocalScaling(float4(46.f, 41.f));
 		SketelonWizardEmblem_->GetTransform()->SetLocalPosition(float4(150.f - ScreenHarfSize.x, ScreenHarfSize.y - 30.f));
 		SketelonWizardEmblem_->TextSetting("diablo", std::to_string(WizardCnt_), 10, FW1_RIGHT | FW1_VCENTER, float4::WHITE, float4(23.f, 19.f));

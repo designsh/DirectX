@@ -631,7 +631,7 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 							// 몬스터와 마우스가 충돌중(몬스터 시체와 충돌중이여야만 가능)
 							if (true == GlobalValue::CurMouse->GetMonsterCollision())
 							{
-								// 사용하려는 시체의 몬스터를 가지고있는다.ㄴ
+								// 사용하려는 시체의 몬스터를 가지고있는다.
 								DeathMonster_ = GlobalValue::CurMouse->GetCurCollisionMonster();
 
 								// 스킬공격 모션 종료시 현재 선택된 스킬 시전

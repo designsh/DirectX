@@ -403,6 +403,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WizardProjectile_Create.cpp" />
     <ClCompile Include="Zombie.cpp">
       <SubType>
       </SubType>

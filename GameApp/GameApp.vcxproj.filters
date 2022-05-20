@@ -353,6 +353,9 @@
     <ClCompile Include="WizardProjectile.cpp">
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard\00.Projectile</Filter>
     </ClCompile>
+    <ClCompile Include="WizardProjectile_Create.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard\00.Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">

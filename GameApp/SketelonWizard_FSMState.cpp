@@ -9,10 +9,12 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+#include "CatacombsMap.h"
+
+#include "WizardProjectile.h"
+
 #include "MainPlayer.h"
 #include "MouseObject.h"
-
-#include "CatacombsMap.h"
 
 #include "Fallen.h"
 #include "SpikeFiend.h"
@@ -428,32 +430,11 @@ void SketelonWizard::AttackAnimationEnd()
 	// 현재 타겟팅 몬스터 공격
 	if (nullptr != DetectMonster_)
 	{
-		std::string DetectActor = DetectMonster_->GetName();
-		if (std::string::npos != DetectActor.find("Fallen"))
-		{
-			Fallen* CurAttackMonster = (Fallen*)DetectMonster_;
-
-		}
-		else if (std::string::npos != DetectActor.find("SpikeFiend"))
-		{
-			SpikeFiend* CurAttackMonster = (SpikeFiend*)DetectMonster_;
-
-		}
-		else if (std::string::npos != DetectActor.find("Tainted"))
-		{
-			Tainted* CurAttackMonster = (Tainted*)DetectMonster_;
-			CurAttackMonster->GetHitDamage(SketelonWizardInfo_.SkillDamage);
-		}
-		else if (std::string::npos != DetectActor.find("Zombie"))
-		{
-			Zombie* CurAttackMonster = (Zombie*)DetectMonster_;
-
-		}
-		else if (std::string::npos != DetectActor.find("Andariel"))
-		{
-			Andariel* CurAttackMonster = (Andariel*)DetectMonster_;
-
-		}
+		// 발사체 발사(단, 아무런 충돌도 없이 5초간 이동했다면 자동소멸)
+		float4 TargetPos = DetectMonster_->GetTransform()->GetWorldPosition();
+		WizardProjectile* NewProjectile = GetLevel()->CreateActor<WizardProjectile>();
+		NewProjectile->SkeletonWizardFire(WizardType_, GetTransform()->GetWorldPosition(), TargetPos, SketelonWizardInfo_.SkillDamage);
+		NewProjectile->Release(5.f);
 
 		DetectMonster_ = nullptr;
 	}

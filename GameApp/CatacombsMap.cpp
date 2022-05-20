@@ -781,9 +781,9 @@ void CatacombsMap::CurLevelActorRoomArrange()
 				// Tainted - 220518 SJH 테스트용 생성
 				Tainted* NewTainted = GetLevel()->CreateActor<Tainted>();
 				NewTainted->SetName("Tainted" + std::to_string(TaintedList_.size()));
-				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_ + TileIndex(2, 2)));
+				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_ + TileIndex(6, 6)));
 				NewTainted->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-				NewTainted->SpawnToDeath();
+				//NewTainted->SpawnToDeath();
 				TaintedList_.push_back(NewTainted);
 
 				// Zombie
