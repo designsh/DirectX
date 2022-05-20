@@ -36,6 +36,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="BoneSpirit.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BottomStateBar.cpp">
       <SubType>
       </SubType>
@@ -423,6 +427,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Andariel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BoneSpirit.h">
       <SubType>
       </SubType>
     </ClInclude>

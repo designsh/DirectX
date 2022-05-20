@@ -613,6 +613,13 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 	// 마우스 오른쪽버튼
 	if (true == GameEngineInput::GetInst().Down("MouseRButton"))
 	{
+#pragma region 게임화면을 벗어나면 스킬사용불가 판단
+		if (GameEngineWindow::GetInst().IsWindowRangeOut(GameEngineInput::GetInst().GetMousePos()))
+		{
+			return;
+		}
+#pragma endregion
+
 		if (nullptr != GlobalValue::CurMouse)
 		{
 			// 마을에서 사용 불가
@@ -819,4 +826,9 @@ void MainPlayer::SkeletonWizardDeath(SketelonWizard* _DeathWizard)
 			break;
 		}
 	}
+}
+
+void MainPlayer::BoneSpiritFire()
+{
+
 }

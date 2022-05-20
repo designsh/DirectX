@@ -233,7 +233,7 @@ void WizardProjectile::ChangeAnimationCheck()
 	}
 }
 
-void WizardProjectile::SkeletonWizardFire(SkeletonWizardType _ProjectileType, const float4& _FireStartPos, const float4& _TargetPos, float _Damage)
+void WizardProjectile::SkeletonWizardFire(SkeletonWizardType _ProjectileType, const float4& _FireStartPos, const float4& _TargetPos, int _Damage)
 {
 	// 스켈레톤(마법사형) 공격시 객체 생성 및 타겟방향으로 발사
 	ProjectileType_ = _ProjectileType;

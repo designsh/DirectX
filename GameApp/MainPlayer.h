@@ -544,19 +544,6 @@ public:
 
 #pragma endregion
 
-#pragma region Object Active Check Function
-private:
-	void TownMapObjectCheck(const float4& _MousePos);
-	void RandomMapObjectCheck(const float4& _MousePos);
-#pragma endregion
-
-#pragma region 소환스킬
-private:
-	void GolemSummons();
-	void SkeletonWarriorSummons();
-	void SkeletonWizardSummons();
-#pragma endregion
-
 #pragma region 애니메이션종료시점호출함수
 private:
 	void Attack1AnimationEnd();
@@ -567,12 +554,37 @@ private:
 	void KickAnimationEnd();
 	void SkillAttackAnimationEnd();
 	void SkillCastingAnimationEnd();
+
 #pragma endregion
 
-#pragma region 소환수관리관련
+#pragma region Object Active Check Function
+private:
+	void TownMapObjectCheck(const float4& _MousePos);
+	void RandomMapObjectCheck(const float4& _MousePos);
+
+#pragma endregion
+
+#pragma region 소환스킬
+private:
+	void GolemSummons();
+	void SkeletonWarriorSummons();
+	void SkeletonWizardSummons();
+
 public:
 	void SkeletonWarriorDeath(SketelonWarrior* _DeathWarrior);
 	void SkeletonWizardDeath(SketelonWizard* _DeathWizard);
+
+#pragma endregion
+
+#pragma region 포이즌&본스킬
+private:
+	void BoneSpiritFire();
+
+#pragma endregion
+
+#pragma region 저주스킬
+private:
+
 
 #pragma endregion
 };

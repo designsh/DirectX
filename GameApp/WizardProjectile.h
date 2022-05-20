@@ -75,6 +75,6 @@ private:
 	void TargetCollision(GameEngineCollision* _Other);
 
 public:
-	void SkeletonWizardFire(SkeletonWizardType _ProjectileType, const float4& _FireStartPos, const float4& _TargetPos, float _Damage);
+	void SkeletonWizardFire(SkeletonWizardType _ProjectileType, const float4& _FireStartPos, const float4& _TargetPos, int _Damage);
 };
 
