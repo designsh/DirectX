@@ -830,5 +830,13 @@ void MainPlayer::SkeletonWizardDeath(SketelonWizard* _DeathWizard)
 
 void MainPlayer::BoneSpiritFire()
 {
+	// 발사체 생성
+
+	// 타겟을 선택하면 타겟 유도탄
+
+
+	// 타겟을 선택하지않으면 일정시간이 지나면 소멸 or 그냥 아무나 충돌하면 피해를 입히고 소멸
+
+
 
 }

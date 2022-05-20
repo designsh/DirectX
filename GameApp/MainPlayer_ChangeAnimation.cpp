@@ -319,6 +319,11 @@ void MainPlayer::SkillCastingAnimationEnd()
 			SkeletonWizardSummons();
 			break;
 		}
+		case 93: // BoneSpirit 발사체
+		{
+			BoneSpiritFire();
+			break;
+		}
 	}
 
 	// 대기상태로 전환
