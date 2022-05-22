@@ -159,7 +159,7 @@ void Tainted::SetCheckTileList(TileIndex _CurTileIndex)
 	// 기존 체크타일목록 삭제
 	CheckTileList_.clear();
 
-	// 적감지 체크타일목록 작성(현재타일의 +- 8)
+	// 적감지 체크타일목록 작성
 	for (int i = 1; i <= 10; ++i)
 	{
 		CheckTileList_.insert(std::make_pair((_CurTileIndex + TileIndex( 0,  i)).Index_, Tainted_TileCheckType::MOVE));		// 좌단
@@ -331,6 +331,9 @@ void Tainted::UpdateMove()
 
 	// 현재 타겟위치까지 이동
 	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
+
+	// 이동후 적 공격 가능 범위내에 적이 진입시 적 공격
+
 }
 
 void Tainted::EndMove()
@@ -412,7 +415,6 @@ void Tainted::UpdateDead()
 
 void Tainted::EndDead()
 {
-
 }
 
 #pragma region 애니메이션종료시점호출함수
