@@ -156,7 +156,7 @@ void CurPlayerGameStartButton::CheckSameID()
 	{
 		// ID를 입력하시오!!!! 경고창 표시
 		ErrorMsgPopup* ErrorMsg = GetLevel()->CreateActor<ErrorMsgPopup>();
-		ErrorMsg->ErrorMsgPopupActive("Please enter your character ID!!!");
+		ErrorMsg->ErrorMsgPopupActive("Input character ID!!!");
 
 		return;
 	}
