@@ -214,32 +214,31 @@ void Tainted::StartRoomDetect()
 
 void Tainted::UpdateRoomDetect()
 {
-	//// 적 최초 룸진입시점 감지
-	//if (false == RoomDetect_)
-	//{
-	//	for (auto& DetectTile : RoomDetectList_)
-	//	{
-	//		// 플레이어가 존재할때
-	//		if (nullptr != GlobalValue::CurPlayer)
-	//		{
-	//			// 
-	//			TileIndex PlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());
-	//			if (PlayerTileIndex == DetectTile)
-	//			{
-	//				// 대기상태 전환
-	//				State_.ChangeState("Tainted_IDLE");
+	// 적 최초 룸진입시점 감지
+	if (false == RoomDetect_)
+	{
+		for (auto& DetectTile : RoomDetectList_)
+		{
+			// 플레이어가 존재할때
+			if (nullptr != GlobalValue::CurPlayer)
+			{
+				// 
+				TileIndex PlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());
+				if (PlayerTileIndex == DetectTile)
+				{
+					// 대기상태 전환
+					State_.ChangeState("Tainted_IDLE");
 
-	//				// 룸진입 Flag On
-	//				RoomDetect_ = true;
-	//			}
-	//		}
-	//	}
-	//}
+					// 룸진입 Flag On
+					RoomDetect_ = true;
+				}
+			}
+		}
+	}
 }
 
 void Tainted::EndRoomDetect()
 {
-
 }
 
 // 대기상태
@@ -268,7 +267,6 @@ void Tainted::UpdateIdle()
 
 void Tainted::EndIdle()
 {
-
 }
 
 // 이동상태(적감지상태)
@@ -349,21 +347,14 @@ void Tainted::StartNormalAttack()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Tainted_FSMState::ST_NORMALATTACK;
-
-	// 타겟의 본체 충돌체와 나의 공격충돌체가 충돌하고있었다면 타겟에게 데미지를 입힌다.
-	
 }
 
 void Tainted::UpdateNormalAttack()
 {
-	
-
-
 }
 
 void Tainted::EndNormalAttack()
 {
-
 }
 
 // 피격상태
@@ -402,7 +393,6 @@ void Tainted::UpdateDeath()
 
 void Tainted::EndDeath()
 {
-
 }
 
 // 시체상태

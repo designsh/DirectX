@@ -136,15 +136,15 @@ enum class SkillPageNo
 // 오브젝트 네비게이션 타입
 enum class NavigationObjectType
 {
-	Player,
-	Player_Golem,
-	Player_SketelonWarrior,
-	Player_SketelonWizard,
-	Player_ProjectileSkill,
-	Fallen,
-	SpikeFiend,
-	Tainted,
-	Zombie,
-	Andariel
+	Player,						// 플레이어
+	Player_Golem,				// 플레이어 소환수 골렘
+	Player_SketelonWarrior,		// 플레이어 소환수 스켈레톤(전사형)
+	Player_SketelonWizard,		// 플레이어 소환수 스켈레톤(법사형)
+	Player_ProjectileSkill,		// 플레이어 스킬
+	Fallen,						// 일반몬스터(Fallen)
+	SpikeFiend,					// 일반몬스터(SpikeFiend)
+	Tainted,					// 일반몬스터(Tainted)
+	Zombie,						// 일반몬스터(Zombie)
+	Andariel					// 보스몬스터(Andariel)
 };
 

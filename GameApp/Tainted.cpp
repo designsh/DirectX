@@ -69,7 +69,11 @@ void Tainted::Update(float _DeltaTime)
 
 	// 충돌처리
 	BodyCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&Tainted::MouseCollision, this, std::placeholders::_1), std::bind(&Tainted::MouseCollisionEnd, this, std::placeholders::_1));
-	BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&Tainted::EnemyCollision, this, std::placeholders::_1), std::bind(&Tainted::EnemyCollisionEnd, this, std::placeholders::_1));
+
+	if (CurState_ != Tainted_FSMState::ST_DEAD && CurState_ != Tainted_FSMState::ST_DEATH)
+	{
+		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&Tainted::EnemyCollision, this, std::placeholders::_1), std::bind(&Tainted::EnemyCollisionEnd, this, std::placeholders::_1));
+	}
 }
 
 void Tainted::SetEnemyDetectionList(int _SpawnRoomNo)

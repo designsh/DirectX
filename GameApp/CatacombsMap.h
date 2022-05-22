@@ -82,6 +82,7 @@ private: // 플레이어 주변 벽타일 투명화작업
 
 public: // 몬스터(적) 타일 체크
 	GameEngineActor* MonsterTileIndexCheck(TileIndex _CheckTile);
+	void MonsterDeathToListDelete(GameEngineActor* _DeathMonster);
 
 public:
 	inline const RandomMapInfo& GetRandomMapInfo()

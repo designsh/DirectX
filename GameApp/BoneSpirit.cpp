@@ -96,7 +96,11 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			else if (std::string::npos != CollisionName.find("Tainted"))
 			{
 				Tainted* CurAttackMonster = (Tainted*)_Other->GetActor();
-				CurAttackMonster->GetHitDamage(Damage_);
+				if (Tainted_FSMState::ST_DEAD != CurAttackMonster->GetCurState() && 
+					Tainted_FSMState::ST_DEATH != CurAttackMonster->GetCurState())
+				{
+					CurAttackMonster->GetHitDamage(Damage_);
+				}
 			}
 			else if (std::string::npos != CollisionName.find("Zombie"))
 			{
@@ -131,7 +135,11 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 		else if (std::string::npos != CollisionName.find("Tainted"))
 		{
 			Tainted* CurAttackMonster = (Tainted*)_Other->GetActor();
-			CurAttackMonster->GetHitDamage(Damage_);
+			if (Tainted_FSMState::ST_DEAD != CurAttackMonster->GetCurState() &&
+				Tainted_FSMState::ST_DEATH != CurAttackMonster->GetCurState())
+			{
+				CurAttackMonster->GetHitDamage(Damage_);
+			}
 		}
 		else if (std::string::npos != CollisionName.find("Zombie"))
 		{

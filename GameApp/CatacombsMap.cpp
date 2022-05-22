@@ -207,6 +207,86 @@ GameEngineActor* CatacombsMap::MonsterTileIndexCheck(TileIndex _CheckTile)
 	return nullptr;
 }
 
+void CatacombsMap::MonsterDeathToListDelete(GameEngineActor* _DeathMonster)
+{
+	std::string DeathMonsterName = _DeathMonster->GetName();
+	if (std::string::npos != DeathMonsterName.find("Fallen"))
+	{
+		std::vector<Fallen*>::iterator StartIter = FallenList_.begin();
+		std::vector<Fallen*>::iterator EndIter = FallenList_.end();
+		{
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				if ((*StartIter) == _DeathMonster)
+				{
+					FallenList_.erase(StartIter);
+					break;
+				}
+			}
+		}
+	}
+	else if (std::string::npos != DeathMonsterName.find("SpikeFiend"))
+	{
+		std::vector<SpikeFiend*>::iterator StartIter = SpikeFiendList_.begin();
+		std::vector<SpikeFiend*>::iterator EndIter = SpikeFiendList_.end();
+		{
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				if ((*StartIter) == _DeathMonster)
+				{
+					SpikeFiendList_.erase(StartIter);
+					break;
+				}
+			}
+		}
+	}
+	else if (std::string::npos != DeathMonsterName.find("Tainted"))
+	{
+		std::vector<Tainted*>::iterator StartIter = TaintedList_.begin();
+		std::vector<Tainted*>::iterator EndIter = TaintedList_.end();
+		{
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				if ((*StartIter) == _DeathMonster)
+				{
+					TaintedList_.erase(StartIter);
+					break;
+				}
+			}
+		}
+	}
+	else if (std::string::npos != DeathMonsterName.find("Zombie"))
+	{
+		std::vector<Zombie*>::iterator StartIter = ZombieList_.begin();
+		std::vector<Zombie*>::iterator EndIter = ZombieList_.end();
+		{
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				if ((*StartIter) == _DeathMonster)
+				{
+					ZombieList_.erase(StartIter);
+					break;
+				}
+			}
+		}
+	}
+	else if (std::string::npos != DeathMonsterName.find("Andariel"))
+	{
+		std::vector<Andariel*>::iterator StartIter = AndarielList_.begin();
+		std::vector<Andariel*>::iterator EndIter = AndarielList_.end();
+		{
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				if ((*StartIter) == _DeathMonster)
+				{
+					AndarielList_.erase(StartIter);
+					break;
+				}
+			}
+		}
+	}
+}
+
 TileIndex CatacombsMap::GetFloorTileIndex(float4 _Pos)
 {
 	TileIndex Index = {};
@@ -760,38 +840,62 @@ void CatacombsMap::CurLevelActorRoomArrange()
 			{
 				// 플레이어 생성 룸에는 각 몬스터의 시체 배치(총 40마리 : 전사 20마리 소환용, 마법사 20마리 소환용)
 				// 생성되는 몬스터는 랜덤이며, 센터타일기준 벽이아닌 타일에 배치된다.
-				
-				//std::vector<Fallen*> FallenList_;
-				//std::vector<SpikeFiend*> SpikeFiendList_;
-				//std::vector<Tainted*> TaintedList_;
-				//std::vector<Zombie*> ZombieList_;
-				//std::vector<Andariel*> AndarielList_;
+				GameEngineRandom MonsterTypeRandom;
+				MonsterClassType MonsterType = static_cast<MonsterClassType>(MonsterTypeRandom.RandomInt(0, 5));
 
-				// Fallen
-				//Fallen* NewFallen = GetLevel()->CreateActor<Fallen>();
-				//NewFallen->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
-				//NewFallen->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-				//FallenList_.push_back(NewFallen);
+				// 룸에서 위치 랜덤 타일 지정
 
-				// SpikeFiend
-				//SpikeFiend* NewSpikeFiend = GetLevel()->CreateActor<SpikeFiend>();
-				//NewSpikeFiend->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
-				//NewSpikeFiend->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-				//SpikeFiendList_.push_back(NewSpikeFiend);
 
-				// Tainted - 220518 SJH 테스트용 생성
+				float4 SpawnTilePos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_ + TileIndex(0, 0));
+				switch (MonsterType)
+				{
+					case MonsterClassType::SpikeFiend:
+					{
+						//SpikeFiend* NewSpikeFiend = GetLevel()->CreateActor<SpikeFiend>();
+						//NewSpikeFiend->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+						//NewSpikeFiend->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+						//SpikeFiendList_.push_back(NewSpikeFiend);
+						break;
+					}
+					case MonsterClassType::Zombie:
+					{
+						//Zombie* NewZombie = GetLevel()->CreateActor<Zombie>();
+						//NewZombie->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+						//NewZombie->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+						//ZombieList_.push_back(NewZombie);
+						break;
+					}
+					case MonsterClassType::Fallen:
+					{
+						//Fallen* NewFallen = GetLevel()->CreateActor<Fallen>();
+						//NewFallen->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+						//NewFallen->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+						//FallenList_.push_back(NewFallen);
+						break;
+					}
+					case MonsterClassType::Tainted:
+					{
+						//Tainted* NewTainted = GetLevel()->CreateActor<Tainted>();
+						//NewTainted->SetName("Tainted" + std::to_string(TaintedList_.size()));
+						//NewTainted->GetTransform()->SetWorldPosition(SpawnTilePos);
+						//NewTainted->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+						//NewTainted->SpawnToDeath();
+						//TaintedList_.push_back(NewTainted);
+						break;
+					}
+					case MonsterClassType::Andariel:
+					{
+
+						break;
+					}
+				}
+
 				Tainted* NewTainted = GetLevel()->CreateActor<Tainted>();
 				NewTainted->SetName("Tainted" + std::to_string(TaintedList_.size()));
-				NewTainted->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+				NewTainted->GetTransform()->SetWorldPosition(SpawnTilePos);
 				NewTainted->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-				//NewTainted->SpawnToDeath();
+				NewTainted->SpawnToDeath();
 				TaintedList_.push_back(NewTainted);
-
-				// Zombie
-				//Zombie* NewZombie = GetLevel()->CreateActor<Zombie>();
-				//NewZombie->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
-				//NewZombie->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-				//ZombieList_.push_back(NewZombie);
 			}
 		}
 	}

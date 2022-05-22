@@ -760,6 +760,10 @@ void MainPlayer::SkeletonWarriorSummons()
 		{
 			// 현재 마우스가 선택한 몬스터를 사망처리
 			DeathMonster_->GetActor()->Death();
+
+			// 맵의 몬스터 목록에서 제거
+			GlobalValue::CatacombsMap->MonsterDeathToListDelete(DeathMonster_->GetActor());
+
 			DeathMonster_ = nullptr;
 
 			// 새로운 스켈텔론 생성 후 목록에 추가
@@ -805,9 +809,14 @@ void MainPlayer::SkeletonWizardSummons()
 		{
 			// 현재 마우스가 선택한 몬스터를 사망처리
 			DeathMonster_->GetActor()->Death();
+
+			// 맵의 몬스터 목록에서 제거
+			GlobalValue::CatacombsMap->MonsterDeathToListDelete(DeathMonster_->GetActor());
+
 			DeathMonster_ = nullptr;
 
-			// 새로운 스켈텔론 생성 후 목록에 추가
+			// 새로운 스켈레톤 생성 후 목록에 추가
+			// 단, 생성되는 스켈레톤의 타입은 랜덤하게 지정된다.
 			GameEngineRandom TypeRandom;
 			SkeletonWizardType RandType = static_cast<SkeletonWizardType>(TypeRandom.RandomInt(0, 3));
 			SketelonWizard* NewSketelon = GetLevel()->CreateActor<SketelonWizard>();
