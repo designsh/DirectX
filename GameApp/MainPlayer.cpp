@@ -245,7 +245,7 @@ void MainPlayer::Update(float _DeltaTime)
 	{
 		float4 CurPlayerPos = GetTransform()->GetWorldPosition();
 		TileIndex CurPlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(CurPlayerPos.x, CurPlayerPos.y - 53.f));
-		GetTransform()->SetLocalZOrder(-static_cast<float>(CurPlayerTileIndex.X_ + CurPlayerTileIndex.Y_));
+		GetTransform()->SetLocalZOrder(-static_cast<float>(CurPlayerTileIndex.X_ + CurPlayerTileIndex.Y_) + 20.f);
 	}
 #pragma endregion
 
