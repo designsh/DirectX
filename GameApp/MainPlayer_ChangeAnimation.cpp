@@ -264,68 +264,12 @@ void MainPlayer::KickAnimationEnd()
 
 void MainPlayer::SkillAttackAnimationEnd()
 {
-	// 현재 선택된 오른쪽무기스킬에 따라 스킬 시전 후 대기 상태 전환
-	switch (CurRightSkill_)
-	{
-		case 75: // ClayGolem 소환
-		case 85: // BloodGolem 소환
-		case 90: // IronGolem 소환
-		case 94: // FireGolem 소환
-		{
-			GolemSummons();
-			break;
-		}
-		case 70: // Skeleton(전사타입) 소환
-		{
-			SkeletonWarriorSummons();
-			break;
-		}
-		case 80: // Skeleton(마법사타입) 소환
-		{
-			SkeletonWizardSummons();
-			break;
-		}
-		case 93: // BoneSpirit 발사체
-		{
-			BoneSpiritFire();
-			break;
-		}
-	}
-
 	// 대기상태로 전환
 	ChangeFSMState("Natural_Field");
 }
 
 void MainPlayer::SkillCastingAnimationEnd()
 {
-	// 현재 선택된 오른쪽무기스킬에 따라 스킬 시전 후 대기 상태 전환
-	switch (CurRightSkill_)
-	{
-		case 75: // ClayGolem 소환
-		case 85: // BloodGolem 소환
-		case 90: // IronGolem 소환
-		case 94: // FireGolem 소환
-		{
-			GolemSummons();
-			break;
-		}
-		case 70: // Skeleton(전사타입) 소환
-		{
-			SkeletonWarriorSummons();
-			break;
-		}
-		case 80: // Skeleton(마법사타입) 소환
-		{
-			SkeletonWizardSummons();
-			break;
-		}
-		case 93: // BoneSpirit 발사체
-		{
-			BoneSpiritFire();
-			break;
-		}
-	}
-
 	// 대기상태로 전환
 	ChangeFSMState("Natural_Field");
 }
