@@ -214,27 +214,27 @@ void Tainted::StartRoomDetect()
 
 void Tainted::UpdateRoomDetect()
 {
-	// 적 최초 룸진입시점 감지
-	if (false == RoomDetect_)
-	{
-		for (auto& DetectTile : RoomDetectList_)
-		{
-			// 플레이어가 존재할때
-			if (nullptr != GlobalValue::CurPlayer)
-			{
-				// 
-				TileIndex PlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());
-				if (PlayerTileIndex == DetectTile)
-				{
-					// 대기상태 전환
-					State_.ChangeState("Tainted_IDLE");
+	//// 적 최초 룸진입시점 감지
+	//if (false == RoomDetect_)
+	//{
+	//	for (auto& DetectTile : RoomDetectList_)
+	//	{
+	//		// 플레이어가 존재할때
+	//		if (nullptr != GlobalValue::CurPlayer)
+	//		{
+	//			// 
+	//			TileIndex PlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());
+	//			if (PlayerTileIndex == DetectTile)
+	//			{
+	//				// 대기상태 전환
+	//				State_.ChangeState("Tainted_IDLE");
 
-					// 룸진입 Flag On
-					RoomDetect_ = true;
-				}
-			}
-		}
-	}
+	//				// 룸진입 Flag On
+	//				RoomDetect_ = true;
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 void Tainted::EndRoomDetect()

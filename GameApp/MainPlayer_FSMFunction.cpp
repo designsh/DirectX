@@ -604,12 +604,6 @@ void MainPlayer::UpdateSkillCasting()
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
 
-	
-
-
-
-
-
 }
 
 void MainPlayer::EndSkillCasting()
@@ -669,8 +663,6 @@ void MainPlayer::UpdateDeath()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
 
 }
 

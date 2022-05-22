@@ -46,6 +46,19 @@ void BoneSpirit::CreateAnimation()
 	Renderer_->CreateAnimation("PlayerSkill_BoneSpirit_Explode.png", "Explode_L" , 0, 12, 0.1f);
 	Renderer_->CreateAnimation("PlayerSkill_BoneSpirit_Explode.png", "Explode_T" , 0, 12, 0.1f);
 	Renderer_->CreateAnimation("PlayerSkill_BoneSpirit_Explode.png", "Explode_R" , 0, 12, 0.1f);
+
+	// 폭발체 애니메이션 종료시 호출함수 등록
+	Renderer_->SetEndCallBack("Explode_LB", std::bind(&BoneSpirit::ExplodeAnimationEnd, this));
+	Renderer_->SetEndCallBack("Explode_LT", std::bind(&BoneSpirit::ExplodeAnimationEnd, this));
+	Renderer_->SetEndCallBack("Explode_RT", std::bind(&BoneSpirit::ExplodeAnimationEnd, this));
+	Renderer_->SetEndCallBack("Explode_RB", std::bind(&BoneSpirit::ExplodeAnimationEnd, this));
+	Renderer_->SetEndCallBack("Explode_B", std::bind(&BoneSpirit::ExplodeAnimationEnd, this));
+	Renderer_->SetEndCallBack("Explode_L", std::bind(&BoneSpirit::ExplodeAnimationEnd, this));
+	Renderer_->SetEndCallBack("Explode_T", std::bind(&BoneSpirit::ExplodeAnimationEnd, this));
+	Renderer_->SetEndCallBack("Explode_R", std::bind(&BoneSpirit::ExplodeAnimationEnd, this));
+
+	// 초기값셋팅
+	Renderer_->SetChangeAnimation("Move_B");
 }
 
 void BoneSpirit::CreateCollision()
@@ -55,4 +68,12 @@ void BoneSpirit::CreateCollision()
 	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
 	Collider_->GetTransform()->SetLocalPosition(Renderer_->GetTransform()->GetLocalPosition() - CamPos);
 	Collider_->GetTransform()->SetWorldZOrder(-99.f);
+}
+
+void BoneSpirit::CreateFSMState()
+{
+	State_.CreateState("Move", std::bind(&BoneSpirit::UpdateMoveState, this), std::bind(&BoneSpirit::StartMoveState, this), std::bind(&BoneSpirit::EndMoveState, this));
+	State_.CreateState("Search", std::bind(&BoneSpirit::UpdateSearchState, this), std::bind(&BoneSpirit::StartSearchState, this), std::bind(&BoneSpirit::EndSearchState, this));
+	State_.CreateState("Fire", std::bind(&BoneSpirit::UpdateFireState, this), std::bind(&BoneSpirit::StartFireState, this), std::bind(&BoneSpirit::EndFireState, this));
+	State_.CreateState("Explode", std::bind(&BoneSpirit::UpdateExplodeState, this), std::bind(&BoneSpirit::StartExplodeState, this), std::bind(&BoneSpirit::EndExplodeState, this));
 }

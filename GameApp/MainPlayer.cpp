@@ -49,6 +49,9 @@
 #include "SketelonWarrior.h"
 #include "SketelonWizard.h"
 
+// 스킬관련
+#include "BoneSpirit.h"
+
 int MainPlayer::ArrangeRoomNo_ = -1;
 int MainPlayer::CurLeftSkill_ = 0;
 int MainPlayer::CurRightSkill_ = 0;
@@ -69,6 +72,7 @@ MainPlayer::MainPlayer() :
 	SkillCastPos_(float4::ZERO),
 	SummonsGolem_(nullptr),
 	DeathMonster_(nullptr),
+	TargetMonster_(nullptr),
 	CurHP_(100),
 	CurMP_(100),
 	PrevEXP_(0),
@@ -644,6 +648,24 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 								// 스킬공격 모션 종료시 현재 선택된 스킬 시전
 								ChangeFSMState("Special_Attack");
 							}
+							else
+							{
+								DeathMonster_ = nullptr;
+							}
+						}
+						else if (93 == CurRightSkill_)
+						{
+							if (true == GlobalValue::CurMouse->GetMonsterCollision())
+							{
+								// 타겟팅한 본스피릿 발사체
+								TargetMonster_ = GlobalValue::CurMouse->GetCurCollisionMonster();
+							}
+							else
+							{
+								TargetMonster_ = nullptr;
+							}
+
+							ChangeFSMState("Special_Attack");
 						}
 						else
 						{
@@ -830,13 +852,20 @@ void MainPlayer::SkeletonWizardDeath(SketelonWizard* _DeathWizard)
 
 void MainPlayer::BoneSpiritFire()
 {
-	// 발사체 생성
+	if (CurRightSkill_ == 93)
+	{
+		// 발사체 생성
+		BoneSpirit* NewBoneSpirit = GetLevel()->CreateActor<BoneSpirit>();
 
-	// 타겟을 선택하면 타겟 유도탄
-
-
-	// 타겟을 선택하지않으면 일정시간이 지나면 소멸 or 그냥 아무나 충돌하면 피해를 입히고 소멸
-
-
-
+		// 타겟지정된 발사체
+		if (nullptr != TargetMonster_)
+		{
+			NewBoneSpirit->BoneSpiritFire(GetTransform()->GetWorldPosition(), SkillCastPos_, TargetMonster_->GetActor());
+		}
+		// 타겟지정이 안된 발사체
+		else
+		{
+			NewBoneSpirit->BoneSpiritFire(GetTransform()->GetWorldPosition(), SkillCastPos_);
+		}
+	}
 }

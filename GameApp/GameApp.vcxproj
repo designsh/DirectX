@@ -41,6 +41,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BoneSpirit_Create.cpp" />
+    <ClCompile Include="BoneSpirit_FSMState.cpp" />
     <ClCompile Include="BottomStateBar.cpp">
       <SubType>
       </SubType>

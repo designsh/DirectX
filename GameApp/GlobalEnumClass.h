@@ -140,6 +140,7 @@ enum class NavigationObjectType
 	Player_Golem,
 	Player_SketelonWarrior,
 	Player_SketelonWizard,
+	Player_ProjectileSkill,
 	Fallen,
 	SpikeFiend,
 	Tainted,

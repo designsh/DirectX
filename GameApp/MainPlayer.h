@@ -196,7 +196,8 @@ private:
 	std::list<SketelonWizard*> SummonsSketelonWizard_;		// 스켈레톤(마법사형) - 최대 20마리 소환
 
 private:
-	GameEngineCollision* DeathMonster_;
+	GameEngineCollision* DeathMonster_;						// 몬스터 시체 충돌
+	GameEngineCollision* TargetMonster_;					// 몬스터 타겟 충돌
 
 #pragma endregion
 

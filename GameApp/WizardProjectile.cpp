@@ -81,7 +81,6 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 	{
 		Tainted* CurAttackMonster = (Tainted*)_Other->GetActor();
 		CurAttackMonster->GetHitDamage(Damage_);
-
 		Death();
 	}
 	else if (std::string::npos != CollisionName.find("Zombie"))
@@ -103,7 +102,7 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 void WizardProjectile::TargetDirCheckAndAnimationSetting()
 {
 	// 타겟위치의 방향을 알아내고
-		// 현재 위치와 타겟위치의 각도를 계산
+	// 현재 위치와 타겟위치의 각도를 계산
 	float4 Direct = TargetPos_ - GetTransform()->GetWorldPosition();
 	Direct.Normalize3D();
 

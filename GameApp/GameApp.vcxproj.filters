@@ -362,6 +362,9 @@
     <ClCompile Include="BoneSpirit_Create.cpp">
       <Filter>Object\Actor\00.Global\00.Player\02.Skill\00.BoneSpirit</Filter>
     </ClCompile>
+    <ClCompile Include="BoneSpirit_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\02.Skill\00.BoneSpirit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
