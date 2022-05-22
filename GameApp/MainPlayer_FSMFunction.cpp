@@ -391,9 +391,6 @@ void MainPlayer::UpdateGetHit()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
-
 }
 
 void MainPlayer::EndGetHit()
@@ -657,7 +654,6 @@ void MainPlayer::UpdateSkillCasting()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
 }
 
 void MainPlayer::EndSkillCasting()
@@ -687,9 +683,6 @@ void MainPlayer::UpdateDead()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
-
 }
 
 void MainPlayer::EndDead()
@@ -717,7 +710,6 @@ void MainPlayer::UpdateDeath()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
 }
 
 void MainPlayer::EndDeath()

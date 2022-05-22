@@ -185,9 +185,6 @@
     <ClCompile Include="MainPlayer_CurrentHP.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentHPView</Filter>
     </ClCompile>
-    <ClCompile Include="MainPlayer_StateUpdater.cpp">
-      <Filter>Object\Actor\00.Global\00.Player\99.Function\StateUpdateFunction</Filter>
-    </ClCompile>
     <ClCompile Include="MainPlayer_CurrentMP.cpp">
       <Filter>Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentMPView</Filter>
     </ClCompile>
@@ -364,6 +361,15 @@
     </ClCompile>
     <ClCompile Include="BoneSpirit_FSMState.cpp">
       <Filter>Object\Actor\00.Global\00.Player\02.Skill\00.BoneSpirit</Filter>
+    </ClCompile>
+    <ClCompile Include="SpikeFiend_Collision.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\01.SpikeFiend</Filter>
+    </ClCompile>
+    <ClCompile Include="SpikeFiend_Create.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\01.SpikeFiend</Filter>
+    </ClCompile>
+    <ClCompile Include="SpikeFiend_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\01.SpikeFiend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -627,9 +633,6 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\CurrentMPView">
       <UniqueIdentifier>{19a1f5f3-2939-4ce4-8bb7-50915636d88d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\StateUpdateFunction">
-      <UniqueIdentifier>{efc88d3a-7765-4032-b8b5-fb2fe6bc95ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\03.UI\00.BottomStateBar\WeaponSkillBtn">
       <UniqueIdentifier>{fdc41024-388c-4d37-b24a-56ab9fe5d8e1}</UniqueIdentifier>

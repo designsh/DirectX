@@ -2,9 +2,12 @@
 #include "MainPlayer.h"
 
 #include "MainPlayerInfomation.h"
+
 #include "BottomStateBar.h"
 #include "MainPlayer_CurrentHP.h"
 #include "MainPlayer_CurrentMP.h"
+
+#include "InventoryView.h"
 
 // ======================================================= GET FUNCTION ======================================================= //
 
@@ -187,12 +190,23 @@ void MainPlayer::SetCurrentHP(int _HP)
 void MainPlayer::DelCurrentHP(int _HP)
 {
 	CurHP_ -= _HP;
+	if (0 >= CurHP_)
+	{
+		CurHP_ = 0;
+	}
 	BottomStateBar_->GetHPControl()->HPConsumption(static_cast<float>(CurHP_) * 0.01f);
+
+	// 상태 전환
+	ChangeFSMState("Gethit");
 }
 
 void MainPlayer::AddCurrentHP(int _HP)
 {
 	CurHP_ += _HP;
+	if (100 <= CurHP_)
+	{
+		CurHP_ = 100;
+	}
 	BottomStateBar_->GetHPControl()->HPConsumption(static_cast<float>(CurHP_) * 0.01f);
 }
 
@@ -256,6 +270,37 @@ void MainPlayer::SetLevelUP()
 
 	// 플레이어 정보 갱신
 	MainPlayerInfomation::GetInst().PlayerLevelUP();
+}
+
+// 골드를 획득하거나 창고에서 꺼내올때 호출
+void MainPlayer::HaveGoldAdd(int _Gold)
+{
+	// 내 골드량 증가
+	HaveGold_ += _Gold;
+
+	// 인벤토리가 가지고있는 골드텍스트 렌더러 갱신
+	InventoryView_->HaveGoldUpdate(HaveGold_);
+}
+
+// 골드를 내려놓거나 창고에 저장할때 호출
+void MainPlayer::HaveGoldSub(int _Gold)
+{
+	// 내 골드량 감소
+	int Gold = HaveGold_ - _Gold;
+	if (0 >= Gold)
+	{
+		HaveGold_ = 0;
+
+		// 인벤토리가 가지고있는 골드텍스트 렌더러 갱신
+		InventoryView_->HaveGoldUpdate(HaveGold_);
+
+		return;
+	}
+
+	HaveGold_ = Gold;
+
+	// 인벤토리가 가지고있는 골드텍스트 렌더러 갱신
+	InventoryView_->HaveGoldUpdate(HaveGold_);
 }
 
 #pragma endregion

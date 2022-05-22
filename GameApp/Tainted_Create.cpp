@@ -179,7 +179,7 @@ void Tainted::CreateFSMState()
 	// 대기상태
 	State_.CreateState("Tainted_IDLE", std::bind(&Tainted::UpdateIdle, this), std::bind(&Tainted::StartIdle, this), std::bind(&Tainted::EndIdle, this));
 
-	// 이동상태(적감지상태)
+	// 이동상태(적공격상태 전환 or 대기상태 전환)
 	State_.CreateState("Tainted_MOVE", std::bind(&Tainted::UpdateMove, this), std::bind(&Tainted::StartMove, this), std::bind(&Tainted::EndMove, this));
 
 	// 기본공격상태

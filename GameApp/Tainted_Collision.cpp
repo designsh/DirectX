@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Tainted.h"
 
+#include <GameEngine/GameEngineCollision.h>
+
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
@@ -21,22 +23,30 @@ void Tainted::MouseCollision(GameEngineCollision* _Other)
 	}
 }
 
-void Tainted::MouseCollisionEnd(GameEngineCollision* _Other)
-{
-}
-
-// 2. 적과의 충돌시 호출되는 함수
+// 2. 적과 총돌시 호출되는 함수
 void Tainted::EnemyCollision(GameEngineCollision* _Other)
 {
-	// 충돌시 공격 상태로 전환
-	if (CurState_ != Tainted_FSMState::ST_NORMALATTACK)
+	if (nullptr != GlobalValue::CurPlayer)
 	{
-		State_.ChangeState("Tainted_ATTACK");
-		EnemyCol_ = true;
+		if (_Other->GetActor() == GlobalValue::CurPlayer)
+		{
+			// 공격 모션 전환
+			if (false == TargetCol_)
+			{
+				State_.ChangeState("Tainted_ATTACK");
+				TargetCol_ = true;
+			}
+		}
 	}
 }
 
 void Tainted::EnemyCollisionEnd(GameEngineCollision* _Other)
 {
-	EnemyCol_ = false;
+	if (nullptr != GlobalValue::CurPlayer)
+	{
+		if (_Other->GetActor() == GlobalValue::CurPlayer)
+		{
+			TargetCol_ = false;
+		}
+	}
 }

@@ -354,6 +354,10 @@ public: // 상태관련
 	void SetCurrentLevel(int _LEVEL);
 	void SetLevelUP();
 
+public:
+	void HaveGoldAdd(int _Gold);				// 골드를 획득하거나 창고에서 꺼내올때 호출
+	void HaveGoldSub(int _Gold);				// 골드를 내려놓거나 창고에 저장할때 호출
+
 public: // UI Flag관련 
 	void SetIsInventory(bool _Flag);
 	void SetIsStateView(bool _Flag);
@@ -545,17 +549,6 @@ public:
 	bool InventoryViewItemArrageCheckOn(const float4& _ItemScale, const std::string& _ItemName);
 #pragma endregion
 
-#pragma region GamePlaye Update Function
-public:
-	void HPConsumption(float _Damage);			// 데미지를 받으면 해당 함수 호출
-	void MPConsumption(float _MPConsumption);	// 마법(스킬)을 사용하면 해당 함수 호출
-
-public:
-	void HaveGoldAdd(int _Gold);				// 골드를 획득하거나 창고에서 꺼내올때 호출
-	void HaveGoldSub(int _Gold);				// 골드를 내려놓거나 창고에 저장할때 호출
-
-#pragma endregion
-
 #pragma region 애니메이션종료시점호출함수
 private:
 	void Attack1AnimationEnd();
@@ -585,6 +578,11 @@ private:
 public:
 	void SkeletonWarriorDeath(SketelonWarrior* _DeathWarrior);
 	void SkeletonWizardDeath(SketelonWizard* _DeathWizard);
+
+public:
+	SummonsGolem* SummonsGolemTileCheck(TileIndex _CheckTile);
+	SketelonWarrior* SummonsSkeletonWarriorTileCheck(TileIndex _CheckTile);
+	SketelonWizard* SummonsSkeletonWizardTileCheck(TileIndex _CheckTile);
 
 #pragma endregion
 

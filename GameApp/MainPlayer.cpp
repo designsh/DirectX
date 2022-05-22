@@ -864,6 +864,60 @@ void MainPlayer::SkeletonWizardDeath(SketelonWizard* _DeathWizard)
 	}
 }
 
+SummonsGolem* MainPlayer::SummonsGolemTileCheck(TileIndex _CheckTile)
+{
+	if (nullptr != GlobalValue::CatacombsMap && nullptr != SummonsGolem_)
+	{
+		TileIndex CurGolemIndex = GlobalValue::CatacombsMap->GetWallTileIndex(SummonsGolem_->GetTransform()->GetWorldPosition());
+		if (CurGolemIndex == _CheckTile)
+		{
+			return SummonsGolem_;
+		}
+	}
+
+	return nullptr;
+}
+
+SketelonWarrior* MainPlayer::SummonsSkeletonWarriorTileCheck(TileIndex _CheckTile)
+{
+	if (nullptr != GlobalValue::CatacombsMap)
+	{
+		for (auto& SketelonWarrior : SummonsSketelonWarrior_)
+		{
+			if (nullptr != SketelonWarrior)
+			{
+				TileIndex CurWarriorIndex = GlobalValue::CatacombsMap->GetWallTileIndex(SketelonWarrior->GetTransform()->GetWorldPosition());
+				if (CurWarriorIndex == _CheckTile)
+				{
+					return SketelonWarrior;
+				}
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+SketelonWizard* MainPlayer::SummonsSkeletonWizardTileCheck(TileIndex _CheckTile)
+{
+	if (nullptr != GlobalValue::CatacombsMap)
+	{
+		for (auto& SketelonWizard : SummonsSketelonWizard_)
+		{
+			if (nullptr != SketelonWizard)
+			{
+				TileIndex CurWizardIndex = GlobalValue::CatacombsMap->GetWallTileIndex(SketelonWizard->GetTransform()->GetWorldPosition());
+				if (CurWizardIndex == _CheckTile)
+				{
+					return SketelonWizard;
+				}
+			}
+		}
+	}
+
+	return nullptr;
+}
+
 void MainPlayer::BoneSpiritFire()
 {
 	if (CurRightSkill_ == 93)

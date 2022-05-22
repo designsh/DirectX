@@ -228,7 +228,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MainPlayer_StateUpdater.cpp" />
     <ClCompile Include="MainPlayer_UIManager.cpp" />
     <ClCompile Include="MainPlayer_WeaponSkillButton.cpp">
       <SubType>
@@ -278,6 +277,9 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SpikeFiend_Collision.cpp" />
+    <ClCompile Include="SpikeFiend_Create.cpp" />
+    <ClCompile Include="SpikeFiend_FSMState.cpp" />
     <ClCompile Include="StatView.cpp">
       <SubType>
       </SubType>
