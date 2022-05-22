@@ -871,7 +871,6 @@ void CatacombsMap::CurLevelActorRoomArrange()
 							NewSpikeFiend->SetName("SpikeFiend" + std::to_string(SpikeFiendList_.size()));
 							NewSpikeFiend->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
 							NewSpikeFiend->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
-							NewSpikeFiend->SpawnToDeath();
 							SpikeFiendList_.push_back(NewSpikeFiend);
 							break;
 						}
