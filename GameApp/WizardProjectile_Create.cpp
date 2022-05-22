@@ -56,8 +56,8 @@ void WizardProjectile::CreateColdTypeAnimation()
 	Renderer_->CreateAnimation("Wizard_Cold.png", "Move_RB", 18, 23, 0.1f);
 	Renderer_->CreateAnimation("Wizard_Cold.png", "Move_B" , 24, 29, 0.1f);
 	Renderer_->CreateAnimation("Wizard_Cold.png", "Move_L" , 30, 35, 0.1f);
-	Renderer_->CreateAnimation("Wizard_Cold.png", "Move_T" , 36, 47, 0.1f);
-	Renderer_->CreateAnimation("Wizard_Cold.png", "Move_R" , 48, 53, 0.1f);
+	Renderer_->CreateAnimation("Wizard_Cold.png", "Move_T" , 36, 41, 0.1f);
+	Renderer_->CreateAnimation("Wizard_Cold.png", "Move_R" , 42, 47, 0.1f);
 
 	// 생성위치 셋팅
 	GetTransform()->SetLocalPosition(StartPos_);

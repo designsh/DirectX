@@ -839,8 +839,13 @@ void MainPlayer::SkeletonWarriorDeath(SketelonWarrior* _DeathWarrior)
 		{
 			SummonsSketelonWarrior_.erase(StartIter);
 			_DeathWarrior->Death();
-			break;
+			return;
 		}
+	}
+
+	if (nullptr != _DeathWarrior)
+	{
+		_DeathWarrior->Death();
 	}
 }
 
