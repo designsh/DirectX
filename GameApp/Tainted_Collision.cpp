@@ -23,8 +23,6 @@ void Tainted::MouseCollision(GameEngineCollision* _Other)
 
 void Tainted::MouseCollisionEnd(GameEngineCollision* _Other)
 {
-	// 화면 상단 HP가 표시되어있었다면 Off 상태로 전환
-	GlobalValue::TopHPBar->CurMonsterTopHPBarOff();
 }
 
 // 2. 적과의 충돌시 호출되는 함수
