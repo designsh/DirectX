@@ -44,8 +44,6 @@ SketelonWarrior::~SketelonWarrior()
 
 void SketelonWarrior::Start()
 {
-	// 스켈텔론(전사형) 관련 초기화
-	InitSketelonWarrior();
 }
 
 void SketelonWarrior::Update(float _DeltaTime)

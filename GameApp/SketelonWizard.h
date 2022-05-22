@@ -108,11 +108,6 @@ public:
 	}
 
 private:
-	void InitSketelonWizard();
-	void TextureCutting();
-	void CreateCollision();
-
-private:
 	void CreateAnimation();
 	void CreateWizardColdType();
 	void CreateWizardFireType();

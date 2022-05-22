@@ -372,7 +372,7 @@ private: // 플레이어 초기값 설정을 위한 초기화
 private: // 플레이어 충돌체 생성관련
 	void CreateCollision();
 	
-private: // 텍스쳐 컷팅관련
+private: // 텍스쳐 컷팅관련(플레이어 애니메이션)
 	void AllAnimationCut();							// 플레이어의 전체 애니메이션에 필요한 모든 텍스쳐 컷팅처리
 	void AnimationA1Cut();							// 공격모션1
 	void AnimationA2Cut();							// 공격모션2
@@ -388,6 +388,17 @@ private: // 텍스쳐 컷팅관련
 	void AnimationTNCut();							// 마을_대기모션
 	void AnimationTWCut();							// 마을_걷기모션
 	void AnimationWLCut();							// 필드_걷기모션
+
+private: // 텍스쳐 컷팅관련(플레이어 소환수)
+	void AllSummonsAnimationCut();					// 플레이어의 소환수 전체 애니메이션에 필요한 모든 텍스쳐 컷팅처리
+	void SummonsGolemAnimationCut();				// 골렘관련 텍스쳐 컷팅
+	void SummonsSkelWarriorAnimationCut();			// 스켈레톤(전사형) 텍스쳐 컷팅
+	void SummonsSkelWizardAnimationCut();			// 스켈레톤(마법사형) 텍스쳐 컷팅
+	void SummonsSkelWizardProjectileAnimationCut();	// 스켈레톤(마법사형)의 발사체 텍스쳐 컷팅
+
+private: // 텍스쳐 컷팅관련(플레이어 스킬)
+	void AllSkillAnimationCut();					// 플레이어의 스킬 전체 애니메이션에 필요한 모든 텍스쳐 컷팅처리
+	void BoneSpiritAnimationCut();					// BoneSpirit Cutting
 
 private: // 애니메이션 생성관련
 	void CreateAnimation();							// 플레이어의 전체 애니메이션 모두 생성

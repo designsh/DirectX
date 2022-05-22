@@ -5,6 +5,7 @@
 #include <GameEngine/GameEngineFSM.h>
 
 #include "FixedTileMap_Common.h"
+#include "MainPlayerInfomation.h"
 
 // 이동경로
 enum class BoneSpirit_Dir
@@ -35,6 +36,7 @@ private:	// member Var
 
 private:
 	GameEngineFSM State_;
+	SkillList BonsSpiritInfo_;
 
 private:
 	BoneSpirit_Dir CurDir_;
@@ -80,8 +82,6 @@ private:
 	void AnimationChangeCheck(const std::string& _StateName);
 
 private:
-	void InitWizardProjectile();
-	void TextureCutting();
 	void CreateCollision();
 	void CreateAnimation();
 	void CreateFSMState();

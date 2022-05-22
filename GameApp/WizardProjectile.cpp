@@ -37,8 +37,6 @@ WizardProjectile::~WizardProjectile()
 
 void WizardProjectile::Start()
 {
-	// 발사체 관련 초기화
-	InitWizardProjectile();
 }
 
 void WizardProjectile::Update(float _DeltaTime)

@@ -4,23 +4,6 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
-void BoneSpirit::InitWizardProjectile()
-{
-	// ÅØ½ºÃÄ ÄÆÆÃ
-	TextureCutting();
-}
-
-void BoneSpirit::TextureCutting()
-{
-	// ¹ß»çÃ¼ ÄÆÆÃ
-	GameEngineTexture* BoneSpirit_Projectile = GameEngineTextureManager::GetInst().Find("PlayerSkill_BoneSpirit.png");
-	BoneSpirit_Projectile->Cut(8, 8);
-
-	// Æø¹ßÃ¼ ÄÆÆÃ
-	GameEngineTexture* BoneSpirit_Explode = GameEngineTextureManager::GetInst().Find("PlayerSkill_BoneSpirit_Explode.png");
-	BoneSpirit_Explode->Cut(13, 1);
-}
-
 void BoneSpirit::CreateAnimation()
 {
 	Renderer_ = CreateTransformComponent<GameEngineImageRenderer>();

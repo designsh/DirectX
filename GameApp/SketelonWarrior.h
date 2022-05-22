@@ -97,9 +97,6 @@ public:
 	}
 
 private:
-	void InitSketelonWarrior();
-	void TextureCutting();
-	void CreateCollision();
 	void CreateAnimation();
 	void CreateAnimationEndCallbackFunction();
 	void CreateFSMState();

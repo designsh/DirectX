@@ -4,46 +4,6 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
-void SketelonWarrior::InitSketelonWarrior()
-{
-	// 텍스쳐 컷팅
-	TextureCutting();
-
-	// 충돌체 생성
-	CreateCollision();
-}
-
-void SketelonWarrior::TextureCutting()
-{
-	// 소환 상태(Skeleton_Warrior_Summons.png)
-	GameEngineTexture* Skeleton_Spawn = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Summons.png");
-	Skeleton_Spawn->Cut(12, 8);
-
-	// 대기 상태(Skeleton_Warrior_Idle.png)
-	GameEngineTexture* Skeleton_Idle = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Idle.png");
-	Skeleton_Idle->Cut(8, 8);
-
-	// 이동 상태(Skeleton_Warrior_Walk.png)
-	GameEngineTexture* Skeleton_Walk = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Walk.png");
-	Skeleton_Walk->Cut(8, 8);
-
-	// 공격 상태(Skeleton_Warrior_Attack.png)
-	GameEngineTexture* Skeleton_Attack = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Attack.png");
-	Skeleton_Attack->Cut(16, 8);
-
-	// 피격 상태(Skeleton_Warrior_GetHit.png)
-	GameEngineTexture* Skeleton_GetHit = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_GetHit.png");
-	Skeleton_GetHit->Cut(4, 8);
-
-	// 사망 상태(Skeleton_Warrior_Death.png)
-	GameEngineTexture* Skeleton_Death = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Death.png");
-	Skeleton_Death->Cut(19, 8);
-}
-
-void SketelonWarrior::CreateCollision()
-{
-}
-
 void SketelonWarrior::CreateAnimation()
 {
 	WarriorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();

@@ -43,8 +43,6 @@ SummonsGolem::~SummonsGolem()
 
 void SummonsGolem::Start()
 {
-	// 골렘 관련 기본 초기화
-	InitGolem();
 }
 
 void SummonsGolem::Update(float _DeltaTime)

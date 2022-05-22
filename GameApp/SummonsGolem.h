@@ -100,11 +100,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 private:
-	void InitGolem();
-	void TextureCutting();
-	void CreateCollision();
-
-private:
 	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);
 	void ChangeAnimationCheck(const std::string& _StateName);
 

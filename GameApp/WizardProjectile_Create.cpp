@@ -7,35 +7,6 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
-void WizardProjectile::InitWizardProjectile()
-{
-	// ÅØ½ºÃÄ ÄÆÆÃ
-	TextureCutting();
-}
-
-void WizardProjectile::TextureCutting()
-{
-#pragma region COLD TYPE
-	GameEngineTexture* ColdType_Projectile = GameEngineTextureManager::GetInst().Find("Wizard_Cold.png");
-	ColdType_Projectile->Cut(6, 8);
-#pragma endregion
-
-#pragma region FIRE TYPE
-	GameEngineTexture* FireType_Projectile = GameEngineTextureManager::GetInst().Find("Wizard_Fire.png");
-	FireType_Projectile->Cut(5, 8);
-#pragma endregion
-
-#pragma region LIGHTNING TYPE
-	GameEngineTexture* LightingType_Projectile = GameEngineTextureManager::GetInst().Find("Wizard_Lighting.png");
-	LightingType_Projectile->Cut(8, 8);
-#pragma endregion
-
-#pragma region POISON TYPE
-	GameEngineTexture* PoisonType_Projectile = GameEngineTextureManager::GetInst().Find("Wizard_Poison.png");
-	PoisonType_Projectile->Cut(30, 8);
-#pragma endregion
-}
-
 void WizardProjectile::CreateCollision()
 {
 	Collider_ = CreateTransformComponent<GameEngineCollision>();

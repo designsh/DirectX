@@ -23,6 +23,7 @@ BoneSpirit::BoneSpirit() :
 	Renderer_(nullptr),
 	Collider_(nullptr),
 	State_(),
+	BonsSpiritInfo_{},
 	CurDir_(BoneSpirit_Dir::BS_L),
 	StartPos_(float4::ZERO),
 	MouseClickPos_(float4::ZERO),
@@ -44,8 +45,6 @@ BoneSpirit::~BoneSpirit()
 
 void BoneSpirit::Start()
 {
-	// 해당 스킬관련 초기화
-	InitWizardProjectile();
 }
 
 void BoneSpirit::Update(float _DeltaTime)
@@ -151,7 +150,7 @@ void BoneSpirit::BoneSpiritFire(const float4& _StartPos, const float4& _MouseCli
 {
 	// 마우스 클릭지점으로 발사 후 진행방향에 몬스터와 충돌시 타격을 입히고 소멸
 	TargetMonster_ = _TargetingMonster;
-
+	
 	// 논타겟팅
 	if (nullptr == TargetMonster_)
 	{
@@ -165,6 +164,10 @@ void BoneSpirit::BoneSpiritFire(const float4& _StartPos, const float4& _MouseCli
 
 	StartPos_ = _StartPos;
 	MouseClickPos_ = _MouseClickPos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+
+	// 데미지 등록
+	MainPlayerInfomation::GetInst().GetSkillInfo(93, BonsSpiritInfo_);
+	Damage_ = BonsSpiritInfo_.SkillDamage;
 	
 	// 네비게이션 생성
 	GlobalValue::CatacombsMap->CreateNavitaion(NavigationObjectType::Player_ProjectileSkill, ProjetileCount);

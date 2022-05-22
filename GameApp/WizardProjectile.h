@@ -56,10 +56,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 private:
-	void InitWizardProjectile();
-	void TextureCutting();
-
-private:
 	void CreateAnimation();
 	void CreateColdTypeAnimation();
 	void CreateFireTypeAnimation();

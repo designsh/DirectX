@@ -21,6 +21,12 @@ void MainPlayer::AllAnimationCut()
 	AnimationTNCut();
 	AnimationTWCut();
 	AnimationWLCut();
+
+	// 소환수관련 컷팅
+	AllSummonsAnimationCut();
+
+	// 스킬관련 컷팅
+	AllSkillAnimationCut();
 }
 
 void MainPlayer::AnimationA1Cut()
@@ -728,3 +734,284 @@ void MainPlayer::AnimationWLCut()
 	GameEngineTexture* HVY_WL_SH = GameEngineTextureManager::GetInst().Find("HVY_Walk_Field_SH.png");
 	HVY_WL_SH->Cut(8, 16);
 }
+
+#pragma region 텍스쳐 컷팅관련(플레이어 소환수)
+void MainPlayer::AllSummonsAnimationCut()
+{
+	// 소환수관련
+	SummonsGolemAnimationCut();
+	SummonsSkelWarriorAnimationCut();
+	SummonsSkelWizardAnimationCut();
+
+	// 소환수 발사체 관련
+	SummonsSkelWizardProjectileAnimationCut();
+}
+
+void MainPlayer::SummonsGolemAnimationCut()
+{
+#pragma region CLAY GOLEM
+	// 소환상태(ClayGolem_Spawn.png)
+	GameEngineTexture* ClayGolem_Spawn = GameEngineTextureManager::GetInst().Find("ClayGolem_Spawn.png");
+	ClayGolem_Spawn->Cut(16, 1);
+
+	// 대기상태(ClayGolem_Idle.png)
+	GameEngineTexture* ClayGolem_Idle = GameEngineTextureManager::GetInst().Find("ClayGolem_Idle.png");
+	ClayGolem_Idle->Cut(4, 8);
+
+	// 이동상태(ClayGolem_Walk.png)
+	GameEngineTexture* ClayGolem_Walk = GameEngineTextureManager::GetInst().Find("ClayGolem_Walk.png");
+	ClayGolem_Walk->Cut(8, 8);
+
+	// 공격상태(ClayGolem_Attack.png)
+	GameEngineTexture* ClayGolem_Attack = GameEngineTextureManager::GetInst().Find("ClayGolem_Attack.png");
+	ClayGolem_Attack->Cut(16, 8);
+
+	// 사망상태(ClayGolem_Death.png)
+	GameEngineTexture* ClayGolem_Death = GameEngineTextureManager::GetInst().Find("ClayGolem_Death.png");
+	ClayGolem_Death->Cut(16, 1);
+#pragma endregion
+
+#pragma region BLOOD GOLEM
+	// 소환상태(BloodGolem_Spawn.png)
+	GameEngineTexture* BloodGolem_Spawn = GameEngineTextureManager::GetInst().Find("BloodGolem_Spawn.png");
+	BloodGolem_Spawn->Cut(16, 1);
+
+	// 대기상태(BloodGolem_Idle.png)
+	GameEngineTexture* BloodGolem_Idle = GameEngineTextureManager::GetInst().Find("BloodGolem_Idle.png");
+	BloodGolem_Idle->Cut(4, 8);
+
+	// 이동상태(BloodGolem_Walk.png)
+	GameEngineTexture* BloodGolem_Walk = GameEngineTextureManager::GetInst().Find("BloodGolem_Walk.png");
+	BloodGolem_Walk->Cut(8, 8);
+
+	// 공격상태(BloodGolem_Attack.png)
+	GameEngineTexture* BloodGolem_Attack = GameEngineTextureManager::GetInst().Find("BloodGolem_Attack.png");
+	BloodGolem_Attack->Cut(16, 8);
+
+	// 사망상태(BloodGolem_Death.png)
+	GameEngineTexture* BloodGolem_Death = GameEngineTextureManager::GetInst().Find("BloodGolem_Death.png");
+	BloodGolem_Death->Cut(16, 8);
+#pragma endregion
+
+#pragma region IRON GOLEM
+	// 소환상태(IronGolem_Spawn.png)
+	GameEngineTexture* IronGolem_Spawn = GameEngineTextureManager::GetInst().Find("IronGolem_Spawn.png");
+	IronGolem_Spawn->Cut(15, 1);
+
+	// 대기상태(IronGolem_Idle.png)
+	GameEngineTexture* IronGolem_Idle = GameEngineTextureManager::GetInst().Find("IronGolem_Idle.png");
+	IronGolem_Idle->Cut(4, 8);
+
+	// 이동상태(IronGolem_Walk.png)
+	GameEngineTexture* IronGolem_Walk = GameEngineTextureManager::GetInst().Find("IronGolem_Walk.png");
+	IronGolem_Walk->Cut(8, 8);
+
+	// 공격상태(IronGolem_Attack.png)
+	GameEngineTexture* IronGolem_Attack = GameEngineTextureManager::GetInst().Find("IronGolem_Attack.png");
+	IronGolem_Attack->Cut(16, 8);
+
+	// 사망상태(IronGolem_Death.png)
+	GameEngineTexture* IronGolem_Death = GameEngineTextureManager::GetInst().Find("IronGolem_Death.png");
+	IronGolem_Death->Cut(20, 8);
+#pragma endregion
+
+#pragma region FIRE GOLEM
+	// 소환상태(FireGolem_Spawn.png)
+	GameEngineTexture* FireGolem_Spawn = GameEngineTextureManager::GetInst().Find("FireGolem_Spawn.png");
+	FireGolem_Spawn->Cut(16, 1);
+
+	// 대기상태(FireGolem_Idle.png)
+	GameEngineTexture* FireGolem_Idle = GameEngineTextureManager::GetInst().Find("FireGolem_Idle.png");
+	FireGolem_Idle->Cut(8, 8);
+
+	// 이동상태(FireGolem_Walk.png)
+	GameEngineTexture* FireGolem_Walk = GameEngineTextureManager::GetInst().Find("FireGolem_Walk.png");
+	FireGolem_Walk->Cut(8, 8);
+
+	// 공격상태(FireGolem_Attack.png)
+	GameEngineTexture* FireGolem_Attack = GameEngineTextureManager::GetInst().Find("FireGolem_Attack.png");
+	FireGolem_Attack->Cut(17, 8);
+
+	// 사망상태(FireGolem_Death.png)
+	GameEngineTexture* FireGolem_Death = GameEngineTextureManager::GetInst().Find("FireGolem_Death.png");
+	FireGolem_Death->Cut(19, 1);
+#pragma endregion
+}
+
+void MainPlayer::SummonsSkelWarriorAnimationCut()
+{
+	// 소환 상태(Skeleton_Warrior_Summons.png)
+	GameEngineTexture* Skeleton_Spawn = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Summons.png");
+	Skeleton_Spawn->Cut(12, 8);
+
+	// 대기 상태(Skeleton_Warrior_Idle.png)
+	GameEngineTexture* Skeleton_Idle = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Idle.png");
+	Skeleton_Idle->Cut(8, 8);
+
+	// 이동 상태(Skeleton_Warrior_Walk.png)
+	GameEngineTexture* Skeleton_Walk = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Walk.png");
+	Skeleton_Walk->Cut(8, 8);
+
+	// 공격 상태(Skeleton_Warrior_Attack.png)
+	GameEngineTexture* Skeleton_Attack = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Attack.png");
+	Skeleton_Attack->Cut(16, 8);
+
+	// 피격 상태(Skeleton_Warrior_GetHit.png)
+	GameEngineTexture* Skeleton_GetHit = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_GetHit.png");
+	Skeleton_GetHit->Cut(4, 8);
+
+	// 사망 상태(Skeleton_Warrior_Death.png)
+	GameEngineTexture* Skeleton_Death = GameEngineTextureManager::GetInst().Find("Skeleton_Warrior_Death.png");
+	Skeleton_Death->Cut(19, 8);
+}
+
+void MainPlayer::SummonsSkelWizardAnimationCut()
+{
+#pragma region COLD TYPE
+	// 소환 상태(Skeleton_Wizard(Cold)_Summons.png)
+	GameEngineTexture* Cold_Spawn = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Cold)_Summons.png");
+	Cold_Spawn->Cut(12, 8);
+
+	// 대기 상태(Skeleton_Wizard(Cold)_Idle.png)
+	GameEngineTexture* Cold_Idle = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Cold)_Idle.png");
+	Cold_Idle->Cut(8, 8);
+
+	// 이동 상태(Skeleton_Wizard(Cold)_Walk.png)
+	GameEngineTexture* Cold_Walk = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Cold)_Walk.png");
+	Cold_Walk->Cut(8, 8);
+
+	// 공격 상태(Skeleton_Wizard(Cold)_Attack.png)
+	GameEngineTexture* Cold_Attack = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Cold)_Attack.png");
+	Cold_Attack->Cut(16, 8);
+
+	// 피격 상태(Skeleton_Wizard(Cold)_GetHit.png)
+	GameEngineTexture* Cold_GetHit = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Cold)_GetHit.png");
+	Cold_GetHit->Cut(4, 8);
+
+	// 사망 상태(Skeleton_Wizard(Cold)_Death.png)
+	GameEngineTexture* Cold_Death = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Cold)_Death.png");
+	Cold_Death->Cut(19, 8);
+#pragma endregion
+
+#pragma region FIRE TYPE
+	// 소환 상태(Skeleton_Wizard(Fire)_Summons.png)
+	GameEngineTexture* Fire_Spawn = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Fire)_Summons.png");
+	Fire_Spawn->Cut(12, 8);
+
+	// 대기 상태(Skeleton_Wizard(Fire)_Idle.png)
+	GameEngineTexture* Fire_Idle = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Fire)_Idle.png");
+	Fire_Idle->Cut(8, 8);
+
+	// 이동 상태(Skeleton_Wizard(Fire)_Walk.png)
+	GameEngineTexture* Fire_Walk = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Fire)_Walk.png");
+	Fire_Walk->Cut(8, 8);
+
+	// 공격 상태(Skeleton_Wizard(Fire)_Attack.png)
+	GameEngineTexture* Fire_Attack = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Fire)_Attack.png");
+	Fire_Attack->Cut(16, 8);
+
+	// 피격 상태(Skeleton_Wizard(Fire)_GetHit.png)
+	GameEngineTexture* Fire_GetHit = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Fire)_GetHit.png");
+	Fire_GetHit->Cut(4, 8);
+
+	// 사망 상태(Skeleton_Wizard(Fire)_Death.png)
+	GameEngineTexture* Fire_Death = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Fire)_Death.png");
+	Fire_Death->Cut(19, 8);
+#pragma endregion
+
+#pragma region LIGHTNING TYPE
+	// 소환 상태(Skeleton_Wizard(Lightning)_Summons.png)
+	GameEngineTexture* Lightning_Spawn = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Lightning)_Summons.png");
+	Lightning_Spawn->Cut(12, 8);
+
+	// 대기 상태(Skeleton_Wizard(Lightning)_Idle.png)
+	GameEngineTexture* Lightning_Idle = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Lightning)_Idle.png");
+	Lightning_Idle->Cut(8, 8);
+
+	// 이동 상태(Skeleton_Wizard(Lightning)_Walk.png)
+	GameEngineTexture* Lightning_Walk = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Lightning)_Walk.png");
+	Lightning_Walk->Cut(8, 8);
+
+	// 공격 상태(Skeleton_Wizard(Lightning)_Attack.png)
+	GameEngineTexture* Lightning_Attack = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Lightning)_Attack.png");
+	Lightning_Attack->Cut(16, 8);
+
+	// 피격 상태(Skeleton_Wizard(Lightning)_GetHit.png)
+	GameEngineTexture* Lightning_GetHit = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Lightning)_GetHit.png");
+	Lightning_GetHit->Cut(4, 8);
+
+	// 사망 상태(Skeleton_Wizard(Lightning)_Death.png)
+	GameEngineTexture* Lightning_Death = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Lightning)_Death.png");
+	Lightning_Death->Cut(19, 8);
+#pragma endregion
+
+#pragma region POISON TYPE
+	// 소환 상태(Skeleton_Wizard(Poison)_Summons.png)
+	GameEngineTexture* Poison_Spawn = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Poison)_Summons.png");
+	Poison_Spawn->Cut(12, 8);
+
+	// 대기 상태(Skeleton_Wizard(Poison)_Idle.png)
+	GameEngineTexture* Poison_Idle = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Poison)_Idle.png");
+	Poison_Idle->Cut(8, 8);
+
+	// 이동 상태(Skeleton_Wizard(Poison)_Walk.png)
+	GameEngineTexture* Poison_Walk = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Poison)_Walk.png");
+	Poison_Walk->Cut(8, 8);
+
+	// 공격 상태(Skeleton_Wizard(Poison)_Attack.png)
+	GameEngineTexture* Poison_Attack = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Poison)_Attack.png");
+	Poison_Attack->Cut(16, 8);
+
+	// 피격 상태(Skeleton_Wizard(Poison)_GetHit.png)
+	GameEngineTexture* Poison_GetHit = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Poison)_GetHit.png");
+	Poison_GetHit->Cut(4, 8);
+
+	// 사망 상태(Skeleton_Wizard(Poison)_Death.png)
+	GameEngineTexture* Poison_Death = GameEngineTextureManager::GetInst().Find("Skeleton_Wizard(Poison)_Death.png");
+	Poison_Death->Cut(19, 8);
+#pragma endregion
+}
+
+void MainPlayer::SummonsSkelWizardProjectileAnimationCut()
+{
+#pragma region COLD TYPE
+	GameEngineTexture* ColdType_Projectile = GameEngineTextureManager::GetInst().Find("Wizard_Cold.png");
+	ColdType_Projectile->Cut(6, 8);
+#pragma endregion
+
+#pragma region FIRE TYPE
+	GameEngineTexture* FireType_Projectile = GameEngineTextureManager::GetInst().Find("Wizard_Fire.png");
+	FireType_Projectile->Cut(5, 8);
+#pragma endregion
+
+#pragma region LIGHTNING TYPE
+	GameEngineTexture* LightingType_Projectile = GameEngineTextureManager::GetInst().Find("Wizard_Lighting.png");
+	LightingType_Projectile->Cut(8, 8);
+#pragma endregion
+
+#pragma region POISON TYPE
+	GameEngineTexture* PoisonType_Projectile = GameEngineTextureManager::GetInst().Find("Wizard_Poison.png");
+	PoisonType_Projectile->Cut(30, 8);
+#pragma endregion
+}
+
+#pragma endregion
+
+#pragma region 텍스쳐 컷팅관련(플레이어 스킬)
+void MainPlayer::AllSkillAnimationCut()
+{
+	BoneSpiritAnimationCut();
+}
+
+void MainPlayer::BoneSpiritAnimationCut()
+{
+	// 발사체 컷팅
+	GameEngineTexture* BoneSpirit_Projectile = GameEngineTextureManager::GetInst().Find("PlayerSkill_BoneSpirit.png");
+	BoneSpirit_Projectile->Cut(8, 8);
+
+	// 폭발체 컷팅
+	GameEngineTexture* BoneSpirit_Explode = GameEngineTextureManager::GetInst().Find("PlayerSkill_BoneSpirit_Explode.png");
+	BoneSpirit_Explode->Cut(13, 1);
+}
+
+#pragma endregion

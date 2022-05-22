@@ -44,8 +44,6 @@ SketelonWizard::~SketelonWizard()
 
 void SketelonWizard::Start()
 {
-	// 스켈텔론 마법사형 관련 초기화
-	InitSketelonWizard();
 }
 
 void SketelonWizard::Update(float _DeltaTime)
