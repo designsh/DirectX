@@ -459,7 +459,11 @@ void SketelonWarrior::AttackAnimationEnd()
 		else if (std::string::npos != DetectActor.find("Zombie"))
 		{
 			Zombie* CurAttackMonster = (Zombie*)DetectMonster_;
-
+			if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
+				Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
+			{
+				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+			}
 		}
 		else if (std::string::npos != DetectActor.find("Andariel"))
 		{

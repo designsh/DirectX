@@ -113,7 +113,11 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			else if (std::string::npos != CollisionName.find("Zombie"))
 			{
 				Zombie* CurAttackMonster = (Zombie*)_Other->GetActor();
-
+				if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
+					Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
+				{
+					CurAttackMonster->GetHitDamage(Damage_);
+				}
 			}
 			else if (std::string::npos != CollisionName.find("Andariel"))
 			{
@@ -160,7 +164,11 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 		else if (std::string::npos != CollisionName.find("Zombie"))
 		{
 			Zombie* CurAttackMonster = (Zombie*)_Other->GetActor();
-
+			if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
+				Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
+			{
+				CurAttackMonster->GetHitDamage(Damage_);
+			}
 		}
 		else if (std::string::npos != CollisionName.find("Andariel"))
 		{

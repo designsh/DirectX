@@ -189,7 +189,11 @@ void SummonsGolem::AttackAnimationEnd()
 		else if (std::string::npos != DetectActor.find("Zombie"))
 		{
 			Zombie* CurAttackMonster = (Zombie*)DetectMonster_;
-
+			if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
+				Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
+			{
+				CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
+			}
 		}
 		else if (std::string::npos != DetectActor.find("Andariel"))
 		{
