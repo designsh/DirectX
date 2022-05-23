@@ -816,7 +816,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 				// 플레이어가 최초 배치된 룸과 가장멀리 떨어져있는 룸이라면
 				if (MapInfo_.RoomInfo_[PlayerArrRoomNo].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
 				{
-					// 보스 배치
+					// 보스 배치(안다리엘)
 
 
 					// GlobalValue::Andariel
