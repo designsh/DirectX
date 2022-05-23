@@ -9,11 +9,21 @@
 #include "MainPlayer.h"
 #include "CatacombsMap.h"
 
+int Andariel::AndarielCnt = 0;
+
 Andariel::Andariel() :
 	Andariel_(nullptr),
 	BodyCollider_(nullptr),
-	AttackCollider_(nullptr)
+	SpawnRoomNo_(-1),
+	SpawnTile_(),
+	IdleDelayTime_(1.f),
+	NavigationIndex_(-1),
+	State_(),
+	PrevState_(Andariel_FSMState::AD_ROOMDETECT),
+	CurState_(Andariel_FSMState::AD_ROOMDETECT)
 {
+	NavigationIndex_ = AndarielCnt;
+	++AndarielCnt;
 }
 
 Andariel::~Andariel()
@@ -22,10 +32,11 @@ Andariel::~Andariel()
 
 void Andariel::Start()
 {
-	// Texture Cutting
-
+	// 해당 몬스터관련 초기화
+	InitAndariel();
 }
 
 void Andariel::Update(float _DeltaTime)
 {
+
 }

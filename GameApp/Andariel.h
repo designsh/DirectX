@@ -1,6 +1,39 @@
 #pragma once
 #include <GameEngineBase/GameEnginePathFind.h>
+
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineFSM.h>
+
+#include "GlobalEnumClass.h"
+#include "AllMonsterInfomation.h"
+
+#include "FixedTileMap_Common.h"
+#include "RandomTileMap_Common.h"
+
+// 방향관련
+enum class Andariel_TargetDir
+{
+	AD_LB,
+	AD_LT,
+	AD_RT,
+	AD_RB,
+	AD_B,
+	AD_L,
+	AD_T,
+	AD_R
+};
+
+// 상태관련
+enum class Andariel_FSMState
+{
+	AD_ROOMDETECT,				// 룸진입 적 체크 상태
+	AD_IDLE,					// 대기상태
+	AD_WALK,					// 타겟까지 이동상태
+	AD_ATTACK,					// 공격범위내 적 진입
+	AD_GETHIT,					// 피격 상태(적이 공격하여 전환)
+	AD_DEATH,					// 사망 상태(몬스터 체력 0)
+	AD_DEAD,					// 시체 상태(마우스와 충돌중이며, 플레이가 소환스킬시전 체크)
+};
 
 // 분류 : 보스몬스터
 // 용도 : 카타콤레벨의 최종보스
@@ -13,13 +46,23 @@ class GameEngineImageRenderer;
 class GameEngineCollision;
 class Andariel : public GameEngineActor
 {
+public: // 생성갯수 = 네비게이션 인덱스
+	static int AndarielCnt;
+
 private:	// member Var
 	GameEngineImageRenderer* Andariel_;
 	GameEngineCollision* BodyCollider_;
-	GameEngineCollision* AttackCollider_;
 
-private:
-	std::list<PathIndex> MovePath_;
+private: // 생성관련
+	int SpawnRoomNo_;
+	TileIndex SpawnTile_;
+	float IdleDelayTime_;
+	int NavigationIndex_;
+
+private: // 상태관련
+	GameEngineFSM State_;
+	Andariel_FSMState PrevState_;
+	Andariel_FSMState CurState_;
 
 public:
 	Andariel();
@@ -38,5 +81,27 @@ private:
 	void Update(float _DeltaTime) override;
 
 public:
+	inline Andariel_FSMState GetCurState() const
+	{
+		return CurState_;
+	}
+
+private: // Collision Callback Function
+	void MouseCollision(GameEngineCollision* _Ohter);
+	void EnemyCollision(GameEngineCollision* _Other);
+	void EnemyCollisionEnd(GameEngineCollision* _Other);
+
+private:
+	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);
+	void ChangeAnimationCheck(const std::string& _StateName);
+
+private: // 해당 몬스터 초기화 및 생성
+	void InitAndariel();
+	void TextureCutting();
+	void CreateAnimation();
+	void CreateAnimationEndFunction();
+	void CreateFSMState();
+	void CreateCollision();
+	void CreateInfomation();
 };
 

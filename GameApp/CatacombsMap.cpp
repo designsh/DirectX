@@ -817,10 +817,11 @@ void CatacombsMap::CurLevelActorRoomArrange()
 				if (MapInfo_.RoomInfo_[PlayerArrRoomNo].TheFarthestRoomNo_ == MapInfo_.RoomInfo_[i].RoomNo_)
 				{
 					// 보스 배치(안다리엘)
-
-
-					// GlobalValue::Andariel
-
+					//Andariel* NewAndariel = GetLevel()->CreateActor<Andariel>();
+					//NewAndariel->SetName("Andariel" + std::to_string(AndarielList_.size()));
+					//NewAndariel->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
+					//NewAndariel->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
+					//AndarielList_.push_back(NewAndariel);
 
 					// 일반 몬스터 배치
 					GameEngineRandom MonsterTypeRandom;
