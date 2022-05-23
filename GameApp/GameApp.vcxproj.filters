@@ -401,6 +401,12 @@
     <ClCompile Include="AndarielProjectile.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\00.Projectile</Filter>
     </ClCompile>
+    <ClCompile Include="AndarielProjectile_Create.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\00.Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="AndarielProjectile_Collision.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\00.Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">

@@ -292,11 +292,7 @@ void Andariel::StartSkillAttack()
 	CurState_ = Andariel_FSMState::AD_SKILLATTACK;
 
 	// 플레이어 방향으로 발사체 생성(부채꼴형태)
-
-	
-
-
-
+	ProjectileFire();
 }
 
 void Andariel::UpdateSkillAttack()
@@ -305,6 +301,8 @@ void Andariel::UpdateSkillAttack()
 
 void Andariel::EndSkillAttack()
 {
+	// 스킬 발사완료 후 스킬공격가능여부 Flag 해제
+	SkillAttack_ = false;
 }
 
 // 피격상태

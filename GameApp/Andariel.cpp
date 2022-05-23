@@ -89,6 +89,15 @@ void Andariel::Update(float _DeltaTime)
 	}
 }
 
+void Andariel::ProjectileFire()
+{
+	// 현재 방향을 기준으로 +- 30도로 발사체 생성
+	int a = 0;
+
+
+
+}
+
 #pragma region EnemyCheck List Function
 // 룸 진입 체크 리스트
 void Andariel::SetEnterTheRoomDetectList(int _SpawnRoomNo)
@@ -149,9 +158,6 @@ void Andariel::AttackEnd()
 
 void Andariel::SkillAttackEnd()
 {
-	// 스킬 발사완료 후 스킬공격가능여부 Flag 해제
-	SkillAttack_ = false;
-
 	// 대기상태 전환
 	State_.ChangeState("Idle");
 }
