@@ -109,17 +109,23 @@ bool SpikeFiend::EnterTheRoomDetectCheck()
 #pragma region AnimationEnd Callback Function
 void SpikeFiend::AttackEnd()
 {
+	// 적에게 데미지를 입히고
 
+
+	// 대기상태 전환
+	State_.ChangeState("Idle");
 }
 
 void SpikeFiend::GetHitEnd()
 {
-
+	// 아니라면 대기상태 전환
+	State_.ChangeState("Idle");
 }
 
 void SpikeFiend::DeathEnd()
 {
-
+	// 시체상태 전환
+	State_.ChangeState("Dead");
 }
 
 #pragma endregion
@@ -131,6 +137,20 @@ void SpikeFiend::SpawnToDeath()
 	// => 스폰과 동시에 사망처리
 	CurHP_ = 0;
 	State_.ChangeState("Death");
+}
+
+void SpikeFiend::GetHitDamage(int _Damage)
+{
+	CurHP_ -= _Damage;
+	if (0 >= CurHP_)
+	{
+		CurHP_ = 0;
+		State_.ChangeState("Death");
+	}
+	else
+	{
+		State_.ChangeState("GetHit");
+	}
 }
 
 #pragma endregion

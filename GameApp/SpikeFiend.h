@@ -83,6 +83,12 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+public:
+	inline SpikeFiend_FSMState GetCurState() const
+	{
+		return CurState_;
+	}
+
 private: // Collision Callback Function
 	void MouseCollision(GameEngineCollision* _Ohter);
 	void EnemyCollision(GameEngineCollision* _Other);
@@ -144,6 +150,7 @@ private: // 특정 애니메이션 종료시 호출되는 함수
 
 public: // 외부접근 강제 상태전환
 	void SpawnToDeath();
+	void GetHitDamage(int _Damage);
 
 public: // 적 체크 리스트관련
 	void SetEnterTheRoomDetectList(int _SpawnRoomNo);

@@ -437,7 +437,11 @@ void SketelonWarrior::AttackAnimationEnd()
 		else if (std::string::npos != DetectActor.find("SpikeFiend"))
 		{
 			SpikeFiend* CurAttackMonster = (SpikeFiend*)DetectMonster_;
-
+			if (SpikeFiend_FSMState::SF_DEAD != CurAttackMonster->GetCurState() &&
+				SpikeFiend_FSMState::SF_DEATH != CurAttackMonster->GetCurState())
+			{
+				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+			}
 		}
 		else if (std::string::npos != DetectActor.find("Tainted"))
 		{
