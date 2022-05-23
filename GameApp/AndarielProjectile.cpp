@@ -22,7 +22,6 @@ AndarielProjectile::AndarielProjectile() :
 	Renderer_(nullptr),
 	Collider_(nullptr),
 	FireStart_(false),
-	TargetDir_(AndarielProjectile_Dir::PJ_L),
 	MoveDir_(float4::ZERO),
 	MoveSpeed_(150.f),
 	Damage_(0)
@@ -62,17 +61,21 @@ void AndarielProjectile::Update(float _DeltaTime)
 	}
 }
 
-void AndarielProjectile::SkillAttackProjectile(AndarielProjectile_Dir _AnimationDir, float4 _MoveDir, int _Damage)
+void AndarielProjectile::SkillAttackProjectile(float4 _MoveDir, int _Damage)
 {
 	// 기본정보 저장
-	TargetDir_ = _AnimationDir;
 	MoveDir_ = _MoveDir;
 	Damage_ = _Damage;
 
 	// 이동방향에 따른 애니메이션 결정
+	if (MoveDir_.x >= 0)
+	{
 
+	}
+	else if(MoveDir_.x < 0)
+	{
 
-
+	}
 
 	// 발사 시작
 	FireStart_ = true;

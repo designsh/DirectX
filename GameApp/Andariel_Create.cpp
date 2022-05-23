@@ -20,6 +20,9 @@ void Andariel::InitAndariel()
 	// 애니메이션 종료시점 호출함수 관련
 	CreateAnimationEndFunction();
 
+	// 애니메이션 특정프레임시점 호출함수 관련
+	CreateSpecificFrameFunction();
+
 	// FSM 상태관련
 	CreateFSMState();
 
@@ -168,6 +171,105 @@ void Andariel::CreateAnimationEndFunction()
 	Andariel_->SetEndCallBack("Death_L" , std::bind(&Andariel::DeathEnd, this));
 	Andariel_->SetEndCallBack("Death_T" , std::bind(&Andariel::DeathEnd, this));
 	Andariel_->SetEndCallBack("Death_R" , std::bind(&Andariel::DeathEnd, this));
+}
+
+void Andariel::CreateSpecificFrameFunction()
+{
+	// Bottom SkillAttack Animation
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 4, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 5, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 6, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 7, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 8, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 9, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 10, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 11, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 12, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_B", 0 + 13, std::bind(&Andariel::ProjectileFire, this));
+
+	// LeftBottom SkillAttack Animation
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 4, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 5, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 6, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 7, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 8, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 9, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 10, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 11, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 12, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LB", 18 + 13, std::bind(&Andariel::ProjectileFire, this));
+
+	// Left SkillAttack Animation
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 4, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 5, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 6, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 7, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 8, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 9, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 10, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 11, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 12, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_L", 36 + 13, std::bind(&Andariel::ProjectileFire, this));
+
+	// LeftTop SkillAttack Animation
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 4, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 5, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 6, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 7, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 8, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 9, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 10, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 11, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 12, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_LT", 54 + 13, std::bind(&Andariel::ProjectileFire, this));
+	
+	// Top SkillAttack Animation
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 4, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 5, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 6, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 7, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 8, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 9, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 10, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 11, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 12, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_T", 72 + 13, std::bind(&Andariel::ProjectileFire, this));
+	
+	// RightTop SkillAttack Animation
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 4, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 5, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 6, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 7, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 8, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 9, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 10, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 11, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 12, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RT", 90 + 13, std::bind(&Andariel::ProjectileFire, this));
+
+	// Right SkillAttack Animation
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 4, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 5, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 6, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 7, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 8, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 9, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 10, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 11, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 12, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_R", 108 + 13, std::bind(&Andariel::ProjectileFire, this));
+
+	// Right SkillAttack Animation
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 4, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 5, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 6, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 7, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 8, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 9, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 10, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 11, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 12, std::bind(&Andariel::ProjectileFire, this));
+	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 13, std::bind(&Andariel::ProjectileFire, this));
 }
 
 void Andariel::CreateFSMState()

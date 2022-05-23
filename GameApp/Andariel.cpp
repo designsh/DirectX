@@ -9,6 +9,8 @@
 #include "MainPlayer.h"
 #include "CatacombsMap.h"
 
+#include "AndarielProjectile.h"
+
 int Andariel::AndarielCnt = 0;
 
 Andariel::Andariel() :
@@ -19,6 +21,9 @@ Andariel::Andariel() :
 	IdleDelayTime_(1.f),
 	NavigationIndex_(-1),
 	SkillDelayTime_(3.f),
+	SkillAttack_(false),
+	ProjectileCnt_(0),
+	ProjectileStartDir_(float4::ZERO),
 	MonsterInfo_(),
 	CurHP_(0),
 	MapHP_(0),
@@ -87,15 +92,6 @@ void Andariel::Update(float _DeltaTime)
 	{
 		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&Andariel::EnemyCollision, this, std::placeholders::_1), std::bind(&Andariel::EnemyCollisionEnd, this, std::placeholders::_1));
 	}
-}
-
-void Andariel::ProjectileFire()
-{
-	// 현재 방향을 기준으로 +- 30도로 발사체 생성
-	int a = 0;
-
-
-
 }
 
 #pragma region EnemyCheck List Function
@@ -180,6 +176,71 @@ void Andariel::DeathEnd()
 
 	// 시체상태 전환
 	State_.ChangeState("Dead");
+}
+
+#pragma endregion
+
+#pragma region AnimationFrame Callback Function
+void Andariel::ProjectileFire()
+{
+	// 현재 안다리엘의 방향을 통해 시작방향을 설정하고
+	// ProjectileCnt_ 당 9도씩 회전한 벡터로 이동방향을 결정하여
+	// 발사체를 생성 및 이동시킨다.
+	float4 MoveDir = float4::ZERO;
+
+	// 최초 시작방향결정 : 시작방향벡터(-45도) ~ 마지막방향벡터(45도) => 총 10개 생성(+9도)
+	if (0 == ProjectileCnt_)
+	{
+		switch (CurDir_)
+		{
+			case Andariel_TargetDir::AD_B:
+				ProjectileStartDir_ = float4();
+				break;
+			case Andariel_TargetDir::AD_LB:
+				ProjectileStartDir_ = float4();
+				break;
+			case Andariel_TargetDir::AD_L:
+				ProjectileStartDir_ = float4();
+				break;
+			case Andariel_TargetDir::AD_LT:
+				ProjectileStartDir_ = float4();
+				break;
+			case Andariel_TargetDir::AD_T:
+				ProjectileStartDir_ = float4();
+				break;
+			case Andariel_TargetDir::AD_RT:
+				ProjectileStartDir_ = float4();
+				break;
+			case Andariel_TargetDir::AD_R:
+				ProjectileStartDir_ = float4();
+				break;
+			case Andariel_TargetDir::AD_RB:
+				ProjectileStartDir_ = float4();
+				break;
+		}
+	}
+
+	// 최종 발사체 이동방향벡터 결정
+
+
+
+
+
+	// 발사체 이동방향 결정
+	//MoveDir = float4(0.f, 0.f, 1.f) * (ProjectileCnt_ * 30.f);
+
+	// 발사체 생성(소멸시간 결정 - 5초)
+	AndarielProjectile* NewProjectile = GetLevel()->CreateActor<AndarielProjectile>();
+	NewProjectile->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+	NewProjectile->SkillAttackProjectile(MoveDir, MonsterInfo_.Damage);
+	NewProjectile->Release(5.f);
+
+	// 발사체 생성카운트 증가(총 10개 생성)
+	++ProjectileCnt_;
+	if (10 <= ProjectileCnt_)
+	{
+		ProjectileCnt_ = 0;
+	}
 }
 
 #pragma endregion

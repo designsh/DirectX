@@ -63,6 +63,8 @@ private: // 생성관련
 private: // 스킬공격관련
 	float SkillDelayTime_;
 	bool SkillAttack_;
+	int ProjectileCnt_;
+	float4 ProjectileStartDir_;
 
 private: // 체크리스트관련
 	std::vector<TileIndex> RoomTileList_;
@@ -122,6 +124,7 @@ private: // 해당 몬스터 초기화 및 생성
 	void TextureCutting();
 	void CreateAnimation();
 	void CreateAnimationEndFunction();
+	void CreateSpecificFrameFunction();
 	void CreateFSMState();
 	void CreateCollision();
 	void CreateInfomation();
@@ -172,7 +175,7 @@ private: // 특정 애니메이션 종료시 호출되는 함수
 	void SkillAttackEnd();
 	void DeathEnd();
 
-private: // 발사체 생성관련
+private: // 특정 애니메이션 특정 프레임에 호출되는 함수
 	void ProjectileFire();
 
 public: // 외부접근 강제 상태전환
