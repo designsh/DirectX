@@ -35,6 +35,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="AndarielProjectile.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Andariel_Collision.cpp" />
     <ClCompile Include="Andariel_Create.cpp" />
     <ClCompile Include="Andariel_FSMState.cpp" />
@@ -440,6 +444,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Andariel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AndarielProjectile.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -398,6 +398,9 @@
     <ClCompile Include="Andariel_FSMState.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel</Filter>
     </ClCompile>
+    <ClCompile Include="AndarielProjectile.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\00.Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -838,6 +841,9 @@
     <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard\00.Projectile">
       <UniqueIdentifier>{f8a3e42c-cd65-4271-b042-8b3e55fe29f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\00.Projectile">
+      <UniqueIdentifier>{b76c363b-843b-4753-8a19-a036af440a09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -1124,6 +1130,9 @@
     </ClInclude>
     <ClInclude Include="BoneSpirit.h">
       <Filter>Object\Actor\00.Global\00.Player\02.Skill\00.BoneSpirit</Filter>
+    </ClInclude>
+    <ClInclude Include="AndarielProjectile.h">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\00.Projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

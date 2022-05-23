@@ -134,11 +134,11 @@ GameEngineActor* CatacombsMap::MonsterTileIndexCheck(TileIndex _CheckTile)
 		TileIndex FallenTile = GetWallTileIndex(Fallen->GetTransform()->GetWorldPosition());
 		if (FallenTile == _CheckTile)
 		{
-			//if (Fallen_FSMState::ST_DEAD != Fallen->GetCurState() &&
-			//	Fallen_FSMState::ST_DEATH != Fallen->GetCurState())
-			//{
-			//	return Fallen;
-			//}
+			if (Fallen_FSMState::FL_DEAD != Fallen->GetCurState() &&
+				Fallen_FSMState::FL_DEATH != Fallen->GetCurState())
+			{
+				return Fallen;
+			}
 
 			return nullptr;
 		}
@@ -149,11 +149,11 @@ GameEngineActor* CatacombsMap::MonsterTileIndexCheck(TileIndex _CheckTile)
 		TileIndex SpikeFiendTile = GetWallTileIndex(SpikeFiend->GetTransform()->GetWorldPosition());
 		if (SpikeFiendTile == _CheckTile)
 		{
-			//if (SpikeFiend_FSMState::ST_DEAD != SpikeFiend->GetCurState() &&
-			//	SpikeFiend_FSMState::ST_DEATH != SpikeFiend->GetCurState())
-			//{
-			//	return SpikeFiend;
-			//}
+			if (SpikeFiend_FSMState::SF_DEAD != SpikeFiend->GetCurState() &&
+				SpikeFiend_FSMState::SF_DEATH != SpikeFiend->GetCurState())
+			{
+				return SpikeFiend;
+			}
 
 			return nullptr;
 		}
@@ -179,11 +179,11 @@ GameEngineActor* CatacombsMap::MonsterTileIndexCheck(TileIndex _CheckTile)
 		TileIndex ZombieTile = GetWallTileIndex(Zombie->GetTransform()->GetWorldPosition());
 		if (ZombieTile == _CheckTile)
 		{
-			//if (Zombie_FSMState::ST_DEAD != Zombie->GetCurState() &&
-			//	Zombie_FSMState::ST_DEATH != Zombie->GetCurState())
-			//{
-			//	return Zombie;
-			//}
+			if (Zombie_FSMState::ZB_DEAD != Zombie->GetCurState() &&
+				Zombie_FSMState::ZB_DEATH != Zombie->GetCurState())
+			{
+				return Zombie;
+			}
 
 			return nullptr;
 		}
@@ -194,11 +194,11 @@ GameEngineActor* CatacombsMap::MonsterTileIndexCheck(TileIndex _CheckTile)
 		TileIndex AndarielTile = GetWallTileIndex(Andariel->GetTransform()->GetWorldPosition());
 		if (AndarielTile == _CheckTile)
 		{
-			//if (Andariel_FSMState::ST_DEAD != Andariel->GetCurState() &&
-			//	Andariel_FSMState::ST_DEATH != Andariel->GetCurState())
-			//{
-			//	return Andariel;
-			//}
+			if (Andariel_FSMState::AD_DEAD != Andariel->GetCurState() &&
+				Andariel_FSMState::AD_DEATH != Andariel->GetCurState())
+			{
+				return Andariel;
+			}
 
 			return nullptr;
 		}

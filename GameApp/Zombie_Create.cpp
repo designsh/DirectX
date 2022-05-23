@@ -182,7 +182,7 @@ void Zombie::CreateCollision()
 void Zombie::CreateInfomation()
 {
 	// 해당 몬스터의 정보를 생성
-	AllMonsterInfomation::GetInst().MonsterInfoFind(MonsterClassType::SpikeFiend, MonsterInfo_);
+	AllMonsterInfomation::GetInst().MonsterInfoFind(MonsterClassType::Zombie, MonsterInfo_);
 
 	// 현재 체력 셋팅(랜덤)
 	GameEngineRandom HPRandom;

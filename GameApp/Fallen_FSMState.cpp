@@ -192,7 +192,7 @@ void Fallen::EndIdle()
 {
 }
 
-// 이동상태(적감지상태)
+// 이동상태
 void Fallen::StartMove()
 {
 	// 적방향 체크하여 애니메이션 및 방향설정
