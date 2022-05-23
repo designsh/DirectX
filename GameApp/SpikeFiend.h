@@ -1,4 +1,6 @@
 #pragma once
+#include <GameEngineBase/GameEnginePathFind.h>
+
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
@@ -41,13 +43,18 @@ class GameEngineImageRenderer;
 class GameEngineCollision;
 class SpikeFiend : public GameEngineActor
 {
-private:	// member Var
+public: // 생성갯수 = 네비게이션 인덱스
+	static int SpikeFiendCnt;
+
+private:
 	GameEngineImageRenderer* SpikeFiend_;
 	GameEngineCollision* BodyCollider_;
 
 private: // 생성관련
 	int SpawnRoomNo_;
 	TileIndex SpawnTile_;
+	float IdleDelayTime_;
+	int NavigationIndex_;
 
 private: // 체크리스트관련
 	std::vector<TileIndex> RoomTileList_;
@@ -64,6 +71,10 @@ private: // 상태관련
 	SpikeFiend_FSMState CurState_;
 
 private: // 이동관련
+	std::list<PathIndex> MovePath_;
+	TileIndex MoveTargetTile_;
+	float4 MoveTargetDir_;
+	float MoveSpeed_;
 	SpikeFiend_TargetDir PrevDir_;
 	SpikeFiend_TargetDir CurDir_;
 

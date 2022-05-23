@@ -124,6 +124,9 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Fallen_Collision.cpp" />
+    <ClCompile Include="Fallen_Create.cpp" />
+    <ClCompile Include="Fallen_FSMState.cpp" />
     <ClCompile Include="GameEndButton.cpp">
       <SubType>
       </SubType>

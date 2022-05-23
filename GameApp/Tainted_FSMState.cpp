@@ -309,7 +309,6 @@ void Tainted::StartMove()
 		float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 		MoveTargetDir_ = DirPos.NormalizeReturn3D();
 	}
-
 }
 
 void Tainted::UpdateMove()

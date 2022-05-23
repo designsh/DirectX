@@ -66,7 +66,11 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 	if (std::string::npos != CollisionName.find("Fallen"))
 	{
 		Fallen* CurAttackMonster = (Fallen*)_Other->GetActor();
-
+		if (Fallen_FSMState::FL_DEAD != CurAttackMonster->GetCurState() &&
+			Fallen_FSMState::FL_DEATH != CurAttackMonster->GetCurState())
+		{
+			CurAttackMonster->GetHitDamage(Damage_);
+		}
 		Death();
 	}
 	else if (std::string::npos != CollisionName.find("SpikeFiend"))

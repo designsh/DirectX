@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "SpikeFiend.h"
+#include "Fallen.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
@@ -9,7 +9,7 @@
 #include "MainPlayer.h"
 #include "MouseObject.h"
 
-void SpikeFiend::TargetDirCheck(const float4& _TargetPos, const std::string& _StateName)
+void Fallen::TargetDirCheck(const float4& _TargetPos, const std::string& _StateName)
 {
 	// 현재방향을 이전방향에 저장
 	PrevDir_ = CurDir_;
@@ -27,27 +27,27 @@ void SpikeFiend::TargetDirCheck(const float4& _TargetPos, const std::string& _St
 		if (Angle > -60.f && Angle <= -30.f)
 		{
 			// 우상단
-			CurDir_ = SpikeFiend_TargetDir::SF_RT;
+			CurDir_ = Fallen_TargetDir::FL_RT;
 		}
 		else if (Angle > -150.f && Angle <= -120.f)
 		{
 			// 우하단
-			CurDir_ = SpikeFiend_TargetDir::SF_RB;
+			CurDir_ = Fallen_TargetDir::FL_RB;
 		}
 		else if (Angle > -30.f && Angle <= 0.f)
 		{
 			// 상단
-			CurDir_ = SpikeFiend_TargetDir::SF_T;
+			CurDir_ = Fallen_TargetDir::FL_T;
 		}
 		else if (Angle > -120.f && Angle <= -60.f)
 		{
 			// 우단
-			CurDir_ = SpikeFiend_TargetDir::SF_R;
+			CurDir_ = Fallen_TargetDir::FL_R;
 		}
 		else if (Angle > -180.f && Angle <= -150.f)
 		{
 			// 하단
-			CurDir_ = SpikeFiend_TargetDir::SF_B;
+			CurDir_ = Fallen_TargetDir::FL_B;
 		}
 	}
 	else // 왼쪽
@@ -55,27 +55,27 @@ void SpikeFiend::TargetDirCheck(const float4& _TargetPos, const std::string& _St
 		if (Angle > 30.f && Angle <= 60.f)
 		{
 			// 좌상단
-			CurDir_ = SpikeFiend_TargetDir::SF_LT;
+			CurDir_ = Fallen_TargetDir::FL_LT;
 		}
 		else if (Angle > 120.f && Angle <= 150.f)
 		{
 			// 좌하단
-			CurDir_ = SpikeFiend_TargetDir::SF_LB;
+			CurDir_ = Fallen_TargetDir::FL_LB;
 		}
 		else if (Angle > 0.f && Angle <= 30.f)
 		{
 			// 상단
-			CurDir_ = SpikeFiend_TargetDir::SF_T;
+			CurDir_ = Fallen_TargetDir::FL_T;
 		}
 		else if (Angle > 60.f && Angle <= 120.f)
 		{
 			// 좌단
-			CurDir_ = SpikeFiend_TargetDir::SF_L;
+			CurDir_ = Fallen_TargetDir::FL_L;
 		}
 		else if (Angle > 150.f && Angle <= 180.f)
 		{
 			// 하단
-			CurDir_ = SpikeFiend_TargetDir::SF_B;
+			CurDir_ = Fallen_TargetDir::FL_B;
 		}
 	}
 
@@ -84,75 +84,75 @@ void SpikeFiend::TargetDirCheck(const float4& _TargetPos, const std::string& _St
 }
 
 // 방향별 애니메이션 전환
-void SpikeFiend::ChangeAnimationCheck(const std::string& _StateName)
+void Fallen::ChangeAnimationCheck(const std::string& _StateName)
 {
 	std::string AnimationName = _StateName;
 
 	switch (CurDir_)
 	{
-		case SpikeFiend_TargetDir::SF_LB:
+		case Fallen_TargetDir::FL_LB:
 		{
 			AnimationName += "_LB";
-			SpikeFiend_->SetChangeAnimation(AnimationName);
+			Fallen_->SetChangeAnimation(AnimationName);
 			break;
 		}
-		case SpikeFiend_TargetDir::SF_LT:
+		case Fallen_TargetDir::FL_LT:
 		{
 			AnimationName += "_LT";
-			SpikeFiend_->SetChangeAnimation(AnimationName);
+			Fallen_->SetChangeAnimation(AnimationName);
 			break;
 		}
-		case SpikeFiend_TargetDir::SF_RT:
+		case Fallen_TargetDir::FL_RT:
 		{
 			AnimationName += "_RT";
-			SpikeFiend_->SetChangeAnimation(AnimationName);
+			Fallen_->SetChangeAnimation(AnimationName);
 			break;
 		}
-		case SpikeFiend_TargetDir::SF_RB:
+		case Fallen_TargetDir::FL_RB:
 		{
 			AnimationName += "_RB";
-			SpikeFiend_->SetChangeAnimation(AnimationName);
+			Fallen_->SetChangeAnimation(AnimationName);
 			break;
 		}
-		case SpikeFiend_TargetDir::SF_B:
+		case Fallen_TargetDir::FL_B:
 		{
 			AnimationName += "_B";
-			SpikeFiend_->SetChangeAnimation(AnimationName);
+			Fallen_->SetChangeAnimation(AnimationName);
 			break;
 		}
-		case SpikeFiend_TargetDir::SF_L:
+		case Fallen_TargetDir::FL_L:
 		{
 			AnimationName += "_L";
-			SpikeFiend_->SetChangeAnimation(AnimationName);
+			Fallen_->SetChangeAnimation(AnimationName);
 			break;
 		}
-		case SpikeFiend_TargetDir::SF_T:
+		case Fallen_TargetDir::FL_T:
 		{
 			AnimationName += "_T";
-			SpikeFiend_->SetChangeAnimation(AnimationName);
+			Fallen_->SetChangeAnimation(AnimationName);
 			break;
 		}
-		case SpikeFiend_TargetDir::SF_R:
+		case Fallen_TargetDir::FL_R:
 		{
 			AnimationName += "_R";
-			SpikeFiend_->SetChangeAnimation(AnimationName);
+			Fallen_->SetChangeAnimation(AnimationName);
 			break;
 		}
 	}
 }
 
 // 최초 적탐지 상태
-void SpikeFiend::StartRoomDetect()
+void Fallen::StartRoomDetect()
 {
 	// 현재방향 체크 및 애니메이션변경
 	ChangeAnimationCheck("Idle");
 
 	// 상태변경
 	PrevState_ = CurState_;
-	CurState_ = SpikeFiend_FSMState::SF_ROOMDETECT;
+	CurState_ = Fallen_FSMState::FL_ROOMDETECT;
 }
 
-void SpikeFiend::UpdateRoomDetect()
+void Fallen::UpdateRoomDetect()
 {
 	// 플레이어 룸 진입시 대기상태로 전환
 	if (true == EnterTheRoomDetectCheck())
@@ -162,22 +162,22 @@ void SpikeFiend::UpdateRoomDetect()
 	}
 }
 
-void SpikeFiend::EndRoomDetect()
+void Fallen::EndRoomDetect()
 {
 }
 
 // 대기상태
-void SpikeFiend::StartIdle()
+void Fallen::StartIdle()
 {
 	// 현재방향 체크 및 애니메이션변경
 	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Idle");
 
 	// 상태변경
 	PrevState_ = CurState_;
-	CurState_ = SpikeFiend_FSMState::SF_IDLE;
+	CurState_ = Fallen_FSMState::FL_IDLE;
 }
 
-void SpikeFiend::UpdateIdle()
+void Fallen::UpdateIdle()
 {
 	IdleDelayTime_ -= GameEngineTime::GetInst().GetDeltaTime();
 	if (0.f >= IdleDelayTime_)
@@ -188,19 +188,19 @@ void SpikeFiend::UpdateIdle()
 	}
 }
 
-void SpikeFiend::EndIdle()
+void Fallen::EndIdle()
 {
 }
 
 // 이동상태(적감지상태)
-void SpikeFiend::StartMove()
+void Fallen::StartMove()
 {
 	// 적방향 체크하여 애니메이션 및 방향설정
 	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Walk");
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = SpikeFiend_FSMState::SF_WALK;
+	CurState_ = Fallen_FSMState::FL_WALK;
 
 	// 플레이어 방향 이동경로 생성
 	MovePath_.clear();
@@ -221,7 +221,7 @@ void SpikeFiend::StartMove()
 	}
 }
 
-void SpikeFiend::UpdateMove()
+void Fallen::UpdateMove()
 {
 	// 생성된 이동경로 모두 소모때까지 이동
 	if (MoveTargetTile_ == GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition()))
@@ -251,80 +251,79 @@ void SpikeFiend::UpdateMove()
 	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 }
 
-void SpikeFiend::EndMove()
+void Fallen::EndMove()
 {
 }
 
 // 기본공격상태
-void SpikeFiend::StartNormalAttack()
-{
-	// 적방향 체크하여 애니메이션 및 방향설정
+void Fallen::StartNormalAttack()
+{	// 적방향 체크하여 애니메이션 및 방향설정
 	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Attack");
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = SpikeFiend_FSMState::SF_ATTACK;
+	CurState_ = Fallen_FSMState::FL_ATTACK;
+
 }
 
-void SpikeFiend::UpdateNormalAttack()
+void Fallen::UpdateNormalAttack()
 {
 }
 
-void SpikeFiend::EndNormalAttack()
+void Fallen::EndNormalAttack()
 {
 }
 
 // 피격상태
-void SpikeFiend::StartGetHit()
+void Fallen::StartGetHit()
 {
 	// 적방향 체크하여 애니메이션 및 방향설정
 	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "GetHit");
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = SpikeFiend_FSMState::SF_GETHIT;
+	CurState_ = Fallen_FSMState::FL_GETHIT;
 }
 
-void SpikeFiend::UpdateGetHit()
+void Fallen::UpdateGetHit()
 {
 }
 
-void SpikeFiend::EndGetHit()
+void Fallen::EndGetHit()
 {
 }
 
 // 사망상태
-void SpikeFiend::StartDeath()
+void Fallen::StartDeath()
 {
 	// 적방향 체크하여 애니메이션 및 방향설정
 	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Death");
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = SpikeFiend_FSMState::SF_DEATH;
+	CurState_ = Fallen_FSMState::FL_DEATH;
 }
 
-void SpikeFiend::UpdateDeath()
+void Fallen::UpdateDeath()
 {
 }
 
-void SpikeFiend::EndDeath()
+void Fallen::EndDeath()
 {
 }
 
 // 시체상태
-void SpikeFiend::StartDead()
+void Fallen::StartDead()
 {
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = SpikeFiend_FSMState::SF_DEAD;
+	CurState_ = Fallen_FSMState::FL_DEAD;
 }
 
-void SpikeFiend::UpdateDead()
+void Fallen::UpdateDead()
 {
 }
 
-void SpikeFiend::EndDead()
+void Fallen::EndDead()
 {
 }
-

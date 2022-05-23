@@ -432,7 +432,11 @@ void SketelonWarrior::AttackAnimationEnd()
 		if (std::string::npos != DetectActor.find("Fallen"))
 		{
 			Fallen* CurAttackMonster = (Fallen*)DetectMonster_;
-
+			if (Fallen_FSMState::FL_DEAD != CurAttackMonster->GetCurState() &&
+				Fallen_FSMState::FL_DEATH != CurAttackMonster->GetCurState())
+			{
+				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+			}
 		}
 		else if (std::string::npos != DetectActor.find("SpikeFiend"))
 		{

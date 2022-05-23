@@ -9,11 +9,15 @@
 #include "MainPlayer.h"
 #include "MouseObject.h"
 
+int SpikeFiend::SpikeFiendCnt = 0;
+
 SpikeFiend::SpikeFiend() :
 	SpikeFiend_(nullptr),
 	BodyCollider_(nullptr),
 	SpawnRoomNo_(-1),
 	SpawnTile_(),
+	IdleDelayTime_(1.f),
+	NavigationIndex_(-1),
 	MonsterInfo_(),
 	CurHP_(0),
 	MapHP_(0),
@@ -21,9 +25,14 @@ SpikeFiend::SpikeFiend() :
 	State_(),
 	PrevState_(SpikeFiend_FSMState::SF_ROOMDETECT),
 	CurState_(SpikeFiend_FSMState::SF_ROOMDETECT),
+	MoveTargetTile_(),
+	MoveTargetDir_(float4::ZERO),
+	MoveSpeed_(150.f),
 	PrevDir_(SpikeFiend_TargetDir::SF_B),
 	CurDir_(SpikeFiend_TargetDir::SF_B)
 {
+	NavigationIndex_ = SpikeFiendCnt;
+	++SpikeFiendCnt;
 }
 
 SpikeFiend::~SpikeFiend()
@@ -38,19 +47,30 @@ void SpikeFiend::Start()
 
 void SpikeFiend::Update(float _DeltaTime)
 {
+#ifdef _DEBUG
+	GetLevel()->UIPushDebugRender(BodyCollider_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
+	// 상태 갱신
 	State_.Update();
-	// 충돌체크
-
-
-	
-	// 충돌체 위치 갱신
-
-
 
 	// Z Order 갱신
+	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
+	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 15.f);
 
+	// 충돌체 위치 갱신
+	float4 MyPos = GetTransform()->GetLocalPosition();
+	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	BodyCollider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
+	// 충돌처리(마우스와 충돌처리)
+	BodyCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&SpikeFiend::MouseCollision, this, std::placeholders::_1));
 
+	// 공격상태일때 타겟과 충돌중이라면 타겟에게 피해를 입힘
+	if (SpikeFiend_FSMState::SF_ATTACK == CurState_)
+	{
+		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&SpikeFiend::EnemyCollision, this, std::placeholders::_1), std::bind(&SpikeFiend::EnemyCollisionEnd, this, std::placeholders::_1));
+	}
 }
 
 #pragma region EnemyCheck List Function
@@ -90,28 +110,23 @@ void SpikeFiend::SetEnterTheRoomDetectList(int _SpawnRoomNo)
 
 bool SpikeFiend::EnterTheRoomDetectCheck()
 {
+	TileIndex PlayerTile = GlobalValue::CatacombsMap->GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());
+	for (auto& CheckTile : RoomTileList_)
+	{
+		if (CheckTile == PlayerTile)
+		{
+			return true;
+		}
+	}
 
 	return false;
 }
-
-// 이동범위 진입 체크리스트
-
-
-
-
-// 공격범위 진입 체크리스트
-
-
-
 
 #pragma endregion
 
 #pragma region AnimationEnd Callback Function
 void SpikeFiend::AttackEnd()
 {
-	// 적에게 데미지를 입히고
-
-
 	// 대기상태 전환
 	State_.ChangeState("Idle");
 }

@@ -371,6 +371,15 @@
     <ClCompile Include="SpikeFiend_FSMState.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\01.Normal\01.SpikeFiend</Filter>
     </ClCompile>
+    <ClCompile Include="Fallen_Create.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen</Filter>
+    </ClCompile>
+    <ClCompile Include="Fallen_Collision.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen</Filter>
+    </ClCompile>
+    <ClCompile Include="Fallen_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">

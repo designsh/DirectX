@@ -833,7 +833,6 @@ void CatacombsMap::CurLevelActorRoomArrange()
 							NewSpikeFiend->SetName("SpikeFiend" + std::to_string(SpikeFiendList_.size()));
 							NewSpikeFiend->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
 							NewSpikeFiend->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
-							NewSpikeFiend->SpawnToDeath();
 							SpikeFiendList_.push_back(NewSpikeFiend);
 							break;
 						}
@@ -881,7 +880,11 @@ void CatacombsMap::CurLevelActorRoomArrange()
 						}
 						case MonsterClassType::Fallen:
 						{
-
+							Fallen* NewFallen = GetLevel()->CreateActor<Fallen>();
+							NewFallen->SetName("Fallen" + std::to_string(FallenList_.size()));
+							NewFallen->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
+							NewFallen->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
+							FallenList_.push_back(NewFallen);
 							break;
 						}
 						case MonsterClassType::Tainted:
@@ -932,10 +935,12 @@ void CatacombsMap::CurLevelActorRoomArrange()
 						}
 						case MonsterClassType::Fallen:
 						{
-							//Fallen* NewFallen = GetLevel()->CreateActor<Fallen>();
-							//NewFallen->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
-							//NewFallen->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-							//FallenList_.push_back(NewFallen);
+							Fallen* NewFallen = GetLevel()->CreateActor<Fallen>();
+							NewFallen->SetName("Fallen" + std::to_string(FallenList_.size()));
+							NewFallen->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+							NewFallen->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+							NewFallen->SpawnToDeath();
+							FallenList_.push_back(NewFallen);
 							break;
 						}
 						case MonsterClassType::Tainted:
