@@ -16,7 +16,9 @@ Andariel::Andariel() :
 	BodyCollider_(nullptr),
 	SpawnRoomNo_(-1),
 	SpawnTile_(),
+	IdleDelayTime_(1.f),
 	NavigationIndex_(-1),
+	SkillDelayTime_(3.f),
 	MonsterInfo_(),
 	CurHP_(0),
 	MapHP_(0),
@@ -49,6 +51,21 @@ void Andariel::Update(float _DeltaTime)
 #ifdef _DEBUG
 	GetLevel()->UIPushDebugRender(BodyCollider_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
+
+	// 스킬쿨타임 소모
+	// 단, 시체상태이거나 사망상태이면 쿨타임 소모없음
+	if (Andariel_FSMState::AD_DEATH != CurState_ && Andariel_FSMState::AD_DEAD != CurState_)
+	{
+		if (false == SkillAttack_)
+		{
+			SkillDelayTime_ -= _DeltaTime;
+			if (0.f >= SkillDelayTime_)
+			{
+				SkillAttack_ = true;
+				SkillDelayTime_ = 3.f;
+			}
+		}
+	}
 
 	// 상태 갱신
 	State_.Update();
@@ -132,6 +149,9 @@ void Andariel::AttackEnd()
 
 void Andariel::SkillAttackEnd()
 {
+	// 스킬 발사완료 후 스킬공격가능여부 Flag 해제
+	SkillAttack_ = false;
+
 	// 대기상태 전환
 	State_.ChangeState("Idle");
 }

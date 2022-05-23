@@ -178,106 +178,185 @@ void Andariel::StartIdle()
 
 void Andariel::UpdateIdle()
 {
+	// 스킬시전이 가능하다면 스킬공격상태로 전환
+	if (true == SkillAttack_)
+	{
+		State_.ChangeState("SkillAttack");
+		return;
+	}
 
+	// 아니라면 대기시간 체크하여 이동상태로 전환
+	IdleDelayTime_ -= GameEngineTime::GetInst().GetDeltaTime();
+	if (0.f >= IdleDelayTime_)
+	{
+		State_.ChangeState("Walk");
+		IdleDelayTime_ = 1.f;
+	}
 }
 
 void Andariel::EndIdle()
 {
-
 }
 
 // 이동상태
 void Andariel::StartMove()
 {
+	// 적방향 체크하여 애니메이션 및 방향설정
+	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Walk");
 
+	// 현재 상태 전환
+	PrevState_ = CurState_;
+	CurState_ = Andariel_FSMState::AD_WALK;
+
+	// 이동경로 생성
+	MovePath_.clear();
+	float4 TargetPos = GlobalValue::CurPlayer->GetTransform()->GetWorldPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+	MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::Andariel, NavigationIndex_, GetTransform()->GetWorldPosition(), TargetPos);
+	if (false == MovePath_.empty())
+	{
+		// 다음 이동타일인덱스 Get
+		MoveTargetTile_.Index_ = MovePath_.front().Index_;
+
+		// 타겟위치로 지정된 경로의 인덱스제거
+		MovePath_.pop_front();
+
+		// 현재 플레이어가 존재하는 타일과 타겟위치 타일인덱스의 방향을 알아내어 
+		// 플레이어의 이동방향을 설정한다.
+		float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
+		MoveTargetDir_ = DirPos.NormalizeReturn3D();
+	}
 }
 
 void Andariel::UpdateMove()
 {
+	// 생성된 이동경로 모두 소모때까지 이동
+	if (MoveTargetTile_ == GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition()))
+	{
+		if (false == MovePath_.empty())
+		{
+			// 타겟타일 인덱스 변경
+			MoveTargetTile_.Index_ = MovePath_.front().Index_;
 
+			// 현재 목표타일까지의 방향을 계산 후
+			float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
+			MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+			// 현재 이동방향 및 애니메이션 변경하고,
+			float4 MovePos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetTile_);
+			TargetDirCheck(MovePos, "Walk");
+
+			// 타겟위치로 지정된 경로의 인덱스제거
+			MovePath_.pop_front();
+		}
+		else // 이동완료시 
+		{
+			State_.ChangeState("Attack");
+		}
+	}
+
+	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 }
 
 void Andariel::EndMove()
 {
-
+	MovePath_.clear();
 }
 
 // 기본공격상태
 void Andariel::StartNormalAttack()
 {
+	// 적방향 체크하여 애니메이션 및 방향설정
+	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Attack");
 
+	// 현재 상태 전환
+	PrevState_ = CurState_;
+	CurState_ = Andariel_FSMState::AD_ATTACK;
 }
 
 void Andariel::UpdateNormalAttack()
 {
-
 }
 
 void Andariel::EndNormalAttack()
 {
-
 }
 
 // 스킬공격상태
 void Andariel::StartSkillAttack()
 {
+	// 현재방향 체크 및 애니메이션변경
+	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "SkillAttack");
+
+	// 상태변경
+	PrevState_ = CurState_;
+	CurState_ = Andariel_FSMState::AD_SKILLATTACK;
+
+	// 플레이어 방향으로 발사체 생성
+
+	
+
+
 
 }
 
 void Andariel::UpdateSkillAttack()
 {
-
 }
 
 void Andariel::EndSkillAttack()
 {
-
 }
 
 // 피격상태
 void Andariel::StartGetHit()
 {
+	// 적방향 체크하여 애니메이션 및 방향설정
+	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Idle");
 
+	// 현재 상태 전환
+	PrevState_ = CurState_;
+	CurState_ = Andariel_FSMState::AD_GETHIT;
 }
 
 void Andariel::UpdateGetHit()
 {
-
 }
 
 void Andariel::EndGetHit()
 {
-
 }
 
 // 사망상태
 void Andariel::StartDeath()
 {
+	// 적방향 체크하여 애니메이션 및 방향설정
+	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Death");
 
+	// 현재 상태 전환
+	PrevState_ = CurState_;
+	CurState_ = Andariel_FSMState::AD_DEATH;
 }
 
 void Andariel::UpdateDeath()
 {
-
 }
 
 void Andariel::EndDeath()
 {
-
 }
 
 // 시체상태
 void Andariel::StartDead()
 {
-
+	// 현재 상태 전환
+	PrevState_ = CurState_;
+	CurState_ = Andariel_FSMState::AD_DEAD;
 }
 
 void Andariel::UpdateDead()
 {
-
 }
 
 void Andariel::EndDead()
 {
-
 }

@@ -26,13 +26,14 @@ enum class Andariel_TargetDir
 // 상태관련
 enum class Andariel_FSMState
 {
-	AD_ROOMDETECT,				// 룸진입 적 체크 상태
-	AD_IDLE,					// 대기상태
-	AD_WALK,					// 타겟까지 이동상태
-	AD_ATTACK,					// 공격범위내 적 진입
-	AD_GETHIT,					// 피격 상태(적이 공격하여 전환)
-	AD_DEATH,					// 사망 상태(몬스터 체력 0)
-	AD_DEAD,					// 시체 상태(마우스와 충돌중이며, 플레이가 소환스킬시전 체크)
+	AD_ROOMDETECT,				// 
+	AD_IDLE,					// 
+	AD_WALK,					// 
+	AD_ATTACK,					// 
+	AD_SKILLATTACK,				// 
+	AD_GETHIT,					// 
+	AD_DEATH,					// 
+	AD_DEAD,					// 
 };
 
 // 분류 : 보스몬스터
@@ -56,7 +57,12 @@ private:	// member Var
 private: // 생성관련
 	int SpawnRoomNo_;
 	TileIndex SpawnTile_;
+	float IdleDelayTime_;
 	int NavigationIndex_;
+
+private: // 스킬공격관련
+	float SkillDelayTime_;
+	bool SkillAttack_;
 
 private: // 체크리스트관련
 	std::vector<TileIndex> RoomTileList_;

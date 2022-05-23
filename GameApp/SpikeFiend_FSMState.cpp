@@ -205,7 +205,7 @@ void SpikeFiend::StartMove()
 	// 플레이어 방향 이동경로 생성
 	MovePath_.clear();
 	float4 TargetPos = GlobalValue::CurPlayer->GetTransform()->GetWorldPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
-	MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::Tainted, NavigationIndex_, GetTransform()->GetWorldPosition(), TargetPos);
+	MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::SpikeFiend, NavigationIndex_, GetTransform()->GetWorldPosition(), TargetPos);
 	if (false == MovePath_.empty())
 	{
 		// 다음 이동타일인덱스 Get

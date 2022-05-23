@@ -205,7 +205,7 @@ void Fallen::StartMove()
 	// 플레이어 방향 이동경로 생성
 	MovePath_.clear();
 	float4 TargetPos = GlobalValue::CurPlayer->GetTransform()->GetWorldPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
-	MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::Tainted, NavigationIndex_, GetTransform()->GetWorldPosition(), TargetPos);
+	MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::Fallen, NavigationIndex_, GetTransform()->GetWorldPosition(), TargetPos);
 	if (false == MovePath_.empty())
 	{
 		// 다음 이동타일인덱스 Get
@@ -257,13 +257,13 @@ void Fallen::EndMove()
 
 // 기본공격상태
 void Fallen::StartNormalAttack()
-{	// 적방향 체크하여 애니메이션 및 방향설정
+{	
+	// 적방향 체크하여 애니메이션 및 방향설정
 	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Attack");
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Fallen_FSMState::FL_ATTACK;
-
 }
 
 void Fallen::UpdateNormalAttack()
