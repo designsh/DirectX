@@ -21,8 +21,9 @@
 AndarielProjectile::AndarielProjectile() :
 	Renderer_(nullptr),
 	Collider_(nullptr),
-	CurDir_(AndarielProjectile_Dir::PJ_L),
-	MoveTargetDir_(float4::ZERO),
+	FireStart_(false),
+	TargetDir_(AndarielProjectile_Dir::PJ_L),
+	MoveDir_(float4::ZERO),
 	MoveSpeed_(150.f),
 	Damage_(0)
 {
@@ -40,34 +41,39 @@ void AndarielProjectile::Start()
 
 void AndarielProjectile::Update(float _DeltaTime)
 {
-	// 충돌체크
-	if (nullptr != Collider_)
+	if (true == FireStart_)
 	{
+		// 충돌체크
+		if (nullptr != Collider_)
+		{
 #ifdef _DEBUG
-		GetLevel()->PushDebugRender(Collider_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(Collider_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
-		Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&AndarielProjectile::TargetCollision, this, std::placeholders::_1));
+			Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&AndarielProjectile::TargetCollision, this, std::placeholders::_1));
+		}
+
+		// 계속해서 이동
+		GetTransform()->SetWorldDeltaTimeMove(MoveDir_ * MoveSpeed_);
+
+		// Z Order 갱신
+		TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
+		GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 5.f);
 	}
-
-	// 계속해서 이동
-	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
-
-	// Z Order 갱신
-	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
-	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 5.f);
 }
 
 void AndarielProjectile::SkillAttackProjectile(AndarielProjectile_Dir _AnimationDir, float4 _MoveDir, int _Damage)
 {
 	// 기본정보 저장
-	CurDir_ = _AnimationDir;
-	MoveTargetDir_ = _MoveDir;
+	TargetDir_ = _AnimationDir;
+	MoveDir_ = _MoveDir;
 	Damage_ = _Damage;
 
-	// 
+	// 이동방향에 따른 애니메이션 결정
 
 
 
 
+	// 발사 시작
+	FireStart_ = true;
 }

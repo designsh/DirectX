@@ -27,8 +27,9 @@ private:	// member Var
 	GameEngineCollision* Collider_;
 
 private:
-	AndarielProjectile_Dir CurDir_;
-	float4 MoveTargetDir_;
+	bool FireStart_;
+	AndarielProjectile_Dir TargetDir_;
+	float4 MoveDir_;
 	float MoveSpeed_;
 
 private:
