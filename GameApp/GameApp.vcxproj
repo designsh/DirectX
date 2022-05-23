@@ -419,6 +419,9 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Zombie_Collision.cpp" />
+    <ClCompile Include="Zombie_Create.cpp" />
+    <ClCompile Include="Zombie_FSMState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllItemInfomation.h">

@@ -380,6 +380,15 @@
     <ClCompile Include="Fallen_FSMState.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen</Filter>
     </ClCompile>
+    <ClCompile Include="Zombie_Create.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\03.Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie_Collision.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\03.Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\01.Normal\03.Zombie</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">

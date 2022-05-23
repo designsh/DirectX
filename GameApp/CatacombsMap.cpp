@@ -838,12 +838,20 @@ void CatacombsMap::CurLevelActorRoomArrange()
 						}
 						case MonsterClassType::Zombie:
 						{
-
+							Zombie* NewZombie = GetLevel()->CreateActor<Zombie>();
+							NewZombie->SetName("Zombie" + std::to_string(ZombieList_.size()));
+							NewZombie->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
+							NewZombie->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
+							ZombieList_.push_back(NewZombie);
 							break;
 						}
 						case MonsterClassType::Fallen:
 						{
-
+							Fallen* NewFallen = GetLevel()->CreateActor<Fallen>();
+							NewFallen->SetName("Fallen" + std::to_string(FallenList_.size()));
+							NewFallen->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
+							NewFallen->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
+							FallenList_.push_back(NewFallen);
 							break;
 						}
 						case MonsterClassType::Tainted:
@@ -875,7 +883,11 @@ void CatacombsMap::CurLevelActorRoomArrange()
 						}
 						case MonsterClassType::Zombie:
 						{
-
+							Zombie* NewZombie = GetLevel()->CreateActor<Zombie>();
+							NewZombie->SetName("Zombie" + std::to_string(ZombieList_.size()));
+							NewZombie->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
+							NewZombie->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
+							ZombieList_.push_back(NewZombie);
 							break;
 						}
 						case MonsterClassType::Fallen:
@@ -906,7 +918,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 					// 플레이어 생성 룸에는 각 몬스터의 시체 배치(총 42마리 : 전사 20마리 소환용, 마법사 20마리 소환용)
 					// 생성되는 몬스터는 랜덤이며, 센터타일기준 벽이아닌 타일에 배치된다.
 					GameEngineRandom MonsterTypeRandom;
-					MonsterClassType MonsterType = static_cast<MonsterClassType>(MonsterTypeRandom.RandomInt(0, 4));
+					MonsterClassType MonsterType = static_cast<MonsterClassType>(MonsterTypeRandom.RandomInt(0, 3));
 
 					// 룸에서 위치 랜덤 타일 지정
 					int MaxAllTiles = static_cast<int>(MapInfo_.RoomInfo_[PlayerArrRoomNo].AllIndexLists_.size());
@@ -927,10 +939,12 @@ void CatacombsMap::CurLevelActorRoomArrange()
 						}
 						case MonsterClassType::Zombie:
 						{
-							//Zombie* NewZombie = GetLevel()->CreateActor<Zombie>();
-							//NewZombie->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
-							//NewZombie->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-							//ZombieList_.push_back(NewZombie);
+							Zombie* NewZombie = GetLevel()->CreateActor<Zombie>();
+							NewZombie->SetName("Zombie" + std::to_string(ZombieList_.size()));
+							NewZombie->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+							NewZombie->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
+							NewZombie->SpawnToDeath();
+							ZombieList_.push_back(NewZombie);
 							break;
 						}
 						case MonsterClassType::Fallen:
@@ -951,16 +965,6 @@ void CatacombsMap::CurLevelActorRoomArrange()
 							NewTainted->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
 							NewTainted->SpawnToDeath();
 							TaintedList_.push_back(NewTainted);
-							break;
-						}
-						case MonsterClassType::Andariel:
-						{
-							//Andariel* NewAndariel = GetLevel()->CreateActor<Andariel>();
-							//NewAndariel->SetName("Andariel" + std::to_string(TaintedList_.size()));
-							//NewAndariel->GetTransform()->SetWorldPosition(SpawnTilePos);
-							//NewAndariel->SetEnemyDetectionList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
-							//NewAndariel->SpawnToDeath();
-							//AndarielList_.push_back(NewAndariel);
 							break;
 						}
 					}
