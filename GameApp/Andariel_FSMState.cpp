@@ -291,7 +291,7 @@ void Andariel::StartSkillAttack()
 	PrevState_ = CurState_;
 	CurState_ = Andariel_FSMState::AD_SKILLATTACK;
 
-	// 플레이어 방향으로 발사체 생성
+	// 플레이어 방향으로 발사체 생성(부채꼴형태)
 
 	
 

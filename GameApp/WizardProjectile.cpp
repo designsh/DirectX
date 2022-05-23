@@ -106,7 +106,11 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 	else if (std::string::npos != CollisionName.find("Andariel"))
 	{
 		Andariel* CurAttackMonster = (Andariel*)_Other->GetActor();
-
+		if (Andariel_FSMState::AD_DEAD != CurAttackMonster->GetCurState() &&
+			Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
+		{
+			CurAttackMonster->GetHitDamage(Damage_);
+		}
 		Death();
 	}
 

@@ -198,7 +198,11 @@ void SummonsGolem::AttackAnimationEnd()
 		else if (std::string::npos != DetectActor.find("Andariel"))
 		{
 			Andariel* CurAttackMonster = (Andariel*)DetectMonster_;
-
+			if (Andariel_FSMState::AD_DEAD != CurAttackMonster->GetCurState() &&
+				Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
+			{
+				CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
+			}
 		}
 
 		DetectMonster_ = nullptr;

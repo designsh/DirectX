@@ -468,7 +468,11 @@ void SketelonWarrior::AttackAnimationEnd()
 		else if (std::string::npos != DetectActor.find("Andariel"))
 		{
 			Andariel* CurAttackMonster = (Andariel*)DetectMonster_;
-
+			if (Andariel_FSMState::AD_DEAD != CurAttackMonster->GetCurState() &&
+				Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
+			{
+				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+			}
 		}
 
 		DetectMonster_ = nullptr;
