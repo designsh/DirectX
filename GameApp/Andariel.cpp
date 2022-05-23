@@ -158,6 +158,20 @@ void Andariel::SkillAttackEnd()
 
 void Andariel::DeathEnd()
 {
+	// 화염 이펙트를 생성하며 
+
+
+
+	// 카메라 쉐이킹 효과를 발생시키고
+
+
+
+	// 내가 속한 룸의 중앙에 엔딩포탈을 생성한다.
+
+
+
+
+
 	// 시체상태 전환
 	State_.ChangeState("Dead");
 }
