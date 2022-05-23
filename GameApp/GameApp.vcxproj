@@ -35,6 +35,9 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Andariel_Collision.cpp" />
+    <ClCompile Include="Andariel_Create.cpp" />
+    <ClCompile Include="Andariel_FSMState.cpp" />
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="BoneSpirit.cpp">
       <SubType>

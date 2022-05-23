@@ -389,6 +389,15 @@
     <ClCompile Include="Zombie_FSMState.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\01.Normal\03.Zombie</Filter>
     </ClCompile>
+    <ClCompile Include="Andariel_Create.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel</Filter>
+    </ClCompile>
+    <ClCompile Include="Andariel_Collision.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel</Filter>
+    </ClCompile>
+    <ClCompile Include="Andariel_FSMState.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
