@@ -203,8 +203,8 @@ void Andariel::ProjectileFire()
 
 	// 발사체 생성(소멸시간 결정 - 5초)
 	AndarielProjectile* NewProjectile = GetLevel()->CreateActor<AndarielProjectile>();
-	NewProjectile->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
 	NewProjectile->SkillAttackProjectile(static_cast<int>(CurDir_), MoveDir, MonsterInfo_.Damage);
+	NewProjectile->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
 	NewProjectile->Release(5.f);
 
 	// 발사체 생성카운트 증가(총 6개 생성)
