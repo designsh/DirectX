@@ -4,12 +4,10 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
-#include "GlobalEnumClass.h"
 #include "GlobalValue.h"
-
-#include "MainPlayer.h"
-
 #include "CatacombsMap.h"
+#include "MainPlayer.h"
+#include "MouseObject.h"
 
 // 타겟위치별 이동방향 전환
 void Tainted::TargetDirCheck(const float4& _TargetPos, const std::string& _StateName)
@@ -144,57 +142,6 @@ void Tainted::ChangeAnimationCheck(const std::string& _StateName)
 	}
 }
 
-void Tainted::SetEnterTheRoomDetectList(int _SpawnRoomNo)
-{
-	// 적(플레이어)의 룸진입 체크용 타일목록
-	// => 자신이 소환된 룸이 가지는 모든 바닥타일인덱스목록 기준 벽타일목록을 생성하여 체크리스트 작성
-
-	// 생성관련 기본정보 저장
-	SpawnRoomNo_ = _SpawnRoomNo;
-	if (-1 != SpawnRoomNo_)
-	{
-		SpawnTile_ = GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition());
-
-		// 현재 내가 생성된 룸의 바닥타일 기준 벽타일을 모두 감지 목록으로 작성
-		int RoomTileListCnt = static_cast<int>(GlobalValue::CatacombsMap->GetRandomMapInfo().RoomInfo_[SpawnRoomNo_ - 1].AllIndexLists_.size());
-		RoomTileList_.clear();
-		for (int i = 0; i < RoomTileListCnt; ++i)
-		{
-			// 바닥타일의 위치 Get
-			float4 FloorCenterPos = GlobalValue::CatacombsMap->GetFloorTileIndexToPos(GlobalValue::CatacombsMap->GetRandomMapInfo().RoomInfo_[SpawnRoomNo_ - 1].AllIndexLists_[i]);
-
-			// 바닥타일 1개 기준 3x3의 벽타일을 가진다.
-			TileIndex WallTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(FloorCenterPos);
-			for (int y = 0; y < 3; ++y)
-			{
-				for (int x = 0; x < 3; ++x)
-				{
-					RoomTileList_.push_back(WallTileIndex);
-					WallTileIndex.X_ += 1;
-				}
-
-				WallTileIndex.X_ = GlobalValue::CatacombsMap->GetWallTileIndex(FloorCenterPos).X_;
-				WallTileIndex.Y_ += 1;
-			}
-		}
-	}
-}
-
-bool Tainted::EnterTheRoomDetect()
-{
-	// 룸진입체크는 플레이어의 위치 타일인덱스 체크
-	TileIndex PlayerTile = GlobalValue::CatacombsMap->GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());
-	for (auto& CheckTile : RoomTileList_)
-	{
-		if (CheckTile == PlayerTile)
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
 // 최초 적탐지 상태
 void Tainted::StartRoomDetect()
 {
@@ -203,16 +150,16 @@ void Tainted::StartRoomDetect()
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = Tainted_FSMState::ST_ROOMDETECT;
+	CurState_ = Tainted_FSMState::TT_ROOMDETECT;
 }
 
 void Tainted::UpdateRoomDetect()
 {
-	// 플레이어(적)의 룸 진입을 체크
-	if (true == EnterTheRoomDetect())
+	// 플레이어 룸 진입시 대기상태로 전환
+	if (true == EnterTheRoomDetectCheck())
 	{
-		// 진입성공시 대기상태 전환
-		State_.ChangeState("Tainted_IDLE");
+		// 상태 전환
+		State_.ChangeState("Idle");
 	}
 }
 
@@ -220,61 +167,25 @@ void Tainted::EndRoomDetect()
 {
 }
 
-void Tainted::SetEnterTheDetectRangeList()
-{
-	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition());
-	for (int y = -9; y <= 9; ++y)
-	{
-		for (int x = -9; x <= 9; ++x)
-		{
-			DetetTileList_.push_back(CurTileIndex + TileIndex(x, y));
-		}
-	}
-}
-
-bool Tainted::EnterTheDetectRange()
-{
-	for (auto& DetectTile : DetetTileList_)
-	{
-		// 플레이어 감지 체크
-		if (DetectTile == GlobalValue::CatacombsMap->GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition()))
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
 // 대기상태
 void Tainted::StartIdle()
 {
-	// 적방향 체크하여 애니메이션 및 방향설정
+	// 현재방향 체크 및 애니메이션변경
 	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Idle");
 
-	// 현재 상태 전환
+	// 상태변경
 	PrevState_ = CurState_;
-	CurState_ = Tainted_FSMState::ST_IDLE;
-
-	// 타겟 지정 목록 생성
-	SetEnterTheDetectRangeList();
-
-	TargetCol_ = false;
+	CurState_ = Tainted_FSMState::TT_IDLE;
 }
 
 void Tainted::UpdateIdle()
 {
-	// 다음 상태 전환을 위해 대기시간 소모
 	IdleDelayTime_ -= GameEngineTime::GetInst().GetDeltaTime();
 	if (0.f >= IdleDelayTime_)
 	{
-		// 적감지를 통한 타겟지정 완료시 이동상태 전환
-		if (true == EnterTheDetectRange())
-		{
-			State_.ChangeState("Tainted_MOVE");
-		}
+		State_.ChangeState("Walk");
 
-		IdleDelayTime_ = 1.5f;
+		IdleDelayTime_ = 1.f;
 	}
 }
 
@@ -290,9 +201,9 @@ void Tainted::StartMove()
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = Tainted_FSMState::ST_WALK;
+	CurState_ = Tainted_FSMState::TT_WALK;
 
-	// 타겟 위치까지의 이동경로 작성
+	// 플레이어 방향 이동경로 생성
 	MovePath_.clear();
 	float4 TargetPos = GlobalValue::CurPlayer->GetTransform()->GetWorldPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 	MovePath_ = GlobalValue::CatacombsMap->NavgationFind8Way(NavigationObjectType::Tainted, NavigationIndex_, GetTransform()->GetWorldPosition(), TargetPos);
@@ -313,7 +224,7 @@ void Tainted::StartMove()
 
 void Tainted::UpdateMove()
 {
-	// 타겟방향으로 이동중 공격범위 진입한 적 체크
+	// 생성된 이동경로 모두 소모때까지 이동
 	if (MoveTargetTile_ == GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition()))
 	{
 		if (false == MovePath_.empty())
@@ -334,7 +245,7 @@ void Tainted::UpdateMove()
 		}
 		else // 이동완료시 
 		{
-			State_.ChangeState("Tainted_IDLE");
+			State_.ChangeState("Attack");
 		}
 	}
 
@@ -349,11 +260,11 @@ void Tainted::EndMove()
 void Tainted::StartNormalAttack()
 {
 	// 적방향 체크하여 애니메이션 및 방향설정
-	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "NormalAttack");
+	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Attack");
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = Tainted_FSMState::ST_NORMALATTACK;
+	CurState_ = Tainted_FSMState::TT_ATTACK;
 }
 
 void Tainted::UpdateNormalAttack()
@@ -372,7 +283,7 @@ void Tainted::StartGetHit()
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = Tainted_FSMState::ST_GETHIT;
+	CurState_ = Tainted_FSMState::TT_GETHIT;
 }
 
 void Tainted::UpdateGetHit()
@@ -391,7 +302,7 @@ void Tainted::StartDeath()
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = Tainted_FSMState::ST_DEATH;
+	CurState_ = Tainted_FSMState::TT_DEATH;
 }
 
 void Tainted::UpdateDeath()
@@ -405,12 +316,9 @@ void Tainted::EndDeath()
 // 시체상태
 void Tainted::StartDead()
 {
-	// 적방향 체크하여 애니메이션 및 방향설정
-	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Dead");
-
 	// 현재 상태 전환
 	PrevState_ = CurState_;
-	CurState_ = Tainted_FSMState::ST_DEAD;
+	CurState_ = Tainted_FSMState::TT_DEAD;
 }
 
 void Tainted::UpdateDead()
@@ -420,32 +328,3 @@ void Tainted::UpdateDead()
 void Tainted::EndDead()
 {
 }
-
-#pragma region 애니메이션종료시점호출함수
-
-void Tainted::NormalAttackEnd()
-{
-	// 플레이어에게 데미지
-	// 단, 충돌중이여야만 데미지를 입힌다.
-	if (true == TargetCol_)
-	{
-		GlobalValue::CurPlayer->DelCurrentHP(MonsterInfo_.Damage);
-	}
-
-	// 대기상태로 전환
-	State_.ChangeState("Tainted_IDLE");
-}
-
-void Tainted::GetHitEnd()
-{
-	// 대기상태로 전환
-	State_.ChangeState("Tainted_IDLE");
-}
-
-void Tainted::DeathEnd()
-{
-	// 시체상태로 전환
-	State_.ChangeState("Tainted_DEAD");
-}
-
-#pragma endregion

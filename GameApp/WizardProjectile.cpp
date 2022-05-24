@@ -41,22 +41,29 @@ void WizardProjectile::Start()
 
 void WizardProjectile::Update(float _DeltaTime)
 {
-	// 충돌체크
-	if (nullptr != Collider_)
-	{
-#ifdef _DEBUG
-		GetLevel()->PushDebugRender(Collider_->GetTransform(), CollisionType::Rect);
-#endif // _DEBUG
-
-		Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&WizardProjectile::TargetCollision, this, std::placeholders::_1));
-	}
-
 	// 계속해서 이동
 	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 
 	// Z Order 갱신
 	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
-	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 5.f);
+	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 25.f);
+
+	// 충돌체크
+	if (nullptr != Collider_)
+	{
+#ifdef _DEBUG
+		GetLevel()->UIPushDebugRender(Collider_->GetTransform(), CollisionType::Rect);
+#endif // _DEBUG
+
+		// 충돌체 위치 갱신
+		float4 MyPos = GetTransform()->GetLocalPosition();
+		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+		MyPos.z = 0.f;
+		CamPos.z = 0.f;
+		Collider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+
+		Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&WizardProjectile::TargetCollision, this, std::placeholders::_1));
+	}
 }
 
 void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
@@ -86,8 +93,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 	else if (std::string::npos != CollisionName.find("Tainted"))
 	{
 		Tainted* CurAttackMonster = (Tainted*)_Other->GetActor();
-		if (Tainted_FSMState::ST_DEAD != CurAttackMonster->GetCurState() &&
-			Tainted_FSMState::ST_DEATH != CurAttackMonster->GetCurState())
+		if (Tainted_FSMState::TT_DEAD != CurAttackMonster->GetCurState() &&
+			Tainted_FSMState::TT_DEATH != CurAttackMonster->GetCurState())
 		{
 			CurAttackMonster->GetHitDamage(Damage_);
 		}

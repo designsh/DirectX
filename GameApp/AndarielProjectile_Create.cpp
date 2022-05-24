@@ -46,7 +46,7 @@ void AndarielProjectile::CreateAnimation()
 void AndarielProjectile::CreateCollision()
 {
 	Collider_ = CreateTransformComponent<GameEngineCollision>();
-	Collider_->GetTransform()->SetLocalScaling(float4(80.f, 80.f));
+	Collider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f));
 	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
 	Collider_->GetTransform()->SetLocalPosition(Renderer_->GetTransform()->GetLocalPosition() - CamPos);
 	Collider_->GetTransform()->SetWorldZOrder(-99.f);

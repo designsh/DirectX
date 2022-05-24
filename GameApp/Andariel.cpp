@@ -26,6 +26,7 @@ Andariel::Andariel() :
 	SkillAttack_(false),
 	ProjectileCnt_(0),
 	ProjectileStartDir_(float4::ZERO),
+	Attack_(false),
 	MonsterInfo_(),
 	CurHP_(0),
 	MapHP_(0),
@@ -59,9 +60,14 @@ void Andariel::Update(float _DeltaTime)
 	GetLevel()->UIPushDebugRender(BodyCollider_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
+	// 상태 갱신
+	State_.Update();
+
 	// 스킬쿨타임 소모
 	// 단, 시체상태이거나 사망상태이면 쿨타임 소모없음
-	if (Andariel_FSMState::AD_DEATH != CurState_ && Andariel_FSMState::AD_DEAD != CurState_)
+	if (Andariel_FSMState::AD_DEATH != CurState_ && 
+		Andariel_FSMState::AD_DEAD != CurState_ &&
+		Andariel_FSMState::AD_ROOMDETECT != CurState_)
 	{
 		if (false == SkillAttack_)
 		{
@@ -74,25 +80,18 @@ void Andariel::Update(float _DeltaTime)
 		}
 	}
 
-	// 상태 갱신
-	State_.Update();
-
-	// Z Order 갱신
-	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
-	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 15.f);
-
 	// 충돌체 위치 갱신
-	float4 MyPos = GetTransform()->GetLocalPosition();
-	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	float4 MyPos = float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y, 0.f);
+	float4 CamPos = float4(GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().x, GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().y, 0.f);
 	BodyCollider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
 	// 충돌처리(마우스와 충돌처리)
 	BodyCollider_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&Andariel::MouseCollision, this, std::placeholders::_1));
 
-	// 공격상태일때 타겟과 충돌중이라면 타겟에게 피해를 입힘
+	// 공격상태일때 타겟과 최초충돌이라면 타겟에게 피해를 입힘
 	if (Andariel_FSMState::AD_ATTACK == CurState_)
 	{
-		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&Andariel::EnemyCollision, this, std::placeholders::_1), std::bind(&Andariel::EnemyCollisionEnd, this, std::placeholders::_1));
+		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&Andariel::EnemyCollision, this, std::placeholders::_1));
 	}
 }
 
@@ -183,21 +182,26 @@ void Andariel::DeathEnd()
 #pragma region AnimationFrame Callback Function
 void Andariel::ProjectileFire()
 {
+	if (10 <= ProjectileCnt_)
+	{
+		return;
+	}
+
 	float4 MoveDir = float4::ZERO;
 
 	// 최초 시작방향결정
 	if (0 == ProjectileCnt_)
 	{
-		// 플레이어를 바라보는 방향벡터를 -22.5도 회전시킨 방향벡터를 초기값으로 설정
+		// 플레이어를 바라보는 방향벡터를 -45도 회전시킨 방향벡터를 초기값으로 설정
 		float4 Direct = (GlobalValue::CurPlayer->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition()).NormalizeReturn3D();
-		Direct.RotateZDegree(-22.5f);
+		Direct.RotateZDegree(-45.f);
 		ProjectileStartDir_ = Direct;
 		MoveDir = ProjectileStartDir_;
 	}
 	else
 	{
-		// 시작방향벡터를 7.5도씩회전시켜서 발사체의 이동방향벡터를 계산한다.
-		ProjectileStartDir_.RotateZDegree(7.5f);
+		// 시작방향벡터를 9도씩회전시켜서 발사체의 이동방향벡터를 계산한다.
+		ProjectileStartDir_.RotateZDegree(9.f);
 		MoveDir = ProjectileStartDir_;
 	}
 
@@ -207,12 +211,8 @@ void Andariel::ProjectileFire()
 	NewProjectile->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
 	NewProjectile->Release(5.f);
 
-	// 발사체 생성카운트 증가(총 6개 생성)
+	// 발사체 생성카운트 증가(총 10개 생성)
 	++ProjectileCnt_;
-	if (6 <= ProjectileCnt_)
-	{
-		ProjectileCnt_ = 0;
-	}
 }
 
 #pragma endregion

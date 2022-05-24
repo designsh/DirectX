@@ -164,8 +164,8 @@ GameEngineActor* CatacombsMap::MonsterTileIndexCheck(TileIndex _CheckTile)
 		TileIndex TaintedTile = GetWallTileIndex(Tainted->GetTransform()->GetWorldPosition());
 		if (TaintedTile == _CheckTile)
 		{
-			if (Tainted_FSMState::ST_DEAD != Tainted->GetCurState() &&
-				Tainted_FSMState::ST_DEATH != Tainted->GetCurState())
+			if (Tainted_FSMState::TT_DEAD != Tainted->GetCurState() &&
+				Tainted_FSMState::TT_DEATH != Tainted->GetCurState())
 			{
 				return Tainted;
 			}

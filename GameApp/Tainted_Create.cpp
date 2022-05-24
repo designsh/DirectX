@@ -95,14 +95,14 @@ void Tainted::CreateAnimation()
 	Tainted_->CreateAnimation("Tainted_Walk.png", "Walk_R", 56, 63, 0.1f);
 
 	// 기본공격상태
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_LB", 0, 9, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_LT", 10, 19, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_RT", 20, 29, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_RB", 30, 39, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_B", 40, 49, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_L", 50, 59, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_T", 60, 69, 0.1f, false);
-	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "NormalAttack_R", 70, 79, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "Attack_LB", 0, 9, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "Attack_LT", 10, 19, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "Attack_RT", 20, 29, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "Attack_RB", 30, 39, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "Attack_B", 40, 49, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "Attack_L", 50, 59, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "Attack_T", 60, 69, 0.1f, false);
+	Tainted_->CreateAnimation("Tainted_NormalAttack.png", "Attack_R", 70, 79, 0.1f, false);
 	
 	// 피격상태
 	Tainted_->CreateAnimation("Tainted_GetHit.png", "GetHit_LB", 0, 7, 0.1f, false);
@@ -141,14 +141,14 @@ void Tainted::CreateAnimation()
 void Tainted::CreateAnimationEndFunction()
 {
 	// 일반공격모션 종료
-	Tainted_->SetEndCallBack("NormalAttack_LB", std::bind(&Tainted::NormalAttackEnd, this));
-	Tainted_->SetEndCallBack("NormalAttack_LT", std::bind(&Tainted::NormalAttackEnd, this));
-	Tainted_->SetEndCallBack("NormalAttack_RT", std::bind(&Tainted::NormalAttackEnd, this));
-	Tainted_->SetEndCallBack("NormalAttack_RB", std::bind(&Tainted::NormalAttackEnd, this));
-	Tainted_->SetEndCallBack("NormalAttack_B", std::bind(&Tainted::NormalAttackEnd, this));
-	Tainted_->SetEndCallBack("NormalAttack_L", std::bind(&Tainted::NormalAttackEnd, this));
-	Tainted_->SetEndCallBack("NormalAttack_T", std::bind(&Tainted::NormalAttackEnd, this));
-	Tainted_->SetEndCallBack("NormalAttack_R", std::bind(&Tainted::NormalAttackEnd, this));
+	Tainted_->SetEndCallBack("Attack_LB", std::bind(&Tainted::AttackEnd, this));
+	Tainted_->SetEndCallBack("Attack_LT", std::bind(&Tainted::AttackEnd, this));
+	Tainted_->SetEndCallBack("Attack_RT", std::bind(&Tainted::AttackEnd, this));
+	Tainted_->SetEndCallBack("Attack_RB", std::bind(&Tainted::AttackEnd, this));
+	Tainted_->SetEndCallBack("Attack_B", std::bind(&Tainted::AttackEnd, this));
+	Tainted_->SetEndCallBack("Attack_L", std::bind(&Tainted::AttackEnd, this));
+	Tainted_->SetEndCallBack("Attack_T", std::bind(&Tainted::AttackEnd, this));
+	Tainted_->SetEndCallBack("Attack_R", std::bind(&Tainted::AttackEnd, this));
 
 	// 피격모션 종료
 	Tainted_->SetEndCallBack("GetHit_LB", std::bind(&Tainted::GetHitEnd, this));
@@ -173,29 +173,16 @@ void Tainted::CreateAnimationEndFunction()
 
 void Tainted::CreateFSMState()
 {
-	// 적탐지상태(최초 적이 룸에 진입체크상태)
-	State_.CreateState("Tainted_ROOMDETECT", std::bind(&Tainted::UpdateRoomDetect, this), std::bind(&Tainted::StartRoomDetect, this), std::bind(&Tainted::EndRoomDetect, this));
-
-	// 대기상태
-	State_.CreateState("Tainted_IDLE", std::bind(&Tainted::UpdateIdle, this), std::bind(&Tainted::StartIdle, this), std::bind(&Tainted::EndIdle, this));
-
-	// 이동상태(적공격상태 전환 or 대기상태 전환)
-	State_.CreateState("Tainted_MOVE", std::bind(&Tainted::UpdateMove, this), std::bind(&Tainted::StartMove, this), std::bind(&Tainted::EndMove, this));
-
-	// 기본공격상태
-	State_.CreateState("Tainted_ATTACK", std::bind(&Tainted::UpdateNormalAttack, this), std::bind(&Tainted::StartNormalAttack, this), std::bind(&Tainted::EndNormalAttack, this));
-
-	// 피격상태
-	State_.CreateState("Tainted_GETHIT", std::bind(&Tainted::UpdateGetHit, this), std::bind(&Tainted::StartGetHit, this), std::bind(&Tainted::EndGetHit, this));
-
-	// 사망상태
-	State_.CreateState("Tainted_DEATH", std::bind(&Tainted::UpdateDeath, this), std::bind(&Tainted::StartDeath, this), std::bind(&Tainted::EndDeath, this));
-
-	// 시체상태
-	State_.CreateState("Tainted_DEAD", std::bind(&Tainted::UpdateDead, this), std::bind(&Tainted::StartDead, this), std::bind(&Tainted::EndDead, this));
+	State_.CreateState("RoomDetect", std::bind(&Tainted::UpdateRoomDetect, this), std::bind(&Tainted::StartRoomDetect, this), std::bind(&Tainted::EndRoomDetect, this));
+	State_.CreateState("Idle", std::bind(&Tainted::UpdateIdle, this), std::bind(&Tainted::StartIdle, this), std::bind(&Tainted::EndIdle, this));
+	State_.CreateState("Walk", std::bind(&Tainted::UpdateMove, this), std::bind(&Tainted::StartMove, this), std::bind(&Tainted::EndMove, this));
+	State_.CreateState("Attack", std::bind(&Tainted::UpdateNormalAttack, this), std::bind(&Tainted::StartNormalAttack, this), std::bind(&Tainted::EndNormalAttack, this));
+	State_.CreateState("GetHit", std::bind(&Tainted::UpdateGetHit, this), std::bind(&Tainted::StartGetHit, this), std::bind(&Tainted::EndGetHit, this));
+	State_.CreateState("Death", std::bind(&Tainted::UpdateDeath, this), std::bind(&Tainted::StartDeath, this), std::bind(&Tainted::EndDeath, this));
+	State_.CreateState("Dead", std::bind(&Tainted::UpdateDead, this), std::bind(&Tainted::StartDead, this), std::bind(&Tainted::EndDead, this));
 
 	// 초기상태 지정
-	State_.ChangeState("Tainted_ROOMDETECT");
+	State_.ChangeState("RoomDetect");
 }
 
 void Tainted::CreateCollision()

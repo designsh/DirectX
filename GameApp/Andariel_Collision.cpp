@@ -27,11 +27,10 @@ void Andariel::EnemyCollision(GameEngineCollision* _Other)
 	// 플레이어와 충돌중이라면 플레이어에게 피해를 입힘
 	if (_Other->GetActor() == GlobalValue::CurPlayer)
 	{
-		GlobalValue::CurPlayer->DelCurrentHP(MonsterInfo_.Damage);
+		if (CurState_ == Andariel_FSMState::AD_ATTACK && false == Attack_)
+		{
+			GlobalValue::CurPlayer->DelCurrentHP(MonsterInfo_.Damage);
+			Attack_ = true;
+		}
 	}
-}
-
-void Andariel::EnemyCollisionEnd(GameEngineCollision* _Other)
-{
-
 }

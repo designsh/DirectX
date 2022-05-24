@@ -272,6 +272,7 @@ void Zombie::UpdateNormalAttack()
 
 void Zombie::EndNormalAttack()
 {
+	Attack_ = false;
 }
 
 // 피격상태

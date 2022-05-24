@@ -230,10 +230,8 @@ void MainPlayer::Update(float _DeltaTime)
 #endif // _DEBUG
 
 		// 충돌체 위치 갱신
-		float4 MyPos = GetTransform()->GetLocalPosition();
-		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
-		MyPos.z = 0.f;
-		CamPos.z = 0.f;
+		float4 MyPos = float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y, 0.f);
+		float4 CamPos = float4(GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().x, GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().y, 0.f);
 		BodyCollider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
 		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Object), std::bind(&MainPlayer::PlayerBodyCollision, this, std::placeholders::_1));
@@ -245,7 +243,7 @@ void MainPlayer::Update(float _DeltaTime)
 	{
 		float4 CurPlayerPos = GetTransform()->GetWorldPosition();
 		TileIndex CurPlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(CurPlayerPos.x, CurPlayerPos.y - 53.f));
-		GetTransform()->SetLocalZOrder(-static_cast<float>(CurPlayerTileIndex.X_ + CurPlayerTileIndex.Y_) + 20.f);
+		GetTransform()->SetLocalZOrder(-static_cast<float>(CurPlayerTileIndex.X_ + CurPlayerTileIndex.Y_));
 	}
 #pragma endregion
 

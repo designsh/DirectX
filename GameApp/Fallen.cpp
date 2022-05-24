@@ -29,7 +29,8 @@ Fallen::Fallen() :
 	MoveTargetDir_(float4::ZERO),
 	MoveSpeed_(150.f),
 	PrevDir_(Fallen_TargetDir::FL_B),
-	CurDir_(Fallen_TargetDir::FL_B)
+	CurDir_(Fallen_TargetDir::FL_B),
+	Attack_(false)
 {
 	NavigationIndex_ = FallenCnt;
 	++FallenCnt;
@@ -54,13 +55,9 @@ void Fallen::Update(float _DeltaTime)
 	// 상태 갱신
 	State_.Update();
 
-	// Z Order 갱신
-	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
-	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 15.f);
-
 	// 충돌체 위치 갱신
-	float4 MyPos = GetTransform()->GetLocalPosition();
-	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+	float4 MyPos = float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y, 0.f);
+	float4 CamPos = float4(GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().x, GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().y, 0.f);
 	BodyCollider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
 	// 충돌처리(마우스와 충돌처리)
@@ -69,7 +66,7 @@ void Fallen::Update(float _DeltaTime)
 	// 공격상태일때 타겟과 충돌중이라면 타겟에게 피해를 입힘
 	if (Fallen_FSMState::FL_ATTACK == CurState_)
 	{
-		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&Fallen::EnemyCollision, this, std::placeholders::_1), std::bind(&Fallen::EnemyCollisionEnd, this, std::placeholders::_1));
+		BodyCollider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&Fallen::EnemyCollision, this, std::placeholders::_1));
 	}
 }
 

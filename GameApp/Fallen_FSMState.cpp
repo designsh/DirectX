@@ -272,6 +272,7 @@ void Fallen::UpdateNormalAttack()
 
 void Fallen::EndNormalAttack()
 {
+	Attack_ = true;
 }
 
 // 피격상태

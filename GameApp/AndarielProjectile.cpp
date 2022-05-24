@@ -43,22 +43,23 @@ void AndarielProjectile::Update(float _DeltaTime)
 {
 	if (true == FireStart_)
 	{
+		// 계속해서 이동
+		GetTransform()->SetWorldDeltaTimeMove(MoveDir_ * MoveSpeed_);
+
 		// 충돌체크
 		if (nullptr != Collider_)
 		{
 #ifdef _DEBUG
-			GetLevel()->PushDebugRender(Collider_->GetTransform(), CollisionType::Rect);
+			GetLevel()->UIPushDebugRender(Collider_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
-			Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&AndarielProjectile::TargetCollision, this, std::placeholders::_1));
+			// 충돌체 위치 갱신
+			float4 MyPos = float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y, 0.f);
+			float4 CamPos = float4(GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().x, GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().y, 0.f);
+			Collider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+
+			Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&AndarielProjectile::TargetCollision, this, std::placeholders::_1));
 		}
-
-		// 계속해서 이동
-		GetTransform()->SetWorldDeltaTimeMove(MoveDir_ * MoveSpeed_);
-
-		// Z Order 갱신
-		TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
-		GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 5.f);
 	}
 }
 

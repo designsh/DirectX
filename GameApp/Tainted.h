@@ -26,22 +26,13 @@ enum class Tainted_Dir
 // 상태관련
 enum class Tainted_FSMState
 {
-	ST_ROOMDETECT,				// 룸진입 적 체크 상태
-	ST_IDLE,					// 대기상태
-	ST_WALK,					// 타겟까지 이동상태
-	ST_NORMALATTACK,			// 일반공격범위내 적 진입
-	ST_GETHIT,					// 피격 상태(적이 공격하여 전환)
-	ST_DEATH,					// 사망 상태(몬스터 체력 0)
-	ST_DEAD,					// 시체 상태(마우스와 충돌중이며, 플레이가 소환스킬시전 체크)
-};
-
-// 타겟타입
-enum class TargetType
-{
-	PLAYER,
-	GOLEM,
-	WARRIOR,
-	WIZARD
+	TT_ROOMDETECT,				// 룸진입 적 체크 상태
+	TT_IDLE,					// 대기상태
+	TT_WALK,					// 타겟까지 이동상태
+	TT_ATTACK,					// 공격범위내 적 진입
+	TT_GETHIT,					// 피격 상태(적이 공격하여 전환)
+	TT_DEATH,					// 사망 상태(몬스터 체력 0)
+	TT_DEAD,					// 시체 상태(마우스와 충돌중이며, 플레이가 소환스킬시전 체크)
 };
 
 // 분류 : 일반몬스터
@@ -55,43 +46,39 @@ public: // 생성갯수 = 네비게이션 인덱스
 	static int TaintedCnt;
 
 private:
+	GameEngineImageRenderer* Tainted_;
+	GameEngineCollision* BodyCollider_;
+
+private: // 생성관련
+	int SpawnRoomNo_;
+	TileIndex SpawnTile_;
+	float IdleDelayTime_;
+	int NavigationIndex_;
+
+private: // 체크리스트관련
+	std::vector<TileIndex> RoomTileList_;
+
+private: // 몬스터 정보
 	AllMonsterInfo MonsterInfo_;
 	int CurHP_;
 	int MapHP_;
 	int DropGold_;
 
-private: // 생성관련
-	int SpawnRoomNo_;
-	TileIndex SpawnTile_;
-	int NavigationIndex_;
-
-private:
-	GameEngineImageRenderer* Tainted_;
-	GameEngineCollision* BodyCollider_;
-
-private: // 방향관련
-	Tainted_Dir PrevDir_;
-	Tainted_Dir CurDir_;
-
 private: // 상태관련
 	GameEngineFSM State_;
 	Tainted_FSMState PrevState_;
 	Tainted_FSMState CurState_;
-	float IdleDelayTime_;
 
 private: // 이동관련
 	std::list<PathIndex> MovePath_;
 	TileIndex MoveTargetTile_;
 	float4 MoveTargetDir_;
 	float MoveSpeed_;
+	Tainted_Dir PrevDir_;
+	Tainted_Dir CurDir_;
 
-private: // 체크리스트관련
-	GameEngineActor* TargetActor_;
-	TargetType TargetType_;
-	bool TargetCol_;
-	std::vector<TileIndex> RoomTileList_;
-	std::vector<TileIndex> DetetTileList_;
-	std::vector<TileIndex> AttackTileList_;
+private: // 공격관련
+	bool Attack_;
 
 public:
 	Tainted();
@@ -115,12 +102,13 @@ public:
 		return CurState_;
 	}
 
-private: // 마우스와 충돌
-	void MouseCollision(GameEngineCollision* _Other);
-
-private: // 적과의 충돌
+private: // Collision Callback Function
+	void MouseCollision(GameEngineCollision* _Ohter);
 	void EnemyCollision(GameEngineCollision* _Other);
-	void EnemyCollisionEnd(GameEngineCollision* _Other);
+
+private:
+	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);
+	void ChangeAnimationCheck(const std::string& _StateName);
 
 private: // 해당 몬스터 초기화 및 생성
 	void InitTainted();
@@ -131,16 +119,7 @@ private: // 해당 몬스터 초기화 및 생성
 	void CreateCollision();
 	void CreateInfomation();
 
-private: // 방향체크
-	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);
-	void ChangeAnimationCheck(const std::string& _StateName);
-
-private: // 애니메이션 종료시점 호출함수
-	void NormalAttackEnd();
-	void GetHitEnd();
-	void DeathEnd();
-
-private:
+private: // FSM State
 	// 최초 적탐지 상태
 	void StartRoomDetect();
 	void UpdateRoomDetect();
@@ -176,17 +155,17 @@ private:
 	void UpdateDead();
 	void EndDead();
 
-public: // 강제 상태전환관련
-	void GetHitDamage(int _Damage);
+private: // 특정 애니메이션 종료시 호출되는 함수
+	void AttackEnd();
+	void GetHitEnd();
+	void DeathEnd();
+
+public: // 외부접근 강제 상태전환
 	void SpawnToDeath();
+	void GetHitDamage(int _Damage);
 
-public: // 적 타일체크관련
-	// 룸 진입 체크
+public: // 적 체크 리스트관련
 	void SetEnterTheRoomDetectList(int _SpawnRoomNo);
-	bool EnterTheRoomDetect();
-
-	// 룸에 진입한 타겟 중에 감지범위 체크
-	void SetEnterTheDetectRangeList();
-	bool EnterTheDetectRange();
+	bool EnterTheRoomDetectCheck();
 };
 

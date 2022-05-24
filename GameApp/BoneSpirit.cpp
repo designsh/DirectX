@@ -51,6 +51,13 @@ void BoneSpirit::Update(float _DeltaTime)
 {
 	if (true == FireStart_)
 	{
+		// 상태 업데이트
+		State_.Update();
+
+		// Z Order 갱신
+		TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 50.f));
+		GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 25.f);
+
 		// 충돌체크
 		if (nullptr != Collider_)
 		{
@@ -58,15 +65,15 @@ void BoneSpirit::Update(float _DeltaTime)
 			GetLevel()->UIPushDebugRender(Collider_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
+			// 충돌체 위치 갱신
+			float4 MyPos = GetTransform()->GetLocalPosition();
+			float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
+			MyPos.z = 0.f;
+			CamPos.z = 0.f;
+			Collider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+
 			Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&BoneSpirit::TargetCollision, this, std::placeholders::_1));
 		}
-
-		// 상태 업데이트
-		State_.Update();
-
-		// Z Order 갱신
-		TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 50.f));
-		GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 22.f);
 	}
 }
 
@@ -78,9 +85,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 		// 타겟몬스터시 충돌성공 처리
 		if (TargetMonster_ == _Other->GetActor())
 		{
-			// 상태 전환
-			State_.ChangeState("Explode");
-			
 			// 타겟과 충돌시 타겟에게 데미지를 입히며
 			std::string CollisionName = _Other->GetActor()->GetName();
 			if (std::string::npos != CollisionName.find("Fallen"))
@@ -89,6 +93,9 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				if (Fallen_FSMState::FL_DEAD != CurAttackMonster->GetCurState() &&
 					Fallen_FSMState::FL_DEATH != CurAttackMonster->GetCurState())
 				{
+					// 상태 전환
+					State_.ChangeState("Explode");
+
 					CurAttackMonster->GetHitDamage(Damage_);
 				}
 			}
@@ -98,15 +105,21 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				if (SpikeFiend_FSMState::SF_DEAD != CurAttackMonster->GetCurState() &&
 					SpikeFiend_FSMState::SF_DEATH != CurAttackMonster->GetCurState())
 				{
+					// 상태 전환
+					State_.ChangeState("Explode");
+
 					CurAttackMonster->GetHitDamage(Damage_);
 				}
 			}
 			else if (std::string::npos != CollisionName.find("Tainted"))
 			{
 				Tainted* CurAttackMonster = (Tainted*)_Other->GetActor();
-				if (Tainted_FSMState::ST_DEAD != CurAttackMonster->GetCurState() && 
-					Tainted_FSMState::ST_DEATH != CurAttackMonster->GetCurState())
+				if (Tainted_FSMState::TT_DEAD != CurAttackMonster->GetCurState() && 
+					Tainted_FSMState::TT_DEATH != CurAttackMonster->GetCurState())
 				{
+					// 상태 전환
+					State_.ChangeState("Explode");
+
 					CurAttackMonster->GetHitDamage(Damage_);
 				}
 			}
@@ -116,6 +129,9 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
 					Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
 				{
+					// 상태 전환
+					State_.ChangeState("Explode");
+
 					CurAttackMonster->GetHitDamage(Damage_);
 				}
 			}
@@ -125,6 +141,9 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				if (Andariel_FSMState::AD_DEAD != CurAttackMonster->GetCurState() &&
 					Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
 				{
+					// 상태 전환
+					State_.ChangeState("Explode");
+
 					CurAttackMonster->GetHitDamage(Damage_);
 				}
 			}
@@ -133,9 +152,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 	// 논타겟팅일경우 어떠한 몬스터이든 충돌시 해당 몬스터에게 타겟을 입힌다.
 	else
 	{
-		// 상태 전환
-		State_.ChangeState("Explode");
-		
 		// 타겟과 충돌시 타겟에게 데미지를 입히며
 		std::string CollisionName = _Other->GetActor()->GetName();
 		if (std::string::npos != CollisionName.find("Fallen"))
@@ -144,6 +160,9 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			if (Fallen_FSMState::FL_DEAD != CurAttackMonster->GetCurState() &&
 				Fallen_FSMState::FL_DEATH != CurAttackMonster->GetCurState())
 			{
+				// 상태 전환
+				State_.ChangeState("Explode");
+
 				CurAttackMonster->GetHitDamage(Damage_);
 			}
 		}
@@ -153,15 +172,21 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			if (SpikeFiend_FSMState::SF_DEAD != CurAttackMonster->GetCurState() &&
 				SpikeFiend_FSMState::SF_DEATH != CurAttackMonster->GetCurState())
 			{
+				// 상태 전환
+				State_.ChangeState("Explode");
+
 				CurAttackMonster->GetHitDamage(Damage_);
 			}
 		}
 		else if (std::string::npos != CollisionName.find("Tainted"))
 		{
 			Tainted* CurAttackMonster = (Tainted*)_Other->GetActor();
-			if (Tainted_FSMState::ST_DEAD != CurAttackMonster->GetCurState() &&
-				Tainted_FSMState::ST_DEATH != CurAttackMonster->GetCurState())
+			if (Tainted_FSMState::TT_DEAD != CurAttackMonster->GetCurState() &&
+				Tainted_FSMState::TT_DEATH != CurAttackMonster->GetCurState())
 			{
+				// 상태 전환
+				State_.ChangeState("Explode");
+
 				CurAttackMonster->GetHitDamage(Damage_);
 			}
 		}
@@ -171,6 +196,9 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
 				Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
 			{
+				// 상태 전환
+				State_.ChangeState("Explode");
+
 				CurAttackMonster->GetHitDamage(Damage_);
 			}
 		}
@@ -180,6 +208,9 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			if (Andariel_FSMState::AD_DEAD != CurAttackMonster->GetCurState() &&
 				Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
 			{
+				// 상태 전환
+				State_.ChangeState("Explode");
+
 				CurAttackMonster->GetHitDamage(Damage_);
 			}
 		}

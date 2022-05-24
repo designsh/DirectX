@@ -78,6 +78,9 @@ private: // 이동관련
 	SpikeFiend_TargetDir PrevDir_;
 	SpikeFiend_TargetDir CurDir_;
 
+private: // 공격관련
+	bool Attack_;
+
 public:
 	SpikeFiend();
 	~SpikeFiend();
@@ -103,7 +106,6 @@ public:
 private: // Collision Callback Function
 	void MouseCollision(GameEngineCollision* _Ohter);
 	void EnemyCollision(GameEngineCollision* _Other);
-	void EnemyCollisionEnd(GameEngineCollision* _Other);
 
 private:
 	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);

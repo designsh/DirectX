@@ -66,6 +66,9 @@ private: // 스킬공격관련
 	int ProjectileCnt_;
 	float4 ProjectileStartDir_;
 
+private: // 일반공격관련
+	bool Attack_;
+
 private: // 체크리스트관련
 	std::vector<TileIndex> RoomTileList_;
 
@@ -113,7 +116,6 @@ public:
 private: // Collision Callback Function
 	void MouseCollision(GameEngineCollision* _Ohter);
 	void EnemyCollision(GameEngineCollision* _Other);
-	void EnemyCollisionEnd(GameEngineCollision* _Other);
 
 private:
 	void TargetDirCheck(const float4& _TargetPos, const std::string& _StateName);

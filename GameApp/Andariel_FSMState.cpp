@@ -182,6 +182,7 @@ void Andariel::UpdateIdle()
 	if (true == SkillAttack_)
 	{
 		State_.ChangeState("SkillAttack");
+		IdleDelayTime_ = 1.f;
 		return;
 	}
 
@@ -279,6 +280,7 @@ void Andariel::UpdateNormalAttack()
 
 void Andariel::EndNormalAttack()
 {
+	Attack_ = false;
 }
 
 // 스킬공격상태
@@ -294,12 +296,17 @@ void Andariel::StartSkillAttack()
 
 void Andariel::UpdateSkillAttack()
 {
+
+	int a = 0;
 }
 
 void Andariel::EndSkillAttack()
 {
 	// 스킬 발사완료 후 스킬공격가능여부 Flag 해제
 	SkillAttack_ = false;
+
+	// 생성카운트 초기화
+	ProjectileCnt_ = 0;
 }
 
 // 피격상태
