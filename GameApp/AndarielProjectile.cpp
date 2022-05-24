@@ -23,7 +23,7 @@ AndarielProjectile::AndarielProjectile() :
 	Collider_(nullptr),
 	FireStart_(false),
 	MoveDir_(float4::ZERO),
-	MoveSpeed_(150.f),
+	MoveSpeed_(300.f),
 	Damage_(0)
 {
 }
