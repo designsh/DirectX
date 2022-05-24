@@ -183,24 +183,21 @@ void Andariel::DeathEnd()
 #pragma region AnimationFrame Callback Function
 void Andariel::ProjectileFire()
 {
-	// 현재 안다리엘의 방향을 통해 시작방향을 설정하고
-	// ProjectileCnt_ 당 9도씩 회전한 벡터로 이동방향을 결정하여
-	// 발사체를 생성 및 이동시킨다.
 	float4 MoveDir = float4::ZERO;
 
-	// 최초 시작방향결정 : 시작방향벡터(-45도) ~ 마지막방향벡터(45도) => 총 10개 생성(+-9도)
+	// 최초 시작방향결정
 	if (0 == ProjectileCnt_)
 	{
-		// 플레이어를 바라보는 방향벡터를 -45도 회전시킨 방향벡터를 초기값으로 설정
+		// 플레이어를 바라보는 방향벡터를 -22.5도 회전시킨 방향벡터를 초기값으로 설정
 		float4 Direct = (GlobalValue::CurPlayer->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition()).NormalizeReturn3D();
-		Direct.RotateZDegree(-45.f);
+		Direct.RotateZDegree(-22.5f);
 		ProjectileStartDir_ = Direct;
 		MoveDir = ProjectileStartDir_;
 	}
 	else
 	{
-		// 시작방향벡터를 9도씩회전시켜서 발사체의 이동방향벡터를 계산한다.
-		ProjectileStartDir_.RotateZDegree(9.f);
+		// 시작방향벡터를 7.5도씩회전시켜서 발사체의 이동방향벡터를 계산한다.
+		ProjectileStartDir_.RotateZDegree(7.5f);
 		MoveDir = ProjectileStartDir_;
 	}
 
@@ -210,9 +207,9 @@ void Andariel::ProjectileFire()
 	NewProjectile->SkillAttackProjectile(static_cast<int>(CurDir_), MoveDir, MonsterInfo_.Damage);
 	NewProjectile->Release(5.f);
 
-	// 발사체 생성카운트 증가(총 10개 생성)
+	// 발사체 생성카운트 증가(총 6개 생성)
 	++ProjectileCnt_;
-	if (10 <= ProjectileCnt_)
+	if (6 < ProjectileCnt_)
 	{
 		ProjectileCnt_ = 0;
 	}
