@@ -209,7 +209,7 @@ void Andariel::ProjectileFire()
 
 	// 발사체 생성카운트 증가(총 6개 생성)
 	++ProjectileCnt_;
-	if (6 < ProjectileCnt_)
+	if (6 <= ProjectileCnt_)
 	{
 		ProjectileCnt_ = 0;
 	}
