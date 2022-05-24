@@ -315,6 +315,7 @@ void Andariel::StartGetHit()
 
 void Andariel::UpdateGetHit()
 {
+	State_.ChangeState("Idle");
 }
 
 void Andariel::EndGetHit()

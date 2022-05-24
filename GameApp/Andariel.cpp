@@ -188,46 +188,20 @@ void Andariel::ProjectileFire()
 	// 발사체를 생성 및 이동시킨다.
 	float4 MoveDir = float4::ZERO;
 
-	// 최초 시작방향결정 : 시작방향벡터(-45도) ~ 마지막방향벡터(45도) => 총 10개 생성(+9도)
+	// 최초 시작방향결정 : 시작방향벡터(-45도) ~ 마지막방향벡터(45도) => 총 10개 생성(+-9도)
 	if (0 == ProjectileCnt_)
 	{
-		switch (CurDir_)
-		{
-			case Andariel_TargetDir::AD_B:
-				ProjectileStartDir_ = float4();
-				break;
-			case Andariel_TargetDir::AD_LB:
-				ProjectileStartDir_ = float4();
-				break;
-			case Andariel_TargetDir::AD_L:
-				ProjectileStartDir_ = float4();
-				break;
-			case Andariel_TargetDir::AD_LT:
-				ProjectileStartDir_ = float4();
-				break;
-			case Andariel_TargetDir::AD_T:
-				ProjectileStartDir_ = float4();
-				break;
-			case Andariel_TargetDir::AD_RT:
-				ProjectileStartDir_ = float4();
-				break;
-			case Andariel_TargetDir::AD_R:
-				ProjectileStartDir_ = float4();
-				break;
-			case Andariel_TargetDir::AD_RB:
-				ProjectileStartDir_ = float4();
-				break;
-		}
+		float4 Direct = (GlobalValue::CurPlayer->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition()).NormalizeReturn3D();
+		Direct.RotateZDegree(-45.f);
+		ProjectileStartDir_ = Direct;
+		MoveDir = ProjectileStartDir_;
 	}
-
-	// 최종 발사체 이동방향벡터 결정
-
-
-
-
-
-	// 발사체 이동방향 결정
-	//MoveDir = float4(0.f, 0.f, 1.f) * (ProjectileCnt_ * 30.f);
+	else
+	{
+		// 최종 발사체 이동방향벡터 결정
+		ProjectileStartDir_.RotateZDegree(9.f);
+		MoveDir = ProjectileStartDir_;
+	}
 
 	// 발사체 생성(소멸시간 결정 - 5초)
 	AndarielProjectile* NewProjectile = GetLevel()->CreateActor<AndarielProjectile>();

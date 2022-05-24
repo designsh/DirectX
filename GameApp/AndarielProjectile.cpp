@@ -68,14 +68,7 @@ void AndarielProjectile::SkillAttackProjectile(float4 _MoveDir, int _Damage)
 	Damage_ = _Damage;
 
 	// 이동방향에 따른 애니메이션 결정
-	if (MoveDir_.x >= 0)
-	{
-
-	}
-	else if(MoveDir_.x < 0)
-	{
-
-	}
+	Renderer_->SetChangeAnimation("Move_B");
 
 	// 발사 시작
 	FireStart_ = true;
