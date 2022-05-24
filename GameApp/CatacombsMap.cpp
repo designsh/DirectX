@@ -834,6 +834,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 							TileIndex SpawnTile = MapInfo_.RoomInfo_[i].RoomCenterIndex_ + TileIndex(x, y);
 							if (SpawnTile == MapInfo_.RoomInfo_[i].RoomCenterIndex_)
 							{
+								// 센터에 보스가 생성되므로 제외
 								continue;
 							}
 
