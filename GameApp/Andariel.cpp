@@ -9,6 +9,8 @@
 #include "MainPlayer.h"
 #include "CatacombsMap.h"
 
+#include "Portal.h"
+
 #include "AndarielProjectile.h"
 
 int Andariel::AndarielCnt = 0;
@@ -169,10 +171,8 @@ void Andariel::DeathEnd()
 
 
 	// 내가 속한 룸의 중앙에 엔딩포탈을 생성한다.
-
-
-
-
+	//Portal* EndingPortal = GetLevel()->CreateActor<Portal>();
+	//EndingPortal->CreateLevelChangePortal(PortalType::BOSS, )
 
 	// 시체상태 전환
 	State_.ChangeState("Dead");
