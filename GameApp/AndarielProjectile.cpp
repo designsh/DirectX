@@ -46,6 +46,15 @@ void AndarielProjectile::Update(float _DeltaTime)
 		// 계속해서 이동
 		GetTransform()->SetWorldDeltaTimeMove(MoveDir_ * MoveSpeed_);
 
+		TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+		GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+
+		// 이동중 벽과 충돌시 소멸
+		if (true == GlobalValue::CatacombsMap->CurTileIndexWallCheck(CurTileIndex))
+		{
+			Death();
+		}
+
 		// 충돌체크
 		if (nullptr != Collider_)
 		{

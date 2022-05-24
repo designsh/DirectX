@@ -126,6 +126,9 @@ private:
 private:
 	void CreateNavigationInfo();
 
+public:
+	bool CurTileIndexWallCheck(TileIndex _CurTile);
+
 private:
 	bool Moveable4WaysCheck(PathIndex _PathIndex);
 	bool Moveable8WaysCheck(PathIndex _PathIndex);

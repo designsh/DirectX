@@ -48,13 +48,15 @@ void Zombie::Start()
 
 void Zombie::Update(float _DeltaTime)
 {
-
 #ifdef _DEBUG
 	GetLevel()->UIPushDebugRender(BodyCollider_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
 	// 상태 갱신
 	State_.Update();
+
+	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
+	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
 
 	// 충돌체 위치 갱신
 	float4 MyPos = float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y, 0.f);

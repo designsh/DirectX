@@ -65,6 +65,7 @@ void Andariel::CreateAnimation()
 {
 	Andariel_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Andariel_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+	Andariel_->SetRenderingPipeLine("TextureDepthOff");
 
 	// 대기상태(Andariel_Idle.png, 16x8)
 	Andariel_->CreateAnimation("Andariel_Idle.png", "Idle_B" , 0, 15, 0.1f);

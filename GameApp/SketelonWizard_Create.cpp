@@ -8,6 +8,7 @@ void SketelonWizard::CreateAnimation()
 {
 	WizardRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	WizardRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+	WizardRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
 	switch (WizardType_)
 	{

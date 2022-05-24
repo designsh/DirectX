@@ -147,4 +147,3 @@ enum class NavigationObjectType
 	Zombie,						// 일반몬스터(Zombie)
 	Andariel					// 보스몬스터(Andariel)
 };
-

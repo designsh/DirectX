@@ -8,7 +8,7 @@ void BoneSpirit::CreateAnimation()
 {
 	Renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Renderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-	Renderer_->SetRenderingPipeLine("TextureTrans");
+	Renderer_->SetRenderingPipeLine("TextureTransDepthOff");
 
 	// ¹ß»çÃ¼(8x8)
 	Renderer_->CreateAnimation("PlayerSkill_BoneSpirit.png", "Move_LB", 0, 7, 0.1f);

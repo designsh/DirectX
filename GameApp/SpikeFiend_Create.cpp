@@ -58,6 +58,7 @@ void SpikeFiend::CreateAnimation()
 {
 	SpikeFiend_ = CreateTransformComponent<GameEngineImageRenderer>();
 	SpikeFiend_->GetTransform()->SetLocalScaling(float4(120.f, 120.f));
+	SpikeFiend_->SetRenderingPipeLine("TextureDepthOff");
 
 	// 대기상태(SpikeFiend_Idle.png, 8x8)
 	SpikeFiend_->CreateAnimation("SpikeFiend_Idle.png", "Idle_B" ,  0,  7, 0.1f);

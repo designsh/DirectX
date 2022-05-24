@@ -30,7 +30,7 @@ void AndarielProjectile::CreateAnimation()
 	Renderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
 
 	// 렌더링 파이프라인 변경
-	Renderer_->SetRenderingPipeLine("TextureTrans");
+	Renderer_->SetRenderingPipeLine("TextureTransDepthOff");
 
 	// 애니메이션 생성(Andariel_Projetile.png, 18x8)
 	Renderer_->CreateAnimation("Andariel_Projetile.png", "Move_B" ,   0,  17, 0.1f);

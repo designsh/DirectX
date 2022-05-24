@@ -8,6 +8,7 @@ void SketelonWarrior::CreateAnimation()
 {
 	WarriorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	WarriorRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+	WarriorRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
 	// 소환 상태(Skeleton_Warrior_Summons.png : 12, 8)
 	WarriorRenderer_->CreateAnimation("Skeleton_Warrior_Summons.png", "Spawn_LB",  0, 11, 0.1f, false);

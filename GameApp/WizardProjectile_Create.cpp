@@ -10,7 +10,7 @@
 void WizardProjectile::CreateCollision()
 {
 	Collider_ = CreateTransformComponent<GameEngineCollision>();
-	Collider_->GetTransform()->SetLocalScaling(float4(80.f, 80.f));
+	Collider_->GetTransform()->SetLocalScaling(float4(56.f, 34.f));
 	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
 	Collider_->GetTransform()->SetLocalPosition(Renderer_->GetTransform()->GetLocalPosition() - CamPos);
 	Collider_->GetTransform()->SetWorldZOrder(-99.f);
@@ -47,7 +47,7 @@ void WizardProjectile::CreateColdTypeAnimation()
 {
 	Renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Renderer_->GetTransform()->SetLocalScaling(float4(128.f, 128.f));
-	Renderer_->SetRenderingPipeLine("TextureTrans");
+	Renderer_->SetRenderingPipeLine("TextureTransDepthOff");
 
 	// 局聪皋捞记 积己
 	Renderer_->CreateAnimation("Wizard_Cold.png", "Move_LB",  0,  5, 0.1f);

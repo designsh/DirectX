@@ -11,6 +11,7 @@ void SummonsGolem::CreateClayGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
+	GolemRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(75, GolemInfo_);
@@ -77,6 +78,7 @@ void SummonsGolem::CreateBloodGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
+	GolemRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(85, GolemInfo_);
@@ -143,6 +145,7 @@ void SummonsGolem::CreateIronGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
+	GolemRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(90, GolemInfo_);
@@ -209,6 +212,7 @@ void SummonsGolem::CreateFireGolem()
 	// 렌더러 생성
 	GolemRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(240.f, 240.f));
+	GolemRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
 #pragma region 정보 저장
 	MainPlayerInfomation::GetInst().GetSkillInfo(94, GolemInfo_);

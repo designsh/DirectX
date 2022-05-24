@@ -63,6 +63,9 @@ void Andariel::Update(float _DeltaTime)
 	// 상태 갱신
 	State_.Update();
 
+	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
+	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+
 	// 스킬쿨타임 소모
 	// 단, 시체상태이거나 사망상태이면 쿨타임 소모없음
 	if (Andariel_FSMState::AD_DEATH != CurState_ && 

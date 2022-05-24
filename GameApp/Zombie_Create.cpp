@@ -58,6 +58,7 @@ void Zombie::CreateAnimation()
 {
 	Zombie_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Zombie_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+	Zombie_->SetRenderingPipeLine("TextureDepthOff");
 
 	// 대기상태(Zombie_Idle.png, 8x8)
 	Zombie_->CreateAnimation("Zombie_Idle.png", "Idle_LB", 0, 7, 0.1f);

@@ -44,9 +44,14 @@ void WizardProjectile::Update(float _DeltaTime)
 	// 계속해서 이동
 	GetTransform()->SetWorldDeltaTimeMove(MoveTargetDir_ * MoveSpeed_);
 
-	// Z Order 갱신
-	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
-	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_) + 25.f);
+	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+
+	// 이동중 벽과 충돌시 소멸
+	if (true == GlobalValue::CatacombsMap->CurTileIndexWallCheck(CurTileIndex))
+	{
+		Death();
+	}
 
 	// 충돌체크
 	if (nullptr != Collider_)
@@ -77,8 +82,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 			Fallen_FSMState::FL_DEATH != CurAttackMonster->GetCurState())
 		{
 			CurAttackMonster->GetHitDamage(Damage_);
+			Death();
 		}
-		Death();
 	}
 	else if (std::string::npos != CollisionName.find("SpikeFiend"))
 	{
@@ -87,8 +92,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 			SpikeFiend_FSMState::SF_DEATH != CurAttackMonster->GetCurState())
 		{
 			CurAttackMonster->GetHitDamage(Damage_);
+			Death();
 		}
-		Death();
 	}
 	else if (std::string::npos != CollisionName.find("Tainted"))
 	{
@@ -97,8 +102,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 			Tainted_FSMState::TT_DEATH != CurAttackMonster->GetCurState())
 		{
 			CurAttackMonster->GetHitDamage(Damage_);
+			Death();
 		}
-		Death();
 	}
 	else if (std::string::npos != CollisionName.find("Zombie"))
 	{
@@ -107,8 +112,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 			Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
 		{
 			CurAttackMonster->GetHitDamage(Damage_);
+			Death();
 		}
-		Death();
 	}
 	else if (std::string::npos != CollisionName.find("Andariel"))
 	{
@@ -117,8 +122,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 			Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
 		{
 			CurAttackMonster->GetHitDamage(Damage_);
+			Death();
 		}
-		Death();
 	}
 
 	// 어떠한 몬스터와도 충돌하지않았을시 자동소멸시간이(5초) 초과되면 자동소멸한다.

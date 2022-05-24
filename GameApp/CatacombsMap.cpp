@@ -945,7 +945,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 			}
 			else
 			{
-				for (int i = 0; i < 42; ++i)
+				for (int i = 0; i < 2; ++i)
 				{
 					// 플레이어 생성 룸에는 각 몬스터의 시체 배치(총 42마리 : 전사 20마리 소환용, 마법사 20마리 소환용)
 					// 생성되는 몬스터는 랜덤이며, 센터타일기준 벽이아닌 타일에 배치된다.
@@ -1081,6 +1081,23 @@ void CatacombsMap::CreateNavigationInfo()
 	std::vector<GameEnginePathFind*> NewPathFind;
 	NewPathFind.push_back(new GameEnginePathFind());
 	Navigation_[NavigationObjectType::Player] = NewPathFind;
+}
+
+bool CatacombsMap::CurTileIndexWallCheck(TileIndex _CurTile)
+{
+	int WallInfo = static_cast<int>(MapInfo_.WallInfo_.size());
+	for (int i = 0; i < WallInfo; ++i)
+	{
+		if (MapInfo_.WallInfo_[i].WallTileIndex_ == _CurTile)
+		{
+			if (MapInfo_.WallInfo_[i].WallDetailType_ != RandomWallDetailType::NORMAL)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
 
 bool CatacombsMap::Moveable4WaysCheck(PathIndex _PathIndex)

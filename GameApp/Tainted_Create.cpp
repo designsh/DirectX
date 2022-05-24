@@ -73,6 +73,7 @@ void Tainted::CreateAnimation()
 {
 	Tainted_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Tainted_->GetTransform()->SetLocalScaling(float4(280.f, 280.f));
+	Tainted_->SetRenderingPipeLine("TextureDepthOff");
 
 	// 대기상태
 	Tainted_->CreateAnimation("Tainted_Idle.png", "Idle_LB", 0, 7, 0.1f);
