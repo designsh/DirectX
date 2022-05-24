@@ -945,7 +945,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 			}
 			else
 			{
-				for (int i = 0; i < 2; ++i)
+				for (int i = 0; i < 10; ++i)
 				{
 					// 플레이어 생성 룸에는 각 몬스터의 시체 배치(총 42마리 : 전사 20마리 소환용, 마법사 20마리 소환용)
 					// 생성되는 몬스터는 랜덤이며, 센터타일기준 벽이아닌 타일에 배치된다.

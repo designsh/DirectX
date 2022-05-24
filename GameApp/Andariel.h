@@ -52,6 +52,7 @@ public: // 생성갯수 = 네비게이션 인덱스
 
 private:	// member Var
 	GameEngineImageRenderer* Andariel_;
+	GameEngineImageRenderer* AndarielEffect_;
 	GameEngineCollision* BodyCollider_;
 
 private: // 생성관련

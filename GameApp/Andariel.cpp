@@ -12,11 +12,13 @@
 #include "Portal.h"
 
 #include "AndarielProjectile.h"
+#include "AndarielDeathEffect.h"
 
 int Andariel::AndarielCnt = 0;
 
 Andariel::Andariel() :
 	Andariel_(nullptr),
+	AndarielEffect_(nullptr),
 	BodyCollider_(nullptr),
 	SpawnRoomNo_(-1),
 	SpawnTile_(),
@@ -201,17 +203,19 @@ void Andariel::ProjectileFire()
 		ProjectileStartDir_ = Direct;
 		MoveDir = ProjectileStartDir_;
 	}
+	// 이동방향 결정
 	else
 	{
 		// 시작방향벡터를 9도씩회전시켜서 발사체의 이동방향벡터를 계산한다.
+		// 시장방향벡터 ~ 90도회전 이동방향벡터를 가진다.
 		ProjectileStartDir_.RotateZDegree(9.f);
 		MoveDir = ProjectileStartDir_;
 	}
 
 	// 발사체 생성(소멸시간 결정 - 5초)
 	AndarielProjectile* NewProjectile = GetLevel()->CreateActor<AndarielProjectile>();
-	NewProjectile->SkillAttackProjectile(static_cast<int>(CurDir_), MoveDir, MonsterInfo_.Damage);
 	NewProjectile->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+	NewProjectile->SkillAttackProjectile(static_cast<int>(CurDir_), MoveDir, MonsterInfo_.Damage);
 	NewProjectile->Release(5.f);
 
 	// 발사체 생성카운트 증가(총 10개 생성)

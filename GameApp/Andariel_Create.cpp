@@ -117,16 +117,6 @@ void Andariel::CreateAnimation()
 	Andariel_->CreateAnimation("Andariel_Death.png", "Death_R" , 138, 160, 0.1f, false);
 	Andariel_->CreateAnimation("Andariel_Death.png", "Death_RB", 161, 183, 0.1f, false);
 
-	// 사망상태 오버레이(Andariel_Death_Effect.png, 23x8)
-	Andariel_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_B" ,   0,  22, 0.1f, false);
-	Andariel_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_LB",  23,  45, 0.1f, false);
-	Andariel_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_L" ,  46,  68, 0.1f, false);
-	Andariel_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_LT",  69,  91, 0.1f, false);
-	Andariel_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_T" ,  92, 114, 0.1f, false);
-	Andariel_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_RT", 115, 137, 0.1f, false);
-	Andariel_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_R" , 138, 160, 0.1f, false);
-	Andariel_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_RB", 161, 183, 0.1f, false);
-
 	// 시체상태(Andariel_Dead.png, 8x1)
 	Andariel_->CreateAnimation("Andariel_Dead.png", "Dead_B" , 0, 0, 0.1f, false);
 	Andariel_->CreateAnimation("Andariel_Dead.png", "Dead_LB", 0, 1, 0.1f, false);

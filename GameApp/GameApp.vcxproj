@@ -35,6 +35,11 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="AndarielDeathEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="AndarielDeathEffect_Create.cpp" />
     <ClCompile Include="AndarielProjectile.cpp">
       <SubType>
       </SubType>
@@ -446,6 +451,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Andariel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AndarielDeathEffect.h">
       <SubType>
       </SubType>
     </ClInclude>

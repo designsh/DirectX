@@ -860,6 +860,11 @@ void MainPlayer::SkeletonWizardDeath(SketelonWizard* _DeathWizard)
 			break;
 		}
 	}
+
+	if (nullptr != _DeathWizard)
+	{
+		_DeathWizard->Death();
+	}
 }
 
 SummonsGolem* MainPlayer::SummonsGolemTileCheck(TileIndex _CheckTile)

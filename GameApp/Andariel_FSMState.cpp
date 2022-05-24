@@ -296,8 +296,6 @@ void Andariel::StartSkillAttack()
 
 void Andariel::UpdateSkillAttack()
 {
-
-	int a = 0;
 }
 
 void Andariel::EndSkillAttack()
@@ -334,6 +332,53 @@ void Andariel::StartDeath()
 {
 	// 적방향 체크하여 애니메이션 및 방향설정
 	TargetDirCheck(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition(), "Death");
+
+	if (nullptr == AndarielEffect_)
+	{
+		AndarielEffect_ = CreateTransformComponent<GameEngineImageRenderer>();
+		AndarielEffect_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+		AndarielEffect_->GetTransform()->SetLocalZOrder(-1.f);
+		AndarielEffect_->SetRenderingPipeLine("TextureTransDepthOff");
+
+
+		// 사망상태 오버레이(Andariel_Death_Effect.png, 23x8)
+		AndarielEffect_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_B", 0, 22, 0.1f, false);
+		AndarielEffect_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_LB", 23, 45, 0.1f, false);
+		AndarielEffect_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_L", 46, 68, 0.1f, false);
+		AndarielEffect_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_LT", 69, 91, 0.1f, false);
+		AndarielEffect_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_T", 92, 114, 0.1f, false);
+		AndarielEffect_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_RT", 115, 137, 0.1f, false);
+		AndarielEffect_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_R", 138, 160, 0.1f, false);
+		AndarielEffect_->CreateAnimation("Andariel_Death_Effect.png", "DeathEffect_RB", 161, 183, 0.1f, false);
+	}
+
+	switch (CurDir_)
+	{
+	case Andariel_TargetDir::AD_B:
+		AndarielEffect_->SetChangeAnimation("DeathEffect_B");
+		break;
+	case Andariel_TargetDir::AD_LB:
+		AndarielEffect_->SetChangeAnimation("DeathEffect_LB");
+		break;
+	case Andariel_TargetDir::AD_L:
+		AndarielEffect_->SetChangeAnimation("DeathEffect_L");
+		break;
+	case Andariel_TargetDir::AD_LT:
+		AndarielEffect_->SetChangeAnimation("DeathEffect_LT");
+		break;
+	case Andariel_TargetDir::AD_T:
+		AndarielEffect_->SetChangeAnimation("DeathEffect_T");
+		break;
+	case Andariel_TargetDir::AD_RT:
+		AndarielEffect_->SetChangeAnimation("DeathEffect_RT");
+		break;
+	case Andariel_TargetDir::AD_R:
+		AndarielEffect_->SetChangeAnimation("DeathEffect_R");
+		break;
+	case Andariel_TargetDir::AD_RB:
+		AndarielEffect_->SetChangeAnimation("DeathEffect_RB");
+		break;
+	}
 
 	// 현재 상태 전환
 	PrevState_ = CurState_;

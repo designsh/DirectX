@@ -55,7 +55,6 @@ void AndarielProjectile::Update(float _DeltaTime)
 			Death();
 		}
 
-		// 面倒眉农
 		if (nullptr != Collider_)
 		{
 #ifdef _DEBUG
@@ -67,6 +66,7 @@ void AndarielProjectile::Update(float _DeltaTime)
 			float4 CamPos = float4(GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().x, GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().y, 0.f);
 			Collider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
+			// 面倒眉农
 			Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Player), std::bind(&AndarielProjectile::TargetCollision, this, std::placeholders::_1));
 		}
 	}

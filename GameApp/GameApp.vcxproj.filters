@@ -407,6 +407,12 @@
     <ClCompile Include="AndarielProjectile_Collision.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\00.Projectile</Filter>
     </ClCompile>
+    <ClCompile Include="AndarielDeathEffect.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\01.DeathEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="AndarielDeathEffect_Create.cpp">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\01.DeathEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -1142,6 +1148,9 @@
     </ClInclude>
     <ClInclude Include="AndarielProjectile.h">
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\00.Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="AndarielDeathEffect.h">
+      <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\01.DeathEffect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
