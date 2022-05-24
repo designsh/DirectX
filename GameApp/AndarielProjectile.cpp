@@ -21,6 +21,7 @@
 AndarielProjectile::AndarielProjectile() :
 	Renderer_(nullptr),
 	Collider_(nullptr),
+	AnimationCurDir_(Animation_Dir::AD_B),
 	FireStart_(false),
 	MoveDir_(float4::ZERO),
 	MoveSpeed_(300.f),
