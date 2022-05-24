@@ -3,6 +3,18 @@
 
 #include <GameEngine/GameEngineActor.h>
 
+enum class Animation_Dir
+{
+	AD_B,
+	AD_LB,
+	AD_L,
+	AD_LT,
+	AD_T,
+	AD_RT,
+	AD_R,
+	AD_RB
+};
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -15,6 +27,7 @@ private:	// member Var
 	GameEngineCollision* Collider_;
 
 private:
+	Animation_Dir AnimationCurDir_;
 	bool FireStart_;
 	float4 MoveDir_;
 	float MoveSpeed_;
@@ -48,6 +61,6 @@ private: // 해당 발사체관련 초기화
 	void CreateCollision();
 
 public: // 생성과 동시에 해당 방향으로 발사
-	void SkillAttackProjectile(float4 _MoveDir, int _Damage);
+	void SkillAttackProjectile(int _DirType, float4 _MoveDir, int _Damage);
 };
 

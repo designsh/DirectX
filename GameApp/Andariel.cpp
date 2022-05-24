@@ -20,7 +20,7 @@ Andariel::Andariel() :
 	SpawnTile_(),
 	IdleDelayTime_(1.f),
 	NavigationIndex_(-1),
-	SkillDelayTime_(3.f),
+	SkillDelayTime_(15.f),
 	SkillAttack_(false),
 	ProjectileCnt_(0),
 	ProjectileStartDir_(float4::ZERO),
@@ -67,7 +67,7 @@ void Andariel::Update(float _DeltaTime)
 			if (0.f >= SkillDelayTime_)
 			{
 				SkillAttack_ = true;
-				SkillDelayTime_ = 3.f;
+				SkillDelayTime_ = 15.f;
 			}
 		}
 	}
@@ -191,6 +191,7 @@ void Andariel::ProjectileFire()
 	// 최초 시작방향결정 : 시작방향벡터(-45도) ~ 마지막방향벡터(45도) => 총 10개 생성(+-9도)
 	if (0 == ProjectileCnt_)
 	{
+		// 플레이어를 바라보는 방향벡터를 -45도 회전시킨 방향벡터를 초기값으로 설정
 		float4 Direct = (GlobalValue::CurPlayer->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition()).NormalizeReturn3D();
 		Direct.RotateZDegree(-45.f);
 		ProjectileStartDir_ = Direct;
@@ -198,7 +199,7 @@ void Andariel::ProjectileFire()
 	}
 	else
 	{
-		// 최종 발사체 이동방향벡터 결정
+		// 시작방향벡터를 9도씩회전시켜서 발사체의 이동방향벡터를 계산한다.
 		ProjectileStartDir_.RotateZDegree(9.f);
 		MoveDir = ProjectileStartDir_;
 	}
@@ -206,7 +207,7 @@ void Andariel::ProjectileFire()
 	// 발사체 생성(소멸시간 결정 - 5초)
 	AndarielProjectile* NewProjectile = GetLevel()->CreateActor<AndarielProjectile>();
 	NewProjectile->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
-	NewProjectile->SkillAttackProjectile(MoveDir, MonsterInfo_.Damage);
+	NewProjectile->SkillAttackProjectile(static_cast<int>(CurDir_), MoveDir, MonsterInfo_.Damage);
 	NewProjectile->Release(5.f);
 
 	// 발사체 생성카운트 증가(총 10개 생성)

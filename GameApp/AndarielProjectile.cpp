@@ -61,14 +61,41 @@ void AndarielProjectile::Update(float _DeltaTime)
 	}
 }
 
-void AndarielProjectile::SkillAttackProjectile(float4 _MoveDir, int _Damage)
+void AndarielProjectile::SkillAttackProjectile(int _DirType, float4 _MoveDir, int _Damage)
 {
 	// 기본정보 저장
 	MoveDir_ = _MoveDir;
 	Damage_ = _Damage;
+	AnimationCurDir_ = static_cast<Animation_Dir>(_DirType);
 
 	// 이동방향에 따른 애니메이션 결정
-	Renderer_->SetChangeAnimation("Move_B");
+	switch (AnimationCurDir_)
+	{
+	case Animation_Dir::AD_B:
+		Renderer_->SetChangeAnimation("Move_B");
+		break;
+	case Animation_Dir::AD_LB:
+		Renderer_->SetChangeAnimation("Move_LB");
+		break;
+	case Animation_Dir::AD_L:
+		Renderer_->SetChangeAnimation("Move_L");
+		break;
+	case Animation_Dir::AD_LT:
+		Renderer_->SetChangeAnimation("Move_LT");
+		break;
+	case Animation_Dir::AD_T:
+		Renderer_->SetChangeAnimation("Move_T");
+		break;
+	case Animation_Dir::AD_RT:
+		Renderer_->SetChangeAnimation("Move_RT");
+		break;
+	case Animation_Dir::AD_R:
+		Renderer_->SetChangeAnimation("Move_R");
+		break;
+	case Animation_Dir::AD_RB:
+		Renderer_->SetChangeAnimation("Move_RB");
+		break;
+	}
 
 	// 발사 시작
 	FireStart_ = true;
