@@ -14,7 +14,8 @@ AndarielDeathEffect::AndarielDeathEffect() :
 	CamShakeStart_(false),
 	Shake_(false),
 	ShakeDelayTime_(0.001f),
-	InitCamPos_(float4::ZERO)
+	InitCamPos_(float4::ZERO),
+	DirFireCnt{0,}
 {
 }
 
@@ -80,6 +81,12 @@ void AndarielDeathEffect::NormalDeathFire3()
 
 	// 사망처리
 	Death();
+}
+
+void AndarielDeathEffect::DirDeathFireFrameCallback()
+{
+	// 이동후 새로운 불꽃 발생
+
 }
 
 void AndarielDeathEffect::CamShakeEffect()

@@ -180,6 +180,7 @@ private: // 특정 애니메이션 종료시 호출되는 함수
 
 private: // 특정 애니메이션 특정 프레임에 호출되는 함수
 	void ProjectileFire();
+	void DeathEffectStart();
 
 public: // 외부접근 강제 상태전환
 	void SpawnToDeath();

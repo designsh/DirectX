@@ -261,6 +261,16 @@ void Andariel::CreateSpecificFrameFunction()
 	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 11, std::bind(&Andariel::ProjectileFire, this));
 	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 12, std::bind(&Andariel::ProjectileFire, this));
 	Andariel_->SetFrameCallBack("SkillAttack_RB", 126 + 13, std::bind(&Andariel::ProjectileFire, this));
+
+	// »ç¸Á¸ð¼Ç
+	Andariel_->SetFrameCallBack("Death_B" ,   0 + 3, std::bind(&Andariel::DeathEffectStart, this));
+	Andariel_->SetFrameCallBack("Death_LB",  23 + 3, std::bind(&Andariel::DeathEffectStart, this));
+	Andariel_->SetFrameCallBack("Death_L" ,  46 + 3, std::bind(&Andariel::DeathEffectStart, this));
+	Andariel_->SetFrameCallBack("Death_LT",  69 + 3, std::bind(&Andariel::DeathEffectStart, this));
+	Andariel_->SetFrameCallBack("Death_T" ,  92 + 3, std::bind(&Andariel::DeathEffectStart, this));
+	Andariel_->SetFrameCallBack("Death_RT", 115 + 3, std::bind(&Andariel::DeathEffectStart, this));
+	Andariel_->SetFrameCallBack("Death_R" , 138 + 3, std::bind(&Andariel::DeathEffectStart, this));
+	Andariel_->SetFrameCallBack("Death_RB", 161 + 3, std::bind(&Andariel::DeathEffectStart, this));
 }
 
 void Andariel::CreateFSMState()

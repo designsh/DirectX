@@ -167,11 +167,6 @@ void Andariel::SkillAttackEnd()
 
 void Andariel::DeathEnd()
 {
-	// 사망 이펙트를 생성하며 
-	AndarielDeathEffect* DeathEffect = GetLevel()->CreateActor<AndarielDeathEffect>();
-	DeathEffect->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
-	DeathEffect->CreateDeathFire();
-
 	// 시체상태 전환
 	State_.ChangeState("Dead");
 }
@@ -214,6 +209,16 @@ void Andariel::ProjectileFire()
 
 	// 발사체 생성카운트 증가(총 10개 생성)
 	++ProjectileCnt_;
+}
+
+void Andariel::DeathEffectStart()
+{
+	// 각 방향별 사망모션 3프레임에 호출되며 사망 이펙트를 생성
+	// => 생성시 본체 불꽃, 이동불꽃, 카메라쉐이킹효과
+	// => 본체불꽃 애니메이션종료시 이펙트 사망, 카메라쉐이킹중단, 보스 사망, 보스자리에 포탈생성(엔딩레벨이동용)
+	AndarielDeathEffect* DeathEffect = GetLevel()->CreateActor<AndarielDeathEffect>();
+	DeathEffect->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+	DeathEffect->CreateDeathFire();
 }
 
 #pragma endregion

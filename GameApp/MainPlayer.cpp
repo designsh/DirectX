@@ -927,6 +927,7 @@ void MainPlayer::BoneSpiritFire()
 	{
 		// 발사체 생성
 		BoneSpirit* NewBoneSpirit = GetLevel()->CreateActor<BoneSpirit>();
+		NewBoneSpirit->Release(10.f);
 
 		// 타겟지정된 발사체
 		if (nullptr != TargetMonster_)

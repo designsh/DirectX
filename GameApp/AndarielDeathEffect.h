@@ -32,6 +32,9 @@ private:
 private:
 	float4 InitCamPos_;
 
+private:
+	int DirFireCnt[4];
+
 public:
 	AndarielDeathEffect();
 	~AndarielDeathEffect();
@@ -57,6 +60,7 @@ private: // Animation EndFrame Callback Function
 	void NormalDeathFire1();
 	void NormalDeathFire2();
 	void NormalDeathFire3();
+	void DirDeathFireFrameCallback();
 
 private:
 	void CamShakeEffect();
