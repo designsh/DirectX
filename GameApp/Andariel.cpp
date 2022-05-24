@@ -3,6 +3,7 @@
 
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
+#include <GameEngine/GameEngineCore.h>
 
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
@@ -166,17 +167,10 @@ void Andariel::SkillAttackEnd()
 
 void Andariel::DeathEnd()
 {
-	// 화염 이펙트를 생성하며 
-
-
-
-	// 카메라 쉐이킹 효과를 발생시키고
-
-
-
-	// 내가 속한 룸의 중앙에 엔딩포탈을 생성한다.
-	//Portal* EndingPortal = GetLevel()->CreateActor<Portal>();
-	//EndingPortal->CreateLevelChangePortal(PortalType::BOSS, )
+	// 사망 이펙트를 생성하며 
+	AndarielDeathEffect* DeathEffect = GetLevel()->CreateActor<AndarielDeathEffect>();
+	DeathEffect->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+	DeathEffect->CreateDeathFire();
 
 	// 시체상태 전환
 	State_.ChangeState("Dead");
@@ -245,6 +239,22 @@ void Andariel::GetHitDamage(int _Damage)
 	{
 		State_.ChangeState("GetHit");
 	}
+}
+
+#pragma endregion
+
+#pragma region 완전한 사망
+void Andariel::PortalSpawnAfterDeath()
+{
+	// 내가 죽은자리에 포탈생성 후
+	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("EndingLevel");
+	Portal* EndingPortal = GetLevel()->CreateActor<Portal>(static_cast<int>(UpdateOrder::OBJECT));
+	EndingPortal->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+	EndingPortal->CreateLevelChangePortal(PortalType::BOSS, NextLevel);
+	GlobalValue::Portal = EndingPortal;
+
+	// 나는 죽는다.
+	Death();
 }
 
 #pragma endregion

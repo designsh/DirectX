@@ -1,19 +1,18 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
-// ªÁ∏¡ ∫“≤… ¿Ã∆Â∆Æ ≈∏¿‘
-enum class DeathFireType
+#include "FixedTileMap_Common.h"
+
+enum class CamShakeDir
 {
-	NONE = -1,
-	NORMAL,
-	TOP,
-	RIGHTTOP,
-	RIGHT,
-	RIGHTBOTTOM,
-	BOTTOM,
-	LEFTBOTTOM,
-	LEFT,
-	LEFTTOP,
+	CS_B,
+	CS_LB,
+	CS_L,
+	CS_LT,
+	CS_T,
+	CS_RT,
+	CS_R,
+	CS_RB
 };
 
 // ∫–∑˘ : 
@@ -26,8 +25,12 @@ private:	// member Var
 	GameEngineImageRenderer* DeathFire_;
 
 private:
-	DeathFireType FireType_;
-	bool CamShaking_;
+	bool CamShakeStart_;
+	bool Shake_;
+	float ShakeDelayTime_;
+
+private:
+	float4 InitCamPos_;
 
 public:
 	AndarielDeathEffect();
@@ -50,18 +53,15 @@ private:
 	void TextureCutting();
 	void CreateAnimation();
 
-public:
-	inline void CamShakeEffectOn()
-	{
-		CamShaking_ = true;
-	}
+private: // Animation EndFrame Callback Function
+	void NormalDeathFire1();
+	void NormalDeathFire2();
+	void NormalDeathFire3();
 
-	inline void CamShakeEffectOff()
-	{
-		CamShaking_ = false;
-	}
+private:
+	void CamShakeEffect();
 
 public:
-
+	void CreateDeathFire();
 };
 

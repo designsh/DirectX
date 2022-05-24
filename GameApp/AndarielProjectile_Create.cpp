@@ -28,8 +28,7 @@ void AndarielProjectile::CreateAnimation()
 	// 이동모션(Andariel_Projetile.png, 18x8)
 	Renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Renderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-
-	// 렌더링 파이프라인 변경
+	Renderer_->SetAlpha(0.7f);
 	Renderer_->SetRenderingPipeLine("TextureTransDepthOff");
 
 	// 애니메이션 생성(Andariel_Projetile.png, 18x8)

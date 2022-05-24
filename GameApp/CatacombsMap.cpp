@@ -822,6 +822,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 					NewAndariel->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
 					NewAndariel->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
 					AndarielList_.push_back(NewAndariel);
+					GlobalValue::Andariel = NewAndariel;
 
 					// 일반 몬스터 배치 - 룸의 센터를 제외한 3x3에 배치(단, 센터기준 3x3)
 					GameEngineRandom MonsterTypeRandom;

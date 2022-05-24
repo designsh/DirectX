@@ -188,5 +188,8 @@ public: // 외부접근 강제 상태전환
 public: // 적 체크 리스트관련
 	void SetEnterTheRoomDetectList(int _SpawnRoomNo);
 	bool EnterTheRoomDetectCheck();
+
+public: // 완전한 사망처리 후 포탈생성
+	void PortalSpawnAfterDeath();
 };
 
