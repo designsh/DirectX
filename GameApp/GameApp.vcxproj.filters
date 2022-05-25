@@ -413,6 +413,12 @@
     <ClCompile Include="AndarielDeathEffect_Create.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\01.DeathEffect</Filter>
     </ClCompile>
+    <ClCompile Include="EndingBackDrop.cpp">
+      <Filter>Object\Actor\07.Ending\00.BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingCredit.cpp">
+      <Filter>Object\Actor\07.Ending\02.CreditText</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -823,9 +829,6 @@
     <Filter Include="Object\Actor\07.Ending\00.BackDrop">
       <UniqueIdentifier>{a2172a5e-2a37-4a4b-b479-151904e3bc9d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\07.Ending\01.FadeActor">
-      <UniqueIdentifier>{c3fb772b-9bbd-4719-a369-f0e8723463b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\07.Ending\02.CreditText">
       <UniqueIdentifier>{d4c8cf75-c2ea-4822-b6c6-e4b1910c77f0}</UniqueIdentifier>
     </Filter>
@@ -1151,6 +1154,12 @@
     </ClInclude>
     <ClInclude Include="AndarielDeathEffect.h">
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\01.DeathEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingBackDrop.h">
+      <Filter>Object\Actor\07.Ending\00.BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingCredit.h">
+      <Filter>Object\Actor\07.Ending\02.CreditText</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

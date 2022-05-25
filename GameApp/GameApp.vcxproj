@@ -126,6 +126,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EndingBackDrop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EndingCredit.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <SubType>
       </SubType>
@@ -532,6 +540,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EditorRandomMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EndingBackDrop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EndingCredit.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -8,9 +8,15 @@
 #include <GameEngine/CameraActor.h>
 
 #include "GlobalValue.h"
-#include "MainPlayer.h"
 
-EndingLevel::EndingLevel()
+#include "EndingBackDrop.h"
+#include "EndingCredit.h"
+
+bool EndingLevel::ResourceLoadEndCheck = false;
+
+EndingLevel::EndingLevel() :
+	BackDrop_(nullptr),
+	Credit_(nullptr)
 {
 }
 
@@ -30,14 +36,28 @@ void EndingLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 
 void EndingLevel::LevelStart()
 {
-	// 배경
-
-	// Fade In/Out Image
-
-	// 텍스트
-
+	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void EndingLevel::LevelUpdate(float _DeltaTime)
 {
+#pragma region ResourceLoadingEndCheck
+	// 이미지 로딩이 완료되면 액터생성
+	if (false == ResourceLoadEndCheck && 0 >= UserGame::LoadingImageFolder)
+	{
+		CreateLevelActor();
+		ResourceLoadEndCheck = true;
+	}
+#pragma endregion
+
+}
+
+void EndingLevel::CreateLevelActor()
+{
+	// 배경
+	BackDrop_ = CreateActor<EndingBackDrop>();
+
+	// 크레딧 텍스트
+	//Credit_ = CreateActor<EndingCredit>();
 }

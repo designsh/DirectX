@@ -4,10 +4,16 @@
 // 분류 : 엔딩 화면
 // 용도 : 
 // 설명 : 
-class MainPlayer;
+class EndingBackDrop;
+class EndingCredit;
 class EndingLevel : public GameEngineLevel
 {
+private:
+	static bool ResourceLoadEndCheck;
+
 private:	// member Var
+	EndingBackDrop* BackDrop_;
+	EndingCredit* Credit_;
 
 public:
 	EndingLevel();
@@ -26,5 +32,8 @@ public:
 	virtual void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) override;
 	virtual void LevelStart() override;
 	virtual void LevelUpdate(float _DeltaTime) override;
+
+private:
+	void CreateLevelActor();
 };
 
