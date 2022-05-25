@@ -76,7 +76,7 @@ private: // Animation EndFrame Callback Function
 	void NormalDeathFire1();
 	void NormalDeathFire2();
 	void NormalDeathFire3();
-	void DirDeathFireFrameCallback();			// 이동을 하는 불꽃 애니메이션의 5 프레임에 호출
+	void DirDeathFireFrameCallback();			// 이동을 하는 불꽃 애니메이션의 10 프레임에 호출
 
 private: // Animation Special Frame Callback Function
 	void DirDeathFireEndCallback();				// 이동을 하는 불꽃 애니메이션의 종료프레임에 호출
