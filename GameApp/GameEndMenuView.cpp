@@ -46,6 +46,10 @@ void GameEndMenuView::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	{
 		return;
 	}
+	else if (std::string::npos != _NextLevel->GetName().find("EndingLevel"))
+	{
+		return;
+	}
 
 	// 게임종료메뉴가 들고있는 모든 액터 넘김
 

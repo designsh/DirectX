@@ -188,6 +188,10 @@ void SkillView::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	{
 		return;
 	}
+	else if (std::string::npos != _NextLevel->GetName().find("EndingLevel"))
+	{
+		return;
+	}
 
 	// 스킬창이 들고있는 모든 액터 넘김
 	for (int i = 0; i < static_cast<int>(SkillPageNo::MAX); ++i)

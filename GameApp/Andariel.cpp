@@ -218,6 +218,8 @@ void Andariel::DeathEffectStart()
 	// => 본체불꽃 애니메이션종료시 이펙트 사망, 카메라쉐이킹중단, 보스 사망, 보스자리에 포탈생성(엔딩레벨이동용)
 	AndarielDeathEffect* DeathEffect = GetLevel()->CreateActor<AndarielDeathEffect>();
 	DeathEffect->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
+	DeathEffect->GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
 	DeathEffect->CreateDeathFire();
 }
 
@@ -255,11 +257,16 @@ void Andariel::PortalSpawnAfterDeath()
 	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("EndingLevel");
 	Portal* EndingPortal = GetLevel()->CreateActor<Portal>(static_cast<int>(UpdateOrder::OBJECT));
 	EndingPortal->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
+	EndingPortal->GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
 	EndingPortal->CreateLevelChangePortal(PortalType::BOSS, NextLevel);
 	GlobalValue::Portal = EndingPortal;
 
 	// 나는 죽는다.
 	Death();
+
+	// 전역 초기화
+	GlobalValue::Andariel = nullptr;
 }
 
 #pragma endregion

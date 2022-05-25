@@ -356,6 +356,10 @@ void InventoryView::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	{
 		return;
 	}
+	else if (std::string::npos != _NextLevel->GetName().find("EndingLevel"))
+	{
+		return;
+	}
 
 	// 인벤토리가 들고있는 모든 액터를 넘김
 

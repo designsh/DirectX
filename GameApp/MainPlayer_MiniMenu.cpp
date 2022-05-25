@@ -116,6 +116,10 @@ void MainPlayer_MiniMenu::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	{
 		return;
 	}
+	else if (std::string::npos != _NextLevel->GetName().find("EndingLevel"))
+	{
+		return;
+	}
 
 	if (false == MiniMenuList_.empty())
 	{

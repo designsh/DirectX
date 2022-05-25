@@ -124,6 +124,10 @@ void BottomStateBar::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	{
 		return;
 	}
+	else if (std::string::npos != _NextLevel->GetName().find("EndingLevel"))
+	{
+		return;
+	}
 
 	// 하단상태바가 들고있는 모든 액터 레벨넘김
 	

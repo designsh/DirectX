@@ -74,7 +74,7 @@ void Portal::Update(float _DeltaTime)
 	if (nullptr != PortalCollision_)
 	{
 #ifdef _DEBUG
-		GetLevel()->PushDebugRender(PortalCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(PortalCollision_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
 		if (false == InteractionFlag_)
@@ -82,10 +82,6 @@ void Portal::Update(float _DeltaTime)
 			float4 MyPos = GetTransform()->GetLocalPosition();
 			float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
 			PortalCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
-		}
-		else
-		{
-			PortalCollision_->GetTransform()->SetLocalPosition(PortalEntityRenderer_->GetTransform()->GetLocalPosition());
 		}
 
 		// 마우스가 해당 포탈을 클릭한 상태에서 
@@ -112,9 +108,12 @@ void Portal::PlayerCollisionCheck(GameEngineCollision* _Other)
 {
 	if (true == InteractionFlag_)
 	{
-		// 플레이어와 충돌체크 충돌성공시 레벨 체인지
-		// 단, 이동가능 Flag 활성화 상태일때만 가능
-		UserGame::LevelChange("CatacombsLevel");
+		if (nullptr != NextLevel_)
+		{
+			// 플레이어와 충돌체크 충돌성공시 레벨 체인지
+			// 단, 이동가능 Flag 활성화 상태일때만 가능
+			UserGame::LevelChange(NextLevel_->GetName());
+		}
 	}
 }
 
@@ -160,7 +159,6 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		// 본체 렌더러 생성
 		PortalEntityRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 		PortalEntityRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-		PortalEntityRenderer_->GetTransform()->SetLocalZOrder(9.f);
 
 		PortalEntityRenderer_->CreateAnimation("BossPortal_Entity_Open.png", "OPEN", 0, 14, 0.1f, false);
 		PortalEntityRenderer_->CreateAnimation("BossPortal_Entity_Idle.png", "IDLE", 0, 14, 0.1f);
@@ -170,7 +168,7 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		PortalCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::Object));
 		PortalCollision_->GetTransform()->SetLocalScaling(float4(80.f, 120.f));
 		PortalCollision_->GetTransform()->SetLocalPosition(PortalEntityRenderer_->GetTransform()->GetLocalPosition() - GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition());
-		PortalCollision_->GetTransform()->SetLocalZOrder(-10.f);
+		PortalCollision_->GetTransform()->SetLocalZOrder(-99.f);
 
 		// 그림자 렌더러 생성
 		PortalShadowRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
@@ -221,14 +219,14 @@ void Portal::PortMoveableFlagOff(const float4& _MousePos)
 	// 필드레벨들일때 랜덤맵에서 검사
 	else
 	{
-		//CheckTile = GlobalValue::TownMap->GetPosToTileIndex(_MousePos);
-		//MyTileIndex = GlobalValue::TownMap->GetPosToTileIndex(GetTransform()->GetWorldPosition());
-		//if (MyTileIndex == CheckTile)
-		//{
-		//	return;
-		//}
+		CheckTile = GlobalValue::CatacombsMap->GetWallTileIndex(_MousePos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition());
+		MyTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition());
+		if (MyTileIndex == CheckTile)
+		{
+			return;
+		}
 
-		//// Flag 해제 성공
-		//InteractionFlag_ = false;
+		// Flag 해제 성공
+		InteractionFlag_ = false;
 	}
 }

@@ -123,6 +123,10 @@ void MainPlayer_RightWeaponSkillButton::LevelChangeEndEvent(GameEngineLevel* _Ne
 	{
 		return;
 	}
+	else if (std::string::npos != _NextLevel->GetName().find("EndingLevel"))
+	{
+		return;
+	}
 
 	if (false == RWeaponSkillList_.empty())
 	{

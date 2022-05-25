@@ -274,6 +274,10 @@ void MainPlayer::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 	{
 		return;
 	}
+	else if (std::string::npos != _NextLevel->GetName().find("EndingLevel"))
+	{
+		return;
+	}
 
 	// 하단상태바
 	if (nullptr != BottomStateBar_)

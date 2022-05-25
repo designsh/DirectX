@@ -15,6 +15,18 @@ enum class CamShakeDir
 	CS_RB
 };
 
+enum class MoveDeathFireDir
+{
+	DIR_T,
+	DIR_RT,
+	DIR_R,
+	DIR_RB,
+	DIR_B,
+	DIR_LB,
+	DIR_L,
+	DIR_LT
+};
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -33,7 +45,11 @@ private:
 	float4 InitCamPos_;
 
 private:
-	int DirFireCnt[4];
+	std::vector<GameEngineImageRenderer*> MoveDeathFireList_;
+	MoveDeathFireDir CurMoveDeathFireDir_;
+	bool MoveDeathFireSpawn_;
+	int MoveDeathFireSpawnCnt_;
+	float MoveDeathFireSpawnTime_;
 
 public:
 	AndarielDeathEffect();
@@ -60,10 +76,14 @@ private: // Animation EndFrame Callback Function
 	void NormalDeathFire1();
 	void NormalDeathFire2();
 	void NormalDeathFire3();
-	void DirDeathFireFrameCallback();
+	void DirDeathFireFrameCallback();			// 이동을 하는 불꽃 애니메이션의 5 프레임에 호출
+
+private: // Animation Special Frame Callback Function
+	void DirDeathFireEndCallback();				// 이동을 하는 불꽃 애니메이션의 종료프레임에 호출
 
 private:
 	void CamShakeEffect();
+	void MoveDeathFireSpawn();
 
 public:
 	void CreateDeathFire();
