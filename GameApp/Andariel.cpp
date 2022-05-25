@@ -256,10 +256,10 @@ void Andariel::PortalSpawnAfterDeath()
 	// 내가 죽은자리에 포탈생성 후
 	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("EndingLevel");
 	Portal* EndingPortal = GetLevel()->CreateActor<Portal>(static_cast<int>(UpdateOrder::OBJECT));
-	EndingPortal->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+	EndingPortal->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y, 0.f));
 	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
 	EndingPortal->GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
-	EndingPortal->CreateLevelChangePortal(PortalType::BOSS, NextLevel);
+	EndingPortal->CreateLevelChangePortal(PortalType::TOWN, NextLevel);
 	GlobalValue::Portal = EndingPortal;
 
 	// 나는 죽는다.
