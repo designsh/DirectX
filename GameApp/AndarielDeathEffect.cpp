@@ -53,8 +53,8 @@ void AndarielDeathEffect::Update(float _DeltaTime)
 		MoveDeathFireSpawnTime_ -= _DeltaTime;
 		if (0.f >= MoveDeathFireSpawnTime_)
 		{
-			MoveDeathFireSpawn();
-			MoveDeathFireSpawnTime_ = 5.f;
+			//MoveDeathFireSpawn();
+			//MoveDeathFireSpawnTime_ = 5.f;
 		}
 
 		// 최대 생성갯수 넘어가면 더이상 스폰하지않는다.
