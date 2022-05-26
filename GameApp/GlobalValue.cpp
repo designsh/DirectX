@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "GlobalValue.h"
 
+// 사운드 관련
+GameEngineSoundPlayer* GlobalValue::BackGroundSound = nullptr;
+
 // 공통 UI관련
 MonsterTopHPBar* GlobalValue::TopHPBar = nullptr;
 SummonsEmblem* GlobalValue::Emblem = nullptr;

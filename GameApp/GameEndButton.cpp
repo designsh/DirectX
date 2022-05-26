@@ -1,18 +1,22 @@
 #include "PreCompile.h"
 #include "GameEndButton.h"
 
-#include "GlobalEnumClass.h"
-#include "GlobalValue.h"
-
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include "UserGame.h"
+
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
 
 GameEndButton::GameEndButton() :
 	ButtonState_(Button_State::Normal),
 	EndButton_(nullptr),
-	MainCollision_(nullptr)
+	MainCollision_(nullptr),
+	ButtonClickSound_(nullptr)
 {
 }
 
@@ -42,6 +46,9 @@ void GameEndButton::Start()
 	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	MainCollision_->GetTransform()->SetLocalScaling(float4(272.f, 35.f, 1.0f));
 	MainCollision_->GetTransform()->SetLocalPosition(float4(0.f, -200.f));
+
+	// 사운드 플레이어 생성
+	ButtonClickSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void GameEndButton::Update(float _DeltaTime)
@@ -50,9 +57,10 @@ void GameEndButton::Update(float _DeltaTime)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
+			ButtonClickSound_->Stop();
+
 			// 게임 종료 => 윈도우 종료
 			GameEngineWindow::GetInst().CloseWindow();
-
 			ButtonState_ = Button_State::Normal;
 		}
 	}
@@ -69,12 +77,15 @@ void GameEndButton::GameEndButtonClick(GameEngineCollision* _OtherCollision)
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		EndButton_->SetChangeAnimation("Click");
-
 		ButtonState_ = Button_State::Click;
+
+		// 효과음 재생
+		ButtonClickSound_->PlayAlone("button.wav");
 	}
 	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 	{
 		EndButton_->SetChangeAnimation("Default");
+		ButtonClickSound_->Stop();
 	}
 }
 

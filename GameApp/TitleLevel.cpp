@@ -7,6 +7,9 @@
 #include "GameEndButton.h"
 #include "MouseObject.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
@@ -47,6 +50,17 @@ void TitleLevel::CreateLevelActor()
 
 void TitleLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
+	// 맵에디터 레벨로 전환시 배경음악 정지
+	if (std::string::npos != _NextLevel->GetName().find("MapEditorLevel"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->Stop();
+
+			// 글로벌 저장 취소
+			GlobalValue::BackGroundSound = nullptr;
+		}
+	}
 }
 
 void TitleLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
@@ -62,10 +76,12 @@ void TitleLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 		EndButton_->ChangeStartReset();
 	}
 
-	// 레벨 첫 시작시 배경음악 재생
-	
-
-
+	if (nullptr == GlobalValue::BackGroundSound)
+	{
+		GameEngineSoundPlayer* MainSound = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+		MainSound->PlayAlone("Main_BackgroundSound.wav", 99);
+		GlobalValue::BackGroundSound = MainSound;
+	}
 }
 
 void TitleLevel::LevelStart()

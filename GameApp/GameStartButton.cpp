@@ -1,17 +1,20 @@
 #include "PreCompile.h"
 #include "GameStartButton.h"
 
-#include "GlobalValue.h"
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 #include "UserGame.h"
+#include "GlobalValue.h"
 
 GameStartButton::GameStartButton() :
 	ButtonState_(Button_State::Normal),
 	StartButton_(nullptr),
-	MainCollision_(nullptr)
+	MainCollision_(nullptr),
+	ButtonClickSound_(nullptr)
 {
 }
 
@@ -39,6 +42,9 @@ void GameStartButton::Start()
 	// 충돌체 생성
 	MainCollision_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	MainCollision_->GetTransform()->SetLocalScaling(float4(272.f, 35.f, 1.0f));
+
+	// 사운드플레이어 생성
+	ButtonClickSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void GameStartButton::Update(float _DeltaTime)
@@ -47,8 +53,9 @@ void GameStartButton::Update(float _DeltaTime)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
-			UserGame::LevelChange("CreateCharacterLevel");
+			ButtonClickSound_->Stop();
 
+			UserGame::LevelChange("CreateCharacterLevel");
 			ButtonState_ = Button_State::Normal;
 		}
 	}
@@ -64,13 +71,17 @@ void GameStartButton::GameStartButtonClick(GameEngineCollision* _OtherCollision)
 	// Mouse LButton Flag Check
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
+		// 클릭시 애니메이션 변경 및 상태전환, 사운드 재생
 		StartButton_->SetChangeAnimation("Click");
-
 		ButtonState_ = Button_State::Click;
+
+		// 효과음 재생
+		ButtonClickSound_->PlayAlone("button.wav");
 	}
 	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 	{
 		StartButton_->SetChangeAnimation("Default");
+		ButtonClickSound_->Stop();
 	}
 }
 

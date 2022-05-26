@@ -8,6 +8,7 @@
 // 설명 : 캐릭터생성레벨로 이동
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameEngineSoundPlayer;
 class GameStartButton : public GameEngineActor
 {
 private:	// member Var
@@ -16,6 +17,9 @@ private:	// member Var
 private:
 	GameEngineUIRenderer* StartButton_;
 	GameEngineCollision* MainCollision_;
+
+private:
+	GameEngineSoundPlayer* ButtonClickSound_;
 
 public:
 	GameStartButton();

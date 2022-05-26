@@ -8,6 +8,7 @@
 // 설명 : 윈도우 종료
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameEngineSoundPlayer;
 class GameEndButton : public GameEngineActor
 {
 private:	// member Var
@@ -16,6 +17,9 @@ private:	// member Var
 private:
 	GameEngineUIRenderer* EndButton_;
 	GameEngineCollision* MainCollision_;
+
+private:
+	GameEngineSoundPlayer* ButtonClickSound_;
 
 public:
 	GameEndButton();
