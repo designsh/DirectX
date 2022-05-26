@@ -103,7 +103,7 @@ void TownLevel::CreateLevelActor()
 	Portal_ = CreateActor<Portal>(static_cast<int>(UpdateOrder::OBJECT));
 	Portal_->GetTransform()->SetWorldPosition(PortalPos);
 	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("CatacombsLevel");
-	Portal_->CreateLevelChangePortal(PortalType::TOWN, NextLevel);
+	Portal_->CreateLevelChangePortal(PortalType::TOWN, NextLevel, true);
 	GlobalValue::Portal = Portal_;
 
 	// ¸¶¿ì½º

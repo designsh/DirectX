@@ -10,6 +10,7 @@ enum class PortalType
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class GameEngineLevel;
 class GameEngineImageRenderer;
 class GameEngineCollision;
@@ -29,6 +30,9 @@ private:
 	GameEngineImageRenderer* PortalEntityRenderer_;
 	GameEngineImageRenderer* PortalShadowRenderer_;
 	GameEngineCollision* PortalCollision_;
+
+private: 
+	GameEngineSoundPlayer* PortalSound_;
 
 public:
 	Portal();

@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Portal.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -182,11 +185,17 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 	// 알파블렌딩변경
 	PortalEntityRenderer_->SetRenderingPipeLine("TextureTrans");
 
+	// 사운드 플레이어 생성
+	PortalSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+
 	// 열기 애니메이션부터 시작
 	if (true == _Open)
 	{
 		PortalEntityRenderer_->SetChangeAnimation("OPEN");
 		PortalShadowRenderer_->SetChangeAnimation("OPEN");
+
+		// 열기 사운드 재생
+		PortalSound_->PlayAlone("portalopen.wav", 0);
 	}
 	// 이미 소환되어있음
 	else
