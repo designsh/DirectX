@@ -302,9 +302,6 @@
     <ClCompile Include="EditorRandomMap.cpp">
       <Filter>Object\Actor\99.Editor\03.Map\02.RandomMap</Filter>
     </ClCompile>
-    <ClCompile Include="CatacombsMap.cpp">
-      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap</Filter>
-    </ClCompile>
     <ClCompile Include="Tainted_Create.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\01.Normal\02.Tainted</Filter>
     </ClCompile>
@@ -418,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="EndingCredit.cpp">
       <Filter>Object\Actor\07.Ending\02.CreditText</Filter>
+    </ClCompile>
+    <ClCompile Include="CatacombsMap.cpp">
+      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -820,9 +820,6 @@
     <Filter Include="Object\Actor\99.Editor\03.Map\02.RandomMap">
       <UniqueIdentifier>{3836c82b-7d83-4478-8133-39f1c68db3dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap">
-      <UniqueIdentifier>{1a76ad47-bd90-42cb-942b-2be6c015a285}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\07.Ending">
       <UniqueIdentifier>{45877efa-abbd-40a0-aaae-97e0b1781d05}</UniqueIdentifier>
     </Filter>
@@ -1125,9 +1122,6 @@
     <ClInclude Include="EditorRandomMap.h">
       <Filter>Object\Actor\99.Editor\03.Map\02.RandomMap</Filter>
     </ClInclude>
-    <ClInclude Include="CatacombsMap.h">
-      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap\00.CatacombsMap</Filter>
-    </ClInclude>
     <ClInclude Include="SummonsGolem.h">
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\00.Golem</Filter>
     </ClInclude>
@@ -1160,6 +1154,9 @@
     </ClInclude>
     <ClInclude Include="EndingCredit.h">
       <Filter>Object\Actor\07.Ending\02.CreditText</Filter>
+    </ClInclude>
+    <ClInclude Include="CatacombsMap.h">
+      <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
