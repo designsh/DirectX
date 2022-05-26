@@ -1,14 +1,20 @@
 #include "PreCompile.h"
 #include "LoadingLevel.h"
 
-#include "LoadingBackDrop.h"
-#include "LoadingAnimation.h"
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
 
 #include "UserGame.h"
+
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
+
+#include "LoadingBackDrop.h"
+#include "LoadingAnimation.h"
 
 bool LoadingLevel::ResourceLoadEndCheck = false;
 
@@ -31,12 +37,20 @@ void LoadingLevel::CreateLevelActor()
 
 void LoadingLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
-	// 배경음악 Off
+	// 배경음악 체인지
+	if (std::string::npos != _NextLevel->GetName().find("TownLevel"))
+	{
+		// 마을배경음으로 변경
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->Stop();
+			GlobalValue::BackGroundSound->PlayAlone("TownLevel.wav");
+		}
+	}
 }
 
 void LoadingLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
-	// 배경음악 On
 }
 
 void LoadingLevel::LevelStart()

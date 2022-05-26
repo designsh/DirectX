@@ -8,6 +8,7 @@
 // Ό³Έν : 
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameEngineSoundPlayer;
 class ErrorMsgPopup : public GameEngineActor
 {
 private:	// member Var
@@ -21,6 +22,9 @@ private:
 private:
 	GameEngineUIRenderer* ErrorMsgButton_;
 	GameEngineCollision* ErrorMsgBtnCollision_;
+
+private:
+	GameEngineSoundPlayer* ButtonClickSound_;
 
 public:
 	ErrorMsgPopup();

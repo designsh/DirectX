@@ -8,6 +8,7 @@
 // 설명 : 현재 생성한 플레이어로 게임시작하며, 초기 화면에 렌더링하지않다가 사용자가 직업을 선택하면 렌더링
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameEngineSoundPlayer;
 class CurPlayerGameStartButton : public GameEngineActor
 {
 private:
@@ -26,6 +27,9 @@ private:
 
 private:
 	bool RenderFlag_;
+
+private:
+	GameEngineSoundPlayer* ButtonClickSound_;
 
 public:
 	CurPlayerGameStartButton();

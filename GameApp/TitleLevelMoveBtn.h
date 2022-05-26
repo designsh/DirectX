@@ -8,6 +8,7 @@
 // 설명 : 현재 생성한 플레이어로 게임시작
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameEngineSoundPlayer;
 class TitleLevelMoveBtn : public GameEngineActor
 {
 private:	// member Var
@@ -16,6 +17,9 @@ private:	// member Var
 private:
 	GameEngineUIRenderer* PrevMenuBtn_;
 	GameEngineCollision* MainCollider_;
+
+private:
+	GameEngineSoundPlayer* ButtonClickSound_;
 
 public:
 	TitleLevelMoveBtn();

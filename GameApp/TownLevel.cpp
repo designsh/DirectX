@@ -1,18 +1,8 @@
 #include "PreCompile.h"
 #include "TownLevel.h"
 
-#include "TownMap.h"
-
-#include "TileMapInfoWindow.h"
-
-#include "MainPlayer.h"
-#include "MouseObject.h"
-
-#include "WeaponNPC.h"
-#include "ChandleryNPC.h"
-
-#include "Portal.h"
-#include "Storehouse.h"
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -23,6 +13,17 @@
 #include "GlobalEnumClass.h"
 
 #include "MainPlayerInfomation.h"
+#include "TileMapInfoWindow.h"
+
+#include "TownMap.h"
+#include "MainPlayer.h"
+#include "MouseObject.h"
+
+#include "WeaponNPC.h"
+#include "ChandleryNPC.h"
+
+#include "Portal.h"
+#include "Storehouse.h"
 
 bool TownLevel::ResourceLoadEndCheck = false;
 
@@ -116,7 +117,16 @@ void TownLevel::CreateLevelActor()
 
 void TownLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
-	// 배경음악 Off
+	// 배경음악 체인지
+	if (std::string::npos != _NextLevel->GetName().find("CatacombsLevel"))
+	{
+		// 카타콤배경음으로 변경
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->Stop();
+			GlobalValue::BackGroundSound->PlayAlone("CatacombsLevel.wav");
+		}
+	}
 
 	// 전용 윈도우 Off
 	GameEngineGUIWindow* Ptr = GameEngineGUI::GetInst()->FindGUIWindow("TileMapInfoWindow");

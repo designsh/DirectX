@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "TitleLevelMoveBtn.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -10,7 +13,8 @@
 TitleLevelMoveBtn::TitleLevelMoveBtn() :
 	ButtonState_(Button_State::Normal),
 	PrevMenuBtn_(nullptr),
-	MainCollider_(nullptr)
+	MainCollider_(nullptr),
+	ButtonClickSound_(nullptr)
 {
 }
 
@@ -44,6 +48,9 @@ void TitleLevelMoveBtn::Start()
 	MainCollider_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::UI0_Collider));
 	MainCollider_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(PrevMenuBtn_->GetTransform()->GetLocalPosition());
+
+	// 사운드플레이어 생성
+	ButtonClickSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void TitleLevelMoveBtn::Update(float _DeltaTime)
@@ -79,6 +86,9 @@ void TitleLevelMoveBtn::PrevButtonClick(GameEngineCollision* _OtherCollision)
 		PrevMenuBtn_->SetChangeAnimation("Click");
 
 		ButtonState_ = Button_State::Click;
+
+		// 효과음 재생
+		ButtonClickSound_->PlayAlone("button.wav", 0);
 	}
 	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 	{

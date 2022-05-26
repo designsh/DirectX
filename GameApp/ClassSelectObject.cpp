@@ -1,12 +1,15 @@
 #include "PreCompile.h"
 #include "ClassSelectObject.h"
 
-#include "GlobalEnumClass.h"
-#include "GlobalValue.h"
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngine/GameEngineTransform.h>
+
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
 
 #include "CurPlayerGameStartButton.h"
 #include "MouseObject.h"
@@ -22,7 +25,8 @@ ClassSelectObject::ClassSelectObject() :
 	MainCollision_(nullptr),
 	SelectState_(CurSelectState::MAX),
 	JobType_(JobType::None),
-	JobName_{}
+	JobName_{},
+	SelectSound_(nullptr)
 {
 	for (int i = 0; i < 2; ++i)
 	{
@@ -36,6 +40,8 @@ ClassSelectObject::~ClassSelectObject()
 
 void ClassSelectObject::Start()
 {
+	// 클래스 선택 / 선택해제 효과음 플레이어 생성
+	SelectSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void ClassSelectObject::Update(float _DeltaTime)
@@ -119,11 +125,11 @@ void ClassSelectObject::DebugRender()
 
 void ClassSelectObject::CreateClassRenderer(const float4& _Pos, JobType _JobType, CurSelectState _FirstTextureType)
 {
-	// 본체															// 이펙트
+	// 본체									// 이펙트
 	// Nec_Entity_NotSelDefault				// Nec_Effect_NotSelDefault
-	// Nec_Entity_SelDefault						// Nec_Effect_SelDefault
-	// Nec_Entity_SelDeslect						// Nec_Effect_SelDeslect
-	// Nec_Entity_SelStart							// Nec_Effect_SelStart
+	// Nec_Entity_SelDefault				// Nec_Effect_SelDefault
+	// Nec_Entity_SelDeslect				// Nec_Effect_SelDeslect
+	// Nec_Entity_SelStart					// Nec_Effect_SelStart
 
 	TextureName_[static_cast<int>(CurSelectState::NotSel)] = "_NotSelDefault";
 	TextureName_[static_cast<int>(CurSelectState::SelStart)] = "_SelStart";
@@ -351,6 +357,9 @@ void ClassSelectObject::CurClassSelect()
 	{
 		case CurSelectState::NotSel:
 		{
+			// 효과음 재생
+			SelectSound_->PlayAlone("necromancer_select.wav", 0);
+
 			// 현재 선택되지않은 상태라면 선택 시작 애니메이션으로 전환
 			EntityName += TextureName_[static_cast<int>(CurSelectState::SelStart)];
 			EffectName += TextureName_[static_cast<int>(CurSelectState::SelStart)];
@@ -367,6 +376,9 @@ void ClassSelectObject::CurClassSelect()
 		}
 		case CurSelectState::SelDefault:
 		{
+			// 효과음 재생
+			SelectSound_->PlayAlone("necromancer_deselect.wav", 0);
+
 			// 현재 선택된 상태라면 선택해제 애니메이션으로 전환
 			EntityName += TextureName_[static_cast<int>(CurSelectState::SelDeslect)];
 			EffectName += TextureName_[static_cast<int>(CurSelectState::SelDeslect)];

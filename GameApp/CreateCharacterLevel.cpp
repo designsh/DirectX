@@ -103,7 +103,6 @@ void CreateCharacterLevel::ClassImageCutting()
 
 void CreateCharacterLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
-	// πË∞Ê¿Ωæ« Off
 }
 
 void CreateCharacterLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)

@@ -53,8 +53,6 @@ void GameStartButton::Update(float _DeltaTime)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
-			ButtonClickSound_->Stop();
-
 			UserGame::LevelChange("CreateCharacterLevel");
 			ButtonState_ = Button_State::Normal;
 		}
@@ -76,12 +74,11 @@ void GameStartButton::GameStartButtonClick(GameEngineCollision* _OtherCollision)
 		ButtonState_ = Button_State::Click;
 
 		// 효과음 재생
-		ButtonClickSound_->PlayAlone("button.wav");
+		ButtonClickSound_->PlayAlone("button.wav", 0);
 	}
 	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 	{
 		StartButton_->SetChangeAnimation("Default");
-		ButtonClickSound_->Stop();
 	}
 }
 

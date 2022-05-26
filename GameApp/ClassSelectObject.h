@@ -22,6 +22,7 @@ enum class CurSelectState
 // 분류 : 애니메이션
 // 용도 : 직업선택
 // 설명 : 마우스와 충돌중이며 마우스 왼쪽버튼 클릭시 해당 직업(클래스)를 선택하는것으로 판단
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class MouseObject;
@@ -44,6 +45,9 @@ private:
 	CurSelectState SelectState_;
 	JobType JobType_;
 	std::string JobName_;
+
+private:
+	GameEngineSoundPlayer* SelectSound_;
 
 public:
 	ClassSelectObject();

@@ -6,6 +6,9 @@
 #include "CreateCharacterInputText.h"
 #include "MainPlayerInfomation.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -28,7 +31,8 @@ CurPlayerGameStartButton::CurPlayerGameStartButton() :
 	ButtonState_(Button_State::Normal),
 	CurPlayerGameStartBtn_(nullptr),
 	MainCollider_(nullptr),
-	RenderFlag_(false)
+	RenderFlag_(false),
+	ButtonClickSound_(nullptr)
 {
 }
 
@@ -61,6 +65,9 @@ void CurPlayerGameStartButton::Start()
 	MainCollider_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
 	MainCollider_->GetTransform()->SetLocalPosition(CurPlayerGameStartBtn_->GetTransform()->GetLocalPosition());
 	MainCollider_->Off();
+
+	// 사운드플레이어 생성
+	ButtonClickSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void CurPlayerGameStartButton::Update(float _DeltaTime)
@@ -71,7 +78,6 @@ void CurPlayerGameStartButton::Update(float _DeltaTime)
 		{
 			// 게임시작 조건 검사 후 조건일치시 게임 생성
 			GameStartConditionCheck();
-
 			ButtonState_ = Button_State::Normal;
 		}
 	}
@@ -123,8 +129,10 @@ void CurPlayerGameStartButton::OKButtonClick(GameEngineCollision* _OtherCollisio
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		CurPlayerGameStartBtn_->SetChangeAnimation("Click");
-
 		ButtonState_ = Button_State::Click;
+
+		// 효과음 재생
+		ButtonClickSound_->PlayAlone("button.wav", 0);
 	}
 	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 	{

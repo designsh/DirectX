@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "ErrorMsgPopup.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -13,7 +16,8 @@ ErrorMsgPopup::ErrorMsgPopup() :
 	ErrorMsgPanel_(nullptr),
 	ErrorMsgCol_(nullptr),
 	ErrorMsgButton_(nullptr),
-	ErrorMsgBtnCollision_(nullptr)
+	ErrorMsgBtnCollision_(nullptr),
+	ButtonClickSound_(nullptr)
 {
 }
 
@@ -56,6 +60,8 @@ void ErrorMsgPopup::Start()
 	ErrorMsgBtnCollision_->GetTransform()->SetLocalScaling(float4(96.f, 32.f, 1.0f));
 	ErrorMsgBtnCollision_->GetTransform()->SetLocalPosition(ErrorMsgButton_->GetTransform()->GetLocalPosition());
 
+	// 사운드플레이어 생성
+	ButtonClickSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void ErrorMsgPopup::Update(float _DeltaTime)
@@ -73,7 +79,6 @@ void ErrorMsgPopup::Update(float _DeltaTime)
 		{
 			// 해당 창 비활성
 			ErrorMsgPopupDeactive();
-
 			ButtonState_ = Button_State::Normal;
 		}
 	}
@@ -112,8 +117,10 @@ void ErrorMsgPopup::ErrorMsgDisabled(GameEngineCollision* _Other)
 	if (true == GameEngineInput::GetInst().Down("MouseLButton"))
 	{
 		ErrorMsgButton_->SetChangeAnimation("Click");
-
 		ButtonState_ = Button_State::Click;
+
+		// 효과음 재생
+		ButtonClickSound_->PlayAlone("button.wav", 0);
 	}
 	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 	{

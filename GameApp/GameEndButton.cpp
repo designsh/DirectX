@@ -57,8 +57,6 @@ void GameEndButton::Update(float _DeltaTime)
 	{
 		if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 		{
-			ButtonClickSound_->Stop();
-
 			// 게임 종료 => 윈도우 종료
 			GameEngineWindow::GetInst().CloseWindow();
 			ButtonState_ = Button_State::Normal;
@@ -80,12 +78,11 @@ void GameEndButton::GameEndButtonClick(GameEngineCollision* _OtherCollision)
 		ButtonState_ = Button_State::Click;
 
 		// 효과음 재생
-		ButtonClickSound_->PlayAlone("button.wav");
+		ButtonClickSound_->PlayAlone("button.wav", 0);
 	}
 	else if (true == GameEngineInput::GetInst().Up("MouseLButton"))
 	{
 		EndButton_->SetChangeAnimation("Default");
-		ButtonClickSound_->Stop();
 	}
 }
 

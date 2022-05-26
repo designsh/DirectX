@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Andariel.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngine/GameEngineCore.h>
@@ -261,6 +264,13 @@ void Andariel::PortalSpawnAfterDeath()
 	EndingPortal->GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
 	EndingPortal->CreateLevelChangePortal(PortalType::TOWN, NextLevel);
 	GlobalValue::Portal = EndingPortal;
+
+	// º¸½º »ç¸ÁÀÌÆåÆ® Á¾·á½Ã ¹è°æÀ½¾Ç º¯°æ
+	if (nullptr != GlobalValue::BackGroundSound)
+	{
+		GlobalValue::BackGroundSound->Stop();
+		GlobalValue::BackGroundSound->PlayAlone("BossDeath.wav");
+	}
 
 	// ³ª´Â Á×´Â´Ù.
 	Death();
