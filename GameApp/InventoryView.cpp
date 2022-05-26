@@ -946,6 +946,9 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 
 				// 4) 아이템 장착상태에 따른 플레이어 파트별 렌더러 갱신
 				EquipItemCheck(LocType, ItemName, true);
+
+
+				int a = 0;
 			}
 			else
 			{

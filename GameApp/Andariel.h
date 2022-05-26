@@ -43,6 +43,7 @@ enum class Andariel_FSMState
 //            단 1마리만 필드에 스폰하며, 사망시 사망 이펙트(카메라 쉐이킹, 불꽃오브젝트 소환 등)을 실행하며,
 //            사망이펙트 종료시 Boss Portal(Auto)를 스폰하여 플레이어가 다음 레벨로 진입할 수 있게 제공한다.
 //            사망이펙트와 동시에 대량의 아이템 or 골드를 드랍한다.
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class Andariel : public GameEngineActor
@@ -91,6 +92,9 @@ private: // 이동관련
 	float MoveSpeed_;
 	Andariel_TargetDir PrevDir_;
 	Andariel_TargetDir CurDir_;
+
+private: // 효과음 관려
+	GameEngineSoundPlayer* StateSound_;
 
 public:
 	Andariel();

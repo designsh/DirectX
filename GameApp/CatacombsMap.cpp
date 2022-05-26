@@ -800,8 +800,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 		GlobalValue::CurPlayer->ArrangeRoomNo_ = MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_;
 
 		// 플레이어 랜덤한 룸의 센터로 이동
-		float4 PlayerPos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_);
-		GlobalValue::CurPlayer->GetTransform()->SetWorldPosition(PlayerPos);
+		GlobalValue::CurPlayer->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
 		GetLevel()->GetMainCameraActor()->GetTransform()->SetWorldPosition(float4(GlobalValue::CurPlayer->GetTransform()->GetLocalPosition().x, GlobalValue::CurPlayer->GetTransform()->GetLocalPosition().y));
 
 		// 플레이어가 배치된 룸을 제외한 모든룸에 몬스터 배치
@@ -884,13 +883,6 @@ void CatacombsMap::CurLevelActorRoomArrange()
 				// 아닌경우
 				else
 				{
-					//// 테스트
-					//Andariel* NewAndariel = GetLevel()->CreateActor<Andariel>();
-					//NewAndariel->SetName("Andariel" + std::to_string(AndarielList_.size()));
-					//NewAndariel->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[i].RoomCenterIndex_));
-					//NewAndariel->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[i].RoomNo_);
-					//AndarielList_.push_back(NewAndariel);
-
 					GameEngineRandom MonsterTypeRandom;
 					MonsterClassType MonsterType = static_cast<MonsterClassType>(MonsterTypeRandom.RandomInt(0, 3));
 

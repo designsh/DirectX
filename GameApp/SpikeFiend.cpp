@@ -30,7 +30,8 @@ SpikeFiend::SpikeFiend() :
 	MoveSpeed_(150.f),
 	PrevDir_(SpikeFiend_TargetDir::SF_B),
 	CurDir_(SpikeFiend_TargetDir::SF_B),
-	Attack_(false)
+	Attack_(false),
+	StateSound_(nullptr)
 {
 	NavigationIndex_ = SpikeFiendCnt;
 	++SpikeFiendCnt;

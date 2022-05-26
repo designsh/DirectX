@@ -44,7 +44,8 @@ Andariel::Andariel() :
 	MoveTargetDir_(float4::ZERO),
 	MoveSpeed_(150.f),
 	PrevDir_(Andariel_TargetDir::AD_B),
-	CurDir_(Andariel_TargetDir::AD_B)
+	CurDir_(Andariel_TargetDir::AD_B),
+	StateSound_(nullptr)
 {
 	NavigationIndex_ = AndarielCnt;
 	++AndarielCnt;
@@ -262,7 +263,7 @@ void Andariel::PortalSpawnAfterDeath()
 	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
 	EndingPortal->GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
 	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("EndingLevel");
-	EndingPortal->CreateLevelChangePortal(PortalType::BOSS, NextLevel, true);
+	EndingPortal->CreateLevelChangePortal(PortalType::TOWN, NextLevel, true);
 	GlobalValue::Portal = EndingPortal;
 
 	// 보스 사망이펙트 종료시 배경음악 변경
@@ -275,7 +276,7 @@ void Andariel::PortalSpawnAfterDeath()
 	// 나는 죽는다.
 	Death();
 
-	// 전역 초기화
+	// 보스가 사망하였으므로 전역 초기화
 	GlobalValue::Andariel = nullptr;
 }
 

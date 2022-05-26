@@ -30,7 +30,8 @@ Tainted::Tainted() :
 	CurHP_(0),
 	MapHP_(0),
 	DropGold_(0),
-	Attack_(false)
+	Attack_(false),
+	StateSound_(nullptr)
 {
 	NavigationIndex_ = TaintedCnt;
 	++TaintedCnt;

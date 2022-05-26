@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Tainted.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -165,6 +167,8 @@ void Tainted::UpdateRoomDetect()
 
 void Tainted::EndRoomDetect()
 {
+	// 적발견 사운드 재생
+	StateSound_->PlayAlone("Tainted_Detect.wav", 0);
 }
 
 // 대기상태
@@ -265,6 +269,9 @@ void Tainted::StartNormalAttack()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Tainted_FSMState::TT_ATTACK;
+
+	// 공격 사운드 재생
+	StateSound_->PlayAlone("Tainted_Attack.wav", 0);
 }
 
 void Tainted::UpdateNormalAttack()
@@ -284,6 +291,9 @@ void Tainted::StartGetHit()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Tainted_FSMState::TT_GETHIT;
+
+	// 피격 사운드 재생
+	StateSound_->PlayAlone("Tainted_GetHit.wav", 0);
 }
 
 void Tainted::UpdateGetHit()
@@ -303,6 +313,9 @@ void Tainted::StartDeath()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Tainted_FSMState::TT_DEATH;
+
+	// 사망 사운드 재생
+	StateSound_->PlayAlone("Tainted_Death.wav", 0);
 }
 
 void Tainted::UpdateDeath()

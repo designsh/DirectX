@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Zombie.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -164,6 +166,8 @@ void Zombie::UpdateRoomDetect()
 
 void Zombie::EndRoomDetect()
 {
+	// 적발견 사운드 재생
+	StateSound_->PlayAlone("Zombie_Detect.wav", 0);
 }
 
 // 대기상태
@@ -264,6 +268,8 @@ void Zombie::StartNormalAttack()
 	PrevState_ = CurState_;
 	CurState_ = Zombie_FSMState::ZB_ATTACK;
 
+	// 공격 사운드 재생
+	StateSound_->PlayAlone("Zombie_Attack.wav", 0);
 }
 
 void Zombie::UpdateNormalAttack()
@@ -284,6 +290,9 @@ void Zombie::StartGetHit()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Zombie_FSMState::ZB_GETHIT;
+
+	// 피격 사운드 재생
+	StateSound_->PlayAlone("Zombie_GetHit.wav", 0);
 }
 
 void Zombie::UpdateGetHit()
@@ -303,6 +312,9 @@ void Zombie::StartDeath()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Zombie_FSMState::ZB_DEATH;
+
+	// 사망 사운드 재생
+	StateSound_->PlayAlone("Zombie_Death.wav", 0);
 }
 
 void Zombie::UpdateDeath()

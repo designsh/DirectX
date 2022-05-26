@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "SpikeFiend.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -164,6 +166,8 @@ void SpikeFiend::UpdateRoomDetect()
 
 void SpikeFiend::EndRoomDetect()
 {
+	// 적감지 사운드 재생
+	StateSound_->PlayAlone("SpikeFiend_Detect.wav", 0);
 }
 
 // 대기상태
@@ -264,6 +268,9 @@ void SpikeFiend::StartNormalAttack()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = SpikeFiend_FSMState::SF_ATTACK;
+
+	// 공격 사운드 재생
+	StateSound_->PlayAlone("SpikeFiend_Attack.wav", 0);
 }
 
 void SpikeFiend::UpdateNormalAttack()
@@ -283,6 +290,9 @@ void SpikeFiend::StartGetHit()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = SpikeFiend_FSMState::SF_GETHIT;
+
+	// 피격 사운드 재생
+	StateSound_->PlayAlone("SpikeFiend_GetHit.wav", 0);
 }
 
 void SpikeFiend::UpdateGetHit()
@@ -302,6 +312,9 @@ void SpikeFiend::StartDeath()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = SpikeFiend_FSMState::SF_DEATH;
+
+	// 사망 사운드 재생
+	StateSound_->PlayAlone("SpikeFiend_Death.wav", 0);
 }
 
 void SpikeFiend::UpdateDeath()

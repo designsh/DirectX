@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Tainted.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include <GameEngine/GameEngineImageRenderer.h>
@@ -25,6 +27,9 @@ void Tainted::InitTainted()
 
 	// 충돌체 생성
 	CreateCollision();
+
+	// 효과음 사운드 플레이어 생성
+	StateSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void Tainted::CreateInfomation()

@@ -38,6 +38,7 @@ enum class Tainted_FSMState
 // 분류 : 일반몬스터
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class Tainted : public GameEngineActor
@@ -79,6 +80,9 @@ private: // 이동관련
 
 private: // 공격관련
 	bool Attack_;
+
+private: // 사운드관련
+	GameEngineSoundPlayer* StateSound_;
 
 public:
 	Tainted();

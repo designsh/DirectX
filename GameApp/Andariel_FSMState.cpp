@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Andariel.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -272,6 +275,9 @@ void Andariel::StartNormalAttack()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Andariel_FSMState::AD_ATTACK;
+
+	// 공격 사운드 재생
+	StateSound_->PlayAlone("Andariel_Attack.wav", 0);
 }
 
 void Andariel::UpdateNormalAttack()
@@ -292,6 +298,9 @@ void Andariel::StartSkillAttack()
 	// 상태변경
 	PrevState_ = CurState_;
 	CurState_ = Andariel_FSMState::AD_SKILLATTACK;
+
+	// 스킬공격 사운드 재생
+	StateSound_->PlayAlone("Andariel_SkillAttack.wav", 0);
 }
 
 void Andariel::UpdateSkillAttack()
@@ -316,6 +325,9 @@ void Andariel::StartGetHit()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Andariel_FSMState::AD_GETHIT;
+
+	// 피격 사운드 재생
+	StateSound_->PlayAlone("Andariel_GetHit.wav", 0);
 }
 
 void Andariel::UpdateGetHit()
@@ -383,6 +395,9 @@ void Andariel::StartDeath()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Andariel_FSMState::AD_DEATH;
+
+	// 사망 사운드 재생
+	StateSound_->PlayAlone("Andariel_Death.wav", 0);
 }
 
 void Andariel::UpdateDeath()

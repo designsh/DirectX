@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Fallen.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -164,6 +166,8 @@ void Fallen::UpdateRoomDetect()
 
 void Fallen::EndRoomDetect()
 {
+	// 적발견 사운드 재생
+	StateSound_->PlayAlone("Fallen_Detect.wav", 0);
 }
 
 // 대기상태
@@ -284,6 +288,9 @@ void Fallen::StartGetHit()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Fallen_FSMState::FL_GETHIT;
+
+	// 피격 사운드 재생
+	StateSound_->PlayAlone("Fallen_GetHit.wav", 0);
 }
 
 void Fallen::UpdateGetHit()
@@ -303,6 +310,9 @@ void Fallen::StartDeath()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Fallen_FSMState::FL_DEATH;
+
+	// 사망 사운드 재생
+	StateSound_->PlayAlone("Fallen_Death.wav", 0);
 }
 
 void Fallen::UpdateDeath()

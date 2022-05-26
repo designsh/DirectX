@@ -27,10 +27,11 @@ Zombie::Zombie() :
 	CurState_(Zombie_FSMState::ZB_ROOMDETECT),
 	MoveTargetTile_(),
 	MoveTargetDir_(float4::ZERO),
-	MoveSpeed_(150.f),
+	MoveSpeed_(50.f),
 	PrevDir_(Zombie_TargetDir::ZB_B),
 	CurDir_(Zombie_TargetDir::ZB_B),
-	Attack_(false)
+	Attack_(false),
+	StateSound_(nullptr)
 {
 	NavigationIndex_ = ZombieCnt;
 	++ZombieCnt;

@@ -30,7 +30,8 @@ Fallen::Fallen() :
 	MoveSpeed_(150.f),
 	PrevDir_(Fallen_TargetDir::FL_B),
 	CurDir_(Fallen_TargetDir::FL_B),
-	Attack_(false)
+	Attack_(false),
+	StateSound_(nullptr)
 {
 	NavigationIndex_ = FallenCnt;
 	++FallenCnt;
