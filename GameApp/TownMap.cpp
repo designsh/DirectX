@@ -392,7 +392,6 @@ void TownMap::CreatedAfterWallTiles()
 				WallTiles.WallTiles2_->SetImage(TownMap_WallTileInfo_[y][x].WallTextureName);
 				WallTiles.WallTiles2_->GetTransform()->SetLocalScaling(TownMap_WallTileInfo_[y][x].WallRenderSize);
 				WallTiles.WallTiles2_->GetTransform()->SetLocalPosition(TownMap_WallTileInfo_[y][x].WallRenderPivotPos + Pos);
-				//WallTiles.WallTiles2_->GetTransform()->SetLocalZOrder(99.f);
 				WallTiles.WallTiles2_->GetTransform()->SetLocalZOrder(-static_cast<float>(Index.X_ + Index.Y_));
 				WallTiles.WallTiles2_->SetIndex(TownMap_WallTileInfo_[y][x].WallTile2ImageIndex);
 
@@ -400,42 +399,6 @@ void TownMap::CreatedAfterWallTiles()
 			}
 			else
 			{
-				//// 벽타입별 깊이값 설정 :	RT_B -> RB_R
-				////							 -> BENT_S -> RB_L -> RT_T
-				//if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T ||
-				//	TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_LE ||
-				//	TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_T_RE)
-				//{
-				//	WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(99.f);
-				//}
-				//else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B ||
-				//	TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_LE ||
-				//	TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RT_B_RE)
-				//{
-				//}
-				//else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L ||
-				//	TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_TE ||
-				//	TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_L_BE)
-				//{
-				//}
-				//else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R ||
-				//	TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_TE ||
-				//	TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::RB_R_BE)
-				//{
-				//	WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(99.f);
-				//}
-				//else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_MULTI)
-				//{
-				//	WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(99.f);
-				//}
-				//else if (TownMap_WallTileInfo_[y][x].WallBasicType == WallBasicType::BENT_SINGLE)
-				//{
-				//}
-				//else // 그외
-				//{
-				//	WallTiles.WallTiles1_->GetTransform()->SetLocalZOrder(99.f);
-				//}
-
 				WallTiles.WallTiles1_->SetIndex(TownMap_WallTileInfo_[y][x].WallTile1ImageIndex);
 				WallTiles_.insert(std::make_pair(Index.Index_, WallTiles));
 			}
@@ -487,8 +450,6 @@ void TownMap::CreatedAfterObjectTiles()
 			}
 		}
 	}
-
-	int a = 0;
 }
 
 void TownMap::TileMapDepthUpdate()
@@ -503,12 +464,12 @@ void TownMap::TileMapDepthUpdate()
 		{
 			if (ObjectBasicType::OBJECT == TownMap_ObjectTileInfo_[y][x].ObjectBasicType)
 			{
-				// 해당 타일을 가지는 바닥타일을 모두 찾아내어 깊이값을 0으로 갱신한다.
+				// 해당 오브젝트타일을 가지는 바닥타일을 모두 찾아내어 깊이값을 오브젝트타일인덱스의 합으로 갱신한다.
+
+
+
 				
 				int a = 0;
-
-
-
 			}
 		}
 	}
