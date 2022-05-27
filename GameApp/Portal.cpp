@@ -87,6 +87,19 @@ void Portal::Update(float _DeltaTime)
 			PortalCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 		}
 
+		if (PortalType::TOWN == PortalType_)
+		{
+			float4 CurPos = GetTransform()->GetLocalPosition();
+			TileIndex CurTileIndex = GlobalValue::TownMap->GetPosToTileIndex(float4(CurPos.x, CurPos.y - 53.f));
+			GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+		}
+		else if (PortalType::BOSS == PortalType_)
+		{
+			float4 CurPos = GetTransform()->GetWorldPosition();
+			TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(CurPos.x, CurPos.y - 53.f));
+			GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+		}
+
 		// 마우스가 해당 포탈을 클릭한 상태에서 
 		PortalCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Mouse), std::bind(&Portal::MouseLButtonClick, this, std::placeholders::_1));
 
@@ -137,8 +150,6 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		// 본체 렌더러 생성
 		PortalEntityRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 		PortalEntityRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-		PortalEntityRenderer_->GetTransform()->SetLocalZOrder(9.f);
-
 		PortalEntityRenderer_->CreateAnimation("NorPortal_Entity_Open.png", "OPEN", 0, 14, 0.1f, false);
 		PortalEntityRenderer_->CreateAnimation("NorPortal_Entity_Idle.png", "IDLE", 0, 14, 0.1f);
 		PortalEntityRenderer_->SetEndCallBack("OPEN", std::bind(&Portal::IdleAnimationEnd, this));
@@ -152,8 +163,7 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		// 그림자 렌더러 생성
 		PortalShadowRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 		PortalShadowRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-		PortalShadowRenderer_->GetTransform()->SetLocalZOrder(10.f);
-
+		PortalShadowRenderer_->GetTransform()->SetLocalZOrder(1.f);
 		PortalShadowRenderer_->CreateAnimation("NorPortal_Shadow_Open.png", "OPEN", 0, 14, 0.1f, false);
 		PortalShadowRenderer_->CreateAnimation("NorPortal_Shadow_Idle.png", "IDLE", 0, 14, 0.1f);
 	}
@@ -176,14 +186,15 @@ void Portal::CreateLevelChangePortal(PortalType _PortalType, GameEngineLevel* _N
 		// 그림자 렌더러 생성
 		PortalShadowRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 		PortalShadowRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-		PortalShadowRenderer_->GetTransform()->SetLocalZOrder(10.f);
+		PortalShadowRenderer_->GetTransform()->SetLocalZOrder(1.f);
 
 		PortalShadowRenderer_->CreateAnimation("BossPortal_Shadow_Open.png", "OPEN", 0, 14, 0.1f, false);
 		PortalShadowRenderer_->CreateAnimation("BossPortal_Shadow_Idle.png", "IDLE", 0, 14, 0.1f);
 	}
 
 	// 알파블렌딩변경
-	PortalEntityRenderer_->SetRenderingPipeLine("TextureTrans");
+	PortalEntityRenderer_->SetRenderingPipeLine("TextureTransDepthOff");
+	PortalShadowRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
 	// 사운드 플레이어 생성
 	PortalSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();

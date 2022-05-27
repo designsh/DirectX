@@ -74,6 +74,12 @@ void UserGame::Initialize()
 		GameEngineInput::GetInst().CreateKey("NextScene", 'N');
 	}
 
+	// 프리카메라
+	if (false == GameEngineInput::GetInst().IsKey("FREECAMERA"))
+	{
+		GameEngineInput::GetInst().CreateKey("FREECAMERA", 'L');
+	}
+
 	//=========================== 키생성 ===========================//
 
 	// 마우스 왼쪽버튼

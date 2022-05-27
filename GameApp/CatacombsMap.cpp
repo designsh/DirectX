@@ -384,7 +384,6 @@ void CatacombsMap::SetFloorTile(TileIndex _Index, int CurTileIndex_)
 	FloorPos.z = 9000000.f;
 	FloorTileRenderer->GetTransform()->SetLocalPosition(FloorPos);
 
-
 	FloorTileRenderer->SetIndex(CurTileIndex_);
 	FloorTiles_.insert(std::make_pair(_Index.Index_, FloorTileRenderer));
 }

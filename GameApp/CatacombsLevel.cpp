@@ -96,12 +96,6 @@ void CatacombsLevel::LevelStart()
 {	
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -300.0f));
-
-	// 프리카메라
-	if (false == GameEngineInput::GetInst().IsKey("FREECAMERA"))
-	{
-		GameEngineInput::GetInst().CreateKey("FREECAMERA", 'L');
-	}
 }
 
 void CatacombsLevel::LevelUpdate(float _DeltaTime)

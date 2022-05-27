@@ -255,21 +255,27 @@ void MainPlayer::Update(float _DeltaTime)
 		TileIndex CurPlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(CurPlayerPos.x, CurPlayerPos.y - 53.f));
 		GetTransform()->SetLocalZOrder(-static_cast<float>(CurPlayerTileIndex.X_ + CurPlayerTileIndex.Y_));
 	}
+	else
+	{
+		float4 CurPlayerPos = GetTransform()->GetWorldPosition();
+		TileIndex CurPlayerTileIndex = GlobalValue::TownMap->GetPosToTileIndex(float4(CurPlayerPos.x, CurPlayerPos.y - 53.f));
+		GetTransform()->SetLocalZOrder(-static_cast<float>(CurPlayerTileIndex.X_ + CurPlayerTileIndex.Y_));
+	}
 #pragma endregion
 
 	// 카메라는 플레이어를 따라 다닌다.
 	// 단, UI창이 활성화에 따라 일정범위 이동하는 경우가 있다.
 	if (true == IsInventoryView_ || true == IsSkillView_)
 	{
-		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x + 150.f, GetTransform()->GetLocalPosition().y));
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x + 150.f, GetTransform()->GetLocalPosition().y, -300.f));
 	}
 	else if (true == IsStateView_)
 	{
-		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x - 150.f, GetTransform()->GetLocalPosition().y));
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x - 150.f, GetTransform()->GetLocalPosition().y, -300.f));
 	}
 	else
 	{
-		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y));
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y, -300.f));
 	}
 }
 

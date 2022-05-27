@@ -258,12 +258,10 @@ void Andariel::GetHitDamage(int _Damage)
 void Andariel::PortalSpawnAfterDeath()
 {
 	// 내가 죽은자리에 포탈생성 후
-	Portal* EndingPortal = GetLevel()->CreateActor<Portal>(static_cast<int>(UpdateOrder::OBJECT));
+	Portal* EndingPortal = GetLevel()->CreateActor<Portal>();
 	EndingPortal->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y, 0.f));
-	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 53.f));
-	EndingPortal->GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
 	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("EndingLevel");
-	EndingPortal->CreateLevelChangePortal(PortalType::TOWN, NextLevel, true);
+	EndingPortal->CreateLevelChangePortal(PortalType::BOSS, NextLevel, true);
 	GlobalValue::Portal = EndingPortal;
 
 	// 보스 사망이펙트 종료시 배경음악 변경

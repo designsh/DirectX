@@ -34,7 +34,7 @@ void WeaponNPC::CreateAnimation()
 {
 	WeaponNPCRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	WeaponNPCRenderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-	WeaponNPCRenderer_->GetTransform()->SetLocalZOrder(11.f);
+	WeaponNPCRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
 	// 기본상태
 	WeaponNPCRenderer_->CreateAnimation("Charsi_Idle.png", "Charsi_Idle_B",   0,  12, 0.1f);

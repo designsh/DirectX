@@ -10,6 +10,8 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+#include "TownMap.h"
+
 #include "MainPlayer.h"
 #include "NPC_MessageView.h"
 #include "NPC_TopMenuBar.h"
@@ -87,6 +89,12 @@ void ChandleryNPC::Update(float _DeltaTime)
 #ifdef _DEBUG
 	GetLevel()->UIPushDebugRender(ChandleryNPCCollision_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
+
+#pragma region 좌표상의 Y값 정렬
+	float4 CurPos = GetTransform()->GetWorldPosition();
+	TileIndex CurTileIndex = GlobalValue::TownMap->GetPosToTileIndex(float4(CurPos.x, CurPos.y - 53.f));
+	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+#pragma endregion
 }
 
 NPC_BuySellView* ChandleryNPC::GetChandleryShop()

@@ -55,9 +55,10 @@ void TownLevel::CreateLevelActor()
 	// 플레이어 생성 및 메인플레이어 지정
 	if (nullptr == GlobalValue::CurPlayer)
 	{
-		MainPlayer_ = CreateActor<MainPlayer>(static_cast<int>(UpdateOrder::PLAYER));
-		MainPlayer_->GetTransform()->SetWorldPosition(float4(100.f, 100.f));
-		GetMainCameraActor()->GetTransform()->SetLocalPosition(MainPlayer_->GetTransform()->GetLocalPosition());
+		float4 PlayerPos = TownMap_->GetTileIndexToPos(TileIndex(-2, -4));
+		MainPlayer_ = CreateActor<MainPlayer>();
+		MainPlayer_->GetTransform()->SetWorldPosition(PlayerPos);
+		GetMainCameraActor()->GetTransform()->SetWorldPosition(float4(MainPlayer_->GetTransform()->GetLocalPosition().x, MainPlayer_->GetTransform()->GetLocalPosition().y));
 		GlobalValue::CurPlayer = MainPlayer_;
 
 		// 메인플레이어 정보 생성되었는지 체크
@@ -73,7 +74,7 @@ void TownLevel::CreateLevelActor()
 
 	// NPC 생성(무기상인)
 	float4 WeaponNPCPos = TownMap_->GetTileIndexToPos(TileIndex(-19, -15));
-	WeaponNPC_ = CreateActor<WeaponNPC>(static_cast<int>(UpdateOrder::NPC));
+	WeaponNPC_ = CreateActor<WeaponNPC>();
 	WeaponNPC_->GetTransform()->SetWorldPosition(WeaponNPCPos);
 	WeaponNPC_->SetMoveRange();
 	WeaponNPC_->SetMessageBoxText("Charsi Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -83,7 +84,7 @@ void TownLevel::CreateLevelActor()
 
 	// NPC 생성(잡화상인)
 	float4 ChandleryNPCPos = TownMap_->GetTileIndexToPos(TileIndex(22, -17));
-	ChandleryNPC_ = CreateActor<ChandleryNPC>(static_cast<int>(UpdateOrder::NPC));
+	ChandleryNPC_ = CreateActor<ChandleryNPC>();
 	ChandleryNPC_->GetTransform()->SetWorldPosition(ChandleryNPCPos);
 	ChandleryNPC_->SetMoveRange();
 	ChandleryNPC_->SetMessageBoxText("Akara Testing is currently underway!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -94,13 +95,13 @@ void TownLevel::CreateLevelActor()
 	// 창고오브젝트
 	float4 StorehousePos = TownMap_->GetTileIndexToPos(TileIndex(-4, -3));
 	StorehousePos.y += 10.f;
-	Storehouse_ = CreateActor<Storehouse>(static_cast<int>(UpdateOrder::OBJECT));
+	Storehouse_ = CreateActor<Storehouse>();
 	Storehouse_->GetTransform()->SetWorldPosition(StorehousePos);
 	GlobalValue::Storehouse = Storehouse_;
 
 	// 맵이동 포탈생성(마을->카타콤)
 	float4 PortalPos = TownMap_->GetTileIndexToPos(TileIndex(6, 7));
-	Portal_ = CreateActor<Portal>(static_cast<int>(UpdateOrder::OBJECT));
+	Portal_ = CreateActor<Portal>();
 	Portal_->GetTransform()->SetWorldPosition(PortalPos);
 	GameEngineLevel* NextLevel = GameEngineCore::LevelFind("CatacombsLevel");
 	Portal_->CreateLevelChangePortal(PortalType::TOWN, NextLevel, true);
@@ -159,33 +160,11 @@ void TownLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 void TownLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -100.f));
+	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.f, 0.f, -300.f));
 
 	// TownMap전용 윈도우생성
 	TileMapInfoWindow_ = GameEngineGUI::GetInst()->CreateGUIWindow<TileMapInfoWindow>("TileMapInfoWindow");
 	TileMapInfoWindow_->Off();
-
-#pragma region 맵테스트용
-	if (false == GameEngineInput::GetInst().IsKey("MAPUP"))
-	{
-		GameEngineInput::GetInst().CreateKey("MAPUP", VK_UP);
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("MAPDOWN"))
-	{
-		GameEngineInput::GetInst().CreateKey("MAPDOWN", VK_DOWN);
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("MAPLEFT"))
-	{
-		GameEngineInput::GetInst().CreateKey("MAPLEFT", VK_LEFT);
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("MAPRIGHT"))
-	{
-		GameEngineInput::GetInst().CreateKey("MAPRIGHT", VK_RIGHT);
-	}
-#pragma endregion
 }
 
 void TownLevel::LevelUpdate(float _DeltaTime)
@@ -199,27 +178,11 @@ void TownLevel::LevelUpdate(float _DeltaTime)
 	}
 #pragma endregion
 
-#pragma region 테스트키
-	if (true == GameEngineInput::GetInst().Press("MAPUP"))
+	if (true == GameEngineInput::GetInst().Down("FREECAMERA"))
 	{
-		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldUpVector() * _DeltaTime * 200.f);
+		// 프리 카메라 모드 실행
+		GetMainCameraActor()->FreeCameraModeSwitch();
 	}
-
-	if (true == GameEngineInput::GetInst().Press("MAPDOWN"))
-	{
-		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldDownVector() * _DeltaTime * 200.f);
-	}
-
-	if (true == GameEngineInput::GetInst().Press("MAPLEFT"))
-	{
-		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldLeftVector() * _DeltaTime * 200.f);
-	}
-
-	if (true == GameEngineInput::GetInst().Press("MAPRIGHT"))
-	{
-		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldRightVector() * _DeltaTime * 200.f);
-	}
-#pragma endregion
 
 	// 볼륨 Up & Down Key
 	if (true == GameEngineInput::GetInst().Down("VolumeUp"))

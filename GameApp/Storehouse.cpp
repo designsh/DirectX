@@ -28,8 +28,8 @@ Storehouse::~Storehouse()
 void Storehouse::Start()
 {
 	StorehouseRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	StorehouseRenderer_->SetRenderingPipeLine("TextureDepthOff");
 	StorehouseRenderer_->SetImage("Storehouse.png");
-	StorehouseRenderer_->GetTransform()->SetLocalZOrder(11.f);
 
 	StorehouseCollision_ = CreateTransformComponent<GameEngineCollision>();
 	StorehouseCollision_->GetTransform()->SetLocalScaling(StorehouseRenderer_->GetTransform()->GetLocalScaling());
@@ -45,6 +45,10 @@ void Storehouse::Update(float _DeltaTime)
 	float4 MyPos = GetTransform()->GetLocalPosition();
 	float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
 	StorehouseCollision_->GetTransform()->SetWorldPosition(MyPos - CamPos);
+
+	float4 CurPos = GetTransform()->GetWorldPosition();
+	TileIndex CurTileIndex = GlobalValue::TownMap->GetPosToTileIndex(float4(CurPos.x, CurPos.y));
+	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
 
 #ifdef _DEBUG
 	GetLevel()->UIPushDebugRender(StorehouseCollision_->GetTransform(), CollisionType::Rect);
