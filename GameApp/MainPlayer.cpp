@@ -258,7 +258,19 @@ void MainPlayer::Update(float _DeltaTime)
 #pragma endregion
 
 	// 카메라는 플레이어를 따라 다닌다.
-	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y));
+	// 단, UI창이 활성화에 따라 일정범위 이동하는 경우가 있다.
+	if (true == IsInventoryView_ || true == IsSkillView_)
+	{
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x + 150.f, GetTransform()->GetLocalPosition().y));
+	}
+	else if (true == IsStateView_)
+	{
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x - 150.f, GetTransform()->GetLocalPosition().y));
+	}
+	else
+	{
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y));
+	}
 }
 
 void MainPlayer::LevelChangeEndEvent(GameEngineLevel* _NextLevel)

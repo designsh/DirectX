@@ -11,7 +11,7 @@
 GameEngineSoundPlayer::GameEngineSoundPlayer() :
 	playChannel_(nullptr),
 	PlayCount(-1),
-	Volume_(1.f)
+	Volume_(0.5f)
 {
 }
 
