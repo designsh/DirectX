@@ -922,9 +922,7 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 			if (LocType != CurItemInfo.ItemLocType)
 			{
 				// 사운드 재생 - "~할 수 없다"
-
-
-
+				GlobalValue::CurPlayer->PlayerSpeechIcant();
 				return;
 			}
 
@@ -946,9 +944,6 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 
 				// 4) 아이템 장착상태에 따른 플레이어 파트별 렌더러 갱신
 				EquipItemCheck(LocType, ItemName, true);
-
-
-				int a = 0;
 			}
 			else
 			{
@@ -991,6 +986,9 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 					InvStoreInfo_[_TileIndex]->SetItemArrangeFlagOn();
 
 					NewItemInfo->On();
+
+					// 아이템 보관 사운드 재생
+					GlobalValue::CurPlayer->ItemEquipOnSound(ItemName);
 				}
 				else
 				{
@@ -1721,6 +1719,9 @@ void InventoryView::ItemArrangementOn(int _TileIndex, InvTabType _InvTabType)
 
 						// 마우스 Put Down(아이템내려놓기)
 						GlobalValue::CurMouse->ItemPutDown();
+
+						// 아이템 보관 사운드 재생
+						GlobalValue::CurPlayer->ItemEquipOnSound(ItemName);
 					}
 					else
 					{
@@ -1822,6 +1823,9 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 						InvArrItemList_.erase(DelIter);
 						break;
 					}
+
+					// 아이템 들기 사운드 재생
+					GlobalValue::CurPlayer->ItemEquipOffSound();
 				}
 			}
 			else
@@ -1855,6 +1859,9 @@ void InventoryView::ItemArrangementOff(int _TileIndex, InvTabType _InvTabType)
 						InvArrItemList_.erase(DelIter);
 						break;
 					}
+
+					// 아이템 들기 사운드 재생
+					GlobalValue::CurPlayer->ItemEquipOffSound();
 				}
 			}
 		}
@@ -2455,6 +2462,8 @@ void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& 
 				break;
 			}
 		}
+
+		GlobalValue::CurPlayer->ItemEquipOnSound(_ItemName);
 	}
 	else // 장착해제
 	{
@@ -2513,5 +2522,7 @@ void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& 
 				break;
 			}
 		}
+
+		GlobalValue::CurPlayer->ItemEquipOffSound();
 	}
 }

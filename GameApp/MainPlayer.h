@@ -139,6 +139,7 @@ struct PlayerZOrderManagement
 // 분류 : 플레이어
 // 용도 : 
 // 설명 : 직업에 따라 정보가 다름
+class GameEngineSoundPlayer;
 class BottomStateBar;
 class StatView;
 class SkillView;
@@ -155,6 +156,11 @@ public:
 	static int ArrangeRoomNo_;
 	static int CurLeftSkill_;								// 현재 왼쪽무기 스킬목록
 	static int CurRightSkill_;								// 현재 오른쪽무기 스킬목록
+
+private: // 사운드관련
+	GameEngineSoundPlayer* SpeechSound_;					// 음성 사운드
+	GameEngineSoundPlayer* StateSound_;						// 상태 사운드
+	GameEngineSoundPlayer* ItemSound_;						// 아이템관련 사운드
 
 #pragma region PlayerFlag
 private: // 플레이어상태관련 Flag
@@ -595,6 +601,19 @@ private:
 #pragma region 저주스킬
 private:
 
+
+#pragma endregion
+
+#pragma region 사운드 및 음성 관련
+public: // 음성
+	void PlayerSpeechIcant();
+
+public: // 아이템 장착/해제
+	void ItemEquipOnSound(const std::string& _ItemName);
+	void ItemEquipOffSound();
+
+public:
+	void PortionDrink();
 
 #pragma endregion
 };

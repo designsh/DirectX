@@ -419,6 +419,9 @@
     <ClCompile Include="CatacombsMap.cpp">
       <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
     </ClCompile>
+    <ClCompile Include="MainPlayer_Sound.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -858,6 +861,9 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\01.DeathEffect">
       <UniqueIdentifier>{54967679-8fa5-430c-8ca4-32742581c19e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Sound">
+      <UniqueIdentifier>{e63e805b-8655-49b5-a7a3-657b351c483e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

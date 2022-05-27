@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MainPlayer.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 
 #include "GlobalValue.h"
@@ -385,6 +387,9 @@ void MainPlayer::StartGetHit()
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
+
+	// 피격 사운드 재생
+	StateSound_->PlayAlone("Nec_GetHit.wav", 0);
 }
 
 void MainPlayer::UpdateGetHit()

@@ -198,6 +198,9 @@ void MainPlayer_QuickSlot::ItemPlacement(int _ColTileIndex)
 
 			// 배치 완료했으므로 마우스는 해당 아이템을 내려놓는다.
 			GlobalValue::CurMouse->ItemPutDown();
+
+			// 아이템 보관 사운드 재생
+			GlobalValue::CurPlayer->ItemEquipOnSound(ItemName);
 		}
 	}
 }
@@ -221,6 +224,9 @@ void MainPlayer_QuickSlot::ItemDisposition(int _ColTileIndex)
 
 	// 마우스는 해당 아이템을 들어올린다.
 	GlobalValue::CurMouse->ItemHold(ItemName, ItemScale);
+
+	// 아이템 들기 사운드 재생
+	GlobalValue::CurPlayer->ItemEquipOffSound();
 }
 
 void MainPlayer_QuickSlot::QuickSlotItemUse(int _Index)
@@ -242,6 +248,9 @@ void MainPlayer_QuickSlot::QuickSlotItemUse(int _Index)
 		// 플레이어의 HP와 MP를 전체회복
 		GlobalValue::CurPlayer->AllCurrentHPRecovery();
 		GlobalValue::CurPlayer->AllCurrentMPRecovery();
+
+		// 포션마시기 사운드 재생
+		GlobalValue::CurPlayer->PortionDrink();
 	}
 }
 

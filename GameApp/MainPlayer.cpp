@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MainPlayer.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include <GameEngine/GameEngineImageRenderer.h>
@@ -57,6 +59,9 @@ int MainPlayer::CurLeftSkill_ = 0;
 int MainPlayer::CurRightSkill_ = 0;
 
 MainPlayer::MainPlayer() :
+	SpeechSound_(nullptr),
+	StateSound_(nullptr),
+	ItemSound_(nullptr),
 	IsTown_(true),
 	IsRun_(false),
 	IsInventoryView_(false),
@@ -120,6 +125,11 @@ MainPlayer::~MainPlayer()
 
 void MainPlayer::Start()
 {
+	// 각 사운드 플레이어 생성
+	SpeechSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+	StateSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+	ItemSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+
 	// 플레이어 초기화
 	MainPlayerinitialization();
 

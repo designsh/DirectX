@@ -249,6 +249,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainPlayer_Sound.cpp" />
     <ClCompile Include="MainPlayer_Stamina.cpp">
       <SubType>
       </SubType>
