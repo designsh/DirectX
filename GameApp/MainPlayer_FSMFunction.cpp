@@ -136,6 +136,11 @@ void MainPlayer::UpdateTownWalk()
 			float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 			MoveTargetDir_ = DirPos.NormalizeReturn3D();
 
+			// 현재 이동방향 및 애니메이션 변경하고,
+			float4 MovePos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_);
+			MoveDirectCheck(MovePos - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition());
+			ChangeAnimation(State_.GetCurStateName());
+
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
 		}
@@ -244,6 +249,10 @@ void MainPlayer::UpdateFieldWalk()
 
 			float4 DirPos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 			MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+			float4 MovePos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_);
+			MoveDirectCheck(MovePos - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition());
+			ChangeAnimation(State_.GetCurStateName());
 
 			// 타겟위치로 지정된 경로의 인덱스제거
 			MovePath_.pop_front();
@@ -475,6 +484,20 @@ void MainPlayer::UpdateRun()
 
 				float4 DirPos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_) - float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y);
 				MoveTargetDir_ = DirPos.NormalizeReturn3D();
+
+				// 현재 이동방향 및 애니메이션 변경하고,
+				if (true == IsTown_)
+				{
+					float4 MovePos = GlobalValue::TownMap->GetTileIndexToPos(MoveTargetIndex_);
+					MoveDirectCheck(MovePos - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition());
+					ChangeAnimation(State_.GetCurStateName());
+				}
+				else
+				{
+					float4 MovePos = GlobalValue::CatacombsMap->GetWallTileIndexToPos(MoveTargetIndex_);
+					MoveDirectCheck(MovePos - GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition());
+					ChangeAnimation(State_.GetCurStateName());
+				}
 
 				// 타겟위치로 지정된 경로의 인덱스제거
 				MovePath_.pop_front();

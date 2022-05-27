@@ -86,6 +86,38 @@ TileIndex TownMap::GetPosToTileIndex(float4 _Pos)
 	return Index;
 }
 
+float4 TownMap::GetFloorTileIndexToPos(TileIndex _TileIndex)
+{
+	float4 TilePos = float4::ZERO;
+	TilePos.x = (_TileIndex.X_ - _TileIndex.Y_) * TileSize_.halffloat4().x;
+	TilePos.y = (_TileIndex.X_ + _TileIndex.Y_) * -TileSize_.halffloat4().y;
+
+	return TilePos;
+}
+
+TileIndex TownMap::GetPosToFloorTileIndex(float4 _Pos)
+{
+	TileIndex Index = {};
+
+	float RatioX = ((_Pos.x / TileSize_.halffloat4().x) - (_Pos.y / TileSize_.halffloat4().y)) / 2.0f;
+	float RatioY = ((_Pos.y / TileSize_.halffloat4().y) + (_Pos.x / TileSize_.halffloat4().x)) / -2.0f;
+
+	if (0 > RatioX)
+	{
+		RatioX += -1.f;
+	}
+
+	if (0 > RatioY)
+	{
+		RatioY += -1.f;
+	}
+
+	Index.X_ = static_cast<int>(RatioX);
+	Index.Y_ = static_cast<int>(RatioY);
+
+	return Index;
+}
+
 void TownMap::MapInfoAllClear()
 {
 }
@@ -314,8 +346,8 @@ void TownMap::CreatedAfterLoadingTiles()
 	CreatedAfterWallTiles();
 	CreatedAfterObjectTiles();
 
-	// 오브젝트관련 깊이값 갱신
-	TileMapDepthUpdate();
+	// 오브젝트관련 깊이값 갱신 - 220527 SJH 임시주석 : 추후 방법이 생각나면 추가함
+	//TileMapDepthUpdate();
 }
 
 void TownMap::CreatedAfterFloorTiles()
@@ -454,25 +486,31 @@ void TownMap::CreatedAfterObjectTiles()
 
 void TownMap::TileMapDepthUpdate()
 {
-	// 플레이어와 깊이버퍼에 의한 처리가 필요하기때문에 Object타일목록을 읽어들여
-	// 타입이 Object인 타일인덱스의 바닥타일을 구하여 해당 타일의 깊이값을 갱신
-	int YInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_.size());
-	int XInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_[YInfoCnt - 1].size());
-	for (int y = 0; y < YInfoCnt; ++y)
-	{
-		for (int x = 0; x < XInfoCnt; ++x)
-		{
-			if (ObjectBasicType::OBJECT == TownMap_ObjectTileInfo_[y][x].ObjectBasicType)
-			{
-				// 해당 오브젝트타일을 가지는 바닥타일을 모두 찾아내어 깊이값을 오브젝트타일인덱스의 합으로 갱신한다.
+	//// 플레이어와 깊이버퍼에 의한 처리가 필요하기때문에 Object타일목록을 읽어들여
+	//// 타입이 Object인 타일인덱스의 바닥타일을 구하여 해당 타일의 깊이값을 갱신
+	//int YInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_.size());
+	//int XInfoCnt = static_cast<int>(TownMap_ObjectTileInfo_[YInfoCnt - 1].size());
+	//for (int y = 0; y < YInfoCnt; ++y)
+	//{
+	//	for (int x = 0; x < XInfoCnt; ++x)
+	//	{
+	//		if (ObjectBasicType::OBJECT == TownMap_ObjectTileInfo_[y][x].ObjectBasicType)
+	//		{
+	//			// 해당 오브젝트타일을 가지는 바닥타일을 모두 찾아내어 깊이값을 오브젝트타일인덱스의 합으로 갱신한다.
+	//			TileIndex CurTileIndex = TileIndex(TownMap_ObjectTileInfo_[y][x].ObjectIndexX, TownMap_ObjectTileInfo_[y][x].ObjectIndexY);
+	//			float4 CurTilePos = GetTileIndexToPos(CurTileIndex);
 
+	//			// 바닥타일기준 인덱스
+	//			TileIndex FloorTileIndex = GetPosToFloorTileIndex(CurTilePos);
 
-
-				
-				int a = 0;
-			}
-		}
-	}
+	//			std::unordered_map<__int64, GameEngineTileMapRenderer*>::iterator FindIter = FloorTiles_.find(FloorTileIndex.Index_);
+	//			if (FloorTiles_.end() != FindIter)
+	//			{
+	//				(*FindIter).second->GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 void TownMap::CreateNavigationInfo()

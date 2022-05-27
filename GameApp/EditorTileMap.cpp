@@ -626,7 +626,7 @@ void EditorTileMap::SetFloorGird(TileIndex _Index, int CurTileIndex_)
 		}
 		FloorGridRenderer->GetTransform()->SetLocalScaling(FloorTileImageSize_);
 		FloorGridRenderer->GetTransform()->SetLocalPosition(FloorTileIndexPivotPos_ + Pos);
-		FloorGridRenderer->GetTransform()->SetLocalZOrder(-1.f);
+		FloorGridRenderer->GetTransform()->SetLocalZOrder(-99.f);
 		FloorGrides_.insert(std::make_pair(_Index.Index_, FloorGridRenderer));
 	}
 }

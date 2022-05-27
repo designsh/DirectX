@@ -1807,6 +1807,134 @@ void EditorRandomMap::UpdateRoomWallInfo()
 	int RoomCnt = static_cast<int>(MapInfo_.RoomInfo_.size());
 	for (int i = 0; i < RoomCnt; ++i)
 	{
+		int RoomTileIndexCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
+		for (int j = 0; j < RoomTileIndexCnt; ++j)
+		{
+			TileIndex CurFloorTileIndex = MapInfo_.RoomInfo_[i].AllIndexLists_[j];
+			// (1) 최소 X 인덱스와 동일 => 윗벽
+			if (CurFloorTileIndex.X_ == MapInfo_.RoomInfo_[i].minIndexX_)
+			{
+				// [1] 윗벽으로 판단할수 있는 모든 벽타일을 알아낸다.
+				//     모두 알아낸 벽타일이 이미 타입이 벽으로 결정나있다면 변경하지않으며
+				//     NORMAL타입이라면 윗벽으로 타입을 변경한다.
+				float4 CurFloorTilePos = GetFloorTileIndexToPos(CurFloorTileIndex);
+				TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
+
+				for (int y = 0; y < 3; ++y)
+				{
+					for (auto& WallTile : MapInfo_.WallInfo_)
+					{
+						if (WallTile.WallTileIndex_ == WallTileIndex)
+						{
+							if (WallTile.WallTileIndex_.Y_ % 2 == 0)
+							{
+								WallTile.WallDetailType_ = RandomWallDetailType::WL_RT_T;
+								WallTile.WallTile1ImageIndex_ = 26;
+							}
+							else
+							{
+								WallTile.WallDetailType_ = RandomWallDetailType::NONE;
+							}
+							break;
+						}
+					}
+
+					WallTileIndex = WallTileIndex + TileIndex(0, 1);
+				}
+			}
+			// (2) 최소 Y 인덱스와 동일 => 오른벽
+			if (CurFloorTileIndex.Y_ == MapInfo_.RoomInfo_[i].minIndexY_)
+			{
+				float4 CurFloorTilePos = GetFloorTileIndexToPos(CurFloorTileIndex);
+				TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
+
+				for (int x = 0; x < 3; ++x)
+				{
+					for (auto& WallTile : MapInfo_.WallInfo_)
+					{
+						if (WallTile.WallTileIndex_ == WallTileIndex)
+						{
+							if (WallTile.WallTileIndex_.X_ % 2 == 0)
+							{
+								WallTile.WallDetailType_ = RandomWallDetailType::WL_RB_R;
+								WallTile.WallTile1ImageIndex_ = 25;
+							}
+							else
+							{
+								WallTile.WallDetailType_ = RandomWallDetailType::NONE;
+							}
+							break;
+						}
+					}
+
+					WallTileIndex = WallTileIndex + TileIndex(1, 0);
+				}
+			}
+			// (3) 최대 X 인덱스와 동일 => 아랫벽
+			if (CurFloorTileIndex.X_ == MapInfo_.RoomInfo_[i].maxIndexX_ - 1)
+			{
+				float4 CurFloorTilePos = GetFloorTileIndexToPos(CurFloorTileIndex);
+
+				TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
+				WallTileIndex.X_ += 2;
+
+				for (int y = 0; y < 3; ++y)
+				{
+					for (auto& WallTile : MapInfo_.WallInfo_)
+					{
+						if (WallTile.WallTileIndex_ == WallTileIndex)
+						{
+							if (WallTile.WallTileIndex_.Y_ % 2 == 0)
+							{
+								WallTile.WallDetailType_ = RandomWallDetailType::WL_RT_B;
+								WallTile.WallTile1ImageIndex_ = 26;
+							}
+							else
+							{
+								WallTile.WallDetailType_ = RandomWallDetailType::NONE;
+							}
+							break;
+						}
+					}
+
+					WallTileIndex = WallTileIndex + TileIndex(0, 1);
+				}
+			}
+			// (4) 최대 Y 인덱스와 동일 => 왼벽
+			if (CurFloorTileIndex.Y_ == MapInfo_.RoomInfo_[i].maxIndexY_ - 1)
+			{
+				float4 CurFloorTilePos = GetFloorTileIndexToPos(CurFloorTileIndex);
+
+				TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
+				WallTileIndex.Y_ += 2;
+
+				for (int x = 0; x < 3; ++x)
+				{
+					for (auto& WallTile : MapInfo_.WallInfo_)
+					{
+						if (WallTile.WallTileIndex_ == WallTileIndex)
+						{
+							if (WallTile.WallTileIndex_.X_ % 2 == 0)
+							{
+								WallTile.WallDetailType_ = RandomWallDetailType::WL_RB_L;
+								WallTile.WallTile1ImageIndex_ = 25;
+							}
+							else
+							{
+								WallTile.WallDetailType_ = RandomWallDetailType::NONE;
+							}
+							break;
+						}
+					}
+
+					WallTileIndex = WallTileIndex + TileIndex(1, 0);
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < RoomCnt; ++i)
+	{
 		// 1) 룸의 외곽 바닥 타일을 모두 탐색
 		int RoomTileIndexCnt = static_cast<int>(MapInfo_.RoomInfo_[i].AllIndexLists_.size());
 		for (int j = 0; j < RoomTileIndexCnt; ++j)
@@ -1885,131 +2013,6 @@ void EditorRandomMap::UpdateRoomWallInfo()
 					}
 				}
 			}
-			// (1) 그외벽
-			else
-			{
-				// (1) 최소 X 인덱스와 동일 => 윗벽
-				if (CurFloorTileIndex.X_ == MapInfo_.RoomInfo_[i].minIndexX_)
-				{
-					// [1] 윗벽으로 판단할수 있는 모든 벽타일을 알아낸다.
-					//     모두 알아낸 벽타일이 이미 타입이 벽으로 결정나있다면 변경하지않으며
-					//     NORMAL타입이라면 윗벽으로 타입을 변경한다.
-					float4 CurFloorTilePos = GetFloorTileIndexToPos(CurFloorTileIndex);
-					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
-
-					for (int y = 0; y < 3; ++y)
-					{
-						for (auto& WallTile : MapInfo_.WallInfo_)
-						{
-							if (WallTile.WallTileIndex_ == WallTileIndex)
-							{
-								if (WallTile.WallTileIndex_.Y_ % 2 == 0)
-								{
-									WallTile.WallDetailType_ = RandomWallDetailType::WL_RT_T;
-									WallTile.WallTile1ImageIndex_ = 26;
-								}
-								else
-								{
-									WallTile.WallDetailType_ = RandomWallDetailType::NONE;
-								}
-								break;
-							}
-						}
-
-						WallTileIndex = WallTileIndex + TileIndex(0, 1);
-					}
-				}
-				// (2) 최소 Y 인덱스와 동일 => 오른벽
-				if (CurFloorTileIndex.Y_ == MapInfo_.RoomInfo_[i].minIndexY_)
-				{
-					float4 CurFloorTilePos = GetFloorTileIndexToPos(CurFloorTileIndex);
-
-					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
-
-					for (int x = 0; x < 3; ++x)
-					{
-						for (auto& WallTile : MapInfo_.WallInfo_)
-						{
-							if (WallTile.WallTileIndex_ == WallTileIndex)
-							{
-								if (WallTile.WallTileIndex_.X_ % 2 == 0)
-								{
-									WallTile.WallDetailType_ = RandomWallDetailType::WL_RB_R;
-									WallTile.WallTile1ImageIndex_ = 25;
-								}
-								else
-								{
-									WallTile.WallDetailType_ = RandomWallDetailType::NONE;
-								}
-								break;
-							}
-						}
-
-						WallTileIndex = WallTileIndex + TileIndex(1, 0);
-					}
-				}
-				// (3) 최대 X 인덱스와 동일 => 아랫벽
-				if (CurFloorTileIndex.X_ == MapInfo_.RoomInfo_[i].maxIndexX_ - 1)
-				{
-					float4 CurFloorTilePos = GetFloorTileIndexToPos(CurFloorTileIndex);
-
-					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
-					WallTileIndex.X_ += 2;
-
-					for (int y = 0; y < 3; ++y)
-					{
-						for (auto& WallTile : MapInfo_.WallInfo_)
-						{
-							if (WallTile.WallTileIndex_ == WallTileIndex)
-							{
-								if (WallTile.WallTileIndex_.Y_ % 2 == 0)
-								{
-									WallTile.WallDetailType_ = RandomWallDetailType::WL_RT_B;
-									WallTile.WallTile1ImageIndex_ = 26;
-								}
-								else
-								{
-									WallTile.WallDetailType_ = RandomWallDetailType::NONE;
-								}
-								break;
-							}
-						}
-
-						WallTileIndex = WallTileIndex + TileIndex(0, 1);
-					}
-				}
-				// (4) 최대 Y 인덱스와 동일 => 왼벽
-				if (CurFloorTileIndex.Y_ == MapInfo_.RoomInfo_[i].maxIndexY_ - 1)
-				{
-					float4 CurFloorTilePos = GetFloorTileIndexToPos(CurFloorTileIndex);
-
-					TileIndex WallTileIndex = GetWallTileIndex(CurFloorTilePos);
-					WallTileIndex.Y_ += 2;
-
-					for (int x = 0; x < 3; ++x)
-					{
-						for (auto& WallTile : MapInfo_.WallInfo_)
-						{
-							if (WallTile.WallTileIndex_ == WallTileIndex)
-							{
-								if (WallTile.WallTileIndex_.X_ % 2 == 0)
-								{
-									WallTile.WallDetailType_ = RandomWallDetailType::WL_RB_L;
-									WallTile.WallTile1ImageIndex_ = 25;
-								}
-								else
-								{
-									WallTile.WallDetailType_ = RandomWallDetailType::NONE;
-								}
-								break;
-							}
-						}
-
-						WallTileIndex = WallTileIndex + TileIndex(1, 0);
-					}
-				}
-			}
-
 		}
 	}
 }

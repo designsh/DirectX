@@ -411,10 +411,10 @@
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\01.DeathEffect</Filter>
     </ClCompile>
     <ClCompile Include="EndingBackDrop.cpp">
-      <Filter>Object\Actor\07.Ending\00.BackDrop</Filter>
+      <Filter>Object\Actor\05.Ending\00.BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="EndingCredit.cpp">
-      <Filter>Object\Actor\07.Ending\02.CreditText</Filter>
+      <Filter>Object\Actor\05.Ending\02.CreditText</Filter>
     </ClCompile>
     <ClCompile Include="CatacombsMap.cpp">
       <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
@@ -456,12 +456,6 @@
     </Filter>
     <Filter Include="Object\Actor\04.Loading">
       <UniqueIdentifier>{664af8d7-8c02-4cce-b13a-95086dbe4742}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\05.Town">
-      <UniqueIdentifier>{78fb4558-b051-4605-b48a-6c536a01f285}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\06.Catacombs">
-      <UniqueIdentifier>{1a6707aa-ad94-47c7-ab06-a58da929c982}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Actor\00.Global">
       <UniqueIdentifier>{6d4bf183-faf7-479b-bb99-faa755f85b30}</UniqueIdentifier>
@@ -823,15 +817,6 @@
     <Filter Include="Object\Actor\99.Editor\03.Map\02.RandomMap">
       <UniqueIdentifier>{3836c82b-7d83-4478-8133-39f1c68db3dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\07.Ending">
-      <UniqueIdentifier>{45877efa-abbd-40a0-aaae-97e0b1781d05}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\07.Ending\00.BackDrop">
-      <UniqueIdentifier>{a2172a5e-2a37-4a4b-b479-151904e3bc9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\07.Ending\02.CreditText">
-      <UniqueIdentifier>{d4c8cf75-c2ea-4822-b6c6-e4b1910c77f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Level\07.EndingLevel">
       <UniqueIdentifier>{8a25709c-464f-4d3c-bb69-09b18a1ac49d}</UniqueIdentifier>
     </Filter>
@@ -864,6 +849,15 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Sound">
       <UniqueIdentifier>{e63e805b-8655-49b5-a7a3-657b351c483e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\05.Ending">
+      <UniqueIdentifier>{45877efa-abbd-40a0-aaae-97e0b1781d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\05.Ending\00.BackDrop">
+      <UniqueIdentifier>{a2172a5e-2a37-4a4b-b479-151904e3bc9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\05.Ending\02.CreditText">
+      <UniqueIdentifier>{d4c8cf75-c2ea-4822-b6c6-e4b1910c77f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1156,10 +1150,10 @@
       <Filter>Object\Actor\00.Global\01.Monster\02.Boss\00.Andariel\01.DeathEffect</Filter>
     </ClInclude>
     <ClInclude Include="EndingBackDrop.h">
-      <Filter>Object\Actor\07.Ending\00.BackDrop</Filter>
+      <Filter>Object\Actor\05.Ending\00.BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="EndingCredit.h">
-      <Filter>Object\Actor\07.Ending\02.CreditText</Filter>
+      <Filter>Object\Actor\05.Ending\02.CreditText</Filter>
     </ClInclude>
     <ClInclude Include="CatacombsMap.h">
       <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>

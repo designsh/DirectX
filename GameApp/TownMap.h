@@ -69,6 +69,10 @@ public:
 	float4 GetTileIndexToPos(int _IndexX, int _IndexY);
 	TileIndex GetPosToTileIndex(float4 _Pos);
 
+public:
+	float4 GetFloorTileIndexToPos(TileIndex _TileIndex);
+	TileIndex GetPosToFloorTileIndex(float4 _Pos);
+
 private:
 	void MapInfoAllClear();
 	void MapTextureCutting();

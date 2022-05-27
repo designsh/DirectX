@@ -10,15 +10,13 @@
 
 bool MainPlayer::MoveDirectCheck(const float4& _MousePos)
 {
-	// 플레이어 현재 위치 Get
-	float4 MyPos = GetTransform()->GetWorldPosition();
-
 	// 마우스 클릭지점을 이용하여 이동방향을 얻어와서 현재 이동방향 변경
 	PrevDirect_ = CurDirect_;
 
 	// 두벡터(플레이어<->목표지점)의 각도 계산
 	float4 MousePos = _MousePos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
-	float4 MoveDirect = MousePos - MyPos;
+	float4 MoveDirect = MousePos - GetTransform()->GetWorldPosition();
+	MoveDirect.z = 0.f;
 	MoveDirect.Normalize3D();
 
 	// 월드의 y축기준 방향벡터를 얻어온다.
