@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "SketelonWarrior.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -32,7 +35,8 @@ SketelonWarrior::SketelonWarrior() :
 	MoveTargetDir_(float4::ZERO),
 	MoveSpeed_(100.f),
 	PrevDir_(SketelonWarrior_TargetDir::SW_B),
-	CurDir_(SketelonWarrior_TargetDir::SW_B)
+	CurDir_(SketelonWarrior_TargetDir::SW_B),
+	StateSound_(nullptr)
 {
 	WarriorNavigationIndex_ = WarriorCnt;
 	++WarriorCnt;
@@ -90,6 +94,10 @@ void SketelonWarrior::CurSkeletonDeath()
 
 void SketelonWarrior::SpawnSketelonWarrior(const float4& _SpawnPos)
 {
+	// 사운드 플레이어 생성
+	StateSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+
+	// 기본 정보 저장
 	SpawnPos_ = _SpawnPos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
 
 	// 최초 이동범위 셋팅

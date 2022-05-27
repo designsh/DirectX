@@ -32,7 +32,8 @@ SketelonWizard::SketelonWizard() :
 	MoveTargetDir_(float4::ZERO),
 	MoveSpeed_(100.f),
 	PrevDir_(SketelonWizard_TargetDir::SW_B),
-	CurDir_(SketelonWizard_TargetDir::SW_B)
+	CurDir_(SketelonWizard_TargetDir::SW_B),
+	StateSound_(nullptr)
 {
 	WizardNavigationIndex_ = WizardCnt;
 	++WizardCnt;
@@ -90,6 +91,9 @@ void SketelonWizard::CurSkeletonDeath()
 
 void SketelonWizard::SpawnSketelonWizard(SkeletonWizardType _WizardType, const float4& _SpawnPos)
 {
+	// 사운드 플레이어 생성
+	StateSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+
 	// 기본 정보 저장
 	WizardType_ = _WizardType;
 	SpawnPos_ = _SpawnPos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();

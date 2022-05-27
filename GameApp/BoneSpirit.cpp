@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "BoneSpirit.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -33,7 +36,8 @@ BoneSpirit::BoneSpirit() :
 	FireStart_(false),
 	Targeting_(false),
 	Damage_(0),
-	TargetMonster_(nullptr)
+	TargetMonster_(nullptr),
+	StateSound_(nullptr)
 {
 	NavigationIndex_ = ProjetileCount;
 	++ProjetileCount;
@@ -45,6 +49,7 @@ BoneSpirit::~BoneSpirit()
 
 void BoneSpirit::Start()
 {
+	StateSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void BoneSpirit::Update(float _DeltaTime)
@@ -218,6 +223,9 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 
 void BoneSpirit::BoneSpiritFire(const float4& _StartPos, const float4& _MouseClickPos, GameEngineActor* _TargetingMonster)
 {
+	// 발사 사운드 재생
+	StateSound_->PlayAlone("BoneSpirit.wav", 0);
+
 	// 마우스 클릭지점으로 발사 후 진행방향에 몬스터와 충돌시 타격을 입히고 소멸
 	TargetMonster_ = _TargetingMonster;
 	

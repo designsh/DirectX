@@ -35,6 +35,7 @@ enum class SketelonWarriorState
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class SketelonWarrior : public GameEngineActor
@@ -72,6 +73,9 @@ private:
 private:
 	SketelonWarrior_TargetDir PrevDir_;				// 이전 방향
 	SketelonWarrior_TargetDir CurDir_;				// 현재 방향
+
+private:
+	GameEngineSoundPlayer* StateSound_;
 
 public:
 	SketelonWarrior();

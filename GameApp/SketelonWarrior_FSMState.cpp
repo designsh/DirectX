@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "SketelonWarrior.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include <GameEngine/GameEngineImageRenderer.h>
@@ -194,6 +195,9 @@ void SketelonWarrior::StartSpawnState()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = SketelonWarriorState::SPAWN;
+
+	// 소환 사운드 재생
+	StateSound_->PlayAlone("SkeletonSpawn.wav", 0);
 }
 
 void SketelonWarrior::UpdateSpawnState()

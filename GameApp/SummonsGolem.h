@@ -45,6 +45,7 @@ enum class GolemState
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class SummonsGolem : public GameEngineActor
@@ -82,6 +83,9 @@ private:
 
 private:
 	GameEngineActor* DetectMonster_;				// 현재 감지성공한 몬스터
+
+private:
+	GameEngineSoundPlayer* StateSound_;
 
 public:
 	SummonsGolem();

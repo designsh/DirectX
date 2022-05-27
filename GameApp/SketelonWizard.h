@@ -45,6 +45,7 @@ enum class SkeletonWizardType
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class SketelonWizard : public GameEngineActor
@@ -83,6 +84,9 @@ private:
 private:
 	SketelonWizard_TargetDir PrevDir_;				// 이전 방향
 	SketelonWizard_TargetDir CurDir_;				// 현재 방향
+
+private:
+	GameEngineSoundPlayer* StateSound_;
 
 public:
 	SketelonWizard();

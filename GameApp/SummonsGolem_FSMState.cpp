@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "SummonsGolem.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngineBase/GameEngineRandom.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -172,6 +174,9 @@ void SummonsGolem::StartSpawnState()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = GolemState::SPAWN;
+
+	// 소환 사운드 재생
+	StateSound_->PlayAlone("GolemSpawn.wav", 0);
 }
 
 void SummonsGolem::UpdateSpawnState()

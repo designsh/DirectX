@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MainPlayer.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include "MainPlayerInfomation.h"
 
 #include "BottomStateBar.h"
@@ -270,6 +272,9 @@ void MainPlayer::SetLevelUP()
 
 	// 플레이어 정보 갱신
 	MainPlayerInfomation::GetInst().PlayerLevelUP();
+
+	// 레벨업 사운드 재생
+	StateSound_->PlayAlone("Nec_Levelup.wav", 0);
 }
 
 // 골드를 획득하거나 창고에서 꺼내올때 호출

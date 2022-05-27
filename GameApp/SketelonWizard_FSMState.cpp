@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "SketelonWizard.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include <GameEngine/GameEngineImageRenderer.h>
@@ -196,6 +197,9 @@ void SketelonWizard::StartSpawnState()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = SketelonWizardState::SPAWN;
+
+	// 소환 사운드 재생
+	StateSound_->PlayAlone("SkeletonSpawn.wav", 0);
 }
 
 void SketelonWizard::UpdateSpawnState()

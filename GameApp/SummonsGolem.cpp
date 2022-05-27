@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "SummonsGolem.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -33,7 +36,8 @@ SummonsGolem::SummonsGolem() :
 	PrevState_(GolemState::SPAWN),
 	CurState_(GolemState::SPAWN),
 	CheckTime_(1.5f),
-	DetectMonster_(nullptr)
+	DetectMonster_(nullptr),
+	StateSound_(nullptr)
 {
 }
 
@@ -58,6 +62,9 @@ void SummonsGolem::SpawnGolem(GolemType _GolemType, const float4& _SpawnPos)
 	// 정보 저장
 	GolemType_ = _GolemType;
 	SpawnPos_ = _SpawnPos + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition();
+
+	// 사운드 생성
+	StateSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 
 	// 최초 이동범위 셋팅
 	// => 플레이어 주변 10x10 타일의 범위를 가진다

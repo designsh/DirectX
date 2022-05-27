@@ -23,6 +23,7 @@ enum class BoneSpirit_Dir
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class BoneSpirit : public GameEngineActor
@@ -57,6 +58,9 @@ private:
 
 private:
 	GameEngineActor* TargetMonster_;
+
+private:
+	GameEngineSoundPlayer* StateSound_;
 
 public:
 	BoneSpirit();
