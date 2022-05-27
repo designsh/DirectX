@@ -502,6 +502,12 @@ void ChandleryNPC::UpdateInteraction()
 
 			// 상단메뉴 도출
 			TopMenuBar_->NPCTopMenuActive();
+
+			// 음성재생중이라면 음성 종료
+			if (true == SpeechSound_->IsPlay())
+			{
+				SpeechSound_->Stop();
+			}
 		}
 	}
 }

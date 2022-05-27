@@ -63,6 +63,7 @@ void NPC_MessageView::Update(float _DeltaTime)
 					{
 						CurTextLineIdx_ = 0;
 						MessageLoadStart_ = false;
+						MessageLoadEnd_ = true;
 						return;
 					}
 				}
@@ -96,35 +97,6 @@ void NPC_MessageView::Update(float _DeltaTime)
 
 			// 현재 라인 인덱스 증가
 			++CurTextLineIdx_;
-		}
-	}
-	// 해당 대화창을 열고있는 NPC의 음성이 종료시 모든 대화 종료로 처리
-	else
-	{
-		switch (NPCType_)
-		{
-			case NPCClassType::Akara:
-			{
-				if (nullptr != GlobalValue::ChandleryNPC)
-				{
-					if (false == GlobalValue::ChandleryNPC->SpeechEndCheck())
-					{
-						MessageLoadEnd_ = true;
-					}
-				}
-				break;
-			}
-			case NPCClassType::Charsi:
-			{
-				if (nullptr != GlobalValue::WeaponNPC)
-				{
-					if (false == GlobalValue::WeaponNPC->SpeechEndCheck())
-					{
-						MessageLoadEnd_ = true;
-					}
-				}
-				break;
-			}
 		}
 	}
 }

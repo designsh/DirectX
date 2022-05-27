@@ -448,7 +448,6 @@ void WeaponNPC::UpdateConversation()
 
 void WeaponNPC::EndConversation()
 {
-
 }
 
 // 상호작용중 상태
@@ -502,6 +501,12 @@ void WeaponNPC::UpdateInteraction()
 
 			// 상단메뉴 도출
 			TopMenuBar_->NPCTopMenuActive();
+
+			// 음성재생중이라면 음성 종료
+			if (true == SpeechSound_->IsPlay())
+			{
+				SpeechSound_->Stop();
+			}
 		}
 	}
 }
