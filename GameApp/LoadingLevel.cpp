@@ -44,7 +44,7 @@ void LoadingLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 		if (nullptr != GlobalValue::BackGroundSound)
 		{
 			GlobalValue::BackGroundSound->Stop();
-			GlobalValue::BackGroundSound->PlayAlone("TownLevel.wav");
+			GlobalValue::BackGroundSound->PlayAlone("TownLevel.wav", 99);
 		}
 	}
 }
@@ -69,4 +69,20 @@ void LoadingLevel::LevelUpdate(float _DeltaTime)
 		ResourceLoadEndCheck = true;
 	}
 #pragma endregion
+
+	// º¼·ý Up & Down Key
+	if (true == GameEngineInput::GetInst().Down("VolumeUp"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->VolumeUp();
+		}
+	}
+	if (true == GameEngineInput::GetInst().Down("VolumeDown"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->VolumeDown();
+		}
+	}
 }

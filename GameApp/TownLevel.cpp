@@ -124,7 +124,7 @@ void TownLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 		if (nullptr != GlobalValue::BackGroundSound)
 		{
 			GlobalValue::BackGroundSound->Stop();
-			GlobalValue::BackGroundSound->PlayAlone("CatacombsLevel.wav");
+			GlobalValue::BackGroundSound->PlayAlone("CatacombsLevel.wav", 99);
 		}
 	}
 
@@ -220,4 +220,20 @@ void TownLevel::LevelUpdate(float _DeltaTime)
 		GetMainCameraActor()->GetTransform()->SetWorldMove(GetMainCameraActor()->GetTransform()->GetWorldRightVector() * _DeltaTime * 200.f);
 	}
 #pragma endregion
+
+	// º¼·ý Up & Down Key
+	if (true == GameEngineInput::GetInst().Down("VolumeUp"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->VolumeUp();
+		}
+	}
+	if (true == GameEngineInput::GetInst().Down("VolumeDown"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->VolumeDown();
+		}
+	}
 }

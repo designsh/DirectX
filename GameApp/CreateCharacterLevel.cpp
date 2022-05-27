@@ -1,6 +1,12 @@
 #include "PreCompile.h"
 #include "CreateCharacterLevel.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
+#include <GameEngine/CameraComponent.h>
+#include <GameEngine/GameEngineTransform.h>
+#include <GameEngine/CameraActor.h>
+
 #include "CreateCharacterBackDrop.h"
 #include "CreateCharacterFireObject.h"
 #include "CurPlayerGameStartButton.h"
@@ -8,10 +14,6 @@
 #include "CreateCharacterInputText.h"
 #include "ClassSelectObject.h"
 #include "MouseObject.h"
-
-#include <GameEngine/CameraComponent.h>
-#include <GameEngine/GameEngineTransform.h>
-#include <GameEngine/CameraActor.h>
 
 #include "UserGame.h"
 #include "GlobalValue.h"
@@ -148,5 +150,21 @@ void CreateCharacterLevel::LevelUpdate(float _DeltaTime)
 		ResourceLoadEndCheck = true;
 	}
 #pragma endregion
+
+	// º¼·ý Up & Down Key
+	if (true == GameEngineInput::GetInst().Down("VolumeUp"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->VolumeUp();
+		}
+	}
+	if (true == GameEngineInput::GetInst().Down("VolumeDown"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->VolumeDown();
+		}
+	}
 }
 

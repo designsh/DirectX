@@ -13,6 +13,9 @@ private:	// member Var
 	FMOD::Channel* playChannel_; // 
 	int PlayCount;	// 해당 Channel에 담긴 Sound 반복재생횟수
 
+private:
+	float Volume_;
+
 private:		
 	GameEngineSoundPlayer(); // default constructer 디폴트 생성자
 	~GameEngineSoundPlayer(); // default destructer 디폴트 소멸자
@@ -31,5 +34,10 @@ public:		//member Func
 	void PlayOverLap(const std::string& _name, int _LoopCount = 1);	// 겹쳐서 재생 기존의 사운드가 재생되고 있어도 그냥 재생한다. OneShot.
 	void PlayAlone(const std::string& _name, int _LoopCount = 1);	// 기존의 사운드가 재생이 끝나야만 다음 사운드를 재생한다.
 	void Stop();	// 현재 채널에서 재생중인 Sound를 정지
+
+public:
+	void SetVolume(float _Volume);
+	void VolumeUp();
+	void VolumeDown();
 };
 

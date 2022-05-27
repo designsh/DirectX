@@ -31,6 +31,7 @@ enum class WeaponNPC_FSMState
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class NPC_TopMenuBar;
@@ -45,7 +46,7 @@ private:
 public:
 	static bool GetFirstInteaction();
 
-private:	// member Var
+private:
 	GameEngineImageRenderer* WeaponNPCRenderer_;
 	GameEngineCollision* WeaponNPCCollision_;
 
@@ -71,6 +72,9 @@ private:
 private: // UI관련
 	NPC_MessageView* MessageView_;
 	NPC_TopMenuBar* TopMenuBar_;
+
+private:
+	GameEngineSoundPlayer* SpeechSound_;
 
 public:
 	WeaponNPC();
@@ -141,5 +145,8 @@ public:
 public:
 	void InteractionEnd();
 	void SelectConversationMenu();
+
+public:
+	bool SpeechEndCheck();
 };
 

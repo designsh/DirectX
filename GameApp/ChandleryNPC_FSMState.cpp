@@ -1,9 +1,10 @@
 #include "PreCompile.h"
 #include "ChandleryNPC.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 #include "GlobalValue.h"
@@ -465,10 +466,16 @@ void ChandleryNPC::StartInteraction()
 	{
 		// 메세지뷰 로드
 		MessageView_->InteractionActive();
+
+		// 자기소개 음성 재생
+		SpeechSound_->PlayAlone("Aka_Conversation.wav", 0);
 	}
 	// 두번째 대화시도시 메뉴 도출
 	else
 	{
+		// "Hello" 음성 재생
+		SpeechSound_->PlayAlone("Aka_hello.wav", 0);
+
 		if (false == TopMenuBar_->IsUpdate())
 		{
 			// 상단메뉴 도출

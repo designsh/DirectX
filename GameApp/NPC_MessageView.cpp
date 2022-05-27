@@ -6,7 +6,11 @@
 #include "GlobalEnumClass.h"
 #include "GlobalValue.h"
 
+#include "WeaponNPC.h"
+#include "ChandleryNPC.h"
+
 NPC_MessageView::NPC_MessageView() :
+	NPCType_(NPCClassType::MAX),
 	MsgPanel_(nullptr),
 	TextMoveSpeed_(20.f),
 	SaveMsgText_{},
@@ -59,7 +63,6 @@ void NPC_MessageView::Update(float _DeltaTime)
 					{
 						CurTextLineIdx_ = 0;
 						MessageLoadStart_ = false;
-						MessageLoadEnd_ = true;
 						return;
 					}
 				}
@@ -95,14 +98,44 @@ void NPC_MessageView::Update(float _DeltaTime)
 			++CurTextLineIdx_;
 		}
 	}
+	// 해당 대화창을 열고있는 NPC의 음성이 종료시 모든 대화 종료로 처리
+	else
+	{
+		switch (NPCType_)
+		{
+			case NPCClassType::Akara:
+			{
+				if (nullptr != GlobalValue::ChandleryNPC)
+				{
+					if (false == GlobalValue::ChandleryNPC->SpeechEndCheck())
+					{
+						MessageLoadEnd_ = true;
+					}
+				}
+				break;
+			}
+			case NPCClassType::Charsi:
+			{
+				if (nullptr != GlobalValue::WeaponNPC)
+				{
+					if (false == GlobalValue::WeaponNPC->SpeechEndCheck())
+					{
+						MessageLoadEnd_ = true;
+					}
+				}
+				break;
+			}
+		}
+	}
 }
 
-void NPC_MessageView::CreateNPCMessageTextList(const std::string& _Text)
+void NPC_MessageView::CreateNPCMessageTextList(const std::string& _Text, NPCClassType _NPCType)
 {
 	float4 ScreenHarfSize = GameEngineWindow::GetInst().GetSize().halffloat4();
 
-	// 출력되는 메세지 등록
+	// 기본정보 저장
 	SaveMsgText_ = _Text;
+	NPCType_ = _NPCType;
 
 	// 메세지의 글자수를 이용하여 텍스트목록 생성 갯수 결정(한줄당 최대글자수 30)
 	int CurTextTotSize = static_cast<int>(SaveMsgText_.size());

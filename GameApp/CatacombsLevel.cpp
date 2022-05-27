@@ -1,11 +1,13 @@
 #include "PreCompile.h"
 #include "CatacombsLevel.h"
 
-#include "UserGame.h"
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
+
+#include "UserGame.h"
 
 #include "GlobalValue.h"
 #include "MainPlayerInfomation.h"
@@ -117,5 +119,21 @@ void CatacombsLevel::LevelUpdate(float _DeltaTime)
 	{
 		// 프리 카메라 모드 실행
 		GetMainCameraActor()->FreeCameraModeSwitch();
+	}
+
+	// 볼륨 Up & Down Key
+	if (true == GameEngineInput::GetInst().Down("VolumeUp"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->VolumeUp();
+		}
+	}
+	if (true == GameEngineInput::GetInst().Down("VolumeDown"))
+	{
+		if (nullptr != GlobalValue::BackGroundSound)
+		{
+			GlobalValue::BackGroundSound->VolumeDown();
+		}
 	}
 }

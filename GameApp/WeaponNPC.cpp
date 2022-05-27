@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "WeaponNPC.h"
 
+#include <GameEngineBase/GameEngineSoundManager.h>
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
@@ -36,7 +39,8 @@ WeaponNPC::WeaponNPC() :
 	MoveMinRange_(float4::ZERO),
 	MoveMaxRange_(float4::ZERO),
 	MessageView_(nullptr),
-	TopMenuBar_(nullptr)
+	TopMenuBar_(nullptr),
+	SpeechSound_(nullptr)
 {
 }
 
@@ -59,6 +63,9 @@ void WeaponNPC::Start()
 	TopMenuBar_ = GetLevel()->CreateActor<NPC_TopMenuBar>();
 	TopMenuBar_->GetTransform()->SetWorldPosition(GetTransform()->GetLocalPosition());
 	TopMenuBar_->Off();
+
+	// 음성 사운드 플레이어 생성
+	SpeechSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
 void WeaponNPC::Update(float _DeltaTime)
@@ -218,7 +225,7 @@ void WeaponNPC::SetMessageBoxText(const std::string& _Text)
 {
 	if (nullptr != MessageView_)
 	{
-		MessageView_->CreateNPCMessageTextList(_Text);
+		MessageView_->CreateNPCMessageTextList(_Text, NPCClassType::Charsi);
 	}
 }
 
@@ -259,4 +266,9 @@ void WeaponNPC::SelectConversationMenu()
 
 	// 상단메뉴 닫기
 	TopMenuBar_->Off();
+}
+
+bool WeaponNPC::SpeechEndCheck()
+{
+	return SpeechSound_->IsPlay();
 }

@@ -10,7 +10,8 @@
 // constructer destructer
 GameEngineSoundPlayer::GameEngineSoundPlayer() :
 	playChannel_(nullptr),
-	PlayCount(-1)
+	PlayCount(-1),
+	Volume_(1.f)
 {
 }
 
@@ -20,7 +21,8 @@ GameEngineSoundPlayer::~GameEngineSoundPlayer()
 
 GameEngineSoundPlayer::GameEngineSoundPlayer(GameEngineSoundPlayer&& _other) noexcept : 
 	playChannel_(_other.playChannel_),
-	PlayCount(_other.PlayCount)
+	PlayCount(_other.PlayCount),
+	Volume_(_other.Volume_)
 {
 }
 
@@ -92,6 +94,9 @@ void GameEngineSoundPlayer::PlayAlone(const std::string& _name, int _LoopCount /
 	--PlayCount;
 
 	playChannel_->setLoopCount(_LoopCount);
+
+	// 이전의 볼륨으로 셋팅
+	SetVolume(Volume_);
 }
 
 void GameEngineSoundPlayer::Stop()
@@ -103,4 +108,42 @@ void GameEngineSoundPlayer::Stop()
 
 	playChannel_->stop();
 	playChannel_ = nullptr;
+}
+
+void GameEngineSoundPlayer::SetVolume(float _Volume)
+{
+	Volume_ = _Volume;
+
+	if (playChannel_ != nullptr)
+	{
+		playChannel_->setVolume(Volume_);
+	}
+}
+
+void GameEngineSoundPlayer::VolumeUp()
+{
+	Volume_ += 0.1f;
+	if (1.f <= Volume_)
+	{
+		Volume_ = 1.f;
+	}
+
+	if (playChannel_ != nullptr)
+	{
+		playChannel_->setVolume(Volume_);
+	}
+}
+
+void GameEngineSoundPlayer::VolumeDown()
+{
+	Volume_ -= 0.1f;
+	if (0.f >= Volume_)
+	{
+		Volume_ = 0.f;
+	}
+
+	if (playChannel_ != nullptr)
+	{
+		playChannel_->setVolume(Volume_);
+	}
 }

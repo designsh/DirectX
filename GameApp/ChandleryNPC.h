@@ -27,6 +27,7 @@ enum class ChandleryNPC_FSMState
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
 class NPC_TopMenuBar;
@@ -67,6 +68,9 @@ private:
 private: // UI관련
 	NPC_MessageView* MessageView_;
 	NPC_TopMenuBar* TopMenuBar_;
+
+private:
+	GameEngineSoundPlayer* SpeechSound_;
 
 public:
 	ChandleryNPC();
@@ -137,5 +141,8 @@ public:
 public:
 	void InteractionEnd();
 	void SelectConversationMenu();
+
+public:
+	bool SpeechEndCheck();
 };
 

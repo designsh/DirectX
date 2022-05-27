@@ -89,13 +89,23 @@ void UserGame::Initialize()
 	}
 
 	// 방향키(특정 UI활성화에만 키체크)
-	if (false == GameEngineInput::GetInst().IsKey("UP"))
+	//if (false == GameEngineInput::GetInst().IsKey("UP"))
+	//{
+	//	GameEngineInput::GetInst().CreateKey("UP", VK_UP);
+	//}
+	//if (false == GameEngineInput::GetInst().IsKey("DOWN"))
+	//{
+	//	GameEngineInput::GetInst().CreateKey("DOWN", VK_DOWN);
+	//}
+
+	// 배경음악 볼륨
+	if (false == GameEngineInput::GetInst().IsKey("VolumeUp"))
 	{
-		GameEngineInput::GetInst().CreateKey("UP", VK_UP);
+		GameEngineInput::GetInst().CreateKey("VolumeUp", VK_UP);
 	}
-	if (false == GameEngineInput::GetInst().IsKey("DOWN"))
+	if (false == GameEngineInput::GetInst().IsKey("VolumeDown"))
 	{
-		GameEngineInput::GetInst().CreateKey("DOWN", VK_DOWN);
+		GameEngineInput::GetInst().CreateKey("VolumeDown", VK_DOWN);
 	}
 }
 

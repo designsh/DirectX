@@ -1,9 +1,11 @@
 #include "PreCompile.h"
 #include "WeaponNPC.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+#include <GameEngineBase/GameEngineRandom.h>
+
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
-#include <GameEngineBase/GameEngineRandom.h>
 
 #include "GlobalValue.h"
 #include "MainPlayer.h"
@@ -464,10 +466,16 @@ void WeaponNPC::StartInteraction()
 	{
 		// 메세지뷰 로드
 		MessageView_->InteractionActive();
+
+		// 자기소개 음성 재생
+		SpeechSound_->PlayAlone("Cha_Conversation.wav", 0);
 	}
 	// 두번째 대화시도시 메뉴 도출
 	else
 	{
+		// "Hello" 음성 재생
+		SpeechSound_->PlayAlone("Cha_hello.wav", 0);
+
 		if (false == TopMenuBar_->IsUpdate())
 		{
 			// 상단메뉴 도출
@@ -483,7 +491,7 @@ void WeaponNPC::UpdateInteraction()
 	// 1. NPC와 상호작용(최초)
 	if (false == FirstInteraction)
 	{
-		// 지정된 내용의 텍스트 출력 종료시
+		// 지정된 내용의 텍스트 출력 종료 & 음성 종료시
 		if (true == MessageView_->GetMessageLoadEnd())
 		{
 			// 최초상호작용 Flag On

@@ -1,13 +1,18 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+#include "AllNPCInfomation.h"
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
 class GameEngineUIRenderer;
 class NPC_MessageView : public GameEngineActor
 {
-private:	// member Var
+private:
+	NPCClassType NPCType_;
+
+private:
 	GameEngineUIRenderer* MsgPanel_;
 
 private:
@@ -18,6 +23,7 @@ private:
 	int CurTextLineIdx_;
 	bool MessageLoadStart_;
 	bool MessageLoadEnd_;
+	bool AllEnd_;
 	float4 TextMoveEndPos_;
 
 private: // 메세지텍스트 목록
@@ -46,7 +52,7 @@ public:
 	}
 
 public:
-	void CreateNPCMessageTextList(const std::string& _Text);
+	void CreateNPCMessageTextList(const std::string& _Text, NPCClassType _NPCType);
 
 public:
 	void InteractionActive();
