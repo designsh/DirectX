@@ -179,21 +179,12 @@ void MainPlayer::StartFieldNatural()
 	// 현재상태가 변경되었으므로
 	// DirectRenderOrder_의 Default ZOrder가 셋팅
 	StateAndDirectChangeZOrder();
-
-	// 관련 사운드 시작
-
-
-	// 기타
-
 }
 
 void MainPlayer::UpdateFieldNatural()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
-
 }
 
 void MainPlayer::EndFieldNatural()
@@ -303,9 +294,6 @@ void MainPlayer::UpdateAttack1()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
-
 }
 
 void MainPlayer::EndAttack1()
@@ -333,9 +321,6 @@ void MainPlayer::UpdateAttack2()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
-
 }
 
 void MainPlayer::EndAttack2()
@@ -363,9 +348,6 @@ void MainPlayer::UpdateBlock()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
-
 }
 
 void MainPlayer::EndBlock()
@@ -423,9 +405,6 @@ void MainPlayer::UpdateKick()
 {
 	// 애니메이션 프레임마다 ZOrder 체크하여 ZOrder 갱신
 	AnimationFrameCheckZOrderChange();
-
-
-
 }
 
 void MainPlayer::EndKick()

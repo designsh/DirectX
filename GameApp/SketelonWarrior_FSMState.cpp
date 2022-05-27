@@ -237,7 +237,8 @@ void SketelonWarrior::UpdateIdleState()
 		else
 		{
 			// 플레이어주변 6x6타일내에 존재하지않는다면 워프상태로 전환
-			if (true == CheckWarpStart())
+			// 단, 플레이어가 이동중에는 워프 불가능
+			if (true == CheckWarpStart() && false == GlobalValue::CurPlayer->GetIsMove())
 			{
 				State_.ChangeState("Warp");
 			}

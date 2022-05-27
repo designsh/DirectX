@@ -387,7 +387,11 @@ void StoreView::ItemPlacement(int _ColTileIndex)
 			// 비어있지않다면 리턴
 			if (true == StoreViewInfo_.ArrangeTiles_[_ColTileIndex].ItemArrangementFlag_)
 			{
-				// 해당 타일에 이미 아이템이 배치되었있으므로 리턴
+				// 플레이어 "~ 할수 없다" 음성 실행
+				if (nullptr != GlobalValue::CurPlayer)
+				{
+					GlobalValue::CurPlayer->PlayerSpeechIcant();
+				}
 				return;
 			}
 			// 해당 타일이 비어있어 아이템 배치가능
@@ -418,6 +422,9 @@ void StoreView::ItemPlacement(int _ColTileIndex)
 				NewItem.ItemRenderer_->GetTransform()->SetLocalPosition(NewItem.RenderPos_);
 				
 				StoreViewInfo_.HaveItemList_.push_back(NewItem);
+
+				// 아이템 보관 사운드 재생
+				GlobalValue::CurPlayer->ItemEquipOnSound(ItemName);
 			}
 		}
 		else
@@ -426,8 +433,19 @@ void StoreView::ItemPlacement(int _ColTileIndex)
 			// 배치가능하다면 해당 아이템을 배치하고, 배치 불가능하다면 리턴
 			if (false == ItemPlacementCheck(_ColTileIndex, CurItemInfo))
 			{
-				// 배치불가능 판정이므로 리턴
+				if (nullptr != GlobalValue::CurPlayer)
+				{
+					GlobalValue::CurPlayer->PlayerSpeechIcant();
+				}
 				return;
+			}
+			else
+			{
+				if (nullptr != GlobalValue::CurPlayer)
+				{
+					// 배치 성공시 아이템 보관 사운드 재생
+					GlobalValue::CurPlayer->ItemEquipOnSound(CurItemInfo.ItemName_abbreviation_Inven);
+				}
 			}
 		}
 
@@ -1184,6 +1202,12 @@ void StoreView::ItemDisposition(int _ColTileIndex)
 				// 해당 아이템을 아이템목록에서 제거
 				std::vector<StoredItem>::iterator DelIter = StoreViewInfo_.HaveItemList_.begin() + i;
 				StoreViewInfo_.HaveItemList_.erase(DelIter);
+
+				if (nullptr != GlobalValue::CurPlayer)
+				{
+					GlobalValue::CurPlayer->ItemEquipOffSound();
+				}
+
 				return;
 			}
 		}
@@ -1218,6 +1242,11 @@ void StoreView::ItemDisposition(int _ColTileIndex)
 
 					// 해당 아이템을 마우스가 든다.
 					GlobalValue::CurMouse->ItemHold(ItemName, ItemScale);
+
+					if (nullptr != GlobalValue::CurPlayer)
+					{
+						GlobalValue::CurPlayer->ItemEquipOffSound();
+					}
 					
 					return;
 				}
