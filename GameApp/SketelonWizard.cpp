@@ -52,8 +52,11 @@ void SketelonWizard::Update(float _DeltaTime)
 	// 상태업데이트
 	State_.Update();
 
+	//TileIndex CurPlayerTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition().x, GlobalValue::CurPlayer->GetTransform()->GetWorldPosition().y));
+	//TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+	//GetTransform()->SetLocalZOrder(-static_cast<float>((CurPlayerTileIndex.X_ + CurPlayerTileIndex.Y_) - (CurTileIndex.X_ + CurTileIndex.Y_)));
 	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 50.f));
-	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
+	GetTransform()->SetLocalZOrder(-static_cast<float>((CurTileIndex.X_ + CurTileIndex.Y_)));
 }
 
 void SketelonWizard::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
