@@ -92,35 +92,18 @@ void CatacombsMap::AdjustTheTransparencyAroundThePlayer()
 	// 현재 플레이어의 위치의 타일인덱스 Get
 	TileIndex PlayerTile = GetWallTileIndex(GlobalValue::CurPlayer->GetTransform()->GetWorldPosition());
 
-	// 플레이어 8방향의 타일목록을 생성
-	std::vector<TileIndex> PlayerAroundTile;
-	PlayerAroundTile.clear();
-	PlayerAroundTile.push_back(PlayerTile + TileIndex( 1, -1));		// 우단
-	PlayerAroundTile.push_back(PlayerTile + TileIndex( 2, -2));		// 우단2s
-	PlayerAroundTile.push_back(PlayerTile + TileIndex( 1,  0));		// 우하단
-	PlayerAroundTile.push_back(PlayerTile + TileIndex( 2,  0));		// 우하단2
-	PlayerAroundTile.push_back(PlayerTile + TileIndex( 1,  1));		// 하단
-	PlayerAroundTile.push_back(PlayerTile + TileIndex( 2,  2));		// 하단2
-	PlayerAroundTile.push_back(PlayerTile + TileIndex( 0,  1));		// 좌하단
-	PlayerAroundTile.push_back(PlayerTile + TileIndex( 0,  2));		// 좌하단2
-	PlayerAroundTile.push_back(PlayerTile + TileIndex(-1,  1));		// 좌단
-	PlayerAroundTile.push_back(PlayerTile + TileIndex(-2,  2));		// 좌단2
-
-	// 모든 벽타일중 NONE, NORMAL이 아닌 타일들을 모두 검사하여 투명도 갱신
-	for (auto& AroundTile : PlayerAroundTile)
+	// 플레이어의 위치 인덱스보다 x,y 인덱스가 크거나 같을경우 투명화
+	for (auto& WallTile : MapInfo_.WallInfo_)
 	{
-		for (auto& WallTile : MapInfo_.WallInfo_)
+		if (WallTile.WallDetailType_ != RandomWallDetailType::NONE &&
+			WallTile.WallDetailType_ != RandomWallDetailType::NORMAL)
 		{
-			if (WallTile.WallDetailType_ != RandomWallDetailType::NONE &&
-				WallTile.WallDetailType_ != RandomWallDetailType::NORMAL)
+			if (WallTile.WallTileIndex_.X_ >= PlayerTile.X_ && WallTile.WallTileIndex_.Y_ >= PlayerTile.Y_)
 			{
-				if (AroundTile == WallTile.WallTileIndex_)
+				WallTiles_.find(WallTile.WallTileIndex_.Index_)->second.Tiles1_->SetAlpha(0.5f);
+				if (nullptr != WallTiles_.find(WallTile.WallTileIndex_.Index_)->second.Tiles2_)
 				{
-					WallTiles_.find(AroundTile.Index_)->second.Tiles1_->SetAlpha(0.5f);
-					if (nullptr != WallTiles_.find(AroundTile.Index_)->second.Tiles2_)
-					{
-						WallTiles_.find(AroundTile.Index_)->second.Tiles2_->SetAlpha(0.5f);
-					}
+					WallTiles_.find(WallTile.WallTileIndex_.Index_)->second.Tiles2_->SetAlpha(0.5f);
 				}
 			}
 		}
