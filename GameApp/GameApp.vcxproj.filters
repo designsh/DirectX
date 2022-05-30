@@ -327,10 +327,10 @@
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\01.SketelonWarrior</Filter>
     </ClCompile>
     <ClCompile Include="MonsterTopHPBar.cpp">
-      <Filter>Object\Actor\00.Global\06.CommonGlobal\00.TopHPBar</Filter>
+      <Filter>Object\Actor\00.Global\07.GlobalUI\00.TopHPBar</Filter>
     </ClCompile>
     <ClCompile Include="SummonsEmblem.cpp">
-      <Filter>Object\Actor\00.Global\06.CommonGlobal\01.SummonsEmblem</Filter>
+      <Filter>Object\Actor\00.Global\07.GlobalUI\01.SummonsEmblem</Filter>
     </ClCompile>
     <ClCompile Include="SketelonWizard.cpp">
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard</Filter>
@@ -805,15 +805,6 @@
     <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard">
       <UniqueIdentifier>{f8de4e02-f256-485c-bc2a-61e471b102af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\06.CommonGlobal">
-      <UniqueIdentifier>{416bb0f3-da97-4196-833b-8fd4c2d62f0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\06.CommonGlobal\00.TopHPBar">
-      <UniqueIdentifier>{21fc8cc2-742e-43c0-9a76-c1ba356a601a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\06.CommonGlobal\01.SummonsEmblem">
-      <UniqueIdentifier>{bd3c4563-43bc-4522-a58e-06ed44387cfb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard\00.Projectile">
       <UniqueIdentifier>{f8a3e42c-cd65-4271-b042-8b3e55fe29f8}</UniqueIdentifier>
     </Filter>
@@ -843,6 +834,18 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\03.Object\02.Portal">
       <UniqueIdentifier>{035c014c-4c47-413c-8e7f-5426ac8eb48a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\07.GlobalUI">
+      <UniqueIdentifier>{416bb0f3-da97-4196-833b-8fd4c2d62f0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\07.GlobalUI\00.TopHPBar">
+      <UniqueIdentifier>{21fc8cc2-742e-43c0-9a76-c1ba356a601a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\07.GlobalUI\01.SummonsEmblem">
+      <UniqueIdentifier>{bd3c4563-43bc-4522-a58e-06ed44387cfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\06.Drop">
+      <UniqueIdentifier>{0cda0dec-12a4-410a-b764-8b4a02daae81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1111,10 +1114,10 @@
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\01.SketelonWarrior</Filter>
     </ClInclude>
     <ClInclude Include="MonsterTopHPBar.h">
-      <Filter>Object\Actor\00.Global\06.CommonGlobal\00.TopHPBar</Filter>
+      <Filter>Object\Actor\00.Global\07.GlobalUI\00.TopHPBar</Filter>
     </ClInclude>
     <ClInclude Include="SummonsEmblem.h">
-      <Filter>Object\Actor\00.Global\06.CommonGlobal\01.SummonsEmblem</Filter>
+      <Filter>Object\Actor\00.Global\07.GlobalUI\01.SummonsEmblem</Filter>
     </ClInclude>
     <ClInclude Include="SketelonWizard.h">
       <Filter>Object\Actor\00.Global\00.Player\01.Summons\02.SketelonWizard</Filter>
