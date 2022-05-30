@@ -665,6 +665,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Monster_Common.h" />
     <ClInclude Include="Portal.h">
       <SubType>
       </SubType>

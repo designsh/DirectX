@@ -293,6 +293,24 @@ void Zombie::StartGetHit()
 
 	// 피격 사운드 재생
 	StateSound_->PlayAlone("Zombie_GetHit.wav", 0);
+
+	// 특정 공격에 의한 피격시 해당 몬스터의 색이 변경
+	if (true == SpecialGetHit_)
+	{
+		switch (CurDamageType_)
+		{
+			case MonsterDamageType::COLD:
+			{
+				Zombie_->SetResultColor(float4(0.f, 0.f, 1.f, 1.f));
+				break;
+			}
+			case MonsterDamageType::POISON:
+			{
+				Zombie_->SetResultColor(float4(0.f, 1.f, 0.f, 1.f));
+				break;
+			}
+		}
+	}
 }
 
 void Zombie::UpdateGetHit()
@@ -301,6 +319,9 @@ void Zombie::UpdateGetHit()
 
 void Zombie::EndGetHit()
 {
+	CurDamageType_ = MonsterDamageType::NONE;
+	SpecialGetHit_ = false;
+	Zombie_->SetResultColor(float4::ONE);
 }
 
 // 사망상태

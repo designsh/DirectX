@@ -31,7 +31,9 @@ Tainted::Tainted() :
 	MapHP_(0),
 	DropGold_(0),
 	Attack_(false),
-	StateSound_(nullptr)
+	StateSound_(nullptr),
+	SpecialGetHit_(false),
+	CurDamageType_(MonsterDamageType::NONE)
 {
 	NavigationIndex_ = TaintedCnt;
 	++TaintedCnt;
@@ -155,7 +157,7 @@ void Tainted::SpawnToDeath()
 	State_.ChangeState("Death");
 }
 
-void Tainted::GetHitDamage(int _Damage)
+void Tainted::HitDamage(int _Damage)
 {
 	CurHP_ -= _Damage;
 	if (0 >= CurHP_)
@@ -167,6 +169,24 @@ void Tainted::GetHitDamage(int _Damage)
 	{
 		State_.ChangeState("GetHit");
 	}
+}
+
+void Tainted::SpecialHitDamage(int _Damage, MonsterDamageType _DamageType)
+{
+	// 플레이어 소환수(스켈레톤(법사형))의 발사체에 의한 피격시 호출
+	CurDamageType_ = _DamageType;
+	CurHP_ -= _Damage;
+	if (0 >= CurHP_)
+	{
+		CurHP_ = 0;
+		State_.ChangeState("Death");
+	}
+	else
+	{
+		State_.ChangeState("GetHit");
+	}
+
+	SpecialGetHit_ = true;
 }
 
 #pragma endregion

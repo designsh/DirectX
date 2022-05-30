@@ -171,7 +171,7 @@ void SummonsGolem::AttackAnimationEnd()
 			if (Fallen_FSMState::FL_DEAD != CurAttackMonster->GetCurState() &&
 				Fallen_FSMState::FL_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(GolemInfo_.SkillDamage);
 			}
 		}
 		else if (std::string::npos != DetectActor.find("SpikeFiend"))
@@ -180,7 +180,7 @@ void SummonsGolem::AttackAnimationEnd()
 			if (SpikeFiend_FSMState::SF_DEAD != CurAttackMonster->GetCurState() &&
 				SpikeFiend_FSMState::SF_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(GolemInfo_.SkillDamage);
 			}
 		}
 		else if (std::string::npos != DetectActor.find("Tainted"))
@@ -189,7 +189,7 @@ void SummonsGolem::AttackAnimationEnd()
 			if (Tainted_FSMState::TT_DEAD != CurAttackMonster->GetCurState() &&
 				Tainted_FSMState::TT_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(GolemInfo_.SkillDamage);
 			}
 		}
 		else if (std::string::npos != DetectActor.find("Zombie"))
@@ -198,7 +198,7 @@ void SummonsGolem::AttackAnimationEnd()
 			if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
 				Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(GolemInfo_.SkillDamage);
 			}
 		}
 		else if (std::string::npos != DetectActor.find("Andariel"))
@@ -207,7 +207,7 @@ void SummonsGolem::AttackAnimationEnd()
 			if (Andariel_FSMState::AD_DEAD != CurAttackMonster->GetCurState() &&
 				Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(GolemInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(GolemInfo_.SkillDamage);
 			}
 		}
 

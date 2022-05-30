@@ -31,7 +31,9 @@ Fallen::Fallen() :
 	PrevDir_(Fallen_TargetDir::FL_B),
 	CurDir_(Fallen_TargetDir::FL_B),
 	Attack_(false),
-	StateSound_(nullptr)
+	StateSound_(nullptr),
+	SpecialGetHit_(false),
+	CurDamageType_(MonsterDamageType::NONE)
 {
 	NavigationIndex_ = FallenCnt;
 	++FallenCnt;
@@ -155,7 +157,7 @@ void Fallen::SpawnToDeath()
 	State_.ChangeState("Death");
 }
 
-void Fallen::GetHitDamage(int _Damage)
+void Fallen::HitDamage(int _Damage)
 {
 	CurHP_ -= _Damage;
 	if (0 >= CurHP_)
@@ -167,6 +169,24 @@ void Fallen::GetHitDamage(int _Damage)
 	{
 		State_.ChangeState("GetHit");
 	}
+}
+
+void Fallen::SpecialHitDamage(int _Damage, MonsterDamageType _DamageType)
+{
+	// 플레이어 소환수(스켈레톤(법사형))의 발사체에 의한 피격시 호출
+	CurDamageType_ = _DamageType;
+	CurHP_ -= _Damage;
+	if (0 >= CurHP_)
+	{
+		CurHP_ = 0;
+		State_.ChangeState("Death");
+	}
+	else
+	{
+		State_.ChangeState("GetHit");
+	}
+
+	SpecialGetHit_ = true;
 }
 
 #pragma endregion

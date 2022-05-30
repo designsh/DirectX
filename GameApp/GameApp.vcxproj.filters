@@ -859,6 +859,9 @@
     <Filter Include="Object\Actor\05.Ending\02.CreditText">
       <UniqueIdentifier>{d4c8cf75-c2ea-4822-b6c6-e4b1910c77f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\01.Monster\99.MonsterCommonHeader">
+      <UniqueIdentifier>{f3ef70f8-b5b7-40c9-b4f2-26a0744bf033}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -1157,6 +1160,9 @@
     </ClInclude>
     <ClInclude Include="CatacombsMap.h">
       <Filter>Object\Actor\00.Global\05.Map\02.RandomMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Common.h">
+      <Filter>Object\Actor\00.Global\01.Monster\99.MonsterCommonHeader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

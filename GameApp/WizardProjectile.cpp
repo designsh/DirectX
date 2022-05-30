@@ -12,6 +12,7 @@
 #include "MainPlayer.h"
 #include "MouseObject.h"
 
+#include "Monster_Common.h"
 #include "Fallen.h"
 #include "SpikeFiend.h"
 #include "Tainted.h"
@@ -81,7 +82,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 		if (Fallen_FSMState::FL_DEAD != CurAttackMonster->GetCurState() &&
 			Fallen_FSMState::FL_DEATH != CurAttackMonster->GetCurState())
 		{
-			CurAttackMonster->GetHitDamage(Damage_);
+			//CurAttackMonster->HitDamage(Damage_);
+			CurAttackMonster->SpecialHitDamage(Damage_, static_cast<MonsterDamageType>(ProjectileType_));
 			Death();
 		}
 	}
@@ -91,7 +93,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 		if (SpikeFiend_FSMState::SF_DEAD != CurAttackMonster->GetCurState() &&
 			SpikeFiend_FSMState::SF_DEATH != CurAttackMonster->GetCurState())
 		{
-			CurAttackMonster->GetHitDamage(Damage_);
+			//CurAttackMonster->HitDamage(Damage_);
+			CurAttackMonster->SpecialHitDamage(Damage_, static_cast<MonsterDamageType>(ProjectileType_));
 			Death();
 		}
 	}
@@ -101,7 +104,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 		if (Tainted_FSMState::TT_DEAD != CurAttackMonster->GetCurState() &&
 			Tainted_FSMState::TT_DEATH != CurAttackMonster->GetCurState())
 		{
-			CurAttackMonster->GetHitDamage(Damage_);
+			//CurAttackMonster->HitDamage(Damage_);
+			CurAttackMonster->SpecialHitDamage(Damage_, static_cast<MonsterDamageType>(ProjectileType_));
 			Death();
 		}
 	}
@@ -111,7 +115,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 		if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
 			Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
 		{
-			CurAttackMonster->GetHitDamage(Damage_);
+			//CurAttackMonster->HitDamage(Damage_);
+			CurAttackMonster->SpecialHitDamage(Damage_, static_cast<MonsterDamageType>(ProjectileType_));
 			Death();
 		}
 	}
@@ -121,7 +126,8 @@ void WizardProjectile::TargetCollision(GameEngineCollision* _Other)
 		if (Andariel_FSMState::AD_DEAD != CurAttackMonster->GetCurState() &&
 			Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
 		{
-			CurAttackMonster->GetHitDamage(Damage_);
+			//CurAttackMonster->HitDamage(Damage_);
+			CurAttackMonster->SpecialHitDamage(Damage_, static_cast<MonsterDamageType>(ProjectileType_));
 			Death();
 		}
 	}

@@ -7,8 +7,10 @@
 #include "GlobalEnumClass.h"
 #include "AllMonsterInfomation.h"
 
+#include "Monster_Common.h"
 #include "FixedTileMap_Common.h"
 #include "RandomTileMap_Common.h"
+
 
 // 방향관련
 enum class Fallen_TargetDir
@@ -84,6 +86,10 @@ private: // 공격관련
 
 private: // 사운드관련
 	GameEngineSoundPlayer* StateSound_;
+
+private: // 피격관련
+	bool SpecialGetHit_;
+	MonsterDamageType CurDamageType_;
 
 public:
 	Fallen();
@@ -167,7 +173,8 @@ private: // 특정 애니메이션 종료시 호출되는 함수
 
 public: // 외부접근 강제 상태전환
 	void SpawnToDeath();
-	void GetHitDamage(int _Damage);
+	void HitDamage(int _Damage);
+	void SpecialHitDamage(int _Damage, MonsterDamageType _DamageType);
 
 public: // 적 체크 리스트관련
 	void SetEnterTheRoomDetectList(int _SpawnRoomNo);

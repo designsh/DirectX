@@ -440,7 +440,7 @@ void SketelonWarrior::AttackAnimationEnd()
 			if (Fallen_FSMState::FL_DEAD != CurAttackMonster->GetCurState() &&
 				Fallen_FSMState::FL_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(SketelonWarriorInfo_.SkillDamage);
 			}
 		}
 		else if (std::string::npos != DetectActor.find("SpikeFiend"))
@@ -449,7 +449,7 @@ void SketelonWarrior::AttackAnimationEnd()
 			if (SpikeFiend_FSMState::SF_DEAD != CurAttackMonster->GetCurState() &&
 				SpikeFiend_FSMState::SF_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(SketelonWarriorInfo_.SkillDamage);
 			}
 		}
 		else if (std::string::npos != DetectActor.find("Tainted"))
@@ -458,7 +458,7 @@ void SketelonWarrior::AttackAnimationEnd()
 			if (Tainted_FSMState::TT_DEAD != CurAttackMonster->GetCurState() &&
 				Tainted_FSMState::TT_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(SketelonWarriorInfo_.SkillDamage);
 			}
 		}
 		else if (std::string::npos != DetectActor.find("Zombie"))
@@ -467,7 +467,7 @@ void SketelonWarrior::AttackAnimationEnd()
 			if (Zombie_FSMState::ZB_DEAD != CurAttackMonster->GetCurState() &&
 				Zombie_FSMState::ZB_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(SketelonWarriorInfo_.SkillDamage);
 			}
 		}
 		else if (std::string::npos != DetectActor.find("Andariel"))
@@ -476,7 +476,7 @@ void SketelonWarrior::AttackAnimationEnd()
 			if (Andariel_FSMState::AD_DEAD != CurAttackMonster->GetCurState() &&
 				Andariel_FSMState::AD_DEATH != CurAttackMonster->GetCurState())
 			{
-				CurAttackMonster->GetHitDamage(SketelonWarriorInfo_.SkillDamage);
+				CurAttackMonster->HitDamage(SketelonWarriorInfo_.SkillDamage);
 			}
 		}
 

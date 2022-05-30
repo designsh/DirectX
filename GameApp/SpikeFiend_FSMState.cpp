@@ -293,6 +293,24 @@ void SpikeFiend::StartGetHit()
 
 	// 피격 사운드 재생
 	StateSound_->PlayAlone("SpikeFiend_GetHit.wav", 0);
+
+	// 특정 공격에 의한 피격시 해당 몬스터의 색이 변경
+	if (true == SpecialGetHit_)
+	{
+		switch (CurDamageType_)
+		{
+			case MonsterDamageType::COLD:
+			{
+				SpikeFiend_->SetResultColor(float4(0.f, 0.f, 1.f, 1.f));
+				break;
+			}
+			case MonsterDamageType::POISON:
+			{
+				SpikeFiend_->SetResultColor(float4(0.f, 1.f, 0.f, 1.f));
+				break;
+			}
+		}
+	}
 }
 
 void SpikeFiend::UpdateGetHit()
@@ -301,6 +319,9 @@ void SpikeFiend::UpdateGetHit()
 
 void SpikeFiend::EndGetHit()
 {
+	CurDamageType_ = MonsterDamageType::NONE;
+	SpecialGetHit_ = false;
+	SpikeFiend_->SetResultColor(float4::ONE);
 }
 
 // 사망상태

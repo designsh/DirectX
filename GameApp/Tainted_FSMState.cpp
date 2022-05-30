@@ -294,6 +294,24 @@ void Tainted::StartGetHit()
 
 	// 피격 사운드 재생
 	StateSound_->PlayAlone("Tainted_GetHit.wav", 0);
+
+	// 특정 공격에 의한 피격시 해당 몬스터의 색이 변경
+	if (true == SpecialGetHit_)
+	{
+		switch (CurDamageType_)
+		{
+			case MonsterDamageType::COLD:
+			{
+				Tainted_->SetResultColor(float4(0.f, 0.f, 1.f, 1.f));
+				break;
+			}
+			case MonsterDamageType::POISON:
+			{
+				Tainted_->SetResultColor(float4(0.f, 1.f, 0.f, 1.f));
+				break;
+			}
+		}
+	}
 }
 
 void Tainted::UpdateGetHit()
@@ -302,6 +320,9 @@ void Tainted::UpdateGetHit()
 
 void Tainted::EndGetHit()
 {
+	CurDamageType_ = MonsterDamageType::NONE;
+	SpecialGetHit_ = false;
+	Tainted_->SetResultColor(float4::ONE);
 }
 
 // 사망상태

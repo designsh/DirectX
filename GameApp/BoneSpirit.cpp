@@ -100,7 +100,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 					// 상태 전환
 					State_.ChangeState("Explode");
 
-					CurAttackMonster->GetHitDamage(Damage_);
+					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
 			else if (std::string::npos != CollisionName.find("SpikeFiend"))
@@ -112,7 +112,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 					// 상태 전환
 					State_.ChangeState("Explode");
 
-					CurAttackMonster->GetHitDamage(Damage_);
+					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
 			else if (std::string::npos != CollisionName.find("Tainted"))
@@ -124,7 +124,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 					// 상태 전환
 					State_.ChangeState("Explode");
 
-					CurAttackMonster->GetHitDamage(Damage_);
+					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
 			else if (std::string::npos != CollisionName.find("Zombie"))
@@ -136,7 +136,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 					// 상태 전환
 					State_.ChangeState("Explode");
 
-					CurAttackMonster->GetHitDamage(Damage_);
+					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
 			else if (std::string::npos != CollisionName.find("Andariel"))
@@ -148,7 +148,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 					// 상태 전환
 					State_.ChangeState("Explode");
 
-					CurAttackMonster->GetHitDamage(Damage_);
+					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
 		}
@@ -167,7 +167,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				// 상태 전환
 				State_.ChangeState("Explode");
 
-				CurAttackMonster->GetHitDamage(Damage_);
+				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
 		else if (std::string::npos != CollisionName.find("SpikeFiend"))
@@ -179,7 +179,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				// 상태 전환
 				State_.ChangeState("Explode");
 
-				CurAttackMonster->GetHitDamage(Damage_);
+				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
 		else if (std::string::npos != CollisionName.find("Tainted"))
@@ -191,7 +191,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				// 상태 전환
 				State_.ChangeState("Explode");
 
-				CurAttackMonster->GetHitDamage(Damage_);
+				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
 		else if (std::string::npos != CollisionName.find("Zombie"))
@@ -203,7 +203,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				// 상태 전환
 				State_.ChangeState("Explode");
 
-				CurAttackMonster->GetHitDamage(Damage_);
+				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
 		else if (std::string::npos != CollisionName.find("Andariel"))
@@ -215,7 +215,7 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				// 상태 전환
 				State_.ChangeState("Explode");
 
-				CurAttackMonster->GetHitDamage(Damage_);
+				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
 	}

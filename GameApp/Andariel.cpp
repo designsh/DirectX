@@ -45,7 +45,9 @@ Andariel::Andariel() :
 	MoveSpeed_(150.f),
 	PrevDir_(Andariel_TargetDir::AD_B),
 	CurDir_(Andariel_TargetDir::AD_B),
-	StateSound_(nullptr)
+	StateSound_(nullptr),
+	SpecialGetHit_(false),
+	CurDamageType_(MonsterDamageType::NONE)
 {
 	NavigationIndex_ = AndarielCnt;
 	++AndarielCnt;
@@ -238,7 +240,7 @@ void Andariel::SpawnToDeath()
 	State_.ChangeState("Death");
 }
 
-void Andariel::GetHitDamage(int _Damage)
+void Andariel::HitDamage(int _Damage)
 {
 	CurHP_ -= _Damage;
 	if (0 >= CurHP_)
@@ -250,6 +252,24 @@ void Andariel::GetHitDamage(int _Damage)
 	{
 		State_.ChangeState("GetHit");
 	}
+}
+
+void Andariel::SpecialHitDamage(int _Damage, MonsterDamageType _DamageType)
+{
+	// 플레이어 소환수(스켈레톤(법사형))의 발사체에 의한 피격시 호출
+	CurDamageType_ = _DamageType;
+	CurHP_ -= _Damage;
+	if (0 >= CurHP_)
+	{
+		CurHP_ = 0;
+		State_.ChangeState("Death");
+	}
+	else
+	{
+		State_.ChangeState("GetHit");
+	}
+
+	SpecialGetHit_ = true;
 }
 
 #pragma endregion
