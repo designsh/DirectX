@@ -259,6 +259,11 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PoisonNova.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PoisonNova_Collision.cpp" />
     <ClCompile Include="Portal.cpp">
       <SubType>
       </SubType>
@@ -658,6 +663,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Monster_Common.h" />
+    <ClInclude Include="PoisonNova.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Portal.h">
       <SubType>
       </SubType>

@@ -419,6 +419,12 @@
     <ClCompile Include="MainPlayer_Sound.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.Function\UpdateFunction\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="PoisonNova.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\02.Skill\01.PoisonNova</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonNova_Collision.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\02.Skill\01.PoisonNova</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -847,6 +853,12 @@
     <Filter Include="Object\Actor\00.Global\06.Drop">
       <UniqueIdentifier>{0cda0dec-12a4-410a-b764-8b4a02daae81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\00.Global\06.Drop\00.Gold">
+      <UniqueIdentifier>{3d0b72a9-7e79-43e2-8c8c-b0b4d6422307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\02.Skill\01.PoisonNova">
+      <UniqueIdentifier>{9ae07b51-626a-43e4-9a37-e4e7f3a44370}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -1145,6 +1157,9 @@
     </ClInclude>
     <ClInclude Include="Monster_Common.h">
       <Filter>Object\Actor\00.Global\01.Monster\99.MonsterCommonHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonNova.h">
+      <Filter>Object\Actor\00.Global\00.Player\02.Skill\01.PoisonNova</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

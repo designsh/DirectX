@@ -76,7 +76,10 @@ void BoneSpirit::Update(float _DeltaTime)
 			CamPos.z = 0.f;
 			Collider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
-			Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&BoneSpirit::TargetCollision, this, std::placeholders::_1));
+			if (true == Collider_->IsUpdate())
+			{
+				Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&BoneSpirit::TargetCollision, this, std::placeholders::_1));
+			}
 		}
 	}
 }
@@ -99,7 +102,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				{
 					// 상태 전환
 					State_.ChangeState("Explode");
-
 					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
@@ -111,7 +113,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				{
 					// 상태 전환
 					State_.ChangeState("Explode");
-
 					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
@@ -123,7 +124,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				{
 					// 상태 전환
 					State_.ChangeState("Explode");
-
 					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
@@ -135,7 +135,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				{
 					// 상태 전환
 					State_.ChangeState("Explode");
-
 					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
@@ -147,7 +146,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 				{
 					// 상태 전환
 					State_.ChangeState("Explode");
-
 					CurAttackMonster->HitDamage(Damage_);
 				}
 			}
@@ -166,7 +164,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			{
 				// 상태 전환
 				State_.ChangeState("Explode");
-
 				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
@@ -178,7 +175,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			{
 				// 상태 전환
 				State_.ChangeState("Explode");
-
 				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
@@ -190,7 +186,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			{
 				// 상태 전환
 				State_.ChangeState("Explode");
-
 				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
@@ -202,7 +197,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			{
 				// 상태 전환
 				State_.ChangeState("Explode");
-
 				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
@@ -214,7 +208,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 			{
 				// 상태 전환
 				State_.ChangeState("Explode");
-
 				CurAttackMonster->HitDamage(Damage_);
 			}
 		}
@@ -246,7 +239,10 @@ void BoneSpirit::BoneSpiritFire(const float4& _StartPos, const float4& _MouseCli
 	// 데미지 등록
 	MainPlayerInfomation::GetInst().GetSkillInfo(93, BonsSpiritInfo_);
 	Damage_ = BonsSpiritInfo_.SkillDamage;
-	
+
+	// 플레이어 마나 소모
+	GlobalValue::CurPlayer->DelCurrentMP(BonsSpiritInfo_.ManaUsage);
+
 	// 네비게이션 생성
 	GlobalValue::CatacombsMap->CreateNavitaion(NavigationObjectType::Player_ProjectileSkill, ProjetileCount);
 

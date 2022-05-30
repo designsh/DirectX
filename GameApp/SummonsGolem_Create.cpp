@@ -4,7 +4,11 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
+#include "GlobalEnumClass.h"
+#include "GlobalValue.h"
+
 #include "MainPlayerInfomation.h"
+#include "MainPlayer.h"
 
 void SummonsGolem::CreateClayGolem()
 {
@@ -13,8 +17,9 @@ void SummonsGolem::CreateClayGolem()
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
 	GolemRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
-#pragma region 정보 저장
+#pragma region 정보저장 및 플레이어 마나 소모
 	MainPlayerInfomation::GetInst().GetSkillInfo(75, GolemInfo_);
+	GlobalValue::CurPlayer->DelCurrentMP(GolemInfo_.ManaUsage);
 #pragma endregion
 
 #pragma region 애니메이션 생성
@@ -80,8 +85,9 @@ void SummonsGolem::CreateBloodGolem()
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
 	GolemRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
-#pragma region 정보 저장
+#pragma region 정보저장 및 플레이어 마나 소모
 	MainPlayerInfomation::GetInst().GetSkillInfo(85, GolemInfo_);
+	GlobalValue::CurPlayer->DelCurrentMP(GolemInfo_.ManaUsage);
 #pragma endregion
 
 #pragma region 애니메이션 생성
@@ -147,8 +153,9 @@ void SummonsGolem::CreateIronGolem()
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(180.f, 180.f));
 	GolemRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
-#pragma region 정보 저장
+#pragma region 정보저장 및 플레이어 마나 소모
 	MainPlayerInfomation::GetInst().GetSkillInfo(90, GolemInfo_);
+	GlobalValue::CurPlayer->DelCurrentMP(GolemInfo_.ManaUsage);
 #pragma endregion
 
 #pragma region 애니메이션 생성
@@ -214,8 +221,9 @@ void SummonsGolem::CreateFireGolem()
 	GolemRenderer_->GetTransform()->SetLocalScaling(float4(240.f, 240.f));
 	GolemRenderer_->SetRenderingPipeLine("TextureDepthOff");
 
-#pragma region 정보 저장
+#pragma region 정보저장 및 플레이어 마나 소모
 	MainPlayerInfomation::GetInst().GetSkillInfo(94, GolemInfo_);
+	GlobalValue::CurPlayer->DelCurrentMP(GolemInfo_.ManaUsage);
 #pragma endregion
 
 #pragma region 애니메이션 생성

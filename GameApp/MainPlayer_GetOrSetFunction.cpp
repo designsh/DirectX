@@ -228,6 +228,10 @@ void MainPlayer::SetCurrentMP(int _MP)
 void MainPlayer::DelCurrentMP(int _MP)
 {
 	CurMP_ -= _MP;
+	if (0 >= CurMP_)
+	{
+		CurMP_ = 0;
+	}
 	BottomStateBar_->GetMPControl()->MPConsumption(static_cast<float>(CurMP_) * 0.01f);
 }
 

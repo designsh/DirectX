@@ -595,6 +595,11 @@ void MainPlayer::StartSkillAttack()
 			SkeletonWizardSummons();
 			break;
 		}
+		case 92: // PoisonNove 발사체
+		{
+			PoisonNoveFire();
+			break;
+		}
 		case 93: // BoneSpirit 발사체
 		{
 			BoneSpiritFire();
@@ -647,6 +652,11 @@ void MainPlayer::StartSkillCasting()
 		case 80: // Skeleton(마법사타입) 소환
 		{
 			SkeletonWizardSummons();
+			break;
+		}
+		case 92: // PoisonNove 발사체
+		{
+			PoisonNoveFire();
 			break;
 		}
 		case 93: // BoneSpirit 발사체

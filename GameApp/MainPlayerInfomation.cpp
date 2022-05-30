@@ -182,6 +182,18 @@ void MainPlayerInfomation::GetSkillInfo(int _SkillCode, SkillList& _SkillInfo)
 	}
 }
 
+int MainPlayerInfomation::GetSkillManaUsage(int _SkillCode)
+{
+	int SkillCnt = static_cast<int>(MainPlayerInfo_.SkillInfo.size());
+	for (int i = 0; i < SkillCnt; ++i)
+	{
+		if (_SkillCode == MainPlayerInfo_.SkillInfo[i].SkillCode)
+		{
+			return MainPlayerInfo_.SkillInfo[i].ManaUsage;
+		}
+	}
+}
+
 void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType)
 {
 	// 캐릭터생성화면에서 메인플레이어 정보를 생성

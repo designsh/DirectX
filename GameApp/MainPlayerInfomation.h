@@ -303,6 +303,7 @@ public:
 
 public:
 	void GetSkillInfo(int _SkillCode, SkillList& _SkillInfo);
+	int GetSkillManaUsage(int _SkillCode);
 
 public: // CreateMainPlayerInfo : 캐릭터생성화면에서 생성하여 해당 정보 파일로 저장한 후 생성
 	void CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType);										// 메인플레이어 정보 초기생성

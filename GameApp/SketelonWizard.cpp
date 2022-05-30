@@ -123,6 +123,9 @@ void SketelonWizard::SpawnSketelonWizard(SkeletonWizardType _WizardType, const f
 	// 스킬정보 = 소환수정보
 	MainPlayerInfomation::GetInst().GetSkillInfo(80, SketelonWizardInfo_);
 
+	// 플레이어 마나소모
+	GlobalValue::CurPlayer->DelCurrentMP(SketelonWizardInfo_.ManaUsage);
+
 	// 네비게이션 생성
 	GlobalValue::CatacombsMap->CreateNavitaion(NavigationObjectType::Player_SketelonWizard, WizardNavigationIndex_);
 }

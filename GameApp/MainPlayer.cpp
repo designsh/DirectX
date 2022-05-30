@@ -52,6 +52,7 @@
 #include "SketelonWizard.h"
 
 // 스킬관련
+#include "PoisonNova.h"
 #include "BoneSpirit.h"
 
 int MainPlayer::ArrangeRoomNo_ = -1;
@@ -951,6 +952,44 @@ SketelonWizard* MainPlayer::SummonsSkeletonWizardTileCheck(TileIndex _CheckTile)
 	}
 
 	return nullptr;
+}
+
+void MainPlayer::PoisonNoveFire()
+{
+	if (CurRightSkill_ == 92)
+	{
+		// 360도 방향으로 발사체 발사
+		// 총 72개의 발사체를 발사
+		int AniDir = 0;
+
+		// 초기 방향벡터를 셋팅하고,
+		float4 ProjectileStartDir_ = float4::UP;
+		PoisonNova* NewPoisonNova = GetLevel()->CreateActor<PoisonNova>();
+		NewPoisonNova->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+		NewPoisonNova->PoisonNoveFire(AniDir, ProjectileStartDir_);
+		NewPoisonNova->Release(5.f);
+
+		// -5도씩 회전하는 방향벡터를 이용하여 발사체를 생성
+		for (int i = 1; i < 72; ++i)
+		{
+			ProjectileStartDir_.RotateZDegree(-5.f);
+
+			// 발사체 생성
+			PoisonNova* NewPoisonNova = GetLevel()->CreateActor<PoisonNova>();
+			NewPoisonNova->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+			NewPoisonNova->PoisonNoveFire(AniDir, ProjectileStartDir_);
+			NewPoisonNova->Release(5.f);
+
+			// 9개 생성마다 애니메이션 방향 전환
+			if (i % 9 == 0)
+			{
+				++AniDir;
+			}
+		}
+
+		// 해당 스킬사용으로인한 마나 소모
+		DelCurrentMP(MainPlayerInfomation::GetInst().GetSkillManaUsage(92));
+	}
 }
 
 void MainPlayer::BoneSpiritFire()

@@ -122,6 +122,9 @@ void SketelonWarrior::SpawnSketelonWarrior(const float4& _SpawnPos)
 	// 스킬정보 = 소환수정보
 	MainPlayerInfomation::GetInst().GetSkillInfo(70, SketelonWarriorInfo_);
 
+	// 플레이어 마나소모
+	GlobalValue::CurPlayer->DelCurrentMP(SketelonWarriorInfo_.ManaUsage);
+
 	// 네비게이션 생성
 	GlobalValue::CatacombsMap->CreateNavitaion(NavigationObjectType::Player_SketelonWarrior, WarriorNavigationIndex_);
 }

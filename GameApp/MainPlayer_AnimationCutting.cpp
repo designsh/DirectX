@@ -1000,7 +1000,15 @@ void MainPlayer::SummonsSkelWizardProjectileAnimationCut()
 #pragma region 텍스쳐 컷팅관련(플레이어 스킬)
 void MainPlayer::AllSkillAnimationCut()
 {
+	PoisonNovaAnimationCut();
 	BoneSpiritAnimationCut();
+}
+
+void MainPlayer::PoisonNovaAnimationCut()
+{
+	// 발사체 컷팅
+	GameEngineTexture* PoisonNova_Projectile = GameEngineTextureManager::GetInst().Find("PoisonNova.png");
+	PoisonNova_Projectile->Cut(30, 8);
 }
 
 void MainPlayer::BoneSpiritAnimationCut()

@@ -330,6 +330,9 @@ void BoneSpirit::StartExplodeState()
 
 	// 발사 종료
 	FireStart_ = false;
+
+	// 더이상의 충돌을 방지하기위하여 충돌체 Off 상태전환
+	Collider_->Off();
 }
 
 void BoneSpirit::UpdateExplodeState()
