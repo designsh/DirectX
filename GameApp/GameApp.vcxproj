@@ -60,10 +60,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BoxObject.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="CatacombsLevel.cpp">
       <SubType>
       </SubType>
@@ -476,10 +472,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BottomStateBar.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="BoxObject.h">
       <SubType>
       </SubType>
     </ClInclude>
