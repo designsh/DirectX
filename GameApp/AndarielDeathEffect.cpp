@@ -47,22 +47,22 @@ void AndarielDeathEffect::Update(float _DeltaTime)
 		}
 	}
 
-	// 이동용 불꽃 생성
-	if (true == MoveDeathFireSpawn_)
-	{
-		MoveDeathFireSpawnTime_ -= _DeltaTime;
-		if (0.f >= MoveDeathFireSpawnTime_)
-		{
-			//MoveDeathFireSpawn();
-			//MoveDeathFireSpawnTime_ = 5.f;
-		}
+	//// 이동용 불꽃 생성
+	//if (true == MoveDeathFireSpawn_)
+	//{
+	//	MoveDeathFireSpawnTime_ -= _DeltaTime;
+	//	if (0.f >= MoveDeathFireSpawnTime_)
+	//	{
+	//		MoveDeathFireSpawn();
+	//		MoveDeathFireSpawnTime_ = 3.f;
+	//	}
 
-		// 최대 생성갯수 넘어가면 더이상 스폰하지않는다.
-		if (5 <= MoveDeathFireSpawnCnt_)
-		{
-			MoveDeathFireSpawn_ = false;
-		}
-	}
+	//	// 최대 생성갯수 넘어가면 더이상 스폰하지않는다.
+	//	if (5 <= MoveDeathFireSpawnCnt_)
+	//	{
+	//		MoveDeathFireSpawn_ = false;
+	//	}
+	//}
 }
 
 void AndarielDeathEffect::CreateDeathFire()
@@ -219,7 +219,7 @@ void AndarielDeathEffect::MoveDeathFireSpawn()
 	GameEngineImageRenderer* MoveDeathFire_ = CreateTransformComponent<GameEngineImageRenderer>();
 	MoveDeathFire_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
 	MoveDeathFire_->GetTransform()->SetWorldPosition(GlobalValue::CatacombsMap->GetWallTileIndexToPos(BodyTileIndex));
-	MoveDeathFire_->SetRenderingPipeLine("TextureTrans");
+	MoveDeathFire_->SetRenderingPipeLine("TextureTransDepthOff");
 
 	MoveDeathFire_->CreateAnimation("DeathFireDir.png", "MoveDeathFire", 0, 19, 0.1f, false);
 	MoveDeathFire_->SetChangeAnimation("MoveDeathFire");

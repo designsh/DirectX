@@ -28,7 +28,7 @@ Andariel::Andariel() :
 	SpawnTile_(),
 	IdleDelayTime_(1.f),
 	NavigationIndex_(-1),
-	SkillDelayTime_(15.f),
+	SkillDelayTime_(5.f),
 	SkillAttack_(false),
 	ProjectileCnt_(0),
 	ProjectileStartDir_(float4::ZERO),
