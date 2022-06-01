@@ -656,6 +656,13 @@ void MainPlayer::PlayerSkillCastKeyCheck()
 		}
 #pragma endregion
 
+#pragma region 현재 플레이어가 스킬시전중이라면 스킬시전 불가판정
+		if (CurState_ == PlayerState::STAT_SC || CurState_ == PlayerState::STAT_S1)
+		{
+			return;
+		}
+#pragma endregion
+
 		if (nullptr != GlobalValue::CurMouse)
 		{
 			// 마을에서 사용 불가
