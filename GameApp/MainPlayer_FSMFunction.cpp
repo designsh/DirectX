@@ -380,6 +380,10 @@ void MainPlayer::StartGetHit()
 	StateAndDirectChangeZOrder();
 
 	// 피격 사운드 재생
+	if (true == StateSound_->IsPlay())
+	{
+		StateSound_->Stop();
+	}
 	StateSound_->PlayAlone("Nec_GetHit.wav", 0);
 }
 
