@@ -16,7 +16,7 @@ NPC_TopMenuBar::NPC_TopMenuBar() :
 	ConversationMenuRenderer_(nullptr),
 	ConversationMenuCol_(nullptr),
 	BuySellMenuRenderer_(nullptr),
-	ButSellMenuCol_(nullptr),
+	BuySellMenuCol_(nullptr),
 	CloseMenuRenderer_(nullptr),
 	CloseMenuCol_(nullptr),
 	NPCClassType_(NPCClassType::MAX),
@@ -57,13 +57,13 @@ void NPC_TopMenuBar::Update(float _DeltaTime)
 		ConversationMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectConversationMenu, this, std::placeholders::_1));
 	}
 
-	if (nullptr != ButSellMenuCol_)
+	if (nullptr != BuySellMenuCol_)
 	{
 #ifdef _DEBUG
-		GetLevel()->UIPushDebugRender(ButSellMenuCol_->GetTransform(), CollisionType::Rect);
+		GetLevel()->UIPushDebugRender(BuySellMenuCol_->GetTransform(), CollisionType::Rect);
 #endif // _DEBUG
 
-		ButSellMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectBuySellMenu, this, std::placeholders::_1));
+		BuySellMenuCol_->Collision(CollisionType::Rect, CollisionType::CirCle, static_cast<int>(UIRenderOrder::Mouse), std::bind(&NPC_TopMenuBar::SelectBuySellMenu, this, std::placeholders::_1));
 	}
 
 	if (nullptr != CloseMenuCol_)
@@ -211,10 +211,10 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 			BuySellMenuRenderer_->GetTransform()->SetLocalScaling(float4(78.f, 20.f));
 			BuySellMenuRenderer_->TextSetting("HMKMRHD", "거래", 12.f, FW1_CENTER | FW1_VCENTER, float4::WHITE);
 
-			ButSellMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
-			ButSellMenuCol_->GetTransform()->SetLocalPosition(BuySellMenuRenderer_->GetTransform()->GetLocalPosition());
-			ButSellMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
-			ButSellMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
+			BuySellMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
+			BuySellMenuCol_->GetTransform()->SetLocalPosition(BuySellMenuRenderer_->GetTransform()->GetLocalPosition());
+			BuySellMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
+			BuySellMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
 
 			// 취소
 			CloseMenuRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::NPCUI0_Text));
@@ -276,10 +276,10 @@ void NPC_TopMenuBar::CreateNPCTopMenu(NPCClassType _NPCClassType, NPCType _NPCTy
 			BuySellMenuRenderer_->GetTransform()->SetLocalScaling(float4(78.f, 20.f));
 			BuySellMenuRenderer_->TextSetting("HMKMRHD", "거래/수리", 12.f, FW1_CENTER | FW1_VCENTER, float4::WHITE);
 
-			ButSellMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
-			ButSellMenuCol_->GetTransform()->SetLocalPosition(BuySellMenuRenderer_->GetTransform()->GetLocalPosition());
-			ButSellMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
-			ButSellMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
+			BuySellMenuCol_ = CreateTransformComponent<GameEngineCollision>(static_cast<int>(UIRenderOrder::NPCUI0_TextCol));
+			BuySellMenuCol_->GetTransform()->SetLocalPosition(BuySellMenuRenderer_->GetTransform()->GetLocalPosition());
+			BuySellMenuCol_->GetTransform()->SetLocalZOrder(-1.f);
+			BuySellMenuCol_->GetTransform()->SetLocalScaling(float4(70.f, 16.f));
 
 			// 취소
 			CloseMenuRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(static_cast<int>(UIRenderOrder::NPCUI0_Text));

@@ -264,6 +264,9 @@ void WeaponNPC::SelectConversationMenu()
 	FirstInteraction = false;
 	MessageView_->InteractionActive();
 
+	// 자기소개 음성 재생
+	SpeechSound_->PlayAlone("Cha_Conversation.wav", 0);
+
 	// 상단메뉴 닫기
 	TopMenuBar_->Off();
 }

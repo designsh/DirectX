@@ -23,7 +23,7 @@ private:
 
 	// 판매창
 	GameEngineUIRenderer* BuySellMenuRenderer_;
-	GameEngineCollision* ButSellMenuCol_;
+	GameEngineCollision* BuySellMenuCol_;
 
 	// 취소
 	GameEngineUIRenderer* CloseMenuRenderer_;
