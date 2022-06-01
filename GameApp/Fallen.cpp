@@ -33,6 +33,7 @@ Fallen::Fallen() :
 	Attack_(false),
 	StateSound_(nullptr),
 	SpecialGetHit_(false),
+	SpecialGetHitTime_(0.2f),
 	CurDamageType_(MonsterDamageType::NONE)
 {
 	NavigationIndex_ = FallenCnt;
@@ -57,6 +58,18 @@ void Fallen::Update(float _DeltaTime)
 
 	// 상태 갱신
 	State_.Update();
+
+	// 
+	if (true == SpecialGetHit_)
+	{
+		SpecialGetHitTime_ -= _DeltaTime;
+		if (0.f >= SpecialGetHitTime_)
+		{
+			CurDamageType_ = MonsterDamageType::NONE;
+			SpecialGetHit_ = false;
+			Fallen_->SetResultColor(float4::ONE);
+		}
+	}
 
 	TileIndex CurTileIndex = GlobalValue::CatacombsMap->GetWallTileIndex(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y - 24.f));
 	GetTransform()->SetLocalZOrder(-static_cast<float>(CurTileIndex.X_ + CurTileIndex.Y_));
@@ -183,10 +196,13 @@ void Fallen::SpecialHitDamage(int _Damage, MonsterDamageType _DamageType)
 	}
 	else
 	{
+		if (false == SpecialGetHit_)
+		{
+			SpecialGetHit_ = true;
+		}
+
 		State_.ChangeState("GetHit");
 	}
-
-	SpecialGetHit_ = true;
 }
 
 #pragma endregion

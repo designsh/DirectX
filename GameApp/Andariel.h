@@ -99,6 +99,7 @@ private: // 효과음 관려
 
 private: // 피격관련
 	bool SpecialGetHit_;
+	float SpecialGetHitTime_;
 	MonsterDamageType CurDamageType_;
 
 public:

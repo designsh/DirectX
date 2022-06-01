@@ -297,6 +297,8 @@ void Zombie::StartGetHit()
 	// 특정 공격에 의한 피격시 해당 몬스터의 색이 변경
 	if (true == SpecialGetHit_)
 	{
+		SpecialGetHitTime_ = 0.2f;
+
 		switch (CurDamageType_)
 		{
 			case MonsterDamageType::COLD:
@@ -319,9 +321,6 @@ void Zombie::UpdateGetHit()
 
 void Zombie::EndGetHit()
 {
-	CurDamageType_ = MonsterDamageType::NONE;
-	SpecialGetHit_ = false;
-	Zombie_->SetResultColor(float4::ONE);
 }
 
 // 사망상태

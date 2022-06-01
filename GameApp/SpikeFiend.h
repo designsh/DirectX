@@ -88,6 +88,7 @@ private: // 사운드관련
 
 private: // 피격관련
 	bool SpecialGetHit_;
+	float SpecialGetHitTime_;
 	MonsterDamageType CurDamageType_;
 
 public:

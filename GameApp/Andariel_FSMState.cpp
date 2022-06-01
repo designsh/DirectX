@@ -332,6 +332,8 @@ void Andariel::StartGetHit()
 	// 특정 공격에 의한 피격시 해당 몬스터의 색이 변경
 	if (true == SpecialGetHit_)
 	{
+		SpecialGetHitTime_ = 0.2f;
+
 		switch (CurDamageType_)
 		{
 			case MonsterDamageType::COLD:
@@ -355,9 +357,6 @@ void Andariel::UpdateGetHit()
 
 void Andariel::EndGetHit()
 {
-	CurDamageType_ = MonsterDamageType::NONE;
-	SpecialGetHit_ = false;
-	Andariel_->SetResultColor(float4::ONE);
 }
 
 // 사망상태
