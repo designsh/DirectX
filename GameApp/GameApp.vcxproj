@@ -78,10 +78,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CoffinObject.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="CreateCharacterButton.cpp">
       <SubType>
       </SubType>
@@ -394,6 +390,11 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Teeth.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Teeth_Collision.cpp" />
     <ClCompile Include="TileMapInfoWindow.cpp">
       <SubType>
       </SubType>
@@ -493,10 +494,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ClassSelectObject.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="CoffinObject.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -775,6 +772,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TakeInOutGoldPopup.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Teeth.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -216,9 +216,6 @@ void BoneSpirit::TargetCollision(GameEngineCollision* _Other)
 
 void BoneSpirit::BoneSpiritFire(const float4& _StartPos, const float4& _MouseClickPos, GameEngineActor* _TargetingMonster)
 {
-	// 발사 사운드 재생
-	StateSound_->PlayAlone("BoneSpirit.wav", 0);
-
 	// 마우스 클릭지점으로 발사 후 진행방향에 몬스터와 충돌시 타격을 입히고 소멸
 	TargetMonster_ = _TargetingMonster;
 	
@@ -239,9 +236,6 @@ void BoneSpirit::BoneSpiritFire(const float4& _StartPos, const float4& _MouseCli
 	// 데미지 등록
 	MainPlayerInfomation::GetInst().GetSkillInfo(93, BonsSpiritInfo_);
 	Damage_ = BonsSpiritInfo_.SkillDamage;
-
-	// 플레이어 마나 소모
-	GlobalValue::CurPlayer->DelCurrentMP(BonsSpiritInfo_.ManaUsage);
 
 	// 네비게이션 생성
 	GlobalValue::CatacombsMap->CreateNavitaion(NavigationObjectType::Player_ProjectileSkill, ProjetileCount);

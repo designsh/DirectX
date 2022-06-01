@@ -408,6 +408,7 @@ private: // 텍스쳐 컷팅관련(플레이어 소환수)
 
 private: // 텍스쳐 컷팅관련(플레이어 스킬)
 	void AllSkillAnimationCut();					// 플레이어의 스킬 전체 애니메이션에 필요한 모든 텍스쳐 컷팅처리
+	void TeethAnimationCut();						// Teeth Cutting
 	void PoisonNovaAnimationCut();					// PoisonNove Cutting
 	void BoneSpiritAnimationCut();					// BoneSpirit Cutting
 
@@ -595,6 +596,7 @@ public:
 
 #pragma region 포이즌&본스킬
 private:
+	void TeethFire();
 	void PoisonNoveFire();
 	void BoneSpiritFire();
 

@@ -283,6 +283,7 @@ public: // MainPlayerInfo Stat Infomation Update
 	void PlayerVitalityStatUP();
 	void PlayerEnergyStatUP();
 	void PlayerSkillLevelUp(int _SkillCode);
+	void PlayerSkillLevelUP(const std::string& _SkillName);
 
 public: // 스탯 포인트 증가
 	void StrengthPointUP();
@@ -296,14 +297,12 @@ public: // MainPlayer ItemInfo Update
 	void PlayerItemInfoUpdate(ItemLocType _PrevItemLocType, int _PrevStartIndex, ItemList _UpdateItemInfo);
 
 public:
-	void PlayerSkillLevelUP(const std::string& _SkillName);
-
-public:
 	bool PlayerLeftSkillUseCheck(int _SkillCode);
 
 public:
 	void GetSkillInfo(int _SkillCode, SkillList& _SkillInfo);
 	int GetSkillManaUsage(int _SkillCode);
+	int GetSkillLevel(int _SkillCode);
 
 public: // CreateMainPlayerInfo : 캐릭터생성화면에서 생성하여 해당 정보 파일로 저장한 후 생성
 	void CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType);										// 메인플레이어 정보 초기생성

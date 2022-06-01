@@ -52,6 +52,7 @@
 #include "SketelonWizard.h"
 
 // 스킬관련
+#include "Teeth.h"
 #include "PoisonNova.h"
 #include "BoneSpirit.h"
 
@@ -954,6 +955,114 @@ SketelonWizard* MainPlayer::SummonsSkeletonWizardTileCheck(TileIndex _CheckTile)
 	return nullptr;
 }
 
+void MainPlayer::TeethFire()
+{
+	if (CurRightSkill_ == 67)
+	{
+		// 해당 스킬레벨에의한 발사체 생성 최대치가 아니면 현재스킬레벨만큼 발사체 생성
+		// 단, 플레이어가 타겟을 바라보는방향으로 45도를 기준으로하여 발사체를 발사하므로
+		//     최대 9개의 발사체가 생성되며, 2레벨이상일때 각 발사체는 각도 5도를 기준으로 발사체가 생성
+		int ProjectileCnt = MainPlayerInfomation::GetInst().GetSkillLevel(CurRightSkill_);
+		if (9 <= ProjectileCnt)
+		{
+			ProjectileCnt = 9;
+		}
+
+		// 마우스 클릭지점을 이용하여 발사방향 Get
+		float4 FireDir = (SkillCastPos_ + GetLevel()->GetMainCameraActor()->GetTransform()->GetWorldPosition()) - GetTransform()->GetWorldPosition();
+		FireDir.Normalize3D();
+
+		// 발사체 생성
+		if (1 == ProjectileCnt)
+		{
+			Teeth* NewTeeth = GetLevel()->CreateActor<Teeth>();
+			NewTeeth->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+			NewTeeth->TeethFire(static_cast<int>(CurDirect_), FireDir);
+			NewTeeth->Release(5.f);
+		}
+		// 현재 내가 스킬을 시전하려는 방향벡터를 이용하여 각각의 발사체의 발사방향을 계산한다.
+		// 현재 스킬레벨이 짝수일경우 바라보는방향의 벡터를 제외하고 발사체가 생성되며
+		// 홀수일경우 바라보는방향의 벡터를 포함한 발사체가 생성된다.
+		else
+		{
+			// 해당 스킬의 레벨이 짝수일때
+			if (ProjectileCnt % 2 == 0)
+			{
+				// 바라보는방향의 벡터의 +- 5도씩의 발사체를 생성하여 발사
+				// 즉, 바라보는 방향의 벡터를 제외
+				float4 MinusAngle = FireDir;
+				int MinusCnt = ProjectileCnt / 2;
+				for (int i = 0; i < MinusCnt; ++i)
+				{
+					MinusAngle.RotateZDegree(-5.f);
+
+					// 발사체 생성
+					Teeth* NewTeeth = GetLevel()->CreateActor<Teeth>();
+					NewTeeth->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+					NewTeeth->TeethFire(static_cast<int>(CurDirect_), MinusAngle);
+					NewTeeth->Release(5.f);
+				}
+
+				float4 PlusAngle = FireDir;
+				int PlusCnt = ProjectileCnt / 2;
+				for (int i = 0; i < MinusCnt; ++i)
+				{
+					PlusAngle.RotateZDegree(5.f);
+
+					// 발사체 생성
+					Teeth* NewTeeth = GetLevel()->CreateActor<Teeth>();
+					NewTeeth->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+					NewTeeth->TeethFire(static_cast<int>(CurDirect_), PlusAngle);
+					NewTeeth->Release(5.f);
+				}
+			}
+			// 해당 스킬의 레벨이 홀수일때
+			else
+			{
+				// 바라보는 방향의 벡터의 +- 5도씩의 발사체와 바라보는 방향의 벡터의 발사체를 생성하여 발사
+				// 즉, 바라보는 방향의 벡터를 포함
+				Teeth* NewTeeth = GetLevel()->CreateActor<Teeth>();
+				NewTeeth->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+				NewTeeth->TeethFire(static_cast<int>(CurDirect_), FireDir);
+				NewTeeth->Release(5.f);
+
+				float4 MinusAngle = FireDir;
+				int MinusCnt = ProjectileCnt / 2;
+				for (int i = 0; i < MinusCnt; ++i)
+				{
+					MinusAngle.RotateZDegree(-5.f);
+
+					// 발사체 생성
+					Teeth* NewTeeth = GetLevel()->CreateActor<Teeth>();
+					NewTeeth->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+					NewTeeth->TeethFire(static_cast<int>(CurDirect_), MinusAngle);
+					NewTeeth->Release(5.f);
+				}
+
+				float4 PlusAngle = FireDir;
+				int PlusCnt = ProjectileCnt / 2;
+				for (int i = 0; i < MinusCnt; ++i)
+				{
+					PlusAngle.RotateZDegree(5.f);
+
+					// 발사체 생성
+					Teeth* NewTeeth = GetLevel()->CreateActor<Teeth>();
+					NewTeeth->GetTransform()->SetWorldPosition(float4(GetTransform()->GetWorldPosition().x, GetTransform()->GetWorldPosition().y));
+					NewTeeth->TeethFire(static_cast<int>(CurDirect_), PlusAngle);
+					NewTeeth->Release(5.f);
+				}
+
+			}
+		}
+
+		// 해당 스킬사용으로인한 마나 소모
+		DelCurrentMP(MainPlayerInfomation::GetInst().GetSkillManaUsage(CurRightSkill_));
+
+		// 스킬발사 사운드 재생
+		StateSound_->PlayAlone("teeth.wav", 0);
+	}
+}
+
 void MainPlayer::PoisonNoveFire()
 {
 	if (CurRightSkill_ == 92)
@@ -988,7 +1097,10 @@ void MainPlayer::PoisonNoveFire()
 		}
 
 		// 해당 스킬사용으로인한 마나 소모
-		DelCurrentMP(MainPlayerInfomation::GetInst().GetSkillManaUsage(92));
+		DelCurrentMP(MainPlayerInfomation::GetInst().GetSkillManaUsage(CurRightSkill_));
+
+		// 해당 스킬사용 사운드 재생
+		StateSound_->PlayAlone("poisonnova.wav", 0);
 	}
 }
 
@@ -1010,5 +1122,11 @@ void MainPlayer::BoneSpiritFire()
 		{
 			NewBoneSpirit->BoneSpiritFire(GetTransform()->GetWorldPosition(), SkillCastPos_);
 		}
+
+		// 해당 스킬사용으로인한 마나 소모
+		DelCurrentMP(MainPlayerInfomation::GetInst().GetSkillManaUsage(CurRightSkill_));
+
+		// 해당 스킬사용 사운드 재생
+		StateSound_->PlayAlone("BoneSpirit.wav", 0);
 	}
 }

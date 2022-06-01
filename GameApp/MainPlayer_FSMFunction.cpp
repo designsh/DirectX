@@ -577,6 +577,11 @@ void MainPlayer::StartSkillAttack()
 
 	switch (CurRightSkill_)
 	{
+		case 67: // Teeth 降紫端
+		{
+			TeethFire();
+			break;
+		}
 		case 75: // ClayGolem 社発
 		case 85: // BloodGolem 社発
 		case 90: // IronGolem 社発
@@ -636,6 +641,11 @@ void MainPlayer::StartSkillCasting()
 
 	switch (CurRightSkill_)
 	{
+		case 67: // Teeth 降紫端
+		{
+			TeethFire();
+			break;
+		}
 		case 75: // ClayGolem 社発
 		case 85: // BloodGolem 社発
 		case 90: // IronGolem 社発

@@ -4,16 +4,16 @@
 #include "MainPlayerInfomation.h"
 
 // 애니메이션 방향
-enum class PoisonNova_AniDir
+enum class Teeth_AniDir
 {
-	PN_T,
-	PN_RT,
-	PN_R,
-	PN_RB,
-	PN_B,
-	PN_LB,
-	PN_L,
-	PN_LT,
+	TT_LB,
+	TT_LT,
+	TT_RT,
+	TT_RB,
+	TT_B,
+	TT_L,
+	TT_T,
+	TT_R,
 };
 
 // 분류 : 
@@ -22,17 +22,17 @@ enum class PoisonNova_AniDir
 class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class GameEngineCollision;
-class PoisonNova : public GameEngineActor
+class Teeth : public GameEngineActor
 {
 private:	// member Var
 	GameEngineImageRenderer* Renderer_;
 	GameEngineCollision* Collider_;
 
 private:
-	SkillList PoisonNovaInfo_;
+	SkillList TeethInfo_;
 
 private:
-	PoisonNova_AniDir AnimationCurDir_;
+	Teeth_AniDir AnimationCurDir_;
 	bool FireStart_;
 	float4 MoveDir_;
 	float MoveSpeed_;
@@ -41,16 +41,16 @@ private:
 	GameEngineSoundPlayer* StateSound_;
 
 public:
-	PoisonNova();
-	~PoisonNova();
+	Teeth();
+	~Teeth();
 
 protected:		// delete constructer
-	PoisonNova(const PoisonNova& _other) = delete;
-	PoisonNova(PoisonNova&& _other) noexcept = delete;
+	Teeth(const Teeth& _other) = delete;
+	Teeth(Teeth&& _other) noexcept = delete;
 
 private:		//delete operator
-	PoisonNova& operator=(const PoisonNova& _other) = delete;
-	PoisonNova& operator=(const PoisonNova&& _other) = delete;
+	Teeth& operator=(const Teeth& _other) = delete;
+	Teeth& operator=(const Teeth&& _other) = delete;
 
 private:
 	void Start() override;
@@ -59,7 +59,7 @@ private:
 public:
 	inline int GetDamage() const
 	{
-		return PoisonNovaInfo_.SkillDamage;
+		return TeethInfo_.SkillDamage;
 	}
 
 private: // 타겟충돌처리
@@ -68,9 +68,13 @@ private: // 타겟충돌처리
 private: // 벽과 충돌처리
 	void WallCollisionCheck();
 
+private: // 애니메이션종료시 호출
+	void ProjectileAnimationEnd();
+	void ExplodeAnimationEnd();
+
 public: // 발사체 발사준비 처리
 	void CreateAnimation();
 	void CreateCollision();
-	void PoisonNoveFire(int _DirType, float4 _MoveDir);
+	void TeethFire(int _DirType, float4 _MoveDir);
 };
 

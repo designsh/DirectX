@@ -1000,8 +1000,20 @@ void MainPlayer::SummonsSkelWizardProjectileAnimationCut()
 #pragma region 텍스쳐 컷팅관련(플레이어 스킬)
 void MainPlayer::AllSkillAnimationCut()
 {
+	TeethAnimationCut();
 	PoisonNovaAnimationCut();
 	BoneSpiritAnimationCut();
+}
+
+void MainPlayer::TeethAnimationCut()
+{
+	// 발사체 컷팅
+	GameEngineTexture* Teeth_Projectile = GameEngineTextureManager::GetInst().Find("Teeth.png");
+	Teeth_Projectile->Cut(30, 8);
+
+	// 폭발체 컷팅
+	GameEngineTexture* Teeth_Explode = GameEngineTextureManager::GetInst().Find("Teeth_Explode.png");
+	Teeth_Explode->Cut(13, 1);
 }
 
 void MainPlayer::PoisonNovaAnimationCut()

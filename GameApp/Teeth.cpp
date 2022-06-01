@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "PoisonNova.h"
+#include "Teeth.h"
 
 #include <GameEngineBase/GameEngineSoundManager.h>
 #include <GameEngineBase/GameEngineSoundPlayer.h>
@@ -21,10 +21,10 @@
 #include "Zombie.h"
 #include "Andariel.h"
 
-PoisonNova::PoisonNova() :
+Teeth::Teeth() :
 	Renderer_(nullptr),
 	Collider_(nullptr),
-	PoisonNovaInfo_{},
+	TeethInfo_{},
 	AnimationCurDir_(),
 	FireStart_(false),
 	MoveDir_(float4::ZERO),
@@ -33,20 +33,20 @@ PoisonNova::PoisonNova() :
 {
 }
 
-PoisonNova::~PoisonNova()
+Teeth::~Teeth()
 {
 }
 
-void PoisonNova::Start()
+void Teeth::Start()
 {
 	// 스킬정보 저장
-	MainPlayerInfomation::GetInst().GetSkillInfo(92, PoisonNovaInfo_);
+	MainPlayerInfomation::GetInst().GetSkillInfo(67, TeethInfo_);
 
 	// 사운드 플레이어 생성
 	StateSound_ = GameEngineSoundManager::GetInst().CreateSoundPlayer();
 }
 
-void PoisonNova::Update(float _DeltaTime)
+void Teeth::Update(float _DeltaTime)
 {
 	if (true == FireStart_)
 	{
@@ -67,13 +67,11 @@ void PoisonNova::Update(float _DeltaTime)
 #endif // _DEBUG
 
 			// 충돌체 위치 갱신
-			float4 MyPos = GetTransform()->GetLocalPosition();
-			float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
-			MyPos.z = 0.f;
-			CamPos.z = 0.f;
+			float4 MyPos = float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y, 0.f);
+			float4 CamPos = float4(GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().x, GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().y, 0.f);
 			Collider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
-			Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&PoisonNova::TargetCollision, this, std::placeholders::_1));
+			Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&Teeth::TargetCollision, this, std::placeholders::_1));
 		}
 
 		// 벽과 충돌 체크
@@ -81,7 +79,21 @@ void PoisonNova::Update(float _DeltaTime)
 	}
 }
 
-void PoisonNova::WallCollisionCheck()
+void Teeth::ProjectileAnimationEnd()
+{
+	// 이동 종료 후 
+	FireStart_ = false;
+
+	// 사망처리
+	Death();
+}
+
+void Teeth::ExplodeAnimationEnd()
+{
+	Death();
+}
+
+void Teeth::WallCollisionCheck()
 {
 	// 맵의 벽과 충돌시에 해당 발사체는 소멸한다.
 	if (true == GlobalValue::CatacombsMap->CurTileIndexWallCheck(GlobalValue::CatacombsMap->GetWallTileIndex(GetTransform()->GetWorldPosition())))
@@ -90,63 +102,79 @@ void PoisonNova::WallCollisionCheck()
 	}
 }
 
-void PoisonNova::CreateAnimation()
+void Teeth::CreateAnimation()
 {
-	// 
+	// 렌더러생성
 	Renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
-	Renderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
+	Renderer_->GetTransform()->SetLocalScaling(float4(128.f, 128.f));
 	Renderer_->SetAlpha(0.7f);
 	Renderer_->SetRenderingPipeLine("TextureTransDepthOff");
 
-	// 애니메이션 생성
-	Renderer_->CreateAnimation("PoisonNova.png", "Move_LB",   0,  29, 0.1f);
-	Renderer_->CreateAnimation("PoisonNova.png", "Move_LT",  30,  59, 0.1f);
-	Renderer_->CreateAnimation("PoisonNova.png", "Move_RT",  60,  89, 0.1f);
-	Renderer_->CreateAnimation("PoisonNova.png", "Move_RB",  90, 119, 0.1f);
-	Renderer_->CreateAnimation("PoisonNova.png", "Move_B" , 120, 149, 0.1f);
-	Renderer_->CreateAnimation("PoisonNova.png", "Move_L" , 150, 179, 0.1f);
-	Renderer_->CreateAnimation("PoisonNova.png", "Move_T" , 180, 209, 0.1f);
-	Renderer_->CreateAnimation("PoisonNova.png", "Move_R" , 210, 239, 0.1f);
+	// 발사체 애니메이션 생성
+	Renderer_->CreateAnimation("Teeth.png", "Move_LB", 0, 29, 0.1f);
+	Renderer_->CreateAnimation("Teeth.png", "Move_LT", 30, 59, 0.1f);
+	Renderer_->CreateAnimation("Teeth.png", "Move_RT", 60, 89, 0.1f);
+	Renderer_->CreateAnimation("Teeth.png", "Move_RB", 90, 119, 0.1f);
+	Renderer_->CreateAnimation("Teeth.png", "Move_B" , 120, 149, 0.1f);
+	Renderer_->CreateAnimation("Teeth.png", "Move_L" , 150, 179, 0.1f);
+	Renderer_->CreateAnimation("Teeth.png", "Move_T" , 180, 209, 0.1f);
+	Renderer_->CreateAnimation("Teeth.png", "Move_R" , 210, 239, 0.1f);
+
+	// 발사체 애니메이션 종료시 호출되는 함수 등록
+	Renderer_->SetEndCallBack("Move_LB", std::bind(&Teeth::ProjectileAnimationEnd, this));
+	Renderer_->SetEndCallBack("Move_LT", std::bind(&Teeth::ProjectileAnimationEnd, this));
+	Renderer_->SetEndCallBack("Move_RT", std::bind(&Teeth::ProjectileAnimationEnd, this));
+	Renderer_->SetEndCallBack("Move_RB", std::bind(&Teeth::ProjectileAnimationEnd, this));
+	Renderer_->SetEndCallBack("Move_B" , std::bind(&Teeth::ProjectileAnimationEnd, this));
+	Renderer_->SetEndCallBack("Move_L" , std::bind(&Teeth::ProjectileAnimationEnd, this));
+	Renderer_->SetEndCallBack("Move_T" , std::bind(&Teeth::ProjectileAnimationEnd, this));
+	Renderer_->SetEndCallBack("Move_R" , std::bind(&Teeth::ProjectileAnimationEnd, this));
+
+	// 폭발체 애니메이션 생성
+	Renderer_->CreateAnimation("Teeth_Explode.png", "Explode", 0, 12, 0.1f);
+
+	// 폭발 애니메이션 종료시 호출되는 함수 등록
+	Renderer_->SetEndCallBack("Explode", std::bind(&Teeth::ExplodeAnimationEnd, this));
 
 	// 초기애니메이션 지정
 	switch (AnimationCurDir_)
 	{
-		case PoisonNova_AniDir::PN_LB:
+		case Teeth_AniDir::TT_LB:
 		{
 			Renderer_->SetChangeAnimation("Move_LB");
 			break;
 		}
-		case PoisonNova_AniDir::PN_LT:
+		case Teeth_AniDir::TT_LT:
 		{
 			Renderer_->SetChangeAnimation("Move_LT");
 			break;
 		}
-		case PoisonNova_AniDir::PN_RT:
+		case Teeth_AniDir::TT_RT:
 		{
 			Renderer_->SetChangeAnimation("Move_RT");
 			break;
 		}
-		case PoisonNova_AniDir::PN_RB:
+		case Teeth_AniDir::TT_RB:
 		{
 			Renderer_->SetChangeAnimation("Move_RB");
 			break;
 		}
-		case PoisonNova_AniDir::PN_B:
+		case Teeth_AniDir::TT_B:
 		{
 			Renderer_->SetChangeAnimation("Move_B");
 			break;
 		}
-		case PoisonNova_AniDir::PN_L:
+		case Teeth_AniDir::TT_L:
 		{
 			Renderer_->SetChangeAnimation("Move_L");
 			break;
 		}
-		case PoisonNova_AniDir::PN_T:
+		case Teeth_AniDir::TT_T:
 		{
 			Renderer_->SetChangeAnimation("Move_T");
 			break;
 		}
-		case PoisonNova_AniDir::PN_R:
+		case Teeth_AniDir::TT_R:
 		{
 			Renderer_->SetChangeAnimation("Move_R");
 			break;
@@ -154,7 +182,7 @@ void PoisonNova::CreateAnimation()
 	}
 }
 
-void PoisonNova::CreateCollision()
+void Teeth::CreateCollision()
 {
 	Collider_ = CreateTransformComponent<GameEngineCollision>();
 	Collider_->GetTransform()->SetLocalScaling(float4(30.f, 30.f));
@@ -163,10 +191,10 @@ void PoisonNova::CreateCollision()
 	Collider_->GetTransform()->SetWorldZOrder(-99.f);
 }
 
-void PoisonNova::PoisonNoveFire(int _DirType, float4 _MoveDir)
+void Teeth::TeethFire(int _DirType, float4 _MoveDir)
 {
 	// 기본정보 저장
-	AnimationCurDir_ = static_cast<PoisonNova_AniDir>(_DirType);
+	AnimationCurDir_ = static_cast<Teeth_AniDir>(_DirType);
 	MoveDir_ = _MoveDir;
 
 	// 이동방향 및 애니메이션 셋팅

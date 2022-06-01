@@ -101,9 +101,6 @@
     <ClCompile Include="Storehouse.cpp">
       <Filter>Object\Actor\00.Global\03.Object\00.Storehouse</Filter>
     </ClCompile>
-    <ClCompile Include="CoffinObject.cpp">
-      <Filter>Object\Actor\00.Global\03.Object\01.Coffin</Filter>
-    </ClCompile>
     <ClCompile Include="Fallen.cpp">
       <Filter>Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen</Filter>
     </ClCompile>
@@ -270,7 +267,7 @@
       <Filter>Window%28IMGUI%29\MapInfoWindow</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
-      <Filter>Object\Actor\00.Global\03.Object\02.Portal</Filter>
+      <Filter>Object\Actor\00.Global\03.Object\01.Portal</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayer_CreateCollision.cpp">
       <Filter>Object\Actor\00.Global\00.Player\99.Function\InitMainPlayer\Collision</Filter>
@@ -424,6 +421,12 @@
     </ClCompile>
     <ClCompile Include="PoisonNova_Collision.cpp">
       <Filter>Object\Actor\00.Global\00.Player\02.Skill\01.PoisonNova</Filter>
+    </ClCompile>
+    <ClCompile Include="Teeth.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\02.Skill\02.Teeth</Filter>
+    </ClCompile>
+    <ClCompile Include="Teeth_Collision.cpp">
+      <Filter>Object\Actor\00.Global\00.Player\02.Skill\02.Teeth</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -835,12 +838,6 @@
     <Filter Include="Object\Actor\00.Global\01.Monster\99.MonsterCommonHeader">
       <UniqueIdentifier>{f3ef70f8-b5b7-40c9-b4f2-26a0744bf033}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\00.Global\03.Object\01.Coffin">
-      <UniqueIdentifier>{8ae9ea88-6f39-4515-8131-6405920dd801}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\00.Global\03.Object\02.Portal">
-      <UniqueIdentifier>{035c014c-4c47-413c-8e7f-5426ac8eb48a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\00.Global\07.GlobalUI">
       <UniqueIdentifier>{416bb0f3-da97-4196-833b-8fd4c2d62f0b}</UniqueIdentifier>
     </Filter>
@@ -858,6 +855,12 @@
     </Filter>
     <Filter Include="Object\Actor\00.Global\00.Player\02.Skill\01.PoisonNova">
       <UniqueIdentifier>{9ae07b51-626a-43e4-9a37-e4e7f3a44370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\00.Player\02.Skill\02.Teeth">
+      <UniqueIdentifier>{86ada5b1-c48a-46c4-980d-ecb2d485f304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\00.Global\03.Object\01.Portal">
+      <UniqueIdentifier>{035c014c-4c47-413c-8e7f-5426ac8eb48a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -959,9 +962,6 @@
     </ClInclude>
     <ClInclude Include="Storehouse.h">
       <Filter>Object\Actor\00.Global\03.Object\00.Storehouse</Filter>
-    </ClInclude>
-    <ClInclude Include="CoffinObject.h">
-      <Filter>Object\Actor\00.Global\03.Object\01.Coffin</Filter>
     </ClInclude>
     <ClInclude Include="Fallen.h">
       <Filter>Object\Actor\00.Global\01.Monster\01.Normal\00.Fallen</Filter>
@@ -1084,7 +1084,7 @@
       <Filter>Window%28IMGUI%29\MapInfoWindow</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
-      <Filter>Object\Actor\00.Global\03.Object\02.Portal</Filter>
+      <Filter>Object\Actor\00.Global\03.Object\01.Portal</Filter>
     </ClInclude>
     <ClInclude Include="Navigation_Common.h">
       <Filter>Object\Actor\00.Global\05.Map\99.CommonHeader</Filter>
@@ -1160,6 +1160,9 @@
     </ClInclude>
     <ClInclude Include="PoisonNova.h">
       <Filter>Object\Actor\00.Global\00.Player\02.Skill\01.PoisonNova</Filter>
+    </ClInclude>
+    <ClInclude Include="Teeth.h">
+      <Filter>Object\Actor\00.Global\00.Player\02.Skill\02.Teeth</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
