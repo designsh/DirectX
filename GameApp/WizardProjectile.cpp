@@ -62,10 +62,8 @@ void WizardProjectile::Update(float _DeltaTime)
 #endif // _DEBUG
 
 		// 충돌체 위치 갱신
-		float4 MyPos = GetTransform()->GetLocalPosition();
-		float4 CamPos = GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition();
-		MyPos.z = 0.f;
-		CamPos.z = 0.f;
+		float4 MyPos = float4(GetTransform()->GetLocalPosition().x, GetTransform()->GetLocalPosition().y, 0.f);
+		float4 CamPos = float4(GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().x, GetLevel()->GetMainCameraActor()->GetTransform()->GetLocalPosition().y, 0.f);
 		Collider_->GetTransform()->SetWorldPosition(MyPos - CamPos);
 
 		Collider_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(UIRenderOrder::Monster), std::bind(&WizardProjectile::TargetCollision, this, std::placeholders::_1));
