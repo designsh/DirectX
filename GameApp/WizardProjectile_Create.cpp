@@ -67,7 +67,7 @@ void WizardProjectile::CreateFireTypeAnimation()
 {
 	Renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Renderer_->GetTransform()->SetLocalScaling(float4(128.f, 128.f));
-	Renderer_->SetRenderingPipeLine("TextureTrans");
+	Renderer_->SetRenderingPipeLine("TextureTransDepthOff");
 
 	// 局聪皋捞记 积己
 	Renderer_->CreateAnimation("Wizard_Fire.png", "Move_LB",  0,  4, 0.1f);
@@ -87,7 +87,7 @@ void WizardProjectile::CreateLightingTypeAnimation()
 {
 	Renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Renderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-	Renderer_->SetRenderingPipeLine("TextureTrans");
+	Renderer_->SetRenderingPipeLine("TextureTransDepthOff");
 
 	// 局聪皋捞记 积己
 	Renderer_->CreateAnimation("Wizard_Lighting.png", "Move_LB",  0,  7, 0.1f);
@@ -107,7 +107,7 @@ void WizardProjectile::CreatePoisonTypeAnimation()
 {
 	Renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Renderer_->GetTransform()->SetLocalScaling(float4(256.f, 256.f));
-	Renderer_->SetRenderingPipeLine("TextureTrans");
+	Renderer_->SetRenderingPipeLine("TextureTransDepthOff");
 
 	// 局聪皋捞记 积己
 	Renderer_->CreateAnimation("Wizard_Poison.png", "Move_LB",   0,  29, 0.1f);
