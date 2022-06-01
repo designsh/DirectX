@@ -288,10 +288,10 @@ public:
 
 public:
 	// 맵파일 저장
-	void MapFileSave();
+	void MapFileSave(const std::string& _FileName);
 
 	// 맵파일로드 후 타일, 그리드 생성
-	void MapFileLoad();
+	void MapFileLoad(const std::string& _FileName);
 	void CreatedAfterLoading();
 	void CreatedAfterLoading_FloorGrides();
 	void CreatedAfterLoading_WallGrides();

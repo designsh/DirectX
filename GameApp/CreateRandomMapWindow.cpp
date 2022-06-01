@@ -101,7 +101,7 @@ void CreateRandomMapWindow::OnGUI()
 
 	// 1. 랜덤방향 복도 생성
 	ImGui::Text("");
-	ImGui::Text("2. Create Random Corridor");
+	ImGui::Text("1. Create Random Corridor");
 	ImGui::Text("Create Count :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
@@ -153,7 +153,7 @@ void CreateRandomMapWindow::OnGUI()
 
 	// 2. 룸 배치(복도 내부)
 	ImGui::Text("");
-	ImGui::Text("3. Room Arrangement");
+	ImGui::Text("2. Room Arrangement");
 	ImGui::Text("Create Room Count :");
 	ImGui::SameLine();
 	ImGui::PushItemWidth(100.f);
@@ -200,15 +200,10 @@ void CreateRandomMapWindow::OnGUI()
 #pragma endregion
 
 	ImGui::Text("");
-	ImGui::Text("1. Select Texture Setting");
+	ImGui::Text("4. Select Texture Setting");
 	if (true == ImGui::Button("Catacombs", ImVec2(200.f, 20.f)))
 	{
 		RandomMap_->CatacombsTextrueSetting();
-	}
-	ImGui::SameLine();
-	if (true == ImGui::Button("ChaosSanctuary", ImVec2(200.f, 20.f)))
-	{
-		RandomMap_->ChaosSanctuaryTextrueSetting();
 	}
 
 #pragma region 바탁타일목록
@@ -296,7 +291,7 @@ void CreateRandomMapWindow::OnGUI()
 
 	// 4. 각 타일들을 텍스쳐와 매칭
 	ImGui::Text("");
-	ImGui::Text("4. Tile Texture Matching");
+	ImGui::Text("5. Tile Texture Matching");
 	if (true == ImGui::Button("FLOOR MATCHING", ImVec2(200.f, 20.f)))
 	{
 		RandomMap_->FloorTileTextureMatching();
@@ -314,7 +309,7 @@ void CreateRandomMapWindow::OnGUI()
 
 	// 5. 랜덤맵 저장
 	ImGui::Text("");
-	ImGui::Text("5. RandomMap Save & Load");
+	ImGui::Text("6. RandomMap Save & Load");
 
 	ImGui::PushItemWidth(300.f);
 	ImGui::InputText("##", FileName_, sizeof(FileName_));

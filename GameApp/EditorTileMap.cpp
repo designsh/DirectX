@@ -2066,16 +2066,22 @@ void EditorTileMap::AllClearObjectTileMapRenderer()
 
 #pragma endregion
 
-void EditorTileMap::MapFileSave()
+void EditorTileMap::MapFileSave(const std::string& _FileName)
 {
 	// 파일생성 위치로 디렉터리 이동
+	if (true == _FileName.empty())
+	{
+		return;
+	}
+
 	GameEngineDirectory DataFileDir;
 	DataFileDir.MoveParent("DirectX");
 	DataFileDir.MoveChild("Resources");
 	DataFileDir.MoveChild("MapFile");
 	std::string FullPath = DataFileDir.GetFullPath();
 	FullPath += "\\";
-	FullPath += "TownLevel_Map.dat";
+	FullPath += _FileName;
+	FullPath += ".dat";
 
 	// 파일 열기
 	GameEngineFile pFile = GameEngineFile(FullPath, "wb");
@@ -2220,7 +2226,7 @@ void EditorTileMap::MapFileSave()
 	pFile.Close();
 }
 
-void EditorTileMap::MapFileLoad()
+void EditorTileMap::MapFileLoad(const std::string& _FileName)
 {
 	// 정보로드전 모든 데이터 및 렌더러 클리어
 	AllClear();
@@ -2232,7 +2238,8 @@ void EditorTileMap::MapFileLoad()
 	DataFileDir.MoveChild("MapFile");
 	std::string FullPath = DataFileDir.GetFullPath();
 	FullPath += "\\";
-	FullPath += "TownLevel_Map.dat";
+	FullPath += _FileName;
+	FullPath += ".dat";
 
 	// 파일 열기
 	GameEngineFile pFile = GameEngineFile(FullPath, "rb");

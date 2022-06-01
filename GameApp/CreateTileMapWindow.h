@@ -34,6 +34,9 @@ private:
 	int WallXCount_;
 	int WallYCount_;
 
+private: // 저장 및 로드 관련
+	char FileName_[256];
+
 public:
 	CreateTileMapWindow();
 	~CreateTileMapWindow();

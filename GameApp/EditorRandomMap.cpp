@@ -2620,7 +2620,6 @@ void EditorRandomMap::RandomMapSave(const std::string& _FileName)
 		return;
 	}
 
-	int a = 0;
 	// 파일생성 위치로 디렉터리 이동
 	GameEngineDirectory DataFileDir;
 	DataFileDir.MoveParent("DirectX");

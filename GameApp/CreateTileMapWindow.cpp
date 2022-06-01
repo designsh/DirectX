@@ -16,7 +16,8 @@ CreateTileMapWindow::CreateTileMapWindow() :
 	WallXCount_(0),
 	WallYCount_(0),
 	SelectMode_(TileType::FLOOR),
-	SelectTileIndex_(0)
+	SelectTileIndex_(0),
+	FileName_{}
 {
 }
 
@@ -62,6 +63,13 @@ void CreateTileMapWindow::OnGUI()
 	ImGui::PopItemWidth();
 
 	GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom_);
+
+	ImGui::SameLine();
+	if (true == ImGui::Button("RESET", ImVec2(200.f, 20.f)))
+	{
+		Zoom_ = 1.f;
+		GameEngineCore::CurrentLevel()->GetMainCamera()->CameraZoomSetting(Zoom_);
+	}
 #pragma endregion
 
 	ImGui::Text("");
@@ -111,16 +119,6 @@ void CreateTileMapWindow::OnGUI()
 	if (true == ImGui::Button("TOWN WALL TEXTURE SET", ImVec2(200.f, 20.f)))
 	{
 		TileMap_->SetTownWallTexture();
-	}
-	ImGui::SameLine();
-	if (true == ImGui::Button("CATACOMBS WALL TEXTURE SET", ImVec2(200.f, 20.f)))
-	{
-		TileMap_->SetCatacombsWallTexture();
-	}
-	ImGui::SameLine();
-	if (true == ImGui::Button("CHAOSSANCTUARY WALL TEXTURE SET", ImVec2(200.f, 20.f)))
-	{
-		TileMap_->SetChaosSanctuaryWallTexture();
 	}
 
 	// 자동모드 벽타일 텍스쳐 매칭
@@ -564,14 +562,29 @@ void CreateTileMapWindow::OnGUI()
 
 #pragma region 맵파일저장/로드 관련
 	ImGui::Text("<<< MAP FILE SAVE & LOAD >>>");
+
+	ImGui::PushItemWidth(300.f);
+	ImGui::InputText("##", FileName_, sizeof(FileName_));
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
 	if (true == ImGui::Button("SAVE", ImVec2(140.f, 20.f)))
 	{
-		TileMap_->MapFileSave();
+		// 문자열 편집
+		std::string FileName;
+		FileName.clear();
+		FileName = FileName_;
+
+		TileMap_->MapFileSave(FileName);
 	}
 	ImGui::SameLine();
 	if (true == ImGui::Button("LOAD", ImVec2(140.f, 20.f)))
 	{
-		TileMap_->MapFileLoad();
+		// 문자열 편집
+		std::string FileName;
+		FileName.clear();
+		FileName = FileName_;
+
+		TileMap_->MapFileLoad(FileName);
 	}
 #pragma endregion
 }
