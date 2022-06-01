@@ -666,7 +666,7 @@ void StatView::CurEXPUpdate(float _EXP)
 {
 	// 현재 경험치 갱신
 	float CurExp = _EXP;
-	CurExp *= 100.f;
+	CurExp *= 1000.f;
 	int ConvertEXP = static_cast<int>(CurExp);
 	CurExpString_ = std::to_string(ConvertEXP);
 	CurExpRenderer_->SetPrintText(CurExpString_);
