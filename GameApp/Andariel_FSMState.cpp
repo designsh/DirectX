@@ -419,6 +419,12 @@ void Andariel::StartDeath()
 
 	// 사망 사운드 재생
 	StateSound_->PlayAlone("Andariel_Death.wav", 0);
+
+	// 사망시 현재 플레이어의 경험치를 증가
+	if (nullptr != GlobalValue::CurPlayer)
+	{
+		GlobalValue::CurPlayer->AddCurrentEXP(MonsterInfo_.DropEXP);
+	}
 }
 
 void Andariel::UpdateDeath()

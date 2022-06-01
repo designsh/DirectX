@@ -8,6 +8,7 @@
 #include "BottomStateBar.h"
 #include "MainPlayer_CurrentHP.h"
 #include "MainPlayer_CurrentMP.h"
+#include "MainPlayer_CurExpProgressBar.h"
 
 #include "InventoryView.h"
 
@@ -258,6 +259,11 @@ void MainPlayer::SetCurrentEXP(int _EXP)
 	CurEXP_ = _EXP;
 }
 
+void MainPlayer::AddCurrentEXP(int _EXP)
+{
+	BottomStateBar_->GetEXPProgressBarControl()->AddEXP(_EXP);
+}
+
 // LEVEL
 void MainPlayer::SetPrevLevel(int _LEVEL)
 {
@@ -278,6 +284,10 @@ void MainPlayer::SetLevelUP()
 	MainPlayerInfomation::GetInst().PlayerLevelUP();
 
 	// 레벨업 사운드 재생
+	if (true == StateSound_->IsPlay())
+	{
+		StateSound_->Stop();
+	}
 	StateSound_->PlayAlone("Nec_Levelup.wav", 0);
 }
 

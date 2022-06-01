@@ -222,7 +222,7 @@ void MainPlayer::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst().Down("TESTLEVELUP"))
 	{
 		// 테스트 경험치 증가
-		int TestEXP = 10;
+		int TestEXP = 500;
 		BottomStateBar_->GetEXPProgressBarControl()->AddEXP(TestEXP);
 	}
 
@@ -1059,6 +1059,10 @@ void MainPlayer::TeethFire()
 		DelCurrentMP(MainPlayerInfomation::GetInst().GetSkillManaUsage(CurRightSkill_));
 
 		// 스킬발사 사운드 재생
+		if (true == StateSound_->IsPlay())
+		{
+			StateSound_->Stop();
+		}
 		StateSound_->PlayAlone("teeth.wav", 0);
 	}
 }
@@ -1100,6 +1104,10 @@ void MainPlayer::PoisonNoveFire()
 		DelCurrentMP(MainPlayerInfomation::GetInst().GetSkillManaUsage(CurRightSkill_));
 
 		// 해당 스킬사용 사운드 재생
+		if (true == StateSound_->IsPlay())
+		{
+			StateSound_->Stop();
+		}
 		StateSound_->PlayAlone("poisonnova.wav", 0);
 	}
 }
@@ -1127,6 +1135,10 @@ void MainPlayer::BoneSpiritFire()
 		DelCurrentMP(MainPlayerInfomation::GetInst().GetSkillManaUsage(CurRightSkill_));
 
 		// 해당 스킬사용 사운드 재생
+		if (true == StateSound_->IsPlay())
+		{
+			StateSound_->Stop();
+		}
 		StateSound_->PlayAlone("BoneSpirit.wav", 0);
 	}
 }

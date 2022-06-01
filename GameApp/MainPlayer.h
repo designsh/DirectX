@@ -354,6 +354,7 @@ public: // 상태관련
 	// EXP
 	void SetPrevEXP(int _EXP);
 	void SetCurrentEXP(int _EXP);
+	void AddCurrentEXP(int _EXP);
 
 	// LEVEL
 	void SetPrevLevel(int _LEVEL);

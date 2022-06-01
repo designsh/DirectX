@@ -42,7 +42,7 @@ void MainPlayer_CurExpProgressBar::Update(float _DeltaTime)
 void MainPlayer_CurExpProgressBar::AddEXP(int _EXP)
 {
 	float EXP = static_cast<float>(_EXP);
-	EXP *= 0.01f;
+	EXP *= 0.001f;
 	CurEXP_ += EXP;
 
 	// 스탯창의 현재 경험치 셋팅
