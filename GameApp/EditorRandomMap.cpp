@@ -92,35 +92,6 @@ void EditorRandomMap::CatacombsTextrueSetting()
 	CurLevelType = LevelType::Catacombs;
 }
 
-void EditorRandomMap::ChaosSanctuaryTextrueSetting()
-{
-	// 카오스 생츄어리 텍스쳐로 셋팅
-	FloorTileTextureName_ = "ChaosSanctuary_Floor.png";
-	WallTileTextureName_ = "ChaosSanctuary_Wall.png";
-
-	// 맵정보 갱신
-	MapInfo_.FloorTileTextureName_ = FloorTileTextureName_;
-	MapInfo_.WallTileTextureName_ = WallTileTextureName_;
-
-	// 타일
-	TileSize_ = float4(160.f, 80.f);
-	TileSizeHalf_ = TileSize_.halffloat4();
-	TileSizeHHalf_ = TileSizeHalf_.halffloat4();
-
-	// 바닥타일
-	FloorTileImageSize_ = { 160.0f, 80.f };
-	FloorTileImageSizeHalf_ = FloorTileImageSize_.halffloat4();
-	FloorTileIndexPivotPos_ = { 0.0f, -TileSizeHalf_.y };
-
-	// 벽타일
-	WallTileImageSize_ = { 160.0f, 320.f };
-	WallTileImageSizeHalf_ = WallTileImageSize_.halffloat4();
-	WallTileIndexPivotPos_ = { 0.0f, TileSize_.y };
-
-	// 현재 선택된 레벨 타입 변경
-	CurLevelType = LevelType::ChaosSanctuary;
-}
-
 void EditorRandomMap::SetSelectFloorTileIndex(int _Index)
 {
 	SelectFloorTileIndex_ = _Index;

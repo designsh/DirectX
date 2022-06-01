@@ -52,12 +52,6 @@ void MapEditorLevel::CreateLevelActor()
 	GameEngineTexture* CatacombsObjectTile = GameEngineTextureManager::GetInst().Find("Catacombs_Object.png");
 	CatacombsObjectTile->Cut(25, 1);
 
-	// 카오스생츄어리 텍스쳐
-	GameEngineTexture* ChaosSanctuaryFloorTile = GameEngineTextureManager::GetInst().Find("ChaosSanctuary_Floor.png");
-	ChaosSanctuaryFloorTile->Cut(5, 59);
-	GameEngineTexture* ChaosSanctuaryWallTile = GameEngineTextureManager::GetInst().Find("ChaosSanctuary_Wall.png");
-	ChaosSanctuaryWallTile->Cut(47, 1);
-
 	// 일반그리드
 	GameEngineTexture* FloorGridNor = GameEngineTextureManager::GetInst().Find("FloorGrid_Normal.png");
 	FloorGridNor->Cut(1, 1);

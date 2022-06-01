@@ -97,7 +97,6 @@ private:
 
 public: // 텍스쳐 셋팅
 	void CatacombsTextrueSetting();
-	void ChaosSanctuaryTextrueSetting();
 
 public: // 타일인덱스 셋팅
 	void SetSelectFloorTileIndex(int _Index = 0);
