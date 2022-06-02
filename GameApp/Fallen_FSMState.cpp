@@ -268,6 +268,8 @@ void Fallen::StartNormalAttack()
 	// 현재 상태 전환
 	PrevState_ = CurState_;
 	CurState_ = Fallen_FSMState::FL_ATTACK;
+
+	Attack_ = false;
 }
 
 void Fallen::UpdateNormalAttack()

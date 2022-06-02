@@ -920,25 +920,33 @@ void CatacombsMap::CurLevelActorRoomArrange()
 			}
 			else
 			{
-				for (int i = 0; i < 10; ++i)
+				// 플레이어가 현재룸의 센터에 생성되므로, 1x1자리에 몬스터 10마리 생성과 동시에 사망처리
+				std::vector<TileIndex> RandomTileIndexList;
+				RandomTileIndexList.clear();
+				for (int y = -1; y <= 1; ++y)
 				{
-					// 플레이어 생성 룸에는 각 몬스터의 시체 배치(총 42마리 : 전사 20마리 소환용, 마법사 20마리 소환용)
-					// 생성되는 몬스터는 랜덤이며, 센터타일기준 벽이아닌 타일에 배치된다.
+					for (int x = -1; x <= 1; ++x)
+					{
+						RandomTileIndexList.push_back(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_ + TileIndex(x, y));
+					}
+				}
+
+				// 랜덤한 몬스터, 랜덤한 위치에 42마리 소환후 곧바로 사망처리
+				for (int j = 0; j < 42; ++j)
+				{
+					int TileListCnt = static_cast<int>(RandomTileIndexList.size());
+					GameEngineRandom RandomTile;
+					float4 SpawnTilePos = GetFloorTileIndexToPos(RandomTileIndexList[RandomTile.RandomInt(0, TileListCnt - 1)]);
+
 					GameEngineRandom MonsterTypeRandom;
 					MonsterClassType MonsterType = static_cast<MonsterClassType>(MonsterTypeRandom.RandomInt(0, 3));
-
-					// 룸에서 위치 랜덤 타일 지정
-					int MaxAllTiles = static_cast<int>(MapInfo_.RoomInfo_[PlayerArrRoomNo].AllIndexLists_.size());
-					GameEngineRandom TileRandom;
-
-					float4 SpawnTilePos = GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].AllIndexLists_[TileRandom.RandomInt(0, MaxAllTiles - 1)]);
 					switch (MonsterType)
 					{
 						case MonsterClassType::SpikeFiend:
 						{
 							SpikeFiend* NewSpikeFiend = GetLevel()->CreateActor<SpikeFiend>();
 							NewSpikeFiend->SetName("SpikeFiend" + std::to_string(SpikeFiendList_.size()));
-							NewSpikeFiend->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+							NewSpikeFiend->GetTransform()->SetWorldPosition(SpawnTilePos);
 							NewSpikeFiend->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
 							NewSpikeFiend->SpawnToDeath();
 							SpikeFiendList_.push_back(NewSpikeFiend);
@@ -948,7 +956,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 						{
 							Zombie* NewZombie = GetLevel()->CreateActor<Zombie>();
 							NewZombie->SetName("Zombie" + std::to_string(ZombieList_.size()));
-							NewZombie->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+							NewZombie->GetTransform()->SetWorldPosition(SpawnTilePos);
 							NewZombie->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
 							NewZombie->SpawnToDeath();
 							ZombieList_.push_back(NewZombie);
@@ -958,7 +966,7 @@ void CatacombsMap::CurLevelActorRoomArrange()
 						{
 							Fallen* NewFallen = GetLevel()->CreateActor<Fallen>();
 							NewFallen->SetName("Fallen" + std::to_string(FallenList_.size()));
-							NewFallen->GetTransform()->SetWorldPosition(GetFloorTileIndexToPos(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_));
+							NewFallen->GetTransform()->SetWorldPosition(SpawnTilePos);
 							NewFallen->SetEnterTheRoomDetectList(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomNo_);
 							NewFallen->SpawnToDeath();
 							FallenList_.push_back(NewFallen);
