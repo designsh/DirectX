@@ -192,6 +192,8 @@ int MainPlayerInfomation::GetSkillManaUsage(int _SkillCode)
 			return MainPlayerInfo_.SkillInfo[i].ManaUsage;
 		}
 	}
+
+	return -1;
 }
 
 int MainPlayerInfomation::GetSkillLevel(int _SkillCode)
@@ -204,6 +206,8 @@ int MainPlayerInfomation::GetSkillLevel(int _SkillCode)
 			return MainPlayerInfo_.SkillInfo[i].CurSkillLevel;
 		}
 	}
+
+	return -1;
 }
 
 void MainPlayerInfomation::CreateMainPlayerInfo(const std::string& _PlayerID, JobType _JobType)
