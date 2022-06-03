@@ -542,6 +542,7 @@ public: // 아이템 착용 / 아이템 해제
 	ItemEquipState CheckItemEquip(RendererPartType _PlayerPart);
 	void ItemPutOn(ItemEquipPart _ItemPart);
 	void ItemPutOff(ItemEquipPart _ItemPart);
+	void WeaponOff();
 #pragma endregion
 
 #pragma region UI Process Function

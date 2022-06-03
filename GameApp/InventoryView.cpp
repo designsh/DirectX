@@ -2477,6 +2477,16 @@ void InventoryView::EquipItemCheck(ItemLocType _ItemLocType, const std::string& 
 				if ("crs" == _ItemName)
 				{
 					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Weapon);
+
+					// 렌더러 OFF상태로 전환
+					GlobalValue::CurPlayer->WeaponOff();
+				}
+				else if ("wnd" == _ItemName)
+				{
+					GlobalValue::CurPlayer->ItemPutOff(ItemEquipPart::Inv_Weapon);
+
+					// 렌더러 OFF상태로 전환
+					GlobalValue::CurPlayer->WeaponOff();
 				}
 				break;
 			}

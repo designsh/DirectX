@@ -134,3 +134,10 @@ void MainPlayer::ItemPutOff(ItemEquipPart _ItemPart)
 	ChangeCheckProcess();
 	StateAndDirectChangeZOrder();
 }
+
+void MainPlayer::WeaponOff()
+{
+	// 현재 무기탭에 장착된 무기 없음
+	PartRenderer_[4].Renderer_[static_cast<int>(ItemEquipState::TP_LIT)]->Off();
+	PartRenderer_[4].Renderer_[static_cast<int>(ItemEquipState::TP_HVY)]->Off();
+}
