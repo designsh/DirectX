@@ -64,6 +64,7 @@ void Fallen::CreateAnimation()
 	Fallen_ = CreateTransformComponent<GameEngineImageRenderer>();
 	Fallen_->GetTransform()->SetLocalScaling(float4(120.f, 120.f));
 	Fallen_->SetRenderingPipeLine("TextureDepthOff");
+	//Fallen_->SetRenderingPipeLine("Texture");
 
 	// 대기상태(Fallen_Idle.png, 20x8)
 	Fallen_->CreateAnimation("Fallen_Idle.png", "Idle_LB",   0,  19, 0.1f);

@@ -927,6 +927,10 @@ void CatacombsMap::CurLevelActorRoomArrange()
 				{
 					for (int x = -1; x <= 1; ++x)
 					{
+						if (x == 0 && y == 0)
+						{
+							continue;
+						}
 						RandomTileIndexList.push_back(MapInfo_.RoomInfo_[PlayerArrRoomNo].RoomCenterIndex_ + TileIndex(x, y));
 					}
 				}
